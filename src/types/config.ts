@@ -10,7 +10,7 @@ export type SiteConfig = {
 	title: string;
 	subtitle: string;
 	siteURL: string; // 站点URL，以斜杠结尾，例如：https://www.example.com/
-	keywords?: string[]; // 站点关键词，用于生成 <meta name="keywords">	
+	keywords?: string[]; // 站点关键词，用于生成 <meta name="keywords">
 	siteStats: {
 		siteStartDate?: string;
 		dynamicEnable?: boolean; // 启用动态更新站点统计和时间段显示

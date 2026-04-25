@@ -210,7 +210,10 @@ async function generatePoster() {
 		if (coverImg) {
 			const imgRatio = coverImg.width / coverImg.height;
 			const targetRatio = WIDTH / coverHeight;
-			let sx: number, sy: number, sWidth: number, sHeight: number;
+			let sx: number;
+			let sy: number;
+			let sWidth: number;
+			let sHeight: number;
 
 			if (imgRatio > targetRatio) {
 				sHeight = coverImg.height;
@@ -483,15 +486,22 @@ function tick() {
 </a>
 
 {#if showModal}
+  <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-static-element-interactions a11y-interactive-supports-focus -->
   <div 
     use:portal 
+    role="dialog"
+    tabindex="-1"
     class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 transition-opacity duration-300 ease-[cubic-bezier(0.2,0,0,1)] opacity-0 modal-show:opacity-100"
     class:modal-show={false} 
     on:click={closeModal}
+    on:keydown={closeModal}
   >
+    <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-static-element-interactions a11y-no-noninteractive-element-interactions -->
     <div 
+      role="document"
       class="bg-white dark:bg-gray-800 rounded-2xl max-w-sm w-full max-h-[90vh] overflow-y-auto flex flex-col shadow-2xl transition-all duration-300 ease-[cubic-bezier(0.2,0,0,1)] opacity-0 scale-95 translate-y-2.5 modal-show:opacity-100 modal-show:scale-100 modal-show:translate-y-0"
       on:click|stopPropagation
+      on:keydown|stopPropagation
     >
       <div class="p-6 flex justify-center bg-gray-50 dark:bg-[oklch(0.23_0.015_var(--hue))] min-h-[200px] items-center">
         {#if posterImage}

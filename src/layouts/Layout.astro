@@ -880,51 +880,126 @@ function disableAnimation() {
 	const translate = window.translate;
 	if (!translate) return;
 	
-	// 配置translate.js
+	// ============ 时间常量 ============
+	const DEBOUNCE_DELAY = 500;         // 补充 Observer 防抖间隔（ms）
+	const EXECUTE_COOLDOWN = 3000;      // execute 冷却期（ms），防止服务端频率限制
+	const RECONNECT_DELAY = 3000;       // changeLanguage 后重连 Observer 延迟（ms）
+
+	// ============ 配置 translate.js ============
 	if (siteConfig.translate.service && translate.service) {
 		translate.service.use(siteConfig.translate.service);
 	}
-	
 	if (siteConfig.translate.defaultLanguage && translate.language) {
 		translate.language.setLocal(siteConfig.translate.defaultLanguage);
 	}
-	
 	if (siteConfig.translate.autoDiscriminate && translate.setAutoDiscriminateLocalLanguage) {
 		translate.setAutoDiscriminateLocalLanguage();
 	}
-	
-	// 设置忽略的类名和标签
 	if (siteConfig.translate.ignoreClasses && translate.ignore?.class) {
 		siteConfig.translate.ignoreClasses.forEach(className => {
 			translate.ignore.class.push(className);
 		});
 	}
-	
 	if (siteConfig.translate.ignoreTags && translate.ignore?.tag) {
 		siteConfig.translate.ignoreTags.forEach(tagName => {
 			translate.ignore.tag.push(tagName);
 		});
 	}
-	
-	// 不显示默认的select选择框
 	if (siteConfig.translate.showSelectTag === false && translate.selectLanguageTag) {
 		translate.selectLanguageTag.show = false;
 	}
-	
-	// 禁用自动保存翻译状态到localStorage
+	// 注意：不能将 translate.storage.set 覆盖为空函数！
+	// translate.js 内部多处依赖 storage.set/get 的完整链路。
 	if (translate.storage?.set) {
-		translate.storage.set = function() {
-			// 空函数，阻止保存状态
-		};
+		try { translate.storage.set('to', ''); } catch { /* ignore */ }
 	}
-	
+
+	// ============ 翻译管理器 ============
+	// 统一封装所有 translate.js 辅助操作，避免散落的 window 全局函数
+	//
+	// 核心策略：不与 translate.js 内部机制抢控制权
+	//   - 不包装 translate.execute，让 waitingExecute 排队机制正常生效
+	//   - 在 MutationObserver 层面控制节奏，changeLanguage 期间临时禁用 Observer
+
+	let isAutoTranslating = false;
+	let autoTranslateTimer: ReturnType<typeof setTimeout> | null = null;
+
+	/** 安全执行一次翻译 */
+	function safeExecute() {
+		if (!window.translate?.execute || !window.translate.to) return;
+		try { window.translate.execute(); } catch { /* ignore */ }
+	}
+
+	/** 断开 translate.js 内部 MutationObserver */
+	function disconnectListener() {
+		const t = window.translate;
+		if (!t?.listener) return;
+		t.listener.use = false;
+		if (t.listener.observer) {
+			t.listener.observer.disconnect();
+		}
+		t.listener.isStart = false;
+	}
+
+	/** 延迟重连 translate.js 内部 MutationObserver，并补翻译遗漏节点 */
+	function reconnectListener(delay: number = RECONNECT_DELAY) {
+		setTimeout(() => {
+			const t = window.translate;
+			if (!t) return;
+			if (t.listener) {
+				t.listener.use = true;
+			}
+			if (t.listener?.addListener && !t.listener.isStart) {
+				t.listener.addListener();
+			}
+			// 补翻译：重连后对已有未翻译内容做一次全量扫描
+			safeExecute();
+		}, delay);
+	}
+
+	window.translateManager = {
+		/** 手动触发一次翻译（逃生口，补充 Observer 已覆盖大部分场景） */
+		triggerTranslate: safeExecute,
+		disconnectListener,
+		reconnectListener,
+	};
+
+	// ============ 首次翻译 ============
+	// 先禁用 Observer，执行首次翻译，完成后再启动 Observer
 	if (translate.listener?.start) {
 		translate.listener.start();
 	}
-	
-	if (translate.execute) {
-		translate.execute();
-	}
+	translate.listener.use = false;
+	safeExecute();
+	reconnectListener(RECONNECT_DELAY);
+
+	// ============ 补充 MutationObserver ============
+	// 自动捕捉 translate.js 内部 Observer 遗漏的 DOM 变化
+	// 场景：portal 节点插入到 <body>、Svelte 重新渲染、Observer 断开窗口期内的变化等
+	//
+	// 三重防护：
+	//   1. isAutoTranslating 执行锁 → 防止并发 execute → 避免"翻译未完结"和 node 找不到
+	//   2. EXECUTE_COOLDOWN 冷却期 → 防止服务端"2秒内请求超过2次"防护拦截
+	//   3. listener.use 检查 → changeLanguage 期间跳过 → 与断开/重连机制协同
+
+	const autoTranslateObserver = new MutationObserver(() => {
+		if (isAutoTranslating) return;
+		if (window.translate && !window.translate.listener?.use) return;
+		if (!window.translate?.execute || !window.translate.to) return;
+
+		if (autoTranslateTimer) clearTimeout(autoTranslateTimer);
+		autoTranslateTimer = setTimeout(() => {
+			autoTranslateTimer = null;
+			isAutoTranslating = true;
+			safeExecute();
+			setTimeout(() => { isAutoTranslating = false; }, EXECUTE_COOLDOWN);
+		}, DEBOUNCE_DELAY);
+	});
+	autoTranslateObserver.observe(document.body, {
+		childList: true,
+		subtree: true,
+		characterData: true,
+	});
 }
 
 // 懒加载并初始化翻译功能
@@ -1114,11 +1189,13 @@ function disableAnimation() {
 			}
 
 			// 页面内容替换后重新执行翻译（仅在翻译已加载时）
-		setTimeout(() => {
-			if (siteConfig.translate?.enable && typeof (window as any).translate !== 'undefined') {
-				(window as any).translate.execute();
+			if (siteConfig.translate?.enable && window.translate) {
+				window.translateManager?.disconnectListener();
+				setTimeout(() => {
+					window.translate?.execute();
+					window.translateManager?.reconnectListener();
+				}, 2000);
 			}
-		}, 100);
 
 			// 重新初始化semifull模式的滚动检测
 			const navbar = document.getElementById("navbar");

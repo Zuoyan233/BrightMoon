@@ -51,7 +51,7 @@ export const siteConfig: SiteConfig = {
 		defaultLanguage: getTranslateLanguageFromConfig(SITE_LANG), // 根据站点语言自动设置默认翻译语言
 		showSelectTag: false, // 不显示默认语言选择下拉菜单，使用自定义按钮
 		autoDiscriminate: true, // 自动检测用户语言
-		ignoreClasses: ["ignore", "banner-title", "banner-subtitle"], // 翻译时忽略的 CSS 类名
+		ignoreClasses: ["ignore"], // 翻译时忽略的 CSS 类名
 		ignoreTags: ["script", "style", "code", "pre"], // 翻译时忽略的 HTML 标签
 	},
 
