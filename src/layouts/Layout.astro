@@ -1140,7 +1140,9 @@ function disableAnimation() {
 
 		window.swup.hooks.on(
 			"visit:start",
-			(visit: { to: { url: string } }) => {
+			(...args: unknown[]) => {
+				const visit = args[0] as { to: { url: string } } | undefined;
+				if (!visit) return;
 				// 清理上一页的 Fancybox
 				cleanupFancybox();
 
@@ -1293,7 +1295,7 @@ function disableAnimation() {
 			}, 300);
 		});
 
-		window.swup.hooks.on("visit:end", (_visit: { to: { url: string } }) => {
+		window.swup.hooks.on("visit:end", () => {
 			setTimeout(() => {
 				const heightExtend =
 					document.getElementById("page-height-extend");

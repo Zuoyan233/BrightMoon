@@ -23,6 +23,20 @@ interface AnimeItem {
 	genre: string[];
 }
 
+interface RawAnimeData {
+	title?: string;
+	cover?: string;
+	link?: string;
+	status?: string;
+	rating?: number | string;
+	progress?: number | string;
+	totalEpisodes?: number | string;
+	description?: string;
+	year?: string;
+	studio?: string;
+	genre?: string[];
+}
+
 if (!siteConfig.featurePages.anime) {
 	return Astro.redirect("/404/");
 }
@@ -49,7 +63,7 @@ if (ANIME_MODE === "local") {
 			if (fs.existsSync(dataPath)) {
 				const fileContent = fs.readFileSync(dataPath, "utf-8");
 				const rawData = JSON.parse(fileContent);
-				animeList = rawData.map((item: any) => ({
+				animeList = rawData.map((item: RawAnimeData) => ({
 					title: item.title || "Unknown",
 					cover: item.cover || "",
 					link: item.link || "",
@@ -85,7 +99,7 @@ if (ANIME_MODE === "local") {
 			if (fs.existsSync(dataPath)) {
 				const fileContent = fs.readFileSync(dataPath, "utf-8");
 				const rawData = JSON.parse(fileContent);
-				animeList = rawData.map((item: any) => ({
+				animeList = rawData.map((item: RawAnimeData) => ({
 					title: item.title || "Unknown",
 					cover: item.cover || "",
 					link: item.link || "",

@@ -24,7 +24,6 @@ const FONT_FAMILY = "'Roboto', sans-serif";
 // State
 let showModal = false;
 let posterImage: string | null = null;
-let generating = false;
 let themeColor = "#558e88";
 let copied = false;
 let modalElement: HTMLElement;
@@ -139,7 +138,6 @@ async function generatePoster() {
 
 	if (posterImage) return;
 
-	generating = true;
 	try {
 		const qrCodeUrl = await QRCode.toDataURL(url, {
 			margin: 1,
@@ -210,7 +208,10 @@ async function generatePoster() {
 		if (coverImg) {
 			const imgRatio = coverImg.width / coverImg.height;
 			const targetRatio = WIDTH / coverHeight;
-			let sx: number, sy: number, sWidth: number, sHeight: number;
+			let sx: number;
+	let sy: number;
+	let sWidth: number;
+	let sHeight: number;
 
 			if (imgRatio > targetRatio) {
 				sHeight = coverImg.height;
@@ -403,7 +404,6 @@ async function generatePoster() {
 	} catch (error) {
 		console.error("Failed to generate poster:", error);
 	} finally {
-		generating = false;
 	}
 }
 
@@ -483,12 +483,17 @@ function tick() {
 </a>
 
 {#if showModal}
+  <!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
   <div 
     use:portal 
     class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 transition-opacity duration-300 ease-[cubic-bezier(0.2,0,0,1)] opacity-0 modal-show:opacity-100"
     class:modal-show={false} 
     on:click={closeModal}
+    on:keydown={(e) => { if (e.key === 'Escape') closeModal(); }}
+    role="dialog"
+    tabindex="-1"
   >
+  <!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
     <div 
       class="bg-white dark:bg-gray-800 rounded-2xl max-w-sm w-full max-h-[90vh] overflow-y-auto flex flex-col shadow-2xl transition-all duration-300 ease-[cubic-bezier(0.2,0,0,1)] opacity-0 scale-95 translate-y-2.5 modal-show:opacity-100 modal-show:scale-100 modal-show:translate-y-0"
       on:click|stopPropagation

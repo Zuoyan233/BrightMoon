@@ -1,5 +1,7 @@
 ---
 import type { MarkdownHeading } from "astro";
+import type { AstroComponentFactory } from "astro/runtime/server/index.js";
+import type { WidgetComponentConfig } from "../../types/config";
 import { widgetManager } from "../../utils/widget-manager";
 import Announcement from "./Announcement.astro";
 import Calendar from "./Calendar.astro";
@@ -30,7 +32,7 @@ const stickyComponents = isBothSidebarMode
 	: widgetManager.getComponentsByPosition("sticky");
 
 // 组件映射表
-const componentMap = {
+const componentMap: Record<string, AstroComponentFactory> = {
 	profile: Profile,
 	announcement: Announcement,
 	categories: Categories,
@@ -42,22 +44,26 @@ const componentMap = {
 };
 
 // 渲染组件的辅助函数
-function renderComponent(component: any, index: number, _components: any[]) {
-	const ComponentToRender =
-		componentMap[component.type as keyof typeof componentMap];
+function renderComponent(component: WidgetComponentConfig, index: number, _components: WidgetComponentConfig[]) {
+	const ComponentToRender = componentMap[component.type];
 	if (!ComponentToRender) return null;
 
 	const componentClass = widgetManager.getComponentClass(component, index);
 	const componentStyle = widgetManager.getComponentStyle(component, index);
 
+	const props: Record<string, unknown> = {
+		class: componentClass,
+		style: componentStyle,
+		...component.customProps,
+	};
+
+	if (component.type === "toc") {
+		props.headings = headings;
+	}
+
 	return {
 		Component: ComponentToRender,
-		props: {
-			class: componentClass,
-			style: componentStyle,
-			headings: component.type === "toc" ? headings : undefined,
-			...component.customProps,
-		},
+		props,
 	};
 }
 ---

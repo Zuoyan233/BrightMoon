@@ -53,13 +53,11 @@ if (typeof window !== "undefined") {
 	};
 
 	// 检查Swup是否已经加载
-	if ((window as any).swup && (window as any).swup.hooks) {
-		(window as any).swup.hooks.on("content:replace", handleContentReplace);
+	if (window.swup?.hooks) {
+		window.swup.hooks.on("content:replace", handleContentReplace);
 	} else {
 		document.addEventListener("swup:enable", () => {
-			if ((window as any).swup && (window as any).swup.hooks) {
-				(window as any).swup.hooks.on("content:replace", handleContentReplace);
-			}
+			window.swup?.hooks.on("content:replace", handleContentReplace);
 		});
 	}
 

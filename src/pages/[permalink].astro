@@ -48,8 +48,8 @@ export async function getStaticPaths() {
 		let permalink: string | null = null;
 
 		// 优先使用自定义 permalink
-		if (hasCustomPermalink(entry)) {
-			permalink = entry.data.permalink!.replace(/^\/+/, "").replace(/\/+$/, "");
+		if (hasCustomPermalink(entry) && entry.data.permalink) {
+			permalink = entry.data.permalink.replace(/^\/+/, "").replace(/\/+$/, "");
 		}
 		// 其次使用全局 permalink（如果启用）
 		else if (permalinkConfig.enable) {
@@ -78,7 +78,7 @@ let encryptedContent = "";
 let isEncrypted = entry.data.encrypted && entry.data.password;
 
 if (isEncrypted) {
-	const contentToEncrypt = "BRIGHTMOON-VERIFY:" + entry.body;
+	const contentToEncrypt = `BRIGHTMOON-VERIFY:${entry.body}`;
 	encryptedContent = CryptoJS.AES.encrypt(
 		contentToEncrypt,
 		String(entry.data.password),

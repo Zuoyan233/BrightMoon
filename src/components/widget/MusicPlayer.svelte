@@ -96,7 +96,7 @@ async function fetchMetingPlaylist() {
 		const res = await fetch(apiUrl);
 		if (!res.ok) throw new Error("meting api error");
 		const list = await res.json();
-		playlist = list.map((song: any) => {
+		playlist = list.map((song: { id?: string; name?: string; title?: string; artist?: string; author?: string; duration?: number; pic?: string; url?: string; lrc?: string }) => {
 			let title = song.name ?? song.title ?? i18n(Key.unknownSong);
 			let artist = song.artist ?? song.author ?? i18n(Key.unknownArtist);
 			let dur = song.duration ?? 0;

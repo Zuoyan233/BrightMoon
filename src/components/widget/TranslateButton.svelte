@@ -148,7 +148,7 @@ onDestroy(() => {
         <div class="text-sm font-medium text-[var(--primary)] mb-3">
             {i18n(I18nKey.translateHeader)}
         </div>
-        <div class="grid grid-cols-1 gap-2 max-h-64 overflow-y-auto scrollbar-hide">
+        <div class="ignore grid grid-cols-1 gap-2 max-h-64 overflow-y-auto scrollbar-hide">
             {#each languages as lang}
                 <button
                     class="flex items-center gap-3 p-2 rounded-lg hover:bg-[var(--btn-plain-bg-hover)] transition-colors text-left w-full {currentLanguage === lang.code ? 'bg-[var(--btn-plain-bg-hover)] border-1 border-[var(--primary)]' : '' }"

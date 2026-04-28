@@ -1,6 +1,8 @@
 ---
+import type { AstroComponentFactory } from "astro/runtime/server/index.js";
+
 interface Props {
-	children: any;
+	children: AstroComponentFactory;
 	orientation?: "horizontal" | "vertical";
 	class?: string;
 }

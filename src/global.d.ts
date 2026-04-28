@@ -7,7 +7,11 @@ declare global {
 
 	interface Window {
 		// Define swup type directly since @swup/astro doesn't export AstroIntegration
-		swup: any;
+		swup: {
+			hooks: {
+				on: (event: string, handler: (...args: unknown[]) => void) => void;
+			};
+		};
 		closeAnnouncement: () => void;
 		pagefind: {
 			search: (query: string) => Promise<{
@@ -25,7 +29,7 @@ declare global {
 			onLoad: (callback: () => void) => void;
 			isLoaded: boolean;
 		};
-		siteConfig: any;
+		siteConfig: Record<string, unknown>;
 	}
 }
 
@@ -55,4 +59,4 @@ interface SearchResult {
 	sub_results?: SearchResult[];
 }
 
-export { SearchResult };
+export type { SearchResult };

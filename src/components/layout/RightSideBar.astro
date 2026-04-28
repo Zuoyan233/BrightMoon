@@ -8,6 +8,7 @@ import Profile from "@/components/widget/Profile.astro";
 import SiteStats from "@/components/widget/SiteStats.astro";
 import Tags from "@/components/widget/Tags.astro";
 import TOC from "@/components/widget/TOC.astro";
+import type { WidgetComponentConfig } from "@/types/config";
 import { widgetManager } from "@/utils/widget-manager";
 
 interface Props {
@@ -37,7 +38,7 @@ const componentMap = {
 };
 
 // 渲染组件的辅助函数
-function renderComponent(component: any, index: number, _components: any[]) {
+function renderComponent(component: WidgetComponentConfig, index: number, _components: WidgetComponentConfig[]) {
 	const ComponentToRender =
 		componentMap[component.type as keyof typeof componentMap];
 	if (!ComponentToRender) return null;
@@ -45,14 +46,16 @@ function renderComponent(component: any, index: number, _components: any[]) {
 	const componentClass = widgetManager.getComponentClass(component, index);
 	const componentStyle = widgetManager.getComponentStyle(component, index);
 
+	const props: Record<string, unknown> = {
+		class: componentClass,
+		style: componentStyle,
+		headings: component.type === "toc" ? headings : undefined,
+		...component.customProps,
+	};
+
 	return {
 		Component: ComponentToRender,
-		props: {
-			class: componentClass,
-			style: componentStyle,
-			headings: component.type === "toc" ? headings : undefined,
-			...component.customProps,
-		},
+		props,
 	};
 }
 ---
@@ -67,7 +70,7 @@ function renderComponent(component: any, index: number, _components: any[]) {
           if (!renderData) return null;
 
           const { Component, props } = renderData;
-          return <Component {...props} />;
+          return <Component {...(props as any)} />;
         })}
       </div>
     )
@@ -89,7 +92,7 @@ function renderComponent(component: any, index: number, _components: any[]) {
           if (!renderData) return null;
 
           const { Component, props } = renderData;
-          return <Component {...props} />;
+          return <Component {...(props as any)} />;
         })}
       </div>
     )
@@ -132,8 +135,8 @@ function renderComponent(component: any, index: number, _components: any[]) {
       window.addEventListener('resize', () => this.updateResponsiveDisplay());
       
       // 监听SWUP内容替换事件
-      if (typeof window !== 'undefined' && (window as any).swup) {
-        (window as any).swup.hooks.on('content:replace', () => {
+      if (window.swup?.hooks) {
+        window.swup.hooks.on('content:replace', () => {
           // 延迟执行以确保DOM已更新
           setTimeout(() => {
             this.updateResponsiveDisplay();
