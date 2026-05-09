@@ -330,6 +330,11 @@ export const th: Translation = {
 	[Key.siteStatsTimePeriodNight]: "กลางคืน",
 	[Key.siteStatsAm]: "AM",
 	[Key.siteStatsPm]: "PM",
+	[Key.siteStatsSeason]: "ฤดูกาล",
+	[Key.siteStatsSeasonSpring]: "ฤดูใบไม้ผลิ",
+	[Key.siteStatsSeasonSummer]: "ฤดูร้อน",
+	[Key.siteStatsSeasonAutumn]: "ฤดูใบไม้ร่วง",
+	[Key.siteStatsSeasonWinter]: "ฤดูหนาว",
 
 	// Calendar Component
 	[Key.calendarSunday]: "อา",

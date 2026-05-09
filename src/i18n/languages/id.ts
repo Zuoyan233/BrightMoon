@@ -346,6 +346,11 @@ export const id: Translation = {
 	[Key.siteStatsTimePeriodNight]: "Malam",
 	[Key.siteStatsAm]: "AM",
 	[Key.siteStatsPm]: "PM",
+	[Key.siteStatsSeason]: "Musim",
+	[Key.siteStatsSeasonSpring]: "Musim semi",
+	[Key.siteStatsSeasonSummer]: "Musim panas",
+	[Key.siteStatsSeasonAutumn]: "Musim gugur",
+	[Key.siteStatsSeasonWinter]: "Musim dingin",
 
 	// Komponen Kalender
 	[Key.calendarSunday]: "Min",

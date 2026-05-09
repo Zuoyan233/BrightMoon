@@ -352,6 +352,11 @@ export const tr: Translation = {
 	[Key.siteStatsTimePeriodNight]: "Gece",
 	[Key.siteStatsAm]: "ÖÖ",
 	[Key.siteStatsPm]: "ÖS",
+	[Key.siteStatsSeason]: "Mevsim",
+	[Key.siteStatsSeasonSpring]: "İlkbahar",
+	[Key.siteStatsSeasonSummer]: "Yaz",
+	[Key.siteStatsSeasonAutumn]: "Sonbahar",
+	[Key.siteStatsSeasonWinter]: "Kış",
 
 	// Takvim Bileşeni
 	[Key.calendarSunday]: "Paz",

@@ -346,6 +346,11 @@ export const vi: Translation = {
 	[Key.siteStatsTimePeriodNight]: "Buổi tối",
 	[Key.siteStatsAm]: "SA",
 	[Key.siteStatsPm]: "CH",
+	[Key.siteStatsSeason]: "Mùa",
+	[Key.siteStatsSeasonSpring]: "Mùa xuân",
+	[Key.siteStatsSeasonSummer]: "Mùa hè",
+	[Key.siteStatsSeasonAutumn]: "Mùa thu",
+	[Key.siteStatsSeasonWinter]: "Mùa đông",
 
 	// Calendar Component
 	[Key.calendarSunday]: "CN",

@@ -338,6 +338,11 @@ export const ar: Translation = {
 	[Key.siteStatsTimePeriodNight]: "ليلاً",
 	[Key.siteStatsAm]: "ص",
 	[Key.siteStatsPm]: "م",
+	[Key.siteStatsSeason]: "الموسم",
+	[Key.siteStatsSeasonSpring]: "الربيع",
+	[Key.siteStatsSeasonSummer]: "الصيف",
+	[Key.siteStatsSeasonAutumn]: "الخريف",
+	[Key.siteStatsSeasonWinter]: "الشتاء",
 
 	// Calendar Component
 	[Key.calendarSunday]: "أحد",

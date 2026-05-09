@@ -345,6 +345,11 @@ export const ru: Translation = {
 	[Key.siteStatsTimePeriodNight]: "Ночь",
 	[Key.siteStatsAm]: "AM",
 	[Key.siteStatsPm]: "PM",
+	[Key.siteStatsSeason]: "Сезон",
+	[Key.siteStatsSeasonSpring]: "Весна",
+	[Key.siteStatsSeasonSummer]: "Лето",
+	[Key.siteStatsSeasonAutumn]: "Осень",
+	[Key.siteStatsSeasonWinter]: "Зима",
 
 	// Компонент календаря
 	[Key.calendarSunday]: "Вс",

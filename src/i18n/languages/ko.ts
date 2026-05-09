@@ -340,6 +340,11 @@ export const ko: Translation = {
 	[Key.siteStatsTimePeriodNight]: "밤",
 	[Key.siteStatsAm]: "오전",
 	[Key.siteStatsPm]: "오후",
+	[Key.siteStatsSeason]: "계절",
+	[Key.siteStatsSeasonSpring]: "봄",
+	[Key.siteStatsSeasonSummer]: "여름",
+	[Key.siteStatsSeasonAutumn]: "가을",
+	[Key.siteStatsSeasonWinter]: "겨울",
 
 	// 캘린더 컴포넌트
 	[Key.calendarSunday]: "일",

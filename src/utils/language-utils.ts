@@ -57,31 +57,29 @@ export function getConfigLanguageFromTranslate(translateLang: string): string {
 	return translateToLangMap[translateLang] || "zh_CN";
 }
 
-// 配置文件语言代码到 Twikoo 语言代码的映射
-export const configLangToTwikooMap: Record<string, string> = {
-	zh_CN: "zh-CN",
-	zh_TW: "zh-TW",
-	en: "en",
-	ja: "ja",
-	ko: "ko",
-	es: "es",
-	th: "th",
-	vi: "vi",
-	tr: "tr",
-	id: "id",
-	fr: "fr",
-	de: "de",
-	ru: "ru",
-	ar: "ar",
-};
-
 /**
  * 将配置文件的语言代码转换为 Twikoo 可用的语言代码
  * @param configLang 配置文件中的语言代码
  * @returns Twikoo 语言代码
  */
 export function getTwikooLanguageFromConfig(configLang: string): string {
-	return configLangToTwikooMap[configLang] || "zh-CN";
+	const map: Record<string, string> = {
+		zh_CN: "zh-CN",
+		zh_TW: "zh-TW",
+		en: "en",
+		ja: "ja",
+		ko: "ko",
+		es: "es",
+		th: "th",
+		vi: "vi",
+		tr: "tr",
+		id: "id",
+		fr: "fr",
+		de: "de",
+		ru: "ru",
+		ar: "ar",
+	};
+	return map[configLang] || configLang;
 }
 
 /**

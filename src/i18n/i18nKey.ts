@@ -319,6 +319,11 @@ enum I18nKey {
 	siteStatsTimePeriodNight = "siteStatsTimePeriodNight",
 	siteStatsAm = "siteStatsAm",
 	siteStatsPm = "siteStatsPm",
+	siteStatsSeason = "siteStatsSeason",
+	siteStatsSeasonSpring = "siteStatsSeasonSpring",
+	siteStatsSeasonSummer = "siteStatsSeasonSummer",
+	siteStatsSeasonAutumn = "siteStatsSeasonAutumn",
+	siteStatsSeasonWinter = "siteStatsSeasonWinter",
 
 	// 日历组件
 	calendarSunday = "calendarSunday",

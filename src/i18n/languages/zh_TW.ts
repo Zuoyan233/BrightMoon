@@ -329,6 +329,11 @@ export const zh_TW: Translation = {
 	[Key.siteStatsTimePeriodNight]: "夜晚",
 	[Key.siteStatsAm]: "上午",
 	[Key.siteStatsPm]: "下午",
+	[Key.siteStatsSeason]: "季節",
+	[Key.siteStatsSeasonSpring]: "春季",
+	[Key.siteStatsSeasonSummer]: "夏季",
+	[Key.siteStatsSeasonAutumn]: "秋季",
+	[Key.siteStatsSeasonWinter]: "冬季",
 
 	// 日曆元件
 	[Key.calendarSunday]: "日",

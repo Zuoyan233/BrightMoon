@@ -20,16 +20,24 @@ const periodKeys = [
 	I18nKey.siteStatsTimePeriodNight,
 ] as const;
 const amPmKeys = [I18nKey.siteStatsAm, I18nKey.siteStatsPm] as const;
+const seasonKeys = [
+	I18nKey.siteStatsSeasonSpring,
+	I18nKey.siteStatsSeasonSummer,
+	I18nKey.siteStatsSeasonAutumn,
+	I18nKey.siteStatsSeasonWinter,
+] as const;
 
-// 从 allTranslations 构建时间段/日期格式/AM-PM 映射表
+// 从 allTranslations 构建时间段/日期格式/AM-PM/季节映射表
 const periodTranslations: Record<string, string[]> = {};
 const amPmTranslations: Record<string, string[]> = {};
 const dateFormats: Record<string, string> = {};
+const seasonTranslations: Record<string, string[]> = {};
 
 for (const [lang, tr] of Object.entries(allTranslations)) {
 	periodTranslations[lang] = periodKeys.map((k) => tr[k] || "");
 	amPmTranslations[lang] = amPmKeys.map((k) => tr[k] || "");
 	dateFormats[lang] = tr[I18nKey.siteStatsDateFormat] || "{month}/{day}/{year}";
+	seasonTranslations[lang] = seasonKeys.map((k) => tr[k] || "");
 }
 
 // 构建后缀翻译映射表（用于客户端语言切换时更新单位文本）
@@ -45,6 +53,7 @@ const periodTranslationsJSON = JSON.stringify(periodTranslations);
 const amPmTranslationsJSON = JSON.stringify(amPmTranslations);
 const dateFormatsJSON = JSON.stringify(dateFormats);
 const suffixTranslationsJSON = JSON.stringify(suffixTranslations);
+const seasonTranslationsJSON = JSON.stringify(seasonTranslations);
 const translateToI18nMapJSON = JSON.stringify(translateToLangMap);
 
 interface Props {
@@ -198,6 +207,14 @@ const stats = [
 		useFormattedDate: true,
 	},
 	{
+		icon: "material-symbols:eco-outline",
+		label: i18n(I18nKey.siteStatsSeason),
+		dynamic: enableDynamic, // 是否动态更新
+		updateInterval: "daily", // 每天更新
+		id: "current-season",
+		useSeason: true,
+	},
+	{
 		icon: "material-symbols:schedule-outline",
 		label: i18n(I18nKey.siteStatsCurrentTime),
 		dynamic: enableDynamic, // 是否动态更新
@@ -262,6 +279,13 @@ const stats = [
 									>
 									</span>
 								</div>
+							) : stat.useSeason ? (
+								<span
+									class="text-sm text-neutral-500 dark:text-neutral-400 ml-1"
+									data-stat-id={stat.id}
+									data-season="true"
+								>
+								</span>
 							) : stat.useFormattedDate ? (
 								<span
 									class="inline-flex items-baseline gap-0.5 text-base font-bold text-neutral-900 dark:text-neutral-100"
@@ -302,6 +326,7 @@ const stats = [
 	amPmTranslationsJSON,
 	dateFormatsJSON,
 	suffixTranslationsJSON,
+	seasonTranslationsJSON,
 	translateToI18nMapJSON,
 	defaultLang: siteConfig.lang,
 }}>
@@ -310,6 +335,7 @@ const stats = [
 	const amPmTranslations = JSON.parse(amPmTranslationsJSON);
 	const dateFormats = JSON.parse(dateFormatsJSON);
 	const suffixTranslations = JSON.parse(suffixTranslationsJSON);
+	const seasonTranslations = JSON.parse(seasonTranslationsJSON);
 	const translateToLangMap = JSON.parse(translateToI18nMapJSON);
 	
 	// 获取当前翻译服务的 i18n 语言代码，无翻译服务时回退到页面默认语言
@@ -371,6 +397,25 @@ const stats = [
 		const lang = getCurrentI18nLang();
 		const vals = amPmTranslations[lang] || amPmTranslations.en;
 		return date.getHours() >= 12 ? vals[1] : vals[0];
+	}
+
+	// 根据月份获取季节索引 (北半球: 春3-5, 夏6-8, 秋9-11, 冬12-2)
+	function getSeasonIndex(month) {
+		if (month >= 3 && month <= 5) return 0; // 春季
+		if (month >= 6 && month <= 8) return 1; // 夏季
+		if (month >= 9 && month <= 11) return 2; // 秋季
+		return 3; // 冬季 (12, 1, 2)
+	}
+
+	// 更新当前季节
+	function updateSeason(element, today) {
+		const month = today.getMonth() + 1; // 1-12
+		const lang = getCurrentI18nLang();
+		const vals = seasonTranslations[lang] || seasonTranslations.en;
+		const season = vals[getSeasonIndex(month)] || '';
+		if (element.textContent !== season) {
+			element.textContent = season;
+		}
 	}
 
 	// 简化的日期格式化函数
@@ -489,11 +534,13 @@ const stats = [
 			const lastUpdateElement = document.querySelector('[data-stat-id="last-update"]');
 			const currentDateElement = document.querySelector('[data-stat-id="current-date"]');
 			const currentTimeElement = document.querySelector('[data-stat-id="current-time"]');
+			const currentSeasonElement = document.querySelector('[data-stat-id="current-season"]');
 			
 			if (runningDaysElement) updateRunningDays(runningDaysElement, today);
 			if (lastUpdateElement) updateLastUpdate(lastUpdateElement, today);
 			if (currentDateElement) updateCurrentDate(currentDateElement, today);
 			if (currentTimeElement) updateCurrentTime(currentTimeElement, today);
+			if (currentSeasonElement) updateSeason(currentSeasonElement, today);
 			
 			updateTimePeriod(today);
 		} catch (error) {
@@ -575,4 +622,24 @@ const stats = [
 
 	registerSuffixRenderer();
 	document.addEventListener('translation-manager:ready', registerSuffixRenderer, { once: true });
+
+	// 季节渲染器：语言切换时更新季节文本
+	function registerSeasonRenderer() {
+		if (!window.translationManager) return;
+		window.translationManager.onRefresh('site-stats-season', () => {
+			const lang = getCurrentI18nLang();
+			const vals = seasonTranslations[lang] || seasonTranslations.en;
+			const month = new Date().getMonth() + 1;
+			const season = vals[getSeasonIndex(month)] || '';
+			const el = document.querySelector('[data-stat-id="current-season"]');
+			if (el && el.textContent !== season) {
+				el.textContent = season;
+				el.classList.add('ignore');
+				el.setAttribute('data-i18n-handled', 'true');
+			}
+		});
+	}
+
+	registerSeasonRenderer();
+	document.addEventListener('translation-manager:ready', registerSeasonRenderer, { once: true });
 </script>

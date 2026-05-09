@@ -345,6 +345,11 @@ export const en: Translation = {
 	[Key.siteStatsTimePeriodNight]: "Night",
 	[Key.siteStatsAm]: "AM",
 	[Key.siteStatsPm]: "PM",
+	[Key.siteStatsSeason]: "Season",
+	[Key.siteStatsSeasonSpring]: "Spring",
+	[Key.siteStatsSeasonSummer]: "Summer",
+	[Key.siteStatsSeasonAutumn]: "Autumn",
+	[Key.siteStatsSeasonWinter]: "Winter",
 
 	// Calendar Component
 	[Key.calendarSunday]: "Sun",

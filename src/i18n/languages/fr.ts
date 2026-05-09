@@ -360,6 +360,11 @@ export const fr: Translation = {
 	[Key.siteStatsTimePeriodNight]: "Nuit",
 	[Key.siteStatsAm]: "AM",
 	[Key.siteStatsPm]: "PM",
+	[Key.siteStatsSeason]: "Saison",
+	[Key.siteStatsSeasonSpring]: "Printemps",
+	[Key.siteStatsSeasonSummer]: "Été",
+	[Key.siteStatsSeasonAutumn]: "Automne",
+	[Key.siteStatsSeasonWinter]: "Hiver",
 
 	// Composant Calendrier
 	[Key.calendarSunday]: "Dim",

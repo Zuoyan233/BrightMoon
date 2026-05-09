@@ -342,6 +342,11 @@ export const ja: Translation = {
 	[Key.siteStatsTimePeriodNight]: "夜",
 	[Key.siteStatsAm]: "午前",
 	[Key.siteStatsPm]: "午後",
+	[Key.siteStatsSeason]: "季節",
+	[Key.siteStatsSeasonSpring]: "春",
+	[Key.siteStatsSeasonSummer]: "夏",
+	[Key.siteStatsSeasonAutumn]: "秋",
+	[Key.siteStatsSeasonWinter]: "冬",
 
 	// カレンダーコンポーネント
 	[Key.calendarSunday]: "日",

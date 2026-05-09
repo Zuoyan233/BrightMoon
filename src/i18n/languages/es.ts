@@ -356,6 +356,11 @@ export const es: Translation = {
 	[Key.siteStatsTimePeriodNight]: "Noche",
 	[Key.siteStatsAm]: "AM",
 	[Key.siteStatsPm]: "PM",
+	[Key.siteStatsSeason]: "Estación",
+	[Key.siteStatsSeasonSpring]: "Primavera",
+	[Key.siteStatsSeasonSummer]: "Verano",
+	[Key.siteStatsSeasonAutumn]: "Otoño",
+	[Key.siteStatsSeasonWinter]: "Invierno",
 
 	// Componente de calendario
 	[Key.calendarSunday]: "Dom",
