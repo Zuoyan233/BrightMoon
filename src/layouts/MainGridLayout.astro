@@ -322,9 +322,18 @@ const transparentClass = shouldEnableTransparency
                     floatingTOC.style.display = 'none';
                 }
                 if (tocWidget) {
-                    if (tocWidget.dataset.hiddenByToc === 'true') {
-                        tocWidget.dataset.hiddenByToc = '';
-                        tocWidget.style.display = '';
+                    // 检查当前页面是否为文章页（只有文章页才显示侧边栏 TOC）
+                    const isPostPage = window.location.pathname.includes('/posts/') || 
+                                      document.querySelector('.custom-md, .markdown-content') !== null;
+                    if (isPostPage) {
+                        if (tocWidget.dataset.hiddenByToc === 'true') {
+                            tocWidget.dataset.hiddenByToc = '';
+                            tocWidget.style.display = '';
+                        }
+                    } else {
+                        // 非文章页确保 TOC 隐藏
+                        tocWidget.style.display = 'none';
+                        tocWidget.dataset.hiddenByToc = 'false';
                     }
                 }
             } else {
@@ -367,13 +376,22 @@ const transparentClass = shouldEnableTransparency
                 floatingTOC.style.display = 'none';
             }
             if (tocWidget) {
-                // 仅在 TOC 被本函数隐藏时才恢复显示，避免覆盖 TOC 组件自身的隐藏逻辑
-                if (tocWidget.dataset.hiddenByToc === 'true') {
-                    tocWidget.dataset.hiddenByToc = '';
-                    tocWidget.style.display = '';
+                // 检查当前页面是否为文章页（只有文章页才显示侧边栏 TOC）
+                const isPostPage = window.location.pathname.includes('/posts/') || 
+                                  document.querySelector('.custom-md, .markdown-content') !== null;
+                if (isPostPage) {
+                    // 仅在 TOC 被本函数隐藏时才恢复显示，避免覆盖 TOC 组件自身的隐藏逻辑
+                    if (tocWidget.dataset.hiddenByToc === 'true') {
+                        tocWidget.dataset.hiddenByToc = '';
+                        tocWidget.style.display = '';
+                    }
+                    // 如果 TOC 还没加载完成，让它自然显示（TOC 组件加载后会自行决定是否隐藏）
+                    // 如果 TOC 已加载且无内容，TOC 组件已将 widget-layout 隐藏，不需要额外处理
+                } else {
+                    // 非文章页确保 TOC 隐藏
+                    tocWidget.style.display = 'none';
+                    tocWidget.dataset.hiddenByToc = 'false';
                 }
-                // 如果 TOC 还没加载完成，让它自然显示（TOC 组件加载后会自行决定是否隐藏）
-                // 如果 TOC 已加载且无内容，TOC 组件已将 widget-layout 隐藏，不需要额外处理
             }
         }
         
