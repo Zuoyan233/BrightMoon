@@ -46,16 +46,16 @@ BrightMoon 是基于 [Mizuki](https://github.com/matsuzaka-yuki/mizuki) 主题�
 
 ## 🛠 本项目魔改的内容
 
-- 添加十个国家的站点语言文本，未来站点更新并同步更新站点语言文本。
+- 添加十个国家的站点语言文本，未来站点更新时将同步更新语言文本。
 - 添加多语言国际翻译组件：
-  - 魔改mobile-navbar样式表适配translate面板样式。
+  - 魔改 mobile-navbar 样式表以适配 translate 面板样式。
 - 修改日历样式，并魔改最舒服的外观：
   - 更改左右切换的icon。
   - 调整文章发布的底部小圆点的位置。
   - 调整右上角同天发布多文章的数字大小。
 - 添加反馈页面，并集成联系站长方式。
 - 添加赞助页面，并集成支付二维码放置路径。
-- 添加站点统计的实时日期和时间，日期显示支持多地区格式，时间支持时间段显示。
+- 添加站点统计的实时日期、季节和时间，日期显示支持多地区格式，时间支持时段显示。
 - 添加外部链接确认弹窗，并魔改部分样式。
 - 更新并适配最新版本的 Twikoo 评论系统。
 - TOC目录支持响应式设备配置。
@@ -78,7 +78,7 @@ BrightMoon 是基于 [Mizuki](https://github.com/matsuzaka-yuki/mizuki) 主题�
 ### 📐 布局系统优化
 
 - **侧边栏位置动态调整：** 支持左右侧边栏切换，布局自动适配。
-- **文章目录智能定位：** 当侧边栏在右侧时，文章导航自动移至左侧，提供更好的阅读体验。
+- **文章目录智能定位：** 当侧边栏在右侧时，文章目录自动移至左侧，提供更好的阅读体验。
 - **网格布局改进：** 优化 CSS Grid 布局，解决容器宽度异常问题。
 
 ### 🎛️ 配置文件格式标准化
@@ -240,4 +240,4 @@ Frontmatter 字段说明：
 
 ---
 
-⭐ 如有问题或建议，请提交 [Issue](https://github.com/Zuoyan233/BrightMoon/issues) 或 [Pull Request](https://github.com/Zuoyan233/BrightMoon/pulls)。另外，您也可以通过 [我的网站反馈页面](https://www.zuoyanblogs.xyz/feedback/) 与我们联系。您觉得这个项目有帮助，请考虑给它一个星标！
+⭐ 如有问题或建议，请提交 [Issue](https://github.com/Zuoyan233/BrightMoon/issues) 或 [Pull Request](https://github.com/Zuoyan233/BrightMoon/pulls)。另外，您也可以通过 [我的网站反馈页面](https://www.zuoyanblogs.xyz/feedback/) 与我们联系。如果您觉得这个项目有帮助，请考虑给它一个星标！

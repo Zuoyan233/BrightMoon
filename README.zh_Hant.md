@@ -46,7 +46,7 @@ BrightMoon 是基於 [Mizuki](https://github.com/matsuzaka-yuki/mizuki) 主題�
 
 ## 🛠 本專案魔改的內容
 
-- 添加十個國家的站點語言文本，未來站點更新並同步更新站點語言文本。
+- 添加十個國家的站點語言文本，未來站點更新時將同步更新語言文本。
 - 添加多語言國際翻譯元件：
   - 魔改 mobile-navbar 樣式表以適應 translate 面板樣式。
 - 修改日曆樣式，並魔改成最舒服的外觀：
@@ -55,7 +55,7 @@ BrightMoon 是基於 [Mizuki](https://github.com/matsuzaka-yuki/mizuki) 主題�
   - 調整右上角同天發佈多篇文章的數字大小。
 - 添加回饋頁面，並整合聯絡站長方式。
 - 添加贊助頁面，並整合支付 QR Code 放置路徑。
-- 新增站點統計的即時日期與時間，日期顯示支援多地區格式，時間則支援時段顯示。
+- 新增站點統計的即時日期、季節與時間，日期與季節顯示支援多地區格式，時間支援時段顯示。
 - 添加外部連結確認彈窗，並魔改部分樣式。
 - 更新並適配最新版本的 Twikoo 留言系統。
 - TOC 目錄支援響應式裝置配置。
@@ -240,4 +240,4 @@ Frontmatter 欄位說明：
 
 ---
 
-⭐ 如有問題或建議，請提交 [Issue](https://github.com/Zuoyan233/BrightMoon/issues) 或 [Pull Request](https://github.com/Zuoyan233/BrightMoon/pulls)。另外，您也可以透過 [我的網站反饋頁面](https://www.zuoyanblogs.xyz/feedback/) 與我們聯繫。您覺得這個專案有幫助，請考慮給它一個星標！
+⭐ 如有問題或建議，請提交 [Issue](https://github.com/Zuoyan233/BrightMoon/issues) 或 [Pull Request](https://github.com/Zuoyan233/BrightMoon/pulls)。另外，您也可以透過 [我的網站反饋頁面](https://www.zuoyanblogs.xyz/feedback/) 與我們聯繫。如果您覺得這個專案有幫助，請考慮給它一個星標！

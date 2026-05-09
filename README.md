@@ -40,13 +40,13 @@ BrightMoon is a static blog template that has been secondarily modified and cust
 
 ## 🔄 Update Frequency
 
-Asynchronous synchronization with the mainline content of the Mizuki theme framework occurs irregularly. Future plans include custom modifications based on the framework's functionality. Version numbers will uniformly use the BrightMoon Custom Edition (CE) suffix, representing a lightly customized version for BrightMoon (Currently busy catching up on learning popular website frameworks, need to find time, wuwuwu~~~).
+Asynchronously synchronizes with the mainline content of the Mizuki theme framework on an irregular basis. Future plans include custom modifications built upon the framework's functionality. Version numbers will uniformly use the BrightMoon Custom Edition (CE) suffix, indicating a lightly customized version for BrightMoon (Currently busy catching up on popular web frameworks — need to find time, wuwuwu~~~).
 
 ---
 
 ## 🛠 Modified Content in This Project
 
-- Added site language texts for ten countries, future site updates will synchronize with site language text updates.
+- Added site language texts for ten languages; future site updates will be accompanied by synchronized language text updates.
 - Added multi-language international translation component:
   - Modified `mobile-navbar` stylesheet to adapt the translate panel styles.
 - Modified calendar styles to achieve the most comfortable appearance:
@@ -55,7 +55,7 @@ Asynchronous synchronization with the mainline content of the Mizuki theme frame
   - Adjusted the number size for multiple posts published on the same day (top right corner).
 - Added a feedback page and integrated methods to contact the site owner.
 - Added a sponsors page and integrated paths for placing payment QR codes.
-- Add real-time date and time for site statistics, with date display supporting multiple regional formats and time display supporting time period representation.
+- Added real-time date, season, and time for site statistics, with date and season display supporting multiple regional formats and time supporting time-period representation.
 - Added external link confirmation popup, and modified some styles.
 - Updated and adapted to the latest version of the Twikoo comment system.
 - TOC directory supports responsive device configuration.
@@ -227,7 +227,7 @@ The blog will be available at `http://localhost:4321`.
 | `pnpm new-post <filename>` | Create a new blog post                                 |
 | `pnpm astro ...`           | Run Astro CLI commands                                 |
 
-To provide developers with a smoother, more familiar experience, we still choose Biome for code formatting and fixing.
+To provide developers with a smoother, more familiar experience, we still use Biome for code formatting and fixing.
 
 Although Mizuki version 7.6 and later switched to Prettier + ESLint, we believe Biome's "out-of-the-box" nature aligns better with our workflow, avoiding additional configuration costs.
 
@@ -243,4 +243,4 @@ Although Mizuki version 7.6 and later switched to Prettier + ESLint, we believe 
 
 ---
 
-⭐ If you have any questions or suggestions, please submit an [Issue](https://github.com/Zuoyan233/BrightMoon/issues) or a [Pull Request](https://github.com/Zuoyan233/BrightMoon/pulls). Alternatively, you can also contact us through [the feedback page on my website](https://www.zuoyanblogs.xyz/feedback/). If you find this project helpful, please consider giving it a star!
+⭐ If you have any questions or suggestions, please submit an [Issue](https://github.com/Zuoyan233/BrightMoon/issues) or a [Pull Request](https://github.com/Zuoyan233/BrightMoon/pulls). Alternatively, you can also reach out via [the feedback page on my website](https://www.zuoyanblogs.xyz/feedback/). If you find this project helpful, please consider giving it a star!
