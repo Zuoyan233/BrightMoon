@@ -1,3 +1,7 @@
+allowBuilds:
+  esbuild: true
+  sharp: true
+  ttf2woff2: true
 onlyBuiltDependencies:
   - '@parcel/watcher'
   - esbuild

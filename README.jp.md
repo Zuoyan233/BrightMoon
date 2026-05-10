@@ -1,15 +1,15 @@
 # BrightMoon
 <img align='right' src='./example project show/images/logo.webp' width='200px' alt="BrightMoon logo">
 
-BrightMoon は、オープンソーステーマプロジェクト [Mizuki](https://github.com/matsuzaka-yuki/mizuki) をベースに二次的に魔改造された静的ブログテンプレートです。モダンでシンプルかつエレガントなデザインスタイルと、独特な二次元的雰囲気を継承・強化しています。プロジェクトは [Astro](https://astro.build/) を構築基盤として採用し、先進的な機能と美しいビジュアル表現を両立しています。
+BrightMoon は、モダンなミニマリズムと優雅さを融合した、獨特の二次元美學を備えた靜態ブログテンプレートです。[Astro](https://astro.build/) を基盤とし、先進的な機能と洗練されたビジュアルを一つに統合しています。
 
 ***明月初めて昇るが如く、清らかな輝きは変わらず*** </br>
 ***此処を始まりとし、新たに出発せん。***
 
-[![Node.js >= 20](https://img.shields.io/badge/node.js-%3E%3D20-brightgreen)](https://nodejs.org/)
-[![pnpm >= 9](https://img.shields.io/badge/pnpm-%3E%3D9-blue)](https://pnpm.io/)
-[![Astro](https://img.shields.io/badge/Astro-5.16.14-orange)](https://astro.build/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-blue)](https://www.typescriptlang.org/)
+[![Node.js >= 22](https://img.shields.io/badge/node.js-%3E%3D22-brightgreen)](https://nodejs.org/)
+[![pnpm >= 11](https://img.shields.io/badge/pnpm-%3E%3D11-blue)](https://pnpm.io/)
+[![Astro](https://img.shields.io/badge/Astro-6.3.1-orange)](https://astro.build/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-blue)](https://www.typescriptlang.org/)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?logo=apache)](https://opensource.org/licenses/Apache-2.0)
 
 💻 私のウェブサイトへようこそ：[こちらをクリック](https://www.zuoyanblogs.xyz/)
