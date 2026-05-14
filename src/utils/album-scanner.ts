@@ -8,7 +8,7 @@ export async function scanAlbums(): Promise<AlbumGroup[]> {
 
 	// 检查目录是否存在
 	if (!fs.existsSync(albumsDir)) {
-		console.warn("相册目录不存在:", albumsDir);
+		console.warn("Album directory does not exist:", albumsDir);
 		return [];
 	}
 
@@ -44,7 +44,7 @@ async function processAlbumFolder(
 	const infoPath = path.join(folderPath, "info.json");
 
 	if (!fs.existsSync(infoPath)) {
-		console.warn(`相册 ${folderName} 缺少 info.json 文件`);
+		console.warn(`Album ${folderName} is missing info.json file`);
 		return null;
 	}
 
@@ -54,7 +54,7 @@ async function processAlbumFolder(
 	try {
 		info = JSON.parse(infoContent);
 	} catch (e) {
-		console.error(`相册 ${folderName} 的 info.json 格式错误:`, e);
+		console.error(`Album ${folderName} info.json format error:`, e);
 		return null;
 	}
 
@@ -66,7 +66,7 @@ async function processAlbumFolder(
 	if (isExternalMode) {
 		// 外链模式：从 info.json 中获取封面和照片
 		if (!info.cover) {
-			console.warn(`相册 ${folderName} 外链模式缺少 cover 字段`);
+			console.warn(`Album ${folderName} external mode is missing cover field`);
 			return null;
 		}
 
@@ -76,7 +76,7 @@ async function processAlbumFolder(
 		// 本地模式：检查本地文件
 		const coverPath = path.join(folderPath, "cover.jpg");
 		if (!fs.existsSync(coverPath)) {
-			console.warn(`相册 ${folderName} 缺少 cover.jpg 文件`);
+			console.warn(`Album ${folderName} is missing cover.jpg file`);
 			return null;
 		}
 
@@ -153,7 +153,7 @@ function processExternalPhotos(
 
 	externalPhotos.forEach((photo, index) => {
 		if (!photo.src) {
-			console.warn(`相册 ${albumId} 的第 ${index + 1} 张照片缺少 src 字段`);
+			console.warn(`Photo ${albumId} #${index + 1} is missing src field`);
 			return;
 		}
 

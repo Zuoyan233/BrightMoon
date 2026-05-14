@@ -3,7 +3,7 @@ title: Simple Guides
 published: 2024-04-01
 description: "How to use this blog template."
 image: "./cover.webp"
-tags: ["Mizuki", "Blogging", "Customization"]
+tags: ["Blogging", "Customization"]
 category: Guides
 draft: false
 ---

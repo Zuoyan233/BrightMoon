@@ -36,9 +36,9 @@ if (!fs.existsSync(CONTENT_DIR)) {
 	console.log("Using independent repository mode");
 
 	if (!CONTENT_REPO_URL) {
-		console.warn("警告：未设置 CONTENT_REPO_URL，将使用本地内容");
+		console.warn("Warning: CONTENT_REPO_URL is not set, local content will be used");
 		console.log(
-			"提示：请设置 CONTENT_REPO_URL 环境变量，或手动创建内容目录",
+			"Tip: Please set the CONTENT_REPO_URL environment variable, or manually create the content directory",
 		);
 		process.exit(0);
 	}

@@ -57,7 +57,7 @@ export const timelineData: TimelineItem[] = [
 	},
 	{
 		id: "web-develop",
-		title: "左颜研究部",
+		title: "BrightMoon",
 		description:
 			"个人魔改的开源项目，采用 Astro 框架、Mizuki 主题开源项目基础上二次开发。目前网站成功上线，已有副业收入",
 		type: "project",
