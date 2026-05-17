@@ -180,18 +180,17 @@ export const siteConfig: SiteConfig = {
 			title: "Welcome Home !", // 主页横幅主标题
 
 			subtitle: [
-				"永远相信美好的事情即将发生",
-				"你知道“2333”是什么意思",
-				"前方是一方通行",
-				"前方高能",
-				"这么可爱一定是男孩子",
-				"注入灵魂",
-				"安全裤是人类史上最差的发明，没有之一",
-				"左颜研究部 乾杯 - ( ゜- ゜)つロ",
+				"Always believe that good things are about to happen",
+				"Do you know what '2333' means",
+				"Ahead is Accelerator",
+				"High energy ahead",
+				"So cute, must be a boy",
+				"Infused with soul",
+				"Safety shorts are the worst invention in human history, bar none",
+				"Left Face Research Department Cheers - ( ゜- ゜)つロ",
 			],
 			typewriter: {
 				enable: true, // 启用副标题打字机效果
-
 				speed: 100, // 打字速度（毫秒）
 				deleteSpeed: 50, // 删除速度（毫秒）
 				pauseTime: 6000, // 完全显示后的暂停时间（毫秒）
@@ -469,11 +468,11 @@ export const addpaymentConfig: AddpaymentConfig = {
 
 export const announcementConfig: AnnouncementConfig = {
 	title: "", // 公告标题，填空使用i18n字符串Key.announcement
-	content: "欢迎来到左颜研究部博客! 聚集经验知识的后花园。", // 公告内容
+	content: "Welcome to BrightMoon! Modern, feature-rich static blog.", // 公告内容
 	closable: true, // 允许用户关闭公告
 	link: {
 		enable: false, // 启用链接
-		text: "查看更多", // 链接文本
+		text: "View more", // 链接文本
 		url: "/about/", // 链接 URL
 		external: false, // 内部链接
 	},
@@ -485,13 +484,27 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 	meting_api:
 		"https://meting.mysqil.com/api?server=:server&type=:type&id=:id&auth=:auth&r=:r", // Meting API 地址
 	id: "766208154", // 歌单ID
-	server: "netease", // 音乐源服务器。有的meting的api源支持更多平台,一般来说,netease=网易云音乐, tencent=QQ音乐, kugou=酷狗音乐, xiami=虾米音乐, baidu=百度音乐
+	server: "netease", // 音乐源服务器。有的meting的api源支持更多平台，一般来说，netease=网易云音乐，tencent=QQ音乐，kugou=酷狗音乐，xiami=虾米音乐，baidu=百度音乐
 	type: "playlist", // 播单类型
+	currentTime: 0, // 音乐播放器当前播放时间，默认为 0
+	duration: 0, // 音乐播放器音乐时长，默认为 0
+	volume: 1, // 音乐播放器音量，音量从小到大值是 0.1-1
+	isRepeating: 2, // 音乐播放器循环模式（0: 不循环, 1: 单曲循环, 2: 列表循环）
+	errorMessage: "", // 音乐播放器错误信息，默认为空字符串
+	showError: false, // 音乐播放器是否显示错误信息，默认为 false (不显示)
+	isPlaying: false, // 音乐播放器状态，默认为 false (未播放)
+	isExpanded: false, // 音乐播放器是否展开，默认为 false (未展开)
+	isHidden: false, // 音乐播放器是否隐藏，默认为 false (不隐藏)
+	showPlaylist: false, // 音乐播放器是否显示播放列表，默认为 false (不显示)
+	isMuted: false, // 音乐播放器是否静音，默认为 false (不静音)
+	isLoading: false, // 音乐播放器是否加载中，默认为 false (不加载)
+	isShuffled: false, // 音乐播放器是否随机播放，默认为 false (不随机播放)
 };
 
 export const footerConfig: FooterConfig = {
 	enable: true, // 是否启用Footer HTML注入功能
-	customHtml: "本平台为个人博客站，仅限用于学习和研究目的", // HTML格式的自定义页脚信息，例如备案号等，默认留空
+	customHtml:
+		"This platform is a personal blog and is intended solely for learning and research purposes", // HTML格式的自定义页脚信息，例如备案号等，默认留空
 };
 
 /**

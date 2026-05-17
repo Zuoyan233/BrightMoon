@@ -7,7 +7,11 @@ const currentYear = new Date().getFullYear();
 
 // 页脚自定义内容逻辑
 let customFooterHtml = "";
-if (footerConfig.enable && footerConfig.customHtml && footerConfig.customHtml.trim() !== "") {
+if (
+	footerConfig.enable &&
+	footerConfig.customHtml &&
+	footerConfig.customHtml.trim() !== ""
+) {
 	customFooterHtml = footerConfig.customHtml.trim();
 }
 ---
@@ -31,7 +35,7 @@ if (footerConfig.enable && footerConfig.customHtml && footerConfig.customHtml.tr
     <div class="ignore">
 			Powered by
 			<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://astro.build">Astro</a> &
-			<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://github.com/Zuoyan233/BrightMoon">BrightMoon</a> CE V26.5.15
+			<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://github.com/Zuoyan233/BrightMoon">BrightMoon</a> CE V26.5.17
 			
     </div>
 		

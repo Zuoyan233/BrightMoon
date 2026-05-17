@@ -358,6 +358,19 @@ export type MusicPlayerConfig = {
 	id: string; // 歌单ID
 	server: string; // 音乐源服务器
 	type: string; // 音乐类型
+	currentTime: number; // 当前播放时间
+	duration: number; // 音乐时长
+	volume: number; // 音量
+	isRepeating: number; // 循环模式
+	errorMessage: string; // 错误信息
+	showError: boolean; // 是否显示错误信息
+	isPlaying: boolean; // 播放状态
+	isExpanded: boolean; // 是否展开
+	isHidden: boolean; // 是否隐藏
+	showPlaylist: boolean; // 是否显示播放列表
+	isMuted: boolean; // 是否静音
+	isLoading: boolean; // 是否加载中
+	isShuffled: boolean; // 是否随机播放
 };
 
 export type FooterConfig = {

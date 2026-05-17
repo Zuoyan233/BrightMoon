@@ -9,30 +9,47 @@ import Key from "../../i18n/i18nKey";
 import { i18n } from "../../i18n/translation";
 import { translationManager } from "../../utils/translation-manager";
 
-// 音乐播放器模式，可选 "local" 或 "meting"，从本地配置中获取或使用默认值 "meting"
+// 音乐播放器模式，从配置中获取或使用默认值，可选 "local" 或 "meting"
 let mode = musicPlayerConfig.mode ?? "meting";
-// Meting API 地址，从配置中获取或使用默认地址(meting.mysqil.com(由松坂有希公益管理)),服务器在海外,部分音乐平台可能不支持并且速度可能慢,也可以自建Meting API
-let meting_api =
-	musicPlayerConfig.meting_api ??
-	"https://meting.mysqil.com/api?server=:server&type=:type&id=:id&auth=:auth&r=:r";
+// Meting API 地址，部分音乐平台可能不支持并且速度可能慢，也可以自建 Meting API
+let meting_api = musicPlayerConfig.meting_api;
 // Meting API 的 ID，从配置中获取或使用默认值
-let meting_id = musicPlayerConfig.id ?? "14164869977";
-// Meting API 的服务器，从配置中获取或使用默认值,有的meting的api源支持更多平台,一般来说,netease=网易云音乐, tencent=QQ音乐, kugou=酷狗音乐, xiami=虾米音乐, baidu=百度音乐
+let meting_id = musicPlayerConfig.id ?? "766208154";
+// Meting API 的服务器，从配置中获取或使用默认值，有的meting的api源支持更多平台，一般来说，netease=网易云音乐，tencent=QQ音乐，kugou=酷狗音乐，xiami=虾米音乐，baidu=百度音乐
 let meting_server = musicPlayerConfig.server ?? "netease";
 // Meting API 的类型，从配置中获取或使用默认值
 let meting_type = musicPlayerConfig.type ?? "playlist";
 
-// 播放状态，默认为 false (未播放)
-let isPlaying = false;
-// 播放器是否展开，默认为 false
-let isExpanded = false;
-// 播放器是否隐藏，默认为 false
-let isHidden = false;
-// 是否显示播放列表，默认为 false
-let showPlaylist = false;
+// 播放状态
+let isPlaying = musicPlayerConfig.isPlaying;
+// 播放器是否展开
+let isExpanded = musicPlayerConfig.isExpanded;
+// 播放器是否隐藏
+let isHidden = musicPlayerConfig.isHidden;
+// 是否显示播放列表
+let showPlaylist = musicPlayerConfig.showPlaylist;
 let playerRoot: HTMLElement;
 
-// Refresh the player after the lazily rendered playlist panel appears.
+// 当前播放时间
+let currentTime = musicPlayerConfig.currentTime;
+// 歌曲总时长
+let duration = musicPlayerConfig.duration;
+// 音量
+let volume = musicPlayerConfig.volume;
+// 是否静音
+let isMuted = musicPlayerConfig.isMuted;
+// 是否正在加载
+let isLoading = musicPlayerConfig.isLoading;
+// 是否随机播放
+let isShuffled = musicPlayerConfig.isShuffled;
+// 循环模式
+let isRepeating = musicPlayerConfig.isRepeating;
+// 错误信息
+let errorMessage = musicPlayerConfig.errorMessage;
+// 是否显示错误信息，默认为 false
+let showError = musicPlayerConfig.showError;
+
+// 翻译适配
 $: if (showPlaylist) {
 	void tick().then(() => {
 		if (playerRoot) {
@@ -43,25 +60,6 @@ $: if (showPlaylist) {
 		}
 	});
 }
-
-// 当前播放时间，默认为 0
-let currentTime = 0;
-// 歌曲总时长，默认为 0
-let duration = 0;
-// 音量，默认为 0.7
-let volume = 1;
-// 是否静音，默认为 false
-let isMuted = false;
-// 是否正在加载，默认为 false
-let isLoading = false;
-// 是否随机播放，默认为 false
-let isShuffled = false;
-// 循环模式，0: 不循环, 1: 单曲循环, 2: 列表循环，默认为 0
-let isRepeating = 2;
-// 错误信息，默认为空字符串
-let errorMessage = "";
-// 是否显示错误信息，默认为 false
-let showError = false;
 
 // 当前歌曲信息
 let currentSong = {
@@ -88,14 +86,14 @@ let progressBar: HTMLElement;
 let volumeBar: HTMLElement;
 
 const localPlaylist = [
-	// {
-	// 	id: 1,
-	// 	title: "",
-	// 	artist: "",
-	// 	cover: "",
-	// 	url: "",
-	// 	duration: 240,
-	// },
+	{
+		id: 1,
+		title: "",
+		artist: "",
+		cover: "",
+		url: "",
+		duration: 240,
+	},
 ];
 
 async function fetchMetingPlaylist() {
