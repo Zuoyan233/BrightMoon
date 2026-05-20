@@ -40,7 +40,9 @@ enum I18nKey {
 	postCount = "postCount",
 	postsCount = "postsCount",
 
+	appearance = "appearance",
 	themeColor = "themeColor",
+	sakuraEffect = "sakuraEffect",
 
 	lightMode = "lightMode",
 	darkMode = "darkMode",
@@ -295,6 +297,7 @@ enum I18nKey {
 	atomCopyFailed = "atomCopyFailed",
 
 	// Wallpaper mode
+	wallpaperMode = "wallpaperMode",
 	wallpaperBanner = "wallpaperBanner",
 	wallpaperFullscreen = "wallpaperFullscreen",
 	wallpaperNone = "wallpaperNone",
@@ -366,9 +369,10 @@ enum I18nKey {
 	pageViewsLoading = "pageViewsLoading",
 	pageViewsUnavailable = "pageViewsUnavailable",
 
-	// 布局切换按钮
-	switchToGridMode = "switchToGridMode",
-	switchToListMode = "switchToListMode",
+	// 文章列表布局
+	postListLayout = "postListLayout",
+	listMode = "listMode",
+	gridMode = "gridMode",
 
 	// 外部链接提示框
 	leaveSite = "leaveSite",

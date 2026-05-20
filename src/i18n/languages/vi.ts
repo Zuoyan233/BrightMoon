@@ -51,7 +51,9 @@ export const vi: Translation = {
 	[Key.postCount]: "bài viết",
 	[Key.postsCount]: "bài viết",
 
+	[Key.appearance]: "Cá nhân hóa",
 	[Key.themeColor]: "Màu chủ đề",
+	[Key.sakuraEffect]: "Hiệu ứng hoa anh đào",
 
 	[Key.lightMode]: "Sáng",
 	[Key.darkMode]: "Tối",
@@ -220,6 +222,7 @@ export const vi: Translation = {
 		"Sao chép thất bại, vui lòng sao chép liên kết thủ công",
 
 	// Wallpaper mode
+	[Key.wallpaperMode]: "Chế độ hình nền",
 	[Key.wallpaperBanner]: "Chế độ Banner",
 	[Key.wallpaperFullscreen]: "Chế độ Toàn màn hình",
 	[Key.wallpaperNone]: "Ẩn hình nền",
@@ -394,9 +397,10 @@ export const vi: Translation = {
 	[Key.pageViewsLoading]: "Đang tải thống kê...",
 	[Key.pageViewsUnavailable]: "Không có thống kê",
 
-	// Layout Switch Button
-	[Key.switchToGridMode]: "Chuyển sang chế độ Lưới",
-	[Key.switchToListMode]: "Chuyển sang chế độ Danh sách",
+	// Bố cục danh sách bài viết
+	[Key.postListLayout]: "Bố cục danh sách bài viết",
+	[Key.listMode]: "Danh sách",
+	[Key.gridMode]: "Lưới",
 
 	// External Link Warning
 	[Key.leaveSite]: "Rời khỏi trang này",

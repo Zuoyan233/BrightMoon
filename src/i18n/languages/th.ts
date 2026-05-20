@@ -51,7 +51,9 @@ export const th: Translation = {
 	[Key.postCount]: "โพสต์",
 	[Key.postsCount]: "โพสต์",
 
+	[Key.appearance]: "การปรับแต่ง",
 	[Key.themeColor]: "สีธีม",
+	[Key.sakuraEffect]: "เอฟเฟกต์ซากุระ",
 
 	[Key.lightMode]: "สว่าง",
 	[Key.darkMode]: "มืด",
@@ -209,6 +211,7 @@ export const th: Translation = {
 	[Key.atomCopyFailed]: "คัดลอกไม่สำเร็จ กรุณาคัดลอกลิงก์ด้วยตนเอง",
 
 	// Wallpaper mode
+	[Key.wallpaperMode]: "โหมดวอลเปเปอร์",
 	[Key.wallpaperBanner]: "โหมดแบนเนอร์",
 	[Key.wallpaperFullscreen]: "โหมดเต็มหน้าจอ",
 	[Key.wallpaperNone]: "ซ่อนวอลเปเปอร์",
@@ -377,9 +380,10 @@ export const th: Translation = {
 	[Key.pageViewsLoading]: "กำลังโหลดสถิติ...",
 	[Key.pageViewsUnavailable]: "ไม่สามารถแสดงสถิติได้",
 
-	// Layout Switch Button
-	[Key.switchToGridMode]: "สลับไปยังโหมดตาราง",
-	[Key.switchToListMode]: "สลับไปยังโหมดรายการ",
+	// เค้าโครงรายการโพสต์
+	[Key.postListLayout]: "เค้าโครงรายการโพสต์",
+	[Key.listMode]: "รายการ",
+	[Key.gridMode]: "ตาราง",
 
 	// External Link Warning
 	[Key.leaveSite]: "ออกจากไซต์นี้",

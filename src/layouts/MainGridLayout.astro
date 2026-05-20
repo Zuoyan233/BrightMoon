@@ -126,14 +126,16 @@ const mobileNonHomeBannerClass = !isHomePage ? "mobile-hide-banner" : "";
 // 当默认模式为 banner 时，使用banner高度；否则使用顶栏高度
 // 让主内容区域紧贴波浪线下方，波浪线高度约为10-15vh，所以主内容从banner顶部开始
 const mainPanelTop =
-	siteConfig.wallpaperMode.defaultMode === "banner"
+	siteConfig.appearance.wallpaperMode.defaultMode === "banner"
 		? `${BANNER_HEIGHT}vh`
 		: "5.5rem";
 // const mobileNonHomeMainTop = !isHomePage ? "5.5rem" : mainPanelTop;
 
 // 当默认模式不是 banner 时，主内容区域应该始终从顶栏下面开始
 const finalMainPanelTop =
-	siteConfig.wallpaperMode.defaultMode === "banner" ? mainPanelTop : "5.5rem";
+	siteConfig.appearance.wallpaperMode.defaultMode === "banner"
+		? mainPanelTop
+		: "5.5rem";
 
 // 检查侧边栏是否启用，动态调整网格布局
 // 响应式配置：不同设备上的侧边栏显示状态
@@ -169,7 +171,8 @@ const tabletShowRightSidebar =
 const tabletAnySidebar = tabletShowLeftSidebar || tabletShowRightSidebar;
 
 // 检查默认布局模式，如果是 grid 模式，右侧边栏初始就应该隐藏
-const defaultPostListLayout = siteConfig.postListLayout?.defaultMode || "list";
+const defaultPostListLayout =
+	siteConfig.appearance.postListLayout?.defaultMode || "list";
 const initialRightSidebarHidden = defaultPostListLayout === "grid";
 
 // 动态网格布局类名 - 根据侧边栏模式和是否有组件调整列宽
@@ -238,7 +241,7 @@ const mainContentClass = `
 
 // 检查是否应该启用半透明效果（当默认模式为 fullscreen 时）
 const shouldEnableTransparency =
-	siteConfig.wallpaperMode.defaultMode === "fullscreen";
+	siteConfig.appearance.wallpaperMode.defaultMode === "fullscreen";
 
 // 为组件添加半透明效果的CSS类
 const transparentClass = shouldEnableTransparency
@@ -250,8 +253,8 @@ const transparentClass = shouldEnableTransparency
 
 <script type="module" is:inline define:vars={{
     navbarTransparentMode: siteConfig.banner?.navbar?.transparentMode || "semi", 
-    defaultWallpaperMode: siteConfig.wallpaperMode.defaultMode, 
-    defaultPostListLayout: siteConfig.postListLayout?.defaultMode || "list", 
+    defaultWallpaperMode: siteConfig.appearance.wallpaperMode.defaultMode, 
+    defaultPostListLayout: siteConfig.appearance.postListLayout?.defaultMode || "list", 
     BANNER_HEIGHT: BANNER_HEIGHT, 
     pageScaling: siteConfig.pageScaling,
     responsiveTocModes: {
@@ -494,6 +497,12 @@ const transparentClass = shouldEnableTransparency
 					mainContent.style.top = '5.5rem';
 				}
 			}
+
+			// 非 banner 模式时隐藏图片来源文本
+			const bannerCredit = document.getElementById('banner-credit');
+			if (bannerCredit && wallpaperMode !== 'banner') {
+				bannerCredit.style.display = 'none';
+			}
 			
 			// 立即应用布局模式，避免闪烁
 			const mainGrid = document.getElementById('main-grid');
@@ -548,6 +557,7 @@ const transparentClass = shouldEnableTransparency
 		var navbar = document.getElementById('navbar');
 		var body = document.body;
 		var mainContent = document.querySelector('.absolute.w-full.z-30.pointer-events-none');
+		var bannerCredit = document.getElementById('banner-credit');
 		
 		// 强制重排以确保样式正确应用
 		var forceReflow = function() {
@@ -562,6 +572,9 @@ const transparentClass = shouldEnableTransparency
 				}
 				if (fullscreenWallpaper) {
 					fullscreenWallpaper.style.display = 'none';
+				}
+				if (bannerCredit) {
+					bannerCredit.style.display = '';
 				}
 				// 先移除body类，避免CSS冲突
 				body.classList.remove('wallpaper-transparent');
@@ -596,6 +609,9 @@ const transparentClass = shouldEnableTransparency
 				if (fullscreenWallpaper) {
 					fullscreenWallpaper.style.display = 'block';
 				}
+				if (bannerCredit) {
+					bannerCredit.style.display = 'none';
+				}
 				// 先移除body类，避免CSS冲突
 				body.classList.remove('enable-banner');
 				// 强制重排
@@ -624,6 +640,9 @@ const transparentClass = shouldEnableTransparency
 				}
 				if (fullscreenWallpaper) {
 					fullscreenWallpaper.style.display = 'none';
+				}
+				if (bannerCredit) {
+					bannerCredit.style.display = 'none';
 				}
 				// 先移除body类，避免CSS冲突
 				body.classList.remove('enable-banner');
@@ -1009,7 +1028,7 @@ const transparentClass = shouldEnableTransparency
 </div>
 
 <!-- Main content -->
-<div class={`absolute w-full z-30 pointer-events-none ${mobileNonHomeBannerClass ? 'mobile-main-no-banner' : ''} ${siteConfig.wallpaperMode.defaultMode === 'none' ? 'no-banner-layout' : ''} ${transparentClass}`} style={`top: ${finalMainPanelTop}`}>
+<div class={`absolute w-full z-30 pointer-events-none ${mobileNonHomeBannerClass ? 'mobile-main-no-banner' : ''} ${siteConfig.appearance.wallpaperMode.defaultMode === 'none' ? 'no-banner-layout' : ''} ${transparentClass}`} style={`top: ${finalMainPanelTop}`}>
     <!-- The pointer-events-none here prevent blocking the click event of the TOC -->
     <div class="relative max-w-[var(--page-width)] mx-auto pointer-events-auto">
         <div id="main-grid" class={`transition duration-700 w-full left-0 right-0 grid ${gridCols} grid-rows-none md:grid-rows-[auto] mx-auto gap-4 px-2 md:px-4 ${!mobileShowSidebar ? 'mobile-no-sidebar' : ''} ${isBothSidebarMode ? 'mobile-both-sidebar' : ''}`}

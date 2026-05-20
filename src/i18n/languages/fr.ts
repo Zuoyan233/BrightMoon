@@ -52,7 +52,9 @@ export const fr: Translation = {
 	[Key.postCount]: "article",
 	[Key.postsCount]: "articles",
 
+	[Key.appearance]: "Apparence",
 	[Key.themeColor]: "Couleur du thème",
+	[Key.sakuraEffect]: "Effet Sakura",
 
 	[Key.lightMode]: "Clair",
 	[Key.darkMode]: "Sombre",
@@ -230,6 +232,7 @@ export const fr: Translation = {
 		"Échec de la copie, veuillez copier le lien manuellement",
 
 	// Mode fond d'écran
+	[Key.wallpaperMode]: "Mode fond d'écran",
 	[Key.wallpaperBanner]: "Mode bannière",
 	[Key.wallpaperFullscreen]: "Mode plein écran",
 	[Key.wallpaperNone]: "Masquer le fond d'écran",
@@ -408,9 +411,10 @@ export const fr: Translation = {
 	[Key.pageViewsLoading]: "Chargement des statistiques...",
 	[Key.pageViewsUnavailable]: "Statistiques indisponibles",
 
-	// Bouton de changement de mise en page
-	[Key.switchToGridMode]: "Passer en mode grille",
-	[Key.switchToListMode]: "Passer en mode liste",
+	// Mise en page des articles
+	[Key.postListLayout]: "Mise en page des articles",
+	[Key.listMode]: "Liste",
+	[Key.gridMode]: "Grille",
 
 	// Avertissement de lien externe
 	[Key.leaveSite]: "Quitter ce site",

@@ -60,9 +60,19 @@ export type SiteConfig = {
 		| "fr"
 		| "ru";
 
-	themeColor: {
+	appearance: {
 		hue: number;
 		fixed: boolean;
+		// 壁纸模式配置
+		wallpaperMode: {
+			defaultMode: "banner" | "fullscreen" | "none"; // 默认壁纸模式：banner=顶部横幅，fullscreen=全屏壁纸，none=无壁纸
+			showModeSwitchOnMobile?: "off" | "mobile" | "desktop" | "both"; // 整体布局方案切换按钮显示设置：off=隐藏，mobile=仅移动端，desktop=仅桌面端，both=全部显示
+		};
+		// 文章列表布局配置
+		postListLayout: {
+			defaultMode: "list" | "grid"; // 默认布局模式：list=列表模式，grid=网格模式
+			allowSwitch: boolean; // 是否允许用户切换布局
+		};
 	};
 
 	translate?: {
@@ -87,12 +97,6 @@ export type SiteConfig = {
 		devices: boolean; // 设备页面开关
 		feedback: boolean; // 反馈页面开关
 		sponsors: boolean; // 赞助页面开关
-	};
-
-	// 文章列表布局配置
-	postListLayout: {
-		defaultMode: "list" | "grid"; // 默认布局模式：list=列表模式，grid=网格模式
-		allowSwitch: boolean; // 是否允许用户切换布局
 	};
 
 	// 顶栏标题配置
@@ -146,12 +150,6 @@ export type SiteConfig = {
 	// 标签样式配置
 	tagStyle?: {
 		useNewStyle?: boolean; // 是否使用新样式（悬停高亮样式）还是旧样式（外框常亮样式）
-	};
-
-	// 壁纸模式配置
-	wallpaperMode: {
-		defaultMode: "banner" | "fullscreen" | "none"; // 默认壁纸模式：banner=顶部横幅，fullscreen=全屏壁纸，none=无壁纸
-		showModeSwitchOnMobile?: "off" | "mobile" | "desktop" | "both"; // 整体布局方案切换按钮显示设置：off=隐藏，mobile=仅移动端，desktop=仅桌面端，both=全部显示
 	};
 
 	banner: {

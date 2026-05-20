@@ -40,9 +40,28 @@ export const siteConfig: SiteConfig = {
 
 	lang: SITE_LANG,
 
-	themeColor: {
+	appearance: {
 		hue: 190, // 主题色的默认色相，范围从 0 到 360。例如：红色：0，青色：200，蓝绿色：250，粉色：345
-		fixed: false, // 对访问者隐藏主题色选择器
+		fixed: false, // 对访问者隐藏个性化设置面板
+		// 壁纸模式配置
+		wallpaperMode: {
+			// 默认壁纸模式：banner=顶部横幅，fullscreen=全屏壁纸，none=无壁纸
+			defaultMode: "banner",
+			// 整体布局方案切换按钮显示设置（需要 appearance 中的 fixed: false 才能生效）
+			// "off" = 不显示
+			// "mobile" = 仅在移动端显示
+			// "desktop" = 仅在桌面端显示
+			// "both" = 在所有设备上显示
+			showModeSwitchOnMobile: "both",
+		},
+		// 文章列表布局配置
+		postListLayout: {
+			// 默认布局模式："list" 列表模式（单列布局），"grid" 网格模式（双列布局）
+			// 注意：如果侧边栏配置启用了"both"双侧边栏，则无法使用文章列表"grid"网格（双列）布局
+			defaultMode: "list",
+			// 是否允许用户切换布局
+			allowSwitch: true,
+		},
 	},
 
 	translate: {
@@ -74,7 +93,7 @@ export const siteConfig: SiteConfig = {
 		// 显示模式："text-icon" 显示图标+文本，"logo" 仅显示Logo
 		mode: "logo",
 		// 顶栏标题文本
-		text: "左颜研究部",
+		text: "",
 		// 顶栏标题图标路径，默认使用 public/assets/home/home.png
 		icon: "",
 		// 网站Logo图片路径
@@ -105,31 +124,10 @@ export const siteConfig: SiteConfig = {
 		},
 	},
 
-	// 文章列表布局配置
-	postListLayout: {
-		// 默认布局模式："list" 列表模式（单列布局），"grid" 网格模式（双列布局）
-		// 注意：如果侧边栏配置启用了"both"双侧边栏，则无法使用文章列表"grid"网格（双列）布局
-		defaultMode: "list",
-		// 是否允许用户切换布局
-		allowSwitch: true,
-	},
-
 	// 标签样式配置
 	tagStyle: {
 		// 是否使用新样式（悬停高亮样式）还是旧样式（外框常亮样式）
 		useNewStyle: true,
-	},
-
-	// 壁纸模式配置
-	wallpaperMode: {
-		// 默认壁纸模式：banner=顶部横幅，fullscreen=全屏壁纸，none=无壁纸
-		defaultMode: "banner",
-		// 整体布局方案切换按钮显示设置（默认："desktop"）
-		// "off" = 不显示
-		// "mobile" = 仅在移动端显示
-		// "desktop" = 仅在桌面端显示
-		// "both" = 在所有设备上显示
-		showModeSwitchOnMobile: "both",
 	},
 
 	banner: {
@@ -204,7 +202,7 @@ export const siteConfig: SiteConfig = {
 		},
 
 		navbar: {
-			transparentMode: "semifull", // 导航栏透明模式："semi" 半透明加圆角，"full" 完全透明，"semifull" 动态透明
+			transparentMode: "full", // 导航栏透明模式："semi" 半透明加圆角，"full" 完全透明，"semifull" 动态透明
 		},
 	},
 	toc: {

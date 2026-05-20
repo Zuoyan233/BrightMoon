@@ -51,7 +51,9 @@ export const ja: Translation = {
 	[Key.postCount]: "投稿",
 	[Key.postsCount]: "投稿",
 
+	[Key.appearance]: "外観設定",
 	[Key.themeColor]: "テーマカラー",
+	[Key.sakuraEffect]: "桜エフェクト",
 
 	[Key.lightMode]: "ライト",
 	[Key.darkMode]: "ダーク",
@@ -216,6 +218,7 @@ export const ja: Translation = {
 		"コピーに失敗しました。リンクを手動でコピーしてください",
 
 	// 壁紙モード
+	[Key.wallpaperMode]: "壁紙モード",
 	[Key.wallpaperBanner]: "バナーモード",
 	[Key.wallpaperFullscreen]: "フルスクリーンモード",
 	[Key.wallpaperNone]: "壁紙を非表示",
@@ -390,9 +393,10 @@ export const ja: Translation = {
 	[Key.pageViewsLoading]: "統計を読み込み中...",
 	[Key.pageViewsUnavailable]: "統計情報は利用できません",
 
-	// レイアウト切替ボタン
-	[Key.switchToGridMode]: "グリッドモードに切り替え",
-	[Key.switchToListMode]: "リストモードに切り替え",
+	// 投稿一覧レイアウト
+	[Key.postListLayout]: "投稿一覧レイアウト",
+	[Key.listMode]: "リスト",
+	[Key.gridMode]: "グリッド",
 
 	// 外部リンク警告
 	[Key.leaveSite]: "このサイトを離れます",

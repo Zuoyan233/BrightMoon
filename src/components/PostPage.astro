@@ -14,7 +14,8 @@ const { page } = Astro.props;
 const isBothSidebars = sidebarLayoutConfig.position === "both";
 
 // 根据配置设置初始布局模式
-const defaultLayout = siteConfig.postListLayout.defaultMode || "list";
+const defaultLayout =
+	siteConfig.appearance.postListLayout.defaultMode || "list";
 const initialLayoutClass = defaultLayout === "grid" ? "grid-mode" : "list-mode";
 ---
 
@@ -79,6 +80,8 @@ const initialLayoutClass = defaultLayout === "grid" ? "grid-mode" : "list-mode";
 		if (!container) return;
 
 		container.classList.add("layout-switching");
+
+		container.classList.remove("grid", "grid-cols-1", "lg:grid-cols-2", "gap-6", "flex", "flex-col");
 
 		// 切换布局模式类名
 		if (layout === "grid") {

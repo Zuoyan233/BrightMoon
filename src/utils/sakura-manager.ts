@@ -198,7 +198,7 @@ export class SakuraManager {
 
 	// 初始化樱花特效
 	async init(): Promise<void> {
-		if (!this.config.enable || this.isRunning) {
+		if (!this.config.enable) {
 			return;
 		}
 
@@ -326,7 +326,12 @@ export class SakuraManager {
 		if (this.isRunning) {
 			this.stop();
 		} else {
-			this.init();
+			this.config.enable = true;
+			this.isRunning = true;
+			this.init().catch(() => {
+				// 初始化失败时回退状态
+				this.isRunning = false;
+			});
 		}
 	}
 

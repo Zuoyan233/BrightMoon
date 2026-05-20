@@ -51,7 +51,9 @@ export const zh_TW: Translation = {
 	[Key.postCount]: "篇文章",
 	[Key.postsCount]: "篇文章",
 
+	[Key.appearance]: "個性化",
 	[Key.themeColor]: "主題色",
+	[Key.sakuraEffect]: "櫻花特效",
 
 	[Key.lightMode]: "亮色",
 	[Key.darkMode]: "暗色",
@@ -305,6 +307,7 @@ export const zh_TW: Translation = {
 	[Key.atomCopyFailed]: "複製失敗，請手動複製連結",
 
 	// 桌布模式
+	[Key.wallpaperMode]: "桌布模式",
 	[Key.wallpaperBanner]: "橫幅模式",
 	[Key.wallpaperFullscreen]: "全螢幕模式",
 	[Key.wallpaperNone]: "隱藏桌布",
@@ -372,13 +375,14 @@ export const zh_TW: Translation = {
 	[Key.profileStatsVisits]: "訪問次數",
 	[Key.profileStatsUnavailable]: "統計不可用",
 
-	// 佈局切換按鈕
-	[Key.switchToGridMode]: "切換到網格模式",
-	[Key.switchToListMode]: "切換到列表模式",
-
 	// 頁面訪問量統計
 	[Key.pageViewsLoading]: "統計載入中...",
 	[Key.pageViewsUnavailable]: "統計不可用",
+
+	// 文章列表佈局
+	[Key.postListLayout]: "文章列表佈局",
+	[Key.listMode]: "列表",
+	[Key.gridMode]: "網格",
 
 	// 外部連結提示框
 	[Key.leaveSite]: "離開本站",

@@ -51,7 +51,9 @@ export const de: Translation = {
 	[Key.postCount]: "Beitrag",
 	[Key.postsCount]: "Beiträge",
 
+	[Key.appearance]: "Darstellung",
 	[Key.themeColor]: "Theme-Farbe",
+	[Key.sakuraEffect]: "Kirschblüten-Effekt",
 
 	[Key.lightMode]: "Hell",
 	[Key.darkMode]: "Dunkel",
@@ -221,6 +223,7 @@ export const de: Translation = {
 		"Kopieren fehlgeschlagen, bitte kopieren Sie den Link manuell",
 
 	// Hintergrundbild-Modus
+	[Key.wallpaperMode]: "Hintergrundbild-Modus",
 	[Key.wallpaperBanner]: "Banner-Modus",
 	[Key.wallpaperFullscreen]: "Vollbild-Modus",
 	[Key.wallpaperNone]: "Hintergrundbild ausblenden",
@@ -401,9 +404,10 @@ export const de: Translation = {
 	[Key.pageViewsLoading]: "Lade Statistiken...",
 	[Key.pageViewsUnavailable]: "Statistiken nicht verfügbar",
 
-	// Layout-Umschaltfläche
-	[Key.switchToGridMode]: "Zu Rasteransicht wechseln",
-	[Key.switchToListMode]: "Zu Listenansicht wechseln",
+	// Beitragslisten-Layout
+	[Key.postListLayout]: "Beitragslisten-Layout",
+	[Key.listMode]: "Liste",
+	[Key.gridMode]: "Raster",
 
 	// Externe Link-Warnung
 	[Key.leaveSite]: "Seite verlassen",

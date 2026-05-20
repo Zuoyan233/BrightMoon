@@ -51,7 +51,9 @@ export const id: Translation = {
 	[Key.postCount]: "postingan",
 	[Key.postsCount]: "postingan",
 
+	[Key.appearance]: "Tampilan",
 	[Key.themeColor]: "Warna Tema",
+	[Key.sakuraEffect]: "Efek Sakura",
 
 	[Key.lightMode]: "Terang",
 	[Key.darkMode]: "Gelap",
@@ -219,6 +221,7 @@ export const id: Translation = {
 	[Key.atomCopyFailed]: "Salin gagal, silakan salin tautan secara manual",
 
 	// Mode Wallpaper
+	[Key.wallpaperMode]: "Mode Wallpaper",
 	[Key.wallpaperBanner]: "Mode Spanduk",
 	[Key.wallpaperFullscreen]: "Mode Layar Penuh",
 	[Key.wallpaperNone]: "Sembunyikan Wallpaper",
@@ -394,9 +397,10 @@ export const id: Translation = {
 	[Key.pageViewsLoading]: "Memuat statistik...",
 	[Key.pageViewsUnavailable]: "Statistik tidak tersedia",
 
-	// Tombol Ganti Tata Letak
-	[Key.switchToGridMode]: "Beralih ke Mode Kisi",
-	[Key.switchToListMode]: "Beralih ke Mode Daftar",
+	// Tata Letak Daftar Posting
+	[Key.postListLayout]: "Tata Letak Daftar Posting",
+	[Key.listMode]: "Daftar",
+	[Key.gridMode]: "Kisi",
 
 	// Peringatan Tautan Eksternal
 	[Key.leaveSite]: "Tinggalkan situs ini",

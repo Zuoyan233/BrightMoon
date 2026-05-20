@@ -51,7 +51,9 @@ export const tr: Translation = {
 	[Key.postCount]: "gönderi",
 	[Key.postsCount]: "gönderi",
 
+	[Key.appearance]: "Görünüm",
 	[Key.themeColor]: "Tema Rengi",
+	[Key.sakuraEffect]: "Sakura Efekti",
 
 	[Key.lightMode]: "Açık",
 	[Key.darkMode]: "Koyu",
@@ -222,6 +224,7 @@ export const tr: Translation = {
 		"Kopyalama başarısız oldu, lütfen bağlantıyı manuel olarak kopyalayın",
 
 	// Duvar Kağıdı modu
+	[Key.wallpaperMode]: "Duvar Kağıdı Modu",
 	[Key.wallpaperBanner]: "Afiş Modu",
 	[Key.wallpaperFullscreen]: "Tam Ekran Modu",
 	[Key.wallpaperNone]: "Duvar Kağıdını Gizle",
@@ -400,9 +403,10 @@ export const tr: Translation = {
 	[Key.pageViewsLoading]: "İstatistikler yükleniyor...",
 	[Key.pageViewsUnavailable]: "İstatistikler mevcut değil",
 
-	// Düzen Değiştirme Düğmesi
-	[Key.switchToGridMode]: "Izgara Moduna Geç",
-	[Key.switchToListMode]: "Liste Moduna Geç",
+	// Gönderi Düzeni
+	[Key.postListLayout]: "Gönderi Düzeni",
+	[Key.listMode]: "Liste",
+	[Key.gridMode]: "Izgara",
 
 	// Harici Bağlantı Uyarısı
 	[Key.leaveSite]: "Bu siteden ayrıl",

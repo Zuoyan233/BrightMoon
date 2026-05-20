@@ -147,7 +147,7 @@ export function getStoredTheme(): LIGHT_DARK_MODE {
 export function getStoredWallpaperMode(): WALLPAPER_MODE {
 	return (
 		(localStorage.getItem("wallpaperMode") as WALLPAPER_MODE) ||
-		siteConfig.wallpaperMode.defaultMode
+		siteConfig.appearance.wallpaperMode.defaultMode
 	);
 }
 
@@ -157,4 +157,51 @@ export function setWallpaperMode(mode: WALLPAPER_MODE): void {
 	window.dispatchEvent(
 		new CustomEvent("wallpaper-mode-change", { detail: { mode } }),
 	);
+}
+
+// Sakura (樱花) 特效持久化
+export function getStoredSakuraEnabled(): boolean {
+	// 当外观固定时（appearance.fixed = true），强制使用配置值，忽略用户偏好
+	const configCarrier = document.getElementById("config-carrier");
+	if (configCarrier?.dataset.appearanceFixed === "true") {
+		return configCarrier?.dataset.sakuraEnabled === "true";
+	}
+
+	const stored = localStorage.getItem("sakuraEnabled");
+	if (stored !== null) {
+		return stored === "true";
+	}
+	// 从 config-carrier 读取默认值
+	if (configCarrier?.dataset.sakuraEnabled) {
+		return configCarrier.dataset.sakuraEnabled === "true";
+	}
+	return false;
+}
+
+export function setSakuraEnabled(enabled: boolean): void {
+	localStorage.setItem("sakuraEnabled", String(enabled));
+}
+
+export type POST_LIST_LAYOUT_MODE = "list" | "grid";
+
+export function getStoredPostListLayout(): POST_LIST_LAYOUT_MODE {
+	const stored = localStorage.getItem(
+		"postListLayout",
+	) as POST_LIST_LAYOUT_MODE | null;
+	if (stored === "list" || stored === "grid") {
+		return stored;
+	}
+	// 从 config-carrier 读取默认值
+	const configCarrier = document.getElementById("config-carrier");
+	if (configCarrier?.dataset.postListLayoutDefault === "grid") {
+		return "grid";
+	}
+	return "list";
+}
+
+export function setPostListLayout(layout: POST_LIST_LAYOUT_MODE): void {
+	localStorage.setItem("postListLayout", layout);
+	sessionStorage.setItem("postListLayout", layout);
+	// 触发自定义事件通知其他组件布局已改变
+	window.dispatchEvent(new CustomEvent("layoutChange", { detail: { layout } }));
 }

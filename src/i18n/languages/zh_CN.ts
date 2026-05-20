@@ -51,7 +51,9 @@ export const zh_CN: Translation = {
 	[Key.postCount]: "篇文章",
 	[Key.postsCount]: "篇文章",
 
+	[Key.appearance]: "个性化",
 	[Key.themeColor]: "主题色",
+	[Key.sakuraEffect]: "樱花特效",
 
 	[Key.lightMode]: "亮色",
 	[Key.darkMode]: "暗色",
@@ -305,6 +307,7 @@ export const zh_CN: Translation = {
 	[Key.atomCopyFailed]: "复制失败，请手动复制链接",
 
 	// 壁纸模式
+	[Key.wallpaperMode]: "壁纸模式",
 	[Key.wallpaperBanner]: "横幅模式",
 	[Key.wallpaperFullscreen]: "全屏模式",
 	[Key.wallpaperNone]: "隐藏壁纸",
@@ -372,9 +375,10 @@ export const zh_CN: Translation = {
 	[Key.profileStatsVisits]: "访问次数",
 	[Key.profileStatsUnavailable]: "统计不可用",
 
-	// 布局切换按钮
-	[Key.switchToGridMode]: "切换到网格模式",
-	[Key.switchToListMode]: "切换到列表模式",
+	// 文章列表布局
+	[Key.postListLayout]: "文章列表布局",
+	[Key.listMode]: "列表",
+	[Key.gridMode]: "网格",
 
 	// 页面访问量统计
 	[Key.pageViewsLoading]: "统计加载中...",

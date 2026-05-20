@@ -51,7 +51,9 @@ export const ar: Translation = {
 	[Key.postCount]: "منشور",
 	[Key.postsCount]: "منشورات",
 
+	[Key.appearance]: "المظهر",
 	[Key.themeColor]: "لون المظهر",
+	[Key.sakuraEffect]: "تأثير الساكورا",
 
 	[Key.lightMode]: "فاتح",
 	[Key.darkMode]: "داكن",
@@ -215,6 +217,7 @@ export const ar: Translation = {
 	[Key.atomCopyFailed]: "فشل النسخ، يرجى نسخ الرابط يدويًا",
 
 	// Wallpaper mode
+	[Key.wallpaperMode]: "وضع الخلفية",
 	[Key.wallpaperBanner]: "وضع الشريط",
 	[Key.wallpaperFullscreen]: "وضع ملء الشاشة",
 	[Key.wallpaperNone]: "إخفاء الخلفية",
@@ -386,9 +389,10 @@ export const ar: Translation = {
 	[Key.pageViewsLoading]: "جاري تحميل الإحصائيات...",
 	[Key.pageViewsUnavailable]: "الإحصائيات غير متاحة",
 
-	// Layout Switch Button
-	[Key.switchToGridMode]: "التبديل إلى وضع الشبكة",
-	[Key.switchToListMode]: "التبديل إلى وضع القائمة",
+	// تخطيط قائمة المقالات
+	[Key.postListLayout]: "تخطيط قائمة المقالات",
+	[Key.listMode]: "قائمة",
+	[Key.gridMode]: "شبكة",
 
 	// External Link Warning
 	[Key.leaveSite]: "مغادرة هذا الموقع",

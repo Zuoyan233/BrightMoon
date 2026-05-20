@@ -1,10 +1,10 @@
 ---
 
-import { expressiveCodeConfig, siteConfig } from "../config";
+import { expressiveCodeConfig, sakuraConfig, siteConfig } from "../config";
 ---
 
 <!-- 全局配置载体 -->
-<div id="config-carrier" data-hue={siteConfig.themeColor.hue} data-hide-code-blocks-during-transition={expressiveCodeConfig.hideDuringThemeTransition ? "true" : "false"}>
+<div id="config-carrier" data-hue={siteConfig.appearance.hue} data-appearance-fixed={siteConfig.appearance.fixed ? "true" : "false"} data-sakura-available={sakuraConfig.enable ? "true" : "false"} data-sakura-enabled={sakuraConfig.enable ? "true" : "false"} data-wallpaper-show-switch={siteConfig.appearance.wallpaperMode.showModeSwitchOnMobile || "both"} data-hide-code-blocks-during-transition={expressiveCodeConfig.hideDuringThemeTransition ? "true" : "false"} data-post-list-layout-default={siteConfig.appearance.postListLayout.defaultMode} data-post-list-layout-allow-switch={siteConfig.appearance.postListLayout.allowSwitch ? "true" : "false"}>
 </div>
 
 <script is:inline define:vars={{ tocEnable: siteConfig.toc.enable, tocDepth: siteConfig.toc.depth, tocUseJapaneseBadge: siteConfig.toc.useJapaneseBadge }}>

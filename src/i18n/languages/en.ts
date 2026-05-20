@@ -51,7 +51,9 @@ export const en: Translation = {
 	[Key.postCount]: "post",
 	[Key.postsCount]: "posts",
 
+	[Key.appearance]: "Appearance",
 	[Key.themeColor]: "Theme Color",
+	[Key.sakuraEffect]: "Sakura Effect",
 
 	[Key.lightMode]: "Light",
 	[Key.darkMode]: "Dark",
@@ -218,6 +220,7 @@ export const en: Translation = {
 	[Key.atomCopyFailed]: "Copy failed, please copy the link manually",
 
 	// Wallpaper mode
+	[Key.wallpaperMode]: "Wallpaper Mode",
 	[Key.wallpaperBanner]: "Banner Mode",
 	[Key.wallpaperFullscreen]: "Fullscreen Mode",
 	[Key.wallpaperNone]: "Hide Wallpaper",
@@ -393,9 +396,10 @@ export const en: Translation = {
 	[Key.pageViewsLoading]: "Loading stats...",
 	[Key.pageViewsUnavailable]: "Stats unavailable",
 
-	// Layout Switch Button
-	[Key.switchToGridMode]: "Switch to Grid Mode",
-	[Key.switchToListMode]: "Switch to List Mode",
+	// Post List Layout
+	[Key.postListLayout]: "Post Layout",
+	[Key.listMode]: "List",
+	[Key.gridMode]: "Grid",
 
 	// External Link Warning
 	[Key.leaveSite]: "Leave this site",

@@ -51,7 +51,9 @@ export const ko: Translation = {
 	[Key.postCount]: "게시물",
 	[Key.postsCount]: "게시물",
 
+	[Key.appearance]: "개인 설정",
 	[Key.themeColor]: "테마 색상",
+	[Key.sakuraEffect]: "벚꽃 효과",
 
 	[Key.lightMode]: "라이트 모드",
 	[Key.darkMode]: "다크 모드",
@@ -216,6 +218,7 @@ export const ko: Translation = {
 	[Key.atomCopyFailed]: "복사 실패, 링크를 수동으로 복사해주세요",
 
 	// 배경화면 모드
+	[Key.wallpaperMode]: "배경화면 모드",
 	[Key.wallpaperBanner]: "배너 모드",
 	[Key.wallpaperFullscreen]: "전체 화면 모드",
 	[Key.wallpaperNone]: "배경화면 숨기기",
@@ -388,9 +391,10 @@ export const ko: Translation = {
 	[Key.pageViewsLoading]: "통계 불러오는 중...",
 	[Key.pageViewsUnavailable]: "통계를 사용할 수 없습니다",
 
-	// 레이아웃 전환 버튼
-	[Key.switchToGridMode]: "그리드 모드로 전환",
-	[Key.switchToListMode]: "리스트 모드로 전환",
+	// 게시물 목록 레이아웃
+	[Key.postListLayout]: "게시물 목록 레이아웃",
+	[Key.listMode]: "목록",
+	[Key.gridMode]: "그리드",
 
 	// 외부 링크 경고
 	[Key.leaveSite]: "사이트 떠나기",

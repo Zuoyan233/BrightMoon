@@ -51,7 +51,9 @@ export const ru: Translation = {
 	[Key.postCount]: "запись",
 	[Key.postsCount]: "записей",
 
+	[Key.appearance]: "Оформление",
 	[Key.themeColor]: "Цвет темы",
+	[Key.sakuraEffect]: "Эффект сакуры",
 
 	[Key.lightMode]: "Светлая",
 	[Key.darkMode]: "Тёмная",
@@ -219,6 +221,7 @@ export const ru: Translation = {
 	[Key.atomCopyFailed]: "Не удалось скопировать, скопируйте ссылку вручную",
 
 	// Режим обоев
+	[Key.wallpaperMode]: "Режим обоев",
 	[Key.wallpaperBanner]: "Режим баннера",
 	[Key.wallpaperFullscreen]: "Полноэкранный режим",
 	[Key.wallpaperNone]: "Скрыть обои",
@@ -393,9 +396,10 @@ export const ru: Translation = {
 	[Key.pageViewsLoading]: "Загрузка статистики...",
 	[Key.pageViewsUnavailable]: "Статистика недоступна",
 
-	// Кнопка переключения макета
-	[Key.switchToGridMode]: "Переключить на сеточный режим",
-	[Key.switchToListMode]: "Переключить на списочный режим",
+	// Макет списка записей
+	[Key.postListLayout]: "Макет списка записей",
+	[Key.listMode]: "Список",
+	[Key.gridMode]: "Сетка",
 
 	// Предупреждение о внешней ссылке
 	[Key.leaveSite]: "Покинуть сайт",

@@ -51,7 +51,9 @@ export const es: Translation = {
 	[Key.postCount]: "publicación",
 	[Key.postsCount]: "publicaciones",
 
+	[Key.appearance]: "Apariencia",
 	[Key.themeColor]: "Color del tema",
+	[Key.sakuraEffect]: "Efecto Sakura",
 
 	[Key.lightMode]: "Claro",
 	[Key.darkMode]: "Oscuro",
@@ -224,6 +226,7 @@ export const es: Translation = {
 		"Error al copiar, por favor copia el enlace manualmente",
 
 	// Modo de fondo de pantalla
+	[Key.wallpaperMode]: "Modo de fondo de pantalla",
 	[Key.wallpaperBanner]: "Modo banner",
 	[Key.wallpaperFullscreen]: "Modo pantalla completa",
 	[Key.wallpaperNone]: "Ocultar fondo de pantalla",
@@ -404,9 +407,10 @@ export const es: Translation = {
 	[Key.pageViewsLoading]: "Cargando estadísticas...",
 	[Key.pageViewsUnavailable]: "Estadísticas no disponibles",
 
-	// Botón de cambio de diseño
-	[Key.switchToGridMode]: "Cambiar a modo cuadrícula",
-	[Key.switchToListMode]: "Cambiar a modo lista",
+	// Diseño de lista de publicaciones
+	[Key.postListLayout]: "Diseño de lista de publicaciones",
+	[Key.listMode]: "Lista",
+	[Key.gridMode]: "Cuadrícula",
 
 	// Advertencia de enlace externo
 	[Key.leaveSite]: "Salir de este sitio",
