@@ -1,7 +1,7 @@
-import fs from "fs/promises";
-import path from "path";
-import { fileURLToPath } from "url";
 import axios from "axios";
+import fs from "node:fs/promises";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const API_BASE = "https://api.bilibili.com/x/space/bangumi/follow/list";
 const PAGE_SIZE = 30;
@@ -41,10 +41,10 @@ async function getUserIdFromConfig() {
 	try {
 		const configContent = await fs.readFile(CONFIG_PATH, "utf-8");
 		const match = configContent.match(
-			/bilibili:\s*\{[\s\S]*?vmid:\s*["']([^"']+)["']/,
+			/anime:\s*\{[\s\S]*?bilibili:\s*\{[\s\S]*?vmid:\s*["']([^"']+)["']/,
 		);
 
-		if (match && match[1]) {
+		if (match?.[1]) {
 			const vmid = match[1];
 			if (!vmid || vmid.trim() === "") {
 				console.warn("Warning: vmid in src/config.ts is empty.");
@@ -52,7 +52,7 @@ async function getUserIdFromConfig() {
 			}
 			return vmid;
 		}
-		throw new Error("Could not find bilibili.vmid in config.ts");
+		throw new Error("Could not find anime.bilibili.vmid in config.ts");
 	} catch (error) {
 		console.error("✘ Failed to read Bilibili vmid from config.ts");
 		throw error;
@@ -62,7 +62,9 @@ async function getUserIdFromConfig() {
 async function getSessdataFromConfig() {
 	try {
 		const configContent = await fs.readFile(CONFIG_PATH, "utf-8");
-		const match = configContent.match(/SESSDATA:\s*["']([^"']*)["']/);
+		const match = configContent.match(
+			/anime:\s*\{[\s\S]*?bilibili:\s*\{[\s\S]*?SESSDATA:\s*["']([^"']*)["']/,
+		);
 		return match ? match[1] : "";
 	} catch {
 		return "";
@@ -72,7 +74,9 @@ async function getSessdataFromConfig() {
 async function getCoverMirrorFromConfig() {
 	try {
 		const configContent = await fs.readFile(CONFIG_PATH, "utf-8");
-		const match = configContent.match(/coverMirror:\s*["']([^"']*)["']/);
+		const match = configContent.match(
+			/anime:\s*\{[\s\S]*?bilibili:\s*\{[\s\S]*?coverMirror:\s*["']([^"']*)["']/,
+		);
 		return match ? match[1] : "";
 	} catch {
 		return "";
@@ -82,7 +86,10 @@ async function getCoverMirrorFromConfig() {
 async function getUseWebpFromConfig() {
 	try {
 		const configContent = await fs.readFile(CONFIG_PATH, "utf-8");
-		return !configContent.match(/useWebp:\s*false/);
+		const match = configContent.match(
+			/anime:\s*\{[\s\S]*?bilibili:\s*\{[\s\S]*?useWebp:\s*(true|false)/,
+		);
+		return match ? match[1] !== "false" : true;
 	} catch {
 		return true;
 	}
@@ -95,11 +102,11 @@ async function getAnimeModeFromConfig() {
 			/anime:\s*\{[\s\S]*?mode:\s*["']([^"']+)["']/,
 		);
 
-		if (match && match[1]) {
+		if (match?.[1]) {
 			return match[1];
 		}
 		return "bangumi";
-	} catch (error) {
+	} catch {
 		return "bangumi";
 	}
 }
@@ -194,7 +201,7 @@ async function getData(
 			) {
 				const progressMatch = bangumi.progress.match(/(\d+)/);
 				if (progressMatch) {
-					progress = parseInt(progressMatch[1], 10) || 0;
+					progress = Number.parseInt(progressMatch[1], 10) || 0;
 				}
 			} else if (typeof bangumi.progress === "number") {
 				progress = bangumi.progress;
@@ -270,7 +277,7 @@ async function getData(
 			title: bangumi?.title || "Unknown",
 			status: STATUS_MAP[status] || "planned",
 			rating: bangumi?.rating?.score
-				? parseFloat(bangumi.rating.score.toFixed(1))
+				? Number.parseFloat(bangumi.rating.score.toFixed(1))
 				: 0,
 			cover: cover,
 			description: description,
@@ -295,7 +302,7 @@ async function processData(
 ) {
 	const page = await getDataPage(vmid, status, typeNum);
 	if (!page?.success) {
-		console.error(`Get bangumi data error:`, page?.data);
+		console.error("Get bangumi data error:", page?.data);
 		return [];
 	}
 

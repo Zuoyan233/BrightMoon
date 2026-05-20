@@ -485,7 +485,7 @@ async function fetchBangumiAnimeText() {
 
 		// 提取番剧配置
 		const bangumiUserIdMatch = configContent.match(
-			/bangumi:\s*\{[\s\S]*?userId:\s*["']([^"']+)["']/,
+			/anime:\s*\{[\s\S]*?bangumi:\s*\{[\s\S]*?userId:\s*["']([^"']+)["']/,
 		);
 		const animeModeMatch = configContent.match(
 			/anime:\s*\{[\s\S]*?mode:\s*["']([^"']+)["']/,
@@ -1106,7 +1106,9 @@ async function compressFonts() {
 
 				if (actualFiles.length > 0) {
 					console.log("Available font files:");
-					actualFiles.forEach((f) => console.log(`  - ${f}`));
+					for (const f of actualFiles) {
+					console.log(`  - ${f}`);
+				}
 				} else {
 					console.log("  (font directory is empty)");
 				}

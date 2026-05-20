@@ -57,6 +57,9 @@ Asynchronously synchronizes with the mainline content of the Mizuki theme framew
 - Added a sponsors page and integrated paths for placing payment QR codes.
 - Added real-time date, season, and time for site statistics, with date and season display supporting multiple regional formats and time supporting time-period representation.
 - Added external link confirmation popup, and modified some styles.
+- Add custom styles for the page scrollbar.
+- Refactor personalization settings, add wallpaper mode and cherry blossom effect UI controls.
+- Integrate bangumi and bilibili settings under the anime configuration section.
 - Updated and adapted to the latest version of the Twikoo comment system.
 - TOC directory supports responsive device configuration.
 - Refactored hidden photo album logic, fixed issue where it couldn't be accessed via link.
@@ -135,6 +138,7 @@ To learn more about Mizuki's features: [Enter Mizuki Docs Official Website](http
 - **SEO Optimization** - Includes sitemaps and meta tags.
 - **Performance Optimization** - Lazy loading and caching mechanisms.
 - **Comment System** - Supports Twikoo integration.
+- **Translation Component** - Utilizes local i18n language library + translate.js to achieve millisecond-level translation.
 
 ---
 

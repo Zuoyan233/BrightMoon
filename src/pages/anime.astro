@@ -42,9 +42,9 @@ if (!siteConfig.featurePages.anime) {
 }
 
 const isBothSidebarMode = sidebarLayoutConfig.position === "both";
-const BANGUMI_USER_ID = siteConfig.bangumi?.userId || "your-user-id";
-const BILIBILI_VMID = siteConfig.bilibili?.vmid || "";
-const ANIME_MODE = siteConfig.anime?.mode || "bangumi";
+const BANGUMI_USER_ID = siteConfig.anime?.bangumi?.userId || "";
+const BILIBILI_VMID = siteConfig.anime?.bilibili?.vmid || "";
+const ANIME_MODE = siteConfig.anime?.mode || "local";
 
 let animeList: AnimeItem[] = [];
 
@@ -52,7 +52,7 @@ if (ANIME_MODE === "local") {
 	animeList = localAnimeList;
 } else if (ANIME_MODE === "bilibili") {
 	const isDev = import.meta.env.DEV;
-	const shouldFetchOnDev = siteConfig.bilibili?.fetchOnDev ?? false;
+	const shouldFetchOnDev = siteConfig.anime?.bilibili?.fetchOnDev ?? false;
 	const skipLoad = isDev && !shouldFetchOnDev;
 	if (skipLoad) {
 		console.log("[Dev] Skipping Bilibili data load (fetchOnDev is off).");
@@ -87,7 +87,7 @@ if (ANIME_MODE === "local") {
 	}
 } else {
 	const isDev = import.meta.env.DEV;
-	const shouldFetchOnDev = siteConfig.bangumi?.fetchOnDev ?? false;
+	const shouldFetchOnDev = siteConfig.anime?.bangumi?.fetchOnDev ?? false;
 	const skipLoad = isDev && !shouldFetchOnDev;
 
 	if (skipLoad) {

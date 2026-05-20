@@ -1,6 +1,6 @@
-import fs from "fs/promises";
-import path from "path";
-import { fileURLToPath } from "url";
+import fs from "node:fs/promises";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const API_BASE = "https://api.bgm.tv";
 const CONFIG_PATH = path.join(
@@ -16,10 +16,10 @@ async function getUserIdFromConfig() {
 	try {
 		const configContent = await fs.readFile(CONFIG_PATH, "utf-8");
 		const match = configContent.match(
-			/bangumi:\s*\{[\s\S]*?userId:\s*["']([^"']+)["']/,
+			/anime:\s*\{[\s\S]*?bangumi:\s*\{[\s\S]*?userId:\s*["']([^"']+)["']/,
 		);
 
-		if (match && match[1]) {
+		if (match?.[1]) {
 			const userId = match[1];
 			if (
 				userId === "your-bangumi-id" ||
@@ -33,7 +33,7 @@ async function getUserIdFromConfig() {
 			}
 			return userId;
 		}
-		throw new Error("Could not find bangumi.userId in config.ts");
+		throw new Error("Could not find anime.bangumi.userId in config.ts");
 	} catch (error) {
 		console.error("✘ Failed to read Bangumi ID from config.ts");
 		throw error;
@@ -47,11 +47,11 @@ async function getAnimeModeFromConfig() {
 			/anime:\s*\{[\s\S]*?mode:\s*["']([^"']+)["']/,
 		);
 
-		if (match && match[1]) {
+		if (match?.[1]) {
 			return match[1];
 		}
 		return "bangumi";
-	} catch (error) {
+	} catch {
 		return "bangumi";
 	}
 }
@@ -64,7 +64,7 @@ async function fetchSubjectDetail(subjectId) {
 		const response = await fetch(`${API_BASE}/v0/subjects/${subjectId}`);
 		if (!response.ok) return null;
 		return await response.json();
-	} catch (error) {
+	} catch {
 		return null;
 	}
 }

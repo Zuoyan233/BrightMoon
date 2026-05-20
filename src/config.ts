@@ -87,22 +87,22 @@ export const siteConfig: SiteConfig = {
 		targetWidth: 2000, // 目标宽度，低于此宽度时开始缩放
 	},
 
-	bangumi: {
-		userId: "your-bangumi-id", // 在此处设置你的Bangumi用户ID，可以设置为 "sai" 测试
-		fetchOnDev: false, // 是否在开发环境下获取 Bangumi 数据（默认 false），获取前先执行 pnpm build 构建 json 文件
-	},
-
-	bilibili: {
-		// 第一次配置请把vmid和anime mode模式正确设置好，然后输入pnpm run update-bilibili获取番剧数据
-		vmid: "", // 在此处设置你的Bilibili用户ID (vmid)，例如 "1129280784"
-		fetchOnDev: false, // 是否在开发环境下获取 Bilibili 数据（默认 false）
-		SESSDATA: "", // Bilibili SESSDATA（可选，用于获取观看进度，从浏览器cookie中获取）
-		coverMirror: "", // 封面图片镜像源（可选，如果需要使用镜像源，例如 "https://images.weserv.nl/?url="）
-		useWebp: true, // 是否使用WebP格式（默认 true）
-	},
-
 	anime: {
 		mode: "local", // 番剧页面模式："bangumi" 使用Bangumi API，"local" 使用本地配置，"bilibili" 使用Bilibili API
+		// Bangumi 配置
+		bangumi: {
+			userId: "your-bangumi-id", // 在此处设置你的Bangumi用户ID，可以设置为 "sai" 测试
+			fetchOnDev: false, // 是否在开发环境下获取 Bangumi 数据（默认 false），获取前先执行 pnpm build 构建 json 文件
+		},
+		// Bilibili 配置
+		bilibili: {
+			// 第一次配置请把vmid和anime mode模式正确设置好，然后输入pnpm run update-bilibili获取番剧数据
+			vmid: "your-bilibili-id", // 在此处设置你的Bilibili用户ID (vmid)，例如 "1129280784"
+			fetchOnDev: false, // 是否在开发环境下获取 Bilibili 数据（默认 false）
+			SESSDATA: "", // Bilibili SESSDATA（可选，用于获取观看进度，从浏览器cookie中获取）
+			coverMirror: "", // 封面图片镜像源（可选，如果需要使用镜像源，例如 "https://images.weserv.nl/?url="）
+			useWebp: true, // 是否使用WebP格式（默认 true）
+		},
 	},
 
 	// 文章列表布局配置

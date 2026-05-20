@@ -1,7 +1,7 @@
-import { spawn } from "child_process";
-import fs from "fs/promises";
-import path from "path";
-import { fileURLToPath } from "url";
+import { spawn } from "node:child_process";
+import fs from "node:fs/promises";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const CONFIG_PATH = path.join(
 	path.dirname(fileURLToPath(import.meta.url)),
@@ -15,11 +15,11 @@ async function getAnimeModeFromConfig() {
 			/anime:\s*\{[\s\S]*?mode:\s*["']([^"']+)["']/,
 		);
 
-		if (match && match[1]) {
+		if (match?.[1]) {
 			return match[1];
 		}
 		return "bangumi";
-	} catch (error) {
+	} catch {
 		return "bangumi";
 	}
 }
