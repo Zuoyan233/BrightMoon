@@ -100,19 +100,25 @@ onDestroy(() => {
     <div 
         bind:this={translatePanel}
         id="translate-panel" 
-        class="float-panel-closed absolute top-[3.5rem] right-0 z-50 w-64 bg-[var(--float-panel-bg)] rounded-[var(--radius-large)] shadow-lg border border-[var(--line-divider)] p-4"
+        class="float-panel-closed absolute top-[4.38rem] right-0 z-50 w-64 bg-[var(--card-bg)] rounded-[var(--radius-large)] shadow-lg p-4"
     >
-        <div class="text-sm font-medium text-[var(--primary)] mb-3">
-            {i18n(I18nKey.translateHeader)}
-        </div>
+    <!-- 标题 -->
+	<div class="flex flex-row gap-2 mb-3 items-center justify-between">
+		<div class="flex gap-2 font-bold text-lg text-neutral-900 dark:text-neutral-100 transition relative ml-3
+			before:w-1 before:h-4 before:rounded-md before:bg-[var(--primary)]
+			before:absolute before:-left-3 before:top-[0.33rem]"
+		>
+			{i18n(I18nKey.translateHeader)}
+		</div>
+	</div>
         <div class="ignore grid grid-cols-1 gap-2 max-h-64 overflow-y-auto scrollbar-hide">
             {#each languages as lang}
                 <button
-                    class="flex items-center gap-3 p-2 rounded-lg hover:bg-[var(--btn-plain-bg-hover)] transition-colors text-left w-full {currentLanguage === lang.code ? 'bg-[var(--btn-plain-bg-hover)] border-1 border-[var(--primary)]' : ''}"
+                    class="group flex items-center gap-3 p-2 rounded-lg hover:bg-[var(--btn-plain-bg-hover)] transition-colors text-left w-full {currentLanguage === lang.code ? 'bg-[var(--btn-plain-bg-hover)] border-1 border-[var(--primary)]' : ''}"
                     on:click={() => changeLanguage(lang.code)}
                 >
-                    <span class="text-lg transition text-black/75 dark:text-white/75">{lang.icon}</span>
-                    <span class="text-sm transition text-black/75 dark:text-white/75 {currentLanguage === lang.code ? 'font-medium text-[var(--primary)]' : ''}">{lang.name}</span>
+                    <span class="text-lg transition text-black/75 dark:text-white/75 group-hover:text-[var(--primary)]" style={currentLanguage === lang.code ? 'color: var(--primary)' : ''}>{lang.icon}</span>
+                    <span class="text-sm transition text-black/75 dark:text-white/75 group-hover:text-[var(--primary)] {currentLanguage === lang.code ? 'font-medium' : ''}" style={currentLanguage === lang.code ? 'color: var(--primary)' : ''}>{lang.name}</span>
                     {#if currentLanguage === lang.code}
                         <span class="ml-auto text-[var(--primary)]">✓</span>
                     {/if}

@@ -2,6 +2,7 @@ import {
 	DARK_MODE,
 	DEFAULT_THEME,
 	LIGHT_MODE,
+	SYSTEM_MODE,
 	// WALLPAPER_BANNER,
 } from "@constants/constants";
 import { siteConfig } from "@/config";
@@ -12,14 +13,14 @@ export function getDefaultHue(): number {
 	const configCarrier = document.getElementById("config-carrier");
 	// 在Swup页面切换时，config-carrier可能不存在，使用默认值
 	if (!configCarrier) {
-		return Number.parseInt(fallback);
+		return Number.parseInt(fallback, 10);
 	}
-	return Number.parseInt(configCarrier.dataset.hue || fallback);
+	return Number.parseInt(configCarrier.dataset.hue || fallback, 10);
 }
 
 export function getHue(): number {
 	const stored = localStorage.getItem("hue");
-	return stored ? Number.parseInt(stored) : getDefaultHue();
+	return stored ? Number.parseInt(stored, 10) : getDefaultHue();
 }
 
 export function setHue(hue: number): void {
@@ -37,7 +38,7 @@ export function applyThemeToDocument(theme: LIGHT_DARK_MODE) {
 	const currentTheme = document.documentElement.getAttribute("data-theme");
 
 	// 计算目标主题状态
-	let targetIsDark = false; // 初始化默认值
+	let targetIsDark = false;
 	switch (theme) {
 		case LIGHT_MODE:
 			targetIsDark = false;
@@ -45,8 +46,10 @@ export function applyThemeToDocument(theme: LIGHT_DARK_MODE) {
 		case DARK_MODE:
 			targetIsDark = true;
 			break;
+		case SYSTEM_MODE:
+			targetIsDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+			break;
 		default:
-			// 处理默认情况，使用当前主题状态
 			targetIsDark = currentIsDark;
 			break;
 	}
@@ -135,8 +138,44 @@ export function applyThemeToDocument(theme: LIGHT_DARK_MODE) {
 	}
 }
 
+// 系统主题变化监听器引用
+let systemThemeListener: ((e: MediaQueryListEvent) => void) | null = null;
+
+function addSystemThemeListener() {
+	removeSystemThemeListener();
+	const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+	systemThemeListener = (e: MediaQueryListEvent) => {
+		const isDark = e.matches;
+		if (isDark) {
+			document.documentElement.classList.add("dark");
+		} else {
+			document.documentElement.classList.remove("dark");
+		}
+		// 同步代码块主题
+		const expressiveTheme = isDark ? "github-dark" : "github-light";
+		document.documentElement.setAttribute("data-theme", expressiveTheme);
+	};
+	mediaQuery.addEventListener("change", systemThemeListener);
+}
+
+function removeSystemThemeListener() {
+	if (systemThemeListener) {
+		const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+		mediaQuery.removeEventListener("change", systemThemeListener);
+		systemThemeListener = null;
+	}
+}
+
 export function setTheme(theme: LIGHT_DARK_MODE): void {
 	localStorage.setItem("theme", theme);
+
+	// 管理系统主题监听器
+	if (theme === SYSTEM_MODE) {
+		addSystemThemeListener();
+	} else {
+		removeSystemThemeListener();
+	}
+
 	applyThemeToDocument(theme);
 }
 

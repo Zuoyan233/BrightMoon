@@ -116,7 +116,7 @@ export const siteConfig: SiteConfig = {
 		// Bilibili 配置
 		bilibili: {
 			// 第一次配置请把vmid和anime mode模式正确设置好，然后输入pnpm run update-bilibili获取番剧数据
-			vmid: "your-bilibili-id", // 在此处设置你的Bilibili用户ID (vmid)，例如 "1129280784"
+			vmid: "your-bilibili-id", // 在此处设置你的Bilibili用户ID (vmid)，例如 "352580971"
 			fetchOnDev: false, // 是否在开发环境下获取 Bilibili 数据（默认 false）
 			SESSDATA: "", // Bilibili SESSDATA（可选，用于获取观看进度，从浏览器cookie中获取）
 			coverMirror: "", // 封面图片镜像源（可选，如果需要使用镜像源，例如 "https://images.weserv.nl/?url="）

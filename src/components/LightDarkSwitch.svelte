@@ -1,98 +1,171 @@
 <script lang="ts">
-import { DARK_MODE, DEFAULT_THEME, LIGHT_MODE } from "@constants/constants";
+import {
+	DARK_MODE,
+	DEFAULT_THEME,
+	LIGHT_MODE,
+	SYSTEM_MODE,
+} from "@constants/constants";
+import I18nKey from "@i18n/i18nKey";
+import { i18n } from "@i18n/translation";
 import Icon from "@iconify/svelte";
 import { getStoredTheme, setTheme } from "@utils/setting-utils";
-import { onMount } from "svelte";
+import { onDestroy, onMount } from "svelte";
 import type { LIGHT_DARK_MODE } from "@/types/config.ts";
 
-const seq: LIGHT_DARK_MODE[] = [LIGHT_MODE, DARK_MODE];
-let mode: LIGHT_DARK_MODE = $state(DEFAULT_THEME);
-let isChanging = false;
+let isOpen = false;
+let themePanel: HTMLElement;
+let currentMode: LIGHT_DARK_MODE = $state(DEFAULT_THEME);
 
-onMount(() => {
-	mode = getStoredTheme();
-});
+const themeOptions: {
+	mode: LIGHT_DARK_MODE;
+	icon: string;
+	labelKey: I18nKey;
+}[] = [
+	{
+		mode: LIGHT_MODE,
+		icon: "material-symbols:wb-sunny-outline-rounded",
+		labelKey: I18nKey.lightMode,
+	},
+	{
+		mode: DARK_MODE,
+		icon: "material-symbols:dark-mode-outline-rounded",
+		labelKey: I18nKey.darkMode,
+	},
+	{
+		mode: SYSTEM_MODE,
+		icon: "material-symbols:brightness-auto-outline",
+		labelKey: I18nKey.systemMode,
+	},
+];
 
-function switchScheme(newMode: LIGHT_DARK_MODE) {
-	// 防止连续快速点击
-	if (isChanging) return;
-
-	isChanging = true;
-	mode = newMode;
-	setTheme(newMode);
-
-	// 50ms 后重置状态，防止过快切换
-	setTimeout(() => {
-		isChanging = false;
-	}, 50);
+function getButtonIcon(): string {
+	return (
+		themeOptions.find((o) => o.mode === currentMode)?.icon ||
+		themeOptions[0].icon
+	);
 }
 
-function toggleScheme() {
-	if (isChanging) return;
+function getButtonIconClass(): string {
+	return "text-[1.25rem] transition-all duration-250 ease-in-out text-black/75 dark:text-white/75 group-hover:text-[var(--primary)]";
+}
 
-	let i = 0;
-	for (; i < seq.length; i++) {
-		if (seq[i] === mode) {
-			break;
+function togglePanel() {
+	isOpen = !isOpen;
+	if (themePanel) {
+		themePanel.classList.toggle("float-panel-closed", !isOpen);
+	}
+}
+
+function selectTheme(mode: LIGHT_DARK_MODE) {
+	isOpen = false;
+	if (themePanel) {
+		themePanel.classList.add("float-panel-closed");
+	}
+	currentMode = mode;
+	setTheme(mode);
+}
+
+function handleClickOutside(event: MouseEvent) {
+	const target = event.target as HTMLElement;
+	if (
+		themePanel &&
+		!themePanel.contains(target) &&
+		!target.closest("#scheme-switch")
+	) {
+		isOpen = false;
+		themePanel.classList.add("float-panel-closed");
+	}
+}
+
+// 监听来自其他页面/组件的主题存储变化
+function handleStorageChange(e: StorageEvent) {
+	if (e.key === "theme") {
+		const newMode = e.newValue as LIGHT_DARK_MODE | null;
+		if (newMode) {
+			currentMode = newMode;
 		}
 	}
-	switchScheme(seq[(i + 1) % seq.length]);
 }
 
-// 添加Swup钩子监听，确保在页面切换后同步主题状态
-if (typeof window !== "undefined") {
-	// 监听Swup的内容替换事件
-	const handleContentReplace = () => {
-		// 使用requestAnimationFrame确保在下一帧更新状态，避免渲染冲突
-		requestAnimationFrame(() => {
-			const newMode = getStoredTheme();
-			if (mode !== newMode) {
-				mode = newMode;
-			}
-		});
-	};
+onMount(() => {
+	currentMode = getStoredTheme();
+	document.addEventListener("click", handleClickOutside);
+	window.addEventListener("storage", handleStorageChange);
 
-	// 检查Swup是否已经加载
-	if (window.swup?.hooks) {
-		window.swup.hooks.on("content:replace", handleContentReplace);
-	} else {
-		document.addEventListener("swup:enable", () => {
-			window.swup?.hooks.on("content:replace", handleContentReplace);
-		});
+	// 确保系统主题变化监听器已注册（inline script 不会注册监听器）
+	if (currentMode === SYSTEM_MODE) {
+		setTheme(SYSTEM_MODE);
 	}
 
-	// 页面加载完成后也同步一次状态
-	document.addEventListener("DOMContentLoaded", () => {
-		requestAnimationFrame(() => {
-			const newMode = getStoredTheme();
-			if (mode !== newMode) {
-				mode = newMode;
-			}
-		});
-	});
-}
+	return () => {
+		document.removeEventListener("click", handleClickOutside);
+		window.removeEventListener("storage", handleStorageChange);
+	};
+});
+
+onDestroy(() => {
+	document.removeEventListener("click", handleClickOutside);
+	window.removeEventListener("storage", handleStorageChange);
+});
 </script>
 
-<div class="relative z-50">
-    <button
-        aria-label="Light/Dark Mode"
-        class="relative btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90 theme-switch-btn"
-        id="scheme-switch"
-        onclick={toggleScheme}
-        data-mode={mode}
-    >
-        <div class="absolute transition-all duration-300 ease-in-out" class:opacity-0={mode !== LIGHT_MODE} class:rotate-180={mode !== LIGHT_MODE}>
-            <Icon icon="material-symbols:wb-sunny-outline-rounded" class="text-[1.25rem]"></Icon>
-        </div>
-        <div class="absolute transition-all duration-300 ease-in-out" class:opacity-0={mode !== DARK_MODE} class:rotate-180={mode !== DARK_MODE}>
-            <Icon icon="material-symbols:dark-mode-outline-rounded" class="text-[1.25rem]"></Icon>
-        </div>
-    </button>
+<div class="relative">
+	<!-- 主题切换按钮 -->
+	<button
+		aria-label="Theme Switch"
+		class="group btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90"
+		id="scheme-switch"
+		onclick={togglePanel}
+	>
+		<Icon icon={getButtonIcon()} class={getButtonIconClass()} />
+	</button>
+
+	<!-- 主题选择下拉面板 -->
+	<div
+		bind:this={themePanel}
+		id="theme-panel"
+		class="float-panel-closed absolute top-[4.38rem] right-0 z-50 w-48 bg-[var(--card-bg)] rounded-[var(--radius-large)] shadow-lg p-3"
+	>
+		<div class="ignore grid grid-cols-1 gap-1">
+			{#each themeOptions as option}
+				<button
+					class="group flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 text-left w-full
+						{currentMode === option.mode
+							? 'bg-[var(--btn-plain-bg-hover)]'
+							: 'hover:bg-[var(--btn-plain-bg-hover)]'}"
+					onclick={() => selectTheme(option.mode)}
+				>
+					<Icon
+						icon={option.icon}
+						class={'text-xl transition-all duration-200' + (currentMode === option.mode ? ' text-[var(--primary)]' : ' text-black/75 dark:text-white/75 group-hover:text-[var(--primary)]')}
+					/>
+					<span
+						class={'text-base transition-all duration-200' + (currentMode === option.mode ? ' text-[var(--primary)] font-medium' : ' text-black/75 dark:text-white/75 group-hover:text-[var(--primary)]')}
+					>
+						{i18n(option.labelKey)}
+					</span>
+				</button>
+			{/each}
+		</div>
+	</div>
 </div>
 
 <style>
-    /* 确保主题切换按钮的背景色即时更新 */
-    .theme-switch-btn::before {
-        transition: transform 75ms ease-out, background-color 0ms !important;
-    }
+#theme-panel{
+	transform-origin: top right;
+}
+
+.float-panel-closed {
+	opacity: 0;
+	pointer-events: none;
+	transform: scale(0.95) translateY(-10px);
+	transition: all 0.1s ease-out;
+}
+
+#theme-panel:not(.float-panel-closed) {
+	opacity: 1;
+	pointer-events: auto;
+	transform: scale(1) translateY(0);
+	transition: all 0.1s ease-out;
+}
 </style>

@@ -21,6 +21,7 @@ import {
 	DEFAULT_THEME,
 	LIGHT_MODE,
 	PAGE_WIDTH,
+	SYSTEM_MODE,
 } from "../constants/constants";
 import { defaultFavicons } from "../constants/icon";
 import type { Favicon } from "../types/config";
@@ -274,6 +275,7 @@ if (siteConfig.font) {
 				DEFAULT_THEME,
 				LIGHT_MODE,
 				DARK_MODE,
+				SYSTEM_MODE,
 				BANNER_HEIGHT_EXTEND,
 				PAGE_WIDTH,
 				configHue,
@@ -291,6 +293,14 @@ if (siteConfig.font) {
 				case DARK_MODE:
 					document.documentElement.classList.add("dark");
 					isDark = true;
+					break;
+				case SYSTEM_MODE:
+					isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+					if (isDark) {
+						document.documentElement.classList.add("dark");
+					} else {
+						document.documentElement.classList.remove("dark");
+					}
 					break;
 			}
 
@@ -501,6 +511,7 @@ if (siteConfig.font) {
 		// MAIN_PANEL_OVERLAPS_BANNER_HEIGHT,
 		DARK_MODE,
 		DEFAULT_THEME,
+		SYSTEM_MODE,
 	} from "../constants/constants";
 
 	const BANNER_HEIGHT = 35;
@@ -1171,7 +1182,18 @@ function disableAnimation() {
 
 			// 同步主题状态 - 解决从首页进入文章页面时代码块渲染问题
 			const storedTheme = localStorage.getItem("theme") || DEFAULT_THEME;
-			const isDark = storedTheme === DARK_MODE;
+			let isDark: boolean;
+			switch (storedTheme) {
+				case DARK_MODE:
+					isDark = true;
+					break;
+				case SYSTEM_MODE:
+					isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+					break;
+				default:
+					isDark = false;
+					break;
+			}
 			const expectedTheme = isDark ? "github-dark" : "github-light";
 
 			const currentTheme =

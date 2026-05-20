@@ -180,7 +180,8 @@
   body:has(#banner-wrapper) #nav-menu-panel,
   #banner-wrapper ~ * #search-panel,
   body:has(#banner-wrapper) #search-panel,
-  body:has(#banner-wrapper) #translate-panel {
+  body:has(#banner-wrapper) #translate-panel,
+  body:has(#banner-wrapper) #theme-panel{
     backdrop-filter: blur(20px);
     background: rgba(255, 255, 255, 0.85);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
@@ -197,7 +198,8 @@
   :root.dark body:has(#banner-wrapper) #nav-menu-panel,
   :root.dark #banner-wrapper ~ * #search-panel,
   :root.dark body:has(#banner-wrapper) #search-panel,
-  :root.dark body:has(#banner-wrapper) #translate-panel {
+  :root.dark body:has(#banner-wrapper) #translate-panel,
+  :root.dark body:has(#banner-wrapper) #theme-panel {
     background: rgba(24, 25, 38, 0.85);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
   }
@@ -214,7 +216,8 @@
   body:has(#banner-wrapper) #navbar[data-is-home="true"] #nav-menu-panel,
   body:has(#banner-wrapper) #navbar[data-is-home="true"] #search-panel,
   body:has(#banner-wrapper) #navbar[data-is-home="true"] #display-setting,
-  body:has(#banner-wrapper) #navbar[data-is-home="true"] #translate-panel {
+  body:has(#banner-wrapper) #navbar[data-is-home="true"] #translate-panel,
+  body:has(#banner-wrapper) #navbar[data-is-home="true"] #theme-panel {
     backdrop-filter: blur(20px);
     background: rgba(255, 255, 255, 0.85);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
@@ -230,7 +233,8 @@
   :root.dark body:has(#banner-wrapper) #navbar[data-is-home="true"] #nav-menu-panel,
   :root.dark body:has(#banner-wrapper) #navbar[data-is-home="true"] #search-panel,
   :root.dark body:has(#banner-wrapper) #navbar[data-is-home="true"] #display-setting,
-  :root.dark body:has(#banner-wrapper) #navbar[data-is-home="true"] #translate-panel {
+  :root.dark body:has(#banner-wrapper) #navbar[data-is-home="true"] #translate-panel,
+  :root.dark body:has(#banner-wrapper) #navbar[data-is-home="true"] #theme-panel {
     background: rgba(24, 25, 38, 0.85);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
   }

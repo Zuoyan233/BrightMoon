@@ -194,7 +194,8 @@ html {
   .is-theme-transitioning #display-setting,
   .is-theme-transitioning #nav-menu-panel,
   .is-theme-transitioning #translate-panel,
-  .is-theme-transitioning #search-panel {
+  .is-theme-transitioning #search-panel,
+  .is-theme-transitioning #theme-panel {
     transition: none !important;
     backdrop-filter: none !important;
   }
