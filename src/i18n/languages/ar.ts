@@ -222,6 +222,12 @@ export const ar: Translation = {
 	[Key.wallpaperFullscreen]: "وضع ملء الشاشة",
 	[Key.wallpaperNone]: "إخفاء الخلفية",
 
+	// Navbar transparent mode
+	[Key.navbarTransparentMode]: "نمط شريط التنقل",
+	[Key.navbarTransparentSemi]: "مُجَمَّد",
+	[Key.navbarTransparentFull]: "شفاف",
+	[Key.navbarTransparentSemifull]: "ديناميكي",
+
 	// Skills Page
 	[Key.skills]: "المهارات",
 	[Key.skillsSubtitle]: "مهاراتي التقنية وخبراتي",

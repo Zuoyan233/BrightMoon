@@ -23,3 +23,8 @@ export const UNCATEGORIZED = "uncategorized";
 export const WALLPAPER_BANNER = "banner";
 export const WALLPAPER_FULLSCREEN = "fullscreen";
 export const WALLPAPER_NONE = "none";
+
+// Navbar transparent mode constants
+export const NAVBAR_TRANSPARENT_SEMI = "semi";
+export const NAVBAR_TRANSPARENT_FULL = "full";
+export const NAVBAR_TRANSPARENT_SEMIFULL = "semifull";

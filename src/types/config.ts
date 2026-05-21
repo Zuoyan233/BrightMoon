@@ -74,6 +74,10 @@ export type SiteConfig = {
 			defaultMode: "list" | "grid"; // 默认布局模式：list=列表模式，grid=网格模式
 			allowSwitch: boolean; // 是否允许用户切换布局
 		};
+		// 导航栏透明模式
+		navbar?: {
+			transparentMode?: "semi" | "full" | "semifull"; // 导航栏透明模式："semi" 半透明加圆角，"full" 完全透明，"semifull" 动态透明
+		};
 	};
 
 	translate?: {
@@ -190,9 +194,6 @@ export type SiteConfig = {
 			enable: boolean;
 			text: string;
 			url?: string;
-		};
-		navbar?: {
-			transparentMode?: "semi" | "full" | "semifull"; // 导航栏透明模式
 		};
 	};
 	toc: {

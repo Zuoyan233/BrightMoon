@@ -226,6 +226,12 @@ export const id: Translation = {
 	[Key.wallpaperFullscreen]: "Mode Layar Penuh",
 	[Key.wallpaperNone]: "Sembunyikan Wallpaper",
 
+	// Mode navbar transparan
+	[Key.navbarTransparentMode]: "Gaya Navbar",
+	[Key.navbarTransparentSemi]: "Buram",
+	[Key.navbarTransparentFull]: "Transparan",
+	[Key.navbarTransparentSemifull]: "Dinamis",
+
 	// Halaman Keterampilan
 	[Key.skills]: "Keterampilan",
 	[Key.skillsSubtitle]: "Keterampilan teknis dan keahlian saya",

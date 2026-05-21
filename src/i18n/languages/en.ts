@@ -225,6 +225,12 @@ export const en: Translation = {
 	[Key.wallpaperFullscreen]: "Fullscreen Mode",
 	[Key.wallpaperNone]: "Hide Wallpaper",
 
+	// Navbar transparent mode
+	[Key.navbarTransparentMode]: "Navbar Style",
+	[Key.navbarTransparentSemi]: "Frosted",
+	[Key.navbarTransparentFull]: "Transparent",
+	[Key.navbarTransparentSemifull]: "Dynamic",
+
 	// Skills Page
 	[Key.skills]: "Skills",
 	[Key.skillsSubtitle]: "My technical skills and expertise",

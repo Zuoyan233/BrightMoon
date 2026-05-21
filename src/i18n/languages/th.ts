@@ -216,6 +216,12 @@ export const th: Translation = {
 	[Key.wallpaperFullscreen]: "โหมดเต็มหน้าจอ",
 	[Key.wallpaperNone]: "ซ่อนวอลเปเปอร์",
 
+	// โหมดแถบนำทางโปร่งใส
+	[Key.navbarTransparentMode]: "สไตล์แถบนำทาง",
+	[Key.navbarTransparentSemi]: "ฝ้าฟรอสต์",
+	[Key.navbarTransparentFull]: "โปร่งใส",
+	[Key.navbarTransparentSemifull]: "ไดนามิก",
+
 	// Skills Page
 	[Key.skills]: "ทักษะ",
 	[Key.skillsSubtitle]: "ทักษะทางเทคนิคและความเชี่ยวชาญของฉัน",

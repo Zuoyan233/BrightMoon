@@ -312,6 +312,12 @@ export const zh_TW: Translation = {
 	[Key.wallpaperFullscreen]: "全螢幕模式",
 	[Key.wallpaperNone]: "隱藏桌布",
 
+	// 導航欄透明模式
+	[Key.navbarTransparentMode]: "導航欄樣式",
+	[Key.navbarTransparentSemi]: "毛玻璃",
+	[Key.navbarTransparentFull]: "全透明",
+	[Key.navbarTransparentSemifull]: "動態透明",
+
 	// 站點統計
 	[Key.siteStats]: "站點統計",
 	[Key.siteStatsPostCount]: "文章",

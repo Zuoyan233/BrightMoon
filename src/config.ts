@@ -62,6 +62,9 @@ export const siteConfig: SiteConfig = {
 			// 是否允许用户切换布局
 			allowSwitch: true,
 		},
+		navbar: {
+			transparentMode: "full", // 导航栏透明模式："semi" 半透明加圆角，"full" 完全透明，"semifull" 动态透明
+		},
 	},
 
 	translate: {
@@ -199,10 +202,6 @@ export const siteConfig: SiteConfig = {
 			enable: true, // 显示横幅图片来源文本
 			text: "图片来自：搜图神器", // 要显示的来源文本
 			url: "https://www.soutushenqi.com/", // （可选）原始艺术品或艺术家页面的 URL 链接
-		},
-
-		navbar: {
-			transparentMode: "full", // 导航栏透明模式："semi" 半透明加圆角，"full" 完全透明，"semifull" 动态透明
 		},
 	},
 	toc: {

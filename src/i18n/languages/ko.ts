@@ -223,6 +223,12 @@ export const ko: Translation = {
 	[Key.wallpaperFullscreen]: "전체 화면 모드",
 	[Key.wallpaperNone]: "배경화면 숨기기",
 
+	// 네비게이션 바 투명 모드
+	[Key.navbarTransparentMode]: "네비게이션 바 스타일",
+	[Key.navbarTransparentSemi]: "유리 효과",
+	[Key.navbarTransparentFull]: "투명",
+	[Key.navbarTransparentSemifull]: "동적 투명",
+
 	// 기술 페이지
 	[Key.skills]: "기술",
 	[Key.skillsSubtitle]: "나의 기술 스택과 전문 분야",

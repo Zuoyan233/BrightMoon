@@ -8,14 +8,19 @@ import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import Icon from "@iconify/svelte";
 import { getSakuraStatus, toggleSakura } from "@utils/sakura-manager";
-import type { POST_LIST_LAYOUT_MODE } from "@utils/setting-utils";
+import type {
+	NAVBAR_TRANSPARENT_MODE,
+	POST_LIST_LAYOUT_MODE,
+} from "@utils/setting-utils";
 import {
 	getDefaultHue,
 	getHue,
+	getStoredNavbarTransparentMode,
 	getStoredPostListLayout,
 	getStoredSakuraEnabled,
 	getStoredWallpaperMode,
 	setHue,
+	setNavbarTransparentMode,
 	setPostListLayout,
 	setSakuraEnabled,
 	setWallpaperMode,
@@ -43,6 +48,27 @@ let postListLayout: POST_LIST_LAYOUT_MODE = "list";
 
 // 文章列表布局开关（由 config 控制）
 let postListLayoutAllowSwitch = true;
+
+// 导航栏透明模式
+let navbarTransparentMode: NAVBAR_TRANSPARENT_MODE = "semi";
+
+function selectNavbarTransparentMode(mode: NAVBAR_TRANSPARENT_MODE) {
+	navbarTransparentMode = mode;
+	setNavbarTransparentMode(mode);
+}
+
+function navbarTransparentModeLabel(mode: string): string {
+	switch (mode) {
+		case "semi":
+			return i18n(I18nKey.navbarTransparentSemi);
+		case "full":
+			return i18n(I18nKey.navbarTransparentFull);
+		case "semifull":
+			return i18n(I18nKey.navbarTransparentSemifull);
+		default:
+			return mode;
+	}
+}
 
 function resetHue() {
 	hue = defaultHue;
@@ -128,6 +154,9 @@ onMount(() => {
 			configCarrier.dataset.postListLayoutAllowSwitch === "true";
 	}
 
+	// 读取导航栏透明模式
+	navbarTransparentMode = getStoredNavbarTransparentMode();
+
 	// 初始化壁纸区域可见性
 	checkWallpaperVisibility();
 
@@ -138,6 +167,8 @@ onMount(() => {
 		window.removeEventListener("resize", checkWallpaperVisibility);
 	};
 });
+
+$: navbarDisabled = currentWallpaperMode !== WALLPAPER_BANNER;
 
 $: if (isMounted && (hue || hue === 0)) {
 	setHue(hue);
@@ -156,7 +187,7 @@ $: if (isMounted && (hue || hue === 0)) {
 	</div>
 
 	<!-- 主题色选择区域 -->
-	<div class="mb-4">
+	<div class="mb-3">
 		<div class="flex flex-row gap-2 mb-2 items-center justify-between">
 			<div class="flex items-center gap-2">
 				<Icon icon="material-symbols:colorize-outline" class="text-[var(--btn-content)] text-lg" />
@@ -185,7 +216,7 @@ $: if (isMounted && (hue || hue === 0)) {
 
 {#if sakuraAvailable}
 	<!-- 樱花特效开关 -->
-	<div class="mb-4 flex items-center justify-between">
+	<div class="mb-3 flex items-center justify-between">
 		<div class="flex items-center gap-2">
 			<Icon icon="material-symbols:blur-on" class="text-[var(--btn-content)] text-lg" />
 			<span class="text-base font-bold text-neutral-700 dark:text-neutral-300">
@@ -214,7 +245,7 @@ $: if (isMounted && (hue || hue === 0)) {
 
 {#if showWallpaperSection}
 		<!-- 壁纸模式选择 -->
-		 <div class="flex items-center gap-2 mb-4">
+		 <div class="flex items-center gap-2 mb-3">
 				<Icon icon="material-symbols:wallpaper" class="text-[var(--btn-content)] text-lg" />
 				<span class="text-base font-bold text-neutral-700 dark:text-neutral-300">
 					{i18n(I18nKey.wallpaperMode)}
@@ -271,10 +302,67 @@ $: if (isMounted && (hue || hue === 0)) {
 		</div>
 {/if}
 
+<!-- 导航栏透明模式选择 -->
+<div class="mb-4 transition-all duration-200" class:opacity-40={navbarDisabled} class:pointer-events-none={navbarDisabled}>
+	<div class="flex items-center gap-2 mb-3">
+		<Icon icon="material-symbols:menu-rounded" class="text-[var(--btn-content)] text-lg" />
+		<span class="text-base font-bold text-neutral-700 dark:text-neutral-300">
+			{i18n(I18nKey.navbarTransparentMode)}
+		</span>
+	</div>
+	<div class="grid grid-cols-3 gap-2">
+		<button
+			class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
+				border-2 relative text-neutral-600 dark:text-neutral-300"
+			class:bg-[var(--primary)]={navbarTransparentMode === "semi"}
+			class:border-[var(--primary)]={navbarTransparentMode === "semi"}
+			class:!text-white={navbarTransparentMode === "semi"}
+			class:border-transparent={navbarTransparentMode !== "semi"}
+			class:hover:border-[var(--primary)]={navbarTransparentMode !== "semi"}
+			class:hover:text-[var(--primary)]={navbarTransparentMode !== "semi"}
+			class:dark:hover:text-[var(--primary)]={navbarTransparentMode !== "semi"}
+			on:click={() => selectNavbarTransparentMode("semi")}
+		>
+			<Icon icon="material-symbols:blur-on" class={'text-lg' + (navbarTransparentMode === 'semi' ? ' text-white' : '')} />
+			<span>{navbarTransparentModeLabel("semi")}</span>
+		</button>
+		<button
+			class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
+				border-2 relative text-neutral-600 dark:text-neutral-300"
+			class:bg-[var(--primary)]={navbarTransparentMode === "full"}
+			class:border-[var(--primary)]={navbarTransparentMode === "full"}
+			class:!text-white={navbarTransparentMode === "full"}
+			class:border-transparent={navbarTransparentMode !== "full"}
+			class:hover:border-[var(--primary)]={navbarTransparentMode !== "full"}
+			class:hover:text-[var(--primary)]={navbarTransparentMode !== "full"}
+			class:dark:hover:text-[var(--primary)]={navbarTransparentMode !== "full"}
+			on:click={() => selectNavbarTransparentMode("full")}
+		>
+			<Icon icon="material-symbols:blur-off" class={'text-lg' + (navbarTransparentMode === 'full' ? ' text-white' : '')} />
+			<span>{navbarTransparentModeLabel("full")}</span>
+		</button>
+		<button
+			class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
+				border-2 relative text-neutral-600 dark:text-neutral-300"
+			class:bg-[var(--primary)]={navbarTransparentMode === "semifull"}
+			class:border-[var(--primary)]={navbarTransparentMode === "semifull"}
+			class:!text-white={navbarTransparentMode === "semifull"}
+			class:border-transparent={navbarTransparentMode !== "semifull"}
+			class:hover:border-[var(--primary)]={navbarTransparentMode !== "semifull"}
+			class:hover:text-[var(--primary)]={navbarTransparentMode !== "semifull"}
+			class:dark:hover:text-[var(--primary)]={navbarTransparentMode !== "semifull"}
+			on:click={() => selectNavbarTransparentMode("semifull")}
+		>
+			<Icon icon="material-symbols:blur-circular" class={'text-lg' + (navbarTransparentMode === 'semifull' ? ' text-white' : '')} />
+			<span>{navbarTransparentModeLabel("semifull")}</span>
+		</button>
+	</div>
+</div>
+
 {#if postListLayoutAllowSwitch}
 <!-- 文章列表布局切换（仅在桌面端显示） -->
 <div class="hidden lg:block">
-	<div class="flex items-center gap-2 mb-4">
+	<div class="flex items-center gap-2 mb-3">
 	<div class="flex items-center gap-2">
 		<Icon icon="material-symbols:grid-view-outline" class="text-[var(--btn-content)] text-lg" />
 		<span class="text-base font-bold text-neutral-700 dark:text-neutral-300">

@@ -58,7 +58,7 @@ Asynchronously synchronizes with the mainline content of the Mizuki theme framew
 - Added real-time date, season, and time for site statistics, with date and season display supporting multiple regional formats and time supporting time-period representation.
 - Added external link confirmation popup, and modified some styles.
 - Add custom styles for the page scrollbar.
-- Refactor personalized configuration, add wallpaper mode, cherry blossom effect, and UI control for article list layout.
+- Refactored personalization settings, added UI controls for wallpaper mode, cherry blossom effects, article list layout, and navigation bar style.
 - Add "Follow System" theme mode, support theme selection via dropdown box.
 - Integrate bangumi and bilibili settings under the anime configuration section.
 - Updated and adapted to the latest version of the Twikoo comment system.

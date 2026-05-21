@@ -302,6 +302,12 @@ enum I18nKey {
 	wallpaperFullscreen = "wallpaperFullscreen",
 	wallpaperNone = "wallpaperNone",
 
+	// Navbar transparent mode
+	navbarTransparentMode = "navbarTransparentMode",
+	navbarTransparentSemi = "navbarTransparentSemi",
+	navbarTransparentFull = "navbarTransparentFull",
+	navbarTransparentSemifull = "navbarTransparentSemifull",
+
 	// 站点统计
 	siteStats = "siteStats",
 	siteStatsPostCount = "siteStatsPostCount",

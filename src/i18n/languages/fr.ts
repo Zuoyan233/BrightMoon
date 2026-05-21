@@ -237,6 +237,12 @@ export const fr: Translation = {
 	[Key.wallpaperFullscreen]: "Mode plein écran",
 	[Key.wallpaperNone]: "Masquer le fond d'écran",
 
+	// Mode barre de navigation transparente
+	[Key.navbarTransparentMode]: "Style de la barre de navigation",
+	[Key.navbarTransparentSemi]: "Verre dépoli",
+	[Key.navbarTransparentFull]: "Transparent",
+	[Key.navbarTransparentSemifull]: "Dynamique",
+
 	// Page Compétences
 	[Key.skills]: "Compétences",
 	[Key.skillsSubtitle]: "Mes compétences techniques et mon expertise",

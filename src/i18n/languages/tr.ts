@@ -229,6 +229,12 @@ export const tr: Translation = {
 	[Key.wallpaperFullscreen]: "Tam Ekran Modu",
 	[Key.wallpaperNone]: "Duvar Kağıdını Gizle",
 
+	// Gezinti çubuğu şeffaf modu
+	[Key.navbarTransparentMode]: "Gezinti Çubuğu Stili",
+	[Key.navbarTransparentSemi]: "Buzlu Cam",
+	[Key.navbarTransparentFull]: "Şeffaf",
+	[Key.navbarTransparentSemifull]: "Dinamik",
+
 	// Yetenekler Sayfası
 	[Key.skills]: "Yetenekler",
 	[Key.skillsSubtitle]: "Teknik becerilerim ve uzmanlık alanlarım",

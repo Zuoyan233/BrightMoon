@@ -56,7 +56,7 @@ const configHue = siteConfig.appearance.hue;
 
 // 获取导航栏透明模式配置
 const navbarTransparentMode =
-	siteConfig.banner?.navbar?.transparentMode || "semi";
+	siteConfig.appearance?.navbar?.transparentMode || "semi";
 
 // 判断是否应该显示顶部高光效果（只在full和semifull模式下显示）
 const shouldShowTopHighlight =
@@ -876,7 +876,7 @@ function disableAnimation() {
 			? sakuraConfig.enable
 			: localStorage.getItem("sakuraEnabled") !== null
 				? localStorage.getItem("sakuraEnabled") === "true"
-				: sakuraConfig.enable;
+				: false;
 
 		if (!shouldEnable) {
 			initSakura({ ...sakuraConfig, enable: false });

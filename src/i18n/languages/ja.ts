@@ -223,6 +223,12 @@ export const ja: Translation = {
 	[Key.wallpaperFullscreen]: "フルスクリーンモード",
 	[Key.wallpaperNone]: "壁紙を非表示",
 
+	// ナビゲーションバー透明モード
+	[Key.navbarTransparentMode]: "ナビゲーションバースタイル",
+	[Key.navbarTransparentSemi]: "すりガラス",
+	[Key.navbarTransparentFull]: "透明",
+	[Key.navbarTransparentSemifull]: "動的透明",
+
 	// スキルページ
 	[Key.skills]: "スキル",
 	[Key.skillsSubtitle]: "技術スキルと専門性",

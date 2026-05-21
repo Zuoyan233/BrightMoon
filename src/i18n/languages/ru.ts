@@ -226,6 +226,12 @@ export const ru: Translation = {
 	[Key.wallpaperFullscreen]: "Полноэкранный режим",
 	[Key.wallpaperNone]: "Скрыть обои",
 
+	// Режим прозрачности панели навигации
+	[Key.navbarTransparentMode]: "Стиль панели навигации",
+	[Key.navbarTransparentSemi]: "Матовое стекло",
+	[Key.navbarTransparentFull]: "Прозрачный",
+	[Key.navbarTransparentSemifull]: "Динамический",
+
 	// Страница навыков
 	[Key.skills]: "Навыки",
 	[Key.skillsSubtitle]: "Мои технические навыки и экспертиза",

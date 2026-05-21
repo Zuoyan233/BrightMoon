@@ -2,11 +2,14 @@ import {
 	DARK_MODE,
 	DEFAULT_THEME,
 	LIGHT_MODE,
+	NAVBAR_TRANSPARENT_FULL,
+	NAVBAR_TRANSPARENT_SEMI,
+	NAVBAR_TRANSPARENT_SEMIFULL,
 	SYSTEM_MODE,
-	// WALLPAPER_BANNER,
 } from "@constants/constants";
 import { siteConfig } from "@/config";
 import type { LIGHT_DARK_MODE, WALLPAPER_MODE } from "@/types/config";
+export type NAVBAR_TRANSPARENT_MODE = "semi" | "full" | "semifull";
 
 export function getDefaultHue(): number {
 	const fallback = "250";
@@ -210,10 +213,6 @@ export function getStoredSakuraEnabled(): boolean {
 	if (stored !== null) {
 		return stored === "true";
 	}
-	// 从 config-carrier 读取默认值
-	if (configCarrier?.dataset.sakuraEnabled) {
-		return configCarrier.dataset.sakuraEnabled === "true";
-	}
 	return false;
 }
 
@@ -243,4 +242,41 @@ export function setPostListLayout(layout: POST_LIST_LAYOUT_MODE): void {
 	sessionStorage.setItem("postListLayout", layout);
 	// 触发自定义事件通知其他组件布局已改变
 	window.dispatchEvent(new CustomEvent("layoutChange", { detail: { layout } }));
+}
+
+// Navbar transparent mode
+export function getDefaultNavbarTransparentMode(): NAVBAR_TRANSPARENT_MODE {
+	const configCarrier = document.getElementById("config-carrier");
+	if (!configCarrier) {
+		return NAVBAR_TRANSPARENT_SEMI;
+	}
+	return (
+		(configCarrier.dataset.navbarTransparentMode as NAVBAR_TRANSPARENT_MODE) ||
+		NAVBAR_TRANSPARENT_SEMI
+	);
+}
+
+export function getStoredNavbarTransparentMode(): NAVBAR_TRANSPARENT_MODE {
+	// 当外观固定时（appearance.fixed = true），强制使用配置值，忽略用户偏好
+	const configCarrier = document.getElementById("config-carrier");
+	if (configCarrier?.dataset.appearanceFixed === "true") {
+		return getDefaultNavbarTransparentMode();
+	}
+
+	const stored = localStorage.getItem(
+		"navbarTransparentMode",
+	) as NAVBAR_TRANSPARENT_MODE | null;
+	if (stored && ["semi", "full", "semifull"].includes(stored)) {
+		return stored;
+	}
+	// 从 config-carrier 读取默认值
+	return getDefaultNavbarTransparentMode();
+}
+
+export function setNavbarTransparentMode(mode: NAVBAR_TRANSPARENT_MODE): void {
+	localStorage.setItem("navbarTransparentMode", mode);
+	// 触发自定义事件通知其他组件 navbar 透明模式已改变
+	window.dispatchEvent(
+		new CustomEvent("navbar-transparent-mode-change", { detail: { mode } }),
+	);
 }

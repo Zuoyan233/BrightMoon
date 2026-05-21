@@ -231,6 +231,12 @@ export const es: Translation = {
 	[Key.wallpaperFullscreen]: "Modo pantalla completa",
 	[Key.wallpaperNone]: "Ocultar fondo de pantalla",
 
+	// Modo de barra de navegación transparente
+	[Key.navbarTransparentMode]: "Estilo de la barra de navegación",
+	[Key.navbarTransparentSemi]: "Esmerilado",
+	[Key.navbarTransparentFull]: "Transparente",
+	[Key.navbarTransparentSemifull]: "Dinámico",
+
 	// Página de Habilidades
 	[Key.skills]: "Habilidades",
 	[Key.skillsSubtitle]: "Mis habilidades técnicas y experiencia",

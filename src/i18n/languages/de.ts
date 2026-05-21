@@ -228,6 +228,12 @@ export const de: Translation = {
 	[Key.wallpaperFullscreen]: "Vollbild-Modus",
 	[Key.wallpaperNone]: "Hintergrundbild ausblenden",
 
+	// Navigationsleisten-Stil
+	[Key.navbarTransparentMode]: "Navigationsleisten-Stil",
+	[Key.navbarTransparentSemi]: "Mattglas",
+	[Key.navbarTransparentFull]: "Transparent",
+	[Key.navbarTransparentSemifull]: "Dynamisch",
+
 	// Fähigkeiten-Seite
 	[Key.skills]: "Fähigkeiten",
 	[Key.skillsSubtitle]: "Meine technischen Fähigkeiten und Expertise",

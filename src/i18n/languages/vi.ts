@@ -227,6 +227,12 @@ export const vi: Translation = {
 	[Key.wallpaperFullscreen]: "Chế độ Toàn màn hình",
 	[Key.wallpaperNone]: "Ẩn hình nền",
 
+	// Chế độ thanh điều hướng trong suốt
+	[Key.navbarTransparentMode]: "Kiểu thanh điều hướng",
+	[Key.navbarTransparentSemi]: "Mờ sương",
+	[Key.navbarTransparentFull]: "Trong suốt",
+	[Key.navbarTransparentSemifull]: "Động",
+
 	// Skills Page
 	[Key.skills]: "Kỹ năng",
 	[Key.skillsSubtitle]: "Kỹ năng kỹ thuật và chuyên môn của tôi",
