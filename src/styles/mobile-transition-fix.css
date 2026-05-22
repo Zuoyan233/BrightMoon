@@ -5,7 +5,7 @@
  */
 
 /* 移动端页面切换性能优化 */
-@media (max-width: 768px) {
+@media (max-width: 744px) {
   /* 为所有动画元素添加硬件加速 */
   .transition-main,
   .transition-leaving,

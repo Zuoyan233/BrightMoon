@@ -1137,7 +1137,7 @@ const transparentClass = shouldEnableTransparency
 }
 
 /* 移动端 - 始终显示浮动 TOC */
-@media (max-width: 767px) {
+@media (max-width: 743px) {
     .toc-float-mode {
         display: block !important;
     }
@@ -1149,7 +1149,7 @@ const transparentClass = shouldEnableTransparency
 }
 
 /* 平板端 - 根据 data-tablet-mode 配置决定显示方式 */
-@media (min-width: 768px) and (max-width: 1279px) {
+@media (min-width: 744px) and (max-width: 1279px) {
     .toc-container[data-tablet-mode="float"] .toc-float-mode {
         display: block !important;
     }
@@ -1211,7 +1211,7 @@ body.no-banner-mode .absolute.w-full.z-30 {
 }
 
 /* 移动端无侧边栏布局优化 */
-@media (max-width: 767px) {
+@media (max-width: 743px) {
     .mobile-no-sidebar {
         display: block !important;
         width: 100% !important;
@@ -1307,8 +1307,8 @@ body.no-banner-mode .absolute.w-full.z-30 {
     }
 }
 
-/* 移动端横幅优化 - 大屏手机 (480px - 767px) */
-@media (min-width: 480px) and (max-width: 767px) {
+/* 移动端横幅优化 - 大屏手机 (480px - 743px) */
+@media (min-width: 480px) and (max-width: 743px) {
     /* Banner wrapper 高度优化 - 优先保持banner显示 */
     body.enable-banner #banner-wrapper:not(.mobile-hide-banner) {
         height: 75vh !important;
@@ -1361,8 +1361,8 @@ body.no-banner-mode .absolute.w-full.z-30 {
     }
 }
 
-/* 平板设备横幅优化 (768px - 1279px) */
-@media (min-width: 768px) and (max-width: 1279px) {
+/* 平板设备横幅优化 (744px - 1279px) */
+@media (min-width: 744px) and (max-width: 1279px) {
     /* Banner wrapper 高度优化 */
     body.enable-banner #banner-wrapper:not(.mobile-hide-banner) {
         height: 70vh !important;
@@ -1738,7 +1738,7 @@ body.no-banner-mode .absolute.w-full.z-30 {
 }
 
 /* 平板设备当banner被禁用时的布局样式 */
-@media (min-width: 768px) and (max-width: 1279px) {
+@media (min-width: 744px) and (max-width: 1279px) {
     .absolute.w-full.z-30.no-banner-layout {
         top: 5.5rem !important;
         min-height: calc(100vh - 5.5rem) !important;

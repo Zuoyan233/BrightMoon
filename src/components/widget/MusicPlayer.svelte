@@ -797,7 +797,7 @@ onDestroy(() => {
     transform: scaleY(1.2);
     transition: transform 0.2s ease;
 }
-@media (max-width: 768px) {
+@media (max-width: 744px) {
     .music-player {
         max-width: 280px !important;
         /*left: 0.5rem !important;*/

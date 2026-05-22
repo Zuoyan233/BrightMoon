@@ -155,7 +155,7 @@ html.is-animating .transition-swup-fade {
 }
 
 /* 响应式调整 */
-@media (max-width: 768px) {
+@media (max-width: 744px) {
   /* 移动端优化：减少动画幅度，避免闪烁 */
   html.is-animating .transition-main {
     transform: translateY(0.5rem) translateX(0.2rem);

@@ -54,7 +54,7 @@
   aspect-ratio: 2/3;
   flex-shrink: 0;
 }
-@media (min-width: 768px) {
+@media (min-width: 744px) {
   .anime-grid-container.anime-list-mode .anime-cover-container {
     width: 11rem;
   }

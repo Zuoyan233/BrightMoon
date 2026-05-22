@@ -57,6 +57,7 @@ export const siteConfig: SiteConfig = {
 		// 文章列表布局配置
 		postListLayout: {
 			// 默认布局模式："list" 列表模式（单列布局），"grid" 网格模式（双列布局）
+			// 注意：使用 "grid" 网格模式（双列布局）右侧边栏则不显示
 			defaultMode: "list",
 			// 是否允许用户切换布局
 			allowSwitch: true,
@@ -652,8 +653,8 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 	responsive: {
 		// 断点配置（像素值）
 		breakpoints: {
-			// 移动端断点：屏幕宽度小于768px
-			mobile: 768,
+			// 移动端断点：屏幕宽度小于744px
+			mobile: 744,
 			// 平板端断点：屏幕宽度小于1280px
 			tablet: 1280,
 			// 桌面端断点：屏幕宽度大于等于1280px

@@ -2,9 +2,7 @@ import {
 	DARK_MODE,
 	DEFAULT_THEME,
 	LIGHT_MODE,
-	NAVBAR_TRANSPARENT_FULL,
 	NAVBAR_TRANSPARENT_SEMI,
-	NAVBAR_TRANSPARENT_SEMIFULL,
 	SYSTEM_MODE,
 } from "@constants/constants";
 import { siteConfig } from "@/config";

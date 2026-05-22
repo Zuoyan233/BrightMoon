@@ -1,7 +1,7 @@
 {
   "name": "brightmoon",
   "type": "module",
-  "version": "26.5.22",
+  "version": "26.5.23",
   "scripts": {
     "sync-content": "node scripts/sync-content.js",
     "init-content": "node scripts/init-content-repo.js",
