@@ -81,7 +81,7 @@ const initialLayoutClass = defaultLayout === "grid" ? "grid-mode" : "list-mode";
 
 		container.classList.add("layout-switching");
 
-		container.classList.remove("grid", "grid-cols-1", "lg:grid-cols-2", "gap-6", "flex", "flex-col");
+		container.classList.remove("grid", "grid-cols-1", "xl:grid-cols-2", "gap-6", "flex", "flex-col");
 
 		// 切换布局模式类名
 		if (layout === "grid") {
@@ -201,7 +201,7 @@ const initialLayoutClass = defaultLayout === "grid" ? "grid-mode" : "list-mode";
 
 	/* 布局模式 - 网格模式 (仅在桌面端生效，移动端强制单列) */
 	#post-list-container.grid-mode {
-		@apply grid grid-cols-1 md:grid-cols-2 gap-6;
+		@apply grid grid-cols-1 xl:grid-cols-2 gap-6;
 	}
 
 	/* 内容可见性 (视口外不渲染) */

@@ -535,12 +535,12 @@ const transparentClass = shouldEnableTransparency
 					
 					if (currentLayout === 'grid') {
 						postListContainer.classList.add('grid-mode');
-						postListContainer.classList.add('grid', 'grid-cols-1', 'lg:grid-cols-2', 'gap-6');
+						postListContainer.classList.add('grid', 'grid-cols-1', 'xl:grid-cols-2', 'gap-6');
 						postListContainer.classList.remove('flex', 'flex-col');
 					} else {
 						postListContainer.classList.add('list-mode');
 						postListContainer.classList.add('flex', 'flex-col');
-						postListContainer.classList.remove('grid', 'grid-cols-1', 'lg:grid-cols-2', 'gap-6');
+						postListContainer.classList.remove('grid', 'grid-cols-1', 'xl:grid-cols-2', 'gap-6');
 					}
 				}
 			}
@@ -743,12 +743,12 @@ const transparentClass = shouldEnableTransparency
 						
 						if (currentLayout === 'grid') {
 							postListContainer.classList.add('grid-mode');
-							postListContainer.classList.add('grid', 'grid-cols-1', 'lg:grid-cols-2', 'gap-6');
+							postListContainer.classList.add('grid', 'grid-cols-1', 'xl:grid-cols-2', 'gap-6');
 							postListContainer.classList.remove('flex', 'flex-col');
 						} else {
 							postListContainer.classList.add('list-mode');
 							postListContainer.classList.add('flex', 'flex-col');
-							postListContainer.classList.remove('grid', 'grid-cols-1', 'lg:grid-cols-2', 'gap-6');
+							postListContainer.classList.remove('grid', 'grid-cols-1', 'xl:grid-cols-2', 'gap-6');
 						}
 					}
 					
@@ -1695,19 +1695,6 @@ body.no-banner-mode .absolute.w-full.z-30 {
 /* Grid 模式下调整主网格布局 */
 #main-grid[data-layout-mode="grid"] {
     /* 在桌面端只显示左侧边栏和主内容 */
-}
-
-/* 平板设备Grid模式：使用单列布局，和手机端保持一致 */
-@media (min-width: 768px) and (max-width: 1279px) {
-    #main-grid[data-layout-mode="grid"] {
-        grid-template-columns: 1fr !important;
-        grid-template-rows: auto 1fr auto !important;
-    }
-    
-    #main-grid[data-layout-mode="grid"] #swup-container {
-        grid-column: 1 / 2;
-        grid-row: 1 / 2;
-    }
 }
 
 /* 桌面设备Grid模式：使用双列布局 */

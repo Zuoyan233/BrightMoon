@@ -567,7 +567,7 @@ html {
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1280px) {
   .post-list-container.grid-mode {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -631,20 +631,30 @@ html {
   }
 }
 
-/* 桌面端样式 */
+/* 桌面端样式 - 列表模式 */
 @media (min-width: 769px) {
-  /* 列表模式下的样式 */
   .post-list-container.list-mode {
     display: flex !important;
     flex-direction: column;
     gap: 0.75rem;
   }
+}
 
-  /* 网格模式下的样式 */
+/* 桌面端样式 - 网格模式（仅 >= 1280px 生效） */
+@media (min-width: 1280px) {
   .post-list-container.grid-mode {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
+  }
+}
+
+/* 平板端（769px ~ 1279px）即使 grid 模式也强制显示为列表 */
+@media (min-width: 769px) and (max-width: 1279px) {
+  .post-list-container.grid-mode {
+    display: flex !important;
+    flex-direction: column;
+    gap: 0.75rem;
   }
 }
 
@@ -660,7 +670,7 @@ html {
   gap: 1.5rem;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1280px) {
   .post-list-container.grid-mode {
     grid-template-columns: repeat(2, 1fr);
   }
