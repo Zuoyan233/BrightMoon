@@ -48,7 +48,7 @@ function formatTime(dateString: string): string {
   </script>
 	<div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
 		<div class="card-base z-10 px-4 py-4 md:px-6 md:py-5 relative w-full">
-		<div class="relative max-w-4xl w-full px-2 md:px-0">
+		<div class="relative w-full px-2 md:px-0 diary-content-container">
 				<!-- 页面头部 -->
 				<div class="moments-header mb-6">
 					<div class="header-content">
@@ -264,6 +264,22 @@ function formatTime(dateString: string): string {
 			border-radius: 6px;
 		}
 	}
+	
+	/* 处理不同布局模式下的内容宽度 */
+	.diary-content-container {
+		transition: max-width 0.3s ease;
+	}
+	
+	/* 在列表模式或有右侧边栏时限制宽度 */
+	#main-grid:not([data-layout-mode="grid"]) .diary-content-container,
+	#main-grid[data-layout-mode="list"] .diary-content-container {
+		max-width: 56rem; /* 相当于 max-w-4xl */
+		margin: 0 auto;
+	}
+	
+	/* 在网格模式且右侧边栏隐藏时，内容铺满 */
+	#main-grid[data-layout-mode="grid"] .diary-content-container {
+		max-width: 100%;
+		margin: 0;
+	}
 </style>
-
-
