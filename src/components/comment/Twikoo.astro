@@ -26,17 +26,6 @@ function getLang() {
 	return window.translationManager?.getTwikooLanguage() || config.lang;
 }
 
-function isTranslateActive() {
-	return !!window.translationManager?.isActive();
-}
-
-function translateComments() {
-	if (!isTranslateActive()) return;
-	window.translationManager?.refresh({ reason: 'twikoo-comments' });
-}
-
-// ---- Twikoo ----
-
 var lastLang = null;
 
 function initTwikoo() {
@@ -52,20 +41,13 @@ function initTwikoo() {
 	var cfg = Object.assign({}, config, {
 		lang: lastLang,
 		path: getPath(),
-		onCommentLoaded: function() {
-			setTimeout(translateComments, 500);
-		},
 	});
 
 	console.log('[Twikoo] init:', cfg);
-	twikoo.init(cfg).then(function() {
-		setTimeout(translateComments, 600);
-	}).catch(function(e) {
+	twikoo.init(cfg).catch(function(e) {
 		console.error('[Twikoo] failed:', e);
 	});
 }
-
-// ---- Swup ----
 
 function onContentReplace() {
 	lastLang = null;
@@ -83,8 +65,6 @@ function setupSwup() {
 		});
 	}
 }
-
-// ---- events ----
 
 document.addEventListener('DOMContentLoaded', initTwikoo);
 

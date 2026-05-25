@@ -66,12 +66,20 @@ html.dark {
   .__comments svg {
     @apply fill-[var(--primary)];
   }
+  svg,
+  svg path {
+    fill: var(--primary) !important;
+  }
 }
 
 .tk-comment {
-  @apply border-[1px] border-[rgba(144,147,153,0.31)] p-4 rounded-2xl hover:shadow-lg dark:hover:shadow-white/30 transition-all;
-  .tk-action-icon svg {
+  @apply border-[1px] border-[rgba(144,147,153,0.31)] p-4 rounded-2xl hover:shadow-lg dark:hover:shadow-white/30 transition-all duration-300;
+  .tk-action-icon svg path {
     @apply fill-[var(--primary)];
+  }
+
+  .tk-action button svg path {
+    fill: var(--primary) !important;
   }
 }
 
