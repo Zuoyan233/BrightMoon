@@ -97,7 +97,7 @@ const allTags = Array.from(new Set(friendsList.flatMap((item) => item.tags)));
 					<div 
 						class="friend-card group relative bg-transparent rounded-xl border border-black/10 dark:border-white/10
 								 overflow-hidden transition-all duration-300
-								 hover:shadow-xl hover:-translate-y-1"
+								 hover:shadow-lg dark:hover:shadow-lg dark:hover:shadow-white/30 hover:-translate-y-1"
 						data-title={item.title.toLowerCase()}
 						data-desc={item.desc.toLowerCase()}
 						data-tags={item.tags.join(',')}
