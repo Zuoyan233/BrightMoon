@@ -3,12 +3,15 @@
 
 /**
  * 初始化页面布局
- * @param {string} pageType - 页面类型（projects, skills等）
  */
-function initPageLayout(pageType) {
-	// 获取布局配置
+function initPageLayout() {
+	// 获取布局配置 - 从 main-grid 的 data-layout-mode 属性读取默认布局
+	const mainGrid = document.getElementById("main-grid");
+	const defaultLayoutMode = mainGrid
+		? mainGrid.getAttribute("data-layout-mode")
+		: "list";
 	const defaultPostListLayout =
-		localStorage.getItem("postListLayout") || "list";
+		localStorage.getItem("postListLayout") || defaultLayoutMode;
 
 	// 如果默认布局是网格模式，则隐藏右侧边栏
 	if (defaultPostListLayout === "grid") {
@@ -41,7 +44,12 @@ function initPageLayout(pageType) {
 	// 监听页面导航事件
 	document.addEventListener("astro:page-load", () => {
 		setTimeout(() => {
-			const currentLayout = localStorage.getItem("postListLayout") || "list";
+			const mainGrid = document.getElementById("main-grid");
+			const defaultLayoutMode = mainGrid
+				? mainGrid.getAttribute("data-layout-mode")
+				: "list";
+			const currentLayout =
+				localStorage.getItem("postListLayout") || defaultLayoutMode;
 			if (currentLayout === "grid") {
 				hideRightSidebar();
 			} else {
@@ -53,7 +61,12 @@ function initPageLayout(pageType) {
 	// 监听SWUP导航事件
 	document.addEventListener("swup:contentReplaced", () => {
 		setTimeout(() => {
-			const currentLayout = localStorage.getItem("postListLayout") || "list";
+			const mainGrid = document.getElementById("main-grid");
+			const defaultLayoutMode = mainGrid
+				? mainGrid.getAttribute("data-layout-mode")
+				: "list";
+			const currentLayout =
+				localStorage.getItem("postListLayout") || defaultLayoutMode;
 			if (currentLayout === "grid") {
 				hideRightSidebar();
 			} else {

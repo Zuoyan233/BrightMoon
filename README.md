@@ -232,10 +232,6 @@ The blog will be available at `http://localhost:4321`.
 | `pnpm new-post <filename>` | Create a new blog post                                 |
 | `pnpm astro ...`           | Run Astro CLI commands                                 |
 
-To provide developers with a smoother, more familiar experience, we still use Biome for code formatting and fixing.
-
-Although Mizuki version 7.6 and later switched to Prettier + ESLint, we believe Biome's "out-of-the-box" nature aligns better with our workflow, avoiding additional configuration costs.
-
 ---
 
 ## 🙏 Acknowledgements

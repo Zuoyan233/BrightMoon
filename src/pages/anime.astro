@@ -581,8 +581,10 @@ const hiddenAnimeList = animeList.slice(INITIAL_DISPLAY_COUNT);
 					"anime-list-container",
 				);
 				if (!animeListContainer) return false;
+				const mainGrid = document.getElementById("main-grid");
+				const defaultLayoutMode = mainGrid ? mainGrid.getAttribute("data-layout-mode") : "list";
 				const currentLayout =
-					localStorage.getItem("postListLayout") || "list";
+					localStorage.getItem("postListLayout") || defaultLayoutMode;
 				updateAnimeListLayout(currentLayout, false);
 				requestAnimationFrame(() => {
 					animeListContainer.classList.remove("opacity-0");
@@ -607,9 +609,11 @@ const hiddenAnimeList = animeList.slice(INITIAL_DISPLAY_COUNT);
 							"anime-list-container",
 						);
 						if (animeListContainer) {
+							const mainGrid = document.getElementById("main-grid");
+							const defaultLayoutMode = mainGrid ? mainGrid.getAttribute("data-layout-mode") : "list";
 							const currentLayout =
 								localStorage.getItem("postListLayout") ||
-								"list";
+								defaultLayoutMode;
 							updateAnimeListLayout(currentLayout, false);
 							animeListContainer.classList.remove("opacity-0");
 						}
@@ -762,9 +766,11 @@ const hiddenAnimeList = animeList.slice(INITIAL_DISPLAY_COUNT);
 								"anime-list-container",
 							);
 							if (animeListContainer) {
+								const mainGrid = document.getElementById("main-grid");
+								const defaultLayoutMode = mainGrid ? mainGrid.getAttribute("data-layout-mode") : "list";
 								const currentLayout =
 									localStorage.getItem("postListLayout") ||
-									"list";
+									defaultLayoutMode;
 								updateAnimeListLayout(currentLayout, false);
 							}
 						}, 100);

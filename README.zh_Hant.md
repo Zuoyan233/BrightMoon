@@ -229,10 +229,6 @@ Frontmatter 欄位說明：
 | `pnpm new-post <檔名>` | 建立新部落格文章                       |
 | `pnpm astro ...`       | 執行 Astro CLI 指令                    |
 
-為了給開發者提供更流暢、熟悉的體驗，我們依然選擇 Biome 來處理程式碼格式化和修復程式碼。
-
-儘管 Mizuki 7.6 版本後改為使用 Prettier + ESLint，但我們認為 Biome 的「開箱即用」特性與我們的工作流程匹配得更好，避免了額外的配置成本。
-
 ---
 
 ## 🙏 致謝
