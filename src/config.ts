@@ -63,7 +63,7 @@ export const siteConfig: SiteConfig = {
 			allowSwitch: true,
 		},
 		navbar: {
-			transparentMode: "full", // 导航栏透明模式："semi" 半透明加圆角，"full" 完全透明，"semifull" 动态透明
+			transparentMode: "semifull", // 导航栏透明模式："semi" 半透明加圆角，"full" 完全透明，"semifull" 动态透明
 		},
 	},
 
@@ -228,23 +228,13 @@ export const siteConfig: SiteConfig = {
 
 	// 字体配置
 	font: {
-		// 注意：自定义字体需要在 src/styles/main.css 中引入字体文件
-		// 注意：字体子集优化功能目前仅支持 TTF 格式字体,开启后需要在生产环境才能看到效果,在Dev环境下显示的是浏览器默认字体!
-		asciiFont: {
-			// 英文字体 - 优先级最高
-			// 指定为英文字体则无论字体包含多大范围，都只会保留 ASCII 字符子集
-			fontFamily: "ZenMaruGothic-Medium",
-			fontWeight: "400",
-			localFonts: ["ZenMaruGothic-Medium.ttf"],
-			enableCompress: true, // 启用字体子集优化，减少字体文件大小
-		},
-		cjkFont: {
-			// 中日韩字体 - 作为回退字体
-			fontFamily: "萝莉体 第二版",
-			fontWeight: "500",
-			localFonts: ["萝莉体 第二版.ttf"],
-			enableCompress: true, // 启用字体子集优化，减少字体文件大小
-		},
+		fontFamily: "MiSans-Normal", // 字体名称（用于 CSS font-family）
+		fontWeight: "500", // 字体粗细
+		localFonts: ["MiSans-Normal.woff2"], // 源字体文件（仅支持 TTF / OTF / WOFF2）：TTF / OTF 字体格式会由脚本自动压缩并转换为 WOFF2 字体格式，若本身已是 WOFF2 字体格式则直接跳过，无需处理
+		// Web 字体文件路径（WOFF2 格式，在浏览器中实际使用）
+		// 注意：此文件需要在运行构建和压缩脚本后才会生成，Dev 环境下如果看不到字体，请确保 public/assets/font/ 目录下有对应的 WOFF2 文件，或者临时将此路径改为 TTF 文件路径进行开发
+		fontFile: "/assets/font/MiSans-Normal.woff2",
+		enableCompress: true, // 是否启用字体子集优化（减少字体文件大小，只保留实际使用的字符）
 	},
 	showLastModified: true, // 控制“上次编辑”卡片显示的开关
 };

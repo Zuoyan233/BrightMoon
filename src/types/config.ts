@@ -120,18 +120,11 @@ export type SiteConfig = {
 
 	// 添加字体配置
 	font: {
-		asciiFont: {
-			fontFamily: string;
-			fontWeight: string | number;
-			localFonts: string[];
-			enableCompress: boolean;
-		};
-		cjkFont: {
-			fontFamily: string;
-			fontWeight: string | number;
-			localFonts: string[];
-			enableCompress: boolean;
-		};
+		fontFamily: string;
+		fontWeight: string | number;
+		localFonts: string[];
+		fontFile?: string;
+		enableCompress: boolean;
 	};
 
 	// 番剧页面配置（整合 bangumi、bilibili 配置）
