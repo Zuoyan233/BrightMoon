@@ -1,5 +1,5 @@
 # BrightMoon
-<img align='right' src='./example project show/images/logo.webp' width='200px' alt="BrightMoon logo">
+<img align='right' src='./project-preview/images/logo.webp' width='200px' alt="BrightMoon logo">
 
 BrightMoon 是一款融合現代簡約與優雅氣質的獨特二次元美學靜態部落格模板。專案以 [Astro](https://astro.build/) 為構建基石，將先進功能與精美視覺融為一體。
 
@@ -16,23 +16,23 @@ BrightMoon 是一款融合現代簡約與優雅氣質的獨特二次元美學靜
 
 🌐 README 語言：[简体中文](./README.zh_CN.md) &nbsp; [English](./README.en.md) &nbsp; [日本語](./README.jp.md)
 
-![BrightMoon preview](./example%20project%20show/images/example%20project%20show.webp)
+![BrightMoon preview](./project-preview/images/project-preview.webp)
 
 <table>
   <tr>
-    <td><img alt="" src="example project show/images/example project show 2.webp"></td>
-    <td><img alt="" src="example project show/images/example project show 3.webp"></td>
-    <td><img alt="" src="example project show/images/example project show 4.webp"></td>
+    <td><img alt="" src="project-preview/images/project-preview 2.webp"></td>
+    <td><img alt="" src="project-preview/images/project-preview 3.webp"></td>
+    <td><img alt="" src="project-preview/images/project-preview 4.webp"></td>
   <tr>
   <tr>
-    <td><img alt="" src="example project show/images/example project show 5.webp"></td>
-    <td><img alt="" src="example project show/images/example project show 6.webp"></td>
-    <td><img alt="" src="example project show/images/example project show 7.webp"></td>
+    <td><img alt="" src="project-preview/images/project-preview 5.webp"></td>
+    <td><img alt="" src="project-preview/images/project-preview 6.webp"></td>
+    <td><img alt="" src="project-preview/images/project-preview 7.webp"></td>
   <tr>
   <tr>
-    <td><img alt="" src="example project show/images/example project show 8.webp"></td>
-    <td><img alt="" src="example project show/images/example project show 9.webp"></td>
-    <td><img alt="" src="example project show/images/example project show 10.webp"></td>
+    <td><img alt="" src="project-preview/images/project-preview 8.webp"></td>
+    <td><img alt="" src="project-preview/images/project-preview 9.webp"></td>
+    <td><img alt="" src="project-preview/images/project-preview 10.webp"></td>
   <tr>
 </table>
 

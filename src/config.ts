@@ -178,17 +178,17 @@ export const siteConfig: SiteConfig = {
 
 		homeText: {
 			enable: true, // 在主页显示自定义文本
-			title: "Welcome Home !", // 主页横幅主标题
+			title: "Let's be full of energy today !", // 主页横幅主标题
 
 			subtitle: [
+				"Hello World",
 				"Always believe that good things are about to happen",
-				"Do you know what '2333' means",
-				"Ahead is Accelerator",
-				"High energy ahead",
-				"So cute, must be a boy",
-				"Infused with soul",
-				"Safety shorts are the worst invention in human history, bar none",
-				"Left Face Research Department Cheers - ( ゜- ゜)つロ",
+				"Even so, I will move forward",
+				"Never give up",
+				"Every day is a new beginning",
+				"Our journey is to the stars and the sea",
+				"The electric light dancing at your fingertips is my unwavering faith in this life",
+				"Cheers to the Zuo Yan Research Department - ( ゜- ゜)つロ",
 			],
 			typewriter: {
 				enable: true, // 启用副标题打字机效果
