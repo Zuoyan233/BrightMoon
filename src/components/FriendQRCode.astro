@@ -33,7 +33,7 @@ const methodsToShow = qrCodes
     <div class="flex flex-col gap-5">
       <!-- 标签切换按钮组 -->
       {methodsToShow.length > 0 && (
-        <div class="flex justify-center gap-3">
+        <div class="ignore flex justify-center gap-3">
           {methodsToShow.map((method, idx) => (
             <button
               data-tab-id={method.method}
@@ -63,7 +63,7 @@ const methodsToShow = qrCodes
                 alt={`${method.method} QR Code`} 
               />
             </div>
-            <p class="m-0 text-sm text-[var(--content-meta)] flex items-center gap-1.5">
+            <p class="ignore m-0 text-sm text-[var(--content-meta)] flex items-center gap-1.5">
               <Icon name="material-symbols:camera" class="text-lg"></Icon>
               {i18n(I18nKey[`scanContact${idx + 1}` as keyof typeof I18nKey])}
             </p>
