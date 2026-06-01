@@ -40,7 +40,14 @@ export function getPostUrl(post: {
 	id: string;
 	data: { alias?: string; permalink?: string };
 }): string;
-export function getPostUrl(post: any): string {
+export function getPostUrl(
+	post:
+		| CollectionEntry<"posts">
+		| {
+				id: string;
+				data: { alias?: string; permalink?: string };
+		  },
+): string {
 	// 如果文章有自定义 permalink，优先使用（在根目录下）
 	if (post.data.permalink) {
 		const slug = post.data.permalink.replace(/^\/+/, "").replace(/\/+$/, "");

@@ -11,8 +11,15 @@ declare global {
 			hooks: {
 				on: (event: string, handler: (...args: unknown[]) => void) => void;
 			};
+			navigate: (url: string, options?: { history?: boolean }) => void;
+			preload: (url: string) => void;
 		};
 		closeAnnouncement: () => void;
+		panelManager: {
+			togglePanel: (panelId: string, forceState?: boolean) => Promise<boolean>;
+			closePanel: (panelId: string) => Promise<void>;
+			closeAllPanelsExcept: (exceptPanelId?: string) => Promise<void>;
+		};
 		pagefind: {
 			search: (query: string) => Promise<{
 				results: Array<{

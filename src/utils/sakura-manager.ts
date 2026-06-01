@@ -136,8 +136,32 @@ class SakuraList {
 }
 
 // 获取随机值的函数
-function getRandom(option: string, config: SakuraConfig): any {
-	let ret: any;
+function getRandom(
+	option: "x" | "y" | "s" | "r" | "a",
+	config: SakuraConfig,
+): number;
+function getRandom(
+	option: "fnx" | "fny",
+	config: SakuraConfig,
+): (x: number, y: number) => number;
+function getRandom(option: "fnr", config: SakuraConfig): (r: number) => number;
+function getRandom(
+	option: "fna",
+	config: SakuraConfig,
+): (alpha: number) => number;
+function getRandom(
+	option: string,
+	config: SakuraConfig,
+):
+	| number
+	| ((x: number, y: number) => number)
+	| ((r: number) => number)
+	| ((alpha: number) => number) {
+	let ret:
+		| number
+		| ((x: number, y: number) => number)
+		| ((r: number) => number)
+		| ((alpha: number) => number);
 	let random: number;
 
 	switch (option) {

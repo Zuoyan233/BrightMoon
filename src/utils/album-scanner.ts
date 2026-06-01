@@ -50,7 +50,7 @@ async function processAlbumFolder(
 
 	// 读取相册信息
 	const infoContent = fs.readFileSync(infoPath, "utf-8");
-	let info: Record<string, any>;
+	let info: Record<string, unknown>;
 	try {
 		info = JSON.parse(infoContent);
 	} catch (e) {
@@ -145,8 +145,22 @@ function scanPhotos(folderPath: string, albumId: string): Photo[] {
 	return photos;
 }
 
+interface ExternalPhoto {
+	src?: string;
+	id?: string;
+	thumbnail?: string;
+	alt?: string;
+	title?: string;
+	description?: string;
+	tags?: string[];
+	date?: string;
+	location?: string;
+	width?: number;
+	height?: number;
+}
+
 function processExternalPhotos(
-	externalPhotos: any[],
+	externalPhotos: ExternalPhoto[],
 	albumId: string,
 ): Photo[] {
 	const photos: Photo[] = [];
