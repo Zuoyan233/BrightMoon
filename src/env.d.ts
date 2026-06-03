@@ -7,7 +7,6 @@ interface ImportMetaEnv {
 	readonly UMAMI_API_KEY?: string;
 }
 
-// biome-ignore lint/correctness/noUnusedVariables: augments global import.meta type via declaration merging
 interface ImportMeta {
 	readonly env: ImportMetaEnv;
 }

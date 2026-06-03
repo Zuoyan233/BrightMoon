@@ -40,7 +40,7 @@
 
 		// 检查是否在TOC元素上
 		const activeElement = document.activeElement;
-		if (activeElement && activeElement.closest("#toc, .table-of-contents")) {
+		if (activeElement?.closest("#toc, .table-of-contents")) {
 			return true;
 		}
 
@@ -73,7 +73,7 @@
 	}
 
 	// 检查滚动是否被允许
-	function isScrollAllowed(x, y) {
+	function isScrollAllowed(y) {
 		if (!scrollProtection.enabled) {
 			return true;
 		}
@@ -112,11 +112,20 @@
 		// 处理参数为对象的情况
 		if (typeof x === "object") {
 			const options = x;
-			x = options.left || 0;
-			y = options.top || 0;
+			const targetX = options.left || 0;
+			const targetY = options.top || 0;
+
+			if (isScrollAllowed(targetY)) {
+				originalScrollTo.call(window, targetX, targetY);
+			} else {
+				console.log("[强力滚动保护] 阻止 scrollTo:", targetX, targetY);
+				// 如果被阻止，滚动到允许的位置
+				originalScrollTo.call(window, targetX, scrollProtection.allowedY);
+			}
+			return;
 		}
 
-		if (isScrollAllowed(x, y)) {
+		if (isScrollAllowed(y)) {
 			originalScrollTo.call(window, x, y);
 		} else {
 			console.log("[强力滚动保护] 阻止 scrollTo:", x, y);
@@ -127,16 +136,25 @@
 
 	// 劫持 window.scrollBy
 	window.scrollBy = (x, y) => {
+		if (typeof x === "object") {
+			const options = x;
+			const deltaX = options.left || 0;
+			const deltaY = options.top || 0;
+			const currentY = window.scrollY || window.pageYOffset;
+			const targetY = currentY + deltaY;
+
+			if (isScrollAllowed(targetY)) {
+				originalScrollBy.call(window, deltaX, deltaY);
+			} else {
+				console.log("[强力滚动保护] 阻止 scrollBy:", deltaX, deltaY);
+			}
+			return;
+		}
+
 		const currentY = window.scrollY || window.pageYOffset;
 		const targetY = currentY + y;
 
-		if (typeof x === "object") {
-			const options = x;
-			x = options.left || 0;
-			y = options.top || 0;
-		}
-
-		if (isScrollAllowed(x, targetY)) {
+		if (isScrollAllowed(targetY)) {
 			originalScrollBy.call(window, x, y);
 		} else {
 			console.log("[强力滚动保护] 阻止 scrollBy:", x, y);
@@ -155,7 +173,7 @@
 		const currentY = window.scrollY || window.pageYOffset;
 		const targetY = currentY + rect.top;
 
-		if (isScrollAllowed(0, targetY)) {
+		if (isScrollAllowed(targetY)) {
 			originalScrollIntoView.call(this, options);
 		} else {
 			console.log("[强力滚动保护] 阻止 scrollIntoView");
@@ -274,7 +292,7 @@
 				const target = mutation.target;
 
 				// 检查是否是 Twikoo 相关的 DOM 变化
-				if (target.closest && target.closest("#tcomment")) {
+				if (target.closest?.("#tcomment")) {
 					// 检查是否有元素被移除或隐藏（可能是面板关闭）
 					if (
 						mutation.removedNodes.length > 0 ||

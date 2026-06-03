@@ -50,7 +50,19 @@ async function processAlbumFolder(
 
 	// 读取相册信息
 	const infoContent = fs.readFileSync(infoPath, "utf-8");
-	let info: Record<string, unknown>;
+	let info: {
+		cover?: string;
+		title?: string;
+		description?: string;
+		date?: string;
+		location?: string;
+		tags?: string[];
+		layout?: "grid" | "masonry";
+		columns?: number;
+		hidden?: boolean;
+		mode?: string;
+		photos?: ExternalPhoto[];
+	};
 	try {
 		info = JSON.parse(infoContent);
 	} catch (e) {

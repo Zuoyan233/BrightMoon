@@ -25,7 +25,7 @@ export function initPostIdMap(
 	postIdMap = new Map();
 	sortedPosts.forEach((post, index) => {
 		// id 从 1 开始
-		postIdMap!.set(post.id, index + 1);
+		postIdMap?.set(post.id, index + 1);
 	});
 
 	return postIdMap;

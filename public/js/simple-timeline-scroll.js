@@ -84,7 +84,7 @@
 
 	// 使用 MutationObserver 监听 DOM 变化
 	if (typeof MutationObserver !== "undefined") {
-		var observer = new MutationObserver(() => {
+		const observer = new MutationObserver(() => {
 			// 每次 DOM 变化时都重新初始化
 			setTimeout(initSimpleScroll, 50);
 		});

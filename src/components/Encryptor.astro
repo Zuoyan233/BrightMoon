@@ -14,7 +14,7 @@ const { password } = Astro.props;
 
 const htmlContent = await Astro.slots.render("default");
 
-const contentToEncrypt = "BRIGHTMOON-VERIFY:" + htmlContent;
+const contentToEncrypt = `BRIGHTMOON-VERIFY:${htmlContent}`;
 const encryptedContent = CryptoJS.AES.encrypt(
 	contentToEncrypt,
 	String(password),

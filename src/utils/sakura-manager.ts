@@ -85,7 +85,6 @@ class Sakura {
 	}
 
 	private resetPosition() {
-		this.r = getRandom("fnr", this.config);
 		if (Math.random() > 0.4) {
 			this.x = getRandom("x", this.config);
 			this.y = 0;
@@ -201,6 +200,9 @@ function getRandom(
 			break;
 		case "fna":
 			ret = (alpha: number) => alpha - config.speed.fadeSpeed * 0.01;
+			break;
+		default:
+			ret = 0;
 			break;
 	}
 	return ret;

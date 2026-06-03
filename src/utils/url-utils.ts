@@ -56,7 +56,7 @@ export function getPostUrl(
 
 	// 如果全局 permalink 功能启用，使用生成的 slug（在根目录下）
 	if (permalinkConfig.enable) {
-		const slug = generatePermalinkSlug(post);
+		const slug = generatePermalinkSlug(post as CollectionEntry<"posts">);
 		return url(`/${slug}/`);
 	}
 

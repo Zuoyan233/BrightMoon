@@ -113,8 +113,8 @@
 
 	// 监听可能的DOM变化
 	if (typeof MutationObserver !== "undefined") {
-		var observer = new MutationObserver((mutations) => {
-			var shouldInit = false;
+		const observer = new MutationObserver((mutations) => {
+			let shouldInit = false;
 
 			mutations.forEach((mutation) => {
 				if (mutation.type === "childList") {
@@ -131,7 +131,7 @@
 							}
 							// 检查节点内的子元素
 							if (node.querySelectorAll) {
-								var timelineElements = node.querySelectorAll(
+								const timelineElements = node.querySelectorAll(
 									".timeline-horizontal-scroll, .timeline-node",
 								);
 								if (timelineElements.length > 0) {
