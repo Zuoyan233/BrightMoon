@@ -422,6 +422,9 @@ export const ja: Translation = {
 	// 天気コンポーネント
 	[Key.weather]: "天気",
 	[Key.weatherNoApiKey]: "src/config.ts に WeatherAPI キーを追加してください",
+	[Key.weatherLocationDisabled]:
+		"プライバシー拒否のため、位置情報サービスは無効です",
+	[Key.weatherWaitingConsent]: "位置情報の認可を待っています...",
 	[Key.weatherLoading]: "天気を読み込み中...",
 	[Key.weatherLoadFailed]: "読み込みに失敗しました",
 	[Key.weatherRetry]: "再試行",
@@ -455,4 +458,13 @@ export const ja: Translation = {
 	[Key.weatherCondSleet]: "みぞれ",
 	[Key.weatherCondThunderstorm]: "雷雨",
 	[Key.weatherCondHail]: "ひょう",
+	[Key.weatherCondDust]: "砂塵",
+
+	// Cookie プライバシー通知
+	[Key.cookieConsentTitle]: "プライバシー保護",
+	[Key.cookieConsentDescription]:
+		"BrightMoon では、サービスと広告の提供・維持・改善のために、Cookie を使用してデバイス識別子などのデータを保存およびアクセスしています。「同意する」を選択するか、「すべて拒否」をクリックして不要な Cookie を拒否できます。",
+	[Key.cookieConsentIpInfo]: "位置情報を取得中...",
+	[Key.cookieConsentAccept]: "同意する",
+	[Key.cookieConsentReject]: "すべて拒否",
 };

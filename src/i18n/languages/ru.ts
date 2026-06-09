@@ -426,6 +426,9 @@ export const ru: Translation = {
 	// Компонент погоды
 	[Key.weather]: "Погода",
 	[Key.weatherNoApiKey]: "Добавьте ключ WeatherAPI в src/config.ts",
+	[Key.weatherLocationDisabled]:
+		"Геолокация отключена из-за отказа от конфиденциальности",
+	[Key.weatherWaitingConsent]: "Ожидание авторизации геолокации...",
 	[Key.weatherLoading]: "Загрузка погоды...",
 	[Key.weatherLoadFailed]: "Ошибка загрузки",
 	[Key.weatherRetry]: "Повторить",
@@ -459,4 +462,13 @@ export const ru: Translation = {
 	[Key.weatherCondSleet]: "Дождь со снегом",
 	[Key.weatherCondThunderstorm]: "Гроза",
 	[Key.weatherCondHail]: "Град",
+	[Key.weatherCondDust]: "Пыль",
+
+	// Согласие на использование cookie
+	[Key.cookieConsentTitle]: "Мы ценим вашу конфиденциальность",
+	[Key.cookieConsentDescription]:
+		"BrightMoon использует файлы cookie для хранения и доступа к идентификаторам устройств и другим данным для предоставления, поддержки и улучшения наших услуг и рекламы. Вы можете выбрать «Принять», чтобы дать согласие, или нажать «Отклонить все», чтобы отказаться от несущественных файлов cookie.",
+	[Key.cookieConsentIpInfo]: "Определение вашего местоположения...",
+	[Key.cookieConsentAccept]: "Принять",
+	[Key.cookieConsentReject]: "Отклонить все",
 };

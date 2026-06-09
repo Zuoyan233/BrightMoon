@@ -420,6 +420,9 @@ export const ko: Translation = {
 	// 날씨 컴포넌트
 	[Key.weather]: "날씨",
 	[Key.weatherNoApiKey]: "src/config.ts 에 WeatherAPI 키를 추가하세요",
+	[Key.weatherLocationDisabled]:
+		"개인정보 거부로 인해 위치 서비스가 비활성화되었습니다",
+	[Key.weatherWaitingConsent]: "위치 인증 대기 중...",
 	[Key.weatherLoading]: "날씨를 불러오는 중...",
 	[Key.weatherLoadFailed]: "불러오기 실패",
 	[Key.weatherRetry]: "재시도",
@@ -453,4 +456,13 @@ export const ko: Translation = {
 	[Key.weatherCondSleet]: "진눈깨비",
 	[Key.weatherCondThunderstorm]: "뇌우",
 	[Key.weatherCondHail]: "우박",
+	[Key.weatherCondDust]: "황사",
+
+	// Cookie 개인정보 알림
+	[Key.cookieConsentTitle]: "개인정보 보호",
+	[Key.cookieConsentDescription]:
+		"BrightMoon 는 서비스 및 광고 제공, 유지보수, 개선을 위해 Cookie를 사용하여 기기 식별자 등의 데이터를 저장하고 접근합니다. 「수락」을 선택하거나 「모두 거부」를 클릭하여 불필요한 Cookie를 거부할 수 있습니다.",
+	[Key.cookieConsentIpInfo]: "위치 정보 확인 중...",
+	[Key.cookieConsentAccept]: "수락",
+	[Key.cookieConsentReject]: "모두 거부",
 };

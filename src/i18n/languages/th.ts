@@ -409,6 +409,8 @@ export const th: Translation = {
 	// ส่วนประกอบสภาพอากาศ
 	[Key.weather]: "สภาพอากาศ",
 	[Key.weatherNoApiKey]: "กรุณาเพิ่มคีย์ WeatherAPI ใน src/config.ts",
+	[Key.weatherLocationDisabled]: "ปิดใช้งานระบุตำแหน่งเนื่องจากการปฏิเสธความเป็นส่วนตัว",
+	[Key.weatherWaitingConsent]: "รอการอนุญาตระบุตำแหน่ง...",
 	[Key.weatherLoading]: "กำลังโหลดสภาพอากาศ...",
 	[Key.weatherLoadFailed]: "โหลดล้มเหลว",
 	[Key.weatherRetry]: "ลองอีกครั้ง",
@@ -442,4 +444,13 @@ export const th: Translation = {
 	[Key.weatherCondSleet]: "ฝนผสมหิมะ",
 	[Key.weatherCondThunderstorm]: "พายุฝนฟ้าคะนอง",
 	[Key.weatherCondHail]: "ลูกเห็บ",
+	[Key.weatherCondDust]: "ฝุ่น",
+
+	// การยินยอมคุกกี้
+	[Key.cookieConsentTitle]: "เราให้ความสำคัญกับความเป็นส่วนตัวของคุณ",
+	[Key.cookieConsentDescription]:
+		"BrightMoon ใช้คุกกี้ในการจัดเก็บและเข้าถึงตัวระบุอุปกรณ์และข้อมูลอื่น ๆ เพื่อให้บริการ ดูแลรักษา และปรับปรุงบริการและโฆษณาของเรา คุณสามารถเลือก «ยอมรับ» เพื่อยินยอมต่อการใช้งานเหล่านี้ หรือคลิก «ปฏิเสธทั้งหมด» เพื่อปฏิเสธคุกกี้ที่ไม่จำเป็น",
+	[Key.cookieConsentIpInfo]: "กำลังตรวจหาตำแหน่งของคุณ...",
+	[Key.cookieConsentAccept]: "ยอมรับ",
+	[Key.cookieConsentReject]: "ปฏิเสธทั้งหมด",
 };

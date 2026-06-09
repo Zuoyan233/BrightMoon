@@ -1,5 +1,6 @@
 ---
 import ConfigCarrier from "@components/ConfigCarrier.astro";
+import CookieConsent from "@components/CookieConsent.astro";
 import ExternalLinkConfirm from "@components/ExternalLinkConfirm.astro";
 import MusicPlayer from "@components/widget/MusicPlayer.svelte";
 import Pio from "@components/widget/Pio.svelte"; // 使用 Svelte 版本的 Pio 组件
@@ -422,6 +423,9 @@ if (siteConfig.font?.fontFamily) {
 				<ExternalLinkConfirm {...externalLinkConfirmConfig} />
 			)
 		}
+
+		<!-- Cookie 隐私提示栏 -->
+		<CookieConsent />
 
 		<!-- increase the page height during page transition to prevent the scrolling animation from jumping -->
 		<div id="page-height-extend" class="hidden h-[300vh]"></div>

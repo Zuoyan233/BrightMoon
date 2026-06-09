@@ -398,6 +398,8 @@ enum I18nKey {
 	// 天气组件
 	weather = "weather",
 	weatherNoApiKey = "weatherNoApiKey",
+	weatherLocationDisabled = "weatherLocationDisabled",
+	weatherWaitingConsent = "weatherWaitingConsent",
 	weatherLoading = "weatherLoading",
 	weatherLoadFailed = "weatherLoadFailed",
 	weatherRetry = "weatherRetry",
@@ -431,6 +433,14 @@ enum I18nKey {
 	weatherCondSleet = "weatherCondSleet",
 	weatherCondThunderstorm = "weatherCondThunderstorm",
 	weatherCondHail = "weatherCondHail",
+	weatherCondDust = "weatherCondDust",
+
+	// Cookie 隐私提示
+	cookieConsentTitle = "cookieConsentTitle",
+	cookieConsentDescription = "cookieConsentDescription",
+	cookieConsentIpInfo = "cookieConsentIpInfo",
+	cookieConsentAccept = "cookieConsentAccept",
+	cookieConsentReject = "cookieConsentReject",
 }
 
 export default I18nKey;

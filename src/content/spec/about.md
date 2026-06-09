@@ -25,12 +25,20 @@ In Chinese culture, the "Bright Moon" symbolizes clarity, fulfillment, and const
 - Added a sponsors page and integrated paths for placing payment QR codes.
 - Added real-time date, season, and time for site statistics, with date and season display supporting multiple regional formats and time supporting time-period representation.
 - Added external link confirmation popup, and modified some styles.
+- Add custom styles for the page scrollbar.
+- Added a weather widget supporting 7-day forecasts, IP-based automatic location detection, and manual city search to view weather for other regions.
+- Added Cookie privacy policy consent banner.
+- Refactored personalization settings, added UI controls for wallpaper mode, cherry blossom effects, article list layout, and navigation bar style.
+- Add "Follow System" theme mode, support theme selection via dropdown box.
+- Integrate bangumi and bilibili settings under the anime configuration section.
 - Updated and adapted to the latest version of the Twikoo comment system.
 - TOC directory supports responsive device configuration.
 - Refactored hidden photo album logic, fixed issue where it couldn't be accessed via link.
 - Optimized animations for some small components.
 
 ## ✨ Features
+
+To learn more about Mizuki's features: [Enter Mizuki Docs Official Website](https://docs.mizuki.mysqil.com/)
 
 ### 🔧 Component Configuration System Refactoring
 
@@ -99,4 +107,8 @@ In Chinese culture, the "Bright Moon" symbolizes clarity, fulfillment, and const
 - **SEO Optimization** - Includes sitemaps and meta tags.
 - **Performance Optimization** - Lazy loading and caching mechanisms.
 - **Comment System** - Supports Twikoo integration.
+- **Translation Component** - Utilizes local i18n language library + translate.js to achieve millisecond-level translation.
+- **Weather Widget** - Powered by WeatherAPI, supports IP-based automatic location detection and manual city search to view weather for other regions.
+- **Cookie Consent** - Cookie privacy policy consent banner with accept/reject options; automatically clears non-essential cookies upon rejection.
+
 ---

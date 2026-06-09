@@ -426,6 +426,9 @@ export const id: Translation = {
 	// Komponen cuaca
 	[Key.weather]: "Cuaca",
 	[Key.weatherNoApiKey]: "Silakan tambahkan kunci WeatherAPI di src/config.ts",
+	[Key.weatherLocationDisabled]:
+		"Lokasi dinonaktifkan karena penolakan privasi",
+	[Key.weatherWaitingConsent]: "Menunggu otorisasi lokasi...",
 	[Key.weatherLoading]: "Memuat cuaca...",
 	[Key.weatherLoadFailed]: "Gagal memuat",
 	[Key.weatherRetry]: "Coba Lagi",
@@ -459,4 +462,13 @@ export const id: Translation = {
 	[Key.weatherCondSleet]: "Hujan Salju",
 	[Key.weatherCondThunderstorm]: "Badai Petir",
 	[Key.weatherCondHail]: "Es",
+	[Key.weatherCondDust]: "Debu",
+
+	// Persetujuan Cookie
+	[Key.cookieConsentTitle]: "Kami Menghargai Privasi Anda",
+	[Key.cookieConsentDescription]:
+		"BrightMoon menggunakan cookie untuk menyimpan dan mengakses pengidentifikasi perangkat serta data lainnya guna menyediakan, memelihara, dan meningkatkan layanan serta iklan kami. Anda dapat memilih «Terima» untuk menyetujui penggunaan ini, atau klik «Tolak Semua» untuk menolak cookie yang tidak penting.",
+	[Key.cookieConsentIpInfo]: "Mendeteksi lokasi Anda...",
+	[Key.cookieConsentAccept]: "Terima",
+	[Key.cookieConsentReject]: "Tolak Semua",
 };

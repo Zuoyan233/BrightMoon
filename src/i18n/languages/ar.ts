@@ -418,6 +418,8 @@ export const ar: Translation = {
 	// مكون الطقس
 	[Key.weather]: "الطقس",
 	[Key.weatherNoApiKey]: "يرجى إضافة مفتاح WeatherAPI في src/config.ts",
+	[Key.weatherLocationDisabled]: "تم تعطيل الموقع بسبب رفض الخصوصية",
+	[Key.weatherWaitingConsent]: "في انتظار تفويض الموقع...",
 	[Key.weatherLoading]: "جاري تحميل الطقس...",
 	[Key.weatherLoadFailed]: "فشل التحميل",
 	[Key.weatherRetry]: "إعادة المحاولة",
@@ -451,4 +453,13 @@ export const ar: Translation = {
 	[Key.weatherCondSleet]: "مطر جليدي",
 	[Key.weatherCondThunderstorm]: "عاصفة رعدية",
 	[Key.weatherCondHail]: "بَرَد",
+	[Key.weatherCondDust]: "غبار",
+
+	// موافقة ملفات تعريف الارتباط
+	[Key.cookieConsentTitle]: "نحن نقدر خصوصيتك",
+	[Key.cookieConsentDescription]:
+		"يستخدم BrightMoon ملفات تعريف الارتباط لتخزين والوصول إلى معرفات الأجهزة والبيانات الأخرى لتقديم وصيانة وتحسين خدماتنا وإعلاناتنا. يمكنك اختيار «قبول» للموافقة على هذه الاستخدامات، أو النقر على «رفض الكل» لرفض ملفات تعريف الارتباط غير الأساسية.",
+	[Key.cookieConsentIpInfo]: "جارٍ تحديد موقعك...",
+	[Key.cookieConsentAccept]: "قبول",
+	[Key.cookieConsentReject]: "رفض الكل",
 };

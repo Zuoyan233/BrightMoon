@@ -433,6 +433,9 @@ export const tr: Translation = {
 	[Key.weather]: "Hava Durumu",
 	[Key.weatherNoApiKey]:
 		"Lütfen src/config.ts dosyasına WeatherAPI anahtarını ekleyin",
+	[Key.weatherLocationDisabled]:
+		"Gizlilik reddi nedeniyle konum hizmeti devre dışı",
+	[Key.weatherWaitingConsent]: "Konum yetkilendirmesi bekleniyor...",
 	[Key.weatherLoading]: "Hava durumu yükleniyor...",
 	[Key.weatherLoadFailed]: "Yükleme başarısız",
 	[Key.weatherRetry]: "Tekrar Dene",
@@ -466,4 +469,13 @@ export const tr: Translation = {
 	[Key.weatherCondSleet]: "Sulu Kar",
 	[Key.weatherCondThunderstorm]: "Gök Gürültülü Fırtına",
 	[Key.weatherCondHail]: "Dolu",
+	[Key.weatherCondDust]: "Toz",
+
+	// Çerez Onayı
+	[Key.cookieConsentTitle]: "Gizliliğinize Değer Veriyoruz",
+	[Key.cookieConsentDescription]:
+		"BrightMoon, hizmetlerimizi ve reklamlarımızı sağlamak, sürdürmek ve geliştirmek için cihaz tanımlayıcıları ve diğer verileri depolamak ve erişmek amacıyla çerezleri kullanır. Bu kullanımlara onay vermek için «Kabul Et» seçeneğini seçebilir veya gerekli olmayan çerezleri reddetmek için «Tümünü Reddet» düğmesine tıklayabilirsiniz.",
+	[Key.cookieConsentIpInfo]: "Konumunuz belirleniyor...",
+	[Key.cookieConsentAccept]: "Kabul Et",
+	[Key.cookieConsentReject]: "Tümünü Reddet",
 };

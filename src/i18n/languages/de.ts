@@ -438,6 +438,9 @@ export const de: Translation = {
 	[Key.weather]: "Wetter",
 	[Key.weatherNoApiKey]:
 		"Bitte fügen Sie den WeatherAPI-Schlüssel in src/config.ts hinzu",
+	[Key.weatherLocationDisabled]:
+		"Standort aufgrund Datenschutzerklärung deaktiviert",
+	[Key.weatherWaitingConsent]: "Warte auf Standortautorisierung...",
 	[Key.weatherLoading]: "Wetter wird geladen...",
 	[Key.weatherLoadFailed]: "Laden fehlgeschlagen",
 	[Key.weatherRetry]: "Erneut versuchen",
@@ -471,4 +474,13 @@ export const de: Translation = {
 	[Key.weatherCondSleet]: "Schneeregen",
 	[Key.weatherCondThunderstorm]: "Gewitter",
 	[Key.weatherCondHail]: "Hagel",
+	[Key.weatherCondDust]: "Staub",
+
+	// Cookie-Einwilligung
+	[Key.cookieConsentTitle]: "Wir respektieren Ihre Privatsphäre",
+	[Key.cookieConsentDescription]:
+		"BrightMoon verwendet Cookies, um Gerätekennungen und andere Daten zu speichern und darauf zuzugreifen, um unsere Dienste und Werbung bereitzustellen, aufrechtzuerhalten und zu verbessern. Sie können «Akzeptieren» wählen, um diese Verwendungen zuzustimmen, oder auf «Alle ablehnen» klicken, um nicht wesentliche Cookies abzulehnen.",
+	[Key.cookieConsentIpInfo]: "Ihr Standort wird ermittelt...",
+	[Key.cookieConsentAccept]: "Akzeptieren",
+	[Key.cookieConsentReject]: "Alle ablehnen",
 };

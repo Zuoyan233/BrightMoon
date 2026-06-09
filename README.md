@@ -59,6 +59,7 @@ Asynchronously synchronizes with the mainline content of the Mizuki theme framew
 - Added external link confirmation popup, and modified some styles.
 - Add custom styles for the page scrollbar.
 - Added a weather widget supporting 7-day forecasts, IP-based automatic location detection, and manual city search to view weather for other regions.
+- Added Cookie privacy policy consent banner.
 - Refactored personalization settings, added UI controls for wallpaper mode, cherry blossom effects, article list layout, and navigation bar style.
 - Add "Follow System" theme mode, support theme selection via dropdown box.
 - Integrate bangumi and bilibili settings under the anime configuration section.
@@ -141,6 +142,8 @@ To learn more about Mizuki's features: [Enter Mizuki Docs Official Website](http
 - **Performance Optimization** - Lazy loading and caching mechanisms.
 - **Comment System** - Supports Twikoo integration.
 - **Translation Component** - Utilizes local i18n language library + translate.js to achieve millisecond-level translation.
+- **Weather Widget** - Powered by WeatherAPI, supports IP-based automatic location detection and manual city search to view weather for other regions.
+- **Cookie Consent** - Cookie privacy policy consent banner with accept/reject options; automatically clears non-essential cookies upon rejection.
 
 ---
 

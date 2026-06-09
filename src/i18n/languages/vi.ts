@@ -426,6 +426,9 @@ export const vi: Translation = {
 	// Thành phần thời tiết
 	[Key.weather]: "Thời tiết",
 	[Key.weatherNoApiKey]: "Vui lòng thêm khóa WeatherAPI trong src/config.ts",
+	[Key.weatherLocationDisabled]:
+		"Định vị đã bị vô hiệu hóa do từ chối quyền riêng tư",
+	[Key.weatherWaitingConsent]: "Đang chờ ủy quyền định vị...",
 	[Key.weatherLoading]: "Đang tải thời tiết...",
 	[Key.weatherLoadFailed]: "Tải thất bại",
 	[Key.weatherRetry]: "Thử lại",
@@ -459,4 +462,13 @@ export const vi: Translation = {
 	[Key.weatherCondSleet]: "Mưa tuyết",
 	[Key.weatherCondThunderstorm]: "Dông",
 	[Key.weatherCondHail]: "Mưa đá",
+	[Key.weatherCondDust]: "Bụi",
+
+	// Cookie Consent
+	[Key.cookieConsentTitle]: "Chúng Tôi Tôn Trọng Quyền Riêng Tư Của Bạn",
+	[Key.cookieConsentDescription]:
+		"BrightMoon sử dụng cookie để lưu trữ và truy cập các mã định danh thiết bị và dữ liệu khác nhằm cung cấp, duy trì và cải thiện dịch vụ và quảng cáo của chúng tôi. Bạn có thể chọn «Chấp nhận» để đồng ý với các mục đích này, hoặc nhấp «Từ chối tất cả» để từ chối cookie không cần thiết.",
+	[Key.cookieConsentIpInfo]: "Đang phát hiện vị trí của bạn...",
+	[Key.cookieConsentAccept]: "Chấp nhận",
+	[Key.cookieConsentReject]: "Từ chối tất cả",
 };
