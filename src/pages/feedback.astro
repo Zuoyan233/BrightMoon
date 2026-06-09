@@ -3,6 +3,7 @@ import { getEntry, render } from "astro:content";
 import Twikoo from "@components/comment/Twikoo.astro";
 import FriendQRCode from "@components/FriendQRCode.astro";
 import Markdown from "@components/misc/Markdown.astro";
+import { Icon } from "astro-icon/components";
 import { commentConfig, contactEmailConfig, contactMethods } from "@/config";
 import { siteConfig } from "../config";
 import I18nKey from "../i18n/i18nKey";
@@ -99,7 +100,7 @@ if (commentConfig?.enable && commentConfig?.twikoo) {
           <p class="text-md font-normal text-black/100 dark:text-white/80">
             {i18n(I18nKey.contactSocialFriends)}
           </p>
-          <a id="show-qrcode-btn" class="btn-regular bg-[oklch(0.7_0.12_var(--hue))] text-[oklch(0.95_0.025_var(--hue))] hover:text-[var(--primary)] h-10 mx-auto text-sm px-3 rounded-lg mt-2 cursor-pointer">
+          <a id="show-qrcode-btn" class="btn-regular bg-[oklch(0.7_0.12_var(--hue))] text-white/90 hover:text-[var(--primary)] h-10 mx-auto text-sm px-3 rounded-lg mt-2 cursor-pointer">
             {i18n(I18nKey.addFriends)}
           </a>
         </div>
@@ -110,12 +111,72 @@ if (commentConfig?.enable && commentConfig?.twikoo) {
   </br>
 
   <!-- Twikoo 评论系统 -->
-  {commentConfig?.enable && (
-    <div class="card-base p-6 mb-4">
-      {commentService === 'twikoo' && <Twikoo path={path} />}
-      {commentService === '' && null}
+  <div class="card-base p-6 mb-4">
+    <div id="twikoo-initializing" class="flex flex-col items-center justify-center py-12 text-center">
+      <div class="twikoo-spinner mb-3">
+        <svg class="twikoo-spinner-svg" viewBox="0 0 48 48">
+          <circle class="twikoo-spinner-track" cx="24" cy="24" r="20" fill="none" stroke-width="4" />
+          <circle class="twikoo-spinner-arc" cx="24" cy="24" r="20" fill="none" stroke-width="4" stroke-linecap="round" />
+        </svg>
+      </div>
+      <p class="text-lg font-bold text-black/90 dark:text-white/90">
+        {i18n(I18nKey.twikooInitializing)}
+      </p>
     </div>
-  )}
+    {commentService === 'twikoo' && (
+      <div id="twikoo-comment-container" class="hidden">
+        <Twikoo path={path} />
+      </div>
+    )}
+    <div id="twikoo-not-configured" class="hidden flex flex-col items-center justify-center py-12 text-center">
+      <Icon name="material-symbols:chat-bubble-off-outline" class="text-4xl mb-4 text-[var(--primary)]"></Icon>
+      <p class="text-lg font-bold text-black/90 dark:text-white/90">
+        {i18n(I18nKey.twikooNotConfigured)}
+      </p>
+      <p class="text-sm text-neutral-500 dark:text-neutral-400 mt-1">
+        {i18n(I18nKey.twikooConfigHint)}
+      </p>
+    </div>
+    <div id="twikoo-privacy-rejected" class="hidden flex flex-col items-center justify-center py-12 text-center">
+      <Icon name="material-symbols:block-outline" class="text-4xl mb-4 text-[var(--primary)]"></Icon>
+      <p class="text-lg font-bold text-black/90 dark:text-white/90">
+        {i18n(I18nKey.twikooPrivacyRejected)}
+      </p>
+    </div>
+    <script is:inline>
+      (function() {
+        var consent = localStorage.getItem('siteNoticeConsent');
+        var initializing = document.getElementById('twikoo-initializing');
+        var twikooContainer = document.getElementById('twikoo-comment-container');
+        var notConfigured = document.getElementById('twikoo-not-configured');
+        var privacyRejected = document.getElementById('twikoo-privacy-rejected');
+
+        function updateTwikooState(c) {
+          if (c !== 'accepted' && c !== 'rejected') return;
+          if (initializing) initializing.classList.add('hidden');
+          if (c === 'rejected') {
+            if (twikooContainer) twikooContainer.classList.add('hidden');
+            if (notConfigured) notConfigured.classList.add('hidden');
+            if (privacyRejected) privacyRejected.classList.remove('hidden');
+          } else {
+            if (privacyRejected) privacyRejected.classList.add('hidden');
+            if (twikooContainer) {
+              twikooContainer.classList.remove('hidden');
+              if (notConfigured) notConfigured.classList.add('hidden');
+            } else {
+              if (notConfigured) notConfigured.classList.remove('hidden');
+            }
+          }
+        }
+
+        updateTwikooState(consent);
+
+        window.addEventListener('siteNoticeConsentChange', function(e) {
+          updateTwikooState(e.detail);
+        });
+      })();
+    </script>
+  </div>
 
   <!-- 添加好友二维码对话框 - 使用数组方式传递 -->
   <FriendQRCode 
@@ -145,3 +206,46 @@ if (commentConfig?.enable && commentConfig?.twikoo) {
     });
   </script>
 </MainGridLayout>
+
+<style>
+  .twikoo-spinner {
+    width: 40px;
+    height: 40px;
+  }
+
+  .twikoo-spinner-svg {
+    width: 100%;
+    height: 100%;
+    animation: twikoo-spinner-rotate 2s linear infinite;
+  }
+
+  .twikoo-spinner-track {
+    stroke: rgba(156, 163, 175, 0.2);
+  }
+
+  .twikoo-spinner-arc {
+    stroke: var(--primary);
+    stroke-dasharray: 80, 200;
+    stroke-dashoffset: 0;
+    animation: twikoo-spinner-dash 1.5s ease-in-out infinite;
+  }
+
+  @keyframes twikoo-spinner-rotate {
+    100% { transform: rotate(360deg); }
+  }
+
+  @keyframes twikoo-spinner-dash {
+    0% {
+      stroke-dasharray: 1, 200;
+      stroke-dashoffset: 0;
+    }
+    50% {
+      stroke-dasharray: 80, 200;
+      stroke-dashoffset: -35;
+    }
+    100% {
+      stroke-dasharray: 80, 200;
+      stroke-dashoffset: -124;
+    }
+  }
+</style>

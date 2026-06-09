@@ -409,8 +409,9 @@ export const th: Translation = {
 	// ส่วนประกอบสภาพอากาศ
 	[Key.weather]: "สภาพอากาศ",
 	[Key.weatherNoApiKey]: "กรุณาเพิ่มคีย์ WeatherAPI ใน src/config.ts",
-	[Key.weatherLocationDisabled]: "ปิดใช้งานระบุตำแหน่งเนื่องจากการปฏิเสธความเป็นส่วนตัว",
-	[Key.weatherWaitingConsent]: "รอการอนุญาตระบุตำแหน่ง...",
+	[Key.weatherLocationDisabled]:
+		"บริการระบุตำแหน่งสภาพอากาศถูกปิดใช้งานเนื่องจากการปฏิเสธข้อตกลงความเป็นส่วนตัว",
+	[Key.weatherWaitingConsent]: "กำลังรอการอนุญาตระบุตำแหน่งสภาพอากาศ...",
 	[Key.weatherLoading]: "กำลังโหลดสภาพอากาศ...",
 	[Key.weatherLoadFailed]: "โหลดล้มเหลว",
 	[Key.weatherRetry]: "ลองอีกครั้ง",
@@ -453,4 +454,11 @@ export const th: Translation = {
 	[Key.cookieConsentIpInfo]: "กำลังตรวจหาตำแหน่งของคุณ...",
 	[Key.cookieConsentAccept]: "ยอมรับ",
 	[Key.cookieConsentReject]: "ปฏิเสธทั้งหมด",
+
+	// ระบบความคิดเห็น Twikoo
+	[Key.twikooInitializing]: "กำลังเริ่มต้นระบบความคิดเห็น Twikoo...",
+	[Key.twikooNotConfigured]: "ระบบความคิดเห็น Twikoo ยังไม่ได้กำหนดค่า",
+	[Key.twikooConfigHint]: "โปรดกำหนดค่าระบบความคิดเห็น Twikoo ใน src/config.ts",
+	[Key.twikooPrivacyRejected]:
+		"ระบบความคิดเห็น Twikoo ถูกปิดใช้งานเนื่องจากการปฏิเสธข้อตกลงความเป็นส่วนตัว",
 };

@@ -443,8 +443,9 @@ export const fr: Translation = {
 	[Key.weatherNoApiKey]:
 		"Veuillez ajouter la clé WeatherAPI dans src/config.ts",
 	[Key.weatherLocationDisabled]:
-		"Localisation désactivée en raison du refus de confidentialité",
-	[Key.weatherWaitingConsent]: "En attente d'autorisation de localisation...",
+		"Le service de localisation météo a été désactivé en raison du refus de l'accord de confidentialité",
+	[Key.weatherWaitingConsent]:
+		"En attente de l'autorisation de localisation météo...",
 	[Key.weatherLoading]: "Chargement de la météo...",
 	[Key.weatherLoadFailed]: "Échec du chargement",
 	[Key.weatherRetry]: "Réessayer",
@@ -487,4 +488,14 @@ export const fr: Translation = {
 	[Key.cookieConsentIpInfo]: "Détection de votre localisation...",
 	[Key.cookieConsentAccept]: "Accepter",
 	[Key.cookieConsentReject]: "Tout Refuser",
+
+	// Système de commentaires Twikoo
+	[Key.twikooInitializing]:
+		"Initialisation du système de commentaires Twikoo...",
+	[Key.twikooNotConfigured]:
+		"Le système de commentaires Twikoo n'est pas encore configuré",
+	[Key.twikooConfigHint]:
+		"Veuillez configurer le système de commentaires Twikoo dans src/config.ts",
+	[Key.twikooPrivacyRejected]:
+		"Le système de commentaires Twikoo a été désactivé en raison du refus de l'accord de confidentialité",
 };

@@ -425,8 +425,9 @@ export const en: Translation = {
 	// Weather Component
 	[Key.weather]: "Weather",
 	[Key.weatherNoApiKey]: "Please add WeatherAPI key in src/config.ts",
-	[Key.weatherLocationDisabled]: "Location disabled due to privacy rejection",
-	[Key.weatherWaitingConsent]: "Waiting for location authorization...",
+	[Key.weatherLocationDisabled]:
+		"Weather location service has been disabled due to rejection of the privacy agreement",
+	[Key.weatherWaitingConsent]: "Waiting for weather location authorization...",
 	[Key.weatherLoading]: "Loading weather...",
 	[Key.weatherLoadFailed]: "Failed to load weather",
 	[Key.weatherRetry]: "Retry",
@@ -469,4 +470,12 @@ export const en: Translation = {
 	[Key.cookieConsentIpInfo]: "Detecting your location...",
 	[Key.cookieConsentAccept]: "Accept",
 	[Key.cookieConsentReject]: "Reject All",
+
+	// Twikoo Comment System
+	[Key.twikooInitializing]: "Initializing Twikoo comment system...",
+	[Key.twikooNotConfigured]: "Twikoo comment system is not yet configured",
+	[Key.twikooConfigHint]:
+		"Please configure the Twikoo comment system in src/config.ts",
+	[Key.twikooPrivacyRejected]:
+		"Twikoo comment system has been disabled due to rejection of the privacy agreement",
 };

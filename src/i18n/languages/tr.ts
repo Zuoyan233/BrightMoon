@@ -434,8 +434,8 @@ export const tr: Translation = {
 	[Key.weatherNoApiKey]:
 		"Lütfen src/config.ts dosyasına WeatherAPI anahtarını ekleyin",
 	[Key.weatherLocationDisabled]:
-		"Gizlilik reddi nedeniyle konum hizmeti devre dışı",
-	[Key.weatherWaitingConsent]: "Konum yetkilendirmesi bekleniyor...",
+		"Gizlilik sözleşmesinin reddedilmesi nedeniyle hava durumu konum hizmeti devre dışı bırakıldı",
+	[Key.weatherWaitingConsent]: "Hava durumu konum yetkisi bekleniyor...",
 	[Key.weatherLoading]: "Hava durumu yükleniyor...",
 	[Key.weatherLoadFailed]: "Yükleme başarısız",
 	[Key.weatherRetry]: "Tekrar Dene",
@@ -478,4 +478,12 @@ export const tr: Translation = {
 	[Key.cookieConsentIpInfo]: "Konumunuz belirleniyor...",
 	[Key.cookieConsentAccept]: "Kabul Et",
 	[Key.cookieConsentReject]: "Tümünü Reddet",
+
+	// Twikoo Yorum Sistemi
+	[Key.twikooInitializing]: "Twikoo yorum sistemi başlatılıyor...",
+	[Key.twikooNotConfigured]: "Twikoo yorum sistemi henüz yapılandırılmadı",
+	[Key.twikooConfigHint]:
+		"Lütfen Twikoo yorum sistemini src/config.ts dosyasında yapılandırın",
+	[Key.twikooPrivacyRejected]:
+		"Gizlilik sözleşmesinin reddedilmesi nedeniyle Twikoo yorum sistemi kapatılmıştır",
 };

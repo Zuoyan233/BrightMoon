@@ -418,8 +418,9 @@ export const ar: Translation = {
 	// مكون الطقس
 	[Key.weather]: "الطقس",
 	[Key.weatherNoApiKey]: "يرجى إضافة مفتاح WeatherAPI في src/config.ts",
-	[Key.weatherLocationDisabled]: "تم تعطيل الموقع بسبب رفض الخصوصية",
-	[Key.weatherWaitingConsent]: "في انتظار تفويض الموقع...",
+	[Key.weatherLocationDisabled]:
+		"تتم تعطيل خدمة تحديد المواقع للطقس بسبب رفض اتفاقية الخصوصية",
+	[Key.weatherWaitingConsent]: "ففي انتظار التفويض لتحديد مواقع الطقس...",
 	[Key.weatherLoading]: "جاري تحميل الطقس...",
 	[Key.weatherLoadFailed]: "فشل التحميل",
 	[Key.weatherRetry]: "إعادة المحاولة",
@@ -462,4 +463,11 @@ export const ar: Translation = {
 	[Key.cookieConsentIpInfo]: "جارٍ تحديد موقعك...",
 	[Key.cookieConsentAccept]: "قبول",
 	[Key.cookieConsentReject]: "رفض الكل",
+
+	// نظام التعليقات Twikoo
+	[Key.twikooInitializing]: "جارٍ تهيئة نظام تعليقات Twikoo...",
+	[Key.twikooNotConfigured]: "نظام التعليقات Twikoo لم يتم تكوينه بعد",
+	[Key.twikooConfigHint]: "يرجى تكوين نظام التعليقات Twikoo في src/config.ts",
+	[Key.twikooPrivacyRejected]:
+		"تمم تعطيل نظام تعليقات Twikoo بسبب رفض اتفاقية الخصوصية",
 };

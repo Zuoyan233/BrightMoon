@@ -427,8 +427,9 @@ export const ru: Translation = {
 	[Key.weather]: "Погода",
 	[Key.weatherNoApiKey]: "Добавьте ключ WeatherAPI в src/config.ts",
 	[Key.weatherLocationDisabled]:
-		"Геолокация отключена из-за отказа от конфиденциальности",
-	[Key.weatherWaitingConsent]: "Ожидание авторизации геолокации...",
+		"Служба определения местоположения для погоды отключена из-за отказа от соглашения о конфиденциальности",
+	[Key.weatherWaitingConsent]:
+		"Ожидание авторизации определения местоположения для погоды...",
 	[Key.weatherLoading]: "Загрузка погоды...",
 	[Key.weatherLoadFailed]: "Ошибка загрузки",
 	[Key.weatherRetry]: "Повторить",
@@ -471,4 +472,12 @@ export const ru: Translation = {
 	[Key.cookieConsentIpInfo]: "Определение вашего местоположения...",
 	[Key.cookieConsentAccept]: "Принять",
 	[Key.cookieConsentReject]: "Отклонить все",
+
+	// Система комментариев Twikoo
+	[Key.twikooInitializing]: "Инициализация системы комментариев Twikoo...",
+	[Key.twikooNotConfigured]: "Система комментариев Twikoo еще не настроена",
+	[Key.twikooConfigHint]:
+		"Пожалуйста, настройте систему комментариев Twikoo в src/config.ts",
+	[Key.twikooPrivacyRejected]:
+		"Система комментариев Twikoo отключена из-за отказа от соглашения о конфиденциальности",
 };

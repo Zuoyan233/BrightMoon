@@ -441,6 +441,12 @@ enum I18nKey {
 	cookieConsentIpInfo = "cookieConsentIpInfo",
 	cookieConsentAccept = "cookieConsentAccept",
 	cookieConsentReject = "cookieConsentReject",
+
+	// Twikoo 评论系统
+	twikooInitializing = "twikooInitializing",
+	twikooNotConfigured = "twikooNotConfigured",
+	twikooConfigHint = "twikooConfigHint",
+	twikooPrivacyRejected = "twikooPrivacyRejected",
 }
 
 export default I18nKey;

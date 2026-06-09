@@ -421,8 +421,8 @@ export const ko: Translation = {
 	[Key.weather]: "날씨",
 	[Key.weatherNoApiKey]: "src/config.ts 에 WeatherAPI 키를 추가하세요",
 	[Key.weatherLocationDisabled]:
-		"개인정보 거부로 인해 위치 서비스가 비활성화되었습니다",
-	[Key.weatherWaitingConsent]: "위치 인증 대기 중...",
+		"개인정보 계약을 거부하여 날씨 위치 서비스가 비활성화되었습니다",
+	[Key.weatherWaitingConsent]: "날씨 위치 권한을 기다리는 중...",
 	[Key.weatherLoading]: "날씨를 불러오는 중...",
 	[Key.weatherLoadFailed]: "불러오기 실패",
 	[Key.weatherRetry]: "재시도",
@@ -465,4 +465,11 @@ export const ko: Translation = {
 	[Key.cookieConsentIpInfo]: "위치 정보 확인 중...",
 	[Key.cookieConsentAccept]: "수락",
 	[Key.cookieConsentReject]: "모두 거부",
+
+	// Twikoo 댓글 시스템
+	[Key.twikooInitializing]: "Twikoo 댓글 시스템 초기화 중...",
+	[Key.twikooNotConfigured]: "Twikoo 댓글 시스템이 아직 구성되지 않았습니다",
+	[Key.twikooConfigHint]: "src/config.ts 에서 Twikoo 댓글 시스템을 구성하세요",
+	[Key.twikooPrivacyRejected]:
+		"개인정보 계약을 거부하여 Twikoo 댓글 시스템이 비활성화되었습니다",
 };

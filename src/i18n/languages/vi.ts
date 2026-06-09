@@ -427,8 +427,8 @@ export const vi: Translation = {
 	[Key.weather]: "Thời tiết",
 	[Key.weatherNoApiKey]: "Vui lòng thêm khóa WeatherAPI trong src/config.ts",
 	[Key.weatherLocationDisabled]:
-		"Định vị đã bị vô hiệu hóa do từ chối quyền riêng tư",
-	[Key.weatherWaitingConsent]: "Đang chờ ủy quyền định vị...",
+		"Dịch vụ định vị thời tiết đã bị tắt do từ chối thỏa thuận quyền riêng tư",
+	[Key.weatherWaitingConsent]: "Đang chờ cấp quyền định vị thời tiết...",
 	[Key.weatherLoading]: "Đang tải thời tiết...",
 	[Key.weatherLoadFailed]: "Tải thất bại",
 	[Key.weatherRetry]: "Thử lại",
@@ -471,4 +471,12 @@ export const vi: Translation = {
 	[Key.cookieConsentIpInfo]: "Đang phát hiện vị trí của bạn...",
 	[Key.cookieConsentAccept]: "Chấp nhận",
 	[Key.cookieConsentReject]: "Từ chối tất cả",
+
+	// Hệ thống bình luận Twikoo
+	[Key.twikooInitializing]: "Đang khởi tạo hệ thống bình luận Twikoo...",
+	[Key.twikooNotConfigured]: "Hệ thống bình luận Twikoo chưa được cấu hình",
+	[Key.twikooConfigHint]:
+		"Vui lòng cấu hình hệ thống bình luận Twikoo trong src/config.ts",
+	[Key.twikooPrivacyRejected]:
+		"Hệ thống bình luận Twikoo đã bị tắt do từ chối thỏa thuận quyền riêng tư",
 };

@@ -427,8 +427,8 @@ export const id: Translation = {
 	[Key.weather]: "Cuaca",
 	[Key.weatherNoApiKey]: "Silakan tambahkan kunci WeatherAPI di src/config.ts",
 	[Key.weatherLocationDisabled]:
-		"Lokasi dinonaktifkan karena penolakan privasi",
-	[Key.weatherWaitingConsent]: "Menunggu otorisasi lokasi...",
+		"Layanan lokasi cuaca telah dinonaktifkan karena penolakan perjanjian privasi",
+	[Key.weatherWaitingConsent]: "Menunggu otorisasi lokasi cuaca...",
 	[Key.weatherLoading]: "Memuat cuaca...",
 	[Key.weatherLoadFailed]: "Gagal memuat",
 	[Key.weatherRetry]: "Coba Lagi",
@@ -471,4 +471,12 @@ export const id: Translation = {
 	[Key.cookieConsentIpInfo]: "Mendeteksi lokasi Anda...",
 	[Key.cookieConsentAccept]: "Terima",
 	[Key.cookieConsentReject]: "Tolak Semua",
+
+	// Sistem Komentar Twikoo
+	[Key.twikooInitializing]: "Menginisialisasi sistem komentar Twikoo...",
+	[Key.twikooNotConfigured]: "Sistem komentar Twikoo belum dikonfigurasi",
+	[Key.twikooConfigHint]:
+		"Silakan konfigurasi sistem komentar Twikoo di src/config.ts",
+	[Key.twikooPrivacyRejected]:
+		"Sistem komentar Twikoo telah dinonaktifkan karena penolakan perjanjian privasi",
 };

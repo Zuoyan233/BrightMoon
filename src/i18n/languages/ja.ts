@@ -423,8 +423,8 @@ export const ja: Translation = {
 	[Key.weather]: "天気",
 	[Key.weatherNoApiKey]: "src/config.ts に WeatherAPI キーを追加してください",
 	[Key.weatherLocationDisabled]:
-		"プライバシー拒否のため、位置情報サービスは無効です",
-	[Key.weatherWaitingConsent]: "位置情報の認可を待っています...",
+		"プライバシー契約を拒否したため、天気位置情報サービスは無効になりました",
+	[Key.weatherWaitingConsent]: "天気位置情報の承認を待っています...",
 	[Key.weatherLoading]: "天気を読み込み中...",
 	[Key.weatherLoadFailed]: "読み込みに失敗しました",
 	[Key.weatherRetry]: "再試行",
@@ -467,4 +467,12 @@ export const ja: Translation = {
 	[Key.cookieConsentIpInfo]: "位置情報を取得中...",
 	[Key.cookieConsentAccept]: "同意する",
 	[Key.cookieConsentReject]: "すべて拒否",
+
+	// Twikoo コメントシステム
+	[Key.twikooInitializing]: "Twikoo コメントシステムを初期化中...",
+	[Key.twikooNotConfigured]: "Twikoo コメントシステムはまだ設定されていません",
+	[Key.twikooConfigHint]:
+		"src/config.ts で Twikoo コメントシステムを設定してください",
+	[Key.twikooPrivacyRejected]:
+		"プライバシー契約を拒否したため、Twikooコメントシステムは無効になりました",
 };

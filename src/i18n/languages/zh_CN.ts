@@ -408,8 +408,8 @@ export const zh_CN: Translation = {
 	// 天气组件
 	[Key.weather]: "天气",
 	[Key.weatherNoApiKey]: "请在 src/config.ts 中添加 WeatherAPI 密钥",
-	[Key.weatherLocationDisabled]: "因拒绝隐私协议，IP定位服务已关闭",
-	[Key.weatherWaitingConsent]: "等待 IP 定位授权...",
+	[Key.weatherLocationDisabled]: "因拒绝隐私协议，天气定位服务已关闭",
+	[Key.weatherWaitingConsent]: "等待天气定位授权...",
 	[Key.weatherLoading]: "正在加载天气...",
 	[Key.weatherLoadFailed]: "加载失败",
 	[Key.weatherRetry]: "重试",
@@ -452,4 +452,10 @@ export const zh_CN: Translation = {
 	[Key.cookieConsentIpInfo]: "正在获取您的位置信息...",
 	[Key.cookieConsentAccept]: "我接受",
 	[Key.cookieConsentReject]: "全部拒绝",
+
+	// Twikoo 评论系统
+	[Key.twikooInitializing]: "正在初始化 Twikoo 评论系统...",
+	[Key.twikooNotConfigured]: "Twikoo 评论系统暂未配置",
+	[Key.twikooConfigHint]: "请在 src/config.ts 中配置 Twikoo 评论系统",
+	[Key.twikooPrivacyRejected]: "因拒绝隐私协议，Twikoo 评论系统已关闭",
 };

@@ -439,8 +439,8 @@ export const de: Translation = {
 	[Key.weatherNoApiKey]:
 		"Bitte fügen Sie den WeatherAPI-Schlüssel in src/config.ts hinzu",
 	[Key.weatherLocationDisabled]:
-		"Standort aufgrund Datenschutzerklärung deaktiviert",
-	[Key.weatherWaitingConsent]: "Warte auf Standortautorisierung...",
+		"Der Wetterortungsdienst wurde aufgrund der Ablehnung der Datenschutzvereinbarung deaktiviert",
+	[Key.weatherWaitingConsent]: "Warte auf Autorisierung der Wetterortung...",
 	[Key.weatherLoading]: "Wetter wird geladen...",
 	[Key.weatherLoadFailed]: "Laden fehlgeschlagen",
 	[Key.weatherRetry]: "Erneut versuchen",
@@ -483,4 +483,13 @@ export const de: Translation = {
 	[Key.cookieConsentIpInfo]: "Ihr Standort wird ermittelt...",
 	[Key.cookieConsentAccept]: "Akzeptieren",
 	[Key.cookieConsentReject]: "Alle ablehnen",
+
+	// Twikoo-Kommentarsystem
+	[Key.twikooInitializing]: "Twikoo-Kommentarsystem wird initialisiert...",
+	[Key.twikooNotConfigured]:
+		"Twikoo-Kommentarsystem ist noch nicht konfiguriert",
+	[Key.twikooConfigHint]:
+		"Bitte konfigurieren Sie das Twikoo-Kommentarsystem in src/config.ts",
+	[Key.twikooPrivacyRejected]:
+		"Das Twikoo-Kommentarsystem wurde deaktiviert, da die Datenschutzvereinbarung abgelehnt wurde",
 };
