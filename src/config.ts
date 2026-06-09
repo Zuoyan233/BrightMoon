@@ -17,6 +17,7 @@ import type {
 	ShareConfig,
 	SidebarLayoutConfig,
 	SiteConfig,
+	WeatherConfig,
 } from "./types/config";
 import { LinkPreset } from "./types/config";
 import { getTranslateLanguageFromConfig } from "./utils/language-utils";
@@ -494,6 +495,14 @@ export const footerConfig: FooterConfig = {
 		"This platform is a personal blog and is intended solely for learning and research purposes", // HTML格式的自定义页脚信息，例如备案号等，默认留空
 };
 
+// 天气组件配置
+export const weatherConfig: WeatherConfig = {
+	enable: true, // 是否启用天气组件
+	apiKey: "", // WeatherAPI API Key，在此处填写你的 Key
+	defaultLocation: "", // 默认位置，留空则根据IP自动检测当前地区
+	unit: "celsius", // 温度单位：celsius 或 fahrenheit
+};
+
 /**
  * 侧边栏布局配置
  * 用于控制侧边栏组件的显示、排序、动画和响应式行为
@@ -627,6 +636,22 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			// 动画延迟时间
 			animationDelay: 250,
 		},
+		{
+			// 组件类型：天气组件
+			type: "weather",
+			// 是否启用该组件
+			enable: weatherConfig.enable,
+			// 组件显示顺序
+			order: 4,
+			// 组件位置
+			position: "top",
+			// 所在侧边栏
+			sidebar: "left",
+			// CSS 类名
+			class: "onload-animation",
+			// 动画延迟时间
+			animationDelay: 300,
+		},
 	],
 
 	// 默认动画配置
@@ -725,6 +750,7 @@ export const widgetConfigs = {
 	fullscreenWallpaper: fullscreenWallpaperConfig,
 	pio: pioConfig, // 添加 pio 配置
 	share: shareConfig, // 添加分享配置
+	weather: weatherConfig, // 添加天气配置
 } as const;
 
 export const umamiConfig = {

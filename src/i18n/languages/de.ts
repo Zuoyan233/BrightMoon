@@ -433,4 +433,42 @@ export const de: Translation = {
 		"Scannen Sie den QR-Code, um einen QQ-Freund hinzuzufügen",
 	[Key.scanContact3]:
 		"Scannen Sie den QR-Code, um einen Telegram-Freund hinzuzufügen",
+
+	// Wetter-Komponente
+	[Key.weather]: "Wetter",
+	[Key.weatherNoApiKey]:
+		"Bitte fügen Sie den WeatherAPI-Schlüssel in src/config.ts hinzu",
+	[Key.weatherLoading]: "Wetter wird geladen...",
+	[Key.weatherLoadFailed]: "Laden fehlgeschlagen",
+	[Key.weatherRetry]: "Erneut versuchen",
+	[Key.weatherSearchPlaceholder]: "Stadt suchen...",
+	[Key.weatherHumidity]: "Luftfeuchtigkeit",
+	[Key.weatherWind]: "Wind",
+	[Key.weatherFeelsLike]: "Gefühlt",
+	[Key.weatherUV]: "UV-Index",
+	[Key.weatherVisibility]: "Sichtweite",
+	[Key.weatherForecast]: "7-Tage-Vorhersage",
+	[Key.weatherToday]: "Heute",
+	[Key.weatherHigh]: "Hoch",
+	[Key.weatherLow]: "Niedrig",
+	[Key.weatherCelsius]: "°C",
+	[Key.weatherFahrenheit]: "°F",
+	[Key.weatherKmh]: "km/h",
+	[Key.weatherMph]: "mph",
+	[Key.weatherChangeLocation]: "Standort ändern",
+	[Key.weatherDetectLocation]: "Standort erkennen",
+
+	// Wetterbedingungen
+	[Key.weatherCondSunny]: "Sonnig",
+	[Key.weatherCondPartlyCloudy]: "Teilweise bewölkt",
+	[Key.weatherCondCloudy]: "Bewölkt",
+	[Key.weatherCondFog]: "Nebel",
+	[Key.weatherCondDrizzle]: "Nieselregen",
+	[Key.weatherCondRain]: "Regen",
+	[Key.weatherCondHeavyRain]: "Starkregen",
+	[Key.weatherCondSnow]: "Schnee",
+	[Key.weatherCondHeavySnow]: "Starker Schneefall",
+	[Key.weatherCondSleet]: "Schneeregen",
+	[Key.weatherCondThunderstorm]: "Gewitter",
+	[Key.weatherCondHail]: "Hagel",
 };

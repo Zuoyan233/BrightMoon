@@ -394,6 +394,43 @@ enum I18nKey {
 	scanContact1 = "scanContact1",
 	scanContact2 = "scanContact2",
 	scanContact3 = "scanContact3",
+
+	// 天气组件
+	weather = "weather",
+	weatherNoApiKey = "weatherNoApiKey",
+	weatherLoading = "weatherLoading",
+	weatherLoadFailed = "weatherLoadFailed",
+	weatherRetry = "weatherRetry",
+	weatherSearchPlaceholder = "weatherSearchPlaceholder",
+	weatherHumidity = "weatherHumidity",
+	weatherWind = "weatherWind",
+	weatherFeelsLike = "weatherFeelsLike",
+	weatherUV = "weatherUV",
+	weatherVisibility = "weatherVisibility",
+	weatherForecast = "weatherForecast",
+	weatherToday = "weatherToday",
+	weatherHigh = "weatherHigh",
+	weatherLow = "weatherLow",
+	weatherCelsius = "weatherCelsius",
+	weatherFahrenheit = "weatherFahrenheit",
+	weatherKmh = "weatherKmh",
+	weatherMph = "weatherMph",
+	weatherChangeLocation = "weatherChangeLocation",
+	weatherDetectLocation = "weatherDetectLocation",
+
+	// 天气条件描述
+	weatherCondSunny = "weatherCondSunny",
+	weatherCondPartlyCloudy = "weatherCondPartlyCloudy",
+	weatherCondCloudy = "weatherCondCloudy",
+	weatherCondFog = "weatherCondFog",
+	weatherCondDrizzle = "weatherCondDrizzle",
+	weatherCondRain = "weatherCondRain",
+	weatherCondHeavyRain = "weatherCondHeavyRain",
+	weatherCondSnow = "weatherCondSnow",
+	weatherCondHeavySnow = "weatherCondHeavySnow",
+	weatherCondSleet = "weatherCondSleet",
+	weatherCondThunderstorm = "weatherCondThunderstorm",
+	weatherCondHail = "weatherCondHail",
 }
 
 export default I18nKey;

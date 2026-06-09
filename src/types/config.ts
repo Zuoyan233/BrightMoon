@@ -383,6 +383,7 @@ export type WidgetComponentType =
 	| "pio" // 添加 pio 组件类型
 	| "site-stats" // 站点统计组件
 	| "calendar" // 日历组件
+	| "weather" // 天气组件
 	| "custom";
 
 export type WidgetComponentConfig = {
@@ -534,3 +535,13 @@ export type ContactMethods = {
 	icon: string; // 图标名称
 	qrCode: string; // 二维码图片路径
 }[];
+
+/**
+ * 天气组件配置
+ */
+export type WeatherConfig = {
+	enable: boolean; // 是否启用天气组件
+	apiKey: string; // WeatherAPI API Key
+	defaultLocation?: string; // 默认位置，留空则根据IP自动检测
+	unit?: "celsius" | "fahrenheit"; // 温度单位，默认摄氏度
+};
