@@ -97,7 +97,7 @@ const weatherApiLangMapJSON = JSON.stringify(weatherApiLangMap);
 	style={style}
 >
 	<!-- 标题行：天气标题 + 位置选择 -->
-	<div class="flex justify-between items-center mb-2 mt-3">
+	<div class="flex justify-between items-center mb-2 mt-4">
 		<div
 			class="font-bold transition text-lg text-neutral-900 dark:text-neutral-100 relative ml-4 flex items-center
 					before:w-1 before:h-4 before:rounded-md before:bg-[var(--primary)]
@@ -151,7 +151,7 @@ const weatherApiLangMapJSON = JSON.stringify(weatherApiLangMap);
 
 		<!-- 加载失败状态 -->
 		<div id="weather-error" class="hidden flex flex-col items-center justify-center py-6">
-			<div class="text-4xl mb-2 text-neutral-400 dark:text-neutral-500">
+			<div class="text-4xl mb-2 text-[var(--primary)]">
 				<Icon name="material-symbols:cloud-off-outline" />
 			</div>
 			<span class="text-sm text-neutral-500 dark:text-neutral-400 mb-3 ignore" data-weather-error-text>
@@ -159,7 +159,7 @@ const weatherApiLangMapJSON = JSON.stringify(weatherApiLangMap);
 			</span>
 			<button
 				id="weather-retry-btn"
-				class="px-4 py-1.5 text-sm rounded-lg bg-[var(--primary)] text-white hover:opacity-80 transition-opacity"
+				class="px-4 py-1.5 text-base rounded-lg bg-[var(--primary)] text-white hover:opacity-80 transition-opacity"
 			>
 				<span class="ignore" data-weather-retry-text>{i18n(I18nKey.weatherRetry)}</span>
 			</button>
@@ -167,7 +167,7 @@ const weatherApiLangMapJSON = JSON.stringify(weatherApiLangMap);
 
 		<!-- 未配置 API Key 状态 -->
 		<div id="weather-noapikey" class="hidden flex flex-col items-center justify-center py-6">
-			<div class="text-4xl mb-2 text-neutral-400 dark:text-neutral-500">
+			<div class="text-4xl mb-2 text-[var(--primary)]">
 				<Icon name="material-symbols:error-outline" />
 			</div>
 			<span class="text-sm text-neutral-500 dark:text-neutral-400 text-center ignore" data-weather-noapikey-text>
@@ -177,7 +177,7 @@ const weatherApiLangMapJSON = JSON.stringify(weatherApiLangMap);
 
 		<!-- 定位因隐私拒绝被禁用状态 -->
 		<div id="weather-location-disabled" class="hidden flex flex-col items-center justify-center py-6">
-			<div class="text-4xl mb-2 text-neutral-400 dark:text-neutral-500">
+			<div class="text-4xl mb-2 text-[var(--primary)]">
 				<Icon name="material-symbols:location-off-outline" />
 			</div>
 			<span class="text-sm text-neutral-500 dark:text-neutral-400 text-center ignore" data-weather-location-disabled-text>
@@ -187,8 +187,11 @@ const weatherApiLangMapJSON = JSON.stringify(weatherApiLangMap);
 
 		<!-- 等待 IP 定位授权状态 -->
 		<div id="weather-waiting-consent" class="hidden flex flex-col items-center justify-center py-6">
-			<div class="text-4xl mb-2 text-neutral-400 dark:text-neutral-500">
-				<Icon name="material-symbols:hourglass-top" />
+			<div class="weather-spinner mb-3">
+				<svg class="weather-spinner-svg" viewBox="0 0 48 48">
+					<circle class="weather-spinner-track" cx="24" cy="24" r="20" fill="none" stroke-width="4" />
+					<circle class="weather-spinner-arc" cx="24" cy="24" r="20" fill="none" stroke-width="4" stroke-linecap="round" />
+				</svg>
 			</div>
 			<span class="text-sm text-neutral-500 dark:text-neutral-400 text-center ignore" data-weather-waiting-consent-text>
 				{i18n(I18nKey.weatherWaitingConsent)}
@@ -204,9 +207,9 @@ const weatherApiLangMapJSON = JSON.stringify(weatherApiLangMap);
 			</div>
 
 			<!-- 当前天气 -->
-			<div class="flex items-center gap-3 mb-4 px-1">
+			<div class="flex items-center justify-center gap-3 mb-4 px-1">
 				<span id="weather-current-icon" class="text-5xl text-[var(--primary)] shrink-0 flex items-center justify-center"></span>
-				<div class="flex-1 min-w-0">
+				<div class="min-w-0">
 					<div class="flex items-baseline gap-1">
 						<span id="weather-current-temp" class="text-3xl font-bold text-neutral-900 dark:text-neutral-100"></span>
 						<span id="weather-temp-unit" class="text-lg text-neutral-500 dark:text-neutral-400"></span>
@@ -218,30 +221,30 @@ const weatherApiLangMapJSON = JSON.stringify(weatherApiLangMap);
 			<!-- 天气详情 -->
 			<div class="grid grid-cols-2 gap-2 mb-4 px-1">
 				<div class="flex items-center gap-2 px-2 py-1.5 rounded-lg bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))]">
-					<Icon name="material-symbols:humidity-percentage-outline" class="text-[var(--primary)] text-base shrink-0" />
+					<Icon name="material-symbols:humidity-percentage-outline" class="text-[var(--primary)] text-xl shrink-0" />
 					<div class="min-w-0">
-						<div class="text-xs text-neutral-500 dark:text-neutral-400 ignore" data-weather-detail-humidity>{i18n(I18nKey.weatherHumidity)}</div>
+						<div class="text-sm text-neutral-500 dark:text-neutral-400 ignore" data-weather-detail-humidity>{i18n(I18nKey.weatherHumidity)}</div>
 						<span id="weather-humidity" class="text-sm font-medium text-neutral-900 dark:text-neutral-100"></span>
 					</div>
 				</div>
 				<div class="flex items-center gap-2 px-2 py-1.5 rounded-lg bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))]">
-					<Icon name="material-symbols:air" class="text-[var(--primary)] text-base shrink-0" />
+					<Icon name="material-symbols:air" class="text-[var(--primary)] text-xl shrink-0" />
 					<div class="min-w-0">
-						<div class="text-xs text-neutral-500 dark:text-neutral-400 ignore" data-weather-detail-wind>{i18n(I18nKey.weatherWind)}</div>
+						<div class="text-sm text-neutral-500 dark:text-neutral-400 ignore" data-weather-detail-wind>{i18n(I18nKey.weatherWind)}</div>
 						<span id="weather-wind" class="text-sm font-medium text-neutral-900 dark:text-neutral-100"></span>
 					</div>
 				</div>
 				<div class="flex items-center gap-2 px-2 py-1.5 rounded-lg bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))]">
-					<Icon name="material-symbols:thermometer" class="text-[var(--primary)] text-base shrink-0" />
+					<Icon name="material-symbols:thermometer" class="text-[var(--primary)] text-xl shrink-0" />
 					<div class="min-w-0">
-						<div class="text-xs text-neutral-500 dark:text-neutral-400 ignore" data-weather-detail-feelslike>{i18n(I18nKey.weatherFeelsLike)}</div>
+						<div class="text-sm text-neutral-500 dark:text-neutral-400 ignore" data-weather-detail-feelslike>{i18n(I18nKey.weatherFeelsLike)}</div>
 						<span id="weather-feelslike" class="text-sm font-medium text-neutral-900 dark:text-neutral-100"></span>
 					</div>
 				</div>
 				<div class="flex items-center gap-2 px-2 py-1.5 rounded-lg bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))]">
-					<Icon name="material-symbols:wb-sunny-outline" class="text-[var(--primary)] text-base shrink-0" />
+					<Icon name="material-symbols:wb-sunny-outline" class="text-[var(--primary)] text-xl shrink-0" />
 					<div class="min-w-0">
-						<div class="text-xs text-neutral-500 dark:text-neutral-400 ignore" data-weather-detail-uv>{i18n(I18nKey.weatherUV)}</div>
+						<div class="text-sm text-neutral-500 dark:text-neutral-400 ignore" data-weather-detail-uv>{i18n(I18nKey.weatherUV)}</div>
 						<span id="weather-uv" class="text-sm font-medium text-neutral-900 dark:text-neutral-100"></span>
 					</div>
 				</div>
@@ -250,7 +253,7 @@ const weatherApiLangMapJSON = JSON.stringify(weatherApiLangMap);
 			<!-- 7天预报 -->
 			<div class="flex items-center gap-1 mb-2 px-1">
 				<Icon name="material-symbols:calendar-month-outline" class="text-[var(--primary)] text-xl mr-1" />
-				<span class="text-base font-bold text-neutral-700 dark:text-neutral-300 ignore" data-weather-forecast-title>{i18n(I18nKey.weatherForecast)}</span>
+				<span class="text-sm font-bold text-neutral-700 dark:text-neutral-300 ignore" data-weather-forecast-title>{i18n(I18nKey.weatherForecast)}</span>
 			</div>
 			<div id="weather-forecast" class="flex flex-col gap-1.5 pr-1">
 			</div>
@@ -572,13 +575,13 @@ const weatherApiLangMapJSON = JSON.stringify(weatherApiLangMap);
 				const condText = getConditionText(day.day.condition.code, day.day.condition.text);
 
 				forecastHtml += '<div class="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-[var(--btn-plain-bg-hover)] transition-colors">' +
-					'<span class="text-xs text-neutral-500 dark:text-neutral-400 w-8 shrink-0 ignore">' + dayLabel + '</span>' +
-					'<iconify-icon icon="material-symbols:' + forecastIconName + '" width="22" height="22" class="shrink-0 text-[var(--primary)]"></iconify-icon>' +
-					'<span class="text-xs text-neutral-600 dark:text-neutral-400 truncate flex-1 ignore">' + condText + '</span>' +
-					'<div class="flex items-center gap-1 shrink-0">' +
-						'<span class="text-xs font-bold text-neutral-900 dark:text-neutral-100">' + maxTemp + tempSymbol + '</span>' +
-						'<span class="text-xs text-neutral-400">/</span>' +
-						'<span class="text-xs text-neutral-500 dark:text-neutral-400">' + minTemp + tempSymbol + '</span>' +
+					'<span class="text-sm text-neutral-500 dark:text-neutral-400 w-8 shrink-0 ignore">' + dayLabel + '</span>' +
+					'<iconify-icon icon="material-symbols:' + forecastIconName + '" width="22" height="22" class="shrink-0 ml-2 text-xl text-[var(--primary)]"></iconify-icon>' +
+					'<span class="text-sm text-neutral-600 dark:text-neutral-400 truncate ignore">' + condText + '</span>' +
+					'<div class="flex items-center gap-1 shrink-0 ml-auto">' +
+						'<span class="text-sm font-bold text-neutral-900 dark:text-neutral-100">' + maxTemp + tempSymbol + '</span>' +
+						'<span class="text-sm text-neutral-400">/</span>' +
+						'<span class="text-sm text-neutral-500 dark:text-neutral-400">' + minTemp + tempSymbol + '</span>' +
 					'</div>' +
 				'</div>';
 			});
