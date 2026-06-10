@@ -3,6 +3,12 @@ import { Icon } from "astro-icon/components";
 import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
 
+interface Props {
+	enable: boolean;
+}
+
+const { enable } = Astro.props;
+
 const title = i18n(I18nKey.cookieConsentTitle);
 const description = i18n(I18nKey.cookieConsentDescription);
 const ipInfoLoading = i18n(I18nKey.cookieConsentIpInfo);
@@ -38,11 +44,19 @@ const uid = Math.random().toString(36).slice(2, 10);
     </div>
 </div>
 
-<script is:inline define:vars={{ uid, ipInfoLoading }}>
+<script is:inline define:vars={{ uid, ipInfoLoading, enable }}>
     (function() {
         var cKey = 'siteNoticeConsent';
         var consent = localStorage.getItem(cKey);
         window.__siteNoticeConsent = consent;
+
+        // 如果协议弹窗被关闭，自动视为已同意，不做任何权限拒绝
+        if (!enable) {
+            localStorage.setItem(cKey, 'accepted');
+            window.__siteNoticeConsent = 'accepted';
+            window.dispatchEvent(new CustomEvent('siteNoticeConsentChange', { detail: 'accepted' }));
+            return;
+        }
 
         if (consent === 'accepted' || consent === 'rejected') return;
 

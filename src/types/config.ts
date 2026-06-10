@@ -145,6 +145,11 @@ export type SiteConfig = {
 		};
 	};
 
+	// Cookie 隐私协议配置
+	cookieConsent?: {
+		enable: boolean; // true=显示协议弹窗，false=关闭弹窗且默认同意所有权限
+	};
+
 	// 标签样式配置
 	tagStyle?: {
 		useNewStyle?: boolean; // 是否使用新样式（悬停高亮样式）还是旧样式（外框常亮样式）

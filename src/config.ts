@@ -92,6 +92,11 @@ export const siteConfig: SiteConfig = {
 		sponsors: true, // 赞助页面开关
 	},
 
+	// Cookie 隐私协议开关：true=显示协议弹窗，false=关闭弹窗且默认同意所有权限
+	cookieConsent: {
+		enable: true,
+	},
+
 	// 顶栏标题配置
 	navbarTitle: {
 		// 显示模式："text-icon" 显示图标+文本，"logo" 仅显示Logo
