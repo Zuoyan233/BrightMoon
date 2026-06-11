@@ -48,6 +48,8 @@ export const siteConfig: SiteConfig = {
 		wallpaperMode: {
 			// 默认壁纸模式：banner=顶部横幅，fullscreen=全屏壁纸，none=无壁纸
 			defaultMode: "banner",
+			// 默认壁纸位置（全屏壁纸时生效）：top=顶部对齐，center=居中，bottom=底部对齐
+			defaultPosition: "center",
 			// 整体布局方案切换按钮显示设置（需要 appearance 中的 fixed: false 才能生效）
 			// "off" = 不显示
 			// "mobile" = 仅在移动端显示
@@ -263,7 +265,6 @@ export const fullscreenWallpaperConfig: FullscreenWallpaperConfig = {
 			"/assets/mobile-banner/m6.webp",
 		], // 移动横幅图片
 	}, // 使用本地横幅图片
-	position: "center", // 壁纸位置，等同于 object-position
 	carousel: {
 		enable: true, // 启用轮播
 		interval: 6, // 轮播间隔时间（秒）

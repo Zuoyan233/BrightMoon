@@ -8,6 +8,7 @@ import {
 import { siteConfig } from "@/config";
 import type { LIGHT_DARK_MODE, WALLPAPER_MODE } from "@/types/config";
 export type NAVBAR_TRANSPARENT_MODE = "semi" | "full" | "semifull";
+export type WALLPAPER_POSITION = "top" | "center" | "bottom";
 
 export function getDefaultHue(): number {
 	const fallback = "250";
@@ -196,6 +197,24 @@ export function setWallpaperMode(mode: WALLPAPER_MODE): void {
 	// 触发自定义事件通知其他组件壁纸模式已改变
 	window.dispatchEvent(
 		new CustomEvent("wallpaper-mode-change", { detail: { mode } }),
+	);
+}
+
+export function getStoredWallpaperPosition(): WALLPAPER_POSITION {
+	const stored = localStorage.getItem(
+		"wallpaperPosition",
+	) as WALLPAPER_POSITION | null;
+	if (stored === "top" || stored === "center" || stored === "bottom") {
+		return stored;
+	}
+	return siteConfig.appearance.wallpaperMode.defaultPosition || "center";
+}
+
+export function setWallpaperPosition(position: WALLPAPER_POSITION): void {
+	localStorage.setItem("wallpaperPosition", position);
+	// 触发自定义事件通知其他组件壁纸位置已改变
+	window.dispatchEvent(
+		new CustomEvent("wallpaper-position-change", { detail: { position } }),
 	);
 }
 

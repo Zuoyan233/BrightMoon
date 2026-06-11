@@ -301,6 +301,10 @@ enum I18nKey {
 	wallpaperBanner = "wallpaperBanner",
 	wallpaperFullscreen = "wallpaperFullscreen",
 	wallpaperNone = "wallpaperNone",
+	wallpaperPosition = "wallpaperPosition",
+	wallpaperPositionTop = "wallpaperPositionTop",
+	wallpaperPositionCenter = "wallpaperPositionCenter",
+	wallpaperPositionBottom = "wallpaperPositionBottom",
 
 	// Navbar transparent mode
 	navbarTransparentMode = "navbarTransparentMode",

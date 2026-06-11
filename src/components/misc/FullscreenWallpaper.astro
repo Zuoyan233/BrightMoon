@@ -60,13 +60,15 @@ const isCarouselEnabled =
 	(imageSources.desktop.length > 1 || imageSources.mobile.length > 1);
 const carouselInterval = config.carousel?.interval || 5;
 
-// 样式配置
-const position = config.position || "center";
+// 样式配置 - position 改为通过内联脚本从 localStorage 动态读取
+// 默认值从 config 获取，存储在 data 属性中供客户端读取
+const defaultPosition =
+	siteConfig.appearance.wallpaperMode.defaultPosition || "center";
 const zIndex = config.zIndex || -1;
 const opacity = config.opacity || 0.8;
 const blurAmount = config.blur || 0;
 const positionClass = (() => {
-	switch (position) {
+	switch (defaultPosition) {
 		case "top":
 			return "object-top";
 		case "bottom":
@@ -99,6 +101,7 @@ const renderGroups = [
 	]}
 	style={`z-index: ${zIndex}; opacity: ${opacity}; transform: translateZ(0); perspective: 1000px;`}
 	data-fullscreen-wallpaper
+	data-default-position={defaultPosition}
 >
 	<script is:inline>
 	// 立即执行脚本：防止闪烁
@@ -107,6 +110,40 @@ const renderGroups = [
 		if (mode !== 'fullscreen') {
 			document.currentScript.parentElement.style.display = 'none';
 		}
+	})();
+	</script>
+	<script is:inline>
+	// 动态应用壁纸位置
+	(function() {
+		const POSITION_CLASSES = {
+			top: 'object-top',
+			center: 'object-center',
+			bottom: 'object-bottom'
+		};
+		const container = document.currentScript.parentElement;
+		const defaultPosition = container.getAttribute('data-default-position') || 'center';
+
+		function applyWallpaperPosition(position) {
+			const images = container.querySelectorAll('img');
+			images.forEach(img => {
+				// 移除所有位置类
+				Object.values(POSITION_CLASSES).forEach(cls => img.classList.remove(cls));
+				// 添加正确的类
+				const targetClass = POSITION_CLASSES[position] || POSITION_CLASSES.center;
+				img.classList.add(targetClass);
+			});
+		}
+
+		// 初始应用
+		const storedPosition = localStorage.getItem('wallpaperPosition');
+		applyWallpaperPosition(storedPosition || defaultPosition);
+
+		// 监听位置变化
+		window.addEventListener('wallpaper-position-change', function(e) {
+			if (e.detail && e.detail.position) {
+				applyWallpaperPosition(e.detail.position);
+			}
+		});
 	})();
 	</script>
 

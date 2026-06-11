@@ -224,6 +224,10 @@ export const en: Translation = {
 	[Key.wallpaperBanner]: "Banner Mode",
 	[Key.wallpaperFullscreen]: "Fullscreen Mode",
 	[Key.wallpaperNone]: "Hide Wallpaper",
+	[Key.wallpaperPosition]: "Wallpaper Position",
+	[Key.wallpaperPositionTop]: "Top",
+	[Key.wallpaperPositionCenter]: "Center",
+	[Key.wallpaperPositionBottom]: "Bottom",
 
 	// Navbar transparent mode
 	[Key.navbarTransparentMode]: "Navbar Style",

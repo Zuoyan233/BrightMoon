@@ -222,6 +222,10 @@ export const ko: Translation = {
 	[Key.wallpaperBanner]: "배너 모드",
 	[Key.wallpaperFullscreen]: "전체 화면 모드",
 	[Key.wallpaperNone]: "배경화면 숨기기",
+	[Key.wallpaperPosition]: "배경화면 위치",
+	[Key.wallpaperPositionTop]: "상단",
+	[Key.wallpaperPositionCenter]: "중앙",
+	[Key.wallpaperPositionBottom]: "하단",
 
 	// 네비게이션 바 투명 모드
 	[Key.navbarTransparentMode]: "네비게이션 바 스타일",

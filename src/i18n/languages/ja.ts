@@ -222,6 +222,10 @@ export const ja: Translation = {
 	[Key.wallpaperBanner]: "バナーモード",
 	[Key.wallpaperFullscreen]: "フルスクリーンモード",
 	[Key.wallpaperNone]: "壁紙を非表示",
+	[Key.wallpaperPosition]: "壁紙の位置",
+	[Key.wallpaperPositionTop]: "上部",
+	[Key.wallpaperPositionCenter]: "中央",
+	[Key.wallpaperPositionBottom]: "下部",
 
 	// ナビゲーションバー透明モード
 	[Key.navbarTransparentMode]: "ナビゲーションバースタイル",

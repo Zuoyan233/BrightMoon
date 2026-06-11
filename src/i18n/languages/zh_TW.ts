@@ -311,6 +311,10 @@ export const zh_TW: Translation = {
 	[Key.wallpaperBanner]: "橫幅模式",
 	[Key.wallpaperFullscreen]: "全螢幕模式",
 	[Key.wallpaperNone]: "隱藏桌布",
+	[Key.wallpaperPosition]: "桌布位置",
+	[Key.wallpaperPositionTop]: "頂部",
+	[Key.wallpaperPositionCenter]: "居中",
+	[Key.wallpaperPositionBottom]: "底部",
 
 	// 導航欄透明模式
 	[Key.navbarTransparentMode]: "導航欄樣式",

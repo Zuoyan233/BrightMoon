@@ -11,6 +11,7 @@ import { getSakuraStatus, toggleSakura } from "@utils/sakura-manager";
 import type {
 	NAVBAR_TRANSPARENT_MODE,
 	POST_LIST_LAYOUT_MODE,
+	WALLPAPER_POSITION,
 } from "@utils/setting-utils";
 import {
 	getDefaultHue,
@@ -19,14 +20,17 @@ import {
 	getStoredPostListLayout,
 	getStoredSakuraEnabled,
 	getStoredWallpaperMode,
+	getStoredWallpaperPosition,
 	setHue,
 	setNavbarTransparentMode,
 	setPostListLayout,
 	setSakuraEnabled,
 	setWallpaperMode,
+	setWallpaperPosition,
 } from "@utils/setting-utils";
-import { onMount } from "svelte";
+import { onMount, tick } from "svelte";
 import type { WALLPAPER_MODE } from "@/types/config";
+import { translationManager } from "@/utils/translation-manager";
 
 let hue = 250;
 let defaultHue = 250;
@@ -39,6 +43,9 @@ let sakuraAvailable = true;
 
 // 壁纸模式
 let currentWallpaperMode: WALLPAPER_MODE = WALLPAPER_BANNER;
+
+// 壁纸位置（全屏壁纸时有效）
+let currentWallpaperPosition: WALLPAPER_POSITION = "center";
 
 // 壁纸切换按钮在面板中的显示控制
 let wallpaperShowSwitch = "both";
@@ -99,6 +106,24 @@ function wallpaperModeLabel(mode: string): string {
 	}
 }
 
+function selectWallpaperPosition(position: WALLPAPER_POSITION) {
+	currentWallpaperPosition = position;
+	setWallpaperPosition(position);
+}
+
+function wallpaperPositionLabel(position: string): string {
+	switch (position) {
+		case "top":
+			return i18n(I18nKey.wallpaperPositionTop);
+		case "center":
+			return i18n(I18nKey.wallpaperPositionCenter);
+		case "bottom":
+			return i18n(I18nKey.wallpaperPositionBottom);
+		default:
+			return position;
+	}
+}
+
 function selectPostListLayout(mode: POST_LIST_LAYOUT_MODE) {
 	postListLayout = mode;
 	setPostListLayout(mode);
@@ -134,6 +159,9 @@ onMount(() => {
 	// 读取壁纸模式
 	currentWallpaperMode = getStoredWallpaperMode();
 
+	// 读取壁纸位置
+	currentWallpaperPosition = getStoredWallpaperPosition();
+
 	// 读取文章列表布局
 	postListLayout = getStoredPostListLayout();
 
@@ -168,7 +196,14 @@ onMount(() => {
 	};
 });
 
-$: navbarDisabled = currentWallpaperMode !== WALLPAPER_BANNER;
+// 壁纸模式变化时，刷新翻译以确保新出现的 UI 元素被正确翻译
+let lastWallpaperModeForTranslation: WALLPAPER_MODE | null = null;
+$: if (isMounted && currentWallpaperMode !== lastWallpaperModeForTranslation) {
+	lastWallpaperModeForTranslation = currentWallpaperMode;
+	void tick().then(() => {
+		translationManager.refresh();
+	});
+}
 
 $: if (isMounted && (hue || hue === 0)) {
 	setHue(hue);
@@ -302,8 +337,68 @@ $: if (isMounted && (hue || hue === 0)) {
 		</div>
 {/if}
 
+{#if showWallpaperSection && currentWallpaperMode === WALLPAPER_FULLSCREEN}
+		<!-- 壁纸位置选择（仅全屏壁纸时显示） -->
+		<div class="flex items-center gap-2 mb-3">
+			<Icon icon="material-symbols:vertical-align-center" class="text-[var(--btn-content)] text-lg" />
+			<span class="text-base font-bold text-neutral-700 dark:text-neutral-300">
+				{i18n(I18nKey.wallpaperPosition)}
+			</span>
+		</div>
+		<div class="mb-3">
+			<div class="grid grid-cols-3 gap-2">
+			<button
+				class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
+					border-2 relative text-neutral-600 dark:text-neutral-300"
+				class:bg-[var(--primary)]={currentWallpaperPosition === "top"}
+				class:border-[var(--primary)]={currentWallpaperPosition === "top"}
+				class:!text-white={currentWallpaperPosition === "top"}
+				class:border-transparent={currentWallpaperPosition !== "top"}
+				class:hover:border-[var(--primary)]={currentWallpaperPosition !== "top"}
+				class:hover:text-[var(--primary)]={currentWallpaperPosition !== "top"}
+				class:dark:hover:text-[var(--primary)]={currentWallpaperPosition !== "top"}
+				on:click={() => selectWallpaperPosition("top")}
+			>
+				<Icon icon="material-symbols:vertical-align-top" class={'text-lg' + (currentWallpaperPosition === 'top' ? ' text-white' : '')} />
+				<span>{wallpaperPositionLabel("top")}</span>
+			</button>
+			<button
+				class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
+					border-2 relative text-neutral-600 dark:text-neutral-300"
+				class:bg-[var(--primary)]={currentWallpaperPosition === "center"}
+				class:border-[var(--primary)]={currentWallpaperPosition === "center"}
+				class:!text-white={currentWallpaperPosition === "center"}
+				class:border-transparent={currentWallpaperPosition !== "center"}
+				class:hover:border-[var(--primary)]={currentWallpaperPosition !== "center"}
+				class:hover:text-[var(--primary)]={currentWallpaperPosition !== "center"}
+				class:dark:hover:text-[var(--primary)]={currentWallpaperPosition !== "center"}
+				on:click={() => selectWallpaperPosition("center")}
+			>
+				<Icon icon="material-symbols:vertical-align-center" class={'text-lg' + (currentWallpaperPosition === 'center' ? ' text-white' : '')} />
+				<span>{wallpaperPositionLabel("center")}</span>
+			</button>
+			<button
+				class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
+					border-2 relative text-neutral-600 dark:text-neutral-300"
+				class:bg-[var(--primary)]={currentWallpaperPosition === "bottom"}
+				class:border-[var(--primary)]={currentWallpaperPosition === "bottom"}
+				class:!text-white={currentWallpaperPosition === "bottom"}
+				class:border-transparent={currentWallpaperPosition !== "bottom"}
+				class:hover:border-[var(--primary)]={currentWallpaperPosition !== "bottom"}
+				class:hover:text-[var(--primary)]={currentWallpaperPosition !== "bottom"}
+				class:dark:hover:text-[var(--primary)]={currentWallpaperPosition !== "bottom"}
+				on:click={() => selectWallpaperPosition("bottom")}
+			>
+				<Icon icon="material-symbols:vertical-align-bottom" class={'text-lg' + (currentWallpaperPosition === 'bottom' ? ' text-white' : '')} />
+				<span>{wallpaperPositionLabel("bottom")}</span>
+			</button>
+			</div>
+		</div>
+{/if}
+
+{#if currentWallpaperMode === WALLPAPER_BANNER}
 <!-- 导航栏透明模式选择 -->
-<div class="mb-4 transition-all duration-200" class:opacity-40={navbarDisabled} class:pointer-events-none={navbarDisabled}>
+<div class="mb-4 transition-all duration-200">
 	<div class="flex items-center gap-2 mb-3">
 		<Icon icon="material-symbols:menu-rounded" class="text-[var(--btn-content)] text-lg" />
 		<span class="text-base font-bold text-neutral-700 dark:text-neutral-300">
@@ -358,6 +453,7 @@ $: if (isMounted && (hue || hue === 0)) {
 		</button>
 	</div>
 </div>
+{/if}
 
 {#if postListLayoutAllowSwitch}
 <!-- 文章列表布局切换（仅在桌面端显示） -->

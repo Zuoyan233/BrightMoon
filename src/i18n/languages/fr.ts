@@ -236,6 +236,10 @@ export const fr: Translation = {
 	[Key.wallpaperBanner]: "Mode bannière",
 	[Key.wallpaperFullscreen]: "Mode plein écran",
 	[Key.wallpaperNone]: "Masquer le fond d'écran",
+	[Key.wallpaperPosition]: "Position du fond d'écran",
+	[Key.wallpaperPositionTop]: "Haut",
+	[Key.wallpaperPositionCenter]: "Centre",
+	[Key.wallpaperPositionBottom]: "Bas",
 
 	// Mode barre de navigation transparente
 	[Key.navbarTransparentMode]: "Style de la barre de navigation",

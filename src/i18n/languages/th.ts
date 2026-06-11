@@ -215,6 +215,10 @@ export const th: Translation = {
 	[Key.wallpaperBanner]: "โหมดแบนเนอร์",
 	[Key.wallpaperFullscreen]: "โหมดเต็มหน้าจอ",
 	[Key.wallpaperNone]: "ซ่อนวอลเปเปอร์",
+	[Key.wallpaperPosition]: "ตำแหน่งวอลเปเปอร์",
+	[Key.wallpaperPositionTop]: "ด้านบน",
+	[Key.wallpaperPositionCenter]: "ตรงกลาง",
+	[Key.wallpaperPositionBottom]: "ด้านล่าง",
 
 	// โหมดแถบนำทางโปร่งใส
 	[Key.navbarTransparentMode]: "สไตล์แถบนำทาง",

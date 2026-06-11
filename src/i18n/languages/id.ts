@@ -225,6 +225,10 @@ export const id: Translation = {
 	[Key.wallpaperBanner]: "Mode Spanduk",
 	[Key.wallpaperFullscreen]: "Mode Layar Penuh",
 	[Key.wallpaperNone]: "Sembunyikan Wallpaper",
+	[Key.wallpaperPosition]: "Posisi Wallpaper",
+	[Key.wallpaperPositionTop]: "Atas",
+	[Key.wallpaperPositionCenter]: "Tengah",
+	[Key.wallpaperPositionBottom]: "Bawah",
 
 	// Mode navbar transparan
 	[Key.navbarTransparentMode]: "Gaya Navbar",

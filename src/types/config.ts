@@ -67,6 +67,7 @@ export type SiteConfig = {
 		// 壁纸模式配置
 		wallpaperMode: {
 			defaultMode: "banner" | "fullscreen" | "none"; // 默认壁纸模式：banner=顶部横幅，fullscreen=全屏壁纸，none=无壁纸
+			defaultPosition?: "top" | "center" | "bottom"; // 默认壁纸位置（全屏壁纸时生效）：top=顶部对齐，center=居中，bottom=底部对齐
 			showModeSwitchOnMobile?: "off" | "mobile" | "desktop" | "both"; // 整体布局方案切换按钮显示设置：off=隐藏，mobile=仅移动端，desktop=仅桌面端，both=全部显示
 		};
 		// 文章列表布局配置
@@ -464,7 +465,6 @@ export type FullscreenWallpaperConfig = {
 				desktop?: string | string[];
 				mobile?: string | string[];
 		  }; // 支持单个图片、图片数组或分别设置桌面端和移动端图片
-	position?: "top" | "center" | "bottom"; // 壁纸位置，等同于 object-position
 	carousel?: {
 		enable: boolean; // 是否启用轮播
 		interval: number; // 轮播间隔时间（秒）

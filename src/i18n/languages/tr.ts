@@ -228,6 +228,10 @@ export const tr: Translation = {
 	[Key.wallpaperBanner]: "Afiş Modu",
 	[Key.wallpaperFullscreen]: "Tam Ekran Modu",
 	[Key.wallpaperNone]: "Duvar Kağıdını Gizle",
+	[Key.wallpaperPosition]: "Duvar Kağıdı Konumu",
+	[Key.wallpaperPositionTop]: "Üst",
+	[Key.wallpaperPositionCenter]: "Orta",
+	[Key.wallpaperPositionBottom]: "Alt",
 
 	// Gezinti çubuğu şeffaf modu
 	[Key.navbarTransparentMode]: "Gezinti Çubuğu Stili",

@@ -306,11 +306,15 @@ export const zh_CN: Translation = {
 	[Key.atomCopied]: "Atom 链接已复制到剪贴板！",
 	[Key.atomCopyFailed]: "复制失败，请手动复制链接",
 
-	// 壁纸模式
+	// Wallpaper mode
 	[Key.wallpaperMode]: "壁纸模式",
 	[Key.wallpaperBanner]: "横幅模式",
 	[Key.wallpaperFullscreen]: "全屏模式",
 	[Key.wallpaperNone]: "隐藏壁纸",
+	[Key.wallpaperPosition]: "壁纸位置",
+	[Key.wallpaperPositionTop]: "顶部",
+	[Key.wallpaperPositionCenter]: "居中",
+	[Key.wallpaperPositionBottom]: "底部",
 
 	// 导航栏透明模式
 	[Key.navbarTransparentMode]: "导航栏样式",

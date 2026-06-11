@@ -226,6 +226,10 @@ export const vi: Translation = {
 	[Key.wallpaperBanner]: "Chế độ Banner",
 	[Key.wallpaperFullscreen]: "Chế độ Toàn màn hình",
 	[Key.wallpaperNone]: "Ẩn hình nền",
+	[Key.wallpaperPosition]: "Vị trí hình nền",
+	[Key.wallpaperPositionTop]: "Trên cùng",
+	[Key.wallpaperPositionCenter]: "Giữa",
+	[Key.wallpaperPositionBottom]: "Dưới cùng",
 
 	// Chế độ thanh điều hướng trong suốt
 	[Key.navbarTransparentMode]: "Kiểu thanh điều hướng",

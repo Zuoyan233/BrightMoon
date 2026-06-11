@@ -225,6 +225,10 @@ export const ru: Translation = {
 	[Key.wallpaperBanner]: "Режим баннера",
 	[Key.wallpaperFullscreen]: "Полноэкранный режим",
 	[Key.wallpaperNone]: "Скрыть обои",
+	[Key.wallpaperPosition]: "Позиция обоев",
+	[Key.wallpaperPositionTop]: "Сверху",
+	[Key.wallpaperPositionCenter]: "По центру",
+	[Key.wallpaperPositionBottom]: "Снизу",
 
 	// Режим прозрачности панели навигации
 	[Key.navbarTransparentMode]: "Стиль панели навигации",

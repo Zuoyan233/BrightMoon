@@ -230,6 +230,10 @@ export const es: Translation = {
 	[Key.wallpaperBanner]: "Modo banner",
 	[Key.wallpaperFullscreen]: "Modo pantalla completa",
 	[Key.wallpaperNone]: "Ocultar fondo de pantalla",
+	[Key.wallpaperPosition]: "Posición del fondo de pantalla",
+	[Key.wallpaperPositionTop]: "Superior",
+	[Key.wallpaperPositionCenter]: "Centro",
+	[Key.wallpaperPositionBottom]: "Inferior",
 
 	// Modo de barra de navegación transparente
 	[Key.navbarTransparentMode]: "Estilo de la barra de navegación",

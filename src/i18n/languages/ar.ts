@@ -221,6 +221,10 @@ export const ar: Translation = {
 	[Key.wallpaperBanner]: "وضع الشريط",
 	[Key.wallpaperFullscreen]: "وضع ملء الشاشة",
 	[Key.wallpaperNone]: "إخفاء الخلفية",
+	[Key.wallpaperPosition]: "موضع الخلفية",
+	[Key.wallpaperPositionTop]: "أعلى",
+	[Key.wallpaperPositionCenter]: "وسط",
+	[Key.wallpaperPositionBottom]: "أسفل",
 
 	// Navbar transparent mode
 	[Key.navbarTransparentMode]: "نمط شريط التنقل",

@@ -227,6 +227,10 @@ export const de: Translation = {
 	[Key.wallpaperBanner]: "Banner-Modus",
 	[Key.wallpaperFullscreen]: "Vollbild-Modus",
 	[Key.wallpaperNone]: "Hintergrundbild ausblenden",
+	[Key.wallpaperPosition]: "Hintergrundbild-Position",
+	[Key.wallpaperPositionTop]: "Oben",
+	[Key.wallpaperPositionCenter]: "Mitte",
+	[Key.wallpaperPositionBottom]: "Unten",
 
 	// Navigationsleisten-Stil
 	[Key.navbarTransparentMode]: "Navigationsleisten-Stil",
