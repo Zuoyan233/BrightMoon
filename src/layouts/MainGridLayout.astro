@@ -775,33 +775,7 @@ const transparentClass = shouldEnableTransparency
 			clearInterval(checkSwup);
 		}, 2000);
 	}
-	
-	// 支持 Swup 页面过渡
-	document.addEventListener('swup:page:view', function() {
-		applyWallpaperMode();
-		
-		// 在Swup页面切换时也要重新应用布局模式
-		requestAnimationFrame(function() {
-			const mainGrid = document.getElementById('main-grid');
-			if (mainGrid) {
-				const savedLayout = localStorage.getItem('postListLayout');
-				const currentLayout = savedLayout || defaultPostListLayout;
-				mainGrid.setAttribute('data-layout-mode', currentLayout);
-				
-				if (currentLayout === 'grid') {
-					const rightSidebar = document.querySelector('.right-sidebar-container');
-					if (rightSidebar) {
-						rightSidebar.classList.add('hidden-in-grid-mode');
-					}
-				} else {
-					const rightSidebar = document.querySelector('.right-sidebar-container');
-					if (rightSidebar) {
-						rightSidebar.classList.remove('hidden-in-grid-mode');
-					}
-				}
-			}
-		});
-	});
+
 	// 在页面完全加载后，再次确认布局模式是否正确
 	if (document.readyState === 'loading') {
 		document.addEventListener('DOMContentLoaded', function() {

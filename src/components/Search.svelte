@@ -17,6 +17,9 @@ let debounceTimer: NodeJS.Timeout;
 let windowJustFocused = false;
 let focusTimer: NodeJS.Timeout;
 let blurTimer: NodeJS.Timeout;
+let fallbackTimer: NodeJS.Timeout;
+let pagefindReadyHandler: (() => void) | null = null;
+let pagefindErrorHandler: (() => void) | null = null;
 
 const fakeResult: SearchResult[] = [
 	{
@@ -145,18 +148,20 @@ onMount(() => {
 		);
 		initializeSearch();
 	} else {
-		document.addEventListener("pagefindready", () => {
+		pagefindReadyHandler = () => {
 			console.log("Pagefind ready event received.");
 			initializeSearch();
-		});
-		document.addEventListener("pagefindloaderror", () => {
+		};
+		pagefindErrorHandler = () => {
 			console.warn(
 				"Pagefind load error event received. Search functionality will be limited.",
 			);
 			initializeSearch(); // Initialize with pagefindLoaded as false
-		});
+		};
+		document.addEventListener("pagefindready", pagefindReadyHandler);
+		document.addEventListener("pagefindloaderror", pagefindErrorHandler);
 		// Fallback in case events are not caught or pagefind is already loaded by the time this script runs
-		setTimeout(() => {
+		fallbackTimer = setTimeout(() => {
 			if (!initialized) {
 				console.log("Fallback: Initializing search after timeout.");
 				initializeSearch();
@@ -215,6 +220,16 @@ onDestroy(() => {
 	}
 	clearTimeout(debounceTimer);
 	clearTimeout(focusTimer);
+	clearTimeout(blurTimer);
+	clearTimeout(fallbackTimer);
+	if (pagefindReadyHandler) {
+		document.removeEventListener("pagefindready", pagefindReadyHandler);
+		pagefindReadyHandler = null;
+	}
+	if (pagefindErrorHandler) {
+		document.removeEventListener("pagefindloaderror", pagefindErrorHandler);
+		pagefindErrorHandler = null;
+	}
 });
 </script>
 

@@ -2,8 +2,11 @@ class CodeBlockCollapser {
 	constructor() {
 		this.processedBlocks = new WeakSet();
 		this.observer = null;
+		this.themeObserver = null;
 		this.isThemeChanging = false;
 		this.debug = false; // 设置为 true 启用调试日志
+		this._swupPageViewHandler = null;
+		this._themeOptimizerReadyHandler = null;
 		this.init();
 	}
 
@@ -30,22 +33,38 @@ class CodeBlockCollapser {
 	}
 
 	setupThemeOptimizerSync() {
+		// 移除旧的监听器
+		if (this._themeOptimizerReadyHandler) {
+			document.removeEventListener(
+				"themeOptimizerReady",
+				this._themeOptimizerReadyHandler,
+			);
+		}
+		if (this._swupPageViewHandler) {
+			document.removeEventListener("swup:pageView", this._swupPageViewHandler);
+		}
+
 		// 与主题优化器同步，确保代码块的隐藏/显示行为一致
 		this.syncWithThemeOptimizer();
 
 		// 监听主题优化器初始化完成事件
-		document.addEventListener("themeOptimizerReady", () => {
+		this._themeOptimizerReadyHandler = () => {
 			this.log("Theme optimizer ready, syncing code block behavior");
 			this.syncWithThemeOptimizer();
-		});
+		};
+		document.addEventListener(
+			"themeOptimizerReady",
+			this._themeOptimizerReadyHandler,
+		);
 
 		// 监听页面切换事件，确保同步
-		document.addEventListener("swup:pageView", () => {
+		this._swupPageViewHandler = () => {
 			// 延迟同步，确保主题优化器已经处理完代码块
 			setTimeout(() => {
 				this.syncWithThemeOptimizer();
 			}, 150);
-		});
+		};
+		document.addEventListener("swup:pageView", this._swupPageViewHandler);
 	}
 
 	syncWithThemeOptimizer() {
@@ -80,8 +99,13 @@ class CodeBlockCollapser {
 	}
 
 	setupThemeChangeListener() {
+		// 断开旧的 observer
+		if (this.themeObserver) {
+			this.themeObserver.disconnect();
+		}
+
 		// 监听主题切换，在切换期间暂停 observer 和优化性能
-		const themeObserver = new MutationObserver((mutations) => {
+		this.themeObserver = new MutationObserver((mutations) => {
 			for (const mutation of mutations) {
 				if (
 					mutation.type === "attributes" &&
@@ -125,7 +149,7 @@ class CodeBlockCollapser {
 			}
 		});
 
-		themeObserver.observe(document.documentElement, {
+		this.themeObserver.observe(document.documentElement, {
 			attributes: true,
 			attributeFilter: ["class", "data-theme"],
 		});
@@ -275,6 +299,21 @@ class CodeBlockCollapser {
 		if (this.observer) {
 			this.observer.disconnect();
 			this.observer = null;
+		}
+		if (this.themeObserver) {
+			this.themeObserver.disconnect();
+			this.themeObserver = null;
+		}
+		if (this._themeOptimizerReadyHandler) {
+			document.removeEventListener(
+				"themeOptimizerReady",
+				this._themeOptimizerReadyHandler,
+			);
+			this._themeOptimizerReadyHandler = null;
+		}
+		if (this._swupPageViewHandler) {
+			document.removeEventListener("swup:pageView", this._swupPageViewHandler);
+			this._swupPageViewHandler = null;
 		}
 		this.processedBlocks = new WeakSet();
 	}

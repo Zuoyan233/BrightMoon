@@ -1,10 +1,19 @@
 // 右侧边栏布局管理器
 // 用于在网格模式下隐藏右侧边栏
 
+let _layoutAC = null; // AbortController for cleanup
+
 /**
  * 初始化页面布局
  */
 function initPageLayout() {
+	// 清理旧的监听器（Swup导航会重复调用此函数）
+	if (_layoutAC) {
+		_layoutAC.abort();
+	}
+	_layoutAC = new AbortController();
+	const { signal } = _layoutAC;
+
 	// 获取布局配置 - 从 main-grid 的 data-layout-mode 属性读取默认布局
 	const mainGrid = document.getElementById("main-grid");
 	const defaultLayoutMode = mainGrid
@@ -21,59 +30,75 @@ function initPageLayout() {
 	}
 
 	// 监听布局切换事件
-	window.addEventListener("layoutChange", (event) => {
-		const layout = event.detail.layout;
-		if (layout === "grid") {
-			hideRightSidebar();
-		} else {
-			showRightSidebar();
-		}
-	});
+	window.addEventListener(
+		"layoutChange",
+		(event) => {
+			const layout = event.detail.layout;
+			if (layout === "grid") {
+				hideRightSidebar();
+			} else {
+				showRightSidebar();
+			}
+		},
+		{ signal },
+	);
 
 	// 监听本地存储变化（用于跨标签页同步）
-	window.addEventListener("storage", (event) => {
-		if (event.key === "postListLayout") {
-			if (event.newValue === "grid") {
-				hideRightSidebar();
-			} else {
-				showRightSidebar();
+	window.addEventListener(
+		"storage",
+		(event) => {
+			if (event.key === "postListLayout") {
+				if (event.newValue === "grid") {
+					hideRightSidebar();
+				} else {
+					showRightSidebar();
+				}
 			}
-		}
-	});
+		},
+		{ signal },
+	);
 
 	// 监听页面导航事件
-	document.addEventListener("astro:page-load", () => {
-		setTimeout(() => {
-			const mainGrid = document.getElementById("main-grid");
-			const defaultLayoutMode = mainGrid
-				? mainGrid.getAttribute("data-layout-mode")
-				: "list";
-			const currentLayout =
-				localStorage.getItem("postListLayout") || defaultLayoutMode;
-			if (currentLayout === "grid") {
-				hideRightSidebar();
-			} else {
-				showRightSidebar();
-			}
-		}, 100);
-	});
+	document.addEventListener(
+		"astro:page-load",
+		() => {
+			setTimeout(() => {
+				const mainGrid = document.getElementById("main-grid");
+				const defaultLayoutMode = mainGrid
+					? mainGrid.getAttribute("data-layout-mode")
+					: "list";
+				const currentLayout =
+					localStorage.getItem("postListLayout") || defaultLayoutMode;
+				if (currentLayout === "grid") {
+					hideRightSidebar();
+				} else {
+					showRightSidebar();
+				}
+			}, 100);
+		},
+		{ signal },
+	);
 
 	// 监听SWUP导航事件
-	document.addEventListener("swup:contentReplaced", () => {
-		setTimeout(() => {
-			const mainGrid = document.getElementById("main-grid");
-			const defaultLayoutMode = mainGrid
-				? mainGrid.getAttribute("data-layout-mode")
-				: "list";
-			const currentLayout =
-				localStorage.getItem("postListLayout") || defaultLayoutMode;
-			if (currentLayout === "grid") {
-				hideRightSidebar();
-			} else {
-				showRightSidebar();
-			}
-		}, 100);
-	});
+	document.addEventListener(
+		"swup:contentReplaced",
+		() => {
+			setTimeout(() => {
+				const mainGrid = document.getElementById("main-grid");
+				const defaultLayoutMode = mainGrid
+					? mainGrid.getAttribute("data-layout-mode")
+					: "list";
+				const currentLayout =
+					localStorage.getItem("postListLayout") || defaultLayoutMode;
+				if (currentLayout === "grid") {
+					hideRightSidebar();
+				} else {
+					showRightSidebar();
+				}
+			}, 100);
+		},
+		{ signal },
+	);
 }
 
 /**

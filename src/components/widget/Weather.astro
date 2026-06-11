@@ -284,6 +284,7 @@ const weatherApiLangMapJSON = JSON.stringify(weatherApiLangMap);
 
 	// 缓存当前天气数据，用于语言切换时重新渲染
 	var lastWeatherData = null;
+	var _weatherConsentAC = null; // AbortController for cleaning up consent listener
 
 	// 获取当前 i18n 语言
 	function getLang() {
@@ -792,6 +793,10 @@ const weatherApiLangMapJSON = JSON.stringify(weatherApiLangMap);
 	registerWeatherRenderer();
 	document.addEventListener("translation-manager:ready", registerWeatherRenderer, { once: true });
 
+	// 清理旧的 consent 监听器，避免 Swup 导航累积
+	if (_weatherConsentAC) _weatherConsentAC.abort();
+	_weatherConsentAC = new AbortController();
+
 	// 监听 cookie 同意状态变化
 	window.addEventListener("siteNoticeConsentChange", function(e) {
 		if (e.detail === 'rejected') {
@@ -812,7 +817,7 @@ const weatherApiLangMapJSON = JSON.stringify(weatherApiLangMap);
 			// 同意后重新加载天气
 			loadWeather();
 		}
-	});
+	}, { signal: _weatherConsentAC.signal });
 
 	// 初始化
 	updateUILanguage();

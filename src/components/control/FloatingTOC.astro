@@ -275,14 +275,6 @@ const useJapaneseBadge = siteConfig.toc.useJapaneseBadge;
 			// 使用 AbortController 的信号来添加事件监听
 			const signal = this.abortController.signal;
 			
-			window.addEventListener("scroll", () => {
-				this.updateProgress();
-				this.updateActiveHeading();
-			}, { 
-				passive: true,
-				signal 
-			});
-
 			window.addEventListener("resize", () => {
 				this.updateActiveHeading();
 			}, { 
@@ -290,7 +282,7 @@ const useJapaneseBadge = siteConfig.toc.useJapaneseBadge;
 				signal 
 			});
 
-			// 使用防抖优化滚动性能
+			// 使用 requestAnimationFrame 防抖优化滚动性能（避免重复注册与 layout 冲突）
 			let scrollTimeout: number;
 			window.addEventListener("scroll", () => {
 				if (scrollTimeout) {

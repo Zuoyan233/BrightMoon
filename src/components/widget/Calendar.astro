@@ -193,6 +193,7 @@ const translateToI18nMapJSON = JSON.stringify(translateToLangMap);
 	};
 
 	let _isInTranslateFlow = false;
+	let _calClickAC = null; // AbortController for cleaning up document click listener
 
 	async function fetchCalendarData() {
 		try {
@@ -382,13 +383,16 @@ const translateToI18nMapJSON = JSON.stringify(translateToLangMap);
 			}
 		});
 
+		// 清理之前绑定的 document click 监听器，避免 Swup 导航累积
+		if (_calClickAC) _calClickAC.abort();
+		_calClickAC = new AbortController();
 		document.addEventListener("click", (e) => {
 			if (currentView === "day") return;
 			const widget = document.getElementById("calendar-widget");
 			if (widget && !widget.contains(e.target)) {
 				closeSelectionPanel();
 			}
-		});
+		}, { signal: _calClickAC.signal });
 	}
 
 	function updateHeader() {
