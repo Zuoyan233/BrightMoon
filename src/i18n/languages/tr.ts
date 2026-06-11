@@ -232,6 +232,8 @@ export const tr: Translation = {
 	[Key.wallpaperPositionTop]: "Üst",
 	[Key.wallpaperPositionCenter]: "Orta",
 	[Key.wallpaperPositionBottom]: "Alt",
+	[Key.wallpaperOpacity]: "Opaklık",
+	[Key.wallpaperBlur]: "Bulanıklık",
 
 	// Gezinti çubuğu şeffaf modu
 	[Key.navbarTransparentMode]: "Gezinti Çubuğu Stili",

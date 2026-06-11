@@ -231,6 +231,8 @@ export const de: Translation = {
 	[Key.wallpaperPositionTop]: "Oben",
 	[Key.wallpaperPositionCenter]: "Mitte",
 	[Key.wallpaperPositionBottom]: "Unten",
+	[Key.wallpaperOpacity]: "Deckkraft",
+	[Key.wallpaperBlur]: "Weichzeichnung",
 
 	// Navigationsleisten-Stil
 	[Key.navbarTransparentMode]: "Navigationsleisten-Stil",

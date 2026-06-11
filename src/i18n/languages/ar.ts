@@ -225,6 +225,8 @@ export const ar: Translation = {
 	[Key.wallpaperPositionTop]: "أعلى",
 	[Key.wallpaperPositionCenter]: "وسط",
 	[Key.wallpaperPositionBottom]: "أسفل",
+	[Key.wallpaperOpacity]: "العتامة",
+	[Key.wallpaperBlur]: "التمويه",
 
 	// Navbar transparent mode
 	[Key.navbarTransparentMode]: "نمط شريط التنقل",

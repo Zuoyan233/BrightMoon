@@ -218,6 +218,47 @@ export function setWallpaperPosition(position: WALLPAPER_POSITION): void {
 	);
 }
 
+export function getStoredWallpaperOpacity(): number {
+	const stored = localStorage.getItem("wallpaperOpacity");
+	if (stored !== null) {
+		const val = Number.parseFloat(stored);
+		if (!Number.isNaN(val)) return Math.max(20, Math.min(100, val));
+	}
+	return Math.max(
+		20,
+		Math.min(
+			100,
+			(siteConfig.appearance.wallpaperMode.defaultOpacity ?? 1) * 100,
+		),
+	);
+}
+
+export function setWallpaperOpacity(opacity: number): void {
+	localStorage.setItem("wallpaperOpacity", String(opacity));
+	window.dispatchEvent(
+		new CustomEvent("wallpaper-opacity-change", { detail: { opacity } }),
+	);
+}
+
+export function getStoredWallpaperBlur(): number {
+	const stored = localStorage.getItem("wallpaperBlur");
+	if (stored !== null) {
+		const val = Number.parseFloat(stored);
+		if (!Number.isNaN(val)) return Math.max(0, Math.min(40, val));
+	}
+	return Math.max(
+		0,
+		Math.min(40, siteConfig.appearance.wallpaperMode.defaultBlur ?? 8),
+	);
+}
+
+export function setWallpaperBlur(blur: number): void {
+	localStorage.setItem("wallpaperBlur", String(blur));
+	window.dispatchEvent(
+		new CustomEvent("wallpaper-blur-change", { detail: { blur } }),
+	);
+}
+
 // Sakura (樱花) 特效持久化
 export function getStoredSakuraEnabled(): boolean {
 	// 当外观固定时（appearance.fixed = true），强制使用配置值，忽略用户偏好

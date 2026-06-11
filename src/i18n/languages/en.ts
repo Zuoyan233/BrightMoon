@@ -228,6 +228,8 @@ export const en: Translation = {
 	[Key.wallpaperPositionTop]: "Top",
 	[Key.wallpaperPositionCenter]: "Center",
 	[Key.wallpaperPositionBottom]: "Bottom",
+	[Key.wallpaperOpacity]: "Opacity",
+	[Key.wallpaperBlur]: "Blur",
 
 	// Navbar transparent mode
 	[Key.navbarTransparentMode]: "Navbar Style",

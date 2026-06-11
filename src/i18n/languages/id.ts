@@ -229,6 +229,8 @@ export const id: Translation = {
 	[Key.wallpaperPositionTop]: "Atas",
 	[Key.wallpaperPositionCenter]: "Tengah",
 	[Key.wallpaperPositionBottom]: "Bawah",
+	[Key.wallpaperOpacity]: "Opasitas",
+	[Key.wallpaperBlur]: "Keburaman",
 
 	// Mode navbar transparan
 	[Key.navbarTransparentMode]: "Gaya Navbar",

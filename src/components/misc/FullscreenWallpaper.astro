@@ -64,9 +64,12 @@ const carouselInterval = config.carousel?.interval || 5;
 // 默认值从 config 获取，存储在 data 属性中供客户端读取
 const defaultPosition =
 	siteConfig.appearance.wallpaperMode.defaultPosition || "center";
-const zIndex = config.zIndex || -1;
-const opacity = config.opacity || 0.8;
-const blurAmount = config.blur || 0;
+const defaultOpacity = siteConfig.appearance.wallpaperMode.defaultOpacity ?? 1;
+const defaultBlur = siteConfig.appearance.wallpaperMode.defaultBlur ?? 8;
+
+// 服务端渲染时使用默认值，客户端通过内联脚本动态替换
+const opacity = defaultOpacity;
+const blurAmount = defaultBlur;
 const positionClass = (() => {
 	switch (defaultPosition) {
 		case "top":
@@ -99,9 +102,11 @@ const renderGroups = [
 		"fixed inset-0 w-full h-full overflow-hidden pointer-events-none",
 		className
 	]}
-	style={`z-index: ${zIndex}; opacity: ${opacity}; transform: translateZ(0); perspective: 1000px;`}
+	style={`opacity: ${opacity}; transform: translateZ(0); perspective: 1000px;`}
 	data-fullscreen-wallpaper
 	data-default-position={defaultPosition}
+	data-default-opacity={defaultOpacity}
+	data-default-blur={defaultBlur}
 >
 	<script is:inline>
 	// 立即执行脚本：防止闪烁
@@ -146,6 +151,50 @@ const renderGroups = [
 		});
 	})();
 	</script>
+	<script is:inline>
+	// 动态应用壁纸透明度和模糊
+	(function() {
+		const container = document.currentScript.parentElement;
+		const rawOpacity = parseFloat(container.getAttribute('data-default-opacity'));
+		const defaultOpacity = isNaN(rawOpacity) ? 1 : rawOpacity;
+		const rawBlur = parseFloat(container.getAttribute('data-default-blur'));
+		const defaultBlur = isNaN(rawBlur) ? 8 : rawBlur;
+
+		function applyOpacity(value) {
+			container.style.opacity = value / 100;
+		}
+
+		function applyBlur(value) {
+			const images = container.querySelectorAll('img');
+			images.forEach(img => {
+				if (value > 0) {
+					img.style.filter = `blur(${value}px)`;
+				} else {
+					img.style.filter = '';
+				}
+			});
+		}
+
+		// 初始应用
+		const storedOpacity = localStorage.getItem('wallpaperOpacity');
+		applyOpacity(storedOpacity !== null ? parseFloat(storedOpacity) : defaultOpacity * 100);
+
+		const storedBlur = localStorage.getItem('wallpaperBlur');
+		applyBlur(storedBlur !== null ? parseFloat(storedBlur) : defaultBlur);
+
+		// 监听变化
+		window.addEventListener('wallpaper-opacity-change', function(e) {
+			if (e.detail && typeof e.detail.opacity === 'number') {
+				applyOpacity(e.detail.opacity);
+			}
+		});
+		window.addEventListener('wallpaper-blur-change', function(e) {
+			if (e.detail && typeof e.detail.blur === 'number') {
+				applyBlur(e.detail.blur);
+			}
+		});
+	})();
+</script>
 
 	{isCarouselEnabled ? (
 		renderGroups.map(group => group.hasImages && (

@@ -229,6 +229,8 @@ export const ru: Translation = {
 	[Key.wallpaperPositionTop]: "Сверху",
 	[Key.wallpaperPositionCenter]: "По центру",
 	[Key.wallpaperPositionBottom]: "Снизу",
+	[Key.wallpaperOpacity]: "Непрозрачность",
+	[Key.wallpaperBlur]: "Размытие",
 
 	// Режим прозрачности панели навигации
 	[Key.navbarTransparentMode]: "Стиль панели навигации",

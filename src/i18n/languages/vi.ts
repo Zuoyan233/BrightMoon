@@ -230,6 +230,8 @@ export const vi: Translation = {
 	[Key.wallpaperPositionTop]: "Trên cùng",
 	[Key.wallpaperPositionCenter]: "Giữa",
 	[Key.wallpaperPositionBottom]: "Dưới cùng",
+	[Key.wallpaperOpacity]: "Độ mờ",
+	[Key.wallpaperBlur]: "Làm mờ",
 
 	// Chế độ thanh điều hướng trong suốt
 	[Key.navbarTransparentMode]: "Kiểu thanh điều hướng",

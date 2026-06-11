@@ -219,6 +219,8 @@ export const th: Translation = {
 	[Key.wallpaperPositionTop]: "ด้านบน",
 	[Key.wallpaperPositionCenter]: "ตรงกลาง",
 	[Key.wallpaperPositionBottom]: "ด้านล่าง",
+	[Key.wallpaperOpacity]: "ความทึบ",
+	[Key.wallpaperBlur]: "เบลอ",
 
 	// โหมดแถบนำทางโปร่งใส
 	[Key.navbarTransparentMode]: "สไตล์แถบนำทาง",

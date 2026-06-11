@@ -50,6 +50,10 @@ export const siteConfig: SiteConfig = {
 			defaultMode: "banner",
 			// 默认壁纸位置（全屏壁纸时生效）：top=顶部对齐，center=居中，bottom=底部对齐
 			defaultPosition: "center",
+			// 默认壁纸透明度（全屏壁纸时生效），有效值：0.2-1
+			defaultOpacity: 0.8,
+			// 默认背景模糊程度（全屏壁纸时生效），有效值：0-40px
+			defaultBlur: 8,
 			// 整体布局方案切换按钮显示设置（需要 appearance 中的 fixed: false 才能生效）
 			// "off" = 不显示
 			// "mobile" = 仅在移动端显示
@@ -269,9 +273,6 @@ export const fullscreenWallpaperConfig: FullscreenWallpaperConfig = {
 		enable: true, // 启用轮播
 		interval: 6, // 轮播间隔时间（秒）
 	},
-	zIndex: -1, // 层级，确保壁纸在背景层
-	opacity: 1, // 壁纸透明度
-	blur: 8, // 背景模糊程度
 };
 
 export const navBarConfig: NavBarConfig = {

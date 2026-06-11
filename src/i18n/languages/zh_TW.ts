@@ -315,6 +315,8 @@ export const zh_TW: Translation = {
 	[Key.wallpaperPositionTop]: "頂部",
 	[Key.wallpaperPositionCenter]: "居中",
 	[Key.wallpaperPositionBottom]: "底部",
+	[Key.wallpaperOpacity]: "不透明度",
+	[Key.wallpaperBlur]: "模糊",
 
 	// 導航欄透明模式
 	[Key.navbarTransparentMode]: "導航欄樣式",

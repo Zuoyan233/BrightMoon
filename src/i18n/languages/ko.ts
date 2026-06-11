@@ -226,6 +226,8 @@ export const ko: Translation = {
 	[Key.wallpaperPositionTop]: "상단",
 	[Key.wallpaperPositionCenter]: "중앙",
 	[Key.wallpaperPositionBottom]: "하단",
+	[Key.wallpaperOpacity]: "불투명도",
+	[Key.wallpaperBlur]: "흐림",
 
 	// 네비게이션 바 투명 모드
 	[Key.navbarTransparentMode]: "네비게이션 바 스타일",

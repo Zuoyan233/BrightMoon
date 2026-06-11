@@ -19,13 +19,17 @@ import {
 	getStoredNavbarTransparentMode,
 	getStoredPostListLayout,
 	getStoredSakuraEnabled,
+	getStoredWallpaperBlur,
 	getStoredWallpaperMode,
+	getStoredWallpaperOpacity,
 	getStoredWallpaperPosition,
 	setHue,
 	setNavbarTransparentMode,
 	setPostListLayout,
 	setSakuraEnabled,
+	setWallpaperBlur,
 	setWallpaperMode,
+	setWallpaperOpacity,
 	setWallpaperPosition,
 } from "@utils/setting-utils";
 import { onMount, tick } from "svelte";
@@ -46,6 +50,14 @@ let currentWallpaperMode: WALLPAPER_MODE = WALLPAPER_BANNER;
 
 // 壁纸位置（全屏壁纸时有效）
 let currentWallpaperPosition: WALLPAPER_POSITION = "center";
+
+// 壁纸透明度（全屏壁纸时有效）
+let currentWallpaperOpacity = 1;
+let defaultWallpaperOpacity = 100;
+
+// 壁纸模糊程度（全屏壁纸时有效）
+let currentWallpaperBlur = 20;
+let defaultWallpaperBlur = 20;
 
 // 壁纸切换按钮在面板中的显示控制
 let wallpaperShowSwitch = "both";
@@ -79,6 +91,28 @@ function navbarTransparentModeLabel(mode: string): string {
 
 function resetHue() {
 	hue = defaultHue;
+}
+
+function resetWallpaperOpacity() {
+	currentWallpaperOpacity = defaultWallpaperOpacity;
+	setWallpaperOpacity(currentWallpaperOpacity);
+	tick().then(() => {
+		const fill = document.querySelector(
+			"#opacitySlider [data-fill]",
+		) as HTMLElement;
+		if (fill) fill.style.width = `${sliderFillPercent("opacity")}%`;
+	});
+}
+
+function resetWallpaperBlur() {
+	currentWallpaperBlur = defaultWallpaperBlur;
+	setWallpaperBlur((currentWallpaperBlur * 40) / 100);
+	tick().then(() => {
+		const fill = document.querySelector(
+			"#blurSlider [data-fill]",
+		) as HTMLElement;
+		if (fill) fill.style.width = `${sliderFillPercent("blur")}%`;
+	});
 }
 
 function toggleSakuraEffect() {
@@ -124,6 +158,108 @@ function wallpaperPositionLabel(position: string): string {
 	}
 }
 
+function onOpacityChange() {
+	setWallpaperOpacity(currentWallpaperOpacity);
+}
+
+function onBlurChange() {
+	setWallpaperBlur((currentWallpaperBlur * 40) / 100);
+}
+
+// 自定义滑块拖拽状态
+let activeSlider: string | null = null;
+let activeSliderBar: HTMLElement | null = null;
+let activeSliderFill: HTMLElement | null = null;
+
+function clampValue(
+	value: number,
+	min: number,
+	max: number,
+	step: number,
+): number {
+	const clamped = Math.min(max, Math.max(min, value));
+	return Math.round(clamped / step) * step;
+}
+
+function getSliderRange(type: string): {
+	min: number;
+	max: number;
+	step: number;
+} {
+	switch (type) {
+		case "opacity":
+			return { min: 20, max: 100, step: 5 };
+		case "blur":
+			return { min: 0, max: 100, step: 5 };
+		default:
+			return { min: 0, max: 100, step: 1 };
+	}
+}
+
+function handleSliderStart(e: MouseEvent, type: string) {
+	const target = e.currentTarget;
+	if (!(target instanceof HTMLElement)) return;
+	activeSlider = type;
+	activeSliderBar = target;
+	activeSliderFill = target.querySelector("[data-fill]") as HTMLElement;
+	updateSliderFromEvent(e, type);
+}
+
+function handleSliderMove(e: MouseEvent) {
+	if (!activeSlider || !activeSliderBar || !activeSliderFill) return;
+	updateSliderFromEvent(e, activeSlider);
+}
+
+function handleSliderEnd() {
+	activeSlider = null;
+	activeSliderBar = null;
+	activeSliderFill = null;
+}
+
+function updateSliderFromEvent(e: MouseEvent, type: string) {
+	const bar = activeSliderBar;
+	const fill = activeSliderFill;
+	if (!bar || !fill) return;
+	const rect = bar.getBoundingClientRect();
+	const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+	const { min, max, step } = getSliderRange(type);
+	const value = clampValue(min + ratio * (max - min), min, max, step);
+
+	// 直接更新DOM宽度，绕过Svelte异步响应式
+	fill.style.width = `${(ratio * 100).toFixed(1)}%`;
+
+	switch (type) {
+		case "opacity":
+			currentWallpaperOpacity = value;
+			setWallpaperOpacity(value);
+			break;
+		case "blur":
+			currentWallpaperBlur = value;
+			setWallpaperBlur((value * 40) / 100);
+			break;
+	}
+}
+
+function sliderFillPercent(type: string): number {
+	switch (type) {
+		case "opacity": {
+			const range = getSliderRange("opacity");
+			return Math.min(
+				100,
+				Math.max(
+					0,
+					((currentWallpaperOpacity - range.min) / (range.max - range.min)) *
+						100,
+				),
+			);
+		}
+		case "blur":
+			return Math.min(100, Math.max(0, currentWallpaperBlur));
+		default:
+			return 0;
+	}
+}
+
 function selectPostListLayout(mode: POST_LIST_LAYOUT_MODE) {
 	postListLayout = mode;
 	setPostListLayout(mode);
@@ -161,6 +297,14 @@ onMount(() => {
 
 	// 读取壁纸位置
 	currentWallpaperPosition = getStoredWallpaperPosition();
+
+	// 读取壁纸透明度
+	currentWallpaperOpacity = getStoredWallpaperOpacity();
+	defaultWallpaperOpacity = currentWallpaperOpacity;
+
+	// 读取壁纸模糊程度
+	currentWallpaperBlur = Math.round((getStoredWallpaperBlur() / 40) * 100);
+	defaultWallpaperBlur = currentWallpaperBlur;
 
 	// 读取文章列表布局
 	postListLayout = getStoredPostListLayout();
@@ -209,6 +353,8 @@ $: if (isMounted && (hue || hue === 0)) {
 	setHue(hue);
 }
 </script>
+
+<svelte:window on:mousemove={handleSliderMove} on:mouseup={handleSliderEnd} />
 
 <div id="display-setting" class="float-panel float-panel-closed absolute transition-all w-80 right-4 px-4 py-4">
 	<!-- 标题 -->
@@ -338,62 +484,133 @@ $: if (isMounted && (hue || hue === 0)) {
 {/if}
 
 {#if showWallpaperSection && currentWallpaperMode === WALLPAPER_FULLSCREEN}
-		<!-- 壁纸位置选择（仅全屏壁纸时显示） -->
-		<div class="flex items-center gap-2 mb-3">
-			<Icon icon="material-symbols:vertical-align-center" class="text-[var(--btn-content)] text-lg" />
-			<span class="text-base font-bold text-neutral-700 dark:text-neutral-300">
-				{i18n(I18nKey.wallpaperPosition)}
-			</span>
-		</div>
-		<div class="mb-3">
-			<div class="grid grid-cols-3 gap-2">
-			<button
-				class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
-					border-2 relative text-neutral-600 dark:text-neutral-300"
-				class:bg-[var(--primary)]={currentWallpaperPosition === "top"}
-				class:border-[var(--primary)]={currentWallpaperPosition === "top"}
-				class:!text-white={currentWallpaperPosition === "top"}
-				class:border-transparent={currentWallpaperPosition !== "top"}
-				class:hover:border-[var(--primary)]={currentWallpaperPosition !== "top"}
-				class:hover:text-[var(--primary)]={currentWallpaperPosition !== "top"}
-				class:dark:hover:text-[var(--primary)]={currentWallpaperPosition !== "top"}
-				on:click={() => selectWallpaperPosition("top")}
-			>
-				<Icon icon="material-symbols:vertical-align-top" class={'text-lg' + (currentWallpaperPosition === 'top' ? ' text-white' : '')} />
-				<span>{wallpaperPositionLabel("top")}</span>
-			</button>
-			<button
-				class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
-					border-2 relative text-neutral-600 dark:text-neutral-300"
-				class:bg-[var(--primary)]={currentWallpaperPosition === "center"}
-				class:border-[var(--primary)]={currentWallpaperPosition === "center"}
-				class:!text-white={currentWallpaperPosition === "center"}
-				class:border-transparent={currentWallpaperPosition !== "center"}
-				class:hover:border-[var(--primary)]={currentWallpaperPosition !== "center"}
-				class:hover:text-[var(--primary)]={currentWallpaperPosition !== "center"}
-				class:dark:hover:text-[var(--primary)]={currentWallpaperPosition !== "center"}
-				on:click={() => selectWallpaperPosition("center")}
-			>
-				<Icon icon="material-symbols:vertical-align-center" class={'text-lg' + (currentWallpaperPosition === 'center' ? ' text-white' : '')} />
-				<span>{wallpaperPositionLabel("center")}</span>
-			</button>
-			<button
-				class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
-					border-2 relative text-neutral-600 dark:text-neutral-300"
-				class:bg-[var(--primary)]={currentWallpaperPosition === "bottom"}
-				class:border-[var(--primary)]={currentWallpaperPosition === "bottom"}
-				class:!text-white={currentWallpaperPosition === "bottom"}
-				class:border-transparent={currentWallpaperPosition !== "bottom"}
-				class:hover:border-[var(--primary)]={currentWallpaperPosition !== "bottom"}
-				class:hover:text-[var(--primary)]={currentWallpaperPosition !== "bottom"}
-				class:dark:hover:text-[var(--primary)]={currentWallpaperPosition !== "bottom"}
-				on:click={() => selectWallpaperPosition("bottom")}
-			>
-				<Icon icon="material-symbols:vertical-align-bottom" class={'text-lg' + (currentWallpaperPosition === 'bottom' ? ' text-white' : '')} />
-				<span>{wallpaperPositionLabel("bottom")}</span>
-			</button>
+		<!-- 壁纸位置选择（仅全屏壁纸时显示，移动端隐藏） -->
+		<div class="hidden lg:block">
+			<div class="flex items-center gap-2 mb-3">
+				<Icon icon="material-symbols:vertical-align-center" class="text-[var(--btn-content)] text-lg" />
+				<span class="text-base font-bold text-neutral-700 dark:text-neutral-300">
+					{i18n(I18nKey.wallpaperPosition)}
+				</span>
+			</div>
+			<div class="mb-3">
+				<div class="grid grid-cols-3 gap-2">
+				<button
+					class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
+						border-2 relative text-neutral-600 dark:text-neutral-300"
+					class:bg-[var(--primary)]={currentWallpaperPosition === "top"}
+					class:border-[var(--primary)]={currentWallpaperPosition === "top"}
+					class:!text-white={currentWallpaperPosition === "top"}
+					class:border-transparent={currentWallpaperPosition !== "top"}
+					class:hover:border-[var(--primary)]={currentWallpaperPosition !== "top"}
+					class:hover:text-[var(--primary)]={currentWallpaperPosition !== "top"}
+					class:dark:hover:text-[var(--primary)]={currentWallpaperPosition !== "top"}
+					on:click={() => selectWallpaperPosition("top")}
+				>
+					<Icon icon="material-symbols:vertical-align-top" class={'text-lg' + (currentWallpaperPosition === 'top' ? ' text-white' : '')} />
+					<span>{wallpaperPositionLabel("top")}</span>
+				</button>
+				<button
+					class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
+						border-2 relative text-neutral-600 dark:text-neutral-300"
+					class:bg-[var(--primary)]={currentWallpaperPosition === "center"}
+					class:border-[var(--primary)]={currentWallpaperPosition === "center"}
+					class:!text-white={currentWallpaperPosition === "center"}
+					class:border-transparent={currentWallpaperPosition !== "center"}
+					class:hover:border-[var(--primary)]={currentWallpaperPosition !== "center"}
+					class:hover:text-[var(--primary)]={currentWallpaperPosition !== "center"}
+					class:dark:hover:text-[var(--primary)]={currentWallpaperPosition !== "center"}
+					on:click={() => selectWallpaperPosition("center")}
+				>
+					<Icon icon="material-symbols:vertical-align-center" class={'text-lg' + (currentWallpaperPosition === 'center' ? ' text-white' : '')} />
+					<span>{wallpaperPositionLabel("center")}</span>
+				</button>
+				<button
+					class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
+						border-2 relative text-neutral-600 dark:text-neutral-300"
+					class:bg-[var(--primary)]={currentWallpaperPosition === "bottom"}
+					class:border-[var(--primary)]={currentWallpaperPosition === "bottom"}
+					class:!text-white={currentWallpaperPosition === "bottom"}
+					class:border-transparent={currentWallpaperPosition !== "bottom"}
+					class:hover:border-[var(--primary)]={currentWallpaperPosition !== "bottom"}
+					class:hover:text-[var(--primary)]={currentWallpaperPosition !== "bottom"}
+					class:dark:hover:text-[var(--primary)]={currentWallpaperPosition !== "bottom"}
+					on:click={() => selectWallpaperPosition("bottom")}
+				>
+					<Icon icon="material-symbols:vertical-align-bottom" class={'text-lg' + (currentWallpaperPosition === 'bottom' ? ' text-white' : '')} />
+					<span>{wallpaperPositionLabel("bottom")}</span>
+				</button>
+				</div>
 			</div>
 		</div>
+{/if}
+
+{#if showWallpaperSection && currentWallpaperMode === WALLPAPER_FULLSCREEN}
+		<!-- 壁纸透明度 -->
+		<div class="flex items-center gap-2 mb-2">
+			<Icon icon="material-symbols:opacity" class="text-[var(--btn-content)] text-lg" />
+			<span class="text-base font-bold text-neutral-700 dark:text-neutral-300">
+				{i18n(I18nKey.wallpaperOpacity)}
+			</span>
+			<div class="ml-auto flex gap-1">
+				<button aria-label="Reset to Default" class="btn-regular w-7 h-7 rounded-md active:scale-90"
+					class:opacity-0={currentWallpaperOpacity === defaultWallpaperOpacity} class:pointer-events-none={currentWallpaperOpacity === defaultWallpaperOpacity} on:click={resetWallpaperOpacity}>
+					<div class="text-[var(--btn-content)]">
+						<Icon icon="fa6-solid:arrow-rotate-left" class="text-[0.875rem]"></Icon>
+					</div>
+				</button>
+			</div>
+		</div>
+		<div class="flex items-center gap-2 mb-3">
+			<div id="opacitySlider" class="flex-1 h-6 bg-gray-200 dark:bg-gray-700 rounded select-none"
+				role="slider" tabindex="0"
+				aria-label={i18n(I18nKey.wallpaperOpacity)}
+				aria-valuenow={currentWallpaperOpacity}
+				aria-valuemin="20" aria-valuemax="100"
+				on:mousedown={(e) => handleSliderStart(e, "opacity")}
+			>
+				<div data-fill class="h-full rounded select-none bg-[var(--primary)]"
+					style="width: {sliderFillPercent('opacity')}%"
+				></div>
+			</div>
+			<div id="opacityValue" class="ignore transition bg-[var(--btn-regular-bg)] w-10 h-7 rounded-md flex justify-center
+				font-bold text-xs items-center text-[var(--btn-content)]">
+				{currentWallpaperOpacity}%
+			</div>
+		</div>
+
+		<!-- 壁纸模糊程度 -->
+		<div class="flex items-center gap-2 mb-2">
+			<Icon icon="material-symbols:blur-on" class="text-[var(--btn-content)] text-lg" />
+			<span class="text-base font-bold text-neutral-700 dark:text-neutral-300">
+				{i18n(I18nKey.wallpaperBlur)}
+			</span>
+			<div class="ml-auto flex gap-1">
+				<button aria-label="Reset to Default" class="btn-regular w-7 h-7 rounded-md active:scale-90"
+					class:opacity-0={currentWallpaperBlur === defaultWallpaperBlur} class:pointer-events-none={currentWallpaperBlur === defaultWallpaperBlur} on:click={resetWallpaperBlur}>
+					<div class="text-[var(--btn-content)]">
+						<Icon icon="fa6-solid:arrow-rotate-left" class="text-[0.875rem]"></Icon>
+					</div>
+				</button>
+			</div>
+		</div>
+		<div class="flex items-center gap-2 mb-3">
+			<div id="blurSlider" class="flex-1 h-6 bg-gray-200 dark:bg-gray-700 rounded select-none"
+				role="slider" tabindex="0"
+				aria-label={i18n(I18nKey.wallpaperBlur)}
+				aria-valuenow={currentWallpaperBlur}
+				aria-valuemin="0" aria-valuemax="100"
+				on:mousedown={(e) => handleSliderStart(e, "blur")}
+			>
+				<div data-fill class="h-full rounded select-none bg-[var(--primary)]"
+					style="width: {sliderFillPercent('blur')}%"
+				></div>
+			</div>
+			<div id="blurValue" class="ignore transition bg-[var(--btn-regular-bg)] w-10 h-7 rounded-md flex justify-center
+				font-bold text-xs items-center text-[var(--btn-content)]">
+				{currentWallpaperBlur}%
+			</div>
+		</div>
+
 {/if}
 
 {#if currentWallpaperMode === WALLPAPER_BANNER}
@@ -457,7 +674,7 @@ $: if (isMounted && (hue || hue === 0)) {
 
 {#if postListLayoutAllowSwitch}
 <!-- 文章列表布局切换（仅在桌面端显示） -->
-<div class="hidden lg:block">
+<div class="hidden md:block">
 	<div class="flex items-center gap-2 mb-3">
 	<div class="flex items-center gap-2">
 		<Icon icon="material-symbols:grid-view-outline" class="text-[var(--btn-content)] text-lg" />

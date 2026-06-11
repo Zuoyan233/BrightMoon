@@ -240,6 +240,8 @@ export const fr: Translation = {
 	[Key.wallpaperPositionTop]: "Haut",
 	[Key.wallpaperPositionCenter]: "Centre",
 	[Key.wallpaperPositionBottom]: "Bas",
+	[Key.wallpaperOpacity]: "Opacité",
+	[Key.wallpaperBlur]: "Flou",
 
 	// Mode barre de navigation transparente
 	[Key.navbarTransparentMode]: "Style de la barre de navigation",
