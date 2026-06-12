@@ -1,10 +1,11 @@
 # BrightMoon
+
 <img align='right' src='./project-preview/images/logo.webp' width='200px' alt="BrightMoon logo">
 
 BrightMoon 是一款融合现代简约与优雅气质的独特二次元美学静态博客模板。项目以 [Astro](https://astro.build/) 为构建基石，将先进功能与精美视觉融为一体。
 
-***如明月初升，清辉如故*** </br>
-***以此为始，重新出发。***
+**_如明月初升，清辉如故_** </br>
+**_以此为始，重新出发。_**
 
 [![Node.js >= 22](https://img.shields.io/badge/node.js-%3E%3D22-brightgreen)](https://nodejs.org/)
 [![pnpm >= 11](https://img.shields.io/badge/pnpm-%3E%3D11-blue)](https://pnpm.io/)
@@ -171,7 +172,6 @@ BrightMoon 是一款融合现代简约与优雅气质的独特二次元美学静
 - 编辑 `src/config.ts` 自定义博客设置。
 - 更新站点信息、主题色彩、横幅图片和社交链接。
 - 配置特色页面功能。
-- (可选) 配置内容仓库分离 - 了解详细请阅读 Mizuki Docs 的 [内容仓库配置](https://docs.mizuki.mysqil.com/Other/separation/)。
 
 4. **特色页面配置：**
 

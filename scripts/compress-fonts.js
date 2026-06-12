@@ -808,18 +808,8 @@ async function collectText() {
     }
   }
 
-  // 4. 读取 content 目录（根据环境变量决定路径）
-  let contentDir;
-  if (process.env.ENABLE_CONTENT_SYNC === "true" && process.env.CONTENT_DIR) {
-    // 使用环境变量指定的目录（以项目根目录为基准）
-    contentDir = path.join(__dirname, "..", process.env.CONTENT_DIR);
-    console.log(
-      `ℹ Using external content directory: ${process.env.CONTENT_DIR}`,
-    );
-  } else {
-    // 使用默认的 src/content 目录
-    contentDir = path.join(__dirname, "../src/content");
-  }
+  // 4. 读取 content 目录
+  const contentDir = path.join(__dirname, "../src/content");
 
   // 检查目录是否存在
   if (!fs.existsSync(contentDir)) {

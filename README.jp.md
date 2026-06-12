@@ -1,10 +1,11 @@
 # BrightMoon
+
 <img align='right' src='./project-preview/images/logo.webp' width='200px' alt="BrightMoon logo">
 
 BrightMoon は、モダンなミニマリズムと優雅さを融合した、獨特の二次元美學を備えた靜態ブログテンプレートです。[Astro](https://astro.build/) を基盤とし、先進的な機能と洗練されたビジュアルを一つに統合しています。
 
-***明月初めて昇るが如く、清らかな輝きは変わらず*** </br>
-***此処を始まりとし、新たに出発せん。***
+**_明月初めて昇るが如く、清らかな輝きは変わらず_** </br>
+**_此処を始まりとし、新たに出発せん。_**
 
 [![Node.js >= 22](https://img.shields.io/badge/node.js-%3E%3D22-brightgreen)](https://nodejs.org/)
 [![pnpm >= 11](https://img.shields.io/badge/pnpm-%3E%3D11-blue)](https://pnpm.io/)
@@ -175,7 +176,6 @@ pnpm install
 - `src/config.ts` を編集してブログ設定をカスタマイズします。
 - サイト情報、テーマカラー、バナー画像、ソーシャルリンクを更新します。
 - 特徴的なページ機能を設定します。
-- (オプション) コンテンツリポジトリの分離設定 - 詳細は Mizuki Docs の [コンテンツリポジトリ設定](https://docs.mizuki.mysqil.com/Other/separation/) をご覧ください。
 
 4. **特徴的なページ設定：**
 

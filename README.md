@@ -1,10 +1,11 @@
 # BrightMoon
+
 <img align='right' src='./project-preview/images/logo.webp' width='200px' alt="BrightMoon logo">
 
 BrightMoon is a unique anime-aesthetic static blog template blending modern simplicity with elegant refinement. Built on [Astro](https://astro.build/), it unites advanced functionality with exquisite visuals.
 
-***Like the bright moon rising, its clear radiance remains as ever.*** </br>
-***Taking this as a starting point, set forth anew.***
+**_Like the bright moon rising, its clear radiance remains as ever._** </br>
+**_Taking this as a starting point, set forth anew._**
 
 [![Node.js >= 22](https://img.shields.io/badge/node.js-%3E%3D22-brightgreen)](https://nodejs.org/)
 [![pnpm >= 11](https://img.shields.io/badge/pnpm-%3E%3D11-blue)](https://pnpm.io/)
@@ -174,7 +175,6 @@ pnpm install
 - Edit `src/config.ts` to customize blog settings.
 - Update site information, theme colors, banner images, and social links.
 - Configure featured page functionalities.
-- (Optional) Configure content repository separation - refer to Mizuki Docs's [Content Repository Configuration](https://docs.mizuki.mysqil.com/Other/separation/) for details.
 
 4. **Featured Pages Configuration:**
 
