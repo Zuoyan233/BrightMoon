@@ -130,7 +130,9 @@ const bannerOffsetByPosition = {
 	bottom: "0",
 };
 const bannerOffset =
-	bannerOffsetByPosition[siteConfig.banner.position || "center"];
+	bannerOffsetByPosition[
+		siteConfig.appearance.wallpaperMode.defaultBannerPosition || "center"
+	];
 
 const umamiEnabled = umamiConfig.enabled || false;
 const umamiScripts = umamiConfig.scripts || ""; // 获取Umami scripts配置

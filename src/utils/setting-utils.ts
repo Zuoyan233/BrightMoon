@@ -200,6 +200,23 @@ export function setWallpaperMode(mode: WALLPAPER_MODE): void {
 	);
 }
 
+export function getStoredBannerPosition(): WALLPAPER_POSITION {
+	const stored = localStorage.getItem(
+		"bannerPosition",
+	) as WALLPAPER_POSITION | null;
+	if (stored === "top" || stored === "center" || stored === "bottom") {
+		return stored;
+	}
+	return siteConfig.appearance.wallpaperMode.defaultBannerPosition || "center";
+}
+
+export function setBannerPosition(position: WALLPAPER_POSITION): void {
+	localStorage.setItem("bannerPosition", position);
+	window.dispatchEvent(
+		new CustomEvent("banner-position-change", { detail: { position } }),
+	);
+}
+
 export function getStoredWallpaperPosition(): WALLPAPER_POSITION {
 	const stored = localStorage.getItem(
 		"wallpaperPosition",
@@ -207,7 +224,9 @@ export function getStoredWallpaperPosition(): WALLPAPER_POSITION {
 	if (stored === "top" || stored === "center" || stored === "bottom") {
 		return stored;
 	}
-	return siteConfig.appearance.wallpaperMode.defaultPosition || "center";
+	return (
+		siteConfig.appearance.wallpaperMode.defaultFullscreenPosition || "center"
+	);
 }
 
 export function setWallpaperPosition(position: WALLPAPER_POSITION): void {

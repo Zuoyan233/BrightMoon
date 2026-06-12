@@ -63,7 +63,7 @@ const carouselInterval = config.carousel?.interval || 5;
 // 样式配置 - position 改为通过内联脚本从 localStorage 动态读取
 // 默认值从 config 获取，存储在 data 属性中供客户端读取
 const defaultPosition =
-	siteConfig.appearance.wallpaperMode.defaultPosition || "center";
+	siteConfig.appearance.wallpaperMode.defaultFullscreenPosition || "center";
 const defaultOpacity = siteConfig.appearance.wallpaperMode.defaultOpacity ?? 1;
 const defaultBlur = siteConfig.appearance.wallpaperMode.defaultBlur ?? 8;
 
@@ -104,7 +104,7 @@ const renderGroups = [
 	]}
 	style={`opacity: ${opacity}; transform: translateZ(0); perspective: 1000px;`}
 	data-fullscreen-wallpaper
-	data-default-position={defaultPosition}
+	data-default-fullscreen-position={defaultPosition}
 	data-default-opacity={defaultOpacity}
 	data-default-blur={defaultBlur}
 >
@@ -126,7 +126,7 @@ const renderGroups = [
 			bottom: 'object-bottom'
 		};
 		const container = document.currentScript.parentElement;
-		const defaultPosition = container.getAttribute('data-default-position') || 'center';
+		const defaultPosition = container.getAttribute('data-default-fullscreen-position') || 'center';
 
 		function applyWallpaperPosition(position) {
 			const images = container.querySelectorAll('img');

@@ -16,6 +16,7 @@ import type {
 import {
 	getDefaultHue,
 	getHue,
+	getStoredBannerPosition,
 	getStoredNavbarTransparentMode,
 	getStoredPostListLayout,
 	getStoredSakuraEnabled,
@@ -25,6 +26,7 @@ import {
 	getStoredWallpaperPosition,
 	getStoredWavesEnabled,
 	getStoredWavesPerformanceMode,
+	setBannerPosition,
 	setHue,
 	setNavbarTransparentMode,
 	setPostListLayout,
@@ -57,6 +59,9 @@ let wavesAvailable = true;
 
 // 壁纸模式
 let currentWallpaperMode: WALLPAPER_MODE = WALLPAPER_BANNER;
+
+// 横幅位置（banner模式时有效）
+let currentBannerPosition: WALLPAPER_POSITION = "center";
 
 // 壁纸位置（全屏壁纸时有效）
 let currentWallpaperPosition: WALLPAPER_POSITION = "center";
@@ -170,6 +175,11 @@ function wallpaperModeLabel(mode: string): string {
 		default:
 			return mode;
 	}
+}
+
+function selectBannerPosition(position: WALLPAPER_POSITION) {
+	currentBannerPosition = position;
+	setBannerPosition(position);
 }
 
 function selectWallpaperPosition(position: WALLPAPER_POSITION) {
@@ -327,6 +337,9 @@ onMount(() => {
 	// 读取壁纸模式
 	currentWallpaperMode = getStoredWallpaperMode();
 
+	// 读取横幅位置
+	currentBannerPosition = getStoredBannerPosition();
+
 	// 读取壁纸位置
 	currentWallpaperPosition = getStoredWallpaperPosition();
 
@@ -472,7 +485,7 @@ $: if (isMounted && (hue || hue === 0)) {
 	</div>
 {/if}
 
-{#if wavesAvailable}
+{#if wavesAvailable && currentWallpaperMode === WALLPAPER_BANNER}
 	<!-- 水波纹特效开关 -->
 	<div class="mb-3 flex items-center justify-between">
 		<div class="flex items-center gap-2">
@@ -500,12 +513,12 @@ $: if (isMounted && (hue || hue === 0)) {
 		</button>
 	</div>
 
-	{#if wavesEnabled}
+    {#if wavesEnabled}
 	<!-- 水波纹性能模式开关 -->
 	<div class="mb-3 flex items-center justify-between pl-4">
 		<div class="flex items-center gap-2">
 			<Icon icon="material-symbols:speed" class="text-[var(--btn-content)] text-lg" />
-			<span class="text-base font-bold text-neutral-600 dark:text-neutral-400">
+			<span class="text-base font-bold text-neutral-700 dark:text-neutral-300">
 				{i18n(I18nKey.wavesPerformanceMode)}
 			</span>
 		</div>
@@ -585,6 +598,67 @@ $: if (isMounted && (hue || hue === 0)) {
 				<Icon icon="material-symbols:hide-image-outline" class={'text-lg' + (currentWallpaperMode === WALLPAPER_NONE ? ' text-white' : '')} />
 				<span>{wallpaperModeLabel(WALLPAPER_NONE)}</span>
 			</button>
+			</div>
+		</div>
+{/if}
+
+{#if showWallpaperSection && currentWallpaperMode === WALLPAPER_BANNER}
+		<!-- 横幅位置选择（banner模式时显示） -->
+		<div>
+			<div class="flex items-center gap-2 mb-3">
+				<Icon icon="material-symbols:vertical-align-center" class="text-[var(--btn-content)] text-lg" />
+				<span class="text-base font-bold text-neutral-700 dark:text-neutral-300">
+					{i18n(I18nKey.wallpaperPosition)}
+				</span>
+			</div>
+			<div class="mb-3">
+				<div class="grid grid-cols-3 gap-2">
+				<button
+					class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
+						border-2 relative text-neutral-600 dark:text-neutral-300"
+					class:bg-[var(--primary)]={currentBannerPosition === "top"}
+					class:border-[var(--primary)]={currentBannerPosition === "top"}
+					class:!text-white={currentBannerPosition === "top"}
+					class:border-transparent={currentBannerPosition !== "top"}
+					class:hover:border-[var(--primary)]={currentBannerPosition !== "top"}
+					class:hover:text-[var(--primary)]={currentBannerPosition !== "top"}
+					class:dark:hover:text-[var(--primary)]={currentBannerPosition !== "top"}
+					on:click={() => selectBannerPosition("top")}
+				>
+					<Icon icon="material-symbols:vertical-align-top" class={'text-lg' + (currentBannerPosition === 'top' ? ' text-white' : '')} />
+					<span>{wallpaperPositionLabel("top")}</span>
+				</button>
+				<button
+					class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
+						border-2 relative text-neutral-600 dark:text-neutral-300"
+					class:bg-[var(--primary)]={currentBannerPosition === "center"}
+					class:border-[var(--primary)]={currentBannerPosition === "center"}
+					class:!text-white={currentBannerPosition === "center"}
+					class:border-transparent={currentBannerPosition !== "center"}
+					class:hover:border-[var(--primary)]={currentBannerPosition !== "center"}
+					class:hover:text-[var(--primary)]={currentBannerPosition !== "center"}
+					class:dark:hover:text-[var(--primary)]={currentBannerPosition !== "center"}
+					on:click={() => selectBannerPosition("center")}
+				>
+					<Icon icon="material-symbols:vertical-align-center" class={'text-lg' + (currentBannerPosition === 'center' ? ' text-white' : '')} />
+					<span>{wallpaperPositionLabel("center")}</span>
+				</button>
+				<button
+					class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
+						border-2 relative text-neutral-600 dark:text-neutral-300"
+					class:bg-[var(--primary)]={currentBannerPosition === "bottom"}
+					class:border-[var(--primary)]={currentBannerPosition === "bottom"}
+					class:!text-white={currentBannerPosition === "bottom"}
+					class:border-transparent={currentBannerPosition !== "bottom"}
+					class:hover:border-[var(--primary)]={currentBannerPosition !== "bottom"}
+					class:hover:text-[var(--primary)]={currentBannerPosition !== "bottom"}
+					class:dark:hover:text-[var(--primary)]={currentBannerPosition !== "bottom"}
+					on:click={() => selectBannerPosition("bottom")}
+				>
+					<Icon icon="material-symbols:vertical-align-bottom" class={'text-lg' + (currentBannerPosition === 'bottom' ? ' text-white' : '')} />
+					<span>{wallpaperPositionLabel("bottom")}</span>
+				</button>
+				</div>
 			</div>
 		</div>
 {/if}

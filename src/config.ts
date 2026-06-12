@@ -47,14 +47,16 @@ export const siteConfig: SiteConfig = {
 		// 水波纹效果配置
 		waves: {
 			enable: true, // 是否启用水波纹效果（注意：此功能性能开销较大）
-			performanceMode: true, // 性能模式：减少动画复杂度(性能提升40%)
+			performanceMode: false, // 性能模式：减少动画复杂度(性能提升40%)
 		},
 		// 壁纸模式配置
 		wallpaperMode: {
 			// 默认壁纸模式：banner=顶部横幅，fullscreen=全屏壁纸，none=无壁纸
 			defaultMode: "banner",
+			// 默认横幅位置（banner模式时生效）：top=顶部对齐，center=居中，bottom=底部对齐
+			defaultBannerPosition: "center",
 			// 默认壁纸位置（全屏壁纸时生效）：top=顶部对齐，center=居中，bottom=底部对齐
-			defaultPosition: "center",
+			defaultFullscreenPosition: "center",
 			// 默认壁纸透明度（全屏壁纸时生效），有效值：0.2-1
 			defaultOpacity: 0.8,
 			// 默认背景模糊程度（全屏壁纸时生效），有效值：0-40px
@@ -170,8 +172,6 @@ export const siteConfig: SiteConfig = {
 				"/assets/mobile-banner/m6.webp",
 			], // 移动横幅图片
 		}, // 使用本地横幅图片
-
-		position: "center", // 等同于 object-position，仅支持 'top', 'center', 'bottom'。默认为 'center'
 
 		carousel: {
 			enable: true, // 为 true 时：为多张图片启用轮播。为 false 时：从数组中随机显示一张图片

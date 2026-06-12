@@ -254,6 +254,7 @@ const transparentClass = shouldEnableTransparency
 <script type="module" is:inline define:vars={{
     navbarTransparentMode: siteConfig.appearance?.navbar?.transparentMode || "semi", 
     defaultWallpaperMode: siteConfig.appearance.wallpaperMode.defaultMode, 
+    defaultBannerPosition: siteConfig.appearance.wallpaperMode.defaultBannerPosition || "center",
     defaultPostListLayout: siteConfig.appearance.postListLayout?.defaultMode || "list", 
     BANNER_HEIGHT: BANNER_HEIGHT, 
     pageScaling: siteConfig.pageScaling,
@@ -680,6 +681,38 @@ const transparentClass = shouldEnableTransparency
 	window.addEventListener('wallpaper-mode-change', function(_event) {
 		applyWallpaperMode();
 	});
+
+	// 动态应用横幅位置
+	function applyBannerPosition(position) {
+		var bannerWrapper = document.getElementById('banner-wrapper');
+		if (!bannerWrapper) return;
+		var images = bannerWrapper.querySelectorAll('img');
+		images.forEach(function(img) {
+			img.style.objectPosition = position;
+		});
+		// 更新 bannerOffset CSS 变量
+		var BANNER_HEIGHT_EXTEND = 30;
+		var offsets = {
+			top: BANNER_HEIGHT_EXTEND + 'vh',
+			center: (BANNER_HEIGHT_EXTEND / 2) + 'vh',
+			bottom: '0'
+		};
+		document.documentElement.style.setProperty('--bannerOffset', offsets[position] || offsets.center);
+	}
+
+	// 初始应用横幅位置
+	(function() {
+		var storedBannerPosition = localStorage.getItem('bannerPosition');
+		var bannerPosition = storedBannerPosition || defaultBannerPosition;
+		applyBannerPosition(bannerPosition);
+	})();
+
+	// 监听横幅位置变化
+	window.addEventListener('banner-position-change', function(event) {
+		if (event && event.detail && event.detail.position) {
+			applyBannerPosition(event.detail.position);
+		}
+	});
 	
 	// 监听导航栏透明模式变化，立即应用
 	window.addEventListener('navbar-transparent-mode-change', function(event) {
@@ -870,7 +903,7 @@ const transparentClass = shouldEnableTransparency
                                     alt={`Mobile banner image ${index + 1}`} 
                                     class:list={["block md:hidden object-cover h-full w-full transition-transform duration-500 ease-out"]}
                                     src={Array.isArray(bannerImages.mobile) ? bannerImages.mobile[index] : (typeof bannerImages.mobile === 'string' ? bannerImages.mobile : '')} 
-                                    position={siteConfig.banner.position}
+                                    position={siteConfig.appearance.wallpaperMode.defaultBannerPosition}
                                     loading={index === 0 ? "eager" : "lazy"}
                                 />
                             )}
@@ -880,7 +913,7 @@ const transparentClass = shouldEnableTransparency
                                     alt={`Desktop banner image ${index + 1}`} 
                                     class:list={["hidden md:block object-cover h-full w-full transition-transform duration-500 ease-out"]}
                                     src={Array.isArray(bannerImages.desktop) ? bannerImages.desktop[index] : (typeof bannerImages.desktop === 'string' ? bannerImages.desktop : '')} 
-                                    position={siteConfig.banner.position}
+                                    position={siteConfig.appearance.wallpaperMode.defaultBannerPosition}
                                     loading={index === 0 ? "eager" : "lazy"}
                                 />
                             )}
@@ -892,7 +925,7 @@ const transparentClass = shouldEnableTransparency
     ) : (
         <!-- Single image mode -->
         <div id="banner-single-container" class="relative h-full w-full">
-            <script is:inline define:vars={{ desktopImages: bannerImages.desktop, mobileImages: bannerImages.mobile, position: siteConfig.banner.position }}>
+            <script is:inline define:vars={{ desktopImages: bannerImages.desktop, mobileImages: bannerImages.mobile, position: siteConfig.appearance.wallpaperMode.defaultBannerPosition }}>
                 (function() {
                     const getRandomImage = (images, storageKey) => {
                         if (Array.isArray(images)) {
