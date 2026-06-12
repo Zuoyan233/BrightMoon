@@ -44,6 +44,11 @@ export const siteConfig: SiteConfig = {
 	appearance: {
 		hue: 270, // 主题色的默认色相，范围从 0 到 360。例如：红色：0，青色：200，蓝绿色：250，粉色：345
 		fixed: false, // 对访问者隐藏个性化设置面板
+		// 水波纹效果配置
+		waves: {
+			enable: true, // 是否启用水波纹效果（注意：此功能性能开销较大）
+			performanceMode: true, // 性能模式：减少动画复杂度(性能提升40%)
+		},
 		// 壁纸模式配置
 		wallpaperMode: {
 			// 默认壁纸模式：banner=顶部横幅，fullscreen=全屏壁纸，none=无壁纸
@@ -171,12 +176,6 @@ export const siteConfig: SiteConfig = {
 		carousel: {
 			enable: true, // 为 true 时：为多张图片启用轮播。为 false 时：从数组中随机显示一张图片
 			interval: 6, // 轮播间隔时间（秒）
-		},
-
-		waves: {
-			enable: true, // 是否启用水波纹效果（注意：此功能性能开销较大）
-			performanceMode: true, // 性能模式：减少动画复杂度(性能提升40%)
-			mobileDisable: false, // 移动端禁用
 		},
 
 		// PicFlow API支持(智能图片API)

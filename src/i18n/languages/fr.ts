@@ -55,6 +55,8 @@ export const fr: Translation = {
 	[Key.appearance]: "Apparence",
 	[Key.themeColor]: "Couleur du thème",
 	[Key.sakuraEffect]: "Effet Sakura",
+	[Key.wavesEffect]: "Effet de vagues",
+	[Key.wavesPerformanceMode]: "Mode performance",
 
 	[Key.lightMode]: "Clair",
 	[Key.darkMode]: "Sombre",

@@ -54,6 +54,8 @@ export const id: Translation = {
 	[Key.appearance]: "Tampilan",
 	[Key.themeColor]: "Warna Tema",
 	[Key.sakuraEffect]: "Efek Sakura",
+	[Key.wavesEffect]: "Efek Ombak",
+	[Key.wavesPerformanceMode]: "Mode Performa",
 
 	[Key.lightMode]: "Terang",
 	[Key.darkMode]: "Gelap",

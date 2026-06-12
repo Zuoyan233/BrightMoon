@@ -54,6 +54,8 @@ export const zh_TW: Translation = {
 	[Key.appearance]: "個性化",
 	[Key.themeColor]: "主題色",
 	[Key.sakuraEffect]: "櫻花特效",
+	[Key.wavesEffect]: "水波紋特效",
+	[Key.wavesPerformanceMode]: "效能模式",
 
 	[Key.lightMode]: "亮色",
 	[Key.darkMode]: "暗色",

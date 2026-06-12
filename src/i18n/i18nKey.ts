@@ -43,6 +43,8 @@ enum I18nKey {
 	appearance = "appearance",
 	themeColor = "themeColor",
 	sakuraEffect = "sakuraEffect",
+	wavesEffect = "wavesEffect",
+	wavesPerformanceMode = "wavesPerformanceMode",
 
 	lightMode = "lightMode",
 	darkMode = "darkMode",

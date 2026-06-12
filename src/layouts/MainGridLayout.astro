@@ -976,8 +976,8 @@ const transparentClass = shouldEnableTransparency
     )}
     
     <!-- Water waves effect -->
-    {siteConfig.banner.waves?.enable && (
-        <div class="waves absolute -bottom-[1px] h-[10vh] max-h-[9.375rem] min-h-[3.125rem] w-full md:h-[15vh]" id="header-waves" style="transform: translateZ(0); will-change: fill;">
+    {siteConfig.appearance.waves?.enable && (
+        <div class="waves absolute -bottom-[1px] h-[10vh] max-h-[9.375rem] min-h-[3.125rem] w-full md:h-[15vh] {siteConfig.appearance.waves?.performanceMode ? 'waves-performance-mode' : ''}" id="header-waves" style="transform: translateZ(0); will-change: fill;">
             <svg
                 class="waves"
                 xmlns="http://www.w3.org/2000/svg"

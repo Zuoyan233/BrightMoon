@@ -484,6 +484,15 @@ if (siteConfig.font?.fontFamily) {
 			}
 		}
 
+		/* Water waves performance mode - reduce animation complexity */
+		.waves-performance-mode svg .parallax use:nth-child(3),
+		.waves-performance-mode svg .parallax use:nth-child(4) {
+			display: none;
+		}
+		.waves-performance-mode svg .parallax use {
+			animation-duration: 15s !important;
+		}
+
 		/* 当配置 showSelectTag 为 false 时，隐藏 translate.js 默认的语言选择下拉框 */
 		.hide-translate-select #translateSelectLanguage,
 		.hide-translate-select #translate {
@@ -889,6 +898,43 @@ function disableAnimation() {
 		document.addEventListener("DOMContentLoaded", setupSakura);
 	} else {
 		setupSakura();
+	}
+
+	function setupWaves() {
+		if ((window as any).wavesInitialized) return;
+
+		const headerWaves = document.getElementById("header-waves");
+		if (!headerWaves) return;
+
+		// JS 端仅需处理 enable/performanceMode 的持久化逻辑
+
+		const shouldEnable = siteConfig.appearance.fixed
+			? siteConfig.appearance.waves?.enable
+			: localStorage.getItem("wavesEnabled") !== null
+				? localStorage.getItem("wavesEnabled") === "true"
+				: siteConfig.appearance.waves?.enable;
+
+		if (!shouldEnable) {
+			headerWaves.style.display = "none";
+		}
+
+		const shouldPerformanceMode = siteConfig.appearance.fixed
+			? siteConfig.appearance.waves?.performanceMode
+			: localStorage.getItem("wavesPerformanceMode") !== null
+				? localStorage.getItem("wavesPerformanceMode") === "true"
+				: siteConfig.appearance.waves?.performanceMode;
+
+		if (shouldPerformanceMode) {
+			headerWaves.classList.add("waves-performance-mode");
+		}
+
+		(window as any).wavesInitialized = true;
+	}
+
+	if (document.readyState === "loading") {
+		document.addEventListener("DOMContentLoaded", setupWaves);
+	} else {
+		setupWaves();
 	}
 
 	let fancyboxSelectors: string[] = [];

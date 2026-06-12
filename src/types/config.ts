@@ -64,6 +64,11 @@ export type SiteConfig = {
 	appearance: {
 		hue: number;
 		fixed: boolean;
+		// 水波纹效果配置
+		waves?: {
+			enable: boolean; // 是否启用水波纹效果
+			performanceMode?: boolean; // 性能模式：减少动画复杂度
+		};
 		// 壁纸模式配置
 		wallpaperMode: {
 			defaultMode: "banner" | "fullscreen" | "none"; // 默认壁纸模式：banner=顶部横幅，fullscreen=全屏壁纸，none=无壁纸
@@ -170,11 +175,6 @@ export type SiteConfig = {
 		carousel?: {
 			enable: boolean; // 是否启用轮播
 			interval: number; // 轮播间隔时间（秒）
-		};
-		waves?: {
-			enable: boolean; // 是否启用水波纹效果
-			performanceMode?: boolean; // 性能模式：减少动画复杂度
-			mobileDisable?: boolean; // 移动端禁用
 		};
 		imageApi?: {
 			enable: boolean; // 是否启用图片API

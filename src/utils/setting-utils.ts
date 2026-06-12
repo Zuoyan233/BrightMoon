@@ -338,3 +338,42 @@ export function setNavbarTransparentMode(mode: NAVBAR_TRANSPARENT_MODE): void {
 		new CustomEvent("navbar-transparent-mode-change", { detail: { mode } }),
 	);
 }
+
+// Waves (水波纹) 特效持久化
+export function getStoredWavesEnabled(): boolean {
+	const configCarrier = document.getElementById("config-carrier");
+	if (configCarrier?.dataset.appearanceFixed === "true") {
+		return configCarrier?.dataset.wavesEnabled === "true";
+	}
+	const stored = localStorage.getItem("wavesEnabled");
+	if (stored !== null) {
+		return stored === "true";
+	}
+	return configCarrier?.dataset.wavesEnabled === "true";
+}
+
+export function setWavesEnabled(enabled: boolean): void {
+	localStorage.setItem("wavesEnabled", String(enabled));
+	window.dispatchEvent(
+		new CustomEvent("waves-enabled-change", { detail: { enabled } }),
+	);
+}
+
+export function getStoredWavesPerformanceMode(): boolean {
+	const configCarrier = document.getElementById("config-carrier");
+	if (configCarrier?.dataset.appearanceFixed === "true") {
+		return configCarrier?.dataset.wavesPerformanceMode === "true";
+	}
+	const stored = localStorage.getItem("wavesPerformanceMode");
+	if (stored !== null) {
+		return stored === "true";
+	}
+	return configCarrier?.dataset.wavesPerformanceMode === "true";
+}
+
+export function setWavesPerformanceMode(enabled: boolean): void {
+	localStorage.setItem("wavesPerformanceMode", String(enabled));
+	window.dispatchEvent(
+		new CustomEvent("waves-performance-mode-change", { detail: { enabled } }),
+	);
+}

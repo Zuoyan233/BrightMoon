@@ -54,6 +54,8 @@ export const th: Translation = {
 	[Key.appearance]: "การปรับแต่ง",
 	[Key.themeColor]: "สีธีม",
 	[Key.sakuraEffect]: "เอฟเฟกต์ซากุระ",
+	[Key.wavesEffect]: "เอฟเฟกต์คลื่น",
+	[Key.wavesPerformanceMode]: "โหมดประสิทธิภาพ",
 
 	[Key.lightMode]: "สว่าง",
 	[Key.darkMode]: "มืด",

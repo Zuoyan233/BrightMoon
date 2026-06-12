@@ -54,6 +54,8 @@ export const ru: Translation = {
 	[Key.appearance]: "Оформление",
 	[Key.themeColor]: "Цвет темы",
 	[Key.sakuraEffect]: "Эффект сакуры",
+	[Key.wavesEffect]: "Эффект волн",
+	[Key.wavesPerformanceMode]: "Режим производительности",
 
 	[Key.lightMode]: "Светлая",
 	[Key.darkMode]: "Тёмная",

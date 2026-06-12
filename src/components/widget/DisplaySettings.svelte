@@ -23,6 +23,8 @@ import {
 	getStoredWallpaperMode,
 	getStoredWallpaperOpacity,
 	getStoredWallpaperPosition,
+	getStoredWavesEnabled,
+	getStoredWavesPerformanceMode,
 	setHue,
 	setNavbarTransparentMode,
 	setPostListLayout,
@@ -31,6 +33,8 @@ import {
 	setWallpaperMode,
 	setWallpaperOpacity,
 	setWallpaperPosition,
+	setWavesEnabled,
+	setWavesPerformanceMode,
 } from "@utils/setting-utils";
 import { onMount, tick } from "svelte";
 import type { WALLPAPER_MODE } from "@/types/config";
@@ -44,6 +48,12 @@ let isMounted = false;
 let sakuraEnabled = false;
 // 樱花功能是否可用（由 sakuraConfig.enable 控制）
 let sakuraAvailable = true;
+
+// 水波纹状态
+let wavesEnabled = false;
+let wavesPerformanceMode = true;
+// 水波纹功能是否可用（由 config 控制）
+let wavesAvailable = true;
 
 // 壁纸模式
 let currentWallpaperMode: WALLPAPER_MODE = WALLPAPER_BANNER;
@@ -120,6 +130,28 @@ function toggleSakuraEffect() {
 	// toggleSakura 内部会切换启用/停用状态，刷新 UI 状态
 	sakuraEnabled = getSakuraStatus();
 	setSakuraEnabled(sakuraEnabled);
+}
+
+function toggleWavesEffect() {
+	wavesEnabled = !wavesEnabled;
+	setWavesEnabled(wavesEnabled);
+	const headerWaves = document.getElementById("header-waves");
+	if (headerWaves) {
+		headerWaves.style.display = wavesEnabled ? "" : "none";
+	}
+}
+
+function toggleWavesPerformanceMode() {
+	wavesPerformanceMode = !wavesPerformanceMode;
+	setWavesPerformanceMode(wavesPerformanceMode);
+	const headerWaves = document.getElementById("header-waves");
+	if (headerWaves) {
+		if (wavesPerformanceMode) {
+			headerWaves.classList.add("waves-performance-mode");
+		} else {
+			headerWaves.classList.remove("waves-performance-mode");
+		}
+	}
 }
 
 function selectWallpaperMode(mode: WALLPAPER_MODE) {
@@ -315,6 +347,13 @@ onMount(() => {
 		sakuraAvailable = configCarrier.dataset.sakuraAvailable === "true";
 	}
 
+	// 读取水波纹状态
+	wavesEnabled = getStoredWavesEnabled();
+	wavesPerformanceMode = getStoredWavesPerformanceMode();
+	if (configCarrier?.dataset.wavesEnabled) {
+		wavesAvailable = configCarrier.dataset.wavesEnabled === "true";
+	}
+
 	// 读取壁纸显示设置
 	if (configCarrier?.dataset.wallpaperShowSwitch) {
 		wallpaperShowSwitch = configCarrier.dataset.wallpaperShowSwitch;
@@ -344,6 +383,15 @@ onMount(() => {
 let lastWallpaperModeForTranslation: WALLPAPER_MODE | null = null;
 $: if (isMounted && currentWallpaperMode !== lastWallpaperModeForTranslation) {
 	lastWallpaperModeForTranslation = currentWallpaperMode;
+	void tick().then(() => {
+		translationManager.refresh();
+	});
+}
+
+// 水波纹开关变化时，刷新翻译以确保新出现的性能模式 UI 元素被正确翻译
+let lastWavesEnabledForTranslation: boolean | null = null;
+$: if (isMounted && wavesEnabled !== lastWavesEnabledForTranslation) {
+	lastWavesEnabledForTranslation = wavesEnabled;
 	void tick().then(() => {
 		translationManager.refresh();
 	});
@@ -422,6 +470,64 @@ $: if (isMounted && (hue || hue === 0)) {
 			></span>
 		</button>
 	</div>
+{/if}
+
+{#if wavesAvailable}
+	<!-- 水波纹特效开关 -->
+	<div class="mb-3 flex items-center justify-between">
+		<div class="flex items-center gap-2">
+			<Icon icon="material-symbols:waves" class="text-[var(--btn-content)] text-lg" />
+			<span class="text-base font-bold text-neutral-700 dark:text-neutral-300">
+				{i18n(I18nKey.wavesEffect)}
+			</span>
+		</div>
+		<button
+			class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200
+				focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-1"
+			class:bg-[var(--primary)]={wavesEnabled}
+			class:bg-neutral-300={!wavesEnabled}
+			class:dark:bg-neutral-600={!wavesEnabled}
+			on:click={toggleWavesEffect}
+			aria-label={i18n(I18nKey.wavesEffect)}
+			role="switch"
+			aria-checked={wavesEnabled}
+		>
+			<span
+				class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200"
+				class:translate-x-6={wavesEnabled}
+				class:translate-x-1={!wavesEnabled}
+			></span>
+		</button>
+	</div>
+
+	{#if wavesEnabled}
+	<!-- 水波纹性能模式开关 -->
+	<div class="mb-3 flex items-center justify-between pl-4">
+		<div class="flex items-center gap-2">
+			<Icon icon="material-symbols:speed" class="text-[var(--btn-content)] text-lg" />
+			<span class="text-base font-bold text-neutral-600 dark:text-neutral-400">
+				{i18n(I18nKey.wavesPerformanceMode)}
+			</span>
+		</div>
+		<button
+			class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200
+				focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-1"
+			class:bg-[var(--primary)]={wavesPerformanceMode}
+			class:bg-neutral-300={!wavesPerformanceMode}
+			class:dark:bg-neutral-600={!wavesPerformanceMode}
+			on:click={toggleWavesPerformanceMode}
+			aria-label={i18n(I18nKey.wavesPerformanceMode)}
+			role="switch"
+			aria-checked={wavesPerformanceMode}
+		>
+			<span
+				class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200"
+				class:translate-x-6={wavesPerformanceMode}
+				class:translate-x-1={!wavesPerformanceMode}
+			></span>
+		</button>
+	</div>
+	{/if}
 {/if}
 
 {#if showWallpaperSection}

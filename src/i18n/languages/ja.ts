@@ -54,6 +54,8 @@ export const ja: Translation = {
 	[Key.appearance]: "外観設定",
 	[Key.themeColor]: "テーマカラー",
 	[Key.sakuraEffect]: "桜エフェクト",
+	[Key.wavesEffect]: "波紋エフェクト",
+	[Key.wavesPerformanceMode]: "パフォーマンスモード",
 
 	[Key.lightMode]: "ライト",
 	[Key.darkMode]: "ダーク",
