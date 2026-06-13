@@ -230,6 +230,7 @@ export const ja: Translation = {
 	[Key.wallpaperPositionBottom]: "下部",
 	[Key.wallpaperOpacity]: "不透明度",
 	[Key.wallpaperBlur]: "ぼかし",
+	[Key.cardOpacity]: "カード透明度",
 
 	// ナビゲーションバー透明モード
 	[Key.navbarTransparentMode]: "ナビゲーションバースタイル",

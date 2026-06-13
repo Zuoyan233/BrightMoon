@@ -244,6 +244,7 @@ export const fr: Translation = {
 	[Key.wallpaperPositionBottom]: "Bas",
 	[Key.wallpaperOpacity]: "Opacité",
 	[Key.wallpaperBlur]: "Flou",
+	[Key.cardOpacity]: "Opacité des cartes",
 
 	// Mode barre de navigation transparente
 	[Key.navbarTransparentMode]: "Style de la barre de navigation",

@@ -107,13 +107,17 @@ const renderGroups = [
 	data-default-fullscreen-position={defaultPosition}
 	data-default-opacity={defaultOpacity}
 	data-default-blur={defaultBlur}
+	data-default-card-opacity={siteConfig.appearance.wallpaperMode.defaultCardOpacity ?? 0.8}
+	data-default-wallpaper-mode={siteConfig.appearance.wallpaperMode.defaultMode || 'banner'}
 >
 	<script is:inline>
 	// 立即执行脚本：防止闪烁
 	(function() {
-		const mode = localStorage.getItem('wallpaperMode') || 'banner';
+		const container = document.currentScript.parentElement;
+		const defaultMode = container.getAttribute('data-default-wallpaper-mode') || 'banner';
+		const mode = localStorage.getItem('wallpaperMode') || defaultMode;
 		if (mode !== 'fullscreen') {
-			document.currentScript.parentElement.style.display = 'none';
+			container.style.display = 'none';
 		}
 	})();
 	</script>
@@ -193,6 +197,71 @@ const renderGroups = [
 				applyBlur(e.detail.blur);
 			}
 		});
+	})();
+</script>
+	<script is:inline>
+	// 动态应用卡片透明度
+	(function() {
+		const container = document.currentScript.parentElement;
+		const rawCardOpacity = parseFloat(container.getAttribute('data-default-card-opacity'));
+		const defaultCardOpacity = isNaN(rawCardOpacity) ? 0.8 : rawCardOpacity;
+		const defaultWallpaperMode = container.getAttribute('data-default-wallpaper-mode') || 'banner';
+
+		function getEffectiveMode() {
+			return localStorage.getItem('wallpaperMode') || defaultWallpaperMode;
+		}
+
+		function applyCardOpacity(value) {
+			var alpha = value / 100;
+			var isDark = document.documentElement.classList.contains('dark');
+			if (isDark) {
+				document.body.style.setProperty('--card-bg-transparent', 'rgba(23, 23, 23, ' + alpha + ')');
+			} else {
+				document.body.style.setProperty('--card-bg-transparent', 'rgba(255, 255, 255, ' + alpha + ')');
+			}
+		}
+
+		function resetCardOpacity() {
+			var isDark = document.documentElement.classList.contains('dark');
+			if (isDark) {
+				document.body.style.removeProperty('--card-bg-transparent');
+			} else {
+				document.body.style.removeProperty('--card-bg-transparent');
+			}
+		}
+
+		var mode = getEffectiveMode();
+		if (mode === 'fullscreen') {
+			var storedCardOpacity = localStorage.getItem('cardOpacity');
+			applyCardOpacity(storedCardOpacity !== null ? parseFloat(storedCardOpacity) : defaultCardOpacity * 100);
+		}
+
+		window.addEventListener('card-opacity-change', function(e) {
+			if (e.detail && typeof e.detail.opacity === 'number') {
+				var currentMode = getEffectiveMode();
+				if (currentMode === 'fullscreen') {
+					applyCardOpacity(e.detail.opacity);
+				}
+			}
+		});
+
+		window.addEventListener('wallpaper-mode-change', function(e) {
+			if (e.detail && e.detail.mode === 'fullscreen') {
+				var storedCardOpacity = localStorage.getItem('cardOpacity');
+				applyCardOpacity(storedCardOpacity !== null ? parseFloat(storedCardOpacity) : defaultCardOpacity * 100);
+			} else {
+				resetCardOpacity();
+			}
+		});
+
+		var observer = new MutationObserver(function() {
+			var currentMode = getEffectiveMode();
+			if (currentMode === 'fullscreen') {
+				var storedCardOpacity = localStorage.getItem('cardOpacity');
+				applyCardOpacity(storedCardOpacity !== null ? parseFloat(storedCardOpacity) : defaultCardOpacity * 100);
+			}
+		});
+		observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 	})();
 </script>
 

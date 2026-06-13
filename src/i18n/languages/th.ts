@@ -223,6 +223,7 @@ export const th: Translation = {
 	[Key.wallpaperPositionBottom]: "ด้านล่าง",
 	[Key.wallpaperOpacity]: "ความทึบ",
 	[Key.wallpaperBlur]: "เบลอ",
+	[Key.cardOpacity]: "ความโปร่งใสของการ์ด",
 
 	// โหมดแถบนำทางโปร่งใส
 	[Key.navbarTransparentMode]: "สไตล์แถบนำทาง",

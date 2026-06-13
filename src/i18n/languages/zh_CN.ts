@@ -319,6 +319,7 @@ export const zh_CN: Translation = {
 	[Key.wallpaperPositionBottom]: "底部",
 	[Key.wallpaperOpacity]: "不透明度",
 	[Key.wallpaperBlur]: "模糊",
+	[Key.cardOpacity]: "卡片透明度",
 
 	// 导航栏透明模式
 	[Key.navbarTransparentMode]: "导航栏样式",

@@ -61,6 +61,8 @@ export const siteConfig: SiteConfig = {
 			defaultOpacity: 0.8,
 			// 默认背景模糊程度（全屏壁纸时生效），有效值：0-40px
 			defaultBlur: 8,
+			// 默认卡片透明度（全屏壁纸时生效），有效值：0.2-1
+			defaultCardOpacity: 0.3,
 			// 整体布局方案切换按钮显示设置（需要 appearance 中的 fixed: false 才能生效）
 			// "off" = 不显示
 			// "mobile" = 仅在移动端显示

@@ -233,6 +233,7 @@ export const ru: Translation = {
 	[Key.wallpaperPositionBottom]: "Снизу",
 	[Key.wallpaperOpacity]: "Непрозрачность",
 	[Key.wallpaperBlur]: "Размытие",
+	[Key.cardOpacity]: "Непрозрачность карточек",
 
 	// Режим прозрачности панели навигации
 	[Key.navbarTransparentMode]: "Стиль панели навигации",

@@ -235,6 +235,7 @@ export const de: Translation = {
 	[Key.wallpaperPositionBottom]: "Unten",
 	[Key.wallpaperOpacity]: "Deckkraft",
 	[Key.wallpaperBlur]: "Weichzeichnung",
+	[Key.cardOpacity]: "Karten-Deckkraft",
 
 	// Navigationsleisten-Stil
 	[Key.navbarTransparentMode]: "Navigationsleisten-Stil",

@@ -229,6 +229,7 @@ export const ar: Translation = {
 	[Key.wallpaperPositionBottom]: "أسفل",
 	[Key.wallpaperOpacity]: "العتامة",
 	[Key.wallpaperBlur]: "التمويه",
+	[Key.cardOpacity]: "عتامة البطاقات",
 
 	// Navbar transparent mode
 	[Key.navbarTransparentMode]: "نمط شريط التنقل",

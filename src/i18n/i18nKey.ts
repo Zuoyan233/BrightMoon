@@ -309,6 +309,7 @@ enum I18nKey {
 	wallpaperPositionBottom = "wallpaperPositionBottom",
 	wallpaperOpacity = "wallpaperOpacity",
 	wallpaperBlur = "wallpaperBlur",
+	cardOpacity = "cardOpacity",
 
 	// Navbar transparent mode
 	navbarTransparentMode = "navbarTransparentMode",

@@ -76,6 +76,7 @@ export type SiteConfig = {
 			defaultFullscreenPosition?: "top" | "center" | "bottom"; // 默认壁纸位置（全屏壁纸时生效）：top=顶部对齐，center=居中，bottom=底部对齐
 			defaultOpacity?: number; // 默认壁纸透明度，0-1之间（全屏壁纸时生效）
 			defaultBlur?: number; // 默认背景模糊程度，单位px（全屏壁纸时生效）
+			defaultCardOpacity?: number; // 默认卡片透明度，0-1之间（全屏壁纸时生效）
 			showModeSwitchOnMobile?: "off" | "mobile" | "desktop" | "both"; // 整体布局方案切换按钮显示设置：off=隐藏，mobile=仅移动端，desktop=仅桌面端，both=全部显示
 		};
 		// 文章列表布局配置

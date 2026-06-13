@@ -17,6 +17,7 @@ import {
 	getDefaultHue,
 	getHue,
 	getStoredBannerPosition,
+	getStoredCardOpacity,
 	getStoredNavbarTransparentMode,
 	getStoredPostListLayout,
 	getStoredSakuraEnabled,
@@ -27,6 +28,7 @@ import {
 	getStoredWavesEnabled,
 	getStoredWavesPerformanceMode,
 	setBannerPosition,
+	setCardOpacity,
 	setHue,
 	setNavbarTransparentMode,
 	setPostListLayout,
@@ -73,6 +75,10 @@ let defaultWallpaperOpacity = 100;
 // 壁纸模糊程度（全屏壁纸时有效）
 let currentWallpaperBlur = 20;
 let defaultWallpaperBlur = 20;
+
+// 卡片透明度（全屏壁纸时有效）
+let currentCardOpacity = 80;
+let defaultCardOpacity = 80;
 
 // 壁纸切换按钮在面板中的显示控制
 let wallpaperShowSwitch = "both";
@@ -127,6 +133,17 @@ function resetWallpaperBlur() {
 			"#blurSlider [data-fill]",
 		) as HTMLElement;
 		if (fill) fill.style.width = `${sliderFillPercent("blur")}%`;
+	});
+}
+
+function resetCardOpacity() {
+	currentCardOpacity = defaultCardOpacity;
+	setCardOpacity(currentCardOpacity);
+	tick().then(() => {
+		const fill = document.querySelector(
+			"#cardOpacitySlider [data-fill]",
+		) as HTMLElement;
+		if (fill) fill.style.width = `${sliderFillPercent("cardOpacity")}%`;
 	});
 }
 
@@ -208,6 +225,10 @@ function onBlurChange() {
 	setWallpaperBlur((currentWallpaperBlur * 40) / 100);
 }
 
+function onCardOpacityChange() {
+	setCardOpacity(currentCardOpacity);
+}
+
 // 自定义滑块拖拽状态
 let activeSlider: string | null = null;
 let activeSliderBar: HTMLElement | null = null;
@@ -233,6 +254,8 @@ function getSliderRange(type: string): {
 			return { min: 20, max: 100, step: 5 };
 		case "blur":
 			return { min: 0, max: 100, step: 5 };
+		case "cardOpacity":
+			return { min: 20, max: 100, step: 5 };
 		default:
 			return { min: 0, max: 100, step: 1 };
 	}
@@ -279,6 +302,10 @@ function updateSliderFromEvent(e: MouseEvent, type: string) {
 			currentWallpaperBlur = value;
 			setWallpaperBlur((value * 40) / 100);
 			break;
+		case "cardOpacity":
+			currentCardOpacity = value;
+			setCardOpacity(value);
+			break;
 	}
 }
 
@@ -297,6 +324,16 @@ function sliderFillPercent(type: string): number {
 		}
 		case "blur":
 			return Math.min(100, Math.max(0, currentWallpaperBlur));
+		case "cardOpacity": {
+			const range = getSliderRange("cardOpacity");
+			return Math.min(
+				100,
+				Math.max(
+					0,
+					((currentCardOpacity - range.min) / (range.max - range.min)) * 100,
+				),
+			);
+		}
 		default:
 			return 0;
 	}
@@ -350,6 +387,10 @@ onMount(() => {
 	// 读取壁纸模糊程度
 	currentWallpaperBlur = Math.round((getStoredWallpaperBlur() / 40) * 100);
 	defaultWallpaperBlur = currentWallpaperBlur;
+
+	// 读取卡片透明度
+	currentCardOpacity = getStoredCardOpacity();
+	defaultCardOpacity = currentCardOpacity;
 
 	// 读取文章列表布局
 	postListLayout = getStoredPostListLayout();
@@ -460,7 +501,7 @@ $: if (isMounted && (hue || hue === 0)) {
 	<!-- 樱花特效开关 -->
 	<div class="mb-3 flex items-center justify-between">
 		<div class="flex items-center gap-2">
-			<Icon icon="material-symbols:blur-on" class="text-[var(--btn-content)] text-lg" />
+			<Icon icon="material-symbols:filter-vintage-outline" class="text-[var(--btn-content)] text-lg" />
 			<span class="text-base font-bold text-neutral-700 dark:text-neutral-300">
 				{i18n(I18nKey.sakuraEffect)}
 			</span>
@@ -517,7 +558,7 @@ $: if (isMounted && (hue || hue === 0)) {
 	<!-- 水波纹性能模式开关 -->
 	<div class="mb-3 flex items-center justify-between pl-4">
 		<div class="flex items-center gap-2">
-			<Icon icon="material-symbols:speed" class="text-[var(--btn-content)] text-lg" />
+			<Icon icon="material-symbols:speed-outline" class="text-[var(--btn-content)] text-lg" />
 			<span class="text-base font-bold text-neutral-700 dark:text-neutral-300">
 				{i18n(I18nKey.wavesPerformanceMode)}
 			</span>
@@ -788,6 +829,39 @@ $: if (isMounted && (hue || hue === 0)) {
 			<div id="blurValue" class="ignore transition bg-[var(--btn-regular-bg)] w-10 h-7 rounded-md flex justify-center
 				font-bold text-xs items-center text-[var(--btn-content)]">
 				{currentWallpaperBlur}%
+			</div>
+		</div>
+
+		<!-- 卡片透明度 -->
+		<div class="flex items-center gap-2 mb-2">
+			<Icon icon="material-symbols:layers-outline" class="text-[var(--btn-content)] text-lg" />
+			<span class="text-base font-bold text-neutral-700 dark:text-neutral-300">
+				{i18n(I18nKey.cardOpacity)}
+			</span>
+			<div class="ml-auto flex gap-1">
+				<button aria-label="Reset to Default" class="btn-regular w-7 h-7 rounded-md active:scale-90"
+					class:opacity-0={currentCardOpacity === defaultCardOpacity} class:pointer-events-none={currentCardOpacity === defaultCardOpacity} on:click={resetCardOpacity}>
+					<div class="text-[var(--btn-content)]">
+						<Icon icon="fa6-solid:arrow-rotate-left" class="text-[0.875rem]"></Icon>
+					</div>
+				</button>
+			</div>
+		</div>
+		<div class="flex items-center gap-2 mb-3">
+			<div id="cardOpacitySlider" class="flex-1 h-6 bg-gray-200 dark:bg-gray-700 rounded select-none"
+				role="slider" tabindex="0"
+				aria-label={i18n(I18nKey.cardOpacity)}
+				aria-valuenow={currentCardOpacity}
+				aria-valuemin="20" aria-valuemax="100"
+				on:mousedown={(e) => handleSliderStart(e, "cardOpacity")}
+			>
+				<div data-fill class="h-full rounded select-none bg-[var(--primary)]"
+					style="width: {sliderFillPercent('cardOpacity')}%"
+				></div>
+			</div>
+			<div id="cardOpacityValue" class="ignore transition bg-[var(--btn-regular-bg)] w-10 h-7 rounded-md flex justify-center
+				font-bold text-xs items-center text-[var(--btn-content)]">
+				{currentCardOpacity}%
 			</div>
 		</div>
 

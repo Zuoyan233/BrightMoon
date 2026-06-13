@@ -232,6 +232,7 @@ export const en: Translation = {
 	[Key.wallpaperPositionBottom]: "Bottom",
 	[Key.wallpaperOpacity]: "Opacity",
 	[Key.wallpaperBlur]: "Blur",
+	[Key.cardOpacity]: "Card Opacity",
 
 	// Navbar transparent mode
 	[Key.navbarTransparentMode]: "Navbar Style",

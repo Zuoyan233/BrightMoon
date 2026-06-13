@@ -278,6 +278,28 @@ export function setWallpaperBlur(blur: number): void {
 	);
 }
 
+export function getStoredCardOpacity(): number {
+	const stored = localStorage.getItem("cardOpacity");
+	if (stored !== null) {
+		const val = Number.parseFloat(stored);
+		if (!Number.isNaN(val)) return Math.max(20, Math.min(100, val));
+	}
+	return Math.max(
+		20,
+		Math.min(
+			100,
+			(siteConfig.appearance.wallpaperMode.defaultCardOpacity ?? 0.8) * 100,
+		),
+	);
+}
+
+export function setCardOpacity(opacity: number): void {
+	localStorage.setItem("cardOpacity", String(opacity));
+	window.dispatchEvent(
+		new CustomEvent("card-opacity-change", { detail: { opacity } }),
+	);
+}
+
 // Sakura (樱花) 特效持久化
 export function getStoredSakuraEnabled(): boolean {
 	// 当外观固定时（appearance.fixed = true），强制使用配置值，忽略用户偏好

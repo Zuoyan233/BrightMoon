@@ -230,6 +230,7 @@ export const ko: Translation = {
 	[Key.wallpaperPositionBottom]: "하단",
 	[Key.wallpaperOpacity]: "불투명도",
 	[Key.wallpaperBlur]: "흐림",
+	[Key.cardOpacity]: "카드 투명도",
 
 	// 네비게이션 바 투명 모드
 	[Key.navbarTransparentMode]: "네비게이션 바 스타일",

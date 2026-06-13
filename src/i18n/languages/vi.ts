@@ -234,6 +234,7 @@ export const vi: Translation = {
 	[Key.wallpaperPositionBottom]: "Dưới cùng",
 	[Key.wallpaperOpacity]: "Độ mờ",
 	[Key.wallpaperBlur]: "Làm mờ",
+	[Key.cardOpacity]: "Độ mờ thẻ",
 
 	// Chế độ thanh điều hướng trong suốt
 	[Key.navbarTransparentMode]: "Kiểu thanh điều hướng",
