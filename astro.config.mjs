@@ -1,3 +1,4 @@
+import { unified } from "@astrojs/markdown-remark";
 import sitemap from "@astrojs/sitemap";
 import svelte, { vitePreprocess } from "@astrojs/svelte";
 import tailwind from "@astrojs/tailwind";
@@ -20,12 +21,12 @@ import { pluginCustomCopyButton } from "./src/plugins/expressive-code/custom-cop
 import { pluginLanguageBadge } from "./src/plugins/expressive-code/language-badge.ts";
 import { AdmonitionComponent } from "./src/plugins/rehype-component-admonition.mjs";
 import { GithubCardComponent } from "./src/plugins/rehype-component-github-card.mjs";
+import { rehypeImageWidth } from "./src/plugins/rehype-image-width.mjs";
 import { rehypeMermaid } from "./src/plugins/rehype-mermaid.mjs";
 import { rehypeWrapTable } from "./src/plugins/rehype-wrap-table.mjs";
+import { remarkContent } from "./src/plugins/remark-content.mjs";
 import { parseDirectiveNode } from "./src/plugins/remark-directive-rehype.js";
 import { remarkMermaid } from "./src/plugins/remark-mermaid.js";
-import { remarkContent } from "./src/plugins/remark-content.mjs";
-import { rehypeImageWidth } from "./src/plugins/rehype-image-width.mjs";
 
 // https://astro.build/config
 export default defineConfig({
@@ -55,11 +56,7 @@ export default defineConfig({
 			animateHistoryBrowsing: false,
 			skipPopStateHandling: (event) => {
 				// 跳过锚点链接的处理，让浏览器原生处理
-				return (
-					event.state &&
-					event.state.url &&
-					event.state.url.includes("#")
-				);
+				return event.state?.url?.includes("#");
 			},
 		}),
 		icon(),
@@ -116,54 +113,55 @@ export default defineConfig({
 		sitemap(),
 	],
 	markdown: {
-		remarkPlugins: [
-			remarkMath,
-			remarkContent,
-			remarkGithubAdmonitionsToDirectives,
-			remarkDirective,
-			remarkSectionize,
-			parseDirectiveNode,
-			remarkMermaid,
-		],
-		rehypePlugins: [
-			rehypeKatex,
-			rehypeSlug,
-			rehypeWrapTable,
-			rehypeMermaid,
-			rehypeImageWidth,
-			[
-				rehypeComponents,
-				{
-					components: {
-						github: GithubCardComponent,
-						note: (x, y) => AdmonitionComponent(x, y, "note"),
-						tip: (x, y) => AdmonitionComponent(x, y, "tip"),
-						important: (x, y) =>
-							AdmonitionComponent(x, y, "important"),
-						caution: (x, y) => AdmonitionComponent(x, y, "caution"),
-						warning: (x, y) => AdmonitionComponent(x, y, "warning"),
-					},
-				},
+		processor: unified({
+			remarkPlugins: [
+				remarkMath,
+				remarkContent,
+				remarkGithubAdmonitionsToDirectives,
+				remarkDirective,
+				remarkSectionize,
+				parseDirectiveNode,
+				remarkMermaid,
 			],
-			[
-				rehypeAutolinkHeadings,
-				{
-					behavior: "append",
-					properties: {
-						className: ["anchor"],
-					},
-					content: {
-						type: "element",
-						tagName: "span",
-						properties: {
-							className: ["anchor-icon"],
-							"data-pagefind-ignore": true,
+			rehypePlugins: [
+				rehypeKatex,
+				rehypeSlug,
+				rehypeWrapTable,
+				rehypeMermaid,
+				rehypeImageWidth,
+				[
+					rehypeComponents,
+					{
+						components: {
+							github: GithubCardComponent,
+							note: (x, y) => AdmonitionComponent(x, y, "note"),
+							tip: (x, y) => AdmonitionComponent(x, y, "tip"),
+							important: (x, y) => AdmonitionComponent(x, y, "important"),
+							caution: (x, y) => AdmonitionComponent(x, y, "caution"),
+							warning: (x, y) => AdmonitionComponent(x, y, "warning"),
 						},
-						children: [{ type: "text", value: "#" }],
 					},
-				},
+				],
+				[
+					rehypeAutolinkHeadings,
+					{
+						behavior: "append",
+						properties: {
+							className: ["anchor"],
+						},
+						content: {
+							type: "element",
+							tagName: "span",
+							properties: {
+								className: ["anchor-icon"],
+								"data-pagefind-ignore": true,
+							},
+							children: [{ type: "text", value: "#" }],
+						},
+					},
+				],
 			],
-		],
+		}),
 	},
 	vite: {
 		build: {
@@ -173,12 +171,8 @@ export default defineConfig({
 			rollupOptions: {
 				onwarn(warning, warn) {
 					if (
-						warning.message.includes(
-							"is dynamically imported by",
-						) &&
-						warning.message.includes(
-							"but also statically imported by",
-						)
+						warning.message.includes("is dynamically imported by") &&
+						warning.message.includes("but also statically imported by")
 					) {
 						return;
 					}
