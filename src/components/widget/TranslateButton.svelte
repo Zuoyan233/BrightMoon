@@ -118,7 +118,7 @@ onDestroy(() => {
                     on:click={() => changeLanguage(lang.code)}
                 >
                     <span class="text-lg transition text-black/75 dark:text-white/75 group-hover:text-[var(--primary)]" style={currentLanguage === lang.code ? 'color: var(--primary)' : ''}>{lang.icon}</span>
-                    <span class="text-sm transition text-black/75 dark:text-white/75 group-hover:text-[var(--primary)] {currentLanguage === lang.code ? 'font-medium' : ''}" style={currentLanguage === lang.code ? 'color: var(--primary)' : ''}>{lang.name}</span>
+                    <span class="text-sm font-bold transition text-black/75 dark:text-white/75 group-hover:text-[var(--primary)] {currentLanguage === lang.code ? 'font-bold' : ''}" style={currentLanguage === lang.code ? 'color: var(--primary)' : ''}>{lang.name}</span>
                     {#if currentLanguage === lang.code}
                         <span class="ml-auto text-[var(--primary)]">✓</span>
                     {/if}

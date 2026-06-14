@@ -140,7 +140,7 @@ onDestroy(() => {
 						class={'text-xl transition-all duration-200' + (currentMode === option.mode ? ' text-[var(--primary)]' : ' text-black/75 dark:text-white/75 group-hover:text-[var(--primary)]')}
 					/>
 					<span
-						class={'text-base transition-all duration-200' + (currentMode === option.mode ? ' text-[var(--primary)] font-bold' : ' text-black/75 dark:text-white/75 group-hover:text-[var(--primary)]')}
+						class={'text-base font-bold transition-all duration-200' + (currentMode === option.mode ? ' text-[var(--primary)] font-bold' : ' text-black/75 dark:text-white/75 group-hover:text-[var(--primary)]')}
 					>
 						{i18n(option.labelKey)}
 					</span>
