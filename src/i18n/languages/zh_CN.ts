@@ -317,8 +317,8 @@ export const zh_CN: Translation = {
 	[Key.wallpaperPositionTop]: "顶部",
 	[Key.wallpaperPositionCenter]: "居中",
 	[Key.wallpaperPositionBottom]: "底部",
-	[Key.wallpaperOpacity]: "不透明度",
-	[Key.wallpaperBlur]: "模糊",
+	[Key.wallpaperOpacity]: "背景透明度",
+	[Key.wallpaperBlur]: "背景模糊",
 	[Key.cardOpacity]: "卡片透明度",
 
 	// 导航栏透明模式

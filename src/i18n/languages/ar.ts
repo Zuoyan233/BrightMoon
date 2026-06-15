@@ -227,8 +227,8 @@ export const ar: Translation = {
 	[Key.wallpaperPositionTop]: "أعلى",
 	[Key.wallpaperPositionCenter]: "وسط",
 	[Key.wallpaperPositionBottom]: "أسفل",
-	[Key.wallpaperOpacity]: "العتامة",
-	[Key.wallpaperBlur]: "التمويه",
+	[Key.wallpaperOpacity]: "شفافية الخلفية",
+	[Key.wallpaperBlur]: "تمويه الخلفية",
 	[Key.cardOpacity]: "عتامة البطاقات",
 
 	// Navbar transparent mode

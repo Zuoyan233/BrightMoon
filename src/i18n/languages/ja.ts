@@ -228,8 +228,8 @@ export const ja: Translation = {
 	[Key.wallpaperPositionTop]: "上部",
 	[Key.wallpaperPositionCenter]: "中央",
 	[Key.wallpaperPositionBottom]: "下部",
-	[Key.wallpaperOpacity]: "不透明度",
-	[Key.wallpaperBlur]: "ぼかし",
+	[Key.wallpaperOpacity]: "背景の透明度",
+	[Key.wallpaperBlur]: "背景のぼかし",
 	[Key.cardOpacity]: "カード透明度",
 
 	// ナビゲーションバー透明モード

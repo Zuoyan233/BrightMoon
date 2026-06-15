@@ -236,8 +236,8 @@ export const es: Translation = {
 	[Key.wallpaperPositionTop]: "Superior",
 	[Key.wallpaperPositionCenter]: "Centro",
 	[Key.wallpaperPositionBottom]: "Inferior",
-	[Key.wallpaperOpacity]: "Opacidad",
-	[Key.wallpaperBlur]: "Desenfoque",
+	[Key.wallpaperOpacity]: "Opacidad del fondo",
+	[Key.wallpaperBlur]: "Desenfoque del fondo",
 	[Key.cardOpacity]: "Opacidad de tarjetas",
 
 	// Modo de barra de navegación transparente

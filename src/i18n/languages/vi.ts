@@ -232,8 +232,8 @@ export const vi: Translation = {
 	[Key.wallpaperPositionTop]: "Trên cùng",
 	[Key.wallpaperPositionCenter]: "Giữa",
 	[Key.wallpaperPositionBottom]: "Dưới cùng",
-	[Key.wallpaperOpacity]: "Độ mờ",
-	[Key.wallpaperBlur]: "Làm mờ",
+	[Key.wallpaperOpacity]: "Độ trong suốt nền",
+	[Key.wallpaperBlur]: "Làm mờ nền",
 	[Key.cardOpacity]: "Độ mờ thẻ",
 
 	// Chế độ thanh điều hướng trong suốt

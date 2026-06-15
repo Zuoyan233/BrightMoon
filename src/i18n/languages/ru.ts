@@ -231,8 +231,8 @@ export const ru: Translation = {
 	[Key.wallpaperPositionTop]: "Сверху",
 	[Key.wallpaperPositionCenter]: "По центру",
 	[Key.wallpaperPositionBottom]: "Снизу",
-	[Key.wallpaperOpacity]: "Непрозрачность",
-	[Key.wallpaperBlur]: "Размытие",
+	[Key.wallpaperOpacity]: "Прозрачность фона",
+	[Key.wallpaperBlur]: "Размытие фона",
 	[Key.cardOpacity]: "Непрозрачность карточек",
 
 	// Режим прозрачности панели навигации

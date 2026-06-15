@@ -230,8 +230,8 @@ export const en: Translation = {
 	[Key.wallpaperPositionTop]: "Top",
 	[Key.wallpaperPositionCenter]: "Center",
 	[Key.wallpaperPositionBottom]: "Bottom",
-	[Key.wallpaperOpacity]: "Opacity",
-	[Key.wallpaperBlur]: "Blur",
+	[Key.wallpaperOpacity]: "Background Opacity",
+	[Key.wallpaperBlur]: "Background Blur",
 	[Key.cardOpacity]: "Card Opacity",
 
 	// Navbar transparent mode

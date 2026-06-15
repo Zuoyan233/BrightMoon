@@ -231,8 +231,8 @@ export const id: Translation = {
 	[Key.wallpaperPositionTop]: "Atas",
 	[Key.wallpaperPositionCenter]: "Tengah",
 	[Key.wallpaperPositionBottom]: "Bawah",
-	[Key.wallpaperOpacity]: "Opasitas",
-	[Key.wallpaperBlur]: "Keburaman",
+	[Key.wallpaperOpacity]: "Opasitas Latar Belakang",
+	[Key.wallpaperBlur]: "Keburaman Latar Belakang",
 	[Key.cardOpacity]: "Opasitas Kartu",
 
 	// Mode navbar transparan

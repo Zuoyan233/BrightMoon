@@ -221,8 +221,8 @@ export const th: Translation = {
 	[Key.wallpaperPositionTop]: "ด้านบน",
 	[Key.wallpaperPositionCenter]: "ตรงกลาง",
 	[Key.wallpaperPositionBottom]: "ด้านล่าง",
-	[Key.wallpaperOpacity]: "ความทึบ",
-	[Key.wallpaperBlur]: "เบลอ",
+	[Key.wallpaperOpacity]: "ความโปร่งใสของพื้นหลัง",
+	[Key.wallpaperBlur]: "เบลอพื้นหลัง",
 	[Key.cardOpacity]: "ความโปร่งใสของการ์ด",
 
 	// โหมดแถบนำทางโปร่งใส
