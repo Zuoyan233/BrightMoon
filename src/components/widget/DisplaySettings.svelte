@@ -928,7 +928,7 @@ $: if (isMounted && (hue || hue === 0)) {
 
 {#if postListLayoutAllowSwitch}
 <!-- 文章列表布局切换（仅在桌面端显示） -->
-<div class="hidden md:block">
+<div class="hidden lg:block">
 	<div class="flex items-center gap-2 mb-3">
 	<div class="flex items-center gap-2">
 		<Icon icon="material-symbols:grid-view-outline" class="text-[var(--btn-content)] text-lg" />
