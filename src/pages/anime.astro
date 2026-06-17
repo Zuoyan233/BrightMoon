@@ -672,12 +672,16 @@ const hiddenAnimeList = animeList.slice(INITIAL_DISPLAY_COUNT);
 						".right-sidebar-container",
 					);
 					if (rightSidebar) {
-						rightSidebar.style.display = "none";
 						rightSidebar.classList.add("hidden-in-grid-mode");
+						if (window.innerWidth >= 1280) {
+							rightSidebar.style.display = "none";
+						}
 					}
 					const mainGrid = document.getElementById("main-grid");
 					if (mainGrid) {
-						mainGrid.style.gridTemplateColumns = "17.5rem 1fr";
+						if (window.innerWidth >= 1280) {
+							mainGrid.style.gridTemplateColumns = "17.5rem 1fr";
+						}
 						mainGrid.classList.add("two-column-layout");
 					}
 				} else {
@@ -690,13 +694,15 @@ const hiddenAnimeList = animeList.slice(INITIAL_DISPLAY_COUNT);
 						".right-sidebar-container",
 					);
 					if (rightSidebar) {
-						rightSidebar.style.display = "";
 						rightSidebar.classList.remove("hidden-in-grid-mode");
+						rightSidebar.style.display = "";
 						rightSidebar.style.removeProperty("display");
 					}
 					const mainGrid = document.getElementById("main-grid");
 					if (mainGrid) {
-						mainGrid.style.gridTemplateColumns = "";
+						if (window.innerWidth >= 1280) {
+							mainGrid.style.gridTemplateColumns = "";
+						}
 						mainGrid.classList.remove("two-column-layout");
 						mainGrid.removeAttribute("data-layout-mode");
 					}

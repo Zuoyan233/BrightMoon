@@ -435,8 +435,12 @@ const transparentClass = shouldEnableTransparency
                 if (rightSidebar) {
                     if (currentLayout === 'grid') {
                         rightSidebar.classList.add('hidden-in-grid-mode');
+                        if (window.innerWidth >= 1280) {
+                            rightSidebar.style.display = 'none';
+                        }
                     } else {
                         rightSidebar.classList.remove('hidden-in-grid-mode');
+                        rightSidebar.style.display = '';
                     }
                 }
             }
@@ -519,13 +523,17 @@ const transparentClass = shouldEnableTransparency
 				const currentLayout = savedLayout || defaultPostListLayout;
 				mainGrid.setAttribute('data-layout-mode', currentLayout);
 				
-				// 根据布局模式显示或隐藏右侧边栏
+				// 根据布局模式显示或隐藏右侧边栏（仅桌面端隐藏，平板和移动端不隐藏）
 				const rightSidebar = document.querySelector('.right-sidebar-container');
 				if (rightSidebar) {
 					if (currentLayout === 'grid') {
 						rightSidebar.classList.add('hidden-in-grid-mode');
+						if (window.innerWidth >= 1280) {
+							rightSidebar.style.display = 'none';
+						}
 					} else {
 						rightSidebar.classList.remove('hidden-in-grid-mode');
+						rightSidebar.style.display = '';
 					}
 				}
 				
@@ -763,8 +771,12 @@ const transparentClass = shouldEnableTransparency
 					if (rightSidebar) {
 						if (currentLayout === 'grid') {
 							rightSidebar.classList.add('hidden-in-grid-mode');
+							if (window.innerWidth >= 1280) {
+								rightSidebar.style.display = 'none';
+							}
 						} else {
 							rightSidebar.classList.remove('hidden-in-grid-mode');
+							rightSidebar.style.display = '';
 						}
 					}
 					
@@ -822,6 +834,9 @@ const transparentClass = shouldEnableTransparency
 					const rightSidebar = document.querySelector('.right-sidebar-container');
 					if (rightSidebar) {
 						rightSidebar.classList.add('hidden-in-grid-mode');
+						if (window.innerWidth >= 1280) {
+							rightSidebar.style.display = 'none';
+						}
 					}
 				}
 			}
@@ -1685,9 +1700,11 @@ body.no-banner-mode .absolute.w-full.z-30 {
     min-height: calc(100vh - 5.5rem) !important;
 }
 
-/* Grid 模式下隐藏右侧边栏 */
-.right-sidebar-container.hidden-in-grid-mode {
-    display: none !important;
+/* Grid 模式下隐藏右侧边栏 - 仅桌面端生效，平板和移动端不隐藏 */
+@media (min-width: 1280px) {
+    .right-sidebar-container.hidden-in-grid-mode {
+        display: none !important;
+    }
 }
 
 /* 右侧栏容器：对齐方式和盒模型 */

@@ -73,7 +73,7 @@ export const siteConfig: SiteConfig = {
 		// 文章列表布局配置
 		postListLayout: {
 			// 默认布局模式："list" 列表模式（单列布局），"grid" 网格模式（双列布局）
-			// 注意：使用 "grid" 网格模式（双列布局）右侧边栏则不显示
+			// 注意：使用 "grid" 模式下桌面端隐藏右侧边栏，平板端与移动端强制回退为 "list" 列表模式，右侧边栏正常显示
 			defaultMode: "list",
 			// 是否允许用户切换布局
 			allowSwitch: true,

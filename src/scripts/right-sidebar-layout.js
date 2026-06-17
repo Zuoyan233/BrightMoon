@@ -102,21 +102,35 @@ function initPageLayout() {
 }
 
 /**
- * 隐藏右侧边栏
+ * 判断当前是否为桌面端（>= 1280px）
+ */
+function isDesktop() {
+	return window.innerWidth >= 1280;
+}
+
+/**
+ * 隐藏右侧边栏（仅桌面端生效）
  */
 function hideRightSidebar() {
 	const rightSidebar = document.querySelector(".right-sidebar-container");
 	if (rightSidebar) {
-		// 添加隐藏类
+		// 添加隐藏类（CSS仅在桌面端生效）
 		rightSidebar.classList.add("hidden-in-grid-mode");
 
-		// 设置显示为none以完全隐藏
-		rightSidebar.style.display = "none";
+		// 仅桌面端设置 display: none
+		if (isDesktop()) {
+			rightSidebar.style.display = "none";
+		}
 
-		// 调整主网格布局
+		// 调整主网格布局（仅桌面端）
+		if (isDesktop()) {
+			const mainGrid = document.getElementById("main-grid");
+			if (mainGrid) {
+				mainGrid.style.gridTemplateColumns = "17.5rem 1fr";
+			}
+		}
 		const mainGrid = document.getElementById("main-grid");
 		if (mainGrid) {
-			mainGrid.style.gridTemplateColumns = "17.5rem 1fr";
 			mainGrid.setAttribute("data-layout-mode", "grid");
 		}
 	}
@@ -134,10 +148,15 @@ function showRightSidebar() {
 		// 恢复显示
 		rightSidebar.style.display = "";
 
-		// 恢复主网格布局
+		// 恢复主网格布局（仅桌面端需要重置内联样式）
+		if (isDesktop()) {
+			const mainGrid = document.getElementById("main-grid");
+			if (mainGrid) {
+				mainGrid.style.gridTemplateColumns = "";
+			}
+		}
 		const mainGrid = document.getElementById("main-grid");
 		if (mainGrid) {
-			mainGrid.style.gridTemplateColumns = "";
 			mainGrid.setAttribute("data-layout-mode", "list");
 		}
 	}

@@ -88,14 +88,24 @@ const initialLayoutClass = defaultLayout === "grid" ? "grid-mode" : "list-mode";
 			container.classList.remove("list-mode");
 			container.classList.add("grid-mode");
 
-			// Grid 模式下隐藏右侧栏
+			// Grid 模式下隐藏右侧栏（仅桌面端，平板和移动端不隐藏）
 			const rightSidebar = document.querySelector(
 				".right-sidebar-container",
-			);
-			if (rightSidebar) rightSidebar.classList.add("hidden-in-grid-mode");
+			) as HTMLElement | null;
+			if (rightSidebar) {
+				rightSidebar.classList.add("hidden-in-grid-mode");
+				if (window.innerWidth >= 1280) {
+					rightSidebar.style.display = "none";
+				}
+			}
 
 			const mainGrid = document.getElementById("main-grid");
-			if (mainGrid) mainGrid.setAttribute("data-layout-mode", "grid");
+			if (mainGrid) {
+				mainGrid.setAttribute("data-layout-mode", "grid");
+				if (window.innerWidth >= 1280) {
+					mainGrid.style.gridTemplateColumns = "17.5rem 1fr";
+				}
+			}
 		} else {
 			container.classList.remove("grid-mode");
 			container.classList.add("list-mode");
@@ -103,12 +113,19 @@ const initialLayoutClass = defaultLayout === "grid" ? "grid-mode" : "list-mode";
 			// List 模式下显示右侧栏
 			const rightSidebar = document.querySelector(
 				".right-sidebar-container",
-			);
-			if (rightSidebar)
+			) as HTMLElement | null;
+			if (rightSidebar) {
 				rightSidebar.classList.remove("hidden-in-grid-mode");
+				rightSidebar.style.display = "";
+			}
 
 			const mainGrid = document.getElementById("main-grid");
-			if (mainGrid) mainGrid.setAttribute("data-layout-mode", "list");
+			if (mainGrid) {
+				mainGrid.setAttribute("data-layout-mode", "list");
+				if (window.innerWidth >= 1280) {
+					mainGrid.style.gridTemplateColumns = "";
+				}
+			}
 		}
 
 		container.classList.add("js-initialized");
@@ -129,13 +146,22 @@ const initialLayoutClass = defaultLayout === "grid" ? "grid-mode" : "list-mode";
 	window.addEventListener("resize", () => {
 		clearTimeout(resizeTimeout);
 		resizeTimeout = window.setTimeout(() => {
-			if (window.innerWidth >= 769) {
+			const rightSidebar = document.querySelector(".right-sidebar-container") as HTMLElement | null;
+			if (window.innerWidth >= 1280) {
+				// 桌面端：根据布局模式决定是否隐藏右侧边栏
 				const savedLayout = localStorage.getItem("postListLayout");
 				const defaultLayout =
 					document
 						.getElementById("post-list-container")
 						?.getAttribute("data-default-layout") || "list";
 				updatePostListLayout(savedLayout || defaultLayout);
+			} else if (rightSidebar) {
+				// 平板和移动端：恢复右侧边栏显示
+				rightSidebar.style.display = "";
+				const mainGrid = document.getElementById("main-grid");
+				if (mainGrid) {
+					mainGrid.style.gridTemplateColumns = "";
+				}
 			}
 		}, 100);
 	});
