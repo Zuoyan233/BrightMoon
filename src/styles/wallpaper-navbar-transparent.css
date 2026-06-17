@@ -104,7 +104,7 @@ body.wallpaper-transparent #navbar[data-transparent-mode="semifull"].scrolled {
 }
 
 /* 子组件样式 (Sub-Components) */
-:is(.dropdown-content, #nav-menu-panel, #display-setting, #search-panel, .music-player .mini-player, .float-panel) {
+:is(.dropdown-content, #nav-menu-panel, #display-setting, #search-panel, .float-panel) {
   /* 使用面板专用变量 */
   background: var(--panel-bg);
   backdrop-filter: var(--panel-blur);
