@@ -47,16 +47,19 @@ const useJapaneseBadge = siteConfig.toc.useJapaneseBadge;
 		right: 6rem;
 		bottom: 15rem;
 		z-index: 50;
-		pointer-events: auto;
-		transform: translateX(5rem);
-		display: none;
+		pointer-events: none;
+		transform: translateX(5rem) scale(0);
+		transform-origin: center center;
+		opacity: 0;
 		transition:
-			opacity 0.3s ease,
-			transform 0.3s ease;
+			transform 0.3s ease-out,
+			opacity 0.3s ease;
 	}
 
 	.floating-toc-wrapper.active-toc {
-		display: block;
+		transform: translateX(5rem) scale(1);
+		opacity: 0.6;
+		pointer-events: auto;
 	}
 
 	.floating-toc-btn {
@@ -153,9 +156,13 @@ const useJapaneseBadge = siteConfig.toc.useJapaneseBadge;
 
 	@media (max-width: 744px) {
 		.floating-toc-wrapper {
-			transform: none;
+			transform: scale(0);
 			right: 2rem;
 			bottom: 6rem;
+		}
+
+		.floating-toc-wrapper.active-toc {
+			transform: scale(1);
 			opacity: 0.6;
 		}
 
@@ -465,7 +472,11 @@ const useJapaneseBadge = siteConfig.toc.useJapaneseBadge;
 				return;
 			}
 
-			this.wrapper?.classList.add("active-toc");
+			requestAnimationFrame(() => {
+				requestAnimationFrame(() => {
+					this.wrapper?.classList.add("active-toc");
+				});
+			});
 			this.headings = [];
 
 			const maxLevel = parseInt(this.wrapper?.dataset.depth || "3");
