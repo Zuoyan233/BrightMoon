@@ -26,9 +26,9 @@ const uid = Math.random().toString(36).slice(2, 10);
                 <Icon name="material-symbols:cookie-outline" class="text-[var(--primary)] shrink-0 w-5 h-5"></Icon>
                 <span>{title}</span>
             </div>
-            <div class="text-sm leading-relaxed text-[#666] dark:text-[#aaa]">
+            <div class="text-sm leading-relaxed text-neutral-700 dark:text-white/80">
                 <p class="mb-1.5">{description}</p>
-                <p class="ignore text-xs text-[#999] dark:text-[#777] opacity-[0.85]">
+                <p class="ignore text-xs text-neutral-500 dark:text-neutral-400 opacity-[0.85]">
                     {ipInfoLoading}
                 </p>
             </div>
@@ -37,7 +37,7 @@ const uid = Math.random().toString(36).slice(2, 10);
             <button class="px-4 py-2 rounded-md text-base font-medium cursor-pointer border-none transition-all duration-200 whitespace-nowrap max-md:flex-1 max-md:min-w-[100px] bg-[oklch(0.7_0.12_var(--hue))] text-white hover:bg-[oklch(0.95_0.025_var(--hue))] dark:hover:bg-[oklch(0.33_0.035_var(--hue))] hover:text-[var(--primary)]">
                 {acceptText}
             </button>
-            <button class="px-4 py-2 rounded-md text-base font-medium cursor-pointer border-none transition-all duration-200 whitespace-nowrap max-md:flex-1 max-md:min-w-[100px] bg-black/[0.06] dark:bg-white/[0.08] text-[#333] dark:text-white hover:bg-black/10 dark:hover:bg-white/[0.12]">
+            <button class="px-4 py-2 rounded-md text-base font-medium cursor-pointer transition-all duration-200 whitespace-nowrap max-md:flex-1 max-md:min-w-[100px] bg-black/[0.12] dark:bg-white/[0.15] text-neutral-700 dark:text-white hover:text-[var(--primary)] dark:hover:text-[var(--primary)] border-none hover:bg-[oklch(0.95_0.025_var(--hue))] dark:hover:bg-[oklch(0.33_0.035_var(--hue))]">
                 {rejectText}
             </button>
         </div>
