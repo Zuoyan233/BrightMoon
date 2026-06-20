@@ -52,6 +52,7 @@ export const de: Translation = {
 	[Key.postsCount]: "Beiträge",
 
 	[Key.appearance]: "Darstellung",
+	[Key.themeSwitch]: "Thema wechseln",
 	[Key.themeColor]: "Theme-Farbe",
 	[Key.sakuraEffect]: "Kirschblüten-Effekt",
 	[Key.wavesEffect]: "Welleneffekt",
@@ -122,6 +123,8 @@ export const de: Translation = {
 	[Key.musicPlayerRepeat]: "Alle wiederholen",
 	[Key.musicPlayerRepeatOne]: "Einen wiederholen",
 	[Key.musicPlayerVolume]: "Lautstärkeregelung",
+	[Key.musicPlayerMute]: "Stummschalten",
+	[Key.musicPlayerUnmute]: "Stummschaltung aufheben",
 	[Key.musicPlayerProgress]: "Wiedergabefortschritt",
 	[Key.musicPlayerCover]: "Cover",
 	[Key.musicPlayerPlaylist]: "Wiedergabeliste",

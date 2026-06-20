@@ -3,10 +3,10 @@ import Icon from "@iconify/svelte";
 import { onDestroy, onMount, tick } from "svelte";
 import { slide } from "svelte/transition";
 // 从配置文件中导入音乐播放器配置
-import { musicPlayerConfig } from "../../config";
+import { musicPlayerConfig, siteConfig } from "../../config";
 // 导入国际化相关的 Key 和 i18n 实例
 import Key from "../../i18n/i18nKey";
-import { i18n } from "../../i18n/translation";
+import { getTranslation, i18n } from "../../i18n/translation";
 import { translationManager } from "../../utils/translation-manager";
 
 // 音乐播放器模式，从配置中获取或使用默认值，可选 "local" 或 "meting"
@@ -49,18 +49,6 @@ let errorMessage = musicPlayerConfig.errorMessage;
 // 是否显示错误信息，默认为 false
 let showError = musicPlayerConfig.showError;
 
-// 翻译适配
-$: if (showPlaylist) {
-	void tick().then(() => {
-		if (playerRoot) {
-			void translationManager.refresh({
-				root: playerRoot,
-				reason: "music-player-playlist",
-			});
-		}
-	});
-}
-
 // 当前歌曲信息
 let currentSong = {
 	title: i18n(Key.unknownSong),
@@ -85,6 +73,62 @@ let audio: HTMLAudioElement;
 let progressBar: HTMLElement;
 let volumeBar: HTMLElement;
 
+// 翻译适配
+let i18nVersion = 0;
+let unregisterTranslationRenderer = () => {};
+
+$: currentI18n =
+	i18nVersion > -1
+		? getTranslation(
+				translationManager.isActive()
+					? translationManager.getConfigLanguage()
+					: siteConfig.lang || "en",
+			)
+		: null;
+$: shuffleTitle = currentI18n?.[Key.musicPlayerShuffle] ?? "";
+$: previousTitle = currentI18n?.[Key.musicPlayerPrevious] ?? "";
+$: playTitle = currentI18n
+	? isLoading
+		? currentI18n[Key.musicPlayerLoading]
+		: isPlaying
+			? currentI18n[Key.musicPlayerPause]
+			: currentI18n[Key.musicPlayerPlay]
+	: "";
+$: nextTitle = currentI18n?.[Key.musicPlayerNext] ?? "";
+$: showTitle = currentI18n?.[Key.musicPlayerShow] ?? "";
+$: hideTitle = currentI18n?.[Key.musicPlayerHide] ?? "";
+$: expandTitle = currentI18n?.[Key.musicPlayerExpand] ?? "";
+$: collapseTitle = currentI18n?.[Key.musicPlayerCollapse] ?? "";
+$: playlistTitle = currentI18n?.[Key.musicPlayerPlaylist] ?? "";
+$: progressTitle = currentI18n?.[Key.musicPlayerProgress] ?? "";
+$: volumeTitle = currentI18n?.[Key.musicPlayerVolume] ?? "";
+$: repeatTitle = currentI18n
+	? isRepeating === 1
+		? currentI18n[Key.musicPlayerRepeatOne]
+		: currentI18n[Key.musicPlayerRepeat]
+	: "";
+$: muteTitle = currentI18n
+	? isMuted
+		? currentI18n[Key.musicPlayerUnmute]
+		: currentI18n[Key.musicPlayerMute]
+	: "";
+
+$: if (showPlaylist) {
+	void tick().then(() => {
+		if (playerRoot) {
+			void translationManager.refresh({
+				root: playerRoot,
+				reason: "music-player-playlist",
+			});
+		}
+	});
+}
+
+function refreshI18n() {
+	i18nVersion++;
+}
+
+// 本地播放列表
 const localPlaylist = [
 	{
 		id: 1,
@@ -326,7 +370,7 @@ let volumeBarRect: DOMRect | null = null;
 let rafId: number | null = null;
 
 function startVolumeDrag(event: PointerEvent) {
-	if (!volumeBar) return;
+	if (!volumeBar || isMuted) return;
 	event.preventDefault();
 
 	isPointerDown = true;
@@ -389,6 +433,11 @@ onMount(() => {
 		document.addEventListener(event, handleUserInteraction, { capture: true });
 	});
 
+	unregisterTranslationRenderer = translationManager.onRefresh(
+		"music-player",
+		refreshI18n,
+	);
+
 	if (!musicPlayerConfig.enable) {
 		return;
 	}
@@ -406,6 +455,7 @@ onMount(() => {
 });
 
 onDestroy(() => {
+	unregisterTranslationRenderer();
 	if (typeof document !== "undefined") {
 		interactionEvents.forEach((event) => {
 			document.removeEventListener(event, handleUserInteraction, {
@@ -468,7 +518,7 @@ onDestroy(() => {
          }}
          role="button"
          tabindex="0"
-         aria-label={i18n(Key.musicPlayerShow)}>
+         title={showTitle}>
         {#if isLoading}
             <Icon icon="eos-icons:loading" class="text-white text-lg" />
         {:else if isPlaying}
@@ -498,7 +548,7 @@ onDestroy(() => {
                  }}
                  role="button"
                  tabindex="0"
-                 aria-label={isPlaying ? i18n(Key.musicPlayerPause) : i18n(Key.musicPlayerPlay)}>
+                 title={playTitle}>
                 <img src={getAssetPath(currentSong.cover)} alt={i18n(Key.musicPlayerCover)}
                      class="w-full h-full object-cover transition-transform duration-300"
                      class:spinning={isPlaying && !isLoading}
@@ -524,18 +574,19 @@ onDestroy(() => {
                  }}
                  role="button"
                  tabindex="0"
-                 aria-label={i18n(Key.musicPlayerExpand)}>
-                <div class="ignore text-sm font-medium text-90 truncate">{currentSong.title}</div>
-                <div class="ignore text-xs text-50 truncate ">{currentSong.artist}</div>
+                 >
+                <div class="ignore text-sm font-medium text-90 truncate" title={currentSong.title}>{currentSong.title}</div>
+                <div class="ignore text-xs text-50 truncate " title={currentSong.artist}>{currentSong.artist}</div>
             </div>
             <div class="flex items-center gap-1">
                 <button class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center"
                         on:click|stopPropagation={toggleHidden}
-                        title={i18n(Key.musicPlayerHide)}>
+                        title={hideTitle}>
                     <Icon icon="material-symbols:visibility-off" class="text-lg" />
                 </button>
                 <button class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center"
-                        on:click|stopPropagation={toggleExpanded}>
+                        on:click|stopPropagation={toggleExpanded}
+                        title={expandTitle}>
                     <Icon icon="material-symbols:expand-less" class="text-lg" />
                 </button>
             </div>
@@ -554,8 +605,8 @@ onDestroy(() => {
                      class:animate-pulse={isLoading} />
             </div>
             <div class="flex-1 min-w-0">
-                <div class="ignore song-title text-lg font-bold text-90 truncate mb-1">{currentSong.title}</div>
-                <div class="ignore song-artist text-sm text-50 truncate">{currentSong.artist}</div>
+                <div class="ignore song-title text-lg font-bold text-90 truncate mb-1" title={currentSong.title}>{currentSong.title}</div>
+                <div class="ignore song-artist text-sm text-50 truncate" title={currentSong.artist}>{currentSong.artist}</div>
                 <div class="text-xs text-30 mt-1">
                     {formatTime(currentTime)} / {formatTime(duration)}
                 </div>
@@ -563,13 +614,13 @@ onDestroy(() => {
             <div class="flex items-center gap-1">
                 <button class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center"
                         on:click={toggleHidden}
-                        title={i18n(Key.musicPlayerHide)}>
+                        title={hideTitle}>
                     <Icon icon="material-symbols:visibility-off" class="text-lg" />
                 </button>
                 <button class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center"
                         class:text-[var(--primary)]={showPlaylist}
                         on:click={togglePlaylist}
-                        title={i18n(Key.musicPlayerPlaylist)}>
+                        title={playlistTitle}>
                     <Icon icon="material-symbols:queue-music" class="text-lg" />
                 </button>
             </div>
@@ -591,7 +642,7 @@ onDestroy(() => {
                  }}
                  role="slider"
                  tabindex="0"
-                 aria-label={i18n(Key.musicPlayerProgress)}
+                 title={progressTitle}
                  aria-valuemin="0"
                  aria-valuemax="100"
                  aria-valuenow={duration > 0 ? (currentTime / duration * 100) : 0}>
@@ -604,16 +655,19 @@ onDestroy(() => {
                     class:btn-regular={isShuffled}
                     class:btn-plain={!isShuffled}
                     on:click={toggleShuffle}
+                    title={shuffleTitle}
                     disabled={playlist.length <= 1}>
                 <Icon icon="material-symbols:shuffle" class="text-lg" />
             </button>
             <button class="btn-plain w-10 h-10 rounded-lg" on:click={previousSong}
+                    title={previousTitle}
                     disabled={playlist.length <= 1}>
                 <Icon icon="material-symbols:skip-previous" class="text-xl" />
             </button>
             <button class="btn-regular w-12 h-12 rounded-full"
                     class:opacity-50={isLoading}
                     disabled={isLoading}
+                    title={playTitle}
                     on:click={togglePlay}>
                 {#if isLoading}
                     <Icon icon="eos-icons:loading" class="text-xl" />
@@ -624,12 +678,14 @@ onDestroy(() => {
                 {/if}
             </button>
             <button class="btn-plain w-10 h-10 rounded-lg" on:click={() => nextSong()}
+                    title={nextTitle}
                     disabled={playlist.length <= 1}>
                 <Icon icon="material-symbols:skip-next" class="text-xl" />
             </button>
             <button class="w-10 h-10 rounded-lg"
                     class:btn-regular={isRepeating > 0}
                     class:btn-plain={isRepeating === 0}
+                    title={repeatTitle}
                     on:click={toggleRepeat}>
                 {#if isRepeating === 1}
                     <Icon icon="material-symbols:repeat-one" class="text-lg" />
@@ -641,7 +697,7 @@ onDestroy(() => {
             </button>
         </div>
         <div class="bottom-controls flex items-center gap-2">
-            <button class="btn-plain w-8 h-8 rounded-lg" on:click={toggleMute}>
+            <button class="btn-plain w-8 h-8 rounded-lg" on:click={toggleMute} title={muteTitle}>
                 {#if isMuted || volume === 0}
                     <Icon icon="material-symbols:volume-off" class="text-lg" />
                 {:else if volume < 0.5}
@@ -650,7 +706,9 @@ onDestroy(() => {
                     <Icon icon="material-symbols:volume-up" class="text-lg" />
                 {/if}
             </button>
-            <div class="flex-1 h-2 bg-[var(--btn-regular-bg)] rounded-full cursor-pointer touch-none"
+            <div class="flex-1 h-2 bg-[var(--btn-regular-bg)] rounded-full cursor-pointer touch-none transition-opacity duration-300"
+                 class:opacity-50={isMuted}
+                 class:pointer-events-none={isMuted}
                  bind:this={volumeBar}
                  on:pointerdown={startVolumeDrag}
                  on:keydown={(e) => {
@@ -661,7 +719,7 @@ onDestroy(() => {
                  }}
                  role="slider"
                  tabindex="0"
-                 aria-label={i18n(Key.musicPlayerVolume)}
+                 title={volumeTitle}
                  aria-valuemin="0"
                  aria-valuemax="100"
                  aria-valuenow={volume * 100}>
@@ -672,7 +730,7 @@ onDestroy(() => {
             </div>
             <button class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center"
                     on:click={toggleExpanded}
-                    title={i18n(Key.musicPlayerCollapse)}>
+                    title={collapseTitle}>
                 <Icon icon="material-symbols:expand-more" class="text-lg" />
             </button>
         </div>
@@ -700,7 +758,7 @@ onDestroy(() => {
                          }}
                          role="button"
                          tabindex="0"
-                         aria-label="播放 {song.title} - {song.artist}">
+                         aria-label="play {song.title} - {song.artist}">
                         <div class="w-6 h-6 flex items-center justify-center">
                             {#if index === currentIndex && isPlaying}
                                 <Icon icon="material-symbols:graphic-eq" class="text-[var(--primary)] animate-pulse" />

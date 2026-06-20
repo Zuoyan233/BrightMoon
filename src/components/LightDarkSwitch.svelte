@@ -12,6 +12,8 @@ import { getStoredTheme, setTheme } from "@utils/setting-utils";
 import { onDestroy, onMount } from "svelte";
 import type { LIGHT_DARK_MODE } from "@/types/config.ts";
 
+let { title = "" }: { title?: string } = $props();
+
 let isOpen = false;
 let themePanel: HTMLElement;
 let currentMode: LIGHT_DARK_MODE = $state(DEFAULT_THEME);
@@ -113,6 +115,7 @@ onDestroy(() => {
 	<!-- 主题切换按钮 -->
 	<button
 		aria-label="Theme Switch"
+		title={title}
 		class="group btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90"
 		id="scheme-switch"
 		onclick={togglePanel}

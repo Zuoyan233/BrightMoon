@@ -52,6 +52,7 @@ export const ar: Translation = {
 	[Key.postsCount]: "منشورات",
 
 	[Key.appearance]: "المظهر",
+	[Key.themeSwitch]: "تبديل الثيم",
 	[Key.themeColor]: "لون المظهر",
 	[Key.sakuraEffect]: "تأثير الساكورا",
 	[Key.wavesEffect]: "تأثير الأمواج",
@@ -120,6 +121,8 @@ export const ar: Translation = {
 	[Key.musicPlayerRepeat]: "تكرار الكل",
 	[Key.musicPlayerRepeatOne]: "تكرار واحد",
 	[Key.musicPlayerVolume]: "التحكم في مستوى الصوت",
+	[Key.musicPlayerMute]: "كتم الصوت",
+	[Key.musicPlayerUnmute]: "إلغاء كتم الصوت",
 	[Key.musicPlayerProgress]: "تقدم التشغيل",
 	[Key.musicPlayerCover]: "الغلاف",
 	[Key.musicPlayerPlaylist]: "قائمة التشغيل",

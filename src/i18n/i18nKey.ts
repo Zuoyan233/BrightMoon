@@ -41,6 +41,7 @@ enum I18nKey {
 	postsCount = "postsCount",
 
 	appearance = "appearance",
+	themeSwitch = "themeSwitch",
 	themeColor = "themeColor",
 	sakuraEffect = "sakuraEffect",
 	wavesEffect = "wavesEffect",
@@ -114,6 +115,8 @@ enum I18nKey {
 	musicPlayerRepeat = "musicPlayerRepeat",
 	musicPlayerRepeatOne = "musicPlayerRepeatOne",
 	musicPlayerVolume = "musicPlayerVolume",
+	musicPlayerMute = "musicPlayerMute",
+	musicPlayerUnmute = "musicPlayerUnmute",
 	musicPlayerProgress = "musicPlayerProgress",
 	musicPlayerCover = "musicPlayerCover",
 	musicPlayerPlaylist = "musicPlayerPlaylist",

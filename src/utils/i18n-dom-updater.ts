@@ -166,6 +166,44 @@ export function applyI18nToDOM(
 		}
 	}
 
+	let titleAttrCount = 0;
+	const elementsWithTitle = root.querySelectorAll("[title]");
+	for (const element of elementsWithTitle) {
+		const value = element.getAttribute("title")?.trim();
+		if (!value) continue;
+
+		const key = textToKeyMap.get(value);
+		if (
+			key &&
+			targetTranslation[key] !== undefined &&
+			targetTranslation[key] !== value
+		) {
+			element.setAttribute("title", targetTranslation[key]);
+			titleAttrCount++;
+			element.classList.add("ignore");
+			element.setAttribute("data-i18n-handled", "true");
+		}
+	}
+
+	let ariaLabelCount = 0;
+	const elementsWithAriaLabel = root.querySelectorAll("[aria-label]");
+	for (const element of elementsWithAriaLabel) {
+		const value = element.getAttribute("aria-label")?.trim();
+		if (!value) continue;
+
+		const key = textToKeyMap.get(value);
+		if (
+			key &&
+			targetTranslation[key] !== undefined &&
+			targetTranslation[key] !== value
+		) {
+			element.setAttribute("aria-label", targetTranslation[key]);
+			ariaLabelCount++;
+			element.classList.add("ignore");
+			element.setAttribute("data-i18n-handled", "true");
+		}
+	}
+
 	let dataAttrCount = 0;
 	const elementsWithData = root.querySelectorAll(
 		"[data-prefix],[data-year],[data-month],[data-day],[data-hour],[data-minute],[data-second],[data-copied-text],[data-failed-text]",
@@ -197,7 +235,13 @@ export function applyI18nToDOM(
 		}
 	}
 
-	return replacedCount + placeholderCount + dataAttrCount;
+	return (
+		replacedCount +
+		placeholderCount +
+		titleAttrCount +
+		ariaLabelCount +
+		dataAttrCount
+	);
 }
 
 /**

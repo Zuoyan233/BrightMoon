@@ -52,6 +52,7 @@ export const ja: Translation = {
 	[Key.postsCount]: "投稿",
 
 	[Key.appearance]: "外観設定",
+	[Key.themeSwitch]: "テーマ切り替え",
 	[Key.themeColor]: "テーマカラー",
 	[Key.sakuraEffect]: "桜エフェクト",
 	[Key.wavesEffect]: "波紋エフェクト",
@@ -122,6 +123,8 @@ export const ja: Translation = {
 	[Key.musicPlayerRepeat]: "全曲リピート",
 	[Key.musicPlayerRepeatOne]: "一曲リピート",
 	[Key.musicPlayerVolume]: "音量調整",
+	[Key.musicPlayerMute]: "ミュート",
+	[Key.musicPlayerUnmute]: "ミュート解除",
 	[Key.musicPlayerProgress]: "再生状況",
 	[Key.musicPlayerCover]: "ジャケット",
 	[Key.musicPlayerPlaylist]: "プレイリスト",

@@ -52,6 +52,7 @@ export const ru: Translation = {
 	[Key.postsCount]: "записей",
 
 	[Key.appearance]: "Оформление",
+	[Key.themeSwitch]: "Переключить тему",
 	[Key.themeColor]: "Цвет темы",
 	[Key.sakuraEffect]: "Эффект сакуры",
 	[Key.wavesEffect]: "Эффект волн",
@@ -122,6 +123,8 @@ export const ru: Translation = {
 	[Key.musicPlayerRepeat]: "Повторять все",
 	[Key.musicPlayerRepeatOne]: "Повторять один",
 	[Key.musicPlayerVolume]: "Регулировка громкости",
+	[Key.musicPlayerMute]: "Отключить звук",
+	[Key.musicPlayerUnmute]: "Включить звук",
 	[Key.musicPlayerProgress]: "Прогресс воспроизведения",
 	[Key.musicPlayerCover]: "Обложка",
 	[Key.musicPlayerPlaylist]: "Плейлист",

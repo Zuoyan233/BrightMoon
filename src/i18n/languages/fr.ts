@@ -53,6 +53,7 @@ export const fr: Translation = {
 	[Key.postsCount]: "articles",
 
 	[Key.appearance]: "Apparence",
+	[Key.themeSwitch]: "Changer de thème",
 	[Key.themeColor]: "Couleur du thème",
 	[Key.sakuraEffect]: "Effet Sakura",
 	[Key.wavesEffect]: "Effet de vagues",
@@ -123,6 +124,8 @@ export const fr: Translation = {
 	[Key.musicPlayerRepeat]: "Répéter tout",
 	[Key.musicPlayerRepeatOne]: "Répéter un",
 	[Key.musicPlayerVolume]: "Contrôle du volume",
+	[Key.musicPlayerMute]: "Muet",
+	[Key.musicPlayerUnmute]: "Réactiver le son",
 	[Key.musicPlayerProgress]: "Progression de la lecture",
 	[Key.musicPlayerCover]: "Couverture",
 	[Key.musicPlayerPlaylist]: "Liste de lecture",

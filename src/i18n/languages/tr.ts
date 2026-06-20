@@ -52,6 +52,7 @@ export const tr: Translation = {
 	[Key.postsCount]: "gönderi",
 
 	[Key.appearance]: "Görünüm",
+	[Key.themeSwitch]: "Tema Değiştir",
 	[Key.themeColor]: "Tema Rengi",
 	[Key.sakuraEffect]: "Sakura Efekti",
 	[Key.wavesEffect]: "Dalga Efekti",
@@ -122,6 +123,8 @@ export const tr: Translation = {
 	[Key.musicPlayerRepeat]: "Tümünü Tekrarla",
 	[Key.musicPlayerRepeatOne]: "Birini Tekrarla",
 	[Key.musicPlayerVolume]: "Ses Kontrolü",
+	[Key.musicPlayerMute]: "Sessize Al",
+	[Key.musicPlayerUnmute]: "Sesi Aç",
 	[Key.musicPlayerProgress]: "Oynatma İlerlemesi",
 	[Key.musicPlayerCover]: "Kapak",
 	[Key.musicPlayerPlaylist]: "Çalma Listesi",

@@ -52,6 +52,7 @@ export const ko: Translation = {
 	[Key.postsCount]: "게시물",
 
 	[Key.appearance]: "개인 설정",
+	[Key.themeSwitch]: "테마 전환",
 	[Key.themeColor]: "테마 색상",
 	[Key.sakuraEffect]: "벚꽃 효과",
 	[Key.wavesEffect]: "물결 효과",
@@ -121,6 +122,8 @@ export const ko: Translation = {
 	[Key.musicPlayerRepeat]: "전체 반복",
 	[Key.musicPlayerRepeatOne]: "한 곡 반복",
 	[Key.musicPlayerVolume]: "볼륨 조절",
+	[Key.musicPlayerMute]: "음소거",
+	[Key.musicPlayerUnmute]: "음소거 해제",
 	[Key.musicPlayerProgress]: "재생 진행률",
 	[Key.musicPlayerCover]: "커버",
 	[Key.musicPlayerPlaylist]: "재생목록",

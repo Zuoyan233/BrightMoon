@@ -52,6 +52,7 @@ export const th: Translation = {
 	[Key.postsCount]: "โพสต์",
 
 	[Key.appearance]: "การปรับแต่ง",
+	[Key.themeSwitch]: "เปลี่ยนธีม",
 	[Key.themeColor]: "สีธีม",
 	[Key.sakuraEffect]: "เอฟเฟกต์ซากุระ",
 	[Key.wavesEffect]: "เอฟเฟกต์คลื่น",
@@ -118,6 +119,8 @@ export const th: Translation = {
 	[Key.musicPlayerRepeat]: "เล่นซ้ำทั้งหมด",
 	[Key.musicPlayerRepeatOne]: "เล่นซ้ำเพลงนี้",
 	[Key.musicPlayerVolume]: "ปรับระดับเสียง",
+	[Key.musicPlayerMute]: "ปิดเสียง",
+	[Key.musicPlayerUnmute]: "เปิดเสียง",
 	[Key.musicPlayerProgress]: "ความคืบหน้าในการเล่น",
 	[Key.musicPlayerCover]: "ปกอัลบั้ม",
 	[Key.musicPlayerPlaylist]: "รายการเพลง",

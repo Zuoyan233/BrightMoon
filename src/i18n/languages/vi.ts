@@ -52,6 +52,7 @@ export const vi: Translation = {
 	[Key.postsCount]: "bài viết",
 
 	[Key.appearance]: "Cá nhân hóa",
+	[Key.themeSwitch]: "Chuyển đổi chủ đề",
 	[Key.themeColor]: "Màu chủ đề",
 	[Key.sakuraEffect]: "Hiệu ứng hoa anh đào",
 	[Key.wavesEffect]: "Hiệu ứng sóng",
@@ -122,6 +123,8 @@ export const vi: Translation = {
 	[Key.musicPlayerRepeat]: "Phát lại tất cả",
 	[Key.musicPlayerRepeatOne]: "Phát lại một bài",
 	[Key.musicPlayerVolume]: "Điều chỉnh âm lượng",
+	[Key.musicPlayerMute]: "Tắt tiếng",
+	[Key.musicPlayerUnmute]: "Bật tiếng",
 	[Key.musicPlayerProgress]: "Tiến độ phát",
 	[Key.musicPlayerCover]: "Ảnh bìa",
 	[Key.musicPlayerPlaylist]: "Danh sách phát",

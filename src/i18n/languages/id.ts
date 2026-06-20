@@ -52,6 +52,7 @@ export const id: Translation = {
 	[Key.postsCount]: "postingan",
 
 	[Key.appearance]: "Tampilan",
+	[Key.themeSwitch]: "Ganti Tema",
 	[Key.themeColor]: "Warna Tema",
 	[Key.sakuraEffect]: "Efek Sakura",
 	[Key.wavesEffect]: "Efek Ombak",
@@ -121,6 +122,8 @@ export const id: Translation = {
 	[Key.musicPlayerRepeat]: "Ulangi Semua",
 	[Key.musicPlayerRepeatOne]: "Ulangi Satu",
 	[Key.musicPlayerVolume]: "Kontrol Volume",
+	[Key.musicPlayerMute]: "Bisu",
+	[Key.musicPlayerUnmute]: "Aktifkan Suara",
 	[Key.musicPlayerProgress]: "Kemajuan Pemutaran",
 	[Key.musicPlayerCover]: "Sampul",
 	[Key.musicPlayerPlaylist]: "Daftar Putar",

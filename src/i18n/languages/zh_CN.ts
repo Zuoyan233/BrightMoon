@@ -52,6 +52,7 @@ export const zh_CN: Translation = {
 	[Key.postsCount]: "篇文章",
 
 	[Key.appearance]: "个性化",
+	[Key.themeSwitch]: "主题切换",
 	[Key.themeColor]: "主题色",
 	[Key.sakuraEffect]: "樱花特效",
 	[Key.wavesEffect]: "水波纹特效",
@@ -118,6 +119,8 @@ export const zh_CN: Translation = {
 	[Key.musicPlayerRepeat]: "列表循环",
 	[Key.musicPlayerRepeatOne]: "单曲循环",
 	[Key.musicPlayerVolume]: "音量控制",
+	[Key.musicPlayerMute]: "静音",
+	[Key.musicPlayerUnmute]: "取消静音",
 	[Key.musicPlayerProgress]: "播放进度",
 	[Key.musicPlayerCover]: "封面",
 	[Key.musicPlayerPlaylist]: "播放列表",

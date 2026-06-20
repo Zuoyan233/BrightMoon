@@ -7,9 +7,11 @@ import { siteConfig } from "@/config";
 import { getTranslateLanguageFromConfig } from "@/utils/language-utils";
 import { translationManager } from "@/utils/translation-manager";
 
+let { title = "" }: { title?: string } = $props();
+
 let isOpen = false;
-let translatePanel: HTMLElement;
-let currentLanguage = "";
+let translatePanel: HTMLElement | undefined = $state();
+let currentLanguage = $state("");
 // 支持的语言列表
 const languages = [
 	{ code: "chinese_simplified", name: "简体中文", icon: "🇨🇳" },
@@ -41,17 +43,15 @@ function togglePanel() {
 }
 
 async function changeLanguage(languageCode: string) {
-	// 立即关闭面板，不等翻译完成
+	currentLanguage = languageCode;
+
 	isOpen = false;
 	if (translatePanel) {
 		translatePanel.classList.add("float-panel-closed");
 	}
 
 	try {
-		// Use the shared manager so every translation request goes through one queue.
 		await translationManager.setLanguage(languageCode);
-
-		currentLanguage = translationManager.getTargetLanguage() || languageCode;
 	} catch (error) {
 		console.error("[Translate] Failed to change language:", error);
 	}
@@ -89,9 +89,10 @@ onDestroy(() => {
     <!-- 翻译按钮 -->
     <button 
         aria-label="Language Translation" 
+        title={title}
         class="group btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90" 
         id="translate-switch"
-        on:click={togglePanel}
+        onclick={togglePanel}
     >
         <Icon icon="material-symbols:translate" class="text-[1.25rem] transition-all duration-250 ease-in-out text-black/75 dark:text-white/75 group-hover:text-[var(--primary)]"/>
     </button>
@@ -115,7 +116,7 @@ onDestroy(() => {
             {#each languages as lang}
                 <button
                     class="group flex items-center gap-3 p-2 rounded-lg hover:bg-[var(--btn-plain-bg-hover)] transition-colors text-left w-full {currentLanguage === lang.code ? 'bg-[var(--btn-plain-bg-hover)] border-1 border-[var(--primary)]' : ''}"
-                    on:click={() => changeLanguage(lang.code)}
+                    onclick={() => changeLanguage(lang.code)}
                 >
                     <span class="text-lg transition text-black/75 dark:text-white/75 group-hover:text-[var(--primary)]" style={currentLanguage === lang.code ? 'color: var(--primary)' : ''}>{lang.icon}</span>
                     <span class="text-sm font-bold transition text-black/75 dark:text-white/75 group-hover:text-[var(--primary)] {currentLanguage === lang.code ? 'font-bold' : ''}" style={currentLanguage === lang.code ? 'color: var(--primary)' : ''}>{lang.name}</span>

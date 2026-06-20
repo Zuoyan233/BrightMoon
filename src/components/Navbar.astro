@@ -2,6 +2,8 @@
 import { Icon } from "astro-icon/components";
 import { navBarConfig, siteConfig } from "../config";
 import { LinkPresets } from "../constants/link-presets";
+import I18nKey from "../i18n/i18nKey";
+import { i18n } from "../i18n/translation";
 import { LinkPreset, type NavBarLink } from "../types/config";
 import { url } from "../utils/url-utils";
 import LightDarkSwitch from "./LightDarkSwitch.svelte";
@@ -62,12 +64,12 @@ let links: NavBarLink[] = navBarConfig.links.map(
                 <Search client:only="svelte"></Search>
             </div>
             {!siteConfig.appearance.fixed && (
-                    <button aria-label="Display Settings" class="btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90" id="display-settings-switch">
+                    <button aria-label="Display Settings" title={i18n(I18nKey.appearance)} class="btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90" id="display-settings-switch">
                         <Icon name="material-symbols:palette-outline" class="text-[1.25rem]"></Icon>
                     </button>
             )}
-            <TranslateButton client:only="svelte"></TranslateButton>
-            <LightDarkSwitch client:only="svelte"></LightDarkSwitch>
+            <TranslateButton client:only="svelte" title={i18n(I18nKey.translateHeader)}></TranslateButton>
+            <LightDarkSwitch client:only="svelte" title={i18n(I18nKey.themeSwitch)}></LightDarkSwitch>
             <button aria-label="Menu" name="Nav Menu" class="btn-plain scale-animation rounded-lg w-11 h-11 active:scale-90 md:!hidden" id="nav-menu-switch">
                 <Icon name="material-symbols:unfold-more" class="text-[1.25rem]"></Icon>
             </button>
