@@ -556,9 +556,6 @@ const transparentClass = shouldEnableTransparency
 		});
 	})();
 	
-	// 根据壁纸模式动态设置 banner 和全屏壁纸的显示
-	// const wallpaperMode = localStorage.getItem('wallpaperMode') || defaultWallpaperMode;
-	
 	// 在 DOM 加载后执行
 	if (document.readyState === 'loading') {
 		document.addEventListener('DOMContentLoaded', applyWallpaperMode);
@@ -575,112 +572,84 @@ const transparentClass = shouldEnableTransparency
 		var mainContent = document.querySelector('.absolute.w-full.z-30.pointer-events-none');
 		var bannerCredit = document.getElementById('banner-credit');
 		
-		// 强制重排以确保样式正确应用
-		var forceReflow = function() {
-			void document.body.offsetHeight;
-		};
+		if (mainContent) {
+			mainContent.classList.remove('no-banner-layout');
+		}
 		
 		switch(wallpaperMode) {
 			case 'banner':
-				// 显示 banner，隐藏全屏壁纸
 				if (bannerWrapper) {
-					bannerWrapper.style.display = 'block';
+					bannerWrapper.style.opacity = '1';
+					bannerWrapper.style.pointerEvents = '';
 				}
 				if (fullscreenWallpaper) {
-					fullscreenWallpaper.style.display = 'none';
+					fullscreenWallpaper.classList.add('wallpaper-hiding');
 				}
 				if (bannerCredit) {
 					bannerCredit.style.display = '';
 				}
-				// 先移除body类，避免CSS冲突
-				body.classList.remove('wallpaper-transparent');
-				body.classList.remove('no-banner-mode');
-				// 强制重排
-				forceReflow();
-				// 移除内联样式，让CSS完全接管
 				if (mainContent) {
 					mainContent.style.removeProperty('top');
 				}
-				// 再添加enable-banner类
+				body.classList.remove('wallpaper-transparent');
+				body.classList.remove('no-banner-mode');
 				body.classList.add('enable-banner');
-				// navbar 恢复透明模式（优先读取用户本地设置，其次 config）
 				if (navbar) {
 					navbar.removeAttribute('data-dynamic-transparent');
 					var userNavbarMode = localStorage.getItem('navbarTransparentMode') || navbarTransparentMode;
 					navbar.setAttribute('data-transparent-mode', userNavbarMode);
-					// 如果是 semifull 模式，重新初始化滚动检测
 					if (userNavbarMode === 'semifull' && window.initSemifullScrollDetection) {
 						window.initSemifullScrollDetection();
 					} else {
 						navbar.classList.remove('scrolled');
 					}
 				}
-				// 强制重排以确保CSS变量正确更新
-				forceReflow();
 				break;
 				
 			case 'fullscreen':
-				// 隐藏 banner，显示全屏壁纸
 				if (bannerWrapper) {
-					bannerWrapper.style.display = 'none';
+					bannerWrapper.style.opacity = '0';
+					bannerWrapper.style.pointerEvents = 'none';
 				}
 				if (fullscreenWallpaper) {
-					fullscreenWallpaper.style.display = 'block';
+					fullscreenWallpaper.classList.remove('wallpaper-hiding');
 				}
 				if (bannerCredit) {
 					bannerCredit.style.display = 'none';
 				}
-				// 先移除body类，避免CSS冲突
-				body.classList.remove('enable-banner');
-				// 强制重排
-				forceReflow();
-				// 移除内联样式，让CSS完全接管
 				if (mainContent) {
 					mainContent.style.removeProperty('top');
 				}
-				// 再添加wallpaper-transparent和no-banner-mode类
+				body.classList.remove('enable-banner');
 				body.classList.add('wallpaper-transparent');
 				body.classList.add('no-banner-mode');
-				// navbar 强制设置为 semi 透明模式（忽略 config 配置）
 				if (navbar) {
 					navbar.setAttribute('data-dynamic-transparent', 'semi');
-					// 强制移除 config 中的 data-transparent-mode 影响
 					navbar.removeAttribute('data-transparent-mode');
 				}
-				// 强制重排以确保CSS变量正确更新
-				forceReflow();
 				break;
 				
 			case 'none':
-				// 隐藏所有壁纸
 				if (bannerWrapper) {
-					bannerWrapper.style.display = 'none';
+					bannerWrapper.style.opacity = '0';
+					bannerWrapper.style.pointerEvents = 'none';
 				}
 				if (fullscreenWallpaper) {
-					fullscreenWallpaper.style.display = 'none';
+					fullscreenWallpaper.classList.add('wallpaper-hiding');
 				}
 				if (bannerCredit) {
 					bannerCredit.style.display = 'none';
 				}
-				// 先移除body类，避免CSS冲突
-				body.classList.remove('enable-banner');
-				body.classList.remove('wallpaper-transparent');
-				// 强制重排
-				forceReflow();
-				// 移除内联样式，让CSS完全接管
 				if (mainContent) {
 					mainContent.style.removeProperty('top');
 				}
-				// 再添加no-banner-mode类
+				body.classList.remove('enable-banner');
+				body.classList.remove('wallpaper-transparent');
 				body.classList.add('no-banner-mode');
-				// navbar 强制设置为不透明（忽略 config 配置）
 				if (navbar) {
 					navbar.setAttribute('data-dynamic-transparent', 'none');
-					// 强制移除 config 中的 data-transparent-mode 影响
 					navbar.removeAttribute('data-transparent-mode');
 				}
-				// 强制重排以确保CSS变量正确更新
-				forceReflow();
 				break;
 		}
 	}
@@ -1218,6 +1187,11 @@ const transparentClass = shouldEnableTransparency
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* 主内容区域位置过渡 - 壁纸模式切换时平滑升降 */
+.absolute.w-full.z-30 {
+    transition: top 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* 当没有 banner 时，主内容区域移到顶部 */
