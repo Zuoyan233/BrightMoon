@@ -17,6 +17,7 @@ import type {
 	ShareConfig,
 	SidebarLayoutConfig,
 	SiteConfig,
+	VersionCheckConfig,
 	WeatherConfig,
 } from "./types/config";
 import { LinkPreset } from "./types/config";
@@ -501,6 +502,28 @@ export const footerConfig: FooterConfig = {
 	enable: true, // 是否启用Footer HTML注入功能
 	customHtml:
 		"This platform is a personal blog and is intended solely for learning and research purposes", // HTML格式的自定义页脚信息，例如备案号等，默认留空
+};
+
+// 版本检测组件配置
+export const versionCheckConfig: VersionCheckConfig = {
+	enable: true, // 是否启用版本检测按钮
+	autoCheck: true, // 是否启用自动检测更新
+
+	// 更新服务 API 地址，用于获取最新版本信息
+	// per_page 参数控制每次请求返回的最大 Release 数量，默认 5 条即可满足检测需求
+	// 如需检测其他仓库的版本更新，替换为对应的 API 地址即可
+	apiUrl:
+		"https://api.github.com/repos/Zuoyan233/BrightMoon/releases?per_page=5", // Github 格式：https://api.github.com/repos/{用户名}/{仓库名}/releases?per_page={数量}
+
+	// 版本号前缀正则模式，用于从 Release tag 中提取纯数字版本号
+	// 默认 "^(CE_V|v)" 会移除 tag 开头的 "CE_V" 或 "v" 前缀（不区分大小写）
+	// 例如：CE_V1.2.3 → 1.2.3，v2.0.0 → 2.0.0，1.0.0 → 1.0.0（无前缀则不处理）
+	// 如果你的项目使用了不同的 tag 命名规范，可以修改此正则以适配
+	// 常见示例：
+	//   "^(release-|v)"  → 匹配 release-1.0.0 或 v1.0.0
+	//   "^[a-zA-Z_-]*"   → 匹配任意字母/下划线/连字符前缀
+	//   ""               → 不移除任何前缀，直接使用原始 tag
+	versionPrefixPattern: "^(CE_V|v)",
 };
 
 // 天气组件配置

@@ -487,4 +487,21 @@ export const ja: Translation = {
 		"src/config.ts で Twikoo コメントシステムを設定してください",
 	[Key.twikooPrivacyRejected]:
 		"プライバシー契約を拒否したため、Twikooコメントシステムは無効になりました",
+
+	// バージョン更新チェック
+	[Key.versionCheck]: "更新を確認",
+	[Key.versionLatest]: "最新バージョンです",
+	[Key.versionNewVersion]: "新しいバージョンがあります",
+	[Key.versionChecking]: "確認中...",
+	[Key.versionCheckError]: "確認に失敗しました",
+	[Key.versionPreRelease]: "ベータ版",
+	[Key.versionCheckFailedTitle]: "更新チェック失敗",
+	[Key.versionCheckFailedDesc]:
+		"更新を確認できません。通常は更新サービスAPIのレート制限、または更新サービスAPIアドレスが設定されていないことが原因です。しばらくしてからもう一度お試しください",
+	[Key.versionCheckSuccessTitle]: "チェック成功",
+	[Key.versionCheckSuccessDesc]:
+		"新しいバージョンは見つかりませんでした。最新バージョンです",
+	[Key.versionDownload]: "最新バージョンをダウンロード",
+	[Key.versionUpdateWarning]:
+		"新バージョンはフレームワークの変更が大きいため、アップグレード前にデータをバックアップしてください",
 };

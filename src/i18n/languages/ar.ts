@@ -482,4 +482,21 @@ export const ar: Translation = {
 	[Key.twikooConfigHint]: "يرجى تكوين نظام التعليقات Twikoo في src/config.ts",
 	[Key.twikooPrivacyRejected]:
 		"تمم تعطيل نظام تعليقات Twikoo بسبب رفض اتفاقية الخصوصية",
+
+	// التحقق من التحديثات
+	[Key.versionCheck]: "التحقق من التحديثات",
+	[Key.versionLatest]: "أحدث إصدار",
+	[Key.versionNewVersion]: "يتوفر إصدار جديد",
+	[Key.versionChecking]: "جارٍ التحقق...",
+	[Key.versionCheckError]: "فشل التحقق",
+	[Key.versionPreRelease]: "تجريبي",
+	[Key.versionCheckFailedTitle]: "فشل التحقق من التحديث",
+	[Key.versionCheckFailedDesc]:
+		"تعذر التحقق من التحديثات، عادةً بسبب تحديد معدل طلبات API خدمة التحديث أو عدم تكوين عنوان API خدمة التحديث. يرجى المحاولة مرة أخرى لاحقًا",
+	[Key.versionCheckSuccessTitle]: "تم التحقق بنجاح",
+	[Key.versionCheckSuccessDesc]:
+		"لم يتم العثور على إصدار جديد. أنت تستخدم أحدث إصدار",
+	[Key.versionDownload]: "تحميل أحدث إصدار",
+	[Key.versionUpdateWarning]:
+		"يحتوي الإصدار الجديد على تغييرات كبيرة في إطار العمل. يرجى نسخ بياناتك احتياطيًا قبل التحديث.",
 };

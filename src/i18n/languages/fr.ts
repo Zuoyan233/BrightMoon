@@ -510,4 +510,21 @@ export const fr: Translation = {
 		"Veuillez configurer le système de commentaires Twikoo dans src/config.ts",
 	[Key.twikooPrivacyRejected]:
 		"Le système de commentaires Twikoo a été désactivé en raison du refus de l'accord de confidentialité",
+
+	// Vérification de version
+	[Key.versionCheck]: "Vérifier les mises à jour",
+	[Key.versionLatest]: "À jour",
+	[Key.versionNewVersion]: "Nouvelle version disponible",
+	[Key.versionChecking]: "Vérification...",
+	[Key.versionCheckError]: "Échec de la vérification",
+	[Key.versionPreRelease]: "Bêta",
+	[Key.versionCheckFailedTitle]: "Échec de la vérification",
+	[Key.versionCheckFailedDesc]:
+		"Impossible de vérifier les mises à jour, généralement en raison de la limitation de débit de l'API du service de mise à jour ou de l'absence d'adresse API du service de mise à jour. Veuillez réessayer plus tard",
+	[Key.versionCheckSuccessTitle]: "Vérification réussie",
+	[Key.versionCheckSuccessDesc]:
+		"Aucune nouvelle version trouvée. Vous êtes à jour",
+	[Key.versionDownload]: "Télécharger la dernière version",
+	[Key.versionUpdateWarning]:
+		"La nouvelle version apporte des modifications majeures au framework. Veuillez sauvegarder vos données avant la mise à jour.",
 };

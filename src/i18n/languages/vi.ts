@@ -491,4 +491,21 @@ export const vi: Translation = {
 		"Vui lòng cấu hình hệ thống bình luận Twikoo trong src/config.ts",
 	[Key.twikooPrivacyRejected]:
 		"Hệ thống bình luận Twikoo đã bị tắt do từ chối thỏa thuận quyền riêng tư",
+
+	// Kiểm tra phiên bản
+	[Key.versionCheck]: "Kiểm tra cập nhật",
+	[Key.versionLatest]: "Đã là phiên bản mới nhất",
+	[Key.versionNewVersion]: "Có phiên bản mới",
+	[Key.versionChecking]: "Đang kiểm tra...",
+	[Key.versionCheckError]: "Kiểm tra thất bại",
+	[Key.versionPreRelease]: "Beta",
+	[Key.versionCheckFailedTitle]: "Kiểm tra cập nhật thất bại",
+	[Key.versionCheckFailedDesc]:
+		"Không thể kiểm tra cập nhật, thường do giới hạn tần suất API dịch vụ cập nhật hoặc chưa điền địa chỉ API dịch vụ cập nhật. Vui lòng thử lại sau",
+	[Key.versionCheckSuccessTitle]: "Kiểm tra thành công",
+	[Key.versionCheckSuccessDesc]:
+		"Không tìm thấy phiên bản mới. Bạn đang sử dụng phiên bản mới nhất.",
+	[Key.versionDownload]: "Tải xuống phiên bản mới nhất",
+	[Key.versionUpdateWarning]:
+		"Phiên bản mới có thay đổi lớn về framework. Vui lòng sao lưu dữ liệu trước khi nâng cấp.",
 };

@@ -459,6 +459,20 @@ enum I18nKey {
 	twikooNotConfigured = "twikooNotConfigured",
 	twikooConfigHint = "twikooConfigHint",
 	twikooPrivacyRejected = "twikooPrivacyRejected",
+
+	// 版本更新检测
+	versionCheck = "versionCheck",
+	versionLatest = "versionLatest",
+	versionNewVersion = "versionNewVersion",
+	versionChecking = "versionChecking",
+	versionCheckError = "versionCheckError",
+	versionPreRelease = "versionPreRelease",
+	versionCheckFailedTitle = "versionCheckFailedTitle",
+	versionCheckFailedDesc = "versionCheckFailedDesc",
+	versionCheckSuccessTitle = "versionCheckSuccessTitle",
+	versionCheckSuccessDesc = "versionCheckSuccessDesc",
+	versionDownload = "versionDownload",
+	versionUpdateWarning = "versionUpdateWarning",
 }
 
 export default I18nKey;

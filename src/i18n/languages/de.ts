@@ -504,4 +504,21 @@ export const de: Translation = {
 		"Bitte konfigurieren Sie das Twikoo-Kommentarsystem in src/config.ts",
 	[Key.twikooPrivacyRejected]:
 		"Das Twikoo-Kommentarsystem wurde deaktiviert, da die Datenschutzvereinbarung abgelehnt wurde",
+
+	// Versionsprüfung
+	[Key.versionCheck]: "Auf Updates prüfen",
+	[Key.versionLatest]: "Aktuell",
+	[Key.versionNewVersion]: "Neue Version verfügbar",
+	[Key.versionChecking]: "Prüfe...",
+	[Key.versionCheckError]: "Prüfung fehlgeschlagen",
+	[Key.versionPreRelease]: "Beta",
+	[Key.versionCheckFailedTitle]: "Update-Prüfung fehlgeschlagen",
+	[Key.versionCheckFailedDesc]:
+		"Update-Prüfung nicht möglich, normalerweise aufgrund der API-Ratenbegrenzung des Aktualisierungsdienstes oder weil keine API-Adresse des Aktualisierungsdienstes konfiguriert ist. Bitte versuchen Sie es später erneut",
+	[Key.versionCheckSuccessTitle]: "Überprüfung erfolgreich",
+	[Key.versionCheckSuccessDesc]:
+		"Keine neue Version gefunden. Sie sind auf dem neuesten Stand",
+	[Key.versionDownload]: "Neueste Version herunterladen",
+	[Key.versionUpdateWarning]:
+		"Die neue Version enthält größere Framework-Änderungen. Bitte sichern Sie Ihre Daten vor dem Upgrade.",
 };

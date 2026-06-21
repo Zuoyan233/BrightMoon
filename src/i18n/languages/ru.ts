@@ -492,4 +492,21 @@ export const ru: Translation = {
 		"Пожалуйста, настройте систему комментариев Twikoo в src/config.ts",
 	[Key.twikooPrivacyRejected]:
 		"Система комментариев Twikoo отключена из-за отказа от соглашения о конфиденциальности",
+
+	// Проверка обновлений
+	[Key.versionCheck]: "Проверить обновления",
+	[Key.versionLatest]: "Актуальная версия",
+	[Key.versionNewVersion]: "Доступна новая версия",
+	[Key.versionChecking]: "Проверка...",
+	[Key.versionCheckError]: "Ошибка проверки",
+	[Key.versionPreRelease]: "Бета",
+	[Key.versionCheckFailedTitle]: "Ошибка проверки обновлений",
+	[Key.versionCheckFailedDesc]:
+		"Не удалось проверить обновления, обычно из-за ограничения частоты запросов API службы обновлений или отсутствия настроенного адреса API службы обновлений. Пожалуйста, повторите попытку позже",
+	[Key.versionCheckSuccessTitle]: "Проверка успешна",
+	[Key.versionCheckSuccessDesc]:
+		"Новых версий не найдено. У вас последняя версия.",
+	[Key.versionDownload]: "Скачать последнюю версию",
+	[Key.versionUpdateWarning]:
+		"В новой версии значительные изменения фреймворка. Пожалуйста, сделайте резервную копию данных перед обновлением.",
 };

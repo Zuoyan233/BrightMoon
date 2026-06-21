@@ -473,4 +473,20 @@ export const th: Translation = {
 	[Key.twikooConfigHint]: "โปรดกำหนดค่าระบบความคิดเห็น Twikoo ใน src/config.ts",
 	[Key.twikooPrivacyRejected]:
 		"ระบบความคิดเห็น Twikoo ถูกปิดใช้งานเนื่องจากการปฏิเสธข้อตกลงความเป็นส่วนตัว",
+
+	// ตรวจสอบเวอร์ชัน
+	[Key.versionCheck]: "ตรวจสอบอัปเดต",
+	[Key.versionLatest]: "เป็นเวอร์ชันล่าสุด",
+	[Key.versionNewVersion]: "มีเวอร์ชันใหม่",
+	[Key.versionChecking]: "กำลังตรวจสอบ...",
+	[Key.versionCheckError]: "ตรวจสอบล้มเหลว",
+	[Key.versionPreRelease]: "เบต้า",
+	[Key.versionCheckFailedTitle]: "ตรวจสอบอัปเดตล้มเหลว",
+	[Key.versionCheckFailedDesc]:
+		"ไม่สามารถตรวจสอบอัปเดตได้ โดยปกติเกิดจากข้อจำกัดอัตราการเรียก API ของบริการอัปเดต หรือไม่ได้กำหนดที่อยู่ API ของบริการอัปเดต โปรดลองอีกครั้งในภายหลัง",
+	[Key.versionCheckSuccessTitle]: "ตรวจสอบสำเร็จ",
+	[Key.versionCheckSuccessDesc]: "ไม่พบเวอร์ชันใหม่ คุณใช้เวอร์ชันล่าสุดแล้ว",
+	[Key.versionDownload]: "ดาวน์โหลดเวอร์ชันล่าสุด",
+	[Key.versionUpdateWarning]:
+		"เวอร์ชันใหม่มีการเปลี่ยนแปลงเฟรมเวิร์กอย่างมาก โปรดสำรองข้อมูลก่อนอัปเกรด",
 };

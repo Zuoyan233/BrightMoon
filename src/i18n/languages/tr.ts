@@ -498,4 +498,21 @@ export const tr: Translation = {
 		"Lütfen Twikoo yorum sistemini src/config.ts dosyasında yapılandırın",
 	[Key.twikooPrivacyRejected]:
 		"Gizlilik sözleşmesinin reddedilmesi nedeniyle Twikoo yorum sistemi kapatılmıştır",
+
+	// Sürüm Kontrolü
+	[Key.versionCheck]: "Güncellemeleri kontrol et",
+	[Key.versionLatest]: "Güncel",
+	[Key.versionNewVersion]: "Yeni sürüm mevcut",
+	[Key.versionChecking]: "Kontrol ediliyor...",
+	[Key.versionCheckError]: "Kontrol başarısız",
+	[Key.versionPreRelease]: "Beta",
+	[Key.versionCheckFailedTitle]: "Güncelleme Kontrolü Başarısız",
+	[Key.versionCheckFailedDesc]:
+		"Güncellemeler kontrol edilemiyor, genellikle güncelleme hizmeti API hız sınırlaması veya güncelleme hizmeti API adresinin yapılandırılmamış olması nedeniyle. Lütfen daha sonra tekrar deneyin",
+	[Key.versionCheckSuccessTitle]: "Kontrol başarılı",
+	[Key.versionCheckSuccessDesc]:
+		"Yeni sürüm bulunamadı. Güncel sürümü kullanıyorsunuz",
+	[Key.versionDownload]: "Son Sürümü İndir",
+	[Key.versionUpdateWarning]:
+		"Yeni sürümde büyük framework değişiklikleri var. Lütfen yükseltmeden önce verilerinizi yedekleyin.",
 };

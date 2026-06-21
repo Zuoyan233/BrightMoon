@@ -470,4 +470,20 @@ export const zh_TW: Translation = {
 	[Key.twikooNotConfigured]: "Twikoo 留言系統暫未配置",
 	[Key.twikooConfigHint]: "請在 src/config.ts 中配置 Twikoo 留言系統",
 	[Key.twikooPrivacyRejected]: "因拒絕隱私协议，Twikoo 留言系統已關閉",
+
+	// 版本更新檢測
+	[Key.versionCheck]: "檢查更新",
+	[Key.versionLatest]: "已是最新版本",
+	[Key.versionNewVersion]: "發現新版本",
+	[Key.versionChecking]: "檢查中...",
+	[Key.versionCheckError]: "檢查失敗",
+	[Key.versionPreRelease]: "測試版",
+	[Key.versionCheckFailedTitle]: "檢查更新失敗",
+	[Key.versionCheckFailedDesc]:
+		"無法檢查更新，通常是由於更新服務 API 請求頻率限制或者沒有填入更新服務 API 位址導致更新失敗，請稍後再試",
+	[Key.versionCheckSuccessTitle]: "檢查成功",
+	[Key.versionCheckSuccessDesc]: "目前沒有發現新版本，您已是最新版本",
+	[Key.versionDownload]: "下載最新版本",
+	[Key.versionUpdateWarning]:
+		"新版本框架改動較大移植需自行測試，請提前備份好資料",
 };

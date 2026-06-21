@@ -491,4 +491,21 @@ export const id: Translation = {
 		"Silakan konfigurasi sistem komentar Twikoo di src/config.ts",
 	[Key.twikooPrivacyRejected]:
 		"Sistem komentar Twikoo telah dinonaktifkan karena penolakan perjanjian privasi",
+
+	// Pemeriksaan Versi
+	[Key.versionCheck]: "Periksa Pembaruan",
+	[Key.versionLatest]: "Versi terbaru",
+	[Key.versionNewVersion]: "Versi baru tersedia",
+	[Key.versionChecking]: "Memeriksa...",
+	[Key.versionCheckError]: "Pemeriksaan gagal",
+	[Key.versionPreRelease]: "Beta",
+	[Key.versionCheckFailedTitle]: "Pemeriksaan Pembaruan Gagal",
+	[Key.versionCheckFailedDesc]:
+		"Tidak dapat memeriksa pembaruan, biasanya disebabkan oleh batasan kecepatan API layanan pembaruan atau tidak adanya alamat API layanan pembaruan yang dikonfigurasi. Silakan coba lagi nanti",
+	[Key.versionCheckSuccessTitle]: "Pemeriksaan berhasil",
+	[Key.versionCheckSuccessDesc]:
+		"Tidak ada versi baru ditemukan. Anda sudah menggunakan versi terbaru",
+	[Key.versionDownload]: "Unduh Versi Terbaru",
+	[Key.versionUpdateWarning]:
+		"Versi baru memiliki perubahan framework yang besar. Harap cadangkan data Anda sebelum meningkatkan.",
 };

@@ -484,4 +484,21 @@ export const ko: Translation = {
 	[Key.twikooConfigHint]: "src/config.ts 에서 Twikoo 댓글 시스템을 구성하세요",
 	[Key.twikooPrivacyRejected]:
 		"개인정보 계약을 거부하여 Twikoo 댓글 시스템이 비활성화되었습니다",
+
+	// 버전 업데이트 확인
+	[Key.versionCheck]: "업데이트 확인",
+	[Key.versionLatest]: "최신 버전입니다",
+	[Key.versionNewVersion]: "새 버전이 있습니다",
+	[Key.versionChecking]: "확인 중...",
+	[Key.versionCheckError]: "확인 실패",
+	[Key.versionPreRelease]: "베타",
+	[Key.versionCheckFailedTitle]: "업데이트 확인 실패",
+	[Key.versionCheckFailedDesc]:
+		"업데이트를 확인할 수 없습니다. 일반적으로 업데이트 서비스 API 속도 제한 또는 업데이트 서비스 API 주소가 설정되지 않아 발생합니다. 나중에 다시 시도해 주세요",
+	[Key.versionCheckSuccessTitle]: "확인 성공",
+	[Key.versionCheckSuccessDesc]:
+		"현재 새 버전이 발견되지 않았습니다. 최신 버전입니다",
+	[Key.versionDownload]: "최신 버전 다운로드",
+	[Key.versionUpdateWarning]:
+		"새 버전은 프레임워크 변경이 크므로 업그레이드 전 데이터를 백업하세요",
 };

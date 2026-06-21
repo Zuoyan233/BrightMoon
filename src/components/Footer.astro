@@ -1,9 +1,20 @@
 ---
-
-import { footerConfig, profileConfig } from "../config";
+import { Icon } from "astro-icon/components";
+import packageJson from "../../package.json";
+import {
+	footerConfig,
+	profileConfig,
+	siteConfig,
+	versionCheckConfig,
+} from "../config";
+import I18nKey from "../i18n/i18nKey";
+import { i18n } from "../i18n/translation";
+import { allTranslations } from "../utils/i18n-dom-updater";
+import { translateToLangMap } from "../utils/language-utils";
 import { url } from "../utils/url-utils";
 
 const currentYear = new Date().getFullYear();
+const currentVersion = packageJson.version;
 
 // 页脚自定义内容逻辑
 let customFooterHtml = "";
@@ -13,6 +24,29 @@ if (
 	footerConfig.customHtml.trim() !== ""
 ) {
 	customFooterHtml = footerConfig.customHtml.trim();
+}
+
+const versionCheckText = i18n(I18nKey.versionCheck);
+const versionPreReleaseText = i18n(I18nKey.versionPreRelease);
+const versionCheckFailedTitle = i18n(I18nKey.versionCheckFailedTitle);
+const versionCheckFailedDesc = i18n(I18nKey.versionCheckFailedDesc);
+const versionCheckSuccessTitle = i18n(I18nKey.versionCheckSuccessTitle);
+const versionCheckSuccessDesc = i18n(I18nKey.versionCheckSuccessDesc);
+const versionUpdateWarning = i18n(I18nKey.versionUpdateWarning);
+const versionDownloadText = i18n(I18nKey.versionDownload);
+const cancelText = i18n(I18nKey.cancelText);
+
+// 构建版本检测相关翻译映射表（用于动态语言切换）
+const versionTranslations: Record<string, Record<string, string>> = {};
+for (const [lang, tr] of Object.entries(allTranslations)) {
+	versionTranslations[lang] = {
+		versionCheck: tr[I18nKey.versionCheck] || "",
+		versionLatest: tr[I18nKey.versionLatest] || "",
+		versionNewVersion: tr[I18nKey.versionNewVersion] || "",
+		versionChecking: tr[I18nKey.versionChecking] || "",
+		versionCheckError: tr[I18nKey.versionCheckError] || "",
+		versionCheckFailedTitle: tr[I18nKey.versionCheckFailedTitle] || "",
+	};
 }
 ---
 
@@ -35,9 +69,170 @@ if (
     <div class="ignore">
 			Powered by
 			<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://astro.build">Astro</a> &
-			<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://github.com/Zuoyan233/BrightMoon">BrightMoon</a> CE V26.6.18
-			
+			<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://github.com/Zuoyan233/BrightMoon">BrightMoon</a> CE V{currentVersion}
     </div>
-		
+
+    {versionCheckConfig.enable && (
+    <div class="ignore mt-3 version-check-widget">
+			<button
+				class="version-check-btn gap-1 transition link text-[var(--primary)] font-medium inline-flex items-center"
+				title={versionCheckText}
+			>
+				<span class="inline-flex items-center dark:text-[var(--primary)]">
+					<Icon name="material-symbols:update" class="w-3.5 h-3.5 icon-default" />
+					<Icon name="material-symbols:check-circle-outline" class="w-3.5 h-3.5 hidden icon-uptodate" />
+					<Icon name="material-symbols:cloud-download-outline" class="w-3.5 h-3.5 hidden icon-new" />
+					<Icon name="material-symbols:error-outline" class="w-3.5 h-3.5 hidden icon-error" />
+				</span>
+				<span class="version-check-text dark:text-[var(--primary)]">{versionCheckText}</span>
+				<span class="version-dot hidden absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-[var(--card-bg)]"></span>
+			</button>
+
+		<!-- 版本检查失败对话框 -->
+		<dialog
+			class="version-check-failed-dialog dialog fixed inset-0 m-auto border border-[var(--line-divider)] rounded-[var(--radius-large)] bg-[var(--float-panel-bg)] p-0 w-[90%] max-w-[440px] shadow-lg overflow-hidden transition-all duration-250 ease-[cubic-bezier(0.2,0,0,1)] opacity-0 scale-95 translate-y-2.5 [&.dialog-show]:opacity-100 [&.dialog-show]:scale-100 [&.dialog-show]:translate-y-0 backdrop:bg-black/50 backdrop:backdrop-blur-[5px] backdrop:opacity-0 backdrop:transition-opacity backdrop:duration-250 [&.dialog-show]:backdrop:opacity-100"
+		>
+			<div class="absolute inset-0 bg-[image:var(--dialog-bg-img)] bg-auto bg-right-bottom bg-no-repeat opacity-18 z-0 pointer-events-none"></div>
+
+			<div class="relative z-10 p-8 pb-7 flex flex-col gap-5">
+				<div class="flex items-center justify-center gap-2.5 text-[var(--primary)]">
+					<Icon name="material-symbols:error-outline" class="text-3xl"></Icon>
+					<h3 class="m-0 text-[1.35rem] font-semibold text-[var(--btn-plain)]">{versionCheckFailedTitle}</h3>
+				</div>
+
+				<img class="mx-auto block" src='/assets/home/home.webp' width='200px' alt="BrightMoon logo">
+
+				<div class="flex items-center justify-center text-[0.9rem]">
+						<span class="ignore inline-flex items-center gap-1 text-[0.9rem] text-[var(--primary)] font-semibold">BrightMoon CE_V{currentVersion}</span>
+				</div>
+
+				<div class="flex flex-col gap-4">
+					<p class="m-0 text-[0.95rem] text-center text-[var(--content-meta)]">{versionCheckFailedDesc}</p>
+				</div>
+
+				<div class="flex justify-center gap-4 mt-2">
+					<button
+						class="version-check-failed-close border-none rounded-[8px] py-2.5 px-7 text-[0.95rem] font-semibold cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] active:scale-95 bg-transparent border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--btn-plain-bg-hover)]">{cancelText}</button
+					>
+				</div>
+			</div>
+		</dialog>
+
+		<!-- 版本检查成功对话框 -->
+		<dialog
+			class="version-check-success-dialog dialog fixed inset-0 m-auto border border-[var(--line-divider)] rounded-[var(--radius-large)] bg-[var(--float-panel-bg)] p-0 w-[90%] max-w-[440px] shadow-lg overflow-hidden transition-all duration-250 ease-[cubic-bezier(0.2,0,0,1)] opacity-0 scale-95 translate-y-2.5 [&.dialog-show]:opacity-100 [&.dialog-show]:scale-100 [&.dialog-show]:translate-y-0 backdrop:bg-black/50 backdrop:backdrop-blur-[5px] backdrop:opacity-0 backdrop:transition-opacity backdrop:duration-250 [&.dialog-show]:backdrop:opacity-100"
+		>
+			<div class="absolute inset-0 bg-[image:var(--dialog-bg-img)] bg-auto bg-right-bottom bg-no-repeat opacity-18 z-0 pointer-events-none"></div>
+
+			<div class="relative z-10 p-8 pb-7 flex flex-col gap-5">
+				<div class="flex items-center justify-center gap-2.5 text-[var(--primary)]">
+					<Icon name="material-symbols:check-circle-outline" class="text-3xl"></Icon>
+					<h3 class="m-0 text-[1.35rem] font-semibold text-[var(--btn-plain)]">{versionCheckSuccessTitle}</h3>
+				</div>
+
+				<div class="flex flex-col gap-4">
+					<img class="mx-auto block" src='/assets/home/home.webp' width='200px' alt="BrightMoon logo">
+					<div class="flex items-center justify-center text-[0.9rem]">
+						<span class="ignore inline-flex items-center gap-1 text-[0.9rem] text-[var(--primary)] font-semibold">BrightMoon CE_V{currentVersion}</span>
+					</div>
+					<p class="m-0 text-[0.95rem] text-center text-[var(--content-meta)]">{versionCheckSuccessDesc}</p>
+				</div>
+
+				<div class="flex justify-center gap-4 mt-2">
+					<button
+						class="version-check-success-close border-none rounded-[8px] py-2.5 px-7 text-[0.95rem] font-semibold cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] active:scale-95 bg-transparent border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--btn-plain-bg-hover)]">{cancelText}</button
+					>
+				</div>
+			</div>
+		</dialog>
+
+		<!-- 发现新版本对话框 -->
+		<dialog
+			class="version-check-new-dialog dialog fixed inset-0 m-auto border border-[var(--line-divider)] rounded-[var(--radius-large)] bg-[var(--float-panel-bg)] p-0 w-[90%] max-w-[520px] shadow-lg overflow-hidden transition-all duration-250 ease-[cubic-bezier(0.2,0,0,1)] opacity-0 scale-95 translate-y-2.5 [&.dialog-show]:opacity-100 [&.dialog-show]:scale-100 [&.dialog-show]:translate-y-0 backdrop:bg-black/50 backdrop:backdrop-blur-[5px] backdrop:opacity-0 backdrop:transition-opacity backdrop:duration-250 [&.dialog-show]:backdrop:opacity-100"
+		>
+			<div class="absolute inset-0 bg-[image:var(--dialog-bg-img)] bg-auto bg-right-bottom bg-no-repeat opacity-18 z-0 pointer-events-none"></div>
+
+			<div class="relative z-10 p-8 pb-7 flex flex-col gap-5">
+				<div class="flex items-center justify-center gap-2.5 text-[var(--primary)]">
+					<Icon name="material-symbols:cloud-download-outline" class="text-3xl"></Icon>
+					<h3 class="m-0 text-[1.35rem] font-semibold text-[var(--btn-plain)] version-new-dialog-title"></h3>
+				</div>
+
+				<img class="mx-auto block" src='/assets/home/home.webp' width='200px' alt="BrightMoon logo">
+
+				<div class="flex flex-col gap-3">
+					<div class="version-new-dialog-versions flex items-center justify-center gap-3 text-[0.9rem]">
+						<span class="version-new-tag ignore inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-[var(--primary)]/10 text-[var(--primary)] font-semibold"></span>
+					</div>
+					<div class="version-pre-badge hidden flex justify-center">
+						<span class="ignore text-[0.8rem] px-2 py-1.5 rounded-xl bg-[var(--primary)] text-white/90 font-medium leading-none">{versionPreReleaseText}</span>
+					</div>
+					<div class="version-new-dialog-body text-[0.9rem] text-[var(--content-meta)] leading-relaxed max-h-50 overflow-y-auto rounded-xl bg-[var(--codeblock-bg)] border border-[var(--line-color)] py-3 px-4 break-words"></div>
+				</div>
+
+				<div class="flex items-center justify-center gap-1.5 text-[0.85rem] text-[var(--content-meta)] m-0">
+					<Icon name="material-symbols:error-outline" class="text-xl text-[var(--primary)]"></Icon>
+					{versionUpdateWarning}
+            	</div>
+
+				<div class="flex justify-center gap-4 mt-2">
+					<button
+						class="version-check-new-download border-none rounded-[8px] py-2.5 px-7 text-[0.95rem] font-semibold cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] active:scale-95 bg-[var(--btn-regular-bg)] text-[var(--btn-content)] hover:bg-[var(--btn-regular-bg-hover)] inline-flex items-center gap-1"
+					>
+						{versionDownloadText}
+					</button>
+					<button
+						class="version-check-new-close border-none rounded-[8px] py-2.5 px-7 text-[0.95rem] font-semibold cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] active:scale-95 bg-transparent border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--btn-plain-bg-hover)]">{cancelText}</button
+					>
+				</div>
+			</div>
+		</dialog>
+    </div>
+    )}
 	</div>
 </div>
+
+<script is:inline define:vars={{ 
+  currentVersion, 
+  versionCheckApiUrl: versionCheckConfig.apiUrl,
+  versionPrefixPattern: versionCheckConfig.versionPrefixPattern,
+  versionCheckAutoCheck: versionCheckConfig.autoCheck,
+  versionTranslations,
+  translateToLangMap,
+  defaultLang: siteConfig.lang
+}}>
+  window.__VERSION_CHECK_CONFIG__ = {
+    currentVersion: currentVersion,
+    versionCheckApiUrl: versionCheckApiUrl,
+    versionPrefixPattern: versionPrefixPattern,
+    autoCheck: versionCheckAutoCheck,
+    versionTranslations: versionTranslations,
+    translateToLangMap: translateToLangMap,
+    defaultLang: defaultLang
+  };
+</script>
+<script>
+  import VersionChecker from "../scripts/version-check.js";
+  new VersionChecker((window as any).__VERSION_CHECK_CONFIG__);
+</script>
+
+<style is:inline>
+.version-new-dialog-body::-webkit-scrollbar {
+	height: 6px;
+	width: 6px;
+}
+.version-new-dialog-body::-webkit-scrollbar-track {
+	background: transparent;
+	margin: 0 calc(var(--radius-large) + 2px);
+}
+.version-new-dialog-body::-webkit-scrollbar-thumb {
+	background: var(--scrollbar-bg);
+	border-radius: 4px;
+}
+.version-new-dialog-body::-webkit-scrollbar-thumb:hover {
+	background: var(--scrollbar-bg-hover);
+}
+.version-new-dialog-body::-webkit-scrollbar-thumb:active {
+	background: var(--scrollbar-bg-active);
+}
+</style>
