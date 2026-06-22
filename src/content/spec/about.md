@@ -12,103 +12,87 @@ Ultimately, I landed on **BrightMoon** — **皓月** (Hàoyuè).</br>
 
 In Chinese culture, the "Bright Moon" symbolizes clarity, fulfillment, and constancy. It possesses a classical poetic grace while remaining thoroughly modern. It represents a radiance that is luminous yet never harsh, and subtly echoes the sentiment of *"Though miles apart, we share the same beautiful moon"*—a sense of connection and resonance that I hope this project will bring to its users. Compared to the personal and provisional feel of Zuoyanblogs, **BrightMoon** signifies that the project is ready to face the future with greater maturity and openness.
 
-## 🛠 Modified Content in This Project
-
-- Added site language texts for ten languages; future site updates will be accompanied by synchronized language text updates.
-- Added multi-language international translation component:
-  - Modified `mobile-navbar` stylesheet to adapt the translate panel styles.
-- Modified calendar styles to achieve the most comfortable appearance:
-  - Changed left/right switch icons.
-  - Adjusted the position of the small dot at the bottom indicating post publication.
-  - Adjusted the number size for multiple posts published on the same day (top right corner).
-- Added a feedback page and integrated methods to contact the site owner.
-- Added a sponsors page and integrated paths for placing payment QR codes.
-- Added real-time date, season, and time for site statistics, with date and season display supporting multiple regional formats and time supporting time-period representation.
-- Added external link confirmation popup, and modified some styles.
-- Add custom styles for the page scrollbar.
-- Added a weather widget supporting 7-day forecasts, IP-based automatic location detection, and manual city search to view weather for other regions.
-- Added Cookie privacy policy consent banner.
-- Refactored personalization settings, added UI controls for wallpaper mode, cherry blossom effects, article list layout, and navigation bar style.
-- Add "Follow System" theme mode, support theme selection via dropdown box.
-- Integrate bangumi and bilibili settings under the anime configuration section.
-- Updated and adapted to the latest version of the Twikoo comment system.
-- TOC directory supports responsive device configuration.
-- Refactored hidden photo album logic, fixed issue where it couldn't be accessed via link.
-- Optimized animations for some small components.
-
 ## ✨ Features
 
-To learn more about Mizuki's features: [Enter Mizuki Docs Official Website](https://docs.mizuki.mysqil.com/)
+### 🔧 Component Configuration System Refactor
 
-### 🔧 Component Configuration System Refactoring
-
-- **Unified Configuration Architecture:** A brand new modular component configuration system, supporting dynamic component management and order configuration.
-- **Configuration-Driven Component Loading:** Refactored the SideBar component to achieve a fully configuration-based component loading mechanism.
-- **Unified Control Switch:** Removed independent enable switches for the music player and announcement components, unified control by `sidebarLayoutConfig`.
-- **Responsive Layout Adaptation:** Components support responsive layout, automatically adjusting display based on device type.
+- **Unified Configuration Architecture:** A new modular component configuration system supporting dynamic component management and ordering.
+- **Configuration-Driven Component Loading:** Refactored the SideBar component to implement a fully configuration-based component loading mechanism.
+- **Unified Control Switch:** Removed independent enable switches for the music player and announcement components, unified under sidebarLayoutConfig.
+- **Responsive Layout Adaptation:** Components support responsive layouts that automatically adjust based on device type.
 
 ### 📐 Layout System Optimization
 
-- **Dynamic Sidebar Position:** Supports switching between left and right sidebars, layout automatically adapts.
-- **Intelligent Table of Contents Positioning:** When the sidebar is on the right, the article navigation automatically moves to the left for a better reading experience.
-- **Grid Layout Improvement:** Optimized CSS Grid layout to resolve container width anomalies.
+- **Dynamic Sidebar Positioning:** Supports left/right sidebar switching with automatic layout adaptation.
+- **Smart TOC Positioning:** When the sidebar is on the right, the table of contents automatically moves to the left for a better reading experience.
+- **Grid Layout Improvements:** Optimized CSS Grid layout to resolve container width anomalies.
+- **Responsive TOC:** Table of contents supports responsive device configuration with automatic optimization on mobile.
 
-### 🎛️ Configuration File Format Standardization
+### 🎛️ Configuration File Standardization
 
-- **Standardized Configuration Format:** Created a unified specification for component configuration file formats.
-- **Type Safety:** Comprehensive TypeScript type definitions ensure type safety of configurations.
+- **Standardized Config Format:** Established a unified component configuration file format specification.
+- **Type Safety:** Comprehensive TypeScript type definitions ensuring type-safe configuration.
 - **Extensibility:** Supports custom component types and configuration options.
 
 ### 🧹 Code Optimization
 
 - **Test File Cleanup:** Removed unused test configurations and dependencies, reducing project size.
-- **Code Structure Optimization:** Improved component architecture, enhancing code maintainability.
-- **Performance Improvement:** Optimized component loading logic, improving page rendering performance.
+- **Code Structure Optimization:** Improved component architecture for better maintainability.
+- **Performance Enhancement:** Optimized component loading logic for improved page rendering performance.
+- **Configuration Consolidation:** Centralized partial config items into `src/config.ts` for unified management.
+- **Album Logic Refactor:** Refactored hidden album logic, fixing access issues via direct links.
+- **Component Animation Optimization:** Optimized animations for several widgets for smoother interactions.
 
 ### 🎨 Design & Interface
 
-- Built with [Astro](https://astro.build) and [Tailwind CSS](https://tailwindcss.com).
-- Smooth animations and page transitions using [Swup](https://swup.js.org/).
-- Light/Dark theme switching with system preference detection.
-- Customizable theme colors and dynamic banner carousel.
-- Full-screen background images with support for carousel, transparency, and blur effects.
-- Fully responsive design for all devices.
-- Beautiful typography using the JetBrains Mono font.
+- **Framework** - Built with [Astro](https://astro.build) and [Tailwind CSS](https://tailwindcss.com).
+- **Animations** - Smooth animations and page transitions powered by [Swup](https://swup.js.org/).
+- **Multi-Theme Mode** - Supports Light, Dark, and "System" themes, switchable via dropdown.
+- **External Link Confirmation** - Confirmation dialog when clicking external links for enhanced browsing security.
+- **Custom Scrollbar** - Customized scrollbar styling for visual consistency.
+- **Personalized Appearance Control** - Toggle wallpaper mode, cherry blossom effects, article list layout, navbar style, and more.
+  - Customizable theme colors and dynamic banner carousel.
+  - Full-screen background images with carousel, transparency, and blur effects.
+  - Fully responsive design across all devices.
+  - Beautiful typography with JetBrains Mono font.
+  - Optimized calendar styling: improved navigation icons, post dot positioning, and multi-post day indicators.
 
 ### 🔍 Content & Search
 
-- Advanced search functionality based on [Pagefind](https://pagefind.app/).
-- [Enhanced Markdown features](https://docs.mizuki.mysqil.com/press/Markdown/Markdown/) with syntax highlighting.
-- Interactive table of contents with auto-scrolling.
+- Advanced search powered by [Pagefind](https://pagefind.app/).
+- [Enhanced Markdown](https://docs.mizuki.mysqil.com/press/Markdown/Markdown/) with syntax highlighting.
+- Interactive table of contents with auto-scroll.
 - RSS and Atom feed generation.
 - Reading time estimation.
-- Article categorization and tagging system.
+- Article categories and tags.
 
-### 📱 Featured Pages
+### 📱 Special Pages
 
 - **Anime Page** - Track anime viewing progress and ratings.
-- **Friends Page** - Beautiful cards displaying friends' websites.
-- **Albums Page** - Capture beautiful moments in life.
-- **My Devices Page** - Display device information.
-- **Diary Page** - Share life moments, similar to social media.
-- **Archive Page** - Ordered chronological view of articles.
+- **Friends Page** - Elegant cards displaying friends' websites.
+- **Album Page** - Capture beautiful moments in life.
+- **Devices Page** - Showcase your device collection.
+- **Diary Page** - Share life moments like social media.
+- **Archive Page** - Organized article timeline view.
 - **About Page** - Customizable personal introduction.
-- **Sponsors Page** - Support quality content creation by sponsoring the site owner.
-- **Feedback Page** - Submit website suggestions and communicate directly with the site owner.
-- **Projects Page** - Portfolio of development projects.
+- **Sponsor Page** - Support the site owner with integrated payment QR code support.
+- **Feedback Page** - Submit suggestions and contact the site owner directly (email & friend QR code).
+- **Projects Page** - Development project portfolio.
 - **Skills Page** - Technical skills and expertise.
-- **Timeline Page** - Growth journey and important milestones.
+- **Timeline Page** - Growth journey and key milestones.
 
 ### 🛠 Technical Features
 
-- **Enhanced Code Blocks** - Based on [Expressive Code](https://expressive-code.com/).
-- **Mathematical Formula Support** - KaTeX rendering.
+- **Enhanced Code Blocks** - Powered by [Expressive Code](https://expressive-code.com/).
+- **Math Formula Support** - KaTeX rendering.
 - **Image Optimization** - PhotoSwipe gallery integration.
 - **SEO Optimization** - Includes sitemaps and meta tags.
 - **Performance Optimization** - Lazy loading and caching mechanisms.
-- **Comment System** - Supports Twikoo integration.
-- **Translation Component** - Utilizes local i18n language library + translate.js to achieve millisecond-level translation.
-- **Weather Widget** - Powered by WeatherAPI, supports IP-based automatic location detection and manual city search to view weather for other regions.
-- **Cookie Consent** - Cookie privacy policy consent banner with accept/reject options; automatically clears non-essential cookies upon rejection.
+- **Comment System** - Integrated with the latest Twikoo comment system, supporting multi-dimensional configuration.
+- **Translation Component** - Local i18n library + translate.js for millisecond-speed translations, with built-in language support for ten countries.
+- **Weather Widget** - Powered by WeatherAPI, supporting 7-day forecasts, IP-based auto-location, and manual city search.
+- **Cookie Consent** - Cookie privacy policy banner with accept/deny support; auto-clears non-essential cookies on denial.
+- **Site Statistics** - Real-time display of current date (with multi-region format support), season, and time period.
+- **Framework Update Checker** - Automatically detects new BrightMoon releases via update API, supports stable and pre-release detection, with prompt dialogs for updates.
 
 ---

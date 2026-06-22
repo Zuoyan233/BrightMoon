@@ -15,7 +15,7 @@ BrightMoon 是一款融合現代簡約與優雅氣質的獨特二次元美學靜
 
 💻 歡迎進入我的網站參觀：[點擊進入](https://www.zuoyanblogs.xyz/)
 
-🌐 README 語言：[简体中文](./README.zh_CN.md) &nbsp; [English](./README.en.md) &nbsp; [日本語](./README.jp.md)
+🌐 README 語言：[简体中文](./README_zh_CN.md) &nbsp;|&nbsp; [English](./README.md) &nbsp;|&nbsp; [日本語](./README_jp.md)
 
 ![BrightMoon preview](./project-preview/images/project-preview.webp)
 
@@ -39,54 +39,27 @@ BrightMoon 是一款融合現代簡約與優雅氣質的獨特二次元美學靜
 
 ---
 
-## 🔄 本專案的更新頻率
+## 📌 版本說明
 
-不定期同步更新 Mizuki 主題框架主線內容。未來計畫在框架功能基礎上進行客製化修改，版本號將統一以 BrightMoon Custom Edition（CE）作為後綴，代表其為 BrightMoon 的輕度客製版本（目前在惡補學習市面上流行的網站框架，要等有空才行，嗚嗚嗚~~~）。
-
----
-
-## 🛠 本專案魔改的內容
-
-- 添加十個國家的站點語言文本，未來站點更新時將同步更新語言文本。
-- 添加多語言國際翻譯元件：
-  - 魔改 mobile-navbar 樣式表以適應 translate 面板樣式。
-- 修改日曆樣式，並魔改成最舒服的外觀：
-  - 更改左右切換的圖示。
-  - 調整文章發佈的底部小圓點位置。
-  - 調整右上角同天發佈多篇文章的數字大小。
-- 添加回饋頁面，並整合聯絡站長方式。
-- 添加贊助頁面，並整合支付 QR Code 放置路徑。
-- 新增站點統計的即時日期、季節與時間，日期與季節顯示支援多地區格式，時間支援時段顯示。
-- 添加外部連結確認彈窗，並魔改部分樣式。
-- 新增頁面滾動條樣式。
-- 新增天氣元件，支援七日天氣預報、基於 IP 自動定位目前地區，並支援手動搜尋切換查看其他地區天氣。
-- 新增 Cookie 隱私政策確認橫幅。
-- 重構個人化配置，新增桌布模式、櫻花特效、文章列表佈局、導航列樣式的 UI 控制。
-- 加入「跟隨系統」主題模式，支援下拉式選單選擇主題。
-- 將 bangumi 與 bilibili 設定整合至 anime 設定項下。
-- 更新並適配最新版本的 Twikoo 留言系統。
-- TOC 目錄支援響應式裝置配置。
-- 重構隱藏相簿邏輯，修復無法透過連結存取的問題。
-- 優化部分小元件動畫。
+本專案基於 Mizuki V8.2 進行客製化拓展開發，版本號以 BrightMoon Custom Edition（CE）為後綴，代表 BrightMoon 的輕度客製版本（目前正在惡補市面上流行的網站框架，等有空了再繼續推進）。
 
 ---
 
 ## ✨ 功能特性
 
-想了解更多 Mizuki 的功能特性：[進入 Mizuki Docs 官方網站](https://docs.mizuki.mysqil.com/)
-
 ### 🔧 元件配置系統重構
 
-- **統一配置架構：** 全新的模組化元件配置體系，支援動態元件管理和順序配置。
+- **配置整合：** 全部元件配置項集中整合到 `src/config.ts` 中，統一管理。
 - **配置驅動的元件載入：** 重構 SideBar 元件，實現完全基於配置的元件載入機制。
-- **統一控制開關：** 移除音樂播放器和公告元件的獨立 enable 開關，統一由 sidebarLayoutConfig 控制。
+- **相簿邏輯重構：** 重構隱藏相簿邏輯，修復無法透過連結存取的錯誤。
 - **響應式佈局適配：** 元件支援響應式佈局，可根據裝置類型自動調整顯示。
 
 ### 📐 佈局系統最佳化
 
 - **側邊欄位置動態調整：** 支援左右側邊欄切換，佈局自動適配。
-- **文章目錄智慧定位：** 當側邊欄在右側時，文章導航自動移至左側，提供更好的閱讀體驗。
+- **文章目錄智慧定位：** 當側邊欄在右側時，文章目錄自動移至左側，提供更好的閱讀體驗。
 - **網格佈局改進：** 最佳化 CSS Grid 佈局，解決容器寬度異常問題。
+- **TOC 目錄響應式適配：** 文章目錄支援響應式裝置配置，行動端自動最佳化顯示。
 
 ### 🎛️ 設定檔格式標準化
 
@@ -99,16 +72,21 @@ BrightMoon 是一款融合現代簡約與優雅氣質的獨特二次元美學靜
 - **測試檔案清理：** 移除未使用的測試配置和依賴，減少專案體積。
 - **程式碼結構最佳化：** 改進元件架構，提升程式碼可維護性。
 - **效能提升：** 最佳化元件載入邏輯，提升頁面渲染效能。
+- **元件動畫最佳化：** 最佳化部分小元件動畫，提升互動流暢度。
 
 ### 🎨 設計與介面
 
-- 基於 [Astro](https://astro.build) 和 [Tailwind CSS](https://tailwindcss.com) 建置。
-- 使用 [Swup](https://swup.js.org/) 實現流暢的動畫和頁面過渡。
-- 明暗主題切換，支援系統偏好檢測。
-- 可自訂主題色彩和動態橫幅輪播。
-- 全螢幕背景圖片，支援輪播、透明度和模糊效果。
-- 全裝置響應式設計。
-- 使用 JetBrains Mono 字型的美觀排版。
+- **專案構建** - 基於 [Astro](https://astro.build) 和 [Tailwind CSS](https://tailwindcss.com) 構建。
+- **動畫與過渡** - 使用 [Swup](https://swup.js.org/) 實現流暢的動畫和頁面過渡。
+- **多主題模式** - 支援明亮、暗黑及「跟隨系統」三種模式，透過下拉選單自由切換。
+- **外部連結確認彈窗** - 點擊外部連結時彈窗確認，提升瀏覽安全性。
+- **個人化外觀控制** - 支援桌布模式、櫻花特效、文章列表佈局、導覽列樣式等 UI 開關，隨心定製。
+  - 可自訂主題色彩和動態橫幅輪播。
+  - 全螢幕背景圖片，支援輪播、透明度和模糊效果。
+  - 全裝置響應式設計。
+  - 使用 JetBrains Mono 字型的美觀排版。
+  - 最佳化日曆樣式：最佳化左右切換圖示、文章發佈小圓點位置、同日多文章數字顯示。
+- **頁面捲動條樣式** - 自訂捲動條外觀，保持整體視覺統一。
 
 ### 🔍 內容與搜尋
 
@@ -128,8 +106,8 @@ BrightMoon 是一款融合現代簡約與優雅氣質的獨特二次元美學靜
 - **日記頁面** - 分享生活瞬間，類似社交媒體。
 - **歸檔頁面** - 有序的文章時間線檢視。
 - **關於頁面** - 可自訂的個人介紹。
-- **贊助頁面** - 贊助站長支援優質創作。
-- **回饋頁面** - 提交網站意見建議，與站長直接溝通。
+- **贊助頁面** - 贊助站長支援優質創作，整合支付 QR Code 放置路徑，便捷收款。
+- **回饋頁面** - 提交網站意見建議，整合聯絡站長方式（信箱、好友 QR Code），與站長直接溝通。
 - **專案展示頁面** - 開發專案作品集。
 - **技能展示頁面** - 技術技能和專業知識。
 - **時間線頁面** - 成長歷程和重要里程碑。
@@ -139,12 +117,14 @@ BrightMoon 是一款融合現代簡約與優雅氣質的獨特二次元美學靜
 - **增強程式碼區塊** - 基於 [Expressive Code](https://expressive-code.com/)。
 - **數學公式支援** - KaTeX 渲染。
 - **圖片最佳化** - PhotoSwipe 畫廊整合。
-- **SEO 最佳化** - 包含站點地圖和元標籤。
+- **SEO 最佳化** - 包含站點地圖和中繼標籤。
 - **效能最佳化** - 延遲載入和快取機制。
-- **留言系統** - 支援 Twikoo 整合。
-- **翻譯組件** - 採用本地 i18n 語言庫 + translate.js 實現毫秒級翻譯。
-- **天氣元件** - 採用 WeatherAPI 服務，支援 IP 自動定位目前地區，並支援手動搜尋切換查看其他地區天氣。
+- **留言系統** - 整合最新版 Twikoo 留言系統，支援多維度配置。
+- **翻譯元件** - 採用本地 i18n 語言庫 + translate.js 實現毫秒級翻譯，內建十四個國家站點語言文本。
+- **天氣元件** - 採用 WeatherAPI 服務，支援七日天氣預報、IP 自動定位目前地區，支援手動搜尋切換查看其他地區天氣。
 - **Cookie 隱私提示** - Cookie 隱私政策確認橫幅，支援接受/拒絕，拒絕後自動清除非必要 Cookie。
+- **站點統計** - 即時顯示目前日期（支援多地區格式）、季節和時段資訊。
+- **框架版本更新** - 透過更新服務 API 自動檢測 BrightMoon 新版本發佈，支援穩定版與預發佈版檢測，發現新版本時彈窗提示並引導下載更新。
 
 ---
 
@@ -185,7 +165,7 @@ BrightMoon 是一款融合現代簡約與優雅氣質的獨特二次元美學靜
   - 在 `src/config.ts` 中找到 `addpaymentConfig` 配置支付 QR Code，支付 QR Code 存放路徑在 `public/images/sponsors` 內。
 - **回饋頁面：** 在 `src/content/spec/feedback.md` 中編輯內容。
   - 在 `src/config.ts` 中找到 `contactEmailConfig` 配置站長電子郵件聯絡方式。
-  - 在 `src/config.ts` 中找到 `addfriendConfig` 設定，用以加入好友 QR Code。QR Code 的存放路徑位於 `public/images/contact` 內。
+  - 在 `src/config.ts` 中找到 `addfriendConfig` 配置加入好友 QR Code，QR Code 存放路徑在 `public/images/contact` 內。
 - **專案展示頁面：** 在 `src/data/projects.ts` 中編輯展示的內容。
 - **技能展示頁面：** 在 `src/data/skills.ts` 中編輯展示的內容。
 - **時間線頁面：** 在 `src/data/timeline.ts` 中編輯展示的內容。
@@ -196,7 +176,7 @@ BrightMoon 是一款融合現代簡約與優雅氣質的獨特二次元美學靜
 - **編輯文章：** 修改 `src/content/posts/` 中的檔案。
 - **自訂頁面：** 編輯 `src/content/spec/` 中的特殊頁面。
 - **新增圖片：** 將圖片放在 `src/assets/` 或 `public/` 中。
-- **Markdown 擴充套件語法:** 瞭解詳細請閱讀 Mizuki Docs 的 [Markdown 擴充套件語法](https://docs.mizuki.mysqil.com/press/Markdown/customize/)。
+- **Markdown 擴充語法：** 瞭解詳細請閱讀 Mizuki Docs 的 [Markdown 擴充語法](https://docs.mizuki.mysqil.com/press/Markdown/customize/)。
 
 Frontmatter 欄位說明：
 
@@ -237,12 +217,12 @@ Frontmatter 欄位說明：
 
 ## 🙏 致謝
 
-- [Mizuki](https://github.com/matsuzaka-yuki/Mizuki) – 基於 Fuwari 的增強版本。感謝您提供現代化且功能豐富的靜態部落格模板。
-- [Fuwari](https://github.com/saicaca/fuwari) by saicaca – 本專案所基於的原始模板。感謝您創建了如此優美且功能強大的模板。
-- [Yukina](https://github.com/WhitePaper233/yukina) – 感謝您提供的設計靈感與創意，協助塑造了此專案。Yukina 是一個展現卓越設計原則與使用者體驗的優雅部落格模板。
-- [Firefly](https://github.com/CuteLeaf/Firefly) – 感謝您提供優秀的版面設計思路，如雙側邊欄佈局、文章雙欄網格等，以及部分小元件的設計與實現。
-- [Twilight](https://github.com/spr-aachen/Twilight) – 感謝您提供的靈感與技術支援。Twilight 的動態桌布模式切換系統、響應式設計與過渡效果，顯著提升了此專案。
+- [Mizuki](https://github.com/matsuzaka-yuki/Mizuki) – 基於 Fuwari 的二次開發增強版本，感謝提供現代化且功能豐富的靜態部落格模板。
+- [Fuwari](https://github.com/saicaca/fuwari) by saicaca – 本專案所基於的原始模板。感謝您建立了如此優美且功能強大的模板。
+- [Yukina](https://github.com/WhitePaper233/yukina) – 感謝提供設計靈感與創意，幫助塑造了此專案。Yukina 是一個展現卓越設計原則與使用者體驗的優雅部落格模板。
+- [Firefly](https://github.com/CuteLeaf/Firefly) – 感謝提供優秀的版面設計思路，雙側邊欄佈局、文章雙欄網格等佈局，及部分小元件的設計與實現。
+- [Twilight](https://github.com/spr-aachen/Twilight) – 感謝提供靈感與技術支援。Twilight 的動態桌布模式切換系統、響應式設計與過渡效果顯著提升了此專案。
 
 ---
 
-⭐ 如有問題或建議，請提交 [Issue](https://github.com/Zuoyan233/BrightMoon/issues) 或 [Pull Request](https://github.com/Zuoyan233/BrightMoon/pulls)。另外，您也可以透過 [我的網站反饋頁面](https://www.zuoyanblogs.xyz/feedback/) 與我們聯繫。如果您覺得這個專案有幫助，請考慮給它一個星標！
+⭐ 如有問題或建議，請提交 [Issue](https://github.com/Zuoyan233/BrightMoon/issues) 或 [Pull Request](https://github.com/Zuoyan233/BrightMoon/pulls)。另外，您也可以透過 [我的網站回饋頁面](https://www.zuoyanblogs.xyz/feedback/) 與我們聯繫。如果您覺得這個專案有幫助，請考慮給它一個星標！
