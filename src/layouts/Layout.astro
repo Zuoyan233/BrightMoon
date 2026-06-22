@@ -503,6 +503,28 @@ if (siteConfig.font?.fontFamily) {
 		.hide-translate-select #translate {
 			display: none !important;
 		}
+
+		/* translate.js 默认语言选择框定位 */
+		#translate {
+			position: fixed;
+			top: 5rem;
+			right: 1rem;
+			z-index: 40;
+		}
+
+		/* 鼠标未悬停时，5秒后变淡 */
+		#translate:not(:hover) {
+			animation: fadeOut 5s forwards;
+		}
+
+		@keyframes fadeOut {
+			0% {
+				opacity: 1;
+			}
+			100% {
+				opacity: 0.1;
+			}
+		}
 	}
 </style>
 

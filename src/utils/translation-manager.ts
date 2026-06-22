@@ -171,8 +171,10 @@ const configure = () => {
 	if (Array.isArray(t.ignore?.class))
 		pushUnique(t.ignore.class, cfg?.ignoreClasses);
 	if (Array.isArray(t.ignore?.tag)) pushUnique(t.ignore.tag, cfg?.ignoreTags);
-	if (cfg?.showSelectTag === false && t.selectLanguageTag)
-		t.selectLanguageTag.show = false;
+	if (t.selectLanguageTag) {
+		t.selectLanguageTag.show = cfg?.showSelectTag !== false;
+		t.selectLanguageTag.refreshRender?.();
+	}
 	if (t.storage?.set) t.storage.set = () => {};
 	if (t.waitingExecute) t.waitingExecute.use = false;
 	configured = true;
