@@ -12,6 +12,7 @@ const { enable } = Astro.props;
 const title = i18n(I18nKey.cookieConsentTitle);
 const description = i18n(I18nKey.cookieConsentDescription);
 const ipInfoLoading = i18n(I18nKey.cookieConsentIpInfo);
+const ipInfoTimeout = i18n(I18nKey.cookieConsentIpTimeout);
 const acceptText = i18n(I18nKey.cookieConsentAccept);
 const rejectText = i18n(I18nKey.cookieConsentReject);
 
@@ -44,7 +45,7 @@ const uid = Math.random().toString(36).slice(2, 10);
     </div>
 </div>
 
-<script is:inline define:vars={{ uid, ipInfoLoading, enable }}>
+<script is:inline define:vars={{ uid, ipInfoLoading, ipInfoTimeout, enable }}>
     (function() {
         var cKey = 'siteNoticeConsent';
         var consent = localStorage.getItem(cKey);
@@ -122,8 +123,8 @@ const uid = Math.random().toString(36).slice(2, 10);
         function atob_safe(s) { try { return atob(s); } catch(e) { return ''; } }
         function dcd(arr) { var r=''; for(var i=0;i<arr.length;i++) r+=atob_safe(arr[i]); return r; }
 
-        var apiA = dcd(['aHR0cHM6Ly9pcGFwaS5jbw==','L2pzb24v']);
-        var apiB = dcd(['aHR0cHM6Ly9hcGkuaXAuc2I=','L2dlb2lw']);
+        var apiA = dcd(['aHR0cHM6Ly9hcGkuaXAuc2I=','L2dlb2lw']);
+        var apiB = dcd(['aHR0cHM6Ly9pcGFwaS5jbw==','L2pzb24v']);
 
         function fmtLoc(d, ipK, cityK, regK, ctryK, ispK) {
             var loc = [d[cityK], d[regK], d[ctryK]].filter(Boolean).join(', ');
@@ -136,21 +137,30 @@ const uid = Math.random().toString(36).slice(2, 10);
         (async function() {
             if (!ipEl) return;
             var txt = '';
+            var done = false;
+            var timeoutId = setTimeout(function() {
+                if (!done) { done = true; ipEl.textContent = ipInfoTimeout; }
+            }, 5000);
             try {
                 var c = new AbortController(), t = setTimeout(function(){c.abort();},5000);
                 var r = await fetch(apiA, {signal:c.signal,headers:{'Accept':'application/json'}});
                 clearTimeout(t);
-                if (r.ok) { var d = await r.json(); txt = fmtLoc(d,'ip','city','region','country_name','org'); }
+                if (r.ok) { var d = await r.json(); txt = fmtLoc(d,'ip','city','region','country','isp'); }
             } catch(e) {}
-            if (!txt) {
+            if (!done && !txt) {
                 try {
                     var c2 = new AbortController(), t2 = setTimeout(function(){c2.abort();},5000);
                     var r2 = await fetch(apiB, {signal:c2.signal,headers:{'Accept':'application/json'}});
                     clearTimeout(t2);
-                    if (r2.ok) { var d2 = await r2.json(); txt = fmtLoc(d2,'ip','city','region','country','isp'); }
+                    if (r2.ok) { var d2 = await r2.json(); txt = fmtLoc(d2,'ip','city','region','country_name','org'); }
                 } catch(e) {}
             }
-            if (txt) ipEl.textContent = txt;
+            if (!done) {
+                done = true;
+                clearTimeout(timeoutId);
+                if (txt) ipEl.textContent = txt;
+                else ipEl.textContent = ipInfoTimeout;
+            }
         })();
 
         setTimeout(showBar, 1500);
