@@ -490,4 +490,7 @@ export const zh_TW: Translation = {
 	[Key.versionDownload]: "下載最新版本",
 	[Key.versionUpdateWarning]:
 		"新版本框架改動較大移植需自行測試，請提前備份好資料",
+
+	// 麵包屑導航
+	[Key.suggestion]: "你可能想訪問",
 };

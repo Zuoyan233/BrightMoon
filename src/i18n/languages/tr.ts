@@ -520,4 +520,7 @@ export const tr: Translation = {
 	[Key.versionDownload]: "Son Sürümü İndir",
 	[Key.versionUpdateWarning]:
 		"Yeni sürümde büyük framework değişiklikleri var. Lütfen yükseltmeden önce verilerinizi yedekleyin.",
+
+	// Ekmek kırıntısı gezinmesi
+	[Key.suggestion]: "Belki ziyaret etmek istersiniz",
 };

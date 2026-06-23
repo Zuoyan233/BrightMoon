@@ -94,19 +94,19 @@ const getCategoryText = (category: string) => {
 
       <!-- 统计信息 -->
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-        <div class="bg-blue-500/10 dark:bg-blue-900/30 rounded-lg p-4 border border-blue-500/20 dark:border-blue-900/30 hover:shadow-lg transition-shadow duration-300">
+        <div class="bg-blue-500/10 dark:bg-blue-900/30 rounded-lg p-4 border border-blue-500/20 dark:border-blue-900/30 hover:shadow-lg dark:hover:shadow-white/30 transition-shadow duration-300">
           <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">{stats.total}</div>
           <div class="text-sm text-blue-600/70 dark:text-blue-400/70">{i18n(I18nKey.projectsTotal)}</div>
         </div>
-        <div class="bg-green-500/10 dark:bg-green-900/30 rounded-lg p-4 border border-green-500/20 dark:border-green-900/30 hover:shadow-lg transition-shadow duration-300">
+        <div class="bg-green-500/10 dark:bg-green-900/30 rounded-lg p-4 border border-green-500/20 dark:border-green-900/30 hover:shadow-lg dark:hover:shadow-white/30 transition-shadow duration-300">
           <div class="text-2xl font-bold text-green-600 dark:text-green-400">{stats.byStatus.completed}</div>
           <div class="text-sm text-green-600/70 dark:text-green-400/70">{i18n(I18nKey.projectsCompleted)}</div>
         </div>
-        <div class="bg-yellow-500/10 dark:bg-yellow-900/30 rounded-lg p-4 border border-yellow-500/20 dark:border-yellow-900/30 hover:shadow-lg transition-shadow duration-300">
+        <div class="bg-yellow-500/10 dark:bg-yellow-900/30 rounded-lg p-4 border border-yellow-500/20 dark:border-yellow-900/30 hover:shadow-lg dark:hover:shadow-white/30 transition-shadow duration-300">
           <div class="text-2xl font-bold text-yellow-600 dark:text-yellow-400">{stats.byStatus.inProgress}</div>
           <div class="text-sm text-yellow-600/70 dark:text-yellow-400/70">{i18n(I18nKey.projectsInProgress)}</div>
         </div>
-        <div class="bg-purple-500/10 dark:bg-purple-900/30 rounded-lg p-4 border border-purple-500/20 dark:border-purple-900/30 hover:shadow-lg transition-shadow duration-300">
+        <div class="bg-purple-500/10 dark:bg-purple-900/30 rounded-lg p-4 border border-purple-500/20 dark:border-purple-900/30 hover:shadow-lg dark:hover:shadow-white/30 transition-shadow duration-300">
           <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">{allTechStack.length}</div>
           <div class="text-sm text-purple-600/70 dark:text-purple-400/70">{i18n(I18nKey.projectsTechStack)}</div>
         </div>

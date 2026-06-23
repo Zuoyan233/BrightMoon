@@ -476,6 +476,9 @@ enum I18nKey {
 	versionCheckSuccessDesc = "versionCheckSuccessDesc",
 	versionDownload = "versionDownload",
 	versionUpdateWarning = "versionUpdateWarning",
+
+	// 面包屑导航
+	suggestion = "suggestion",
 }
 
 export default I18nKey;

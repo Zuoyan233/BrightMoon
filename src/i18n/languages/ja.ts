@@ -508,4 +508,7 @@ export const ja: Translation = {
 	[Key.versionDownload]: "最新バージョンをダウンロード",
 	[Key.versionUpdateWarning]:
 		"新バージョンはフレームワークの変更が大きいため、アップグレード前にデータをバックアップしてください",
+
+	// パンくずナビゲーション
+	[Key.suggestion]: "訪れたいかもしれません",
 };

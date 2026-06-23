@@ -9,10 +9,10 @@ export const ar: Translation = {
 	[Key.feedback]: "ملاحظات",
 	[Key.other]: "أخرى",
 
-	// Translation panel title
+	// عنوان لوحة الترجمة
 	[Key.translateHeader]: "اختر اللغة",
 
-	// Navigation bar titles
+	// عناوين شريط التنقل
 	[Key.navLinks]: "روابط",
 	[Key.navMy]: "خاصتي",
 	[Key.navAbout]: "حول",
@@ -23,10 +23,10 @@ export const ar: Translation = {
 	[Key.categories]: "التصنيفات",
 	[Key.recentPosts]: "أحدث المشاركات",
 
-	// Table of Contents
+	// جدول المحتويات
 	[Key.tocTitle]: "جدول المحتويات",
 
-	// Announcement
+	// إعلان
 	[Key.announcement]: "إعلان",
 	[Key.announcementClose]: "إغلاق",
 
@@ -70,7 +70,7 @@ export const ar: Translation = {
 	[Key.anime]: "الأنمي",
 	[Key.diary]: "المذكرات",
 
-	// Anime Page
+	// صفحة الأنمي
 	[Key.animeTitle]: "قائمة الأنمي الخاصة بي",
 	[Key.animeSubtitle]: "سجل رحلة الأنمي الخاصة بي",
 	[Key.animeStatusWatching]: "يُشاهد",
@@ -91,7 +91,7 @@ export const ar: Translation = {
 		"يرجى تعيين معرف vm الخاص بـ Bilibili في ملف src/config.ts",
 	[Key.animeEmptyLocal]: "يرجى إضافة معلومات الأنمي في ملف src/data/anime.ts",
 
-	// Diary Page
+	// صفحة اليوميات
 	[Key.diarySubtitle]: "شارك الحياة، في أي وقت وفي أي مكان",
 	[Key.diaryCount]: "مدخلة في المذكرات",
 	[Key.diaryReply]: "رد",
@@ -100,14 +100,14 @@ export const ar: Translation = {
 	[Key.diaryHoursAgo]: "ساعة مضت",
 	[Key.diaryDaysAgo]: "يوم مضى",
 
-	// 404 Page
+	// صفحة 404
 	[Key.notFound]: "404",
 	[Key.notFoundTitle]: "الصفحة غير موجودة",
 	[Key.notFoundDescription]:
 		"عذرًا، الصفحة التي قمت بزيارتها غير موجودة أو تم نقلها.",
 	[Key.backToHome]: "العودة إلى الرئيسية",
 
-	// Music Player
+	// مشغل الموسيقى
 	[Key.musicPlayer]: "مشغل الموسيقى",
 	[Key.musicPlayerShow]: "إظهار مشغل الموسيقى",
 	[Key.musicPlayerHide]: "إخفاء مشغل الموسيقى",
@@ -134,7 +134,7 @@ export const ar: Translation = {
 	[Key.unknownSong]: "أغنية غير معروفة",
 	[Key.unknownArtist]: "فنان غير معروف",
 
-	// Albums Page
+	// صفحة الألبومات
 	[Key.albums]: "الألبومات",
 	[Key.albumsSubtitle]: "سجل اللحظات الجميلة في الحياة",
 	[Key.albumsEmpty]: "لا يوجد محتوى",
@@ -147,12 +147,12 @@ export const ar: Translation = {
 	[Key.hideAlbumTip]:
 		"تم ضبط هذا الألبوم على وضع المخفي، ولن يظهر في قائمة الألبومات، ولكن لا يزال من الممكن الوصول إليه عبر رابط مباشر",
 
-	// Devices Page
+	// صفحة الأجهزة
 	[Key.devices]: "أجهزتي",
 	[Key.devicesSubtitle]: "هذه هي الأجهزة التي أستخدمها في حياتي اليومية",
 	[Key.devicesViewDetails]: "عرض التفاصيل",
 
-	// Projects Page
+	// صفحة المشاريع
 	[Key.projects]: "المشاريع",
 	[Key.projectsSubtitle]: "محفظة مشاريعي التطويرية",
 	[Key.projectsAll]: "الكل",
@@ -179,7 +179,7 @@ export const ar: Translation = {
 	[Key.projectsVisit]: "زيارة المشروع",
 	[Key.projectsGitHub]: "GitHub",
 
-	// RSS Page
+	// صفحة RSS
 	[Key.rss]: "خلاصة RSS",
 	[Key.rssDescription]: "اشترك للحصول على أحدث التحديثات",
 	[Key.rssSubtitle]: "اشترك عبر RSS للحصول على أحدث المقالات والتحديثات فورًا",
@@ -200,7 +200,7 @@ export const ar: Translation = {
 	[Key.rssCopied]: "تم نسخ رابط RSS إلى الحافظة!",
 	[Key.rssCopyFailed]: "فشل النسخ، يرجى نسخ الرابط يدويًا",
 
-	// Atom Page
+	// صفحة Atom
 	[Key.atom]: "خلاصة Atom",
 	[Key.atomDescription]: "اشترك للحصول على أحدث التحديثات",
 	[Key.atomSubtitle]: "اشترك عبر Atom للحصول على أحدث المقالات والتحديثات فورًا",
@@ -221,7 +221,7 @@ export const ar: Translation = {
 	[Key.atomCopied]: "تم نسخ رابط Atom إلى الحافظة!",
 	[Key.atomCopyFailed]: "فشل النسخ، يرجى نسخ الرابط يدويًا",
 
-	// Wallpaper mode
+	// وضع الخلفية
 	[Key.wallpaperMode]: "وضع الخلفية",
 	[Key.wallpaperBanner]: "وضع الشريط",
 	[Key.wallpaperFullscreen]: "وضع ملء الشاشة",
@@ -234,13 +234,13 @@ export const ar: Translation = {
 	[Key.wallpaperBlur]: "تمويه الخلفية",
 	[Key.cardOpacity]: "عتامة البطاقات",
 
-	// Navbar transparent mode
+	// وضع الشريط الشفاف
 	[Key.navbarTransparentMode]: "نمط شريط التنقل",
 	[Key.navbarTransparentSemi]: "مُجَمَّد",
 	[Key.navbarTransparentFull]: "شفاف",
 	[Key.navbarTransparentSemifull]: "ديناميكي",
 
-	// Skills Page
+	// صفحة المهارات
 	[Key.skills]: "المهارات",
 	[Key.skillsSubtitle]: "مهاراتي التقنية وخبراتي",
 	[Key.skillsFrontend]: "تطوير الواجهة الأمامية",
@@ -268,7 +268,7 @@ export const ar: Translation = {
 	[Key.skillsByCategory]: "حسب الفئة",
 	[Key.noData]: "لا توجد بيانات",
 
-	// Timeline Page
+	// صفحة الجدول الزمني
 	[Key.timeline]: "الخط الزمني",
 	[Key.timelineSubtitle]: "رحلتي في النمو والمعالم الهامة",
 	[Key.timelineEducation]: "التعليم",
@@ -289,14 +289,14 @@ export const ar: Translation = {
 	[Key.timelineStartDate]: "تاريخ البدء",
 	[Key.timelineDuration]: "المدة",
 
-	// Feedback Page - Contact the webmaster Module
+	// صفحة الملاحظات - وحدة الاتصال بالمسؤول
 	[Key.contactMe]: "اتصل بمدير الموقع",
 	[Key.contactEmail]: "اتصل بمدير الموقع عبر البريد الإلكتروني",
 	[Key.contactSocialFriends]:
 		"تواصل مع مدير الموقع عن طريق إضافته كصديق على وسائل التواصل الاجتماعي",
 	[Key.addFriends]: "أضف صديقًا الآن",
 
-	// Sponsorship Page
+	// صفحة الرعاية
 	[Key.sponsorsNotice1]:
 		"إذا وجدت محتوى الموقع مفيدًا، يرجى دعم عملي من خلال الطرق التالية للمساعدة في إنشاء محتوى أفضل. سيتم استخدام جميع التبرعات لصيانة الموقع وتكاليف الخادم وإنشاء المحتوى.",
 	[Key.sponsorsNotice2]: "شكرًا لدعمكم لتطوير محتوى مدونة BrightMoon!",
@@ -309,7 +309,7 @@ export const ar: Translation = {
 	[Key.leaveComment]: "اترك أفكارك في قسم التعليقات أسفل المقال",
 	[Key.subscribeToArticles]: "اشترك في RSS و Atom للحصول على أحدث المقالات",
 
-	// Password Protection
+	// حماية كلمة المرور
 	[Key.passwordProtected]: "محمي بكلمة مرور",
 	[Key.passwordProtectedTitle]: "هذا المحتوى محمي بكلمة مرور",
 	[Key.passwordProtectedDescription]:
@@ -329,7 +329,7 @@ export const ar: Translation = {
 	[Key.autoSyntaxHighlightFailed]: "فشل تمييز بناء الجملة التلقائي أيضًا:",
 	[Key.decryptionError]: "حدث خطأ أثناء فك التشفير:",
 
-	// Last Modified Time Card
+	// بطاقة آخر تعديل
 	[Key.lastModifiedPrefix]: "الوقت منذ آخر تعديل: ",
 	[Key.lastModifiedOutdated]: "قد تكون بعض المعلومات قديمة",
 	[Key.year]: "س",
@@ -339,7 +339,7 @@ export const ar: Translation = {
 	[Key.minute]: "د",
 	[Key.second]: "ث",
 
-	// Site Stats
+	// إحصائيات الموقع
 	[Key.siteStats]: "إحصائيات الموقع",
 	[Key.siteStatsPostCount]: "المقالات",
 	[Key.siteStatsCategoryCount]: "التصنيفات",
@@ -365,7 +365,7 @@ export const ar: Translation = {
 	[Key.siteStatsSeasonAutumn]: "الخريف",
 	[Key.siteStatsSeasonWinter]: "الشتاء",
 
-	// Calendar Component
+	// مكون التقويم
 	[Key.calendarSunday]: "أحد",
 	[Key.calendarMonday]: "إثنين",
 	[Key.calendarTuesday]: "ثلاثاء",
@@ -386,7 +386,7 @@ export const ar: Translation = {
 	[Key.calendarNovember]: "نوفمبر",
 	[Key.calendarDecember]: "ديسمبر",
 
-	// Share Functionality
+	// مشاركة
 	[Key.shareArticle]: "مشاركة",
 	[Key.generatingPoster]: "جاري إنشاء الملصق...",
 	[Key.copied]: "تم النسخ",
@@ -397,13 +397,13 @@ export const ar: Translation = {
 	[Key.shareOnSocialDescription]:
 		"إذا ساعدك هذا المقال، يرجى مشاركته مع الآخرين!",
 
-	// Profile Stats
+	// إحصائيات الملف الشخصي
 	[Key.profileStatsLoading]: "جاري تحميل الإحصائيات...",
 	[Key.profileStatsPageViews]: "مشاهدات الصفحة",
 	[Key.profileStatsVisits]: "الزيارات",
 	[Key.profileStatsUnavailable]: "الإحصائيات غير متاحة",
 
-	// Page Views Stats
+	// إحصائيات المشاهدات
 	[Key.pageViewsLoading]: "جاري تحميل الإحصائيات...",
 	[Key.pageViewsUnavailable]: "الإحصائيات غير متاحة",
 
@@ -412,7 +412,7 @@ export const ar: Translation = {
 	[Key.listMode]: "قائمة",
 	[Key.gridMode]: "شبكة",
 
-	// External Link Warning
+	// تحذير الرابط الخارجي
 	[Key.leaveSite]: "مغادرة هذا الموقع",
 	[Key.goToExternalLink]: "أنت على وشك زيارة رابط خارجي:",
 	[Key.warningText]: "يرجى الانتباه إلى أمان حسابك وأصولك",
@@ -503,4 +503,7 @@ export const ar: Translation = {
 	[Key.versionDownload]: "تحميل أحدث إصدار",
 	[Key.versionUpdateWarning]:
 		"يحتوي الإصدار الجديد على تغييرات كبيرة في إطار العمل. يرجى نسخ بياناتك احتياطيًا قبل التحديث.",
+
+	// مسار التنقل
+	[Key.suggestion]: "قد ترغب في زيارة",
 };

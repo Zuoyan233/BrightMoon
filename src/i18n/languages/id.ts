@@ -513,4 +513,7 @@ export const id: Translation = {
 	[Key.versionDownload]: "Unduh Versi Terbaru",
 	[Key.versionUpdateWarning]:
 		"Versi baru memiliki perubahan framework yang besar. Harap cadangkan data Anda sebelum meningkatkan.",
+
+	// Navigasi remah roti
+	[Key.suggestion]: "Mungkin Anda ingin mengunjungi",
 };

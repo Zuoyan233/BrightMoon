@@ -78,6 +78,7 @@ This project is a customized extension based on Mizuki V8.2, with version number
 - **Framework** - Built with [Astro](https://astro.build) and [Tailwind CSS](https://tailwindcss.com).
 - **Animations** - Smooth animations and page transitions powered by [Swup](https://swup.js.org/).
 - **Multi-Theme Mode** - Supports Light, Dark, and "System" themes, switchable via dropdown.
+- **Breadcrumb Navigation** - Provides clear navigation paths, making it easy for users to navigate back.
 - **External Link Confirmation** - Confirmation dialog when clicking external links for enhanced browsing security.
 - **Personalized Appearance Control** - Toggle wallpaper mode, cherry blossom effects, article list layout, navbar style, and more.
   - Customizable theme colors and dynamic banner carousel.

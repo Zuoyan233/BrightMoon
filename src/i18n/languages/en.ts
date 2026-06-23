@@ -511,4 +511,7 @@ export const en: Translation = {
 	[Key.versionDownload]: "Download Latest Version",
 	[Key.versionUpdateWarning]:
 		"Major framework changes in the new version. Please back up your data before upgrading.",
+
+	// Breadcrumb Navigation
+	[Key.suggestion]: "You might want to visit",
 };

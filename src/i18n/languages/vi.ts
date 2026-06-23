@@ -9,10 +9,10 @@ export const vi: Translation = {
 	[Key.feedback]: "Phản hồi",
 	[Key.other]: "Khác",
 
-	// Translation panel title
+	// Tiêu đề bảng dịch
 	[Key.translateHeader]: "Chọn ngôn ngữ",
 
-	// Navigation bar titles
+	// Tiêu đề thanh điều hướng
 	[Key.navLinks]: "Liên kết",
 	[Key.navMy]: "Của tôi",
 	[Key.navAbout]: "Giới thiệu",
@@ -23,10 +23,10 @@ export const vi: Translation = {
 	[Key.categories]: "Danh mục",
 	[Key.recentPosts]: "Bài viết gần đây",
 
-	// Table of Contents
+	// Mục lục
 	[Key.tocTitle]: "Mục lục",
 
-	// Announcement
+	// Thông báo
 	[Key.announcement]: "Thông báo",
 	[Key.announcementClose]: "Đóng",
 
@@ -70,7 +70,7 @@ export const vi: Translation = {
 	[Key.anime]: "Anime",
 	[Key.diary]: "Nhật ký",
 
-	// Anime Page
+	// Trang Anime
 	[Key.animeTitle]: "Danh sách Anime của tôi",
 	[Key.animeSubtitle]: "Ghi lại hành trình xem anime của tôi",
 	[Key.animeStatusWatching]: "Đang xem",
@@ -93,7 +93,7 @@ export const vi: Translation = {
 	[Key.animeEmptyLocal]:
 		"Vui lòng thêm thông tin anime trong tệp src/data/anime.ts",
 
-	// Diary Page
+	// Trang Nhật ký
 	[Key.diarySubtitle]: "Chia sẻ cuộc sống, mọi lúc mọi nơi",
 	[Key.diaryCount]: "bài nhật ký",
 	[Key.diaryReply]: "Phản hồi",
@@ -102,14 +102,14 @@ export const vi: Translation = {
 	[Key.diaryHoursAgo]: "giờ trước",
 	[Key.diaryDaysAgo]: "ngày trước",
 
-	// 404 Page
+	// Trang 404
 	[Key.notFound]: "404",
 	[Key.notFoundTitle]: "Không tìm thấy trang",
 	[Key.notFoundDescription]:
 		"Xin lỗi, trang bạn truy cập không tồn tại hoặc đã bị di chuyển.",
 	[Key.backToHome]: "Quay lại trang chủ",
 
-	// Music Player
+	// Trình phát nhạc
 	[Key.musicPlayer]: "Trình phát nhạc",
 	[Key.musicPlayerShow]: "Hiện trình phát nhạc",
 	[Key.musicPlayerHide]: "Ẩn trình phát nhạc",
@@ -136,7 +136,7 @@ export const vi: Translation = {
 	[Key.unknownSong]: "Bài hát không rõ",
 	[Key.unknownArtist]: "Nghệ sĩ không rõ",
 
-	// Albums Page
+	// Trang Album
 	[Key.albums]: "Album",
 	[Key.albumsSubtitle]: "Ghi lại những khoảnh khắc đẹp trong cuộc sống",
 	[Key.albumsEmpty]: "Không có nội dung",
@@ -149,12 +149,12 @@ export const vi: Translation = {
 	[Key.hideAlbumTip]:
 		"Album này được đặt ở chế độ ẩn và sẽ không xuất hiện trong danh sách album, nhưng vẫn có thể truy cập qua liên kết trực tiếp",
 
-	// Devices Page
+	// Thiết bị
 	[Key.devices]: "Thiết bị của tôi",
 	[Key.devicesSubtitle]: "Đây là những thiết bị tôi sử dụng hàng ngày",
 	[Key.devicesViewDetails]: "Xem chi tiết",
 
-	// Projects Page
+	// Trang Dự án
 	[Key.projects]: "Dự án",
 	[Key.projectsSubtitle]: "Danh mục các dự án phát triển của tôi",
 	[Key.projectsAll]: "Tất cả",
@@ -181,7 +181,7 @@ export const vi: Translation = {
 	[Key.projectsVisit]: "Truy cập dự án",
 	[Key.projectsGitHub]: "GitHub",
 
-	// RSS Page
+	// RSS
 	[Key.rss]: "RSS Feed",
 	[Key.rssDescription]: "Đăng ký để nhận cập nhật mới nhất",
 	[Key.rssSubtitle]:
@@ -203,7 +203,7 @@ export const vi: Translation = {
 	[Key.rssCopied]: "Đã sao chép liên kết RSS vào bộ nhớ tạm!",
 	[Key.rssCopyFailed]: "Sao chép thất bại, vui lòng sao chép liên kết thủ công",
 
-	// Atom Page
+	// Trang Atom
 	[Key.atom]: "Atom Feed",
 	[Key.atomDescription]: "Đăng ký để nhận cập nhật mới nhất",
 	[Key.atomSubtitle]:
@@ -226,7 +226,7 @@ export const vi: Translation = {
 	[Key.atomCopyFailed]:
 		"Sao chép thất bại, vui lòng sao chép liên kết thủ công",
 
-	// Wallpaper mode
+	// Chế độ hình nền
 	[Key.wallpaperMode]: "Chế độ hình nền",
 	[Key.wallpaperBanner]: "Chế độ Banner",
 	[Key.wallpaperFullscreen]: "Chế độ Toàn màn hình",
@@ -245,7 +245,7 @@ export const vi: Translation = {
 	[Key.navbarTransparentFull]: "Trong suốt",
 	[Key.navbarTransparentSemifull]: "Động",
 
-	// Skills Page
+	// Trang Kỹ năng
 	[Key.skills]: "Kỹ năng",
 	[Key.skillsSubtitle]: "Kỹ năng kỹ thuật và chuyên môn của tôi",
 	[Key.skillsFrontend]: "Phát triển Frontend",
@@ -273,7 +273,7 @@ export const vi: Translation = {
 	[Key.skillsByCategory]: "Theo danh mục",
 	[Key.noData]: "Không có dữ liệu",
 
-	// Timeline Page
+	// Trang Dòng thời gian
 	[Key.timeline]: "Dòng thời gian",
 	[Key.timelineSubtitle]: "Hành trình phát triển và những cột mốc quan trọng",
 	[Key.timelineEducation]: "Học vấn",
@@ -294,14 +294,14 @@ export const vi: Translation = {
 	[Key.timelineStartDate]: "Ngày bắt đầu",
 	[Key.timelineDuration]: "Thời gian",
 
-	// Feedback Page - Contact the webmaster Module
+	// Trang Phản hồi - Mô-đun liên hệ quản trị viên
 	[Key.contactMe]: "Liên hệ quản trị viên",
 	[Key.contactEmail]: "Liên hệ quản trị viên qua email",
 	[Key.contactSocialFriends]:
 		"Liên hệ quản trị viên bằng cách thêm làm bạn bè trên mạng xã hội",
 	[Key.addFriends]: "Thêm bạn ngay",
 
-	// Sponsorship Page
+	// Trang Tài trợ
 	[Key.sponsorsNotice1]:
 		"Nếu bạn thấy nội dung trang web hữu ích, vui lòng hỗ trợ công việc của tôi thông qua các phương thức sau để giúp tạo ra nội dung tốt hơn. Mọi khoản tài trợ sẽ được sử dụng cho việc duy trì trang web, chi phí máy chủ và sáng tạo nội dung.",
 	[Key.sponsorsNotice2]:
@@ -316,7 +316,7 @@ export const vi: Translation = {
 		"Để lại suy nghĩ của bạn trong phần bình luận bên dưới bài viết",
 	[Key.subscribeToArticles]: "Đăng ký RSS và Atom để nhận bài viết mới nhất",
 
-	// Password Protection
+	// Bảo vệ mật khẩu
 	[Key.passwordProtected]: "Được bảo vệ bằng mật khẩu",
 	[Key.passwordProtectedTitle]: "Nội dung này được bảo vệ bằng mật khẩu",
 	[Key.passwordProtectedDescription]:
@@ -337,7 +337,7 @@ export const vi: Translation = {
 	[Key.autoSyntaxHighlightFailed]: "Tô màu cú pháp tự động cũng thất bại:",
 	[Key.decryptionError]: "Đã xảy ra lỗi trong quá trình giải mã:",
 
-	// Last Modified Time Card
+	// Thẻ thời gian chỉnh sửa lần cuối
 	[Key.lastModifiedPrefix]: "Thời gian kể từ lần chỉnh sửa cuối: ",
 	[Key.lastModifiedOutdated]: "Một số thông tin có thể đã cũ",
 	[Key.year]: "n",
@@ -347,7 +347,7 @@ export const vi: Translation = {
 	[Key.minute]: "ph",
 	[Key.second]: "gi",
 
-	// Site Stats
+	// Thống kê trang web
 	[Key.siteStats]: "Thống kê trang web",
 	[Key.siteStatsPostCount]: "Bài viết",
 	[Key.siteStatsCategoryCount]: "Danh mục",
@@ -373,7 +373,7 @@ export const vi: Translation = {
 	[Key.siteStatsSeasonAutumn]: "Mùa thu",
 	[Key.siteStatsSeasonWinter]: "Mùa đông",
 
-	// Calendar Component
+	// Thành phần lịch
 	[Key.calendarSunday]: "CN",
 	[Key.calendarMonday]: "T2",
 	[Key.calendarTuesday]: "T3",
@@ -394,7 +394,7 @@ export const vi: Translation = {
 	[Key.calendarNovember]: "Thg11",
 	[Key.calendarDecember]: "Thg12",
 
-	// Share Functionality
+	// Chia sẻ
 	[Key.shareArticle]: "Chia sẻ",
 	[Key.generatingPoster]: "Đang tạo poster...",
 	[Key.copied]: "Đã sao chép",
@@ -405,13 +405,13 @@ export const vi: Translation = {
 	[Key.shareOnSocialDescription]:
 		"Nếu bài viết này hữu ích với bạn, hãy chia sẻ nó với người khác!",
 
-	// Profile Stats
+	// Thống kê hồ sơ
 	[Key.profileStatsLoading]: "Đang tải thống kê...",
 	[Key.profileStatsPageViews]: "Lượt xem trang",
 	[Key.profileStatsVisits]: "Lượt truy cập",
 	[Key.profileStatsUnavailable]: "Không có thống kê",
 
-	// Page Views Stats
+	// Thống kê lượt xem
 	[Key.pageViewsLoading]: "Đang tải thống kê...",
 	[Key.pageViewsUnavailable]: "Không có thống kê",
 
@@ -420,7 +420,7 @@ export const vi: Translation = {
 	[Key.listMode]: "Danh sách",
 	[Key.gridMode]: "Lưới",
 
-	// External Link Warning
+	// Cảnh báo liên kết ngoài
 	[Key.leaveSite]: "Rời khỏi trang này",
 	[Key.goToExternalLink]: "Bạn sắp truy cập liên kết bên ngoài:",
 	[Key.warningText]: "Vui lòng chú ý bảo mật tài khoản và tài sản của bạn",
@@ -479,7 +479,7 @@ export const vi: Translation = {
 	[Key.weatherCondHail]: "Mưa đá",
 	[Key.weatherCondDust]: "Bụi",
 
-	// Cookie Consent
+	// Đồng ý Cookie
 	[Key.cookieConsentTitle]: "Chúng Tôi Tôn Trọng Quyền Riêng Tư Của Bạn",
 	[Key.cookieConsentDescription]:
 		"BrightMoon sử dụng cookie để lưu trữ và truy cập các mã định danh thiết bị và dữ liệu khác nhằm cung cấp, duy trì và cải thiện dịch vụ và quảng cáo của chúng tôi. Bạn có thể chọn «Chấp nhận» để đồng ý với các mục đích này, hoặc nhấp «Từ chối tất cả» để từ chối cookie không cần thiết.",
@@ -513,4 +513,7 @@ export const vi: Translation = {
 	[Key.versionDownload]: "Tải xuống phiên bản mới nhất",
 	[Key.versionUpdateWarning]:
 		"Phiên bản mới có thay đổi lớn về framework. Vui lòng sao lưu dữ liệu trước khi nâng cấp.",
+
+	// Điều hướng Breadcrumb
+	[Key.suggestion]: "Có thể bạn muốn truy cập",
 };

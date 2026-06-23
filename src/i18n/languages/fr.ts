@@ -532,4 +532,7 @@ export const fr: Translation = {
 	[Key.versionDownload]: "Télécharger la dernière version",
 	[Key.versionUpdateWarning]:
 		"La nouvelle version apporte des modifications majeures au framework. Veuillez sauvegarder vos données avant la mise à jour.",
+
+	// Fil d'Ariane
+	[Key.suggestion]: "Vous aimerez peut-être visiter",
 };

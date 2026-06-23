@@ -9,10 +9,10 @@ export const th: Translation = {
 	[Key.feedback]: "ข้อเสนอแนะ",
 	[Key.other]: "อื่นๆ",
 
-	// Translation panel title
+	// หัวข้อแผงแปลภาษา
 	[Key.translateHeader]: "เลือกภาษา",
 
-	// Navigation bar titles
+	// หัวข้อแถบนำทาง
 	[Key.navLinks]: "ลิงก์",
 	[Key.navMy]: "ของฉัน",
 	[Key.navAbout]: "เกี่ยวกับ",
@@ -23,10 +23,10 @@ export const th: Translation = {
 	[Key.categories]: "หมวดหมู่",
 	[Key.recentPosts]: "โพสต์ล่าสุด",
 
-	// Table of Contents
+	// สารบัญ
 	[Key.tocTitle]: "สารบัญ",
 
-	// Announcement
+	// ประกาศ
 	[Key.announcement]: "ประกาศ",
 	[Key.announcementClose]: "ปิด",
 
@@ -70,7 +70,7 @@ export const th: Translation = {
 	[Key.anime]: "อนิเมะ",
 	[Key.diary]: "บันทึกส่วนตัว",
 
-	// Anime Page
+	// หน้าอนิเมะ
 	[Key.animeTitle]: "รายการอนิเมะของฉัน",
 	[Key.animeSubtitle]: "บันทึกการเดินทางในโลกอนิเมะของฉัน",
 	[Key.animeStatusWatching]: "กำลังดู",
@@ -90,7 +90,7 @@ export const th: Translation = {
 	[Key.animeSetBilibiliVmId]: "กรุณาตั้งค่า Bilibili vmID ของคุณในไฟล์ src/config.ts",
 	[Key.animeEmptyLocal]: "กรุณาเพิ่มข้อมูลอนิเมะในไฟล์ src/data/anime.ts",
 
-	// Diary Page
+	// หน้าไดอารี่
 	[Key.diarySubtitle]: "แบ่งปันชีวิต ทุกที่ ทุกเวลา",
 	[Key.diaryCount]: "รายการบันทึก",
 	[Key.diaryReply]: "ตอบกลับ",
@@ -99,13 +99,13 @@ export const th: Translation = {
 	[Key.diaryHoursAgo]: "ชั่วโมงที่แล้ว",
 	[Key.diaryDaysAgo]: "วันที่แล้ว",
 
-	// 404 Page
+	// หน้า 404
 	[Key.notFound]: "404",
 	[Key.notFoundTitle]: "ไม่พบหน้าเพจ",
 	[Key.notFoundDescription]: "ขออภัย หน้าที่คุณเยี่ยมชมไม่มีอยู่หรือถูกย้ายไปแล้ว",
 	[Key.backToHome]: "กลับหน้าแรก",
 
-	// Music Player
+	// เครื่องเล่นเพลง
 	[Key.musicPlayer]: "เครื่องเล่นเพลง",
 	[Key.musicPlayerShow]: "แสดงเครื่องเล่นเพลง",
 	[Key.musicPlayerHide]: "ซ่อนเครื่องเล่นเพลง",
@@ -131,7 +131,7 @@ export const th: Translation = {
 	[Key.unknownSong]: "ไม่ทราบชื่อเพลง",
 	[Key.unknownArtist]: "ไม่ทราบชื่อศิลปิน",
 
-	// Albums Page
+	// หน้าอัลบั้ม
 	[Key.albums]: "อัลบั้มรูป",
 	[Key.albumsSubtitle]: "บันทึกช่วงเวลาสวยงามในชีวิต",
 	[Key.albumsEmpty]: "ไม่มีเนื้อหา",
@@ -143,12 +143,12 @@ export const th: Translation = {
 	[Key.hideAlbumTip]:
 		"อัลบั้มนี้ถูกตั้งค่าเป็นซ่อนไว้และจะไม่แสดงในรายการอัลบั้ม แต่ยังสามารถเข้าถึงได้ผ่านลิงก์โดยตรง",
 
-	// Devices Page
+	// หน้าอุปกรณ์
 	[Key.devices]: "อุปกรณ์ของฉัน",
 	[Key.devicesSubtitle]: "นี่คืออุปกรณ์ที่ฉันใช้ในชีวิตประจำวัน",
 	[Key.devicesViewDetails]: "ดูรายละเอียด",
 
-	// Projects Page
+	// หน้าโปรเจกต์
 	[Key.projects]: "โปรเจกต์",
 	[Key.projectsSubtitle]: "ผลงานพัฒนาโปรเจกต์ของฉัน",
 	[Key.projectsAll]: "ทั้งหมด",
@@ -175,7 +175,7 @@ export const th: Translation = {
 	[Key.projectsVisit]: "เยี่ยมชมโปรเจกต์",
 	[Key.projectsGitHub]: "GitHub",
 
-	// RSS Page
+	// หน้า RSS
 	[Key.rss]: "ฟีด RSS",
 	[Key.rssDescription]: "สมัครรับข้อมูลอัปเดตล่าสุด",
 	[Key.rssSubtitle]: "สมัครผ่าน RSS เพื่อรับบทความและการอัปเดตล่าสุดได้ทันที",
@@ -195,7 +195,7 @@ export const th: Translation = {
 	[Key.rssCopied]: "คัดลอกลิงก์ RSS ไปยังคลิปบอร์ดแล้ว!",
 	[Key.rssCopyFailed]: "คัดลอกไม่สำเร็จ กรุณาคัดลอกลิงก์ด้วยตนเอง",
 
-	// Atom Page
+	// หน้า Atom
 	[Key.atom]: "ฟีด Atom",
 	[Key.atomDescription]: "สมัครรับข้อมูลอัปเดตล่าสุด",
 	[Key.atomSubtitle]: "สมัครผ่าน Atom เพื่อรับบทความและการอัปเดตล่าสุดได้ทันที",
@@ -215,7 +215,7 @@ export const th: Translation = {
 	[Key.atomCopied]: "คัดลอกลิงก์ Atom ไปยังคลิปบอร์ดแล้ว!",
 	[Key.atomCopyFailed]: "คัดลอกไม่สำเร็จ กรุณาคัดลอกลิงก์ด้วยตนเอง",
 
-	// Wallpaper mode
+	// โหมดวอลเปเปอร์
 	[Key.wallpaperMode]: "โหมดวอลเปเปอร์",
 	[Key.wallpaperBanner]: "โหมดแบนเนอร์",
 	[Key.wallpaperFullscreen]: "โหมดเต็มหน้าจอ",
@@ -234,7 +234,7 @@ export const th: Translation = {
 	[Key.navbarTransparentFull]: "โปร่งใส",
 	[Key.navbarTransparentSemifull]: "ไดนามิก",
 
-	// Skills Page
+	// หน้าทักษะ
 	[Key.skills]: "ทักษะ",
 	[Key.skillsSubtitle]: "ทักษะทางเทคนิคและความเชี่ยวชาญของฉัน",
 	[Key.skillsFrontend]: "การพัฒนา Frontend",
@@ -262,7 +262,7 @@ export const th: Translation = {
 	[Key.skillsByCategory]: "ตามหมวดหมู่",
 	[Key.noData]: "ไม่มีข้อมูล",
 
-	// Timeline Page
+	// หน้าไทม์ไลน์
 	[Key.timeline]: "ไทม์ไลน์",
 	[Key.timelineSubtitle]: "เส้นทางการเติบโตและเหตุการณ์สำคัญของฉัน",
 	[Key.timelineEducation]: "การศึกษา",
@@ -283,13 +283,13 @@ export const th: Translation = {
 	[Key.timelineStartDate]: "วันที่เริ่มต้น",
 	[Key.timelineDuration]: "ระยะเวลา",
 
-	// Feedback Page - Contact the webmaster Module
+	// หน้าข้อเสนอแนะ - โมดูลติดต่อผู้ดูแล
 	[Key.contactMe]: "ติดต่อผู้ดูแลเว็บ",
 	[Key.contactEmail]: "ติดต่อผู้ดูแลเว็บผ่านอีเมล",
 	[Key.contactSocialFriends]: "เพิ่มเพื่อนในโซเชียลมีเดียเพื่อติดต่อผู้ดูแลเว็บ",
 	[Key.addFriends]: "เพิ่มเพื่อนตอนนี้",
 
-	// Sponsorship Page
+	// หน้าสปอนเซอร์
 	[Key.sponsorsNotice1]:
 		"หากคุณพบว่าเนื้อหาบนเว็บไซต์มีประโยชน์ กรุณาสนับสนุนงานของฉันผ่านวิธีการดังต่อไปนี้ เพื่อช่วยสร้างสรรค์เนื้อหาที่ดียิ่งขึ้น เงินสนับสนุนทั้งหมดจะถูกใช้ไปกับการบำรุงรักษาเว็บไซต์ ค่าเซิร์ฟเวอร์ และการสร้างสรรค์เนื้อหา",
 	[Key.sponsorsNotice2]: "ขอบคุณที่สนับสนุนการพัฒนาเนื้อหาของบล็อก BrightMoon!",
@@ -302,7 +302,7 @@ export const th: Translation = {
 	[Key.leaveComment]: "แสดงความคิดเห็นของคุณในส่วนความคิดเห็นด้านล่างบทความ",
 	[Key.subscribeToArticles]: "สมัครรับข้อมูล RSS และ Atom เพื่อรับบทความล่าสุด",
 
-	// Password Protection
+	// การป้องกันรหัสผ่าน
 	[Key.passwordProtected]: "ป้องกันด้วยรหัสผ่าน",
 	[Key.passwordProtectedTitle]: "เนื้อหานี้ถูกป้องกันด้วยรหัสผ่าน",
 	[Key.passwordProtectedDescription]: "กรุณาใส่รหัสผ่านเพื่อดูเนื้อหาที่ถูกป้องกัน",
@@ -321,7 +321,7 @@ export const th: Translation = {
 	[Key.autoSyntaxHighlightFailed]: "การเน้นไวยากรณ์อัตโนมัติก็ล้มเหลวเช่นกัน:",
 	[Key.decryptionError]: "เกิดข้อผิดพลาดระหว่างการถอดรหัส:",
 
-	// Last Modified Time Card
+	// การ์ดเวลาที่แก้ไขล่าสุด
 	[Key.lastModifiedPrefix]: "เวลาที่ผ่านไปตั้งแต่แก้ไขล่าสุด: ",
 	[Key.lastModifiedOutdated]: "ข้อมูลบางส่วนอาจล้าสมัย",
 	[Key.year]: "ปี",
@@ -331,7 +331,7 @@ export const th: Translation = {
 	[Key.minute]: "นาที",
 	[Key.second]: "วินาที",
 
-	// Site Stats
+	// สถิติเว็บไซต์
 	[Key.siteStats]: "สถิติเว็บไซต์",
 	[Key.siteStatsPostCount]: "บทความ",
 	[Key.siteStatsCategoryCount]: "หมวดหมู่",
@@ -357,7 +357,7 @@ export const th: Translation = {
 	[Key.siteStatsSeasonAutumn]: "ฤดูใบไม้ร่วง",
 	[Key.siteStatsSeasonWinter]: "ฤดูหนาว",
 
-	// Calendar Component
+	// ส่วนประกอบปฏิทิน
 	[Key.calendarSunday]: "อา",
 	[Key.calendarMonday]: "จ",
 	[Key.calendarTuesday]: "อ",
@@ -378,7 +378,7 @@ export const th: Translation = {
 	[Key.calendarNovember]: "พ.ย.",
 	[Key.calendarDecember]: "ธ.ค.",
 
-	// Share Functionality
+	// การแชร์
 	[Key.shareArticle]: "แชร์",
 	[Key.generatingPoster]: "กำลังสร้างโปสเตอร์...",
 	[Key.copied]: "คัดลอกแล้ว",
@@ -388,13 +388,13 @@ export const th: Translation = {
 	[Key.shareOnSocial]: "แชร์",
 	[Key.shareOnSocialDescription]: "หากบทความนี้ช่วยคุณได้ กรุณาแชร์ให้กับผู้อื่น!",
 
-	// Profile Stats
+	// สถิติโปรไฟล์
 	[Key.profileStatsLoading]: "กำลังโหลดสถิติ...",
 	[Key.profileStatsPageViews]: "จำนวนการดูหน้า",
 	[Key.profileStatsVisits]: "การเข้าชม",
 	[Key.profileStatsUnavailable]: "ไม่สามารถแสดงสถิติได้",
 
-	// Page Views Stats
+	// สถิติการดูหน้า
 	[Key.pageViewsLoading]: "กำลังโหลดสถิติ...",
 	[Key.pageViewsUnavailable]: "ไม่สามารถแสดงสถิติได้",
 
@@ -403,7 +403,7 @@ export const th: Translation = {
 	[Key.listMode]: "รายการ",
 	[Key.gridMode]: "ตาราง",
 
-	// External Link Warning
+	// คำเตือนลิงก์ภายนอก
 	[Key.leaveSite]: "ออกจากไซต์นี้",
 	[Key.goToExternalLink]: "คุณกำลังจะไปยังลิงก์ภายนอก:",
 	[Key.warningText]: "โปรดระวังความปลอดภัยของบัญชีและทรัพย์สินของคุณ",
@@ -493,4 +493,7 @@ export const th: Translation = {
 	[Key.versionDownload]: "ดาวน์โหลดเวอร์ชันล่าสุด",
 	[Key.versionUpdateWarning]:
 		"เวอร์ชันใหม่มีการเปลี่ยนแปลงเฟรมเวิร์กอย่างมาก โปรดสำรองข้อมูลก่อนอัปเกรด",
+
+	// การนำทางเบรดครัมบ์
+	[Key.suggestion]: "คุณอาจต้องการเยี่ยมชม",
 };

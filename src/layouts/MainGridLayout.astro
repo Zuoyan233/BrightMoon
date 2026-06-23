@@ -1,12 +1,17 @@
 ---
+import Breadcrumb from "@components/Breadcrumb.astro";
 import BackToTop from "@components/control/BackToTop.astro";
 import FloatingTOC from "@components/control/FloatingTOC.astro";
 import Footer from "@components/Footer.astro";
 import RightSideBar from "@components/layout/RightSideBar.astro";
 import Navbar from "@components/Navbar.astro";
 import SideBar from "@components/widget/SideBar.astro";
+import I18nKey from "@i18n/i18nKey";
+import { i18n } from "@i18n/translation";
+import { getSortedPostsList } from "@utils/content-utils";
 import type { MarkdownHeading } from "astro";
 import { Icon } from "astro-icon/components";
+import { LinkPreset } from "@/types/config";
 import FullscreenWallpaper from "../components/misc/FullscreenWallpaper.astro";
 import IconifyLoader from "../components/misc/IconifyLoader.astro";
 import ImageWrapper from "../components/misc/ImageWrapper.astro";
@@ -18,8 +23,16 @@ import {
 	// BANNER_HEIGHT_HOME,
 	// MAIN_PANEL_OVERLAPS_BANNER_HEIGHT,
 } from "../constants/constants";
+import { LinkPresets } from "../constants/link-presets";
 import { widgetManager } from "../utils/widget-manager";
 import Layout from "./Layout.astro";
+
+interface BreadcrumbItem {
+	label: string;
+	href?: string;
+	icon?: string;
+	suggestionLabel?: string;
+}
 
 interface Props {
 	title?: string;
@@ -29,6 +42,7 @@ interface Props {
 	setOGTypeArticle?: boolean;
 	postSlug?: string;
 	headings?: MarkdownHeading[];
+	breadcrumbItems?: BreadcrumbItem[];
 }
 
 // 获取 TOC 响应式模式配置
@@ -108,12 +122,107 @@ const {
 	setOGTypeArticle,
 	postSlug,
 	headings = [],
+	breadcrumbItems,
 } = Astro.props;
 const hasBannerCredit = siteConfig.banner.credit.enable;
 const hasBannerLink = !!siteConfig.banner.credit.url;
 
-// 检查是否为首页
 const isHomePage = Astro.url.pathname === "/" || Astro.url.pathname === "";
+const showBreadcrumb =
+	isHomePage || breadcrumbItems !== undefined || title !== undefined;
+
+// 基于 LinkPresets 的 URL 前缀匹配图标
+const urlIconPairs = Object.values(LinkPresets)
+	.filter((p) => p.url !== "/")
+	.map((p) => ({ url: p.url.replace(/\/+$/, ""), icon: p.icon }))
+	.sort((a, b) => b.url.length - a.url.length);
+
+const homeIcon = LinkPresets[LinkPreset.Home].icon;
+
+function matchIconByUrl(path: string): string | undefined {
+	if (!path) return undefined;
+	const normalized = path.split("?")[0].replace(/\/+$/, "");
+	if (normalized === "" || normalized === "/") return homeIcon;
+	for (const pair of urlIconPairs) {
+		if (normalized === pair.url) return pair.icon;
+	}
+	for (const pair of urlIconPairs) {
+		if (normalized.startsWith(`${pair.url}/`)) return pair.icon;
+	}
+
+	// 内容路由回退匹配（不在 LinkPresets 中的动态路由）
+	const contentRouteMap: Record<string, string> = {
+		"/posts": "material-symbols:article",
+	};
+	for (const [prefix, icon] of Object.entries(contentRouteMap)) {
+		if (normalized === prefix || normalized.startsWith(`${prefix}/`)) {
+			return icon;
+		}
+	}
+
+	// 自定义永久链接 /xxxx/ ，只有一段路径 → 也是文章
+	if (
+		normalized.split("/").length === 2 &&
+		/^[a-z0-9_-]+$/i.test(normalized.slice(1))
+	) {
+		return "material-symbols:article";
+	}
+
+	// 多段路径的回退，如 /category/tech/、/2024/01/ 等
+	const segments = normalized.split("/").filter(Boolean);
+	if (segments.length >= 2) {
+		return "material-symbols:description";
+	}
+
+	return undefined;
+}
+
+const currentPath = Astro.url.pathname;
+
+// 主页时收集所有候选页面/文章，供客户端随机推荐（避免构建时固化）
+const homepageCandidatesJson = await (async () => {
+	if (!isHomePage) return "[]";
+
+	// 导航页面（排除首页）
+	const navPages = Object.values(LinkPresets).filter((p) => p.url !== "/");
+
+	// 随机选取几篇文章作为候选
+	const allPosts = await getSortedPostsList();
+	const shuffledPosts = allPosts.sort(() => Math.random() - 0.5).slice(0, 3);
+	const postPages = shuffledPosts.map((post) => ({
+		label: post.data.title,
+		href: post.url || `/posts/${post.id.replace(/\.md$/, "")}/`,
+		icon: "material-symbols:article",
+	}));
+
+	// 合并导航页面和文章
+	const allCandidates = [
+		...navPages.map((p) => ({
+			suggestionLabel: i18n(I18nKey.suggestion),
+			label: p.name,
+			href: p.url,
+			icon: p.icon,
+		})),
+		...postPages.map((p) => ({
+			suggestionLabel: i18n(I18nKey.suggestion),
+			...p,
+		})),
+	];
+
+	return JSON.stringify(allCandidates);
+})();
+
+// 主页时不渲染推荐项（由客户端 JS 随机选取并动态插入，避免构建时固化）
+const breadcrumbBase =
+	breadcrumbItems || (isHomePage ? [] : [{ label: title || "" }]);
+
+const resolvedBreadcrumbItems = breadcrumbBase
+	.filter((item) => item.label !== "")
+	.map((item) => ({
+		...item,
+		icon: item.icon || matchIconByUrl(item.href || currentPath),
+	}));
+
 const showHomeText = siteConfig.banner.homeText?.enable && isHomePage;
 // 手机端非首页不显示banner的CSS类
 const mobileNonHomeBannerClass = !isHomePage ? "mobile-hide-banner" : "";
@@ -440,6 +549,13 @@ const transparentClass = shouldEnableTransparency
                     }
                 }
             }
+            
+            // Swup 切换时重新随机选取主页推荐项
+            if (window.location.pathname === '/' || window.location.pathname === '') {
+                if (typeof window.injectHomepageSuggestion === 'function') {
+                    window.injectHomepageSuggestion();
+                }
+            }
         });
     };
 
@@ -457,6 +573,60 @@ const transparentClass = shouldEnableTransparency
 
     // 监听壁纸模式切换
     window.addEventListener('wallpaper-mode-change', updateTOCDisplay);
+
+    // 主页推荐项随机选取函数（供初始加载和 Swup 切换共用）
+    window.injectHomepageSuggestion = function() {
+        // 只在主页执行
+        if (window.location.pathname !== '/' && window.location.pathname !== '') return;
+        
+        var dataScript = document.getElementById('homepage-suggestion-data');
+        if (!dataScript) return;
+        var candidates;
+        try {
+            candidates = JSON.parse(dataScript.textContent || '[]');
+        } catch(e) {
+            return;
+        }
+        if (!candidates || candidates.length === 0) return;
+        
+        // 移除之前动态插入的推荐项（保留面包屑容器中除了首页按钮和分隔符之外的内容）
+        var breadcrumbContainer = document.querySelector('.breadcrumb-container');
+        if (!breadcrumbContainer) return;
+        
+        // 移除所有动态插入的推荐项（标记为 data-dynamic-suggestion 的元素）
+        var existingSuggestions = breadcrumbContainer.querySelectorAll('[data-dynamic-suggestion]');
+        existingSuggestions.forEach(function(el) { el.remove(); });
+        
+        // 随机选取一个
+        var chosen = candidates[Math.floor(Math.random() * candidates.length)];
+        if (!chosen) return;
+        
+        // 使用 iconify-icon 渲染图标
+        var iconHtml = chosen.icon
+            ? '<span class="flex items-center justify-center w-8 h-8 mr-2 rounded-lg bg-[var(--btn-plain-bg-hover)] group-hover:bg-[var(--primary)] transition-colors duration-200">'
+            + '<iconify-icon icon="' + chosen.icon + '" class="text-xl leading-none shrink-0 text-[var(--btn-content)] transition-colors duration-200 group-hover:text-white" style="width:1.25rem;height:1.25rem"></iconify-icon>'
+            + '</span>'
+            : '';
+        
+        var suggestionHtml = chosen.suggestionLabel
+            ? '<span class="suggestion-prefix shrink-0">' + chosen.suggestionLabel + '</span><span class="shrink-0">: </span>'
+            : '';
+        
+        var href = chosen.href || '#';
+        
+        var itemHtml = '<div data-dynamic-suggestion class="flex items-center text-[var(--primary)] opacity-50 shrink-0">'
+            + '<iconify-icon icon="material-symbols:chevron-right-rounded" class="text-xl leading-none" style="width:1.25rem;height:1.25rem"></iconify-icon>'
+            + '</div>'
+            + '<a href="' + href + '" title="' + chosen.label + '" data-dynamic-suggestion class="group flex items-center gap-1 rounded-lg transition-all duration-200 ease-out whitespace-nowrap shrink-0 px-2 py-2 cursor-pointer border-none bg-transparent text-sm text-neutral-500 dark:text-neutral-400 no-underline hover:bg-[var(--btn-plain-bg-hover)] hover:text-[var(--primary)] dark:hover:text-[var(--primary)]">'
+            + iconHtml
+            + '<span class="leading-none inline-flex items-center gap-1">'
+            + suggestionHtml
+            + '<span>' + chosen.label + '</span>'
+            + '</span>'
+            + '</a>';
+        
+        breadcrumbContainer.insertAdjacentHTML('beforeend', itemHtml);
+    };
 
 	// 立即执行，在页面渲染前应用壁纸模式、导航栏透明模式和布局模式，避免闪烁
 	(function() {
@@ -1080,8 +1250,65 @@ const transparentClass = shouldEnableTransparency
 
             <main id="swup-container" class={`${mainContentClass} transition-main`}>
                 <div id="content-wrapper" class="onload-animation transition-leaving">
-                    <!-- the overflow-hidden here prevent long text break the layout-->
-                    <!-- make id different from windows.swup global property -->
+                    {showBreadcrumb && (
+                        <>
+                            <!-- 主页推荐候选项数据（JSON），供客户端随机选取 -->
+                            {isHomePage && (
+                                <script id="homepage-suggestion-data" type="application/json" is:inline set:html={homepageCandidatesJson}></script>
+                            )}
+                            <Breadcrumb className="" items={resolvedBreadcrumbItems} />
+                            <!-- 主页时由客户端随机选取推荐项，避免构建时固化 -->
+                            {isHomePage && (
+                                <script is:inline>
+                                    (function() {
+                                        var dataScript = document.getElementById('homepage-suggestion-data');
+                                        if (!dataScript) return;
+                                        var candidates;
+                                        try {
+                                            candidates = JSON.parse(dataScript.textContent || '[]');
+                                        } catch(e) {
+                                            return;
+                                        }
+                                        if (!candidates || candidates.length === 0) return;
+                                        
+                                        // 随机选取一个
+                                        var chosen = candidates[Math.floor(Math.random() * candidates.length)];
+                                        if (!chosen) return;
+                                        
+                                        // 使用 iconify-icon 渲染图标（由 IconifyLoader 处理加载）
+                                        var iconHtml = chosen.icon
+                                            ? '<span class="flex items-center justify-center w-8 h-8 mr-2 rounded-lg bg-[var(--btn-plain-bg-hover)] group-hover:bg-[var(--primary)] transition-colors duration-200">'
+                                            + '<iconify-icon icon="' + chosen.icon + '" class="text-xl leading-none shrink-0 text-[var(--btn-content)] transition-colors duration-200 group-hover:text-white" style="width:1.25rem;height:1.25rem"></iconify-icon>'
+                                            + '</span>'
+                                            : '';
+                                        
+                                        var suggestionHtml = chosen.suggestionLabel
+                                            ? '<span class="suggestion-prefix shrink-0">' + chosen.suggestionLabel + '</span><span class="shrink-0">: </span>'
+                                            : '';
+                                        
+                                        var href = chosen.href || '#';
+                                        
+                                        var itemHtml = '<div data-dynamic-suggestion class="flex items-center text-[var(--primary)] opacity-50 shrink-0">'
+                                            + '<iconify-icon icon="material-symbols:chevron-right-rounded" class="text-xl leading-none" style="width:1.25rem;height:1.25rem"></iconify-icon>'
+                                            + '</div>'
+                                            + '<a href="' + href + '" title="' + chosen.label + '" data-dynamic-suggestion class="group flex items-center gap-1 rounded-lg transition-all duration-200 ease-out whitespace-nowrap shrink-0 px-2 py-2 cursor-pointer border-none bg-transparent text-sm text-neutral-500 dark:text-neutral-400 no-underline hover:bg-[var(--btn-plain-bg-hover)] hover:text-[var(--primary)] dark:hover:text-[var(--primary)]">'
+                                            + iconHtml
+                                            + '<span class="leading-none inline-flex items-center gap-1">'
+                                            + suggestionHtml
+                                            + '<span>' + chosen.label + '</span>'
+                                            + '</span>'
+                                            + '</a>';
+                                        
+                                        // 插入到面包屑容器中
+                                        var breadcrumbContainer = document.querySelector('.breadcrumb-container');
+                                        if (breadcrumbContainer) {
+                                            breadcrumbContainer.insertAdjacentHTML('beforeend', itemHtml);
+                                        }
+                                    })();
+                                </script>
+                            )}
+                        </>
+                    )}
                     <slot></slot>
                     <div class="footer col-span-full onload-animation hidden lg:block">
                         <Footer></Footer>

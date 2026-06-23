@@ -31,7 +31,7 @@ if (!album) {
 }
 ---
 
-<MainGridLayout title={album.title} description={album.description || album.title}>
+<MainGridLayout title={album.title} description={album.description || album.title} breadcrumbItems={[{ label: i18n(I18nKey.albums), href: "/albums/" }, { label: album.title }]}>
   <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
     <div class="card-base z-10 px-9 py-6 relative w-full">
       

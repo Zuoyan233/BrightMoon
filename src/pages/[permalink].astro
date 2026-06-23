@@ -21,7 +21,11 @@ import {
 	hasCustomPermalink,
 	initPostIdMap,
 } from "@utils/permalink-utils";
-import { getFileDirFromPath, getPostUrlBySlug } from "@utils/url-utils";
+import {
+	getCategoryUrl,
+	getFileDirFromPath,
+	getPostUrlBySlug,
+} from "@utils/url-utils";
 import { Icon } from "astro-icon/components";
 import CryptoJS from "crypto-js";
 import dayjs from "dayjs";
@@ -116,6 +120,10 @@ const jsonLd = {
     setOGTypeArticle={true}
     postSlug={entry.id}
     headings={headings}
+    breadcrumbItems={[
+      { label: entry.data.category || i18n(I18nKey.uncategorized), href: getCategoryUrl(entry.data.category || null) },
+      { label: entry.data.title },
+    ]}
 >
     <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
     <script>
@@ -352,6 +360,7 @@ const jsonLd = {
                     <div class="btn-card rounded-2xl w-full h-[3.75rem] max-w-full px-4 flex items-center !justify-start gap-4">
                         <Icon
                             name="material-symbols:chevron-left-rounded"
+                            is:inline
                             class="text-[2rem] text-[var(--primary)]"
                         />
                         <div class="overflow-hidden transition overflow-ellipsis whitespace-nowrap max-w-[calc(100%_-_3rem)] text-black/75 dark:text-white/75">
@@ -379,6 +388,7 @@ const jsonLd = {
                         </div>
                         <Icon
                             name="material-symbols:chevron-right-rounded"
+                            is:inline
                             class="text-[2rem] text-[var(--primary)]"
                         />
                     </div>

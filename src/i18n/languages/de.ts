@@ -526,4 +526,7 @@ export const de: Translation = {
 	[Key.versionDownload]: "Neueste Version herunterladen",
 	[Key.versionUpdateWarning]:
 		"Die neue Version enthält größere Framework-Änderungen. Bitte sichern Sie Ihre Daten vor dem Upgrade.",
+
+	// Brotkrumen-Navigation
+	[Key.suggestion]: "Vielleicht möchten Sie besuchen",
 };

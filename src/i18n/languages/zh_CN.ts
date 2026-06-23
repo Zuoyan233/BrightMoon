@@ -311,7 +311,7 @@ export const zh_CN: Translation = {
 	[Key.atomCopied]: "Atom 链接已复制到剪贴板！",
 	[Key.atomCopyFailed]: "复制失败，请手动复制链接",
 
-	// Wallpaper mode
+	// 壁纸模式
 	[Key.wallpaperMode]: "壁纸模式",
 	[Key.wallpaperBanner]: "横幅模式",
 	[Key.wallpaperFullscreen]: "全屏模式",
@@ -490,4 +490,7 @@ export const zh_CN: Translation = {
 	[Key.versionDownload]: "下载最新版本",
 	[Key.versionUpdateWarning]:
 		"新版本框架改动较大移植需自行测试，请提前备份好数据",
+
+	// 面包屑导航
+	[Key.suggestion]: "你可能想访问",
 };

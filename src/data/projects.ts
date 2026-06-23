@@ -22,7 +22,8 @@ export const projectsData: Project[] = [
 	{
 		id: "BrightMoon",
 		title: "BrightMoon",
-		description: "现代化特色功能的二次元静态博客主题（基于 Astro 框架驱动）",
+		description:
+			"Modern static blog theme with distinctive anime-style features. Powered by Astro framework.",
 		image: "",
 		category: "web",
 		techStack: ["Astro", "TypeScript", "Tailwind CSS", "MongoDB", "Svelte"],

@@ -525,4 +525,7 @@ export const es: Translation = {
 	[Key.versionDownload]: "Descargar última versión",
 	[Key.versionUpdateWarning]:
 		"La nueva versión tiene cambios importantes en el framework. Haga una copia de seguridad antes de actualizar.",
+
+	// Navegación de migas de pan
+	[Key.suggestion]: "Quizás quieras visitar",
 };

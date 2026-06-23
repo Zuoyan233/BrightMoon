@@ -65,16 +65,19 @@ const { remarkPluginFrontmatter } = await render(entry);
 				pinned && (
 					<Icon
 						name="mdi:pin"
+						is:inline
 						class="inline text-[var(--primary)] text-2xl mr-2 -translate-y-0.5"
 					/>
 				)
 			}
 			{title}
 			<Icon
+				is:inline
 				class="inline text-[2rem] text-[var(--primary)] md:hidden translate-y-0.5 absolute"
 				name="material-symbols:chevron-right-rounded"
 			/>
 			<Icon
+				is:inline
 				class="text-[var(--primary)] text-[2rem] transition hidden md:inline absolute translate-y-0.5 opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0"
 				name="material-symbols:chevron-right-rounded"
 			/>
@@ -142,6 +145,7 @@ const { remarkPluginFrontmatter } = await render(entry);
 				<div class="absolute pointer-events-none z-20 w-full h-full flex items-center justify-center ">
 					<Icon
 						name="material-symbols:chevron-right-rounded"
+						is:inline
 						class="transition opacity-0 group-hover:opacity-100 scale-50 group-hover:scale-100 text-white text-5xl"
 					/>
 				</div>
@@ -167,6 +171,7 @@ const { remarkPluginFrontmatter } = await render(entry);
 			>
 				<Icon
 					name="material-symbols:chevron-right-rounded"
+					is:inline
 					class="transition text-[var(--primary)] text-4xl mx-auto"
 				/>
 			</a>

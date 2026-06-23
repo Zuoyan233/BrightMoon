@@ -12,6 +12,7 @@ import MainGridLayout from "@layouts/MainGridLayout.astro";
 import { getSortedPosts } from "@utils/content-utils";
 import { hasCustomPermalink, initPostIdMap } from "@utils/permalink-utils";
 import {
+	getCategoryUrl,
 	getFileDirFromPath,
 	getPostUrlBySlug,
 	removeFileExtension,
@@ -175,6 +176,10 @@ const jsonLd = {
     setOGTypeArticle={true}
     postSlug={entry.id}
     headings={headings}
+    breadcrumbItems={[
+      { label: entry.data.category || i18n(I18nKey.uncategorized), href: getCategoryUrl(entry.data.category || null) },
+      { label: entry.data.title },
+    ]}
 >
     <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
     <!-- 引入右侧边栏布局管理器 -->
@@ -450,6 +455,7 @@ const jsonLd = {
                     <div class="btn-card rounded-2xl w-full h-[3.75rem] max-w-full px-4 flex items-center !justify-start gap-4">
                         <Icon
                             name="material-symbols:chevron-left-rounded"
+                            is:inline
                             class="text-[2rem] text-[var(--primary)]"
                         />
                         <div class="overflow-hidden transition overflow-ellipsis whitespace-nowrap max-w-[calc(100%_-_3rem)] text-black/75 dark:text-white/75">
@@ -477,6 +483,7 @@ const jsonLd = {
                         </div>
                         <Icon
                             name="material-symbols:chevron-right-rounded"
+                            is:inline
                             class="text-[2rem] text-[var(--primary)]"
                         />
                     </div>

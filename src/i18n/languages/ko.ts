@@ -505,4 +505,7 @@ export const ko: Translation = {
 	[Key.versionDownload]: "최신 버전 다운로드",
 	[Key.versionUpdateWarning]:
 		"새 버전은 프레임워크 변경이 크므로 업그레이드 전 데이터를 백업하세요",
+
+	// 브레드크럼 내비게이션
+	[Key.suggestion]: "방문하고 싶을 수도 있습니다",
 };
