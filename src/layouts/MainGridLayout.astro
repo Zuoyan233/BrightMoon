@@ -11,11 +11,7 @@ import FullscreenWallpaper from "../components/misc/FullscreenWallpaper.astro";
 import IconifyLoader from "../components/misc/IconifyLoader.astro";
 import ImageWrapper from "../components/misc/ImageWrapper.astro";
 import TypewriterText from "../components/TypewriterText.astro";
-import {
-	fullscreenWallpaperConfig,
-	sidebarLayoutConfig,
-	siteConfig,
-} from "../config";
+import { sidebarLayoutConfig, siteConfig } from "../config";
 import {
 	BANNER_HEIGHT,
 	BANNER_HEIGHT_EXTEND,
@@ -843,7 +839,7 @@ const transparentClass = shouldEnableTransparency
 </script>
 
 <!-- 全屏壁纸 - 始终渲染，通过 JS 控制显示隐藏 -->
-<FullscreenWallpaper config={fullscreenWallpaperConfig} />
+<FullscreenWallpaper config={siteConfig.fullscreenWallpaper} />
 
 <!-- 全局图标加载器 -->
 <IconifyLoader />

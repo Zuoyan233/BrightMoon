@@ -7,7 +7,6 @@ import type {
 	ExpressiveCodeConfig,
 	ExternalLinkConfirmConfig,
 	FooterConfig,
-	FullscreenWallpaperConfig,
 	LicenseConfig,
 	MusicPlayerConfig,
 	NavBarConfig,
@@ -218,6 +217,33 @@ export const siteConfig: SiteConfig = {
 			url: "https://www.soutushenqi.com/", // （可选）原始艺术品或艺术家页面的 URL 链接
 		},
 	},
+
+	fullscreenWallpaper: {
+		// 支持单张图片或图片数组，当数组长度 > 1 时自动启用轮播
+		src: {
+			desktop: [
+				"/assets/desktop-banner/d1.webp",
+				"/assets/desktop-banner/d2.webp",
+				"/assets/desktop-banner/d3.webp",
+				"/assets/desktop-banner/d4.webp",
+				"/assets/desktop-banner/d5.webp",
+				"/assets/desktop-banner/d6.webp",
+			],
+			mobile: [
+				"/assets/mobile-banner/m1.webp",
+				"/assets/mobile-banner/m2.webp",
+				"/assets/mobile-banner/m3.webp",
+				"/assets/mobile-banner/m4.webp",
+				"/assets/mobile-banner/m5.webp",
+				"/assets/mobile-banner/m6.webp",
+			],
+		},
+		carousel: {
+			enable: true, // 为 true 时：为多张图片启用轮播。为 false 时：从数组中随机显示一张图片
+			interval: 6, // 轮播间隔时间（秒）
+		},
+	},
+
 	toc: {
 		enable: true, // 启用目录功能
 		responsive: {
@@ -251,30 +277,6 @@ export const siteConfig: SiteConfig = {
 		enableCompress: true, // 是否启用字体子集优化（减少字体文件大小，只保留实际使用的字符）
 	},
 	showLastModified: true, // 控制“上次编辑”卡片显示的开关
-};
-export const fullscreenWallpaperConfig: FullscreenWallpaperConfig = {
-	src: {
-		desktop: [
-			"/assets/desktop-banner/d1.webp",
-			"/assets/desktop-banner/d2.webp",
-			"/assets/desktop-banner/d3.webp",
-			"/assets/desktop-banner/d4.webp",
-			"/assets/desktop-banner/d5.webp",
-			"/assets/desktop-banner/d6.webp",
-		], // 桌面横幅图片
-		mobile: [
-			"/assets/mobile-banner/m1.webp",
-			"/assets/mobile-banner/m2.webp",
-			"/assets/mobile-banner/m3.webp",
-			"/assets/mobile-banner/m4.webp",
-			"/assets/mobile-banner/m5.webp",
-			"/assets/mobile-banner/m6.webp",
-		], // 移动横幅图片
-	}, // 使用本地横幅图片
-	carousel: {
-		enable: true, // 启用轮播
-		interval: 6, // 轮播间隔时间（秒）
-	},
 };
 
 export const navBarConfig: NavBarConfig = {
@@ -778,7 +780,6 @@ export const widgetConfigs = {
 	music: musicPlayerConfig,
 	layout: sidebarLayoutConfig,
 	sakura: sakuraConfig,
-	fullscreenWallpaper: fullscreenWallpaperConfig,
 	pio: pioConfig, // 添加 pio 配置
 	share: shareConfig, // 添加分享配置
 	weather: weatherConfig, // 添加天气配置

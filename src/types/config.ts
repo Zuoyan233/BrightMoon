@@ -198,6 +198,9 @@ export type SiteConfig = {
 			url?: string;
 		};
 	};
+
+	fullscreenWallpaper: FullscreenWallpaperConfig;
+
 	toc: {
 		enable: boolean;
 		responsive?: {
@@ -296,7 +299,6 @@ export type PermalinkConfig = {
 };
 
 // 评论配置
-
 export type CommentConfig = {
 	enable: boolean; // 是否启用评论功能
 	twikoo?: TwikooConfig;
