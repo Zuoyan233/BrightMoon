@@ -1,6 +1,6 @@
 /**
  * 语言映射工具函数
- * 将配置文件中的语言代码映射到翻译服务的语言代码
+ * 集中管理配置文件语言代码到各服务语言代码的映射
  */
 
 // 配置文件语言代码到翻译服务语言代码的映射
@@ -39,48 +39,59 @@ export const translateToLangMap: Record<string, string> = {
 	arabic: "ar",
 };
 
-/**
- * 将配置文件的语言代码转换为翻译服务的语言代码
- * @param configLang 配置文件中的语言代码
- * @returns 翻译服务的语言代码
- */
-export function getTranslateLanguageFromConfig(configLang: string): string {
-	return langToTranslateMap[configLang] || "chinese_simplified";
-}
+// 配置文件语言代码到 Locale 的映射（用于日期格式化等）
+export const langToLocaleMap: Record<string, string> = {
+	zh_CN: "zh-CN",
+	zh_TW: "zh-TW",
+	en: "en-US",
+	ja: "ja-JP",
+	ko: "ko-KR",
+	es: "es-ES",
+	th: "th-TH",
+	vi: "vi-VN",
+	tr: "tr-TR",
+	id: "id-ID",
+	fr: "fr-FR",
+	de: "de-DE",
+	ru: "ru-RU",
+	ar: "ar-SA",
+};
 
-/**
- * 将翻译服务的语言代码转换为配置文件的语言代码
- * @param translateLang 翻译服务的语言代码
- * @returns 配置文件中的语言代码
- */
-export function getConfigLanguageFromTranslate(translateLang: string): string {
-	return translateToLangMap[translateLang] || "zh_CN";
-}
+// 配置文件语言代码到 Twikoo 语言代码的映射
+export const langToTwikooMap: Record<string, string> = {
+	zh_CN: "zh-CN",
+	zh_TW: "zh-TW",
+	en: "en",
+	ja: "ja",
+	ko: "ko",
+	es: "es",
+	th: "th",
+	vi: "vi",
+	tr: "tr",
+	id: "id",
+	fr: "fr",
+	de: "de",
+	ru: "ru",
+	ar: "ar",
+};
 
-/**
- * 将配置文件的语言代码转换为 Twikoo 可用的语言代码
- * @param configLang 配置文件中的语言代码
- * @returns Twikoo 语言代码
- */
-export function getTwikooLanguageFromConfig(configLang: string): string {
-	const map: Record<string, string> = {
-		zh_CN: "zh-CN",
-		zh_TW: "zh-TW",
-		en: "en",
-		ja: "ja",
-		ko: "ko",
-		es: "es",
-		th: "th",
-		vi: "vi",
-		tr: "tr",
-		id: "id",
-		fr: "fr",
-		de: "de",
-		ru: "ru",
-		ar: "ar",
-	};
-	return map[configLang] || configLang;
-}
+// 配置文件语言代码到 WeatherAPI 语言代码的映射
+export const langToWeatherApiMap: Record<string, string> = {
+	en: "en",
+	zh_CN: "zh",
+	zh_TW: "zh",
+	ja: "ja",
+	ko: "ko",
+	es: "es",
+	th: "th",
+	vi: "vi",
+	tr: "tr",
+	id: "id",
+	fr: "fr",
+	de: "de",
+	ru: "ru",
+	ar: "ar",
+};
 
 /**
  * 获取语言的显示名称
@@ -103,7 +114,6 @@ export function getLanguageDisplayName(langCode: string): string {
 		de: "Deutsch",
 		ru: "Русский",
 		ar: "العربية",
-		// 翻译服务格式
 		chinese_simplified: "简体中文",
 		chinese_traditional: "繁體中文",
 		english: "English",
@@ -121,4 +131,49 @@ export function getLanguageDisplayName(langCode: string): string {
 	};
 
 	return languageNames[langCode] || langCode;
+}
+
+/**
+ * 将配置文件的语言代码转换为翻译服务的语言代码
+ * @param configLang 配置文件中的语言代码
+ * @returns 翻译服务的语言代码
+ */
+export function getTranslateLanguageFromConfig(configLang: string): string {
+	return langToTranslateMap[configLang] || "chinese_simplified";
+}
+
+/**
+ * 将翻译服务的语言代码转换为配置文件的语言代码
+ * @param translateLang 翻译服务的语言代码
+ * @returns 配置文件中的语言代码
+ */
+export function getConfigLanguageFromTranslate(translateLang: string): string {
+	return translateToLangMap[translateLang] || "zh_CN";
+}
+
+/**
+ * 将配置文件的语言代码转换为 Locale 标识（用于日期格式化等）
+ * @param configLang 配置文件中的语言代码
+ * @returns Locale 标识（如 zh-CN、en-US）
+ */
+export function getLocaleFromConfig(configLang: string): string {
+	return langToLocaleMap[configLang] || "en-US";
+}
+
+/**
+ * 将配置文件的语言代码转换为 Twikoo 可用的语言代码
+ * @param configLang 配置文件中的语言代码
+ * @returns Twikoo 语言代码
+ */
+export function getTwikooLanguageFromConfig(configLang: string): string {
+	return langToTwikooMap[configLang] || configLang;
+}
+
+/**
+ * 将配置文件的语言代码转换为 WeatherAPI 的语言代码
+ * @param configLang 配置文件中的语言代码
+ * @returns WeatherAPI 语言代码
+ */
+export function getWeatherApiLanguageFromConfig(configLang: string): string {
+	return langToWeatherApiMap[configLang] || "en";
 }

@@ -4,7 +4,10 @@ import { siteConfig, weatherConfig } from "../../config";
 import I18nKey from "../../i18n/i18nKey";
 import { i18n } from "../../i18n/translation";
 import { allTranslations } from "../../utils/i18n-dom-updater";
-import { translateToLangMap } from "../../utils/language-utils";
+import {
+	langToWeatherApiMap,
+	translateToLangMap,
+} from "../../utils/language-utils";
 import WidgetLayout from "./WidgetLayout.astro";
 
 interface Props {
@@ -72,25 +75,7 @@ for (const [lang, tr] of Object.entries(allTranslations)) {
 
 const weatherTranslationsJSON = JSON.stringify(weatherTranslations);
 const translateToI18nMapJSON = JSON.stringify(translateToLangMap);
-
-// WeatherAPI 语言代码映射
-const weatherApiLangMap: Record<string, string> = {
-	en: "en",
-	zh_CN: "zh",
-	zh_TW: "zh",
-	ja: "ja",
-	ko: "ko",
-	es: "es",
-	th: "th",
-	vi: "vi",
-	tr: "tr",
-	id: "id",
-	fr: "fr",
-	de: "de",
-	ru: "ru",
-	ar: "ar",
-};
-const weatherApiLangMapJSON = JSON.stringify(weatherApiLangMap);
+const weatherApiLangMapJSON = JSON.stringify(langToWeatherApiMap);
 ---
 
 <WidgetLayout
