@@ -437,6 +437,9 @@ export const ja: Translation = {
 	[Key.weatherLocationDisabled]:
 		"プライバシー契約を拒否したため、天気位置情報サービスは無効になりました",
 	[Key.weatherWaitingConsent]: "天気位置情報の承認を待っています...",
+	[Key.weatherDefaultLocationHint]:
+		"プライバシー同意が拒否されたため、デフォルト位置で天気を取得しています",
+	[Key.weatherDefaultLocationConfirm]: "確認",
 	[Key.weatherLoading]: "天気を読み込み中...",
 	[Key.weatherLoadFailed]: "読み込みに失敗しました",
 	[Key.weatherRetry]: "再試行",
@@ -477,6 +480,7 @@ export const ja: Translation = {
 	[Key.cookieConsentDescription]:
 		"BrightMoon では、サービスと広告の提供・維持・改善のために、Cookie を使用してデバイス識別子などのデータを保存およびアクセスしています。「同意する」を選択するか、「すべて拒否」をクリックして不要な Cookie を拒否できます。",
 	[Key.cookieConsentIpInfo]: "位置情報を取得中...",
+	[Key.cookieConsentIpTimeout]: "位置情報の取得がタイムアウトしました",
 	[Key.cookieConsentAccept]: "同意する",
 	[Key.cookieConsentReject]: "すべて拒否",
 

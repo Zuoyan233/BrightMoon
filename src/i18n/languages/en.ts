@@ -440,6 +440,9 @@ export const en: Translation = {
 	[Key.weatherLocationDisabled]:
 		"Weather location service has been disabled due to rejection of the privacy agreement",
 	[Key.weatherWaitingConsent]: "Waiting for weather location authorization...",
+	[Key.weatherDefaultLocationHint]:
+		"Privacy consent rejected, using default location for weather",
+	[Key.weatherDefaultLocationConfirm]: "OK",
 	[Key.weatherLoading]: "Loading weather...",
 	[Key.weatherLoadFailed]: "Failed to load weather",
 	[Key.weatherRetry]: "Retry",
@@ -480,6 +483,8 @@ export const en: Translation = {
 	[Key.cookieConsentDescription]:
 		'BrightMoon uses cookies to store and access device identifiers and other data to provide, maintain, and improve our services and advertising. You can choose "Accept" to consent to these uses, or click "Reject All" to decline non-essential cookies.',
 	[Key.cookieConsentIpInfo]: "Detecting your location...",
+	[Key.cookieConsentIpTimeout]:
+		"Location detection timed out, please try again later",
 	[Key.cookieConsentAccept]: "Accept",
 	[Key.cookieConsentReject]: "Reject All",
 

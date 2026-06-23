@@ -41,6 +41,8 @@ for (const [lang, tr] of Object.entries(allTranslations)) {
 		detectLocation: tr[I18nKey.weatherDetectLocation] || "",
 		locationDisabled: tr[I18nKey.weatherLocationDisabled] || "",
 		waitingConsent: tr[I18nKey.weatherWaitingConsent] || "",
+		defaultLocationHint: tr[I18nKey.weatherDefaultLocationHint] || "",
+		defaultLocationConfirm: tr[I18nKey.weatherDefaultLocationConfirm] || "",
 
 		// 天气条件翻译
 		condSunny: tr[I18nKey.weatherCondSunny] || "",
@@ -98,21 +100,11 @@ const weatherApiLangMapJSON = JSON.stringify(weatherApiLangMap);
 >
 	<!-- 标题行：天气标题 + 位置选择 -->
 	<div class="flex justify-between items-center mb-2 mt-4">
-		<div
-			class="font-bold transition text-lg text-neutral-900 dark:text-neutral-100 relative ml-4 flex items-center
+		<div class="font-bold transition text-lg text-neutral-900 dark:text-neutral-100 relative ml-4 flex items-center
 					before:w-1 before:h-4 before:rounded-md before:bg-[var(--primary)]
 					before:absolute before:left-[-16px] before:top-[5.5px]"
 		>
 			<span class="ignore" data-weather-title>{i18n(I18nKey.weather)}</span>
-		</div>
-		<div id="weather-action-btns" class="flex items-center gap-1 shrink-0 hidden">
-			<button
-				id="weather-detect-btn"
-				class="p-1.5 rounded-md hover:bg-[var(--btn-plain-bg-hover)] text-[var(--primary)] transition-all"
-				aria-label="Detect location"
-			>
-				<Icon name="material-symbols:my-location" class="text-lg" />
-			</button>
 		</div>
 	</div>
 
@@ -198,12 +190,34 @@ const weatherApiLangMapJSON = JSON.stringify(weatherApiLangMap);
 			</span>
 		</div>
 
+		<!-- 拒绝隐私后使用默认位置提示 -->
+		<div id="weather-default-location-hint" class="hidden flex flex-col items-center justify-center py-6">
+			<div class="text-4xl mb-2 text-[var(--primary)]">
+				<Icon name="material-symbols:edit-location-alt-outline" />
+			</div>
+			<span class="text-sm text-neutral-500 dark:text-neutral-400 text-center mb-4 ignore" data-weather-default-location-hint-text>
+				{i18n(I18nKey.weatherDefaultLocationHint)}
+			</span>
+			<button id="weather-default-location-confirm" class="px-4 py-1.5 rounded-lg text-sm font-medium bg-[var(--primary)] text-white hover:opacity-80 transition-opacity">
+				{i18n(I18nKey.weatherDefaultLocationConfirm)}
+			</button>
+		</div>
+
 		<!-- 天气数据（默认隐藏） -->
 		<div id="weather-data" class="hidden">
 			<!-- 位置信息 -->
 			<div id="weather-location" class="flex items-center gap-1 mb-3 px-1">
 				<Icon name="material-symbols:location-on-outline" class="text-[var(--primary)] text-xl shrink-0 mr-1" />
-				<span id="weather-location-name" class="text-sm text-neutral-600 dark:text-neutral-400 truncate"></span>
+				<span id="weather-location-name" class="text-sm text-neutral-600 dark:text-neutral-400 truncate flex-1 min-w-0"></span>
+				<div id="weather-action-btns" class="flex items-center gap-1 shrink-0 hidden ml-auto">
+					<button
+						id="weather-detect-btn"
+						class="p-1 rounded-md hover:bg-[var(--btn-plain-bg-hover)] text-[var(--primary)] transition-all"
+						aria-label="Detect location"
+					>
+						<Icon name="material-symbols:my-location" class="text-xl" />
+					</button>
+				</div>
 			</div>
 
 			<!-- 当前天气 -->
@@ -224,28 +238,28 @@ const weatherApiLangMapJSON = JSON.stringify(weatherApiLangMap);
 					<Icon name="material-symbols:humidity-percentage-outline" class="text-[var(--primary)] text-xl shrink-0" />
 					<div class="min-w-0">
 						<div class="text-sm text-neutral-500 dark:text-neutral-400 ignore" data-weather-detail-humidity>{i18n(I18nKey.weatherHumidity)}</div>
-						<span id="weather-humidity" class="text-sm font-medium text-neutral-900 dark:text-neutral-100"></span>
+						<span id="weather-humidity" class="ignore text-sm font-medium text-neutral-900 dark:text-neutral-100"></span>
 					</div>
 				</div>
 				<div class="flex items-center gap-2 px-2 py-1.5 rounded-lg bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))]">
 					<Icon name="material-symbols:air" class="text-[var(--primary)] text-xl shrink-0" />
 					<div class="min-w-0">
 						<div class="text-sm text-neutral-500 dark:text-neutral-400 ignore" data-weather-detail-wind>{i18n(I18nKey.weatherWind)}</div>
-						<span id="weather-wind" class="text-sm font-medium text-neutral-900 dark:text-neutral-100"></span>
+						<span id="weather-wind" class="ignore text-sm font-medium text-neutral-900 dark:text-neutral-100"></span>
 					</div>
 				</div>
 				<div class="flex items-center gap-2 px-2 py-1.5 rounded-lg bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))]">
 					<Icon name="material-symbols:thermometer" class="text-[var(--primary)] text-xl shrink-0" />
 					<div class="min-w-0">
 						<div class="text-sm text-neutral-500 dark:text-neutral-400 ignore" data-weather-detail-feelslike>{i18n(I18nKey.weatherFeelsLike)}</div>
-						<span id="weather-feelslike" class="text-sm font-medium text-neutral-900 dark:text-neutral-100"></span>
+						<span id="weather-feelslike" class="ignore text-sm font-medium text-neutral-900 dark:text-neutral-100"></span>
 					</div>
 				</div>
 				<div class="flex items-center gap-2 px-2 py-1.5 rounded-lg bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))]">
 					<Icon name="material-symbols:wb-sunny-outline" class="text-[var(--primary)] text-xl shrink-0" />
 					<div class="min-w-0">
 						<div class="text-sm text-neutral-500 dark:text-neutral-400 ignore" data-weather-detail-uv>{i18n(I18nKey.weatherUV)}</div>
-						<span id="weather-uv" class="text-sm font-medium text-neutral-900 dark:text-neutral-100"></span>
+						<span id="weather-uv" class="ignore text-sm font-medium text-neutral-900 dark:text-neutral-100"></span>
 					</div>
 				</div>
 			</div>
@@ -284,6 +298,8 @@ const weatherApiLangMapJSON = JSON.stringify(weatherApiLangMap);
 
 	// 缓存当前天气数据，用于语言切换时重新渲染
 	var lastWeatherData = null;
+	var _pendingDefaultLocationHint = false;
+	var _showDefaultLocationHint = false;
 	var _weatherConsentAC = null; // AbortController for cleaning up consent listener
 
 	// 获取当前 i18n 语言
@@ -388,6 +404,8 @@ const weatherApiLangMapJSON = JSON.stringify(weatherApiLangMap);
 		noapikey: document.getElementById("weather-noapikey"),
 		locationDisabled: document.getElementById("weather-location-disabled"),
 		waitingConsent: document.getElementById("weather-waiting-consent"),
+		defaultLocationLoading: document.getElementById("weather-default-location-hint"),
+		defaultLocationConfirmBtn: document.getElementById("weather-default-location-confirm"),
 		data: document.getElementById("weather-data"),
 		locationName: document.getElementById("weather-location-name"),
 		currentIcon: document.getElementById("weather-current-icon"),
@@ -412,6 +430,7 @@ const weatherApiLangMapJSON = JSON.stringify(weatherApiLangMap);
 		noApiKeyText: document.querySelector("[data-weather-noapikey-text]"),
 		locationDisabledText: document.querySelector("[data-weather-location-disabled-text]"),
 		waitingConsentText: document.querySelector("[data-weather-waiting-consent-text]"),
+		defaultLocationHintText: document.querySelector("[data-weather-default-location-hint-text]"),
 		titleEl: document.querySelector("[data-weather-title]"),
 		searchPlaceholder: document.getElementById("weather-search-input"),
 		forecastTitle: document.querySelector("[data-weather-forecast-title]"),
@@ -428,11 +447,14 @@ const weatherApiLangMapJSON = JSON.stringify(weatherApiLangMap);
 		dom.noapikey.classList.toggle("hidden", state !== "noapikey");
 		dom.locationDisabled.classList.toggle("hidden", state !== "locationDisabled");
 		dom.waitingConsent.classList.toggle("hidden", state !== "waitingConsent");
+		dom.defaultLocationLoading.classList.toggle("hidden", state !== "defaultLocationHint");
 		dom.data.classList.toggle("hidden", state !== "data");
-		// 仅加载成功时显示定位按钮和搜索框
+		// 仅加载成功时显示搜索框
 		var isDataState = state === "data";
-		dom.actionBtns.classList.toggle("hidden", !isDataState);
 		dom.searchBox.classList.toggle("hidden", !isDataState);
+		// 定位按钮：加载成功且 IP 定位未被拒绝时才显示
+		var ipAllowed = isIpLocationAllowed();
+		dom.actionBtns.classList.toggle("hidden", !(isDataState && ipAllowed));
 	}
 
 	// WeatherAPI 条件代码 → Material Symbols 图标映射
@@ -532,6 +554,17 @@ const weatherApiLangMapJSON = JSON.stringify(weatherApiLangMap);
 	// 渲染天气数据
 	function renderWeather(data) {
 		lastWeatherData = data;
+
+		// 如果是拒绝隐私后使用默认位置加载完成，先显示提示
+		if (_pendingDefaultLocationHint) {
+			_pendingDefaultLocationHint = false;
+			_showDefaultLocationHint = true;
+			showState("defaultLocationHint");
+			updateUILanguage();
+			return;
+		}
+
+		_showDefaultLocationHint = false;
 		const isCelsius = unit === "celsius";
 
 		// 位置信息
@@ -600,6 +633,8 @@ const weatherApiLangMapJSON = JSON.stringify(weatherApiLangMap);
 		if (dom.noApiKeyText) dom.noApiKeyText.textContent = getTr("noApiKey");
 		if (dom.locationDisabledText) dom.locationDisabledText.textContent = getTr("locationDisabled") || "Location disabled due to privacy rejection";
 		if (dom.waitingConsentText) dom.waitingConsentText.textContent = getTr("waitingConsent") || "Waiting for location authorization...";
+		if (dom.defaultLocationHintText) dom.defaultLocationHintText.textContent = getTr("defaultLocationHint") || "Using default location due to privacy rejection";
+		if (dom.defaultLocationConfirmBtn) dom.defaultLocationConfirmBtn.textContent = getTr("defaultLocationConfirm") || "OK";
 		if (dom.titleEl) {
 			dom.titleEl.textContent = getTr("weather") || "Weather";
 			dom.titleEl.classList.add("ignore");
@@ -778,11 +813,24 @@ const weatherApiLangMapJSON = JSON.stringify(weatherApiLangMap);
 		loadWeather(getInitialQuery());
 	});
 
+	dom.defaultLocationConfirmBtn.addEventListener("click", function() {
+		if (lastWeatherData) {
+			renderWeather(lastWeatherData);
+		} else {
+			loadWeather(defaultLocation);
+		}
+	});
+
 	// 注册翻译刷新回调
 	function registerWeatherRenderer() {
 		if (!window.translationManager) return;
 		window.translationManager.onRefresh("weather", function() {
 			updateUILanguage();
+			// 语言切换时，如果正在显示默认位置提示，保持提示界面
+			if (_showDefaultLocationHint) {
+				showState("defaultLocationHint");
+				return;
+			}
 			// 语言切换时，使用缓存的天气数据重新渲染（条件文本通过i18n翻译）
 			if (lastWeatherData) {
 				renderWeather(lastWeatherData);
@@ -811,6 +859,10 @@ const weatherApiLangMapJSON = JSON.stringify(weatherApiLangMap);
 				showState("locationDisabled");
 				updateUILanguage();
 			} else {
+				// 先加载天气，加载完成后显示提示
+				showState("loading");
+				updateUILanguage();
+				_pendingDefaultLocationHint = true;
 				loadWeather(defaultLocation);
 			}
 		} else if (e.detail === 'accepted') {
@@ -821,8 +873,8 @@ const weatherApiLangMapJSON = JSON.stringify(weatherApiLangMap);
 
 	// 初始化
 	updateUILanguage();
-	// 如果用户尚未做出隐私选择，且没有默认位置，显示等待授权提示
-	if (!hasConsentChoice() && !defaultLocation) {
+	// 如果用户尚未做出隐私选择，显示等待授权提示
+	if (!hasConsentChoice()) {
 		showState("waitingConsent");
 	} else if (!getInitialQuery() && !isIpLocationAllowed()) {
 		// 没有默认位置且 IP 定位被拒绝，显示禁用状态

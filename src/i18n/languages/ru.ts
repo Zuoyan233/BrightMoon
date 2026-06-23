@@ -442,6 +442,9 @@ export const ru: Translation = {
 		"Служба определения местоположения для погоды отключена из-за отказа от соглашения о конфиденциальности",
 	[Key.weatherWaitingConsent]:
 		"Ожидание авторизации определения местоположения для погоды...",
+	[Key.weatherDefaultLocationHint]:
+		"Согласие отклонено, используется местоположение по умолчанию для погоды",
+	[Key.weatherDefaultLocationConfirm]: "OK",
 	[Key.weatherLoading]: "Загрузка погоды...",
 	[Key.weatherLoadFailed]: "Ошибка загрузки",
 	[Key.weatherRetry]: "Повторить",
@@ -482,6 +485,8 @@ export const ru: Translation = {
 	[Key.cookieConsentDescription]:
 		"BrightMoon использует файлы cookie для хранения и доступа к идентификаторам устройств и другим данным для предоставления, поддержки и улучшения наших услуг и рекламы. Вы можете выбрать «Принять», чтобы дать согласие, или нажать «Отклонить все», чтобы отказаться от несущественных файлов cookie.",
 	[Key.cookieConsentIpInfo]: "Определение вашего местоположения...",
+	[Key.cookieConsentIpTimeout]:
+		"Определение местоположения истекло, попробуйте позже",
 	[Key.cookieConsentAccept]: "Принять",
 	[Key.cookieConsentReject]: "Отклонить все",
 

@@ -448,6 +448,9 @@ export const tr: Translation = {
 	[Key.weatherLocationDisabled]:
 		"Gizlilik sözleşmesinin reddedilmesi nedeniyle hava durumu konum hizmeti devre dışı bırakıldı",
 	[Key.weatherWaitingConsent]: "Hava durumu konum yetkisi bekleniyor...",
+	[Key.weatherDefaultLocationHint]:
+		"Gizlilik onayı reddedildi, varsayılan konum kullanılıyor",
+	[Key.weatherDefaultLocationConfirm]: "Tamam",
 	[Key.weatherLoading]: "Hava durumu yükleniyor...",
 	[Key.weatherLoadFailed]: "Yükleme başarısız",
 	[Key.weatherRetry]: "Tekrar Dene",
@@ -488,6 +491,8 @@ export const tr: Translation = {
 	[Key.cookieConsentDescription]:
 		"BrightMoon, hizmetlerimizi ve reklamlarımızı sağlamak, sürdürmek ve geliştirmek için cihaz tanımlayıcıları ve diğer verileri depolamak ve erişmek amacıyla çerezleri kullanır. Bu kullanımlara onay vermek için «Kabul Et» seçeneğini seçebilir veya gerekli olmayan çerezleri reddetmek için «Tümünü Reddet» düğmesine tıklayabilirsiniz.",
 	[Key.cookieConsentIpInfo]: "Konumunuz belirleniyor...",
+	[Key.cookieConsentIpTimeout]:
+		"Konum tespiti zaman aşımına uğradı, lütfen tekrar deneyin",
 	[Key.cookieConsentAccept]: "Kabul Et",
 	[Key.cookieConsentReject]: "Tümünü Reddet",
 

@@ -424,6 +424,9 @@ export const th: Translation = {
 	[Key.weatherLocationDisabled]:
 		"บริการระบุตำแหน่งสภาพอากาศถูกปิดใช้งานเนื่องจากการปฏิเสธข้อตกลงความเป็นส่วนตัว",
 	[Key.weatherWaitingConsent]: "กำลังรอการอนุญาตระบุตำแหน่งสภาพอากาศ...",
+	[Key.weatherDefaultLocationHint]:
+		"ปฏิเสธความยินยอมความเป็นส่วนตัว กำลังใช้ตำแหน่งเริ่มต้น",
+	[Key.weatherDefaultLocationConfirm]: "ตกลง",
 	[Key.weatherLoading]: "กำลังโหลดสภาพอากาศ...",
 	[Key.weatherLoadFailed]: "โหลดล้มเหลว",
 	[Key.weatherRetry]: "ลองอีกครั้ง",
@@ -464,6 +467,7 @@ export const th: Translation = {
 	[Key.cookieConsentDescription]:
 		"BrightMoon ใช้คุกกี้ในการจัดเก็บและเข้าถึงตัวระบุอุปกรณ์และข้อมูลอื่น ๆ เพื่อให้บริการ ดูแลรักษา และปรับปรุงบริการและโฆษณาของเรา คุณสามารถเลือก «ยอมรับ» เพื่อยินยอมต่อการใช้งานเหล่านี้ หรือคลิก «ปฏิเสธทั้งหมด» เพื่อปฏิเสธคุกกี้ที่ไม่จำเป็น",
 	[Key.cookieConsentIpInfo]: "กำลังตรวจหาตำแหน่งของคุณ...",
+	[Key.cookieConsentIpTimeout]: "หมดเวลาตรวจหาตำแหน่ง กรุณาลองใหม่ภายหลัง",
 	[Key.cookieConsentAccept]: "ยอมรับ",
 	[Key.cookieConsentReject]: "ปฏิเสธทั้งหมด",
 

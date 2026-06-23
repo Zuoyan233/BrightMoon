@@ -453,6 +453,9 @@ export const de: Translation = {
 	[Key.weatherLocationDisabled]:
 		"Der Wetterortungsdienst wurde aufgrund der Ablehnung der Datenschutzvereinbarung deaktiviert",
 	[Key.weatherWaitingConsent]: "Warte auf Autorisierung der Wetterortung...",
+	[Key.weatherDefaultLocationHint]:
+		"Datenschutz abgelehnt, verwende Standardstandort für das Wetter",
+	[Key.weatherDefaultLocationConfirm]: "OK",
 	[Key.weatherLoading]: "Wetter wird geladen...",
 	[Key.weatherLoadFailed]: "Laden fehlgeschlagen",
 	[Key.weatherRetry]: "Erneut versuchen",
@@ -493,6 +496,8 @@ export const de: Translation = {
 	[Key.cookieConsentDescription]:
 		"BrightMoon verwendet Cookies, um Gerätekennungen und andere Daten zu speichern und darauf zuzugreifen, um unsere Dienste und Werbung bereitzustellen, aufrechtzuerhalten und zu verbessern. Sie können «Akzeptieren» wählen, um diese Verwendungen zuzustimmen, oder auf «Alle ablehnen» klicken, um nicht wesentliche Cookies abzulehnen.",
 	[Key.cookieConsentIpInfo]: "Ihr Standort wird ermittelt...",
+	[Key.cookieConsentIpTimeout]:
+		"Standortermittlung zeitüberschritten, bitte versuchen Sie es später erneut",
 	[Key.cookieConsentAccept]: "Akzeptieren",
 	[Key.cookieConsentReject]: "Alle ablehnen",
 

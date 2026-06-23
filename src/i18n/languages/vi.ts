@@ -441,6 +441,9 @@ export const vi: Translation = {
 	[Key.weatherLocationDisabled]:
 		"Dịch vụ định vị thời tiết đã bị tắt do từ chối thỏa thuận quyền riêng tư",
 	[Key.weatherWaitingConsent]: "Đang chờ cấp quyền định vị thời tiết...",
+	[Key.weatherDefaultLocationHint]:
+		"Đã từ chối đồng ý quyền riêng tư, đang dùng vị trí mặc định",
+	[Key.weatherDefaultLocationConfirm]: "OK",
 	[Key.weatherLoading]: "Đang tải thời tiết...",
 	[Key.weatherLoadFailed]: "Tải thất bại",
 	[Key.weatherRetry]: "Thử lại",
@@ -481,6 +484,8 @@ export const vi: Translation = {
 	[Key.cookieConsentDescription]:
 		"BrightMoon sử dụng cookie để lưu trữ và truy cập các mã định danh thiết bị và dữ liệu khác nhằm cung cấp, duy trì và cải thiện dịch vụ và quảng cáo của chúng tôi. Bạn có thể chọn «Chấp nhận» để đồng ý với các mục đích này, hoặc nhấp «Từ chối tất cả» để từ chối cookie không cần thiết.",
 	[Key.cookieConsentIpInfo]: "Đang phát hiện vị trí của bạn...",
+	[Key.cookieConsentIpTimeout]:
+		"Phát hiện vị trí hết thời gian, vui lòng thử lại sau",
 	[Key.cookieConsentAccept]: "Chấp nhận",
 	[Key.cookieConsentReject]: "Từ chối tất cả",
 

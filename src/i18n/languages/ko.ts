@@ -435,6 +435,9 @@ export const ko: Translation = {
 	[Key.weatherLocationDisabled]:
 		"개인정보 계약을 거부하여 날씨 위치 서비스가 비활성화되었습니다",
 	[Key.weatherWaitingConsent]: "날씨 위치 권한을 기다리는 중...",
+	[Key.weatherDefaultLocationHint]:
+		"개인정보 동의 거부로 기본 위치로 날씨를 가져오는 중",
+	[Key.weatherDefaultLocationConfirm]: "확인",
 	[Key.weatherLoading]: "날씨를 불러오는 중...",
 	[Key.weatherLoadFailed]: "불러오기 실패",
 	[Key.weatherRetry]: "재시도",
@@ -475,6 +478,7 @@ export const ko: Translation = {
 	[Key.cookieConsentDescription]:
 		"BrightMoon 는 서비스 및 광고 제공, 유지보수, 개선을 위해 Cookie를 사용하여 기기 식별자 등의 데이터를 저장하고 접근합니다. 「수락」을 선택하거나 「모두 거부」를 클릭하여 불필요한 Cookie를 거부할 수 있습니다.",
 	[Key.cookieConsentIpInfo]: "위치 정보 확인 중...",
+	[Key.cookieConsentIpTimeout]: "위치 정보 확인 시간이 초과되었습니다",
 	[Key.cookieConsentAccept]: "수락",
 	[Key.cookieConsentReject]: "모두 거부",
 

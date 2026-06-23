@@ -433,6 +433,9 @@ export const ar: Translation = {
 	[Key.weatherLocationDisabled]:
 		"تتم تعطيل خدمة تحديد المواقع للطقس بسبب رفض اتفاقية الخصوصية",
 	[Key.weatherWaitingConsent]: "ففي انتظار التفويض لتحديد مواقع الطقس...",
+	[Key.weatherDefaultLocationHint]:
+		"تم رفض الموافقة على الخصوصية، يتم استخدام الموقع الافتراضي",
+	[Key.weatherDefaultLocationConfirm]: "موافق",
 	[Key.weatherLoading]: "جاري تحميل الطقس...",
 	[Key.weatherLoadFailed]: "فشل التحميل",
 	[Key.weatherRetry]: "إعادة المحاولة",
@@ -473,6 +476,7 @@ export const ar: Translation = {
 	[Key.cookieConsentDescription]:
 		"يستخدم BrightMoon ملفات تعريف الارتباط لتخزين والوصول إلى معرفات الأجهزة والبيانات الأخرى لتقديم وصيانة وتحسين خدماتنا وإعلاناتنا. يمكنك اختيار «قبول» للموافقة على هذه الاستخدامات، أو النقر على «رفض الكل» لرفض ملفات تعريف الارتباط غير الأساسية.",
 	[Key.cookieConsentIpInfo]: "جارٍ تحديد موقعك...",
+	[Key.cookieConsentIpTimeout]: "انتهت مهلة تحديد الموقع، يرجى المحاولة لاحقاً",
 	[Key.cookieConsentAccept]: "قبول",
 	[Key.cookieConsentReject]: "رفض الكل",
 

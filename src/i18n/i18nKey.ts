@@ -412,6 +412,8 @@ enum I18nKey {
 	weatherNoApiKey = "weatherNoApiKey",
 	weatherLocationDisabled = "weatherLocationDisabled",
 	weatherWaitingConsent = "weatherWaitingConsent",
+	weatherDefaultLocationHint = "weatherDefaultLocationHint",
+	weatherDefaultLocationConfirm = "weatherDefaultLocationConfirm",
 	weatherLoading = "weatherLoading",
 	weatherLoadFailed = "weatherLoadFailed",
 	weatherRetry = "weatherRetry",
@@ -451,6 +453,7 @@ enum I18nKey {
 	cookieConsentTitle = "cookieConsentTitle",
 	cookieConsentDescription = "cookieConsentDescription",
 	cookieConsentIpInfo = "cookieConsentIpInfo",
+	cookieConsentIpTimeout = "cookieConsentIpTimeout",
 	cookieConsentAccept = "cookieConsentAccept",
 	cookieConsentReject = "cookieConsentReject",
 

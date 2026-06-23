@@ -441,6 +441,9 @@ export const id: Translation = {
 	[Key.weatherLocationDisabled]:
 		"Layanan lokasi cuaca telah dinonaktifkan karena penolakan perjanjian privasi",
 	[Key.weatherWaitingConsent]: "Menunggu otorisasi lokasi cuaca...",
+	[Key.weatherDefaultLocationHint]:
+		"Persetujuan privasi ditolak, menggunakan lokasi bawaan",
+	[Key.weatherDefaultLocationConfirm]: "OK",
 	[Key.weatherLoading]: "Memuat cuaca...",
 	[Key.weatherLoadFailed]: "Gagal memuat",
 	[Key.weatherRetry]: "Coba Lagi",
@@ -481,6 +484,8 @@ export const id: Translation = {
 	[Key.cookieConsentDescription]:
 		"BrightMoon menggunakan cookie untuk menyimpan dan mengakses pengidentifikasi perangkat serta data lainnya guna menyediakan, memelihara, dan meningkatkan layanan serta iklan kami. Anda dapat memilih «Terima» untuk menyetujui penggunaan ini, atau klik «Tolak Semua» untuk menolak cookie yang tidak penting.",
 	[Key.cookieConsentIpInfo]: "Mendeteksi lokasi Anda...",
+	[Key.cookieConsentIpTimeout]:
+		"Deteksi lokasi waktu habis, silakan coba lagi nanti",
 	[Key.cookieConsentAccept]: "Terima",
 	[Key.cookieConsentReject]: "Tolak Semua",
 

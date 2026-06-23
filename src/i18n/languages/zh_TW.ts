@@ -422,6 +422,9 @@ export const zh_TW: Translation = {
 	[Key.weatherNoApiKey]: "請在 src/config.ts 中添加 WeatherAPI 金鑰",
 	[Key.weatherLocationDisabled]: "因拒絕隱私協議，天氣定位服務已關閉",
 	[Key.weatherWaitingConsent]: "等待天氣定位授權...",
+	[Key.weatherDefaultLocationHint]:
+		"因拒絕隱私協議，正在使用已設定的預設位置定位天氣",
+	[Key.weatherDefaultLocationConfirm]: "確定",
 	[Key.weatherLoading]: "正在載入天氣...",
 	[Key.weatherLoadFailed]: "載入失敗",
 	[Key.weatherRetry]: "重試",
@@ -462,6 +465,7 @@ export const zh_TW: Translation = {
 	[Key.cookieConsentDescription]:
 		"BrightMoon 使用 Cookie 來存儲和訪問裝置識別碼等數據，以提供、維護和改進我們的服務和廣告。您可以選擇「接受」以同意這些用途，或點擊「全部拒絕」來拒絕非必要的 Cookie。",
 	[Key.cookieConsentIpInfo]: "正在獲取您的位置資訊...",
+	[Key.cookieConsentIpTimeout]: "位置資訊獲取逾時，請稍後再試",
 	[Key.cookieConsentAccept]: "我接受",
 	[Key.cookieConsentReject]: "全部拒絕",
 
