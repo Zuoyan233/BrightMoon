@@ -16,9 +16,8 @@ In Chinese culture, the "Bright Moon" symbolizes clarity, fulfillment, and const
 
 ### 🔧 Component Configuration System Refactor
 
-- **Unified Configuration Architecture:** A new modular component configuration system supporting dynamic component management and ordering.
-- **Configuration-Driven Component Loading:** Refactored the SideBar component to implement a fully configuration-based component loading mechanism.
-- **Unified Control Switch:** Removed independent enable switches for the music player and announcement components, unified under sidebarLayoutConfig.
+- **Configuration Integration:** All component configuration items are centrally integrated into `src/config.ts` for unified management.
+- **Album Logic Refactor:** Refactored hidden album logic, fixing access issues via direct links.
 - **Responsive Layout Adaptation:** Components support responsive layouts that automatically adjust based on device type.
 
 ### 📐 Layout System Optimization
@@ -39,8 +38,6 @@ In Chinese culture, the "Bright Moon" symbolizes clarity, fulfillment, and const
 - **Test File Cleanup:** Removed unused test configurations and dependencies, reducing project size.
 - **Code Structure Optimization:** Improved component architecture for better maintainability.
 - **Performance Enhancement:** Optimized component loading logic for improved page rendering performance.
-- **Configuration Consolidation:** Centralized partial config items into `src/config.ts` for unified management.
-- **Album Logic Refactor:** Refactored hidden album logic, fixing access issues via direct links.
 - **Component Animation Optimization:** Optimized animations for several widgets for smoother interactions.
 
 ### 🎨 Design & Interface
@@ -48,14 +45,15 @@ In Chinese culture, the "Bright Moon" symbolizes clarity, fulfillment, and const
 - **Framework** - Built with [Astro](https://astro.build) and [Tailwind CSS](https://tailwindcss.com).
 - **Animations** - Smooth animations and page transitions powered by [Swup](https://swup.js.org/).
 - **Multi-Theme Mode** - Supports Light, Dark, and "System" themes, switchable via dropdown.
+- **Breadcrumb Navigation** - Provides clear navigation paths, making it easy for users to navigate back.
 - **External Link Confirmation** - Confirmation dialog when clicking external links for enhanced browsing security.
-- **Custom Scrollbar** - Customized scrollbar styling for visual consistency.
 - **Personalized Appearance Control** - Toggle wallpaper mode, cherry blossom effects, article list layout, navbar style, and more.
   - Customizable theme colors and dynamic banner carousel.
   - Full-screen background images with carousel, transparency, and blur effects.
   - Fully responsive design across all devices.
   - Beautiful typography with JetBrains Mono font.
   - Optimized calendar styling: improved navigation icons, post dot positioning, and multi-post day indicators.
+- **Custom Scrollbar** - Customized scrollbar styling for visual consistency.
 
 ### 🔍 Content & Search
 
@@ -89,7 +87,7 @@ In Chinese culture, the "Bright Moon" symbolizes clarity, fulfillment, and const
 - **SEO Optimization** - Includes sitemaps and meta tags.
 - **Performance Optimization** - Lazy loading and caching mechanisms.
 - **Comment System** - Integrated with the latest Twikoo comment system, supporting multi-dimensional configuration.
-- **Translation Component** - Local i18n library + translate.js for millisecond-speed translations, with built-in language support for ten countries.
+- **Translation Component** - Local i18n library + translate.js for millisecond-speed translations, with built-in language support for fourteen countries.
 - **Weather Widget** - Powered by WeatherAPI, supporting 7-day forecasts, IP-based auto-location, and manual city search.
 - **Cookie Consent** - Cookie privacy policy banner with accept/deny support; auto-clears non-essential cookies on denial.
 - **Site Statistics** - Real-time display of current date (with multi-region format support), season, and time period.

@@ -108,7 +108,6 @@ const useJapaneseBadge = siteConfig.toc.useJapaneseBadge;
 		width: 18rem;
 		max-height: 60vh;
 		background: var(--card-bg);
-		border: 1px solid var(--line-color);
 		border-radius: 1rem;
 		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 		overflow: hidden;
@@ -147,10 +146,27 @@ const useJapaneseBadge = siteConfig.toc.useJapaneseBadge;
 	}
 
 	@media (max-width: 1560px) {
-		.floating-toc-btn {
-			box-shadow:
-				0 0 0 1px var(--btn-regular-bg),
-				0 0 1em var(--btn-regular-bg);
+		.floating-toc-wrapper {
+			transform: scale(0);
+			right: 2rem;
+			bottom: 6rem;
+		}
+
+		.floating-toc-wrapper.active-toc {
+			transform: scale(1);
+			opacity: 0.6;
+		}
+
+		.floating-toc-wrapper:active,
+		.floating-toc-wrapper.active {
+			opacity: 1;
+		}
+
+		.floating-toc-panel {
+			width: 85vw;
+			max-width: 20rem;
+			right: 0;
+			bottom: 4.5rem;
 		}
 	}
 
@@ -246,6 +262,13 @@ const useJapaneseBadge = siteConfig.toc.useJapaneseBadge;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
+	}
+</style>
+
+<!-- 按钮光晕 -->
+<style is:global>
+	.floating-toc-btn {
+		box-shadow: 0 0 12px color-mix(in srgb, var(--primary) 60%, transparent);
 	}
 </style>
 

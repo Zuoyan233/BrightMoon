@@ -4,12 +4,12 @@
 
 BrightMoon 是一款融合现代简约与优雅气质的独特二次元美学静态博客模板。项目以 [Astro](https://astro.build/) 为构建基石，将先进功能与精美视觉融为一体。
 
-**_如明月初升，清辉如故_** </br>
+**_如明月初升，清辉如故_** <br>
 **_以此为始，重新出发。_**
 
 [![Node.js >= 22](https://img.shields.io/badge/node.js-%3E%3D22-brightgreen)](https://nodejs.org/)
 [![pnpm >= 11](https://img.shields.io/badge/pnpm-%3E%3D11-blue)](https://pnpm.io/)
-[![Astro](https://img.shields.io/badge/Astro-6.4.6-orange)](https://astro.build/)
+[![Astro](https://img.shields.io/badge/Astro-7.0.2-orange)](https://astro.build/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-blue)](https://www.typescriptlang.org/)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?logo=apache)](https://opensource.org/licenses/Apache-2.0)
 

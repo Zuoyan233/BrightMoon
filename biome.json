@@ -1,5 +1,5 @@
 {
-	"$schema": "https://biomejs.dev/schemas/2.0.0/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.5.1/schema.json",
 	"vcs": {
 		"enabled": false,
 		"clientKind": "git",
@@ -9,7 +9,6 @@
 		"ignoreUnknown": false,
 		"includes": [
 			"**",
-			"!**/src/**/*.css",
 			"!**/src/public/**/*",
 			"!**/dist/**/*",
 			"!**/node_modules/**/*",
@@ -20,11 +19,17 @@
 		"enabled": true,
 		"indentStyle": "tab"
 	},
-	"assist": { "actions": { "source": { "organizeImports": "on" } } },
+	"assist": {
+		"actions": {
+			"source": {
+				"organizeImports": "on"
+			}
+		}
+	},
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true,
+			"preset": "recommended",
 			"style": {
 				"noParameterAssign": "error",
 				"useAsConstAssertion": "error",
@@ -42,6 +47,11 @@
 	"javascript": {
 		"formatter": {
 			"quoteStyle": "double"
+		}
+	},
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
 		}
 	},
 	"overrides": [
@@ -66,6 +76,20 @@
 				"rules": {
 					"correctness": {
 						"noUnusedVariables": "off"
+					}
+				}
+			}
+		},
+		{
+			"includes": ["**/*.css"],
+			"formatter": {
+				"formatWithErrors": true
+			},
+			"linter": {
+				"enabled": true,
+				"rules": {
+					"suspicious": {
+						"noUnknownAtRules": "off"
 					}
 				}
 			}

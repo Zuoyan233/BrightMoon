@@ -1,3 +1,4 @@
+import cloudflare from "@astrojs/cloudflare";
 import { unified } from "@astrojs/markdown-remark";
 import sitemap from "@astrojs/sitemap";
 import svelte, { vitePreprocess } from "@astrojs/svelte";
@@ -27,14 +28,28 @@ import { rehypeWrapTable } from "./src/plugins/rehype-wrap-table.mjs";
 import { remarkContent } from "./src/plugins/remark-content.mjs";
 import { parseDirectiveNode } from "./src/plugins/remark-directive-rehype.js";
 import { remarkMermaid } from "./src/plugins/remark-mermaid.js";
+import { scanAlbums } from "./src/utils/album-scanner.ts";
+
+const adapter = process.env.CF_WORKERS
+	? cloudflare({
+			prerenderEnvironment: "node",
+		})
+	: undefined;
+
+const hiddenAlbumIds = (await scanAlbums())
+	.filter((album) => album.hidden)
+	.map((album) => album.id);
 
 // https://astro.build/config
 export default defineConfig({
 	site: siteConfig.siteURL,
 	base: "/",
 	trailingSlash: "always",
+	compressHTML: true,
 
 	output: "static",
+
+	adapter,
 
 	integrations: [
 		tailwind({
@@ -110,7 +125,14 @@ export default defineConfig({
 		svelte({
 			preprocess: vitePreprocess(),
 		}),
-		sitemap(),
+		sitemap({
+			filter: (page) => {
+				const hiddenAlbumPrefixes = hiddenAlbumIds.map(
+					(id) => `${siteConfig.siteURL}albums/${id}/`,
+				);
+				return !hiddenAlbumPrefixes.some((prefix) => page.startsWith(prefix));
+			},
+		}),
 	],
 	markdown: {
 		processor: unified({
@@ -165,6 +187,9 @@ export default defineConfig({
 	},
 	vite: {
 		build: {
+			// 将 CSS 压缩器从默认的 lightningcss 改为 esbuild，因为 lightningcss 不支持 Nesting (`&`) 语法
+			cssMinify: "esbuild",
+
 			// 静态资源处理优化，防止小图片转 base64 导致 HTML 体积过大（可选，根据需要调整）
 			assetsInlineLimit: 4096,
 

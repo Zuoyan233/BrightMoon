@@ -4,81 +4,81 @@
  */
 
 .float-panel {
-  z-index: 50;
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+	z-index: 50;
+	will-change: transform, opacity;
+	backface-visibility: hidden;
 
-  /* 为动画做准备 */
-  transform-origin: top center;
+	/* 为动画做准备 */
+	transform-origin: top center;
 }
 
 /* 面板打开时的默认状态 */
 .float-panel:not(.float-panel-closed) {
-  transform: scaleY(1) scaleX(1);
-  pointer-events: auto;
+	transform: scaleY(1) scaleX(1);
+	pointer-events: auto;
 }
 
 /* 面板关闭时的状态 */
 .float-panel-closed {
-  transform: scaleY(0) scaleX(0.8);
-  pointer-events: none;
+	transform: scaleY(0) scaleX(0.8);
+	pointer-events: none;
 }
 
 /* 特定面板的动画调整 */
 #display-setting {
-  transform-origin: top right;
+	transform-origin: top right;
 }
 
 #display-setting.float-panel-closed {
-  transform: scaleY(0) scaleX(0.6);
+	transform: scaleY(0) scaleX(0.6);
 }
 
 #search-panel {
-  transform-origin: top center;
+	transform-origin: top center;
 }
 
 #search-panel.float-panel-closed {
-    opacity: 0;
-    transform: scale(0.95) translateY(-10px);
-    transition: all 0.1s ease-out;
+	opacity: 0;
+	transform: scale(0.95) translateY(-10px);
+	transition: all 0.1s ease-out;
 }
 
 #search-panel:not(.float-panel-closed) {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-    transition: all 0.1s ease-out;
+	opacity: 1;
+	transform: scale(1) translateY(0);
+	transition: all 0.1s ease-out;
 }
 
 #nav-menu-panel {
-  transform-origin: top right;
+	transform-origin: top right;
 }
 
 #nav-menu-panel.float-panel-closed {
-  transform: scaleY(0) scaleX(0.65);
+	transform: scaleY(0) scaleX(0.65);
 }
 
 #wallpaper-mode-panel {
-  transform-origin: top right;
+	transform-origin: top right;
 }
 
 #wallpaper-mode-panel.float-panel-closed {
-  transform: scaleY(0) scaleX(0.5);
+	transform: scaleY(0) scaleX(0.5);
 }
 
 /* 移动端 */
 @media (max-width: 744px) {
-  .float-panel-closed {
-    transform: scaleY(0) scaleX(0.85);
-  }
+	.float-panel-closed {
+		transform: scaleY(0) scaleX(0.85);
+	}
 
-  #wallpaper-mode-panel.float-panel-closed {
-    transform: scaleY(0) scaleX(0.7);
-  }
+	#wallpaper-mode-panel.float-panel-closed {
+		transform: scaleY(0) scaleX(0.7);
+	}
 }
 
 /* 移动设备触摸优化 */
 @media (hover: none) and (pointer: coarse) {
-  .float-panel {
-    touch-action: manipulation;
-  }
+	.float-panel {
+		touch-action: manipulation;
+	}
 }

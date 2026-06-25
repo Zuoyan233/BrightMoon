@@ -109,7 +109,7 @@ async function processAlbumFolder(
 		columns: info.columns || 3,
 		photos,
 		// 添加 hidden 字段，默认为 false
-		hidden: info.hidden || false,
+		hidden: info.hidden ?? false,
 	};
 }
 

@@ -1,7 +1,7 @@
-import axios from "axios";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import axios from "axios";
 
 const API_BASE = "https://api.bilibili.com/x/space/bangumi/follow/list";
 const PAGE_SIZE = 30;
@@ -118,10 +118,7 @@ async function getDataPage(vmid, status, typeNum = 1) {
 		),
 	);
 
-	if (
-		response?.data?.code === 0 &&
-		response?.data?.data?.total !== undefined
-	) {
+	if (response?.data?.code === 0 && response?.data?.data?.total !== undefined) {
 		return {
 			success: true,
 			data: Math.ceil(response.data.data.total / PAGE_SIZE) + 1,
@@ -195,10 +192,7 @@ async function getData(
 		let progress = 0;
 		if (bangumi?.progress) {
 			// progress可能是字符串如"1/14"或数字或空字符串
-			if (
-				typeof bangumi.progress === "string" &&
-				bangumi.progress.trim()
-			) {
+			if (typeof bangumi.progress === "string" && bangumi.progress.trim()) {
 				const progressMatch = bangumi.progress.match(/(\d+)/);
 				if (progressMatch) {
 					progress = Number.parseInt(progressMatch[1], 10) || 0;
@@ -340,9 +334,7 @@ async function main() {
 
 	const VMID = await getUserIdFromConfig();
 	if (!VMID) {
-		console.error(
-			"✘ Bilibili vmid is not set. Please set it in src/config.ts",
-		);
+		console.error("✘ Bilibili vmid is not set. Please set it in src/config.ts");
 		process.exit(1);
 	}
 	console.log(`Read User ID: ${VMID}`);
@@ -353,14 +345,7 @@ async function main() {
 
 	// 获取三种状态的数据 (1=想看, 2=在看, 3=已看)
 	console.log("\nFetching Bilibili bangumi data...");
-	const planned = await processData(
-		VMID,
-		1,
-		1,
-		useWebp,
-		coverMirror,
-		SESSDATA,
-	);
+	const planned = await processData(VMID, 1, 1, useWebp, coverMirror, SESSDATA);
 	const watching = await processData(
 		VMID,
 		2,
