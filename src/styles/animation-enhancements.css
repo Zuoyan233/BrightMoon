@@ -1,32 +1,42 @@
-/* 动画增强样式 - 参考 yukina 主题优化 */
+/*
+ * Animation enhancement styles
+ * Unified across all devices: 400ms, same displacement, same easing
+ * Easing: cubic-bezier(0.4, 0, 0.2, 1) for enter
+ *         cubic-bezier(0.4, 0, 0.6, 1) for leave
+ */
 
-/* 页面切换状态类 */
+/* ============================================
+   Page Transition State Classes
+   ============================================ */
+
 html.is-leaving .transition-leaving {
 	transform: translateY(-1rem);
 	opacity: 0;
 }
 
-html.is-entering .transition-main {
-	transform: translateY(1.5rem);
-	opacity: 0;
-}
+/* ============================================
+   Leave Animation Class (used by AnimationManager)
+   ============================================ */
 
-/* 离开动画类 */
 .animate-leave.animate-leave {
 	transform: translateY(-1rem);
 	opacity: 0;
 	transition:
-		transform 250ms cubic-bezier(0.4, 0, 0.6, 1),
-		opacity 250ms cubic-bezier(0.4, 0, 0.6, 1);
+		transform 400ms cubic-bezier(0.4, 0, 0.6, 1),
+		opacity 400ms cubic-bezier(0.4, 0, 0.6, 1);
 }
 
-/* 增强的组件动画 */
+/* ============================================
+   Enhanced Component Animations
+   ============================================ */
+
+/* Enhanced fade-in with scale */
 .enhanced-fade-in {
 	opacity: 0;
 	transform: translateY(1.5rem) scale(0.98);
 	transition:
-		opacity 350ms cubic-bezier(0.4, 0, 0.2, 1),
-		transform 350ms cubic-bezier(0.4, 0, 0.2, 1);
+		opacity 400ms cubic-bezier(0.4, 0, 0.2, 1),
+		transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .enhanced-fade-in.animate {
@@ -34,13 +44,13 @@ html.is-entering .transition-main {
 	transform: translateY(0) scale(1);
 }
 
-/* 侧边栏动画 */
+/* Sidebar animation */
 .sidebar-animate {
 	opacity: 0;
 	transform: translateX(-2rem);
 	transition:
-		opacity 300ms cubic-bezier(0.4, 0, 0.2, 1),
-		transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+		opacity 400ms cubic-bezier(0.4, 0, 0.2, 1),
+		transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .sidebar-animate.animate {
@@ -48,7 +58,7 @@ html.is-entering .transition-main {
 	transform: translateX(0);
 }
 
-/* 卡片动画 */
+/* Card animation */
 .card-animate {
 	opacity: 0;
 	transform: translateY(2rem) scale(0.95);
@@ -62,13 +72,13 @@ html.is-entering .transition-main {
 	transform: translateY(0) scale(1);
 }
 
-/* 文章内容动画 */
+/* Post content animation */
 .post-content-animate {
 	opacity: 0;
 	transform: translateY(1rem);
 	transition:
-		opacity 320ms cubic-bezier(0.4, 0, 0.2, 1),
-		transform 320ms cubic-bezier(0.4, 0, 0.2, 1);
+		opacity 400ms cubic-bezier(0.4, 0, 0.2, 1),
+		transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .post-content-animate.animate {
@@ -76,13 +86,13 @@ html.is-entering .transition-main {
 	transform: translateY(0);
 }
 
-/* 导航栏动画增强 */
+/* Navbar animation */
 .navbar-animate {
 	opacity: 0;
 	transform: translateY(-1rem);
 	transition:
-		opacity 280ms cubic-bezier(0.4, 0, 0.2, 1),
-		transform 280ms cubic-bezier(0.4, 0, 0.2, 1);
+		opacity 400ms cubic-bezier(0.4, 0, 0.2, 1),
+		transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .navbar-animate.animate {
@@ -90,13 +100,13 @@ html.is-entering .transition-main {
 	transform: translateY(0);
 }
 
-/* 页脚动画 */
+/* Footer animation */
 .footer-animate {
 	opacity: 0;
 	transform: translateY(1rem);
 	transition:
-		opacity 300ms cubic-bezier(0.4, 0, 0.2, 1),
-		transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+		opacity 400ms cubic-bezier(0.4, 0, 0.2, 1),
+		transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .footer-animate.animate {
@@ -104,7 +114,11 @@ html.is-entering .transition-main {
 	transform: translateY(0);
 }
 
-/* 按钮悬停动画增强 */
+/* ============================================
+   Interactive Element Animations
+   ============================================ */
+
+/* Button hover enhancement */
 .button-enhance {
 	transition:
 		transform 200ms cubic-bezier(0.4, 0, 0.2, 1),
@@ -121,7 +135,7 @@ html.is-entering .transition-main {
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* 链接动画增强 */
+/* Link underline animation */
 .link-enhance {
 	position: relative;
 	transition: color 200ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -142,7 +156,7 @@ html.is-entering .transition-main {
 	width: 100%;
 }
 
-/* 图片加载动画 */
+/* Image load animation */
 .image-animate {
 	opacity: 0;
 	transform: scale(1.05);
@@ -156,13 +170,13 @@ html.is-entering .transition-main {
 	transform: scale(1);
 }
 
-/* 搜索框动画 */
+/* Search box animation */
 .search-animate {
 	transform: scale(0.95);
 	opacity: 0;
 	transition:
-		transform 250ms cubic-bezier(0.4, 0, 0.2, 1),
-		opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
+		transform 400ms cubic-bezier(0.4, 0, 0.2, 1),
+		opacity 400ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .search-animate.animate {
@@ -170,13 +184,13 @@ html.is-entering .transition-main {
 	opacity: 1;
 }
 
-/* 标签云动画 */
+/* Tag cloud animation */
 .tag-animate {
 	opacity: 0;
 	transform: translateY(0.5rem) scale(0.9);
 	transition:
-		opacity 200ms cubic-bezier(0.4, 0, 0.2, 1),
-		transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
+		opacity 400ms cubic-bezier(0.4, 0, 0.2, 1),
+		transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .tag-animate.animate {
@@ -184,13 +198,13 @@ html.is-entering .transition-main {
 	transform: translateY(0) scale(1);
 }
 
-/* 分页动画 */
+/* Pagination animation */
 .pagination-animate {
 	opacity: 0;
 	transform: translateY(1rem);
 	transition:
-		opacity 300ms cubic-bezier(0.4, 0, 0.2, 1),
-		transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+		opacity 400ms cubic-bezier(0.4, 0, 0.2, 1),
+		transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .pagination-animate.animate {
@@ -198,7 +212,10 @@ html.is-entering .transition-main {
 	transform: translateY(0);
 }
 
-/* 减少动画的媒体查询 */
+/* ============================================
+   Accessibility
+   ============================================ */
+
 @media (prefers-reduced-motion: reduce) {
 	:root *,
 	:root *::before,
@@ -208,18 +225,19 @@ html.is-entering .transition-main {
 		transition-duration: 0.01ms;
 	}
 
-	/* 保留TOC的平滑滚动，但减少其他滚动动画 */
 	:root html {
 		scroll-behavior: auto;
 	}
 
-	/* 确保TOC组件仍然有平滑滚动 */
 	table-of-contents#toc {
 		scroll-behavior: smooth;
 	}
 }
 
-/* 高对比度模式支持 */
+/* ============================================
+   High Contrast Mode
+   ============================================ */
+
 @media (prefers-contrast: high) {
 	.enhanced-fade-in,
 	.card-animate,
@@ -228,7 +246,10 @@ html.is-entering .transition-main {
 	}
 }
 
-/* 暗色模式动画调整 */
+/* ============================================
+   Dark Mode Adjustments
+   ============================================ */
+
 @media (prefers-color-scheme: dark) {
 	.button-enhance:hover {
 		box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
@@ -239,16 +260,14 @@ html.is-entering .transition-main {
 	}
 }
 
-/* 性能优化 */
+/* ============================================
+   GPU Acceleration Utility
+   ============================================ */
+
 .animate-gpu {
 	will-change: transform, opacity;
 	backface-visibility: hidden;
 	-webkit-backface-visibility: hidden;
 	transform: translateZ(0);
 	-webkit-transform: translateZ(0);
-}
-
-/* 动画完成后清理 */
-.animation-complete {
-	will-change: auto;
 }

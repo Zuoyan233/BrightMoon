@@ -65,7 +65,7 @@ export class AnimationManager {
 		document.documentElement.classList.add("is-leaving");
 
 		// 移动端优化：减少动画延迟，避免闪烁
-		const isMobile = window.innerWidth <= 768;
+		const isMobile = window.innerWidth <= 744;
 		const delay = isMobile ? 10 : 30;
 
 		// 添加离开动画类到主要元素
@@ -94,7 +94,7 @@ export class AnimationManager {
 			document.documentElement.classList.remove("is-entering");
 			this.isAnimating = false;
 			this.processAnimationQueue();
-		}, 300);
+		}, 400);
 	}
 
 	/**
@@ -114,7 +114,7 @@ export class AnimationManager {
 
 			setTimeout(() => {
 				htmlElement.style.transition =
-					"opacity 320ms cubic-bezier(0.4, 0, 0.2, 1), transform 320ms cubic-bezier(0.4, 0, 0.2, 1)";
+					"opacity 400ms cubic-bezier(0.4, 0, 0.2, 1), transform 400ms cubic-bezier(0.4, 0, 0.2, 1)";
 				htmlElement.style.opacity = "1";
 				htmlElement.style.transform = "translateY(0)";
 			}, delay);
@@ -197,7 +197,7 @@ export class AnimationManager {
 	 */
 	createAnimation(element: HTMLElement, config: AnimationConfig): void {
 		const {
-			duration = 300,
+			duration = 400,
 			delay = 0,
 			easing = "cubic-bezier(0.4, 0, 0.2, 1)",
 			direction = "up",

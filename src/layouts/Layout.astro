@@ -1155,6 +1155,9 @@ function disableAnimation() {
 					void translationManager.init();
 				}
 
+				// 平滑滚动到顶部，与 swup 过渡动画同步
+				window.scrollTo({ top: 0, behavior: "smooth" });
+
 				// 处理 Banner class 和显示状态
 				const bodyElement = document.querySelector("body");
 				const isHomePage = pathsEqual(visit.to.url, url("/"));
@@ -1249,7 +1252,7 @@ function disableAnimation() {
 			// 确保页面滚动到顶部，特别是移动端banner关闭时
 			window.scrollTo({
 				top: 0,
-				behavior: "instant",
+				behavior: "smooth",
 			});
 
 			// 同步主题状态 - 解决从首页进入文章页面时代码块渲染问题
