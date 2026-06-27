@@ -119,20 +119,33 @@ class TypewriterEffect {
     }
 }
 
+// 全局实例追踪，用于页面切换时清理
+let activeInstances: TypewriterEffect[] = [];
+
+function cleanupTypewriters() {
+	activeInstances.forEach((instance) => instance.destroy());
+	activeInstances = [];
+}
+
 // 初始化所有打字机效果
-document.addEventListener('DOMContentLoaded', () => {
-    const typewriterElements = document.querySelectorAll('.typewriter');
-    typewriterElements.forEach((element) => {
-        new TypewriterEffect(element as HTMLElement);
-    });
+document.addEventListener("DOMContentLoaded", () => {
+	const typewriterElements = document.querySelectorAll(".typewriter");
+	typewriterElements.forEach((element) => {
+		activeInstances.push(new TypewriterEffect(element as HTMLElement));
+	});
 });
 
 // 支持页面切换时重新初始化
-document.addEventListener('swup:contentReplaced', () => {
-    const typewriterElements = document.querySelectorAll('.typewriter');
-    typewriterElements.forEach((element) => {
-        new TypewriterEffect(element as HTMLElement);
-    });
+// 在内容替换前清理旧实例
+document.addEventListener("swup:willReplaceContent", () => {
+	cleanupTypewriters();
+});
+document.addEventListener("swup:contentReplaced", () => {
+	cleanupTypewriters();
+	const typewriterElements = document.querySelectorAll(".typewriter");
+	typewriterElements.forEach((element) => {
+		activeInstances.push(new TypewriterEffect(element as HTMLElement));
+	});
 });
 </script>
 

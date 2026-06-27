@@ -54,14 +54,22 @@ function getButtonIconClass(): string {
 function togglePanel() {
 	isOpen = !isOpen;
 	if (themePanel) {
+		themePanel.style.willChange = "transform, opacity";
 		themePanel.classList.toggle("float-panel-closed", !isOpen);
+		setTimeout(() => {
+			themePanel.style.willChange = "auto";
+		}, 100);
 	}
 }
 
 function selectTheme(mode: LIGHT_DARK_MODE) {
 	isOpen = false;
 	if (themePanel) {
+		themePanel.style.willChange = "transform, opacity";
 		themePanel.classList.add("float-panel-closed");
+		setTimeout(() => {
+			themePanel.style.willChange = "auto";
+		}, 100);
 	}
 	currentMode = mode;
 	setTheme(mode);
@@ -75,7 +83,11 @@ function handleClickOutside(event: MouseEvent) {
 		!target.closest("#scheme-switch")
 	) {
 		isOpen = false;
+		themePanel.style.willChange = "transform, opacity";
 		themePanel.classList.add("float-panel-closed");
+		setTimeout(() => {
+			themePanel.style.willChange = "auto";
+		}, 100);
 	}
 }
 

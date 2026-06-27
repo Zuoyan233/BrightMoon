@@ -14,7 +14,6 @@ type Renderer = () => void | Promise<void>;
 // 常量
 
 const SCRIPT_ID = "translate-script";
-const IDLE_POLL_MS = 50;
 const IDLE_TIMEOUT_MS = 30_000;
 const SRC_LANG =
 	siteConfig.translate?.defaultLanguage ||
@@ -75,15 +74,20 @@ const waitIdle = (timeout = IDLE_TIMEOUT_MS): Promise<void> => {
 	const t = window.translate;
 	if (!t || t.state === 0) return Promise.resolve();
 	const id = ++idleId;
+	const startTime = performance.now();
 	return new Promise<void>((resolve) => {
-		let elapsed = 0;
-		const timer = setInterval(() => {
-			elapsed += IDLE_POLL_MS;
-			if (t.state === 0 || elapsed >= timeout || id !== idleId) {
-				clearInterval(timer);
+		const check = () => {
+			if (
+				t.state === 0 ||
+				performance.now() - startTime >= timeout ||
+				id !== idleId
+			) {
 				resolve();
+				return;
 			}
-		}, IDLE_POLL_MS);
+			requestAnimationFrame(check);
+		};
+		requestAnimationFrame(check);
 	});
 };
 

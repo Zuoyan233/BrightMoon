@@ -262,6 +262,7 @@ html {
 
 	.card-base {
 		@apply rounded-[var(--radius-large)] overflow-hidden bg-[var(--card-bg)] transition-colors duration-150;
+		contain: layout style;
 	}
 	.card-base-transparent {
 		@apply rounded-[var(--radius-large)] overflow-hidden bg-[var(--card-bg-transparent)] backdrop-blur-sm transition-colors duration-150;

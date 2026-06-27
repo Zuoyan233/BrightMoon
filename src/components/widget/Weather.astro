@@ -127,7 +127,7 @@ const weatherApiLangMapJSON = JSON.stringify(langToWeatherApiMap);
 		</div>
 
 		<!-- 加载失败状态 -->
-		<div id="weather-error" class="hidden flex flex-col items-center justify-center py-6">
+		<div id="weather-error" class="flex flex-col items-center justify-center py-6" style="display:none">
 			<div class="text-4xl mb-2 text-[var(--primary)]">
 				<Icon name="material-symbols:cloud-off-outline" />
 			</div>
@@ -143,7 +143,7 @@ const weatherApiLangMapJSON = JSON.stringify(langToWeatherApiMap);
 		</div>
 
 		<!-- 未配置 API Key 状态 -->
-		<div id="weather-noapikey" class="hidden flex flex-col items-center justify-center py-6">
+		<div id="weather-noapikey" class="flex flex-col items-center justify-center py-6" style="display:none">
 			<div class="text-4xl mb-2 text-[var(--primary)]">
 				<Icon name="material-symbols:error-outline" />
 			</div>
@@ -153,7 +153,7 @@ const weatherApiLangMapJSON = JSON.stringify(langToWeatherApiMap);
 		</div>
 
 		<!-- 定位因隐私拒绝被禁用状态 -->
-		<div id="weather-location-disabled" class="hidden flex flex-col items-center justify-center py-6">
+		<div id="weather-location-disabled" class="flex flex-col items-center justify-center py-6" style="display:none">
 			<div class="text-4xl mb-2 text-[var(--primary)]">
 				<Icon name="material-symbols:location-off-outline" />
 			</div>
@@ -163,7 +163,7 @@ const weatherApiLangMapJSON = JSON.stringify(langToWeatherApiMap);
 		</div>
 
 		<!-- 等待 IP 定位授权状态 -->
-		<div id="weather-waiting-consent" class="hidden flex flex-col items-center justify-center py-6">
+		<div id="weather-waiting-consent" class="flex flex-col items-center justify-center py-6" style="display:none">
 			<div class="weather-spinner mb-3">
 				<svg class="weather-spinner-svg" viewBox="0 0 48 48">
 					<circle class="weather-spinner-track" cx="24" cy="24" r="20" fill="none" stroke-width="4" />
@@ -176,7 +176,7 @@ const weatherApiLangMapJSON = JSON.stringify(langToWeatherApiMap);
 		</div>
 
 		<!-- 拒绝隐私后使用默认位置提示 -->
-		<div id="weather-default-location-hint" class="hidden flex flex-col items-center justify-center py-6">
+		<div id="weather-default-location-hint" class="flex flex-col items-center justify-center py-6" style="display:none">
 			<div class="text-4xl mb-2 text-[var(--primary)]">
 				<Icon name="material-symbols:edit-location-alt-outline" />
 			</div>
@@ -194,7 +194,7 @@ const weatherApiLangMapJSON = JSON.stringify(langToWeatherApiMap);
 			<div id="weather-location" class="flex items-center gap-1 mb-3 px-1">
 				<Icon name="material-symbols:location-on-outline" class="text-[var(--primary)] text-xl shrink-0 mr-1" />
 				<span id="weather-location-name" class="text-sm text-neutral-600 dark:text-neutral-400 truncate flex-1 min-w-0"></span>
-				<div id="weather-action-btns" class="flex items-center gap-1 shrink-0 hidden ml-auto">
+				<div id="weather-action-btns" class="flex items-center gap-1 shrink-0 ml-auto" style="display:none">
 					<button
 						id="weather-detect-btn"
 						class="p-1 rounded-md hover:bg-[var(--btn-plain-bg-hover)] text-[var(--primary)] transition-all"
@@ -427,19 +427,19 @@ const weatherApiLangMapJSON = JSON.stringify(langToWeatherApiMap);
 
 	// 显示不同状态
 	function showState(state) {
-		dom.loading.classList.toggle("hidden", state !== "loading");
-		dom.error.classList.toggle("hidden", state !== "error");
-		dom.noapikey.classList.toggle("hidden", state !== "noapikey");
-		dom.locationDisabled.classList.toggle("hidden", state !== "locationDisabled");
-		dom.waitingConsent.classList.toggle("hidden", state !== "waitingConsent");
-		dom.defaultLocationLoading.classList.toggle("hidden", state !== "defaultLocationHint");
+		dom.loading.style.display = state === "loading" ? "" : "none";
+		dom.error.style.display = state === "error" ? "" : "none";
+		dom.noapikey.style.display = state === "noapikey" ? "" : "none";
+		dom.locationDisabled.style.display = state === "locationDisabled" ? "" : "none";
+		dom.waitingConsent.style.display = state === "waitingConsent" ? "" : "none";
+		dom.defaultLocationLoading.style.display = state === "defaultLocationHint" ? "" : "none";
 		dom.data.classList.toggle("hidden", state !== "data");
 		// 仅加载成功时显示搜索框
 		var isDataState = state === "data";
 		dom.searchBox.classList.toggle("hidden", !isDataState);
 		// 定位按钮：加载成功且 IP 定位未被拒绝时才显示
 		var ipAllowed = isIpLocationAllowed();
-		dom.actionBtns.classList.toggle("hidden", !(isDataState && ipAllowed));
+		dom.actionBtns.style.display = (isDataState && ipAllowed) ? "" : "none";
 	}
 
 	// WeatherAPI 条件代码 → Material Symbols 图标映射

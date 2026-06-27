@@ -26,37 +26,46 @@ async function initializePanelManager() {
 	try {
 		const { panelManager } = await import("../utils/panel-manager.js");
 
-		function setClickOutsideToClose(panel, ignores) {
-			document.addEventListener("click", async (event) => {
-				const tDom = event.target;
-				if (!(tDom instanceof Node)) return; // Ensure the event target is an HTML Node
+		const panelCloseConfigs = [];
+
+		// 合并所有面板的点击外部关闭逻辑到单个监听器
+		document.addEventListener("click", async (event) => {
+			const tDom = event.target;
+			if (!(tDom instanceof Node)) return;
+			for (const { panel, ignores } of panelCloseConfigs) {
+				const panelEl = document.getElementById(panel);
+				if (!panelEl || panelEl.classList.contains("float-panel-closed"))
+					continue;
+				let shouldClose = true;
 				for (const ig of ignores) {
 					const ie = document.getElementById(ig);
 					if (ie === tDom || ie?.contains(tDom)) {
-						return;
+						shouldClose = false;
+						break;
 					}
 				}
-				await panelManager.closePanel(panel);
-			});
-		}
+				if (shouldClose) {
+					await panelManager.closePanel(panel);
+				}
+			}
+		});
 
-		setClickOutsideToClose("display-setting", [
-			"display-setting",
-			"display-settings-switch",
-		]);
-		setClickOutsideToClose("nav-menu-panel", [
-			"nav-menu-panel",
-			"nav-menu-switch",
-		]);
-		setClickOutsideToClose("search-panel", [
-			"search-panel",
-			"search-bar",
-			"search-switch",
-		]);
-		setClickOutsideToClose("wallpaper-mode-panel", [
-			"wallpaper-mode-panel",
-			"wallpaper-mode-switch",
-		]);
+		panelCloseConfigs.push({
+			panel: "display-setting",
+			ignores: ["display-setting", "display-settings-switch"],
+		});
+		panelCloseConfigs.push({
+			panel: "nav-menu-panel",
+			ignores: ["nav-menu-panel", "nav-menu-switch"],
+		});
+		panelCloseConfigs.push({
+			panel: "search-panel",
+			ignores: ["search-panel", "search-bar", "search-switch"],
+		});
+		panelCloseConfigs.push({
+			panel: "wallpaper-mode-panel",
+			ignores: ["wallpaper-mode-panel", "wallpaper-mode-switch"],
+		});
 
 		return panelManager;
 	} catch (error) {

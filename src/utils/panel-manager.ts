@@ -41,6 +41,7 @@ class PanelManager {
 			panel.offsetHeight; // 强制重排
 
 			panel.style.transition = `all ${this.duration}ms ease-out`;
+			panel.style.willChange = "transform, opacity";
 
 			requestAnimationFrame(() => {
 				panel.style.opacity = "1";
@@ -49,6 +50,7 @@ class PanelManager {
 
 				setTimeout(() => {
 					panel.style.transition = "";
+					panel.style.willChange = "auto";
 					resolve();
 				}, this.duration);
 			});
@@ -75,6 +77,7 @@ class PanelManager {
 			}
 
 			panel.style.transition = `all ${this.duration}ms ease-out`;
+			panel.style.willChange = "transform, opacity";
 			panel.style.pointerEvents = "none";
 			panel.style.opacity = "0";
 			panel.style.transform = "scale(0.95) translateY(-10px)";
@@ -82,6 +85,7 @@ class PanelManager {
 			setTimeout(() => {
 				panel.classList.add("float-panel-closed");
 				panel.style.transition = "";
+				panel.style.willChange = "auto";
 				panel.style.opacity = "";
 				panel.style.transform = "";
 				panel.style.pointerEvents = "";

@@ -7,12 +7,10 @@ class Sakura {
 	s: number;
 	r: number;
 	a: number;
-	fn: {
-		x: (x: number, y: number) => number;
-		y: (x: number, y: number) => number;
-		r: (r: number) => number;
-		a: (a: number) => number;
-	};
+	speedX: number;
+	speedY: number;
+	speedR: number;
+	fadeSpeed: number;
 	idx: number;
 	img: HTMLImageElement;
 	limitArray: number[];
@@ -24,12 +22,10 @@ class Sakura {
 		s: number,
 		r: number,
 		a: number,
-		fn: {
-			x: (x: number, y: number) => number;
-			y: (x: number, y: number) => number;
-			r: (r: number) => number;
-			a: (a: number) => number;
-		},
+		speedX: number,
+		speedY: number,
+		speedR: number,
+		fadeSpeed: number,
 		idx: number,
 		img: HTMLImageElement,
 		limitArray: number[],
@@ -40,7 +36,10 @@ class Sakura {
 		this.s = s;
 		this.r = r;
 		this.a = a;
-		this.fn = fn;
+		this.speedX = speedX;
+		this.speedY = speedY;
+		this.speedR = speedR;
+		this.fadeSpeed = fadeSpeed;
 		this.idx = idx;
 		this.img = img;
 		this.limitArray = limitArray;
@@ -57,10 +56,10 @@ class Sakura {
 	}
 
 	update() {
-		this.x = this.fn.x(this.x, this.y);
-		this.y = this.fn.y(this.y, this.y);
-		this.r = this.fn.r(this.r);
-		this.a = this.fn.a(this.a);
+		this.x += this.speedX;
+		this.y += this.speedY;
+		this.r += this.speedR;
+		this.a -= this.fadeSpeed;
 
 		// 如果樱花越界或完全透明，重新调整位置
 		if (
@@ -136,32 +135,10 @@ class SakuraList {
 
 // 获取随机值的函数
 function getRandom(
-	option: "x" | "y" | "s" | "r" | "a",
+	option: "x" | "y" | "s" | "r" | "a" | "fnx" | "fny" | "fnr" | "fna",
 	config: SakuraConfig,
-): number;
-function getRandom(
-	option: "fnx" | "fny",
-	config: SakuraConfig,
-): (x: number, y: number) => number;
-function getRandom(option: "fnr", config: SakuraConfig): (r: number) => number;
-function getRandom(
-	option: "fna",
-	config: SakuraConfig,
-): (alpha: number) => number;
-function getRandom(
-	option: string,
-	config: SakuraConfig,
-):
-	| number
-	| ((x: number, y: number) => number)
-	| ((r: number) => number)
-	| ((alpha: number) => number) {
-	let ret:
-		| number
-		| ((x: number, y: number) => number)
-		| ((r: number) => number)
-		| ((alpha: number) => number);
-	let random: number;
+): number {
+	let ret: number;
 
 	switch (option) {
 		case "x":
@@ -183,23 +160,21 @@ function getRandom(
 				Math.random() * (config.opacity.max - config.opacity.min);
 			break;
 		case "fnx":
-			random =
+			ret =
 				config.speed.horizontal.min +
 				Math.random() *
 					(config.speed.horizontal.max - config.speed.horizontal.min);
-			ret = (x: number, _y: number) => x + random;
 			break;
 		case "fny":
-			random =
+			ret =
 				config.speed.vertical.min +
 				Math.random() * (config.speed.vertical.max - config.speed.vertical.min);
-			ret = (_x: number, y: number) => y + random;
 			break;
 		case "fnr":
-			ret = (r: number) => r + config.speed.rotation;
+			ret = config.speed.rotation;
 			break;
 		case "fna":
-			ret = (alpha: number) => alpha - config.speed.fadeSpeed * 0.01;
+			ret = config.speed.fadeSpeed * 0.01;
 			break;
 		default:
 			ret = 0;
@@ -292,12 +267,10 @@ export class SakuraManager {
 				randomS,
 				randomR,
 				randomA,
-				{
-					x: randomFnx,
-					y: randomFny,
-					r: randomFnR,
-					a: randomFnA,
-				},
+				randomFnx as number,
+				randomFny as number,
+				randomFnR as number,
+				randomFnA as number,
 				i,
 				this.img,
 				limitArray,

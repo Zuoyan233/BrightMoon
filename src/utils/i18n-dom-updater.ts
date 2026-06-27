@@ -19,6 +19,7 @@ import { tr } from "@i18n/languages/tr";
 import { vi } from "@i18n/languages/vi";
 import { zh_CN } from "@i18n/languages/zh_CN";
 import { zh_TW } from "@i18n/languages/zh_TW";
+import { siteConfig } from "@/config";
 import { translateToLangMap } from "@/utils/language-utils";
 
 // Reuse the loaded dictionaries instead of importing the same files repeatedly.
@@ -42,9 +43,7 @@ export const allTranslations: Record<string, Record<string, string>> = {
 // Reverse lookup table: translated text -> i18n key.
 const textToKeyMap = new Map<string, I18nKey>();
 
-function buildReverseMap(): void {
-	if (textToKeyMap.size > 0) return;
-
+function buildReverseMap(_lang: string): void {
 	for (const translations of Object.values(allTranslations)) {
 		for (const [key, value] of Object.entries(translations)) {
 			const trimmed = (value as string).trim();
@@ -113,8 +112,11 @@ export function clearI18nMarkers(root: ParentNode = document): void {
 export function applyI18nToDOM(
 	targetI18nLangCode: string,
 	root: HTMLElement = document.body,
+	sourceLangCode?: string,
 ): number {
-	buildReverseMap();
+	// 从源语言构建反向映射（默认使用站点配置语言）
+	const sourceLang = sourceLangCode || siteConfig.lang;
+	buildReverseMap(sourceLang);
 
 	const targetTranslation = allTranslations[targetI18nLangCode];
 	if (!targetTranslation) {

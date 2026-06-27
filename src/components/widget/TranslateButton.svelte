@@ -37,8 +37,13 @@ const defaultTranslateLanguage = getTranslateLanguageFromConfig(
 
 function togglePanel() {
 	isOpen = !isOpen;
-	if (translatePanel) {
-		translatePanel.classList.toggle("float-panel-closed", !isOpen);
+	const panel = translatePanel;
+	if (panel) {
+		panel.style.willChange = "transform, opacity";
+		panel.classList.toggle("float-panel-closed", !isOpen);
+		setTimeout(() => {
+			panel.style.willChange = "auto";
+		}, 100);
 	}
 }
 
@@ -46,8 +51,13 @@ async function changeLanguage(languageCode: string) {
 	currentLanguage = languageCode;
 
 	isOpen = false;
-	if (translatePanel) {
-		translatePanel.classList.add("float-panel-closed");
+	const panel = translatePanel;
+	if (panel) {
+		panel.style.willChange = "transform, opacity";
+		panel.classList.add("float-panel-closed");
+		setTimeout(() => {
+			panel.style.willChange = "auto";
+		}, 100);
 	}
 
 	try {
@@ -60,13 +70,18 @@ async function changeLanguage(languageCode: string) {
 // 点击外部关闭面板
 function handleClickOutside(event: MouseEvent) {
 	const target = event.target as HTMLElement;
+	const panel = translatePanel;
 	if (
-		translatePanel &&
-		!translatePanel.contains(target) &&
+		panel &&
+		!panel.contains(target) &&
 		!target.closest("#translate-switch")
 	) {
 		isOpen = false;
-		translatePanel.classList.add("float-panel-closed");
+		panel.style.willChange = "transform, opacity";
+		panel.classList.add("float-panel-closed");
+		setTimeout(() => {
+			panel.style.willChange = "auto";
+		}, 100);
 	}
 }
 

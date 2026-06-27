@@ -72,8 +72,6 @@ class ThemeOptimizer {
 					setTimeout(() => {
 						this.observeCodeBlocks();
 						this.applyCodeBlockTransitionBehavior();
-						// 确保主题切换样式正确应用
-						this.forceApplyThemeTransitionStyles();
 					}, 100);
 				});
 
@@ -117,6 +115,11 @@ class ThemeOptimizer {
 		// 强制应用主题切换样式，确保在页面切换后也能正确工作
 		const codeBlocks = document.querySelectorAll(".expressive-code");
 
+		// 检查当前是否处于主题切换状态
+		const isTransitioning = document.documentElement.classList.contains(
+			"is-theme-transitioning",
+		);
+
 		codeBlocks.forEach((block) => {
 			// 确保代码块有正确的类
 			if (this.hideCodeBlocksDuringTransition) {
@@ -124,18 +127,13 @@ class ThemeOptimizer {
 			} else {
 				block.classList.remove("hide-during-transition");
 			}
-
-			// 强制重新计算样式
-			void block.offsetWidth;
 		});
 
-		// 检查当前是否处于主题切换状态
-		const isTransitioning = document.documentElement.classList.contains(
-			"is-theme-transitioning",
-		);
-
 		if (isTransitioning) {
-			// 如果正在切换主题，确保样式立即应用
+			// 仅在主题切换期间强制回流一次（批量），确保样式立即生效
+			if (codeBlocks.length > 0) {
+				void codeBlocks[0].parentElement?.offsetHeight;
+			}
 			codeBlocks.forEach((block) => {
 				if (block.classList.contains("hide-during-transition")) {
 					block.style.setProperty("content-visibility", "hidden", "important");
@@ -143,7 +141,7 @@ class ThemeOptimizer {
 				}
 			});
 		} else {
-			// 如果不在切换状态，确保样式恢复正常
+			// 不在切换状态：跳过强制回流，直接恢复样式
 			codeBlocks.forEach((block) => {
 				block.style.removeProperty("content-visibility");
 				block.style.removeProperty("opacity");

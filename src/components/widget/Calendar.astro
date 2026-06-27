@@ -140,7 +140,7 @@ const translateToI18nMapJSON = JSON.stringify(translateToLangMap);
 		</div>
 		<div
 			id="selection-panel"
-			class="absolute inset-0 bg-[var(--card-bg)] z-10 flex flex-col hidden opacity-0 transition-opacity duration-200"
+			class="absolute inset-0 bg-[var(--card-bg)] z-10 flex flex-col pointer-events-none opacity-0 transition-opacity duration-200"
 		>
 			<div
 				id="selection-content"
@@ -195,10 +195,31 @@ const translateToI18nMapJSON = JSON.stringify(translateToLangMap);
 	let _isInTranslateFlow = false;
 	let _calClickAC = null; // AbortController for cleaning up document click listener
 
+	// 模块级缓存，避免 Swup 导航时重复请求
+	let _calendarDataCache = null;
+
 	async function fetchCalendarData() {
 		try {
+			// 使用缓存避免重复请求
+			if (_calendarDataCache) {
+				allPostsData = _calendarDataCache;
+				processPostsData(allPostsData);
+				const currentPostId = getCurrentPostId();
+				if (currentPostId) {
+					const matchedPost = allPostsData.find((p) => p.id === currentPostId);
+					if (matchedPost) {
+						const [y, m] = matchedPost.date.split("-");
+						currentYear = parseInt(y);
+						currentMonth = parseInt(m) - 1;
+					}
+				}
+				renderCalendar();
+				return;
+			}
+
 			const res = await fetch("/api/calendar-data.json");
 			const data = await res.json();
+			_calendarDataCache = data;
 			if (Array.isArray(data)) {
 				allPostsData = data;
 				processPostsData(allPostsData);
@@ -532,7 +553,7 @@ const translateToI18nMapJSON = JSON.stringify(translateToLangMap);
 	function showMonthPicker() {
 		currentView = "month";
 		updateHeader();
-		dom.selectionPanel.classList.remove("hidden");
+		dom.selectionPanel.classList.remove("hidden", "pointer-events-none");
 		requestAnimationFrame(() => {
 			dom.selectionPanel.classList.remove("opacity-0");
 		});
@@ -594,7 +615,7 @@ const translateToI18nMapJSON = JSON.stringify(translateToLangMap);
 	}
 
 	function closeSelectionPanel() {
-		dom.selectionPanel.classList.add("opacity-0");
+		dom.selectionPanel.classList.add("opacity-0", "pointer-events-none");
 		setTimeout(() => {
 			dom.selectionPanel.classList.add("hidden");
 			currentView = "day";

@@ -1,53 +1,54 @@
 /*
- * Page transition animations with Swup
- * Unified across all devices: 400ms, same displacement, same easing
- * Easing:
- *   Enter: cubic-bezier(0.4, 0, 0.2, 1)  — Material standard deceleration
- *   Leave: cubic-bezier(0.4, 0, 0.6, 1)  — Material standard acceleration
+ * Page transition animations with Swup — Ultimate Performance Edition
  */
 
-/* ============================================
-   Core Transition: Main Content Area
-   ============================================ */
+/* CSS Custom Properties (centralized tuning) */
+:root {
+	--tf-duration: 400ms;
+	--tf-enter: cubic-bezier(0.4, 0, 0.2, 1);
+	--tf-leave: cubic-bezier(0.4, 0, 0.6, 1);
+	--tf-offset-y: 1.5rem;
+	--tf-offset-x: 0.5rem;
+}
 
+/* Core Transition: Main Content Area */
 .transition-main {
 	transition:
-		opacity 400ms cubic-bezier(0.4, 0, 0.2, 1),
-		transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
-	will-change: transform, opacity;
+		opacity var(--tf-duration) var(--tf-enter),
+		transform var(--tf-duration) var(--tf-enter);
 }
 
 .transition-leaving {
 	transition:
-		opacity 400ms cubic-bezier(0.4, 0, 0.6, 1),
-		transform 400ms cubic-bezier(0.4, 0, 0.6, 1);
+		opacity var(--tf-duration) var(--tf-leave),
+		transform var(--tf-duration) var(--tf-leave);
+}
+
+/* GPU layer creation: only when Swup navigation is active. */
+
+html.is-changing .transition-main,
+html.is-changing .transition-leaving {
 	will-change: transform, opacity;
 }
 
-/* ============================================
-   Swup State: is-changing (navigation started)
-   ============================================ */
-
+/* Swup State: is-changing (navigation started) */
 html.is-changing .transition-main {
 	transition:
-		opacity 400ms cubic-bezier(0.4, 0, 0.2, 1),
-		transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
+		opacity var(--tf-duration) var(--tf-enter),
+		transform var(--tf-duration) var(--tf-enter);
 }
 
 html.is-leaving .transition-main {
 	transition:
-		opacity 400ms cubic-bezier(0.4, 0, 0.6, 1),
-		transform 400ms cubic-bezier(0.4, 0, 0.6, 1);
+		opacity var(--tf-duration) var(--tf-leave),
+		transform var(--tf-duration) var(--tf-leave);
 }
 
-/* ============================================
-   Swup State: is-animating (animation in progress)
-   ============================================ */
-
+/* Swup State: is-animating (animation in progress) */
 /* Enter: new content slides in from bottom-right */
 html.is-animating .transition-main {
 	opacity: 0;
-	transform: translateY(1.5rem) translateX(0.5rem);
+	transform: translateY(var(--tf-offset-y)) translateX(var(--tf-offset-x));
 }
 
 /* Leave: old content slides out to top-left */
@@ -56,36 +57,33 @@ html.is-animating.is-leaving .transition-leaving {
 	opacity: 0;
 }
 
-/* ============================================
-   Swup fade compatibility
-   ============================================ */
+/* Swup fade compatibility */
+.transition-swup-fade {
+	transition:
+		opacity var(--tf-duration) var(--tf-enter),
+		transform var(--tf-duration) var(--tf-enter);
+}
 
 html.is-changing .transition-swup-fade {
-	transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+	will-change: transform, opacity;
 }
 
 html.is-animating .transition-swup-fade {
 	opacity: 0;
-	transform: translateY(1.5rem);
+	transform: translateY(var(--tf-offset-y));
 }
 
-/* ============================================
-   Swup State: is-entering
-   ============================================ */
-
+/* Swup State: is-entering */
 html.is-entering .transition-main {
-	transform: translateY(1.5rem);
+	transform: translateY(var(--tf-offset-y));
 	opacity: 0;
 }
 
-/* ============================================
-   Keyframes
-   ============================================ */
-
+/* Keyframes */
 @keyframes fade-in-up {
 	from {
 		opacity: 0;
-		transform: translateY(1.5rem) translateX(0.5rem);
+		transform: translateY(var(--tf-offset-y)) translateX(var(--tf-offset-x));
 	}
 	to {
 		opacity: 1;
@@ -113,19 +111,15 @@ html.is-entering .transition-main {
 	}
 }
 
-/* ============================================
-   Onload Animations (staggered page-load)
-   ============================================ */
-
+/* Onload Animations (staggered page-load) */
 .onload-animation {
 	opacity: 0;
-	animation: fade-in-up 400ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
-	will-change: transform, opacity;
+	animation: fade-in-up var(--tf-duration) var(--tf-enter) forwards;
 }
 
 .onload-animation-fade-in {
 	opacity: 0;
-	animation: fade-in 400ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+	animation: fade-in var(--tf-duration) var(--tf-enter) forwards;
 }
 
 /* Staggered animation delays */
@@ -145,92 +139,116 @@ html.is-entering .transition-main {
 	animation-delay: 240ms;
 }
 
-/* ============================================
-   Special Element Animations
-   ============================================ */
-
+/* Special Element Animations */
 /* Slide-in elements */
 .transition-slide-in {
 	opacity: 0;
 	transform: translateY(20px) translateX(8px);
-	transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
-	will-change: transform, opacity;
+	transition:
+		opacity var(--tf-duration) var(--tf-enter),
+		transform var(--tf-duration) var(--tf-enter);
 }
 
 .transition-slide-in.active {
 	opacity: 1;
 	transform: translateY(0) translateX(0);
+	will-change: transform, opacity;
 }
 
 /* Card animations */
 .card-animation {
 	opacity: 0;
 	transform: translateY(30px) translateX(10px) scale(0.98);
-	transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
-	will-change: transform, opacity;
+	transition:
+		opacity var(--tf-duration) var(--tf-enter),
+		transform var(--tf-duration) var(--tf-enter);
 }
 
 .card-animation.visible {
 	opacity: 1;
 	transform: translateY(0) translateX(0) scale(1);
+	will-change: transform, opacity;
 }
 
 /* Nav animations */
 .nav-animation {
 	opacity: 0;
 	transform: translateX(-20px);
-	transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
-	will-change: transform, opacity;
+	transition:
+		opacity var(--tf-duration) var(--tf-enter),
+		transform var(--tf-duration) var(--tf-enter);
 }
 
 .nav-animation.loaded {
 	opacity: 1;
 	transform: translateX(0);
+	will-change: transform, opacity;
 }
 
-/* ============================================
-   Performance: GPU Acceleration
-   ============================================ */
-
-.transition-main,
-.transition-leaving,
-.onload-animation,
-.transition-slide-in,
-.card-animation,
-.nav-animation {
-	backface-visibility: hidden;
-	-webkit-backface-visibility: hidden;
-	-webkit-font-smoothing: antialiased;
-}
-
-/* Clean up will-change after animation ends */
-.animation-complete {
+/* GPU Layer Lifecycle Management */
+.animation-complete,
+.onload-animation.animation-complete {
 	will-change: auto;
 }
 
-/* ============================================
-   Accessibility: prefers-reduced-motion
-   ============================================ */
-
+/* Accessibility: prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
-	:root .transition-main,
-	:root .transition-leaving,
-	:root .onload-animation,
-	:root .onload-animation-fade-in,
-	:root .transition-slide-in,
-	:root .card-animation,
-	:root .nav-animation {
-		animation-duration: 0.01ms;
-		animation-iteration-count: 1;
-		transition-duration: 0.01ms;
+	:root {
+		--tf-duration: 0.01ms;
+	}
+
+	.transition-main,
+	.transition-leaving,
+	.transition-swup-fade,
+	.transition-slide-in,
+	.card-animation,
+	.nav-animation {
+		transition:
+			opacity 200ms var(--tf-enter),
+			transform 0.01ms var(--tf-enter);
 		will-change: auto;
+	}
+
+	.onload-animation,
+	.onload-animation-fade-in {
+		animation: fade-in 200ms var(--tf-enter) forwards;
+		will-change: auto;
+	}
+
+	/* Neutralize all transform offsets */
+	html.is-animating .transition-main,
+	html.is-entering .transition-main,
+	html.is-animating.is-leaving .transition-leaving,
+	html.is-animating .transition-swup-fade {
+		transform: none;
+	}
+
+	.transition-slide-in,
+	.card-animation,
+	.nav-animation {
+		transform: none;
+	}
+
+	.transition-slide-in.active,
+	.card-animation.visible,
+	.nav-animation.loaded {
+		transform: none;
+	}
+
+	/* Override keyframes to remove transforms */
+	@keyframes fade-in-up {
+		from {
+			opacity: 0;
+			transform: none;
+		}
+		to {
+			opacity: 1;
+			transform: none;
+		}
 	}
 }
 
-/* ============================================
-   Touch Device Optimizations
-   ============================================ */
-
+/* Mobile: same duration & displacement as desktop */
 @media (hover: none) and (pointer: coarse) {
 	.transition-main,
 	.transition-leaving,

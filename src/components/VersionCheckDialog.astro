@@ -1,0 +1,35 @@
+---
+import { Icon } from "astro-icon/components";
+
+export interface Props {
+	dialogClass: string;
+	iconName: string;
+	title: string;
+	titleClass?: string;
+	maxWidth?: string;
+}
+
+const {
+	dialogClass,
+	iconName,
+	title,
+	titleClass = "",
+	maxWidth = "440px",
+} = Astro.props;
+---
+
+<dialog
+	class={`${dialogClass} dialog fixed inset-0 m-auto border border-[var(--line-divider)] rounded-[var(--radius-large)] bg-[var(--float-panel-bg)] p-0 w-[90%] shadow-lg overflow-hidden transition-all duration-250 ease-[cubic-bezier(0.2,0,0,1)] opacity-0 scale-95 translate-y-2.5 [&.dialog-show]:opacity-100 [&.dialog-show]:scale-100 [&.dialog-show]:translate-y-0 backdrop:bg-black/50 backdrop:backdrop-blur-[5px] backdrop:opacity-0 backdrop:transition-opacity backdrop:duration-250 [&.dialog-show]:backdrop:opacity-100`}
+	style={`max-width: ${maxWidth}`}
+>
+	<div class="absolute inset-0 bg-[image:var(--dialog-bg-img)] bg-auto bg-right-bottom bg-no-repeat opacity-18 z-0 pointer-events-none"></div>
+
+	<div class="relative z-10 p-8 pb-7 flex flex-col gap-5">
+		<div class="flex items-center justify-center gap-2.5 text-[var(--primary)]">
+			<Icon name={iconName} class="text-3xl"></Icon>
+			<h3 class={`m-0 text-[1.35rem] font-semibold text-[var(--btn-plain)] ${titleClass}`}>{title}</h3>
+		</div>
+
+		<slot />
+	</div>
+</dialog>
