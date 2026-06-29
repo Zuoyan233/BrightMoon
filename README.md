@@ -124,7 +124,8 @@ This project is a customized extension based on Mizuki V8.2, with version number
 - **Weather Widget** - Powered by WeatherAPI, supporting 7-day forecasts, IP-based auto-location, and manual city search.
 - **Cookie Consent** - Cookie privacy policy banner with accept/deny support; auto-clears non-essential cookies on denial.
 - **Site Statistics** - Real-time display of current date (with multi-region format support), season, and time period.
-- **Framework Update Checker** - Automatically detects new BrightMoon releases via update API, supports stable and pre-release detection, with prompt dialogs for updates.
+- **Framework Update Checker** - Automatically detects new BrightMoon releases via remote repository API, supports stable and pre-release detection, with prompt dialogs for updates.
+- **Framework Upgrade Tool** - Supports both online and local upgrades, with automatic project backup and rollback prevention before updating, and automatic dependency installation and temporary file cleanup after upgrading.
 
 ---
 
@@ -199,19 +200,34 @@ Frontmatter fields:
 
    The blog will be available at `http://localhost:4321`.
 
-7. **All commands are run from the project root:**
+7. **Upgrade the BrightMoon blog framework (optional):**
 
-| Command                    | Action                                      |
-| :------------------------- | :------------------------------------------ |
-| `pnpm install`             | Install dependencies                        |
-| `pnpm dev`                 | Start local dev server at `localhost:4321`  |
-| `pnpm build`               | Build production site to `./dist/`          |
-| `pnpm preview`             | Preview the build locally before deployment |
-| `pnpm check`               | Run Astro error checks                      |
-| `pnpm format`              | Format code using Biome                     |
-| `pnpm lint`                | Check and fix code issues                   |
-| `pnpm new-post <filename>` | Create a new blog post                      |
-| `pnpm astro ...`           | Run Astro CLI commands                      |
+   When a new version is released, use the built-in upgrade tool:
+
+   ```bash
+   pnpm brightmoon-upgrade
+   ```
+
+   The upgrade tool provides two methods:
+   - **Online upgrade** - Automatically downloads the latest Release from the remote repository and completes the upgrade. Supports selecting stable or pre-release versions.
+   - **Local upgrade** - Place the downloaded `.zip` archive in the `update` folder in the project root. The tool will extract it automatically and complete the upgrade.
+
+   Before upgrading, the project is automatically backed up and rollback is prevented. After upgrading, `pnpm install` is automatically run to install new dependencies and clean up temporary files. If `src/config.ts` has changes, the original file is automatically backed up — please migrate your configuration manually.
+
+8. **All commands are run from the project root:**
+
+| Command                    | Action                                         |
+| :------------------------- | :--------------------------------------------- |
+| `pnpm install`             | Install dependencies                           |
+| `pnpm dev`                 | Start local dev server at `localhost:4321`     |
+| `pnpm build`               | Build production site to `./dist/`             |
+| `pnpm preview`             | Preview the build locally before deployment    |
+| `pnpm brightmoon-upgrade`  | Run the BrightMoon blog framework upgrade tool |
+| `pnpm check`               | Run Astro error checks                         |
+| `pnpm format`              | Format code using Biome                        |
+| `pnpm lint`                | Check and fix code issues                      |
+| `pnpm new-post <filename>` | Create a new blog post                         |
+| `pnpm astro ...`           | Run Astro CLI commands                         |
 
 ---
 

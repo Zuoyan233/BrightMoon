@@ -525,13 +525,13 @@ export const fr: Translation = {
 	[Key.versionPreRelease]: "Bêta",
 	[Key.versionCheckFailedTitle]: "Échec de la vérification",
 	[Key.versionCheckFailedDesc]:
-		"Impossible de vérifier les mises à jour, généralement en raison de la limitation de débit de l'API du service de mise à jour ou de l'absence d'adresse API du service de mise à jour. Veuillez réessayer plus tard",
+		"Impossible de vérifier les mises à jour, généralement en raison de la limitation de débit de l'API du dépôt distant ou de l'absence d'adresse API du dépôt distant. Veuillez réessayer plus tard",
 	[Key.versionCheckSuccessTitle]: "Vérification réussie",
 	[Key.versionCheckSuccessDesc]:
 		"Aucune nouvelle version trouvée. Vous êtes à jour",
 	[Key.versionDownload]: "Télécharger la dernière version",
 	[Key.versionUpdateWarning]:
-		"La nouvelle version apporte des modifications majeures au framework. Veuillez sauvegarder vos données avant la mise à jour.",
+		"Il est recommandé d'utiliser l'outil de mise à jour du framework de blog BrightMoon. Veuillez sauvegarder vos données avant la mise à jour.",
 
 	// Fil d'Ariane
 	[Key.suggestion]: "Vous aimerez peut-être visiter",

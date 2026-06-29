@@ -501,13 +501,13 @@ export const ja: Translation = {
 	[Key.versionPreRelease]: "ベータ版",
 	[Key.versionCheckFailedTitle]: "更新チェック失敗",
 	[Key.versionCheckFailedDesc]:
-		"更新を確認できません。通常は更新サービスAPIのレート制限、または更新サービスAPIアドレスが設定されていないことが原因です。しばらくしてからもう一度お試しください",
+		"更新を確認できません。通常はリモートリポジトリAPIのレート制限、またはリモートリポジトリAPIアドレスが設定されていないことが原因です。しばらくしてからもう一度お試しください",
 	[Key.versionCheckSuccessTitle]: "チェック成功",
 	[Key.versionCheckSuccessDesc]:
 		"新しいバージョンは見つかりませんでした。最新バージョンです",
 	[Key.versionDownload]: "最新バージョンをダウンロード",
 	[Key.versionUpdateWarning]:
-		"新バージョンはフレームワークの変更が大きいため、アップグレード前にデータをバックアップしてください",
+		"BrightMoon ブログフレームワークアップグレードツールの使用をお勧めします。アップグレード前にデータをバックアップしてください",
 
 	// パンくずナビゲーション
 	[Key.suggestion]: "訪れたいかもしれません",

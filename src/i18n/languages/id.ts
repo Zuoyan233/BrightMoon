@@ -506,13 +506,13 @@ export const id: Translation = {
 	[Key.versionPreRelease]: "Beta",
 	[Key.versionCheckFailedTitle]: "Pemeriksaan Pembaruan Gagal",
 	[Key.versionCheckFailedDesc]:
-		"Tidak dapat memeriksa pembaruan, biasanya disebabkan oleh batasan kecepatan API layanan pembaruan atau tidak adanya alamat API layanan pembaruan yang dikonfigurasi. Silakan coba lagi nanti",
+		"Tidak dapat memeriksa pembaruan, biasanya disebabkan oleh batasan kecepatan API repositori jarak jauh atau tidak adanya alamat API repositori jarak jauh yang dikonfigurasi. Silakan coba lagi nanti",
 	[Key.versionCheckSuccessTitle]: "Pemeriksaan berhasil",
 	[Key.versionCheckSuccessDesc]:
 		"Tidak ada versi baru ditemukan. Anda sudah menggunakan versi terbaru",
 	[Key.versionDownload]: "Unduh Versi Terbaru",
 	[Key.versionUpdateWarning]:
-		"Versi baru memiliki perubahan framework yang besar. Harap cadangkan data Anda sebelum meningkatkan.",
+		"Disarankan menggunakan alat peningkatan framework blog BrightMoon. Harap cadangkan data Anda sebelum meningkatkan.",
 
 	// Navigasi remah roti
 	[Key.suggestion]: "Mungkin Anda ingin mengunjungi",

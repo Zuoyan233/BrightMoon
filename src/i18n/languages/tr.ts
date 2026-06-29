@@ -513,13 +513,13 @@ export const tr: Translation = {
 	[Key.versionPreRelease]: "Beta",
 	[Key.versionCheckFailedTitle]: "Güncelleme Kontrolü Başarısız",
 	[Key.versionCheckFailedDesc]:
-		"Güncellemeler kontrol edilemiyor, genellikle güncelleme hizmeti API hız sınırlaması veya güncelleme hizmeti API adresinin yapılandırılmamış olması nedeniyle. Lütfen daha sonra tekrar deneyin",
+		"Güncellemeler kontrol edilemiyor, genellikle uzak depo API hız sınırlaması veya uzak depo API adresinin yapılandırılmamış olması nedeniyle. Lütfen daha sonra tekrar deneyin",
 	[Key.versionCheckSuccessTitle]: "Kontrol başarılı",
 	[Key.versionCheckSuccessDesc]:
 		"Yeni sürüm bulunamadı. Güncel sürümü kullanıyorsunuz",
 	[Key.versionDownload]: "Son Sürümü İndir",
 	[Key.versionUpdateWarning]:
-		"Yeni sürümde büyük framework değişiklikleri var. Lütfen yükseltmeden önce verilerinizi yedekleyin.",
+		"BrightMoon blog framework yükseltme aracının kullanılması önerilir. Lütfen yükseltmeden önce verilerinizi yedekleyin.",
 
 	// Ekmek kırıntısı gezinmesi
 	[Key.suggestion]: "Belki ziyaret etmek istersiniz",

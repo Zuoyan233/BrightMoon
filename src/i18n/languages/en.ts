@@ -505,12 +505,12 @@ export const en: Translation = {
 	[Key.versionPreRelease]: "Beta",
 	[Key.versionCheckFailedTitle]: "Update Check Failed",
 	[Key.versionCheckFailedDesc]:
-		"Unable to check for updates. This is usually caused by update service API rate limiting or no update service API address configured. Please try again later",
+		"Unable to check for updates. This is usually caused by remote repository API rate limiting or no remote repository API address configured. Please try again later",
 	[Key.versionCheckSuccessTitle]: "Check Successful",
 	[Key.versionCheckSuccessDesc]: "No new version found. You are up to date",
 	[Key.versionDownload]: "Download Latest Version",
 	[Key.versionUpdateWarning]:
-		"Major framework changes in the new version. Please back up your data before upgrading.",
+		"It is recommended to use the BrightMoon blog framework upgrade tool. Please back up your data before upgrading.",
 
 	// Breadcrumb Navigation
 	[Key.suggestion]: "You might want to visit",
