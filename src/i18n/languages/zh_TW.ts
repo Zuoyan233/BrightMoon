@@ -484,12 +484,12 @@ export const zh_TW: Translation = {
 	[Key.versionPreRelease]: "測試版",
 	[Key.versionCheckFailedTitle]: "檢查更新失敗",
 	[Key.versionCheckFailedDesc]:
-		"無法檢查更新，通常是由於更新服務 API 請求頻率限制或者沒有填入更新服務 API 位址導致更新失敗，請稍後再試",
+		"無法檢查更新，通常是由於遠端倉庫請求頻率限制或者沒有填入遠端倉庫 API 位址導致更新失敗，請稍後再試",
 	[Key.versionCheckSuccessTitle]: "檢查成功",
 	[Key.versionCheckSuccessDesc]: "目前沒有發現新版本，您已是最新版本",
 	[Key.versionDownload]: "下載最新版本",
 	[Key.versionUpdateWarning]:
-		"新版本框架改動較大移植需自行測試，請提前備份好資料",
+		"推薦使用 BrightMoon 部落格框架升級工具，升級前請備份好資料",
 
 	// 麵包屑導航
 	[Key.suggestion]: "你可能想訪問",

@@ -498,13 +498,13 @@ export const ko: Translation = {
 	[Key.versionPreRelease]: "베타",
 	[Key.versionCheckFailedTitle]: "업데이트 확인 실패",
 	[Key.versionCheckFailedDesc]:
-		"업데이트를 확인할 수 없습니다. 일반적으로 업데이트 서비스 API 속도 제한 또는 업데이트 서비스 API 주소가 설정되지 않아 발생합니다. 나중에 다시 시도해 주세요",
+		"업데이트를 확인할 수 없습니다. 일반적으로 원격 저장소 API 속도 제한 또는 원격 저장소 API 주소가 설정되지 않아 발생합니다. 나중에 다시 시도해 주세요",
 	[Key.versionCheckSuccessTitle]: "확인 성공",
 	[Key.versionCheckSuccessDesc]:
 		"현재 새 버전이 발견되지 않았습니다. 최신 버전입니다",
 	[Key.versionDownload]: "최신 버전 다운로드",
 	[Key.versionUpdateWarning]:
-		"새 버전은 프레임워크 변경이 크므로 업그레이드 전 데이터를 백업하세요",
+		"BrightMoon 블로그 프레임워크 업그레이드 도구 사용을 권장합니다. 업그레이드 전 데이터를 백업하세요",
 
 	// 브레드크럼 내비게이션
 	[Key.suggestion]: "방문하고 싶을 수도 있습니다",

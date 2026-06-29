@@ -556,6 +556,12 @@ export type WeatherConfig = {
 export type VersionCheckConfig = {
 	enable: boolean; // 是否启用版本检测按钮
 	autoCheck: boolean; // 是否启用自动检测更新
-	apiUrl: string; // 更新服务 API 地址，用于获取最新版本信息
+	apiUrl: string; // 获取远程仓库 API 地址，用于获取最新版本信息
 	versionPrefixPattern: string; // 版本号前缀正则模式，用于从 Release tag 中提取纯数字版本号
+};
+
+export type UpgradeConfig = {
+	protected: string[]; // 升级时受保护的文件列表，这些文件不会被覆盖或删除
+	ignore: string[]; // 升级时忽略的文件列表，这些文件不参与同步
+	httpTimeout: number; // HTTP 请求超时时间（毫秒）
 };

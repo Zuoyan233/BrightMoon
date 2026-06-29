@@ -518,13 +518,13 @@ export const es: Translation = {
 	[Key.versionPreRelease]: "Beta",
 	[Key.versionCheckFailedTitle]: "Error al verificar actualización",
 	[Key.versionCheckFailedDesc]:
-		"No se pueden verificar las actualizaciones, generalmente debido a la limitación de frecuencia de la API del servicio de actualización o a que no se ha configurado la dirección de la API del servicio de actualización. Inténtelo de nuevo más tarde",
+		"No se pueden verificar las actualizaciones, generalmente debido a la limitación de frecuencia de la API del repositorio remoto o a que no se ha configurado la dirección de la API del repositorio remoto. Inténtelo de nuevo más tarde",
 	[Key.versionCheckSuccessTitle]: "Comprobación exitosa",
 	[Key.versionCheckSuccessDesc]:
 		"No se ha encontrado una nueva versión. Estás al día",
 	[Key.versionDownload]: "Descargar última versión",
 	[Key.versionUpdateWarning]:
-		"La nueva versión tiene cambios importantes en el framework. Haga una copia de seguridad antes de actualizar.",
+		"Se recomienda utilizar la herramienta de actualización del framework de blog BrightMoon. Haga una copia de seguridad de sus datos antes de actualizar.",
 
 	// Navegación de migas de pan
 	[Key.suggestion]: "Quizás quieras visitar",

@@ -608,8 +608,7 @@ class VersionChecker {
 										self.bodyNewDialog.querySelector(".version-pre-badge");
 									if (titleEl)
 										titleEl.textContent = self.getTr("versionNewVersion");
-									if (newTagEl)
-										newTagEl.textContent = `BrightMoon ${result.updateTag}`;
+									if (newTagEl) newTagEl.textContent = result.updateTag;
 									if (preBadgeEl) {
 										if (result.isBeta) {
 											preBadgeEl.classList.remove("hidden");

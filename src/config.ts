@@ -16,6 +16,7 @@ import type {
 	ShareConfig,
 	SidebarLayoutConfig,
 	SiteConfig,
+	UpgradeConfig,
 	VersionCheckConfig,
 	WeatherConfig,
 } from "./types/config";
@@ -511,7 +512,7 @@ export const versionCheckConfig: VersionCheckConfig = {
 	enable: true, // 是否启用版本检测按钮
 	autoCheck: true, // 是否启用自动检测更新
 
-	// 更新服务 API 地址，用于获取最新版本信息
+	// 获取远程仓库 API 地址，用于获取最新版本信息
 	// per_page 参数控制每次请求返回的最大 Release 数量，默认 5 条即可满足检测需求
 	// 如需检测其他仓库的版本更新，替换为对应的 API 地址即可
 	apiUrl:
@@ -526,6 +527,49 @@ export const versionCheckConfig: VersionCheckConfig = {
 	//   "^[a-zA-Z_-]*"   → 匹配任意字母/下划线/连字符前缀
 	//   ""               → 不移除任何前缀，直接使用原始 tag
 	versionPrefixPattern: "^(CE_V|v)",
+};
+
+// 框架升级工具配置
+export const upgradeConfig: UpgradeConfig = {
+	// 升级时受保护的文件列表，这些文件不会被覆盖或删除
+	// 支持 glob 模式，如 "src/content/**" 匹配 src/content 下所有文件
+	protected: [
+		"src/content/**",
+		"src/assets/images/**",
+		"src/data/friends.ts",
+		"src/data/diary.ts",
+		"src/data/projects.ts",
+		"src/data/skills.ts",
+		"src/data/timeline.ts",
+		"src/data/anime.ts",
+		"src/data/bilibili-data.json",
+		"src/data/bangumi-data.json",
+		"src/data/anime-data.json",
+		"public/assets/anime/**",
+		"public/assets/css/**",
+		"public/assets/desktop-banner/**",
+		"public/assets/font/**",
+		"public/assets/home/**",
+		"public/assets/mobile-banner/**",
+		"public/favicon/**",
+		"public/images/**",
+		"public/pio/**",
+		".env",
+		".vscode/**",
+		".npmrc",
+	],
+	// 升级时忽略的文件列表，这些文件不参与同步
+	ignore: [
+		".git/**",
+		"node_modules/**",
+		".astro/**",
+		"dist/**",
+		".upgrade-tmp/**",
+		"update/**",
+		"backup/**",
+	],
+	// HTTP 请求超时时间（毫秒）
+	httpTimeout: 30000,
 };
 
 // 天气组件配置

@@ -519,13 +519,13 @@ export const de: Translation = {
 	[Key.versionPreRelease]: "Beta",
 	[Key.versionCheckFailedTitle]: "Update-Prüfung fehlgeschlagen",
 	[Key.versionCheckFailedDesc]:
-		"Update-Prüfung nicht möglich, normalerweise aufgrund der API-Ratenbegrenzung des Aktualisierungsdienstes oder weil keine API-Adresse des Aktualisierungsdienstes konfiguriert ist. Bitte versuchen Sie es später erneut",
+		"Update-Prüfung nicht möglich, normalerweise aufgrund der API-Ratenbegrenzung des Remote-Repositorys oder weil keine API-Adresse des Remote-Repositorys konfiguriert ist. Bitte versuchen Sie es später erneut",
 	[Key.versionCheckSuccessTitle]: "Überprüfung erfolgreich",
 	[Key.versionCheckSuccessDesc]:
 		"Keine neue Version gefunden. Sie sind auf dem neuesten Stand",
 	[Key.versionDownload]: "Neueste Version herunterladen",
 	[Key.versionUpdateWarning]:
-		"Die neue Version enthält größere Framework-Änderungen. Bitte sichern Sie Ihre Daten vor dem Upgrade.",
+		"Es wird empfohlen, das BrightMoon-Blog-Framework-Upgrade-Tool zu verwenden. Bitte sichern Sie Ihre Daten vor dem Upgrade.",
 
 	// Brotkrumen-Navigation
 	[Key.suggestion]: "Vielleicht möchten Sie besuchen",

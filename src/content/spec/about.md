@@ -91,6 +91,7 @@ In Chinese culture, the "Bright Moon" symbolizes clarity, fulfillment, and const
 - **Weather Widget** - Powered by WeatherAPI, supporting 7-day forecasts, IP-based auto-location, and manual city search.
 - **Cookie Consent** - Cookie privacy policy banner with accept/deny support; auto-clears non-essential cookies on denial.
 - **Site Statistics** - Real-time display of current date (with multi-region format support), season, and time period.
-- **Framework Update Checker** - Automatically detects new BrightMoon releases via update API, supports stable and pre-release detection, with prompt dialogs for updates.
+- **Framework Update Checker** - Automatically detects new BrightMoon releases via remote repository API, supports stable and pre-release detection, with prompt dialogs for updates.
+- **Framework Upgrade Tool** - Supports both online and local upgrades, with automatic project backup and rollback prevention before updating, and automatic dependency installation and temporary file cleanup after upgrading.
 
 ---
