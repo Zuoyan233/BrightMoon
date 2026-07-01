@@ -1,7 +1,13 @@
 {
-  "recommendations": [
-    "esbenp.prettier-vscode",
-    "astro-build.astro-vscode",
-    "bradlc.vscode-tailwindcss"
-  ]
+	"recommendations": [
+		"biomejs.biome",
+		"astro-build.astro-vscode",
+		"bradlc.vscode-tailwindcss",
+		"eliostruyf.vscode-front-matter",
+		"yzhang.markdown-all-in-one",
+		"sysoev.language-stylus",
+		"svelte.svelte-vscode",
+		"ritwickdey.LiveServer",
+		"vscode-icons-team.vscode-icons"
+	]
 }
