@@ -128,7 +128,7 @@ if (commentConfig?.enable && commentConfig?.twikoo) {
         <Twikoo path={path} />
       </div>
     )}
-    <div id="twikoo-not-configured" class="hidden flex flex-col items-center justify-center py-12 text-center">
+    <div id="twikoo-not-configured" class="hidden flex-col items-center justify-center py-12 text-center">
       <Icon name="material-symbols:chat-bubble-off-outline" class="text-4xl mb-4 text-[var(--primary)]"></Icon>
       <p class="text-lg font-bold text-black/90 dark:text-white/90">
         {i18n(I18nKey.twikooNotConfigured)}
@@ -137,7 +137,7 @@ if (commentConfig?.enable && commentConfig?.twikoo) {
         {i18n(I18nKey.twikooConfigHint)}
       </p>
     </div>
-    <div id="twikoo-privacy-rejected" class="hidden flex flex-col items-center justify-center py-12 text-center">
+    <div id="twikoo-privacy-rejected" class="hidden flex-col items-center justify-center py-12 text-center">
       <Icon name="material-symbols:block-outline" class="text-4xl mb-4 text-[var(--primary)]"></Icon>
       <p class="text-lg font-bold text-black/90 dark:text-white/90">
         {i18n(I18nKey.twikooPrivacyRejected)}
@@ -156,15 +156,15 @@ if (commentConfig?.enable && commentConfig?.twikoo) {
           if (initializing) initializing.classList.add('hidden');
           if (c === 'rejected') {
             if (twikooContainer) twikooContainer.classList.add('hidden');
-            if (notConfigured) notConfigured.classList.add('hidden');
-            if (privacyRejected) privacyRejected.classList.remove('hidden');
+            if (notConfigured) { notConfigured.classList.add('hidden'); notConfigured.classList.remove('flex'); }
+            if (privacyRejected) { privacyRejected.classList.remove('hidden'); privacyRejected.classList.add('flex'); }
           } else {
-            if (privacyRejected) privacyRejected.classList.add('hidden');
+            if (privacyRejected) { privacyRejected.classList.add('hidden'); privacyRejected.classList.remove('flex'); }
             if (twikooContainer) {
               twikooContainer.classList.remove('hidden');
-              if (notConfigured) notConfigured.classList.add('hidden');
+              if (notConfigured) { notConfigured.classList.add('hidden'); notConfigured.classList.remove('flex'); }
             } else {
-              if (notConfigured) notConfigured.classList.remove('hidden');
+              if (notConfigured) { notConfigured.classList.remove('hidden'); notConfigured.classList.add('flex'); }
             }
           }
         }

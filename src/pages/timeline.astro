@@ -104,15 +104,15 @@ const subtitle = i18n(I18nKey.timelineSubtitle);
   <!-- 图标加载器，预加载所有时间线图标 -->
   <IconifyLoader preloadIcons={allIcons} />
   <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
-    <div class="card-base z-10 px-6 py-8 md:px-9 md:py-1ss0 relative w-full">
+    <div class="card-base z-10 px-9 py-6 relative w-full">
       <!-- 页面标题 -->
-      <div class="flex flex-col items-start justify-center mb-10">
-        <h1 class="text-3xl md:text-4xl font-bold text-black/90 dark:text-white/90 mb-3 relative
+      <div class="flex flex-col items-start justify-center mb-8">
+        <h1 class="text-4xl font-bold text-black/90 dark:text-white/90 mb-2 relative
                   before:w-1 before:h-8 before:rounded-md before:bg-[var(--primary)]
                   before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-4">
           {i18n(I18nKey.timeline)}
         </h1>
-        <p class="text-base md:text-lg text-black/60 dark:text-white/60">
+        <p class="text-lg text-black/60 dark:text-white/60">
           {i18n(I18nKey.timelineSubtitle)}
         </p>
       </div>
@@ -422,4 +422,3 @@ const subtitle = i18n(I18nKey.timelineSubtitle);
     });
   }
 </script>
-
