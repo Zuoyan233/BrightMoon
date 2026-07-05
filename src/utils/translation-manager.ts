@@ -172,8 +172,13 @@ const configure = () => {
 		t.language.setLocal(cfg.defaultLanguage);
 	if (cfg?.autoDiscriminate && t.setAutoDiscriminateLocalLanguage)
 		t.setAutoDiscriminateLocalLanguage();
-	if (Array.isArray(t.ignore?.class))
-		pushUnique(t.ignore.class, cfg?.ignoreClasses);
+	if (t.ignore?.class?.push && Array.isArray(cfg?.ignoreClasses)) {
+		for (const cls of cfg.ignoreClasses) {
+			if (!t.ignore.class.data.includes(cls)) {
+				t.ignore.class.push(cls, null);
+			}
+		}
+	}
 	if (Array.isArray(t.ignore?.tag)) pushUnique(t.ignore.tag, cfg?.ignoreTags);
 	if (t.selectLanguageTag) {
 		t.selectLanguageTag.show = cfg?.showSelectTag !== false;

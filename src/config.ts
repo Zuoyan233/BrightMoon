@@ -86,7 +86,7 @@ export const siteConfig: SiteConfig = {
 
 	translate: {
 		enable: true, // 启用翻译功能
-		service: "client.edge", // 默认使用 Edge 浏览器翻译服务。留空则不使用任何第三方翻译服务，默认走 translate.js 默认 API
+		service: "translate.service", // 默认使用 Edge 浏览器翻译服务。留空则不使用任何第三方翻译服务，默认走 translate.js 默认 API
 		defaultLanguage: getTranslateLanguageFromConfig(SITE_LANG), // 根据站点语言自动设置默认翻译语言
 		showSelectTag: false, // 不显示默认语言选择下拉菜单，使用自定义按钮
 		autoDiscriminate: true, // 自动检测用户语言
