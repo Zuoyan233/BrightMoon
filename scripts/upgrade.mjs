@@ -2056,6 +2056,10 @@ function applyUpdate(release, cachedLocalFiles) {
 	}
 
 	for (const f of updateOnly) {
+		if (isProtected(f)) {
+			stats.protected.push(f);
+			continue;
+		}
 		const upPath = path.join(upDir, f);
 		const localPath = path.join(ROOT, f);
 		ensureDir(path.dirname(localPath));
@@ -2220,6 +2224,7 @@ async function selectMethod() {
 
 	if (isOnline) {
 		log(I18n("tipOnline"), "info");
+		console.log("");
 	} else {
 		log(I18n("tipLocal"), "info");
 		console.log("");
@@ -2236,6 +2241,7 @@ async function selectMethod() {
 			exitNow(1);
 		}
 		log(I18n("archiveFound", path.basename(archive)), "ok");
+		console.log("");
 	}
 
 	return isOnline;
@@ -2439,10 +2445,10 @@ async function main() {
 
 	let backupName = null;
 	if (!isRestoreBackup) {
+		log(I18n("backingUp"), "info");
 		if (hasExistingBackup()) {
-			log(I18n("backupExists"), "ok");
+			log(I18n("skipped"), "ok");
 		} else {
-			log(I18n("backingUp"), "info");
 			backupName = await backupProject(localVer, localFiles);
 			await new Promise((resolve) => setImmediate(resolve));
 			if (isInterrupted) {

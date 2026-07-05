@@ -531,7 +531,7 @@ export const versionCheckConfig: VersionCheckConfig = {
 
 // 框架升级工具配置
 export const upgradeConfig: UpgradeConfig = {
-	// 升级时受保护的文件列表，这些文件不会被覆盖或删除
+	// 升级时受保护的文件列表，这些文件不会被新增、覆盖或删除
 	// 支持 glob 模式，如 "src/content/**" 匹配 src/content 下所有文件
 	protected: [
 		"src/content/**",
