@@ -27,7 +27,11 @@ const {
 	image,
 	description,
 	pinned,
+	encrypted,
+	password,
 } = entry.data;
+
+const isEncrypted = encrypted && password;
 
 const url = getPostUrl(entry);
 const hasCover = image !== undefined && image !== null && image !== "";
@@ -48,7 +52,8 @@ const { remarkPluginFrontmatter } = await render(entry);
 			"pl-6 md:pl-9 pr-6 md:pr-2 pt-6 md:pt-7 pb-6 relative",
 			{
 				"w-full md:w-[calc(100%_-_3.25rem_-_0.75rem)]": !hasCover,
-				"w-full md:w-[calc(100%_-_var(--coverWidth)_-_0.75rem)]": hasCover,
+				"w-full md:w-[calc(100%_-_var(--coverWidth)_-_0.75rem)]":
+					hasCover,
 			},
 		]}
 	>
@@ -65,6 +70,15 @@ const { remarkPluginFrontmatter } = await render(entry);
 				pinned && (
 					<Icon
 						name="mdi:pin"
+						is:inline
+						class="inline text-[var(--primary)] text-2xl mr-2 -translate-y-0.5"
+					/>
+				)
+			}
+			{
+				isEncrypted && (
+					<Icon
+						name="material-symbols:lock-outline"
 						is:inline
 						class="inline text-[var(--primary)] text-2xl mr-2 -translate-y-0.5"
 					/>

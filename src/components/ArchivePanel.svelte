@@ -23,6 +23,8 @@ interface Post {
 		published: Date;
 		alias?: string;
 		permalink?: string; // 自定义固定链接
+		encrypted?: boolean;
+		password?: string;
 	};
 }
 
@@ -140,6 +142,11 @@ onMount(async () => {
                      group-hover:translate-x-1 transition-all group-hover:text-[var(--primary)]
                      text-75 pr-8 whitespace-nowrap overflow-ellipsis overflow-hidden"
                         >
+                            {#if post.data.encrypted && post.data.password}
+                                <svg class="inline-block w-4 h-4 align-middle text-[var(--primary)]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6zm9 14H6V10h12v10zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z" fill="currentColor"/>
+                                </svg>
+                            {/if}
                             {post.data.title}
                         </div>
 
