@@ -373,6 +373,9 @@ export const en: Translation = {
 	[Key.siteStatsSeasonWinter]: "Winter",
 
 	// Calendar Component
+	[Key.calendarPrevMonth]: "Previous month",
+	[Key.calendarNextMonth]: "Next month",
+	[Key.calendarBackToToday]: "Back to today",
 	[Key.calendarSunday]: "Sun",
 	[Key.calendarMonday]: "Mon",
 	[Key.calendarTuesday]: "Tue",
@@ -514,4 +517,6 @@ export const en: Translation = {
 
 	// Breadcrumb Navigation
 	[Key.suggestion]: "You might want to visit",
+	[Key.navBack]: "Go back",
+	[Key.navForward]: "Go forward",
 };

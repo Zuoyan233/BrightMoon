@@ -374,6 +374,9 @@ export const vi: Translation = {
 	[Key.siteStatsSeasonWinter]: "Mùa đông",
 
 	// Thành phần lịch
+	[Key.calendarPrevMonth]: "Tháng trước",
+	[Key.calendarNextMonth]: "Tháng sau",
+	[Key.calendarBackToToday]: "Quay về hôm nay",
 	[Key.calendarSunday]: "CN",
 	[Key.calendarMonday]: "T2",
 	[Key.calendarTuesday]: "T3",
@@ -516,4 +519,6 @@ export const vi: Translation = {
 
 	// Điều hướng Breadcrumb
 	[Key.suggestion]: "Có thể bạn muốn truy cập",
+	[Key.navBack]: "Quay lại trang trước",
+	[Key.navForward]: "Đến trang tiếp theo",
 };

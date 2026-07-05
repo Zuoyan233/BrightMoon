@@ -388,6 +388,9 @@ export const fr: Translation = {
 	[Key.siteStatsSeasonWinter]: "Hiver",
 
 	// Composant Calendrier
+	[Key.calendarPrevMonth]: "Mois précédent",
+	[Key.calendarNextMonth]: "Mois suivant",
+	[Key.calendarBackToToday]: "Revenir à aujourd'hui",
 	[Key.calendarSunday]: "Dim",
 	[Key.calendarMonday]: "Lun",
 	[Key.calendarTuesday]: "Mar",
@@ -535,4 +538,6 @@ export const fr: Translation = {
 
 	// Fil d'Ariane
 	[Key.suggestion]: "Vous aimerez peut-être visiter",
+	[Key.navBack]: "Revenir à la page précédente",
+	[Key.navForward]: "Aller à la page suivante",
 };

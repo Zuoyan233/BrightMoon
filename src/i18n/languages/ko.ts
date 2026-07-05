@@ -368,6 +368,9 @@ export const ko: Translation = {
 	[Key.siteStatsSeasonWinter]: "겨울",
 
 	// 캘린더 컴포넌트
+	[Key.calendarPrevMonth]: "이전 달",
+	[Key.calendarNextMonth]: "다음 달",
+	[Key.calendarBackToToday]: "오늘로 돌아가기",
 	[Key.calendarSunday]: "일",
 	[Key.calendarMonday]: "월",
 	[Key.calendarTuesday]: "화",
@@ -508,4 +511,6 @@ export const ko: Translation = {
 
 	// 브레드크럼 내비게이션
 	[Key.suggestion]: "방문하고 싶을 수도 있습니다",
+	[Key.navBack]: "이전 페이지로",
+	[Key.navForward]: "다음 페이지로",
 };

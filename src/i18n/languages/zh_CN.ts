@@ -357,6 +357,9 @@ export const zh_CN: Translation = {
 	[Key.siteStatsSeasonWinter]: "冬季",
 
 	// 日历组件
+	[Key.calendarPrevMonth]: "上一月",
+	[Key.calendarNextMonth]: "下一月",
+	[Key.calendarBackToToday]: "回到今天",
 	[Key.calendarSunday]: "日",
 	[Key.calendarMonday]: "一",
 	[Key.calendarTuesday]: "二",
@@ -493,4 +496,6 @@ export const zh_CN: Translation = {
 
 	// 面包屑导航
 	[Key.suggestion]: "你可能想访问",
+	[Key.navBack]: "返回上一页",
+	[Key.navForward]: "前往下一页",
 };

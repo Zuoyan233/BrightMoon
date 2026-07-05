@@ -19,54 +19,107 @@ const { items, className } = Astro.props;
 ---
 
 <div class:list={["mb-4", className]}>
-  <div class="breadcrumb-container flex items-center gap-1 px-3 py-2 bg-[var(--card-bg)] rounded-[var(--radius-large)] overflow-x-auto">
-    <button id="nav-back" disabled class="nav-btn flex items-center justify-center w-8 h-8 mr-2 px-3 rounded-lg border-none bg-transparent cursor-pointer text-neutral-500 dark:text-neutral-400 transition-all duration-200 hover:bg-[var(--btn-plain-bg-hover)] hover:text-[var(--primary)] dark:hover:text-[var(--primary)] disabled:cursor-not-allowed disabled:text-neutral-300 disabled:dark:text-neutral-600 disabled:hover:bg-transparent disabled:hover:text-neutral-300 disabled:hover:dark:text-neutral-600" aria-label="Back">
-      <Icon name="material-symbols:arrow-left-alt" class="text-xl leading-none shrink-0" />
+  <div
+    class="breadcrumb-container flex items-center gap-1 px-3 py-2 bg-[var(--card-bg)] rounded-[var(--radius-large)] overflow-x-auto"
+  >
+    <button
+      id="nav-back"
+      disabled
+      title={i18n(I18nKey.navBack)}
+      class="nav-btn flex items-center justify-center w-8 h-8 mr-2 px-3 rounded-lg border-none bg-transparent cursor-pointer text-neutral-500 dark:text-neutral-400 transition-all duration-200 hover:bg-[var(--btn-plain-bg-hover)] hover:text-[var(--primary)] dark:hover:text-[var(--primary)] disabled:cursor-not-allowed disabled:text-neutral-300 disabled:dark:text-neutral-600 disabled:hover:bg-transparent disabled:hover:text-neutral-300 disabled:hover:dark:text-neutral-600"
+      aria-label="Back"
+    >
+      <Icon
+        name="material-symbols:arrow-left-alt"
+        class="text-xl leading-none shrink-0"
+      />
     </button>
-    <button id="nav-forward" disabled class="nav-btn flex items-center justify-center w-8 h-8 mr-2 px-3 rounded-lg border-none bg-transparent cursor-pointer text-neutral-500 dark:text-neutral-400 transition-all duration-200 hover:bg-[var(--btn-plain-bg-hover)] hover:text-[var(--primary)] dark:hover:text-[var(--primary)] disabled:cursor-not-allowed disabled:text-neutral-300 disabled:dark:text-neutral-600 disabled:hover:bg-transparent disabled:hover:text-neutral-300 disabled:hover:dark:text-neutral-600" aria-label="Forward">
-      <Icon name="material-symbols:arrow-right-alt" class="text-xl leading-none shrink-0" />
+    <button
+      id="nav-forward"
+      disabled
+      title={i18n(I18nKey.navForward)}
+      class="nav-btn flex items-center justify-center w-8 h-8 mr-2 px-3 rounded-lg border-none bg-transparent cursor-pointer text-neutral-500 dark:text-neutral-400 transition-all duration-200 hover:bg-[var(--btn-plain-bg-hover)] hover:text-[var(--primary)] dark:hover:text-[var(--primary)] disabled:cursor-not-allowed disabled:text-neutral-300 disabled:dark:text-neutral-600 disabled:hover:bg-transparent disabled:hover:text-neutral-300 disabled:hover:dark:text-neutral-600"
+      aria-label="Forward"
+    >
+      <Icon
+        name="material-symbols:arrow-right-alt"
+        class="text-xl leading-none shrink-0"
+      />
     </button>
-      
-    <a href="/" class="group flex items-center gap-1 rounded-lg transition-all duration-200 ease-out whitespace-nowrap shrink-0 px-2 py-2 cursor-pointer border-none bg-transparent text-sm text-neutral-500 dark:text-neutral-400 no-underline hover:bg-[var(--btn-plain-bg-hover)] hover:text-[var(--primary)] dark:hover:text-[var(--primary)]" aria-label={i18n(I18nKey.home)}>
-      <span class="flex items-center justify-center w-8 h-8 mr-2 rounded-lg btn-regular group-hover:bg-[var(--primary)] transition-colors duration-200">
-        <Icon name="material-symbols:home" class="text-xl leading-none shrink-0 text-[var(--btn-content)] transition-colors duration-200 group-hover:text-white" />
+
+    <a
+      href="/"
+      class="group flex items-center gap-1 rounded-lg transition-all duration-200 ease-out whitespace-nowrap shrink-0 px-2 py-2 cursor-pointer border-none bg-transparent text-sm text-neutral-500 dark:text-neutral-400 no-underline hover:bg-[var(--btn-plain-bg-hover)] hover:text-[var(--primary)] dark:hover:text-[var(--primary)]"
+      aria-label={i18n(I18nKey.home)}
+    >
+      <span
+        class="flex items-center justify-center w-8 h-8 mr-2 rounded-lg btn-regular group-hover:bg-[var(--primary)] transition-colors duration-200"
+      >
+        <Icon
+          name="material-symbols:home"
+          class="text-xl leading-none shrink-0 text-[var(--btn-content)] transition-colors duration-200 group-hover:text-white"
+        />
       </span>
-      <span class="leading-none inline-flex items-center">{i18n(I18nKey.home)}</span>
+      <span class="leading-none inline-flex items-center"
+        >{i18n(I18nKey.home)}</span
+      >
     </a>
-    {items.map((item) => (
-      <>
-        <div class="flex items-center text-[var(--primary)] opacity-50 shrink-0">
-          <Icon name="material-symbols:chevron-right-rounded" class="text-xl leading-none" />
-        </div>
-        {item.href ? (
-          <a href={item.href} title={item.label} class="group flex items-center gap-1 rounded-lg transition-all duration-200 ease-out whitespace-nowrap shrink-0 px-2 py-2 cursor-pointer border-none bg-transparent text-sm text-neutral-500 dark:text-neutral-400 no-underline hover:bg-[var(--btn-plain-bg-hover)] hover:text-[var(--primary)] dark:hover:text-[var(--primary)]">
-            {item.icon ? (
-              <span class="flex items-center justify-center w-8 h-8 mr-2 rounded-lg btn-regular group-hover:bg-[var(--primary)] transition-colors duration-200">
-                <Icon name={item.icon} class="text-xl leading-none shrink-0 text-[var(--btn-content)] transition-colors duration-200 group-hover:text-white" />
-              </span>
-            ) : null}
-            <span class="leading-none inline-flex items-center gap-1">
-              {item.suggestionLabel ? (
-                <>
-                  <span class="suggestion-prefix shrink-0">{item.suggestionLabel}</span>
-                  <span class="shrink-0">: </span>
-                </>
+    {
+      items.map((item) => (
+        <>
+          <div class="flex items-center text-[var(--primary)] opacity-50 shrink-0">
+            <Icon
+              name="material-symbols:chevron-right-rounded"
+              class="text-xl leading-none"
+            />
+          </div>
+          {item.href ? (
+            <a
+              href={item.href}
+              title={item.label}
+              class="group flex items-center gap-1 rounded-lg transition-all duration-200 ease-out whitespace-nowrap shrink-0 px-2 py-2 cursor-pointer border-none bg-transparent text-sm text-neutral-500 dark:text-neutral-400 no-underline hover:bg-[var(--btn-plain-bg-hover)] hover:text-[var(--primary)] dark:hover:text-[var(--primary)]"
+            >
+              {item.icon ? (
+                <span class="flex items-center justify-center w-8 h-8 mr-2 rounded-lg btn-regular group-hover:bg-[var(--primary)] transition-colors duration-200">
+                  <Icon
+                    name={item.icon}
+                    class="text-xl leading-none shrink-0 text-[var(--btn-content)] transition-colors duration-200 group-hover:text-white"
+                  />
+                </span>
               ) : null}
-              <span>{item.label}</span>
-            </span>
-          </a>
-        ) : (
-          <span class="group flex items-center gap-1 rounded-lg whitespace-nowrap shrink-0 px-2 py-2 text-sm font-bold text-[var(--primary)] hover:bg-[var(--btn-plain-bg-hover)]" title={item.label}>
-            {item.icon ? (
-              <span class="flex items-center justify-center w-8 h-8 mr-2 rounded-lg btn-regular group-hover:bg-[var(--primary)] transition-colors duration-200">
-                <Icon name={item.icon} class="text-xl leading-none shrink-0 text-[var(--btn-content)] transition-colors duration-200 group-hover:text-white" />
+              <span class="leading-none inline-flex items-center gap-1">
+                {item.suggestionLabel ? (
+                  <>
+                    <span class="suggestion-prefix shrink-0">
+                      {item.suggestionLabel}
+                    </span>
+                    <span class="shrink-0">: </span>
+                  </>
+                ) : null}
+                <span>{item.label}</span>
               </span>
-            ) : null}
-            <span class="leading-none inline-flex items-center">{item.label}</span>
-          </span>
-        )}
-      </>
-    ))}
+            </a>
+          ) : (
+            <span
+              class="group flex items-center gap-1 rounded-lg whitespace-nowrap shrink-0 px-2 py-2 text-sm font-bold text-[var(--primary)] hover:bg-[var(--btn-plain-bg-hover)]"
+              title={item.label}
+            >
+              {item.icon ? (
+                <span class="flex items-center justify-center w-8 h-8 mr-2 rounded-lg btn-regular group-hover:bg-[var(--primary)] transition-colors duration-200">
+                  <Icon
+                    name={item.icon}
+                    class="text-xl leading-none shrink-0 text-[var(--btn-content)] transition-colors duration-200 group-hover:text-white"
+                  />
+                </span>
+              ) : null}
+              <span class="leading-none inline-flex items-center">
+                {item.label}
+              </span>
+            </span>
+          )}
+        </>
+      ))
+    }
   </div>
 </div>
 
@@ -101,8 +154,12 @@ const { items, className } = Astro.props;
   }
 
   function initBreadcrumbNav() {
-    const backBtn = document.getElementById("nav-back") as HTMLButtonElement | null;
-    const forwardBtn = document.getElementById("nav-forward") as HTMLButtonElement | null;
+    const backBtn = document.getElementById(
+      "nav-back",
+    ) as HTMLButtonElement | null;
+    const forwardBtn = document.getElementById(
+      "nav-forward",
+    ) as HTMLButtonElement | null;
     if (!backBtn || !forwardBtn) return;
 
     const currentPath = window.location.pathname + window.location.search;
@@ -121,13 +178,23 @@ const { items, className } = Astro.props;
       sessionStorage.removeItem(SITE_NAV_PENDING);
     } catch (e) {}
 
-    if (pendingIdx !== null && navStack && navStack.paths[pendingIdx] === currentPath) {
+    if (
+      pendingIdx !== null &&
+      navStack &&
+      navStack.paths[pendingIdx] === currentPath
+    ) {
       navStack.index = pendingIdx;
     } else if (!navStack || !Array.isArray(navStack.paths)) {
       navStack = { paths: [currentPath], index: 0 };
-    } else if (navStack.index > 0 && navStack.paths[navStack.index - 1] === currentPath) {
+    } else if (
+      navStack.index > 0 &&
+      navStack.paths[navStack.index - 1] === currentPath
+    ) {
       navStack.index--;
-    } else if (navStack.index < navStack.paths.length - 1 && navStack.paths[navStack.index + 1] === currentPath) {
+    } else if (
+      navStack.index < navStack.paths.length - 1 &&
+      navStack.paths[navStack.index + 1] === currentPath
+    ) {
       navStack.index++;
     } else if (navStack.paths[navStack.index] === currentPath) {
       // same page, no change
@@ -144,7 +211,11 @@ const { items, className } = Astro.props;
 
     backBtn.onclick = () => {
       let stack: { paths: string[]; index: number } | null;
-      try { stack = JSON.parse(sessionStorage.getItem(SITE_NAV_STACK) || "null"); } catch (e) { stack = null; }
+      try {
+        stack = JSON.parse(sessionStorage.getItem(SITE_NAV_STACK) || "null");
+      } catch (e) {
+        stack = null;
+      }
       if (stack && stack.index > 0) {
         navigateTo(stack.paths[stack.index - 1], stack.index - 1);
       }
@@ -152,7 +223,11 @@ const { items, className } = Astro.props;
 
     forwardBtn.onclick = () => {
       let stack: { paths: string[]; index: number } | null;
-      try { stack = JSON.parse(sessionStorage.getItem(SITE_NAV_STACK) || "null"); } catch (e) { stack = null; }
+      try {
+        stack = JSON.parse(sessionStorage.getItem(SITE_NAV_STACK) || "null");
+      } catch (e) {
+        stack = null;
+      }
       if (stack && stack.index < stack.paths.length - 1) {
         navigateTo(stack.paths[stack.index + 1], stack.index + 1);
       }

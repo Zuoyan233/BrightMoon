@@ -374,6 +374,9 @@ export const id: Translation = {
 	[Key.siteStatsSeasonWinter]: "Musim dingin",
 
 	// Komponen Kalender
+	[Key.calendarPrevMonth]: "Bulan sebelumnya",
+	[Key.calendarNextMonth]: "Bulan berikutnya",
+	[Key.calendarBackToToday]: "Kembali ke hari ini",
 	[Key.calendarSunday]: "Min",
 	[Key.calendarMonday]: "Sen",
 	[Key.calendarTuesday]: "Sel",
@@ -516,4 +519,6 @@ export const id: Translation = {
 
 	// Navigasi remah roti
 	[Key.suggestion]: "Mungkin Anda ingin mengunjungi",
+	[Key.navBack]: "Kembali ke halaman sebelumnya",
+	[Key.navForward]: "Ke halaman berikutnya",
 };

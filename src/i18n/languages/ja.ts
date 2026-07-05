@@ -370,6 +370,9 @@ export const ja: Translation = {
 	[Key.siteStatsSeasonWinter]: "冬",
 
 	// カレンダーコンポーネント
+	[Key.calendarPrevMonth]: "前月へ",
+	[Key.calendarNextMonth]: "次月へ",
+	[Key.calendarBackToToday]: "今日に戻る",
 	[Key.calendarSunday]: "日",
 	[Key.calendarMonday]: "月",
 	[Key.calendarTuesday]: "火",
@@ -511,4 +514,6 @@ export const ja: Translation = {
 
 	// パンくずナビゲーション
 	[Key.suggestion]: "訪れたいかもしれません",
+	[Key.navBack]: "前のページへ",
+	[Key.navForward]: "次のページへ",
 };

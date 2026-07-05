@@ -1,4 +1,5 @@
 ---
+import { i18n } from "@i18n/translation";
 import { Icon } from "astro-icon/components";
 import { siteConfig } from "../../config";
 import I18nKey from "../../i18n/i18nKey";
@@ -85,6 +86,7 @@ const translateToI18nMapJSON = JSON.stringify(translateToLangMap);
 				id="back-to-today-btn"
 				class="p-1.5 rounded-md hover:bg-[var(--btn-plain-bg-hover)] text-[var(--primary)] transition-all invisible"
 				aria-label="Back to today"
+				title={i18n(I18nKey.calendarBackToToday)}
 			>
 				<Icon
 					name="material-symbols:restart-alt-rounded"
@@ -95,21 +97,17 @@ const translateToI18nMapJSON = JSON.stringify(translateToLangMap);
 				id="prev-month-btn"
 				class="p-1.5 rounded-md hover:bg-[var(--btn-plain-bg-hover)] text-neutral-600 dark:text-neutral-400 hover:text-[var(--primary)] dark:hover:text-[var(--primary)] transition-all duration-200"
 				aria-label="Previous month"
+				title={i18n(I18nKey.calendarPrevMonth)}
 			>
-				<Icon
-					name="material-symbols:arrow-left-alt"
-					class="text-xl"
-				/>
+				<Icon name="material-symbols:arrow-left-alt" class="text-xl" />
 			</button>
 			<button
 				id="next-month-btn"
 				class="p-1.5 rounded-md hover:bg-[var(--btn-plain-bg-hover)] text-neutral-600 dark:text-neutral-400 hover:text-[var(--primary)] dark:hover:text-[var(--primary)] transition-all duration-200"
 				aria-label="Next month"
+				title={i18n(I18nKey.calendarNextMonth)}
 			>
-				<Icon
-					name="material-symbols:arrow-right-alt"
-					class="text-xl"
-				/>
+				<Icon name="material-symbols:arrow-right-alt" class="text-xl" />
 			</button>
 		</div>
 	</div>
@@ -167,7 +165,8 @@ const translateToI18nMapJSON = JSON.stringify(translateToLangMap);
 
 	function calGetLang() {
 		const translateTo =
-			window.translationManager?.getTargetLanguage() || window.translate?.to;
+			window.translationManager?.getTargetLanguage() ||
+			window.translate?.to;
 		if (translateTo) {
 			return translateToLangMap[translateTo] || defaultLang;
 		}
@@ -179,7 +178,7 @@ const translateToI18nMapJSON = JSON.stringify(translateToLangMap);
 	}
 	function calGetYearSuffix() {
 		const lang = calGetLang();
-		return allYearSuffixes[lang] || ' ';
+		return allYearSuffixes[lang] || " ";
 	}
 
 	let allPostsData = [];
@@ -206,7 +205,9 @@ const translateToI18nMapJSON = JSON.stringify(translateToLangMap);
 				processPostsData(allPostsData);
 				const currentPostId = getCurrentPostId();
 				if (currentPostId) {
-					const matchedPost = allPostsData.find((p) => p.id === currentPostId);
+					const matchedPost = allPostsData.find(
+						(p) => p.id === currentPostId,
+					);
 					if (matchedPost) {
 						const [y, m] = matchedPost.date.split("-");
 						currentYear = parseInt(y);
@@ -310,10 +311,10 @@ const translateToI18nMapJSON = JSON.stringify(translateToLangMap);
 	function registerCalendarRenderer() {
 		if (!window.translationManager) return;
 		window.translationManager.onRefresh("calendar", () => {
-			
 			// 翻译流程中：保存已翻译的文章列表，renderCalendar 会用原始文本
 			const savedPostsHTML = dom.postsList?.innerHTML ?? null;
-			const savedDividerHidden = dom.divider?.classList.contains("hidden") ?? false;
+			const savedDividerHidden =
+				dom.divider?.classList.contains("hidden") ?? false;
 
 			_isInTranslateFlow = true;
 			renderCalendar();
@@ -335,9 +336,13 @@ const translateToI18nMapJSON = JSON.stringify(translateToLangMap);
 
 	// 日历标题和选择器由组件自行渲染，切语言时只需重新走一次 render。
 	registerCalendarRenderer();
-	document.addEventListener("translation-manager:ready", registerCalendarRenderer, {
-		once: true,
-	});
+	document.addEventListener(
+		"translation-manager:ready",
+		registerCalendarRenderer,
+		{
+			once: true,
+		},
+	);
 
 	function setupEventListeners() {
 		dom.titleContainer.addEventListener("click", (e) => {
@@ -407,13 +412,17 @@ const translateToI18nMapJSON = JSON.stringify(translateToLangMap);
 		// 清理之前绑定的 document click 监听器，避免 Swup 导航累积
 		if (_calClickAC) _calClickAC.abort();
 		_calClickAC = new AbortController();
-		document.addEventListener("click", (e) => {
-			if (currentView === "day") return;
-			const widget = document.getElementById("calendar-widget");
-			if (widget && !widget.contains(e.target)) {
-				closeSelectionPanel();
-			}
-		}, { signal: _calClickAC.signal });
+		document.addEventListener(
+			"click",
+			(e) => {
+				if (currentView === "day") return;
+				const widget = document.getElementById("calendar-widget");
+				if (widget && !widget.contains(e.target)) {
+					closeSelectionPanel();
+				}
+			},
+			{ signal: _calClickAC.signal },
+		);
 	}
 
 	function updateHeader() {
@@ -545,7 +554,11 @@ const translateToI18nMapJSON = JSON.stringify(translateToLangMap);
 		dom.postsList.innerHTML = listHtml;
 
 		// 对新插入的文章列表立即执行翻译。
-		if (!_isInTranslateFlow && window.translationManager?.isActive() && window.translate) {
+		if (
+			!_isInTranslateFlow &&
+			window.translationManager?.isActive() &&
+			window.translate
+		) {
 			window.translate.execute(dom.postsList);
 		}
 	}

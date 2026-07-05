@@ -373,6 +373,9 @@ export const ru: Translation = {
 	[Key.siteStatsSeasonWinter]: "Зима",
 
 	// Компонент календаря
+	[Key.calendarPrevMonth]: "Предыдущий месяц",
+	[Key.calendarNextMonth]: "Следующий месяц",
+	[Key.calendarBackToToday]: "Вернуться к сегодня",
 	[Key.calendarSunday]: "Вс",
 	[Key.calendarMonday]: "Пн",
 	[Key.calendarTuesday]: "Вт",
@@ -517,4 +520,6 @@ export const ru: Translation = {
 
 	// Навигация по хлебным крошкам
 	[Key.suggestion]: "Возможно, вам стоит посетить",
+	[Key.navBack]: "Вернуться на предыдущую страницу",
+	[Key.navForward]: "Перейти на следующую страницу",
 };

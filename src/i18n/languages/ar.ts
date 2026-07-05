@@ -366,6 +366,9 @@ export const ar: Translation = {
 	[Key.siteStatsSeasonWinter]: "الشتاء",
 
 	// مكون التقويم
+	[Key.calendarPrevMonth]: "الشهر السابق",
+	[Key.calendarNextMonth]: "الشهر التالي",
+	[Key.calendarBackToToday]: "العودة إلى اليوم",
 	[Key.calendarSunday]: "أحد",
 	[Key.calendarMonday]: "إثنين",
 	[Key.calendarTuesday]: "ثلاثاء",
@@ -506,4 +509,6 @@ export const ar: Translation = {
 
 	// مسار التنقل
 	[Key.suggestion]: "قد ترغب في زيارة",
+	[Key.navBack]: "العودة إلى الصفحة السابقة",
+	[Key.navForward]: "الانتقال إلى الصفحة التالية",
 };

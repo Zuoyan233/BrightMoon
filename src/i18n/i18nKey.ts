@@ -347,6 +347,9 @@ enum I18nKey {
 	siteStatsSeasonWinter = "siteStatsSeasonWinter",
 
 	// 日历组件
+	calendarPrevMonth = "calendarPrevMonth",
+	calendarNextMonth = "calendarNextMonth",
+	calendarBackToToday = "calendarBackToToday",
 	calendarSunday = "calendarSunday",
 	calendarMonday = "calendarMonday",
 	calendarTuesday = "calendarTuesday",
@@ -479,6 +482,8 @@ enum I18nKey {
 
 	// 面包屑导航
 	suggestion = "suggestion",
+	navBack = "navBack",
+	navForward = "navForward",
 }
 
 export default I18nKey;

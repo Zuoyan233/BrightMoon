@@ -358,6 +358,9 @@ export const th: Translation = {
 	[Key.siteStatsSeasonWinter]: "ฤดูหนาว",
 
 	// ส่วนประกอบปฏิทิน
+	[Key.calendarPrevMonth]: "เดือนก่อนหน้า",
+	[Key.calendarNextMonth]: "เดือนถัดไป",
+	[Key.calendarBackToToday]: "กลับไปวันนี้",
 	[Key.calendarSunday]: "อา",
 	[Key.calendarMonday]: "จ",
 	[Key.calendarTuesday]: "อ",
@@ -496,4 +499,6 @@ export const th: Translation = {
 
 	// การนำทางเบรดครัมบ์
 	[Key.suggestion]: "คุณอาจต้องการเยี่ยมชม",
+	[Key.navBack]: "กลับไปหน้าก่อนหน้า",
+	[Key.navForward]: "ไปหน้าถัดไป",
 };

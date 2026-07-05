@@ -380,6 +380,9 @@ export const tr: Translation = {
 	[Key.siteStatsSeasonWinter]: "Kış",
 
 	// Takvim Bileşeni
+	[Key.calendarPrevMonth]: "Önceki ay",
+	[Key.calendarNextMonth]: "Sonraki ay",
+	[Key.calendarBackToToday]: "Bugüne dön",
 	[Key.calendarSunday]: "Paz",
 	[Key.calendarMonday]: "Pzt",
 	[Key.calendarTuesday]: "Sal",
@@ -523,4 +526,6 @@ export const tr: Translation = {
 
 	// Ekmek kırıntısı gezinmesi
 	[Key.suggestion]: "Belki ziyaret etmek istersiniz",
+	[Key.navBack]: "Önceki sayfaya dön",
+	[Key.navForward]: "Sonraki sayfaya git",
 };
