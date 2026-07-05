@@ -178,6 +178,7 @@ const allTags = Array.from(new Set(friendsList.flatMap((item) => item.tags)));
 											 active:scale-95 transition-all duration-200
 											 text-black/70 dark:text-white/70"
 									data-url={item.siteurl}
+									data-copied-text={i18n(I18nKey.friendsCopySuccess)}
 									title={i18n(I18nKey.friendsCopyLink)}
 								>
 									<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -210,8 +211,7 @@ const allTags = Array.from(new Set(friendsList.flatMap((item) => item.tags)));
 				<Content />
 			</Markdown>
 			
-			<!-- 隐藏元素用于传递 i18n 文本到全局脚本 -->
-			<div id="friends-copy-success-text" style="display: none;">{i18n(I18nKey.friendsCopySuccess)}</div>
+
 		</div>
 	</div>
 	

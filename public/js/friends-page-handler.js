@@ -10,7 +10,6 @@
 			initialized: false,
 			eventListeners: [],
 			mutationObserver: null,
-			copySuccessText: "已复制", // 默认值，会被页面覆盖
 		};
 	}
 
@@ -36,15 +35,6 @@
 			filters: tagFilters.length,
 			copyButtons: copyButtons.length,
 		});
-
-		// 从页面获取复制成功文本
-		var copySuccessTextElement = document.getElementById(
-			"friends-copy-success-text",
-		);
-		if (copySuccessTextElement) {
-			window.friendsPageState.copySuccessText =
-				copySuccessTextElement.textContent;
-		}
 
 		// 清理旧的事件监听器
 		if (window.friendsPageState.eventListeners.length > 0) {
@@ -148,9 +138,11 @@
 							.writeText(url)
 							.then(() => {
 								const originalHTML = button.innerHTML;
+								const copiedText =
+									button.getAttribute("data-copied-text") || "Copied";
 								button.innerHTML =
 									'<div class="flex items-center gap-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span class="text-xs">' +
-									window.friendsPageState.copySuccessText +
+									copiedText +
 									"</span></div>";
 								button.classList.add("text-green-500");
 								setTimeout(() => {
