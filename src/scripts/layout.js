@@ -421,6 +421,7 @@ async function initFancybox() {
 		},
 		animated: true,
 		dragToClose: true,
+		hideScrollbar: false,
 		keyboard: {
 			Escape: "close",
 			Delete: "close",
