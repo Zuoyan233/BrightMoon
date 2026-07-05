@@ -1,7 +1,7 @@
 {
 	"name": "brightmoon",
 	"type": "module",
-	"version": "26.7.1",
+	"version": "26.7.5",
 	"scripts": {
 		"dev": "astro dev",
 		"start": "astro dev",

@@ -48,6 +48,7 @@ const LOG_COLORS = {
 	info: "\x1b[36m",
 	warn: "\x1b[33m",
 	add: "\x1b[32m",
+	replace: "\x1b[36m",
 };
 
 /* 全局可变状态 */
@@ -95,7 +96,7 @@ const I18N_DICT = {
 		versionRestoreBackup: "恢复备份",
 		versionTitle: "选择版本类型：",
 		manualBackupDone: "创建备份完成！",
-		backupExists: "检测到已有备份，跳过备份",
+		backupExists: "检测到已有备份，是否覆盖备份？",
 		backupOverwriteYes: "是，覆盖备份",
 		backupOverwriteNo: "否，跳过备份",
 		noBackupFound: "backup 目录中未找到备份文件",
@@ -191,7 +192,7 @@ const I18N_DICT = {
 		versionRestoreBackup: "Restore Backup",
 		versionTitle: "Select version type:",
 		manualBackupDone: "Backup created!",
-		backupExists: "Existing backup found, skipping backup",
+		backupExists: "Existing backup found, overwrite the backup?",
 		backupOverwriteYes: "Yes, overwrite backup",
 		backupOverwriteNo: "No, skip backup",
 		noBackupFound: "No backup files found in backup directory",
@@ -294,7 +295,7 @@ const I18N_DICT = {
 		versionRestoreBackup: "復原備份",
 		versionTitle: "選擇版本類型：",
 		manualBackupDone: "建立備份完成！",
-		backupExists: "偵測到已有備份，跳過備份",
+		backupExists: "偵測到已有備份，是否覆蓋備份？",
 		backupOverwriteYes: "是，覆蓋備份",
 		backupOverwriteNo: "否，跳過備份",
 		noBackupFound: "backup 目錄中未找到備份檔案",
@@ -390,7 +391,8 @@ const I18N_DICT = {
 		versionRestoreBackup: "バックアップ復元",
 		versionTitle: "バージョンタイプを選択：",
 		manualBackupDone: "バックアップ作成完了！",
-		backupExists: "既存のバックアップが見つかりました、バックアップをスキップ",
+		backupExists:
+			"既存のバックアップが見つかりました。バックアップを上書きしますか？",
 		backupOverwriteYes: "はい、バックアップを上書き",
 		backupOverwriteNo: "いいえ、バックアップをスキップ",
 		noBackupFound: "backup ディレクトリにバックアップファイルが見つかりません",
@@ -2072,6 +2074,7 @@ function applyUpdate(release, cachedLocalFiles) {
 		}
 		fs.copyFileSync(upPath, localPath);
 		stats.replaced.push(relPath);
+		log(`${relPath}`, "replace");
 	}
 
 	return stats;
@@ -2132,6 +2135,7 @@ function applyRestore(release, cachedLocalFiles) {
 		const upPath = path.join(upDir, relPath);
 		fs.copyFileSync(upPath, localPath);
 		stats.replaced.push(relPath);
+		log(`${relPath}`, "replace");
 	}
 
 	return stats;
@@ -2287,6 +2291,7 @@ async function checkOnlineVersion() {
 	console.log(
 		`\x1b[32m${I18n("newVersionFound")}: ${selectedRelease.tag_name}\x1b[0m (${I18n("current")}: ${localVer})`,
 	);
+	console.log();
 
 	return selectedRelease;
 }

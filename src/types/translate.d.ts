@@ -33,8 +33,22 @@ type TranslateLanguage = {
 	getLocal: () => string;
 };
 
+type TranslateIgnoreClass = {
+	data: string[];
+	conditionFunction: Record<
+		string,
+		(element: HTMLElement, data?: Record<string, unknown>) => boolean
+	>;
+	push: (
+		className: string,
+		conditionFunction?:
+			| ((element: HTMLElement, data?: Record<string, unknown>) => boolean)
+			| null,
+	) => void;
+};
+
 type TranslateIgnore = {
-	class: string[];
+	class: TranslateIgnoreClass;
 	tag: string[];
 };
 
