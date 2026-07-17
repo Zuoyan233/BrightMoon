@@ -132,6 +132,10 @@ export const tr: Translation = {
 	[Key.musicPlayerErrorPlaylist]: "Çalma listesi alınamadı",
 	[Key.musicPlayerErrorSong]: "Geçerli şarkı yüklenemedi, sonraki deneniyor",
 	[Key.musicPlayerErrorEmpty]: "Çalma listesinde uygun şarkı yok",
+	[Key.musicPlayerLyrics]: "Şarkı Sözleri",
+	[Key.musicPlayerLyricsShow]: "Sözleri Göster",
+	[Key.musicPlayerLyricsHide]: "Sözleri Gizle",
+	[Key.musicPlayerNoLyrics]: "Şarkı sözü yok",
 	[Key.unknownSong]: "Bilinmeyen Şarkı",
 	[Key.unknownArtist]: "Bilinmeyen Sanatçı",
 

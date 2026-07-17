@@ -376,6 +376,7 @@ export type MusicPlayerConfig = {
 	isMuted: boolean; // 是否静音
 	isLoading: boolean; // 是否加载中
 	isShuffled: boolean; // 是否随机播放
+	showLyrics: boolean; // 是否显示歌词
 };
 
 export type FooterConfig = {

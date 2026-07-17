@@ -128,6 +128,10 @@ export const th: Translation = {
 	[Key.musicPlayerErrorPlaylist]: "ไม่สามารถดึงข้อมูลรายการเพลงได้",
 	[Key.musicPlayerErrorSong]: "ไม่สามารถโหลดเพลงปัจจุบัน กำลังลองเพลงถัดไป",
 	[Key.musicPlayerErrorEmpty]: "ไม่มีเพลงในรายการ",
+	[Key.musicPlayerLyrics]: "เนื้อเพลง",
+	[Key.musicPlayerLyricsShow]: "แสดงเนื้อเพลง",
+	[Key.musicPlayerLyricsHide]: "ซ่อนเนื้อเพลง",
+	[Key.musicPlayerNoLyrics]: "ไม่มีเนื้อเพลง",
 	[Key.unknownSong]: "ไม่ทราบชื่อเพลง",
 	[Key.unknownArtist]: "ไม่ทราบชื่อศิลปิน",
 

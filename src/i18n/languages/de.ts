@@ -133,6 +133,10 @@ export const de: Translation = {
 	[Key.musicPlayerErrorSong]:
 		"Aktueller Song konnte nicht geladen werden, nächster wird versucht",
 	[Key.musicPlayerErrorEmpty]: "Keine verfügbaren Songs in der Wiedergabeliste",
+	[Key.musicPlayerLyrics]: "Liedtext",
+	[Key.musicPlayerLyricsShow]: "Liedtext anzeigen",
+	[Key.musicPlayerLyricsHide]: "Liedtext ausblenden",
+	[Key.musicPlayerNoLyrics]: "Kein Liedtext verfügbar",
 	[Key.unknownSong]: "Unbekannter Song",
 	[Key.unknownArtist]: "Unbekannter Künstler",
 

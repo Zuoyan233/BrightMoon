@@ -133,6 +133,10 @@ export const ja: Translation = {
 	[Key.musicPlayerErrorSong]:
 		"現在の曲の読み込みに失敗しました。次の曲を試します",
 	[Key.musicPlayerErrorEmpty]: "プレイリストに利用可能な曲がありません",
+	[Key.musicPlayerLyrics]: "歌詞",
+	[Key.musicPlayerLyricsShow]: "歌詞を表示",
+	[Key.musicPlayerLyricsHide]: "歌詞を非表示",
+	[Key.musicPlayerNoLyrics]: "歌詞はありません",
 	[Key.unknownSong]: "不明な曲",
 	[Key.unknownArtist]: "不明なアーティスト",
 

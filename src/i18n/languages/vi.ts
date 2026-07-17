@@ -133,6 +133,10 @@ export const vi: Translation = {
 	[Key.musicPlayerErrorSong]:
 		"Không thể tải bài hát hiện tại, đang thử bài tiếp",
 	[Key.musicPlayerErrorEmpty]: "Không có bài hát nào trong danh sách phát",
+	[Key.musicPlayerLyrics]: "Lời bài hát",
+	[Key.musicPlayerLyricsShow]: "Hiện lời bài hát",
+	[Key.musicPlayerLyricsHide]: "Ẩn lời bài hát",
+	[Key.musicPlayerNoLyrics]: "Không có lời bài hát",
 	[Key.unknownSong]: "Bài hát không rõ",
 	[Key.unknownArtist]: "Nghệ sĩ không rõ",
 

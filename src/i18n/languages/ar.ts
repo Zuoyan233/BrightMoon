@@ -131,6 +131,10 @@ export const ar: Translation = {
 	[Key.musicPlayerErrorSong]:
 		"فشل في تحميل الأغنية الحالية، جاري تجربة التالية",
 	[Key.musicPlayerErrorEmpty]: "لا توجد أغانٍ متاحة في قائمة التشغيل",
+	[Key.musicPlayerLyrics]: "كلمات الأغاني",
+	[Key.musicPlayerLyricsShow]: "إظهار الكلمات",
+	[Key.musicPlayerLyricsHide]: "إخفاء الكلمات",
+	[Key.musicPlayerNoLyrics]: "لا توجد كلمات متاحة",
 	[Key.unknownSong]: "أغنية غير معروفة",
 	[Key.unknownArtist]: "فنان غير معروف",
 

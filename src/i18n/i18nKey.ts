@@ -124,6 +124,10 @@ enum I18nKey {
 	musicPlayerErrorPlaylist = "musicPlayerErrorPlaylist",
 	musicPlayerErrorSong = "musicPlayerErrorSong",
 	musicPlayerErrorEmpty = "musicPlayerErrorEmpty",
+	musicPlayerLyrics = "musicPlayerLyrics",
+	musicPlayerLyricsShow = "musicPlayerLyricsShow",
+	musicPlayerLyricsHide = "musicPlayerLyricsHide",
+	musicPlayerNoLyrics = "musicPlayerNoLyrics",
 	unknownSong = "unknownSong",
 	unknownArtist = "unknownArtist",
 

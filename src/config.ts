@@ -499,6 +499,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 	isMuted: false, // 音乐播放器是否静音，默认为 false (不静音)
 	isLoading: false, // 音乐播放器是否加载中，默认为 false (不加载)
 	isShuffled: false, // 音乐播放器是否随机播放，默认为 false (不随机播放)
+	showLyrics: false, // 音乐播放器是否显示歌词，默认为 false (不显示)
 };
 
 export const footerConfig: FooterConfig = {

@@ -28,7 +28,18 @@ let isExpanded = musicPlayerConfig.isExpanded;
 let isHidden = musicPlayerConfig.isHidden;
 // 是否显示播放列表
 let showPlaylist = musicPlayerConfig.showPlaylist;
+let showLyrics = musicPlayerConfig.showLyrics ?? false;
 let playerRoot: HTMLElement;
+
+type LyricLine = {
+	time: number;
+	text: string;
+};
+
+let lyrics: LyricLine[] = [];
+let currentLyricIndex = -1;
+let lyricsLoading = false;
+let noLyricsFound = false;
 
 // 当前播放时间
 let currentTime = musicPlayerConfig.currentTime;
@@ -65,6 +76,7 @@ type Song = {
 	cover: string;
 	url: string;
 	duration: number;
+	lrc?: string;
 };
 
 let playlist: Song[] = [];
@@ -112,6 +124,11 @@ $: muteTitle = currentI18n
 		? currentI18n[Key.musicPlayerUnmute]
 		: currentI18n[Key.musicPlayerMute]
 	: "";
+$: lyricsTitle = currentI18n
+	? showLyrics
+		? currentI18n[Key.musicPlayerLyricsHide]
+		: currentI18n[Key.musicPlayerLyricsShow]
+	: "";
 
 $: if (showPlaylist) {
 	void tick().then(() => {
@@ -120,6 +137,17 @@ $: if (showPlaylist) {
 				root: playerRoot,
 				reason: "music-player-playlist",
 			});
+		}
+	});
+}
+
+$: if (showLyrics && currentLyricIndex >= 0) {
+	void tick().then(() => {
+		const container = playerRoot?.querySelector(".lyrics-scroll");
+		if (!container) return;
+		const activeLine = container.children[currentLyricIndex] as HTMLElement;
+		if (activeLine) {
+			activeLine.scrollIntoView({ behavior: "smooth", block: "center" });
 		}
 	});
 }
@@ -177,6 +205,7 @@ async function fetchMetingPlaylist() {
 					cover: song.pic ?? "",
 					url: song.url ?? "",
 					duration: dur,
+					lrc: song.lrc,
 				};
 			},
 		);
@@ -217,6 +246,9 @@ function toggleHidden() {
 
 function togglePlaylist() {
 	showPlaylist = !showPlaylist;
+	if (showPlaylist) {
+		showLyrics = false;
+	}
 }
 
 function toggleShuffle() {
@@ -279,6 +311,7 @@ function loadSong(song: typeof currentSong) {
 		} else {
 			isLoading = false;
 		}
+		fetchLyrics(song as Song);
 	}
 }
 
@@ -353,6 +386,103 @@ function showErrorMessage(message: string) {
 }
 function hideError() {
 	showError = false;
+}
+
+function parseLrc(lrcText: string): LyricLine[] {
+	const lines = lrcText.split("\n");
+	const result: LyricLine[] = [];
+	const timeRegex = /\[(\d{2}):(\d{2})(?:[.:](\d{2,3}))?\]/g;
+
+	for (const line of lines) {
+		const trimmed = line.trim();
+		if (
+			!trimmed ||
+			trimmed.startsWith("[ti:") ||
+			trimmed.startsWith("[ar:") ||
+			trimmed.startsWith("[al:") ||
+			trimmed.startsWith("[by:") ||
+			trimmed.startsWith("[offset:")
+		) {
+			continue;
+		}
+
+		const matches = [...trimmed.matchAll(timeRegex)];
+		if (matches.length === 0) continue;
+
+		const text = trimmed.replace(timeRegex, "").trim();
+		if (!text) continue;
+
+		for (const match of matches) {
+			const minutes = Number.parseInt(match[1], 10);
+			const seconds = Number.parseInt(match[2], 10);
+			let milliseconds = 0;
+			if (match[3]) {
+				const msStr = match[3];
+				milliseconds =
+					msStr.length === 2
+						? Number.parseInt(msStr, 10) * 10
+						: Number.parseInt(msStr, 10);
+			}
+			const time = minutes * 60 + seconds + milliseconds / 1000;
+			result.push({ time, text });
+		}
+	}
+
+	result.sort((a, b) => a.time - b.time);
+	return result;
+}
+
+async function fetchLyrics(song: Song) {
+	lyrics = [];
+	currentLyricIndex = -1;
+	noLyricsFound = false;
+
+	if (!song.lrc) {
+		noLyricsFound = true;
+		return;
+	}
+
+	lyricsLoading = true;
+	try {
+		let lrcText: string;
+		if (song.lrc.startsWith("http://") || song.lrc.startsWith("https://")) {
+			const res = await fetch(song.lrc);
+			if (!res.ok) throw new Error("lyrics fetch failed");
+			lrcText = await res.text();
+		} else {
+			lrcText = song.lrc;
+		}
+
+		const parsed = parseLrc(lrcText);
+		if (parsed.length === 0) {
+			noLyricsFound = true;
+		} else {
+			lyrics = parsed;
+		}
+	} catch {
+		noLyricsFound = true;
+	} finally {
+		lyricsLoading = false;
+	}
+}
+
+function toggleLyrics() {
+	showLyrics = !showLyrics;
+	if (showLyrics) {
+		showPlaylist = false;
+	}
+}
+
+function updateCurrentLyricIndex() {
+	if (lyrics.length === 0 || !audio) return;
+	const time = audio.currentTime;
+	for (let i = lyrics.length - 1; i >= 0; i--) {
+		if (time >= lyrics[i].time) {
+			currentLyricIndex = i;
+			return;
+		}
+	}
+	currentLyricIndex = -1;
 }
 
 function setProgress(event: MouseEvent) {
@@ -473,7 +603,7 @@ onDestroy(() => {
 	bind:muted={isMuted}
 	on:play={() => isPlaying = true}
 	on:pause={() => isPlaying = false}
-	on:timeupdate={() => currentTime = audio.currentTime}
+	on:timeupdate={() => { currentTime = audio.currentTime; updateCurrentLyricIndex(); }}
 	on:ended={handleAudioEnded}
 	on:error={handleLoadError}
 	on:loadeddata={handleLoadSuccess}
@@ -488,7 +618,8 @@ onDestroy(() => {
 
 {#if musicPlayerConfig.enable}
 {#if showError}
-<div class="fixed bottom-20 right-4 z-[60] max-w-sm">
+<div class="fixed right-4 z-[60] max-w-sm transition-all duration-300"
+     style="bottom: {isExpanded && playerRoot ? playerRoot.offsetHeight + 240 : 100}px">
     <div class="bg-red-500 text-white px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 animate-slide-up">
         <Icon icon="material-symbols:error" class="text-xl flex-shrink-0" />
         <span class="text-sm flex-1">{errorMessage}</span>
@@ -611,19 +742,7 @@ onDestroy(() => {
                     {formatTime(currentTime)} / {formatTime(duration)}
                 </div>
             </div>
-            <div class="flex items-center gap-1">
-                <button class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center"
-                        on:click={toggleHidden}
-                        title={hideTitle}>
-                    <Icon icon="material-symbols:visibility-off" class="text-lg" />
-                </button>
-                <button class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center"
-                        class:text-[var(--primary)]={showPlaylist}
-                        on:click={togglePlaylist}
-                        title={playlistTitle}>
-                    <Icon icon="material-symbols:queue-music" class="text-lg" />
-                </button>
-            </div>
+            
         </div>
         <div class="progress-section mb-4">
             <div class="progress-bar flex-1 h-2 bg-[var(--btn-regular-bg)] rounded-full cursor-pointer"
@@ -650,6 +769,51 @@ onDestroy(() => {
                      style="width: {duration > 0 ? (currentTime / duration) * 100 : 0}%"></div>
             </div>
         </div>
+        {#if showLyrics}
+            <div class="lyrics-section mb-4 overflow-hidden rounded-lg max-h-[200px] bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))]" transition:slide={{ duration: 300, axis: 'y' }}>
+                {#if lyricsLoading}
+                    <div class="flex items-center justify-center py-8 text-50">
+                        <Icon icon="eos-icons:loading" class="text-lg animate-spin mr-2" />
+                        <span class="text-sm">{currentI18n?.[Key.musicPlayerLoading] ?? ""}</span>
+                    </div>
+                {:else if noLyricsFound}
+                    <div class="flex items-center justify-center py-8 text-50">
+                        <Icon icon="material-symbols:lyrics-off" class="text-lg mr-2" />
+                        <span class="text-sm">{currentI18n?.[Key.musicPlayerNoLyrics] ?? ""}</span>
+                    </div>
+                {:else if lyrics.length > 0}
+                    <div class="lyrics-scroll overflow-y-auto hide-scrollbar py-3 px-2 max-h-[200px]">
+                        {#each lyrics as line, index}
+                            <div class="lyric-line px-3 py-1.5 rounded-md transition-all duration-300 text-sm text-center leading-normal whitespace-normal break-words hover:text-[var(--primary)]"
+                                 class:text-[var(--primary)]={index === currentLyricIndex}
+                                 class:text-90={index !== currentLyricIndex}
+                                 class:font-bold={index === currentLyricIndex}
+                                 class:scale-105={index === currentLyricIndex}
+                                 class:opacity-50={index !== currentLyricIndex && Math.abs(index - currentLyricIndex) > 2}
+                                 role="button"
+                                 tabindex="0"
+                                 on:click={() => {
+                                     if (audio) {
+                                         audio.currentTime = line.time;
+                                         currentTime = line.time;
+                                     }
+                                 }}
+                                 on:keydown={(e) => {
+                                     if (e.key === 'Enter' || e.key === ' ') {
+                                         e.preventDefault();
+                                         if (audio) {
+                                             audio.currentTime = line.time;
+                                             currentTime = line.time;
+                                         }
+                                     }
+                                 }}>
+                                {line.text}
+                            </div>
+                        {/each}
+                    </div>
+                {/if}
+            </div>
+        {/if}
         <div class="controls flex items-center justify-center gap-2 mb-4">
             <button class="w-10 h-10 rounded-lg"
                     class:btn-regular={isShuffled}
@@ -729,61 +893,70 @@ onDestroy(() => {
                      style="width: {volume * 100}%"></div>
             </div>
             <button class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center"
+                    class:btn-active={showLyrics}
+                    on:click={toggleLyrics}
+                    title={lyricsTitle}>
+                <Icon icon="material-symbols:lyrics" class="text-lg" />
+            </button>
+            <button class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center"
+                    class:btn-active={showPlaylist}
+                    on:click={togglePlaylist}
+                    title={playlistTitle}>
+                <Icon icon="material-symbols:queue-music" class="text-lg" />
+            </button>
+            <button class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center"
+                    on:click={toggleHidden}
+                    title={hideTitle}>
+                <Icon icon="material-symbols:visibility-off" class="text-lg" />
+            </button>
+            <button class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center"
                     on:click={toggleExpanded}
                     title={collapseTitle}>
                 <Icon icon="material-symbols:expand-more" class="text-lg" />
             </button>
         </div>
+        {#if showPlaylist}
+            <div class="playlist-section mt-4 overflow-hidden rounded-lg max-h-[240px] bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))]" transition:slide={{ duration: 300, axis: 'y' }}>
+                <div class="playlist-inline overflow-y-auto hide-scrollbar py-2" style="max-height: 240px;">
+                    {#each playlist as song, index}
+                        <div class="playlist-item group flex items-center gap-3 px-3 py-2"
+                             class:bg-[var(--btn-plain-bg)]={index === currentIndex}
+                             on:click={() => playSong(index)}
+                             on:keydown={(e) => {
+                                 if (e.key === 'Enter' || e.key === ' ') {
+                                     e.preventDefault();
+                                     playSong(index);
+                                 }
+                             }}
+                             role="button"
+                             tabindex="0"
+                             aria-label="play {song.title} - {song.artist}">
+                            <div class="w-6 h-6 flex items-center justify-center flex-shrink-0">
+                                {#if index === currentIndex && isPlaying}
+                                    <Icon icon="material-symbols:graphic-eq" class="text-[var(--primary)] animate-pulse" />
+                                {:else if index === currentIndex}
+                                    <Icon icon="material-symbols:pause" class="text-[var(--primary)]" />
+                                {:else}
+                                    <span class="text-sm text-[var(--content-meta)] transition-colors duration-300 group-hover:text-[var(--primary)]">{index + 1}</span>
+                                {/if}
+                            </div>
+                            <div class="w-10 h-10 rounded-lg overflow-hidden bg-[var(--btn-regular-bg)] flex-shrink-0">
+                                <img src={getAssetPath(song.cover)} alt={song.title} loading="lazy" class="w-full h-full object-cover" />
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="font-medium truncate text-sm ignore transition-colors duration-300 group-hover:text-[var(--primary)]" class:text-[var(--primary)]={index === currentIndex} class:text-90={index !== currentIndex}>
+                                    {song.title}
+                                </div>
+                                <div class="text-xs text-[var(--content-meta)] truncate ignore transition-colors duration-300 group-hover:text-[var(--primary)]" class:text-[var(--primary)]={index === currentIndex}>
+                                    {song.artist}
+                                </div>
+                            </div>
+                        </div>
+                    {/each}
+                </div>
+            </div>
+        {/if}
     </div>
-    {#if showPlaylist}
-        <div class="playlist-panel float-panel fixed bottom-20 right-4 w-80 max-h-96 overflow-hidden z-50"
-             transition:slide={{ duration: 300, axis: 'y' }}>
-            <div class="playlist-header flex items-center justify-between p-4 border-b border-[var(--line-divider)]">
-                <h3 class="text-lg font-semibold text-90">{i18n(Key.musicPlayerPlaylist)}</h3>
-                <button class="btn-plain w-8 h-8 rounded-lg" on:click={togglePlaylist}>
-                    <Icon icon="material-symbols:close" class="text-lg" />
-                </button>
-            </div>
-            <div class="playlist-content overflow-y-auto max-h-80 hide-scrollbar">
-                {#each playlist as song, index}
-                    <div class="playlist-item flex items-center gap-3 p-3 hover:bg-[var(--btn-plain-bg-hover)] cursor-pointer transition-colors"
-                         class:bg-[var(--btn-plain-bg)]={index === currentIndex}
-                         class:text-[var(--primary)]={index === currentIndex}
-                         on:click={() => playSong(index)}
-                         on:keydown={(e) => {
-                             if (e.key === 'Enter' || e.key === ' ') {
-                                 e.preventDefault();
-								 playSong(index);
-                             }
-                         }}
-                         role="button"
-                         tabindex="0"
-                         aria-label="play {song.title} - {song.artist}">
-                        <div class="w-6 h-6 flex items-center justify-center">
-                            {#if index === currentIndex && isPlaying}
-                                <Icon icon="material-symbols:graphic-eq" class="text-[var(--primary)] animate-pulse" />
-                            {:else if index === currentIndex}
-                                <Icon icon="material-symbols:pause" class="text-[var(--primary)]" />
-                            {:else}
-                                <span class="text-sm text-[var(--content-meta)]">{index + 1}</span>
-                            {/if}
-                        </div>
-                        <div class="w-10 h-10 rounded-lg overflow-hidden bg-[var(--btn-regular-bg)] flex-shrink-0">
-                            <img src={getAssetPath(song.cover)} alt={song.title} loading="lazy" class="w-full h-full object-cover" />
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <div class="font-medium truncate ignore" class:text-[var(--primary)]={index === currentIndex} class:text-90={index !== currentIndex}>
-                                {song.title}
-                            </div>
-                            <div class="text-sm text-[var(--content-meta)] truncate ignore" class:text-[var(--primary)]={index === currentIndex}>
-                                {song.artist}
-                            </div>
-                        </div>
-                    </div>
-                {/each}
-            </div>
-        </div>
-    {/if}
 </div>
 
 <style>
@@ -870,12 +1043,6 @@ onDestroy(() => {
         max-width: none;
         /*left: 0.5rem !important;*/
         right: 0.5rem !important;
-	}
-    .playlist-panel {
-        width: calc(100vw - 16px) !important;
-        /*left: 0.5rem !important;*/
-        right: 0.5rem !important;
-        max-width: none;
 	}
     .controls {
         gap: 8px;
@@ -965,6 +1132,23 @@ onDestroy(() => {
 button.bg-\[var\(--primary\)\] {
     box-shadow: 0 0 0 2px var(--primary);
 	border: none;
+}
+
+.btn-active {
+    color: var(--primary) !important;
+}
+
+.lyrics-scroll::-webkit-scrollbar {
+    width: 4px;
+}
+
+.lyrics-scroll::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 2px;
+}
+
+.lyrics-scroll::-webkit-scrollbar-track {
+    background: transparent;
 }
 </style>
 {/if}

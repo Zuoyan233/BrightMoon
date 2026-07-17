@@ -133,6 +133,10 @@ export const ru: Translation = {
 	[Key.musicPlayerErrorSong]:
 		"Не удалось загрузить текущий трек, пробую следующий",
 	[Key.musicPlayerErrorEmpty]: "В плейлисте нет доступных треков",
+	[Key.musicPlayerLyrics]: "Текст песни",
+	[Key.musicPlayerLyricsShow]: "Показать текст",
+	[Key.musicPlayerLyricsHide]: "Скрыть текст",
+	[Key.musicPlayerNoLyrics]: "Текст песни недоступен",
 	[Key.unknownSong]: "Неизвестный трек",
 	[Key.unknownArtist]: "Неизвестный исполнитель",
 

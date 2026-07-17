@@ -50,7 +50,6 @@ This project is a customized extension based on Mizuki V8.2, with version number
 ### 🔧 Component Configuration System Refactor
 
 - **Configuration Integration:** All component configuration items are centrally integrated into `src/config.ts` for unified management.
-- **Album Logic Refactor:** Refactored hidden album logic, fixing access issues via direct links.
 - **Responsive Layout Adaptation:** Components support responsive layouts that automatically adjust based on device type.
 
 ### 📐 Layout System Optimization

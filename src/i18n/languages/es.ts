@@ -133,6 +133,10 @@ export const es: Translation = {
 	[Key.musicPlayerErrorSong]:
 		"Error al cargar la canción, probando con la siguiente",
 	[Key.musicPlayerErrorEmpty]: "No hay canciones disponibles en la lista",
+	[Key.musicPlayerLyrics]: "Letras",
+	[Key.musicPlayerLyricsShow]: "Mostrar letras",
+	[Key.musicPlayerLyricsHide]: "Ocultar letras",
+	[Key.musicPlayerNoLyrics]: "Letras no disponibles",
 	[Key.unknownSong]: "Canción desconocida",
 	[Key.unknownArtist]: "Artista desconocido",
 

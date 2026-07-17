@@ -128,6 +128,10 @@ export const zh_TW: Translation = {
 	[Key.musicPlayerErrorPlaylist]: "播放清單獲取失敗",
 	[Key.musicPlayerErrorSong]: "目前歌曲載入失敗，嘗試載入下一首",
 	[Key.musicPlayerErrorEmpty]: "播放清單中沒有可用的歌曲",
+	[Key.musicPlayerLyrics]: "歌詞",
+	[Key.musicPlayerLyricsShow]: "顯示歌詞",
+	[Key.musicPlayerLyricsHide]: "隱藏歌詞",
+	[Key.musicPlayerNoLyrics]: "暫無歌詞",
 	[Key.unknownSong]: "未知歌曲",
 	[Key.unknownArtist]: "未知藝術家",
 
