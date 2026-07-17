@@ -137,6 +137,7 @@ export const vi: Translation = {
 	[Key.musicPlayerLyricsShow]: "Hiện lời bài hát",
 	[Key.musicPlayerLyricsHide]: "Ẩn lời bài hát",
 	[Key.musicPlayerNoLyrics]: "Không có lời bài hát",
+	[Key.musicPlayerLocateCurrent]: "Đi đến bài hát hiện tại",
 	[Key.unknownSong]: "Bài hát không rõ",
 	[Key.unknownArtist]: "Nghệ sĩ không rõ",
 

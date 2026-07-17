@@ -85,6 +85,11 @@ let audio: HTMLAudioElement;
 let progressBar: HTMLElement;
 let volumeBar: HTMLElement;
 
+// 播放列表封面懒加载
+let visiblePlaylistIndices = new Set<number>();
+let playlistScrollContainer: HTMLElement;
+let playlistImgObserver: IntersectionObserver;
+
 // 翻译适配
 let i18nVersion = 0;
 let unregisterTranslationRenderer = () => {};
@@ -112,6 +117,7 @@ $: hideTitle = currentI18n?.[Key.musicPlayerHide] ?? "";
 $: expandTitle = currentI18n?.[Key.musicPlayerExpand] ?? "";
 $: collapseTitle = currentI18n?.[Key.musicPlayerCollapse] ?? "";
 $: playlistTitle = currentI18n?.[Key.musicPlayerPlaylist] ?? "";
+$: locateTitle = currentI18n?.[Key.musicPlayerLocateCurrent] ?? "";
 $: progressTitle = currentI18n?.[Key.musicPlayerProgress] ?? "";
 $: volumeTitle = currentI18n?.[Key.musicPlayerVolume] ?? "";
 $: repeatTitle = currentI18n
@@ -132,13 +138,10 @@ $: lyricsTitle = currentI18n
 
 $: if (showPlaylist) {
 	void tick().then(() => {
-		if (playerRoot) {
-			void translationManager.refresh({
-				root: playerRoot,
-				reason: "music-player-playlist",
-			});
-		}
+		setupPlaylistObserver();
 	});
+} else {
+	teardownPlaylistObserver();
 }
 
 $: if (showLyrics && currentLyricIndex >= 0) {
@@ -248,7 +251,73 @@ function togglePlaylist() {
 	showPlaylist = !showPlaylist;
 	if (showPlaylist) {
 		showLyrics = false;
+		// 等待 DOM 渲染完成后自动滚动到当前播放歌曲
+		void tick().then(() => {
+			scrollToCurrentSong("auto");
+			setTimeout(() => scrollToCurrentSong("smooth"), 320);
+		});
 	}
+}
+
+function setupPlaylistObserver() {
+	teardownPlaylistObserver();
+	const container = playerRoot?.querySelector(
+		".playlist-inline",
+	) as HTMLElement;
+	if (!container) return;
+	playlistScrollContainer = container;
+
+	playlistImgObserver = new IntersectionObserver(
+		(entries) => {
+			for (const entry of entries) {
+				const index = Number((entry.target as HTMLElement).dataset.index);
+				if (entry.isIntersecting) {
+					visiblePlaylistIndices.add(index);
+				} else {
+					visiblePlaylistIndices.delete(index);
+				}
+			}
+			if (entries.length > 0) {
+				visiblePlaylistIndices = new Set(visiblePlaylistIndices);
+			}
+		},
+		{ root: container, rootMargin: "80px 0px" },
+	);
+
+	container.querySelectorAll(".playlist-img-observe").forEach((el) => {
+		playlistImgObserver.observe(el);
+	});
+}
+
+function teardownPlaylistObserver() {
+	if (playlistImgObserver) {
+		playlistImgObserver.disconnect();
+		playlistImgObserver = undefined as unknown as IntersectionObserver;
+	}
+	visiblePlaylistIndices = new Set();
+	playlistScrollContainer = undefined as unknown as HTMLElement;
+}
+
+function scrollToCurrentSong(behavior: ScrollBehavior = "smooth") {
+	const container = playerRoot?.querySelector(
+		".playlist-inline",
+	) as HTMLElement | null;
+	if (!container) return;
+	const items = container.querySelectorAll(".playlist-item");
+	const target = items[currentIndex] as HTMLElement | undefined;
+	if (!target) return;
+
+	const targetOffset = target.offsetTop;
+	const targetHeight = target.offsetHeight;
+	const containerHeight = container.clientHeight;
+	const targetScrollTop = Math.max(
+		0,
+		Math.min(
+			targetOffset - (containerHeight - targetHeight) / 2,
+			container.scrollHeight - containerHeight,
+		),
+	);
+	container.scrollTo({ top: targetScrollTop, behavior });
 }
 
 function toggleShuffle() {
@@ -586,6 +655,7 @@ onMount(() => {
 
 onDestroy(() => {
 	unregisterTranslationRenderer();
+	teardownPlaylistObserver();
 	if (typeof document !== "undefined") {
 		interactionEvents.forEach((event) => {
 			document.removeEventListener(event, handleUserInteraction, {
@@ -892,14 +962,16 @@ onDestroy(() => {
                      class:duration-0={isVolumeDragging}
                      style="width: {volume * 100}%"></div>
             </div>
-            <button class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center"
+            <button class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center disabled:cursor-not-allowed disabled:text-neutral-300 disabled:dark:text-neutral-600 disabled:hover:bg-transparent disabled:hover:text-neutral-300 disabled:hover:dark:text-neutral-600"
                     class:btn-active={showLyrics}
+                    disabled={isLoading || playlist.length === 0}
                     on:click={toggleLyrics}
                     title={lyricsTitle}>
                 <Icon icon="material-symbols:lyrics" class="text-lg" />
             </button>
-            <button class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center"
+            <button class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center disabled:cursor-not-allowed disabled:text-neutral-300 disabled:dark:text-neutral-600 disabled:hover:bg-transparent disabled:hover:text-neutral-300 disabled:hover:dark:text-neutral-600"
                     class:btn-active={showPlaylist}
+                    disabled={isLoading || playlist.length === 0}
                     on:click={togglePlaylist}
                     title={playlistTitle}>
                 <Icon icon="material-symbols:queue-music" class="text-lg" />
@@ -916,7 +988,7 @@ onDestroy(() => {
             </button>
         </div>
         {#if showPlaylist}
-            <div class="playlist-section mt-4 overflow-hidden rounded-lg max-h-[240px] bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))]" transition:slide={{ duration: 300, axis: 'y' }}>
+            <div class="playlist-section relative mt-4 overflow-hidden rounded-lg max-h-[240px] bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))]" transition:slide={{ duration: 300, axis: 'y' }}>
                 <div class="playlist-inline overflow-y-auto hide-scrollbar py-2" style="max-height: 240px;">
                     {#each playlist as song, index}
                         <div class="playlist-item group flex items-center gap-3 px-3 py-2"
@@ -940,11 +1012,13 @@ onDestroy(() => {
                                     <span class="text-sm text-[var(--content-meta)] transition-colors duration-300 group-hover:text-[var(--primary)]">{index + 1}</span>
                                 {/if}
                             </div>
-                            <div class="w-10 h-10 rounded-lg overflow-hidden bg-[var(--btn-regular-bg)] flex-shrink-0">
-                                <img src={getAssetPath(song.cover)} alt={song.title} loading="lazy" class="w-full h-full object-cover" />
+                            <div class="w-10 h-10 rounded-lg overflow-hidden bg-[var(--btn-regular-bg)] flex-shrink-0 playlist-img-observe" data-index={index}>
+                                {#if visiblePlaylistIndices.has(index)}
+                                    <img src={getAssetPath(song.cover)} alt={song.title} class="w-full h-full object-cover" />
+                                {/if}
                             </div>
                             <div class="flex-1 min-w-0">
-                                <div class="font-medium truncate text-sm ignore transition-colors duration-300 group-hover:text-[var(--primary)]" class:text-[var(--primary)]={index === currentIndex} class:text-90={index !== currentIndex}>
+                                <div class="font-bold truncate text-sm ignore transition-colors duration-300 group-hover:text-[var(--primary)]" class:text-[var(--primary)]={index === currentIndex} class:text-90={index !== currentIndex}>
                                     {song.title}
                                 </div>
                                 <div class="text-xs text-[var(--content-meta)] truncate ignore transition-colors duration-300 group-hover:text-[var(--primary)]" class:text-[var(--primary)]={index === currentIndex}>
@@ -954,6 +1028,12 @@ onDestroy(() => {
                         </div>
                     {/each}
                 </div>
+                <button
+                    class="absolute bottom-3 right-2 w-8 h-8 rounded-full bg-[var(--btn-plain-bg)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-white flex items-center justify-center transition-all duration-200 z-10"
+                    on:click={() => scrollToCurrentSong()}
+                    title={locateTitle}>
+                    <Icon icon="material-symbols:my-location" class="text-lg" />
+                </button>
             </div>
         {/if}
     </div>
@@ -1086,6 +1166,12 @@ onDestroy(() => {
         height: 32px;
 	}
 }
+
+.playlist-item {
+	content-visibility: auto;
+	contain-intrinsic-size: auto 52px;
+}
+
 @keyframes slide-up {
     from {
         transform: translateY(100%);
@@ -1136,6 +1222,16 @@ button.bg-\[var\(--primary\)\] {
 
 .btn-active {
     color: var(--primary) !important;
+}
+
+.lyrics-scroll {
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+}
+
+.playlist-inline {
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
 }
 
 .lyrics-scroll::-webkit-scrollbar {

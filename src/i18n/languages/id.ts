@@ -136,6 +136,7 @@ export const id: Translation = {
 	[Key.musicPlayerLyricsShow]: "Tampilkan Lirik",
 	[Key.musicPlayerLyricsHide]: "Sembunyikan Lirik",
 	[Key.musicPlayerNoLyrics]: "Lirik tidak tersedia",
+	[Key.musicPlayerLocateCurrent]: "Buka lagu saat ini",
 	[Key.unknownSong]: "Lagu Tidak Dikenal",
 	[Key.unknownArtist]: "Artis Tidak Dikenal",
 

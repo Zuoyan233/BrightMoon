@@ -137,6 +137,7 @@ export const ru: Translation = {
 	[Key.musicPlayerLyricsShow]: "Показать текст",
 	[Key.musicPlayerLyricsHide]: "Скрыть текст",
 	[Key.musicPlayerNoLyrics]: "Текст песни недоступен",
+	[Key.musicPlayerLocateCurrent]: "Перейти к текущей песне",
 	[Key.unknownSong]: "Неизвестный трек",
 	[Key.unknownArtist]: "Неизвестный исполнитель",
 

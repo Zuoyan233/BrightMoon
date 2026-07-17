@@ -135,6 +135,7 @@ export const ar: Translation = {
 	[Key.musicPlayerLyricsShow]: "إظهار الكلمات",
 	[Key.musicPlayerLyricsHide]: "إخفاء الكلمات",
 	[Key.musicPlayerNoLyrics]: "لا توجد كلمات متاحة",
+	[Key.musicPlayerLocateCurrent]: "الانتقال إلى الأغنية الحالية",
 	[Key.unknownSong]: "أغنية غير معروفة",
 	[Key.unknownArtist]: "فنان غير معروف",
 

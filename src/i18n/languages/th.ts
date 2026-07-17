@@ -132,6 +132,7 @@ export const th: Translation = {
 	[Key.musicPlayerLyricsShow]: "แสดงเนื้อเพลง",
 	[Key.musicPlayerLyricsHide]: "ซ่อนเนื้อเพลง",
 	[Key.musicPlayerNoLyrics]: "ไม่มีเนื้อเพลง",
+	[Key.musicPlayerLocateCurrent]: "ไปที่เพลงปัจจุบัน",
 	[Key.unknownSong]: "ไม่ทราบชื่อเพลง",
 	[Key.unknownArtist]: "ไม่ทราบชื่อศิลปิน",
 

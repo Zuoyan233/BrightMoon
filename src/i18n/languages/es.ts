@@ -137,6 +137,7 @@ export const es: Translation = {
 	[Key.musicPlayerLyricsShow]: "Mostrar letras",
 	[Key.musicPlayerLyricsHide]: "Ocultar letras",
 	[Key.musicPlayerNoLyrics]: "Letras no disponibles",
+	[Key.musicPlayerLocateCurrent]: "Ir a la canción actual",
 	[Key.unknownSong]: "Canción desconocida",
 	[Key.unknownArtist]: "Artista desconocido",
 

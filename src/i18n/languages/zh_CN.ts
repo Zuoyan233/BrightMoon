@@ -132,6 +132,7 @@ export const zh_CN: Translation = {
 	[Key.musicPlayerLyricsShow]: "显示歌词",
 	[Key.musicPlayerLyricsHide]: "隐藏歌词",
 	[Key.musicPlayerNoLyrics]: "暂无歌词",
+	[Key.musicPlayerLocateCurrent]: "定位到当前歌曲",
 	[Key.unknownSong]: "未知歌曲",
 	[Key.unknownArtist]: "未知艺术家",
 

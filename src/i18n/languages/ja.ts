@@ -137,6 +137,7 @@ export const ja: Translation = {
 	[Key.musicPlayerLyricsShow]: "歌詞を表示",
 	[Key.musicPlayerLyricsHide]: "歌詞を非表示",
 	[Key.musicPlayerNoLyrics]: "歌詞はありません",
+	[Key.musicPlayerLocateCurrent]: "現在の曲に移動",
 	[Key.unknownSong]: "不明な曲",
 	[Key.unknownArtist]: "不明なアーティスト",
 

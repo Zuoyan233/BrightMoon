@@ -136,6 +136,7 @@ export const ko: Translation = {
 	[Key.musicPlayerLyricsShow]: "가사 보기",
 	[Key.musicPlayerLyricsHide]: "가사 숨기기",
 	[Key.musicPlayerNoLyrics]: "가사 없음",
+	[Key.musicPlayerLocateCurrent]: "현재 곡으로 이동",
 	[Key.unknownSong]: "알 수 없는 곡",
 	[Key.unknownArtist]: "알 수 없는 아티스트",
 

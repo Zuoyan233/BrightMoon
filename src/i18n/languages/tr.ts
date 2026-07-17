@@ -136,6 +136,7 @@ export const tr: Translation = {
 	[Key.musicPlayerLyricsShow]: "Sözleri Göster",
 	[Key.musicPlayerLyricsHide]: "Sözleri Gizle",
 	[Key.musicPlayerNoLyrics]: "Şarkı sözü yok",
+	[Key.musicPlayerLocateCurrent]: "Geçerli şarkıya git",
 	[Key.unknownSong]: "Bilinmeyen Şarkı",
 	[Key.unknownArtist]: "Bilinmeyen Sanatçı",
 
