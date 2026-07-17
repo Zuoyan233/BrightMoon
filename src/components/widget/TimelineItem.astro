@@ -164,9 +164,7 @@ const itemColor = item.color || "#3B82F6";
 ---
 
 {layout === 'timeline' ? (
-  <!-- 时间线布局 -->
   <div class="relative flex items-start gap-6">
-    <!-- 时间线节点 -->
     {showTimeline && (
       <div class={`relative z-10 rounded-full flex items-center justify-center shrink-0 ${sizeClasses.node}`} style={`background-color: ${itemColor}`}>
         <Icon 
@@ -179,10 +177,8 @@ const itemColor = item.color || "#3B82F6";
       </div>
     )}
     
-    <!-- 内容卡片 -->
     <div class="flex-1 bg-transparent rounded-lg border border-black/10 dark:border-white/10 hover:shadow-lg transition-shadow duration-300">
       <div class={sizeClasses.container}>
-        <!-- 标题和类型 -->
         <div class="flex items-start justify-between mb-3">
           <div>
             <h3 class={`font-semibold text-black/90 dark:text-white/90 mb-1 ${sizeClasses.title}`}>
@@ -202,7 +198,6 @@ const itemColor = item.color || "#3B82F6";
           </span>
         </div>
         
-        <!-- 时间和地点信息 -->
         <div class={`flex items-center gap-4 mb-3 text-black/60 dark:text-white/60 ${sizeClasses.meta}`}>
           <div>
             {formatDate(item.startDate)} - {item.endDate ? formatDate(item.endDate) : i18n(I18nKey.timelinePresent)}
@@ -217,12 +212,10 @@ const itemColor = item.color || "#3B82F6";
           )}
         </div>
         
-        <!-- 描述 -->
         <p class={`text-black/70 dark:text-white/70 mb-4 ${sizeClasses.description}`}>
           {item.description}
         </p>
         
-        <!-- 成就 -->
         {item.achievements && item.achievements.length > 0 && (
           <div class="mb-4">
             <h4 class={`font-semibold text-black/80 dark:text-white/80 mb-2 ${sizeClasses.meta}`}>
@@ -239,7 +232,6 @@ const itemColor = item.color || "#3B82F6";
           </div>
         )}
         
-        <!-- 技能 -->
         {item.skills && item.skills.length > 0 && (
           <div class="mb-4">
             <div class="flex flex-wrap gap-1">
@@ -252,7 +244,6 @@ const itemColor = item.color || "#3B82F6";
           </div>
         )}
         
-        <!-- 链接 -->
         {item.links && item.links.length > 0 && (
           <div class="flex gap-4">
             {item.links.map((link) => (
@@ -272,10 +263,8 @@ const itemColor = item.color || "#3B82F6";
     </div>
   </div>
 ) : (
-  <!-- 卡片布局 -->
   <div class="bg-transparent rounded-lg border border-black/10 dark:border-white/10 hover:shadow-lg transition-shadow duration-300">
     <div class={sizeClasses.container}>
-      <!-- 图标和标题 -->
       <div class="flex items-start gap-4 mb-3">
         <div class={`rounded-lg flex items-center justify-center shrink-0 ${sizeClasses.node}`} style={`background-color: ${itemColor}20`}>
           <iconify-icon icon={item.icon || getTypeIcon(item.type)} class={sizeClasses.nodeIcon} style={`color: ${itemColor}`}></iconify-icon>
@@ -305,17 +294,14 @@ const itemColor = item.color || "#3B82F6";
         </div>
       </div>
       
-      <!-- 时间信息 -->
       <div class={`text-black/70 dark:text-white/70 mb-3 ${sizeClasses.meta}`}>
         {formatDate(item.startDate)} - {item.endDate ? formatDate(item.endDate) : i18n(I18nKey.timelinePresent)} ({getDuration(item.startDate, item.endDate)})
       </div>
       
-      <!-- 描述 -->
       <p class={`text-black/60 dark:text-white/60 mb-4 ${sizeClasses.description}`}>
         {item.description}
       </p>
       
-      <!-- 成就 -->
       {item.achievements && item.achievements.length > 0 && (
         <div class="mb-4">
           <h4 class={`font-semibold text-black/80 dark:text-white/80 mb-2 ${sizeClasses.meta}`}>
@@ -337,7 +323,6 @@ const itemColor = item.color || "#3B82F6";
         </div>
       )}
       
-      <!-- 技能和链接 -->
       <div class="flex items-center justify-between">
         {item.skills && item.skills.length > 0 && (
           <div class="flex flex-wrap gap-1">

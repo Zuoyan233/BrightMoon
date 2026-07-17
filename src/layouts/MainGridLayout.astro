@@ -378,7 +378,6 @@ import "../scripts/main-grid.js";
 <div id="banner-wrapper" class={`absolute z-10 w-full transition duration-700 overflow-hidden ${mobileNonHomeBannerClass}`} style={`top: -${BANNER_HEIGHT_EXTEND}vh`}>
 
     {siteConfig.banner.carousel?.enable && ((bannerImages.desktop && Array.isArray(bannerImages.desktop) && bannerImages.desktop.length > 1) || (bannerImages.mobile && Array.isArray(bannerImages.mobile) && bannerImages.mobile.length > 1)) ? (
-        <!-- Carousel mode for multiple images -->
         <div id="banner-carousel" class="relative h-full w-full">
             <ul class="carousel-list h-full w-full">
                 {Math.max(
@@ -425,7 +424,6 @@ import "../scripts/main-grid.js";
             </ul>
         </div>
     ) : (
-        <!-- Single image mode -->
         <div id="banner-single-container" class="relative h-full w-full" data-desktop-images={JSON.stringify(bannerImages.desktop)} data-mobile-images={JSON.stringify(bannerImages.mobile)} data-position={siteConfig.appearance.wallpaperMode.defaultBannerPosition}>
             <script>
             import "../scripts/banner.js";

@@ -3,6 +3,8 @@ allowBuilds:
   sharp: true
   ttf2woff2: true
   workerd: true
+minimumReleaseAgeExclude:
+  - astro@7.1.0
 onlyBuiltDependencies:
   - '@parcel/watcher'
   - esbuild
