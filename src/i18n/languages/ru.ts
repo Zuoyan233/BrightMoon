@@ -87,9 +87,9 @@ export const ru: Translation = {
 	[Key.animeEmptyBilibili]:
 		"Данные Bilibili отсутствуют. Запустите `pnpm run update-bilibili` для получения данных",
 	[Key.animeSetBangumiUserId]:
-		"Пожалуйста, укажите ваш идентификатор пользователя Bangumi в файле src/config.ts",
+		"Пожалуйста, укажите ваш идентификатор пользователя Bangumi в файле src/config/user.ts",
 	[Key.animeSetBilibiliVmId]:
-		"Пожалуйста, укажите ваш vmID Bilibili в файле src/config.ts",
+		"Пожалуйста, укажите ваш vmID Bilibili в файле src/config/user.ts",
 	[Key.animeEmptyLocal]:
 		"Пожалуйста, добавьте информацию об аниме в файл src/data/anime.ts",
 
@@ -445,7 +445,7 @@ export const ru: Translation = {
 
 	// Компонент погоды
 	[Key.weather]: "Погода",
-	[Key.weatherNoApiKey]: "Добавьте ключ WeatherAPI в src/config.ts",
+	[Key.weatherNoApiKey]: "Добавьте ключ WeatherAPI в src/config/user.ts",
 	[Key.weatherLocationDisabled]:
 		"Служба определения местоположения для погоды отключена из-за отказа от соглашения о конфиденциальности",
 	[Key.weatherWaitingConsent]:
@@ -502,7 +502,7 @@ export const ru: Translation = {
 	[Key.twikooInitializing]: "Инициализация системы комментариев Twikoo...",
 	[Key.twikooNotConfigured]: "Система комментариев Twikoo еще не настроена",
 	[Key.twikooConfigHint]:
-		"Пожалуйста, настройте систему комментариев Twikoo в src/config.ts",
+		"Пожалуйста, настройте систему комментариев Twikoo в src/config/user.ts",
 	[Key.twikooPrivacyRejected]:
 		"Система комментариев Twikoo отключена из-за отказа от соглашения о конфиденциальности",
 

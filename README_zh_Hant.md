@@ -49,7 +49,7 @@ BrightMoon 是一款融合現代簡約與優雅氣質的獨特二次元美學靜
 
 ### 🔧 元件配置系統重構
 
-- **配置整合：** 全部元件配置項集中整合到 `src/config.ts` 中，統一管理。
+- **分層配置架構：** 配置拆分為三層：`src/config/defaults.ts`（上游預設值，升級時自動更新）、`src/config/user.ts`（使用者配置，升級時受保護）、`src/config/index.ts`（合併入口）。僅需編輯 `src/config/user.ts`。
 - **響應式佈局適配：** 元件支援響應式佈局，可根據裝置類型自動調整顯示。
 
 ### 📐 佈局系統最佳化
@@ -130,14 +130,18 @@ BrightMoon 是一款融合現代簡約與優雅氣質的獨特二次元美學靜
 
 ## ⚡ 如何執行本專案？
 
-1. **複製倉庫：**
+1. **安裝 Node.js：** 本專案需要 Node.js 22 或以上版本。
+
+2. **安裝 Git：** 本專案使用 Git 進行版本控制，請確保已安裝並配置好 Git。
+
+3. **複製倉庫：**
 
    ```bash
    git clone https://github.com/Zuoyan233/BrightMoon.git
    cd BrightMoon
    ```
 
-2. **安裝依賴：**
+4. **安裝依賴：**
 
    ```bash
    # 如果沒有安裝 pnpm，先安裝
@@ -147,13 +151,13 @@ BrightMoon 是一款融合現代簡約與優雅氣質的獨特二次元美學靜
    pnpm install
    ```
 
-3. **設定部落格：**
+5. **設定部落格：**
 
-- 編輯 `src/config.ts` 自訂部落格設定。
+- 編輯 `src/config/user.ts` 自訂部落格設定。
 - 更新站點資訊、主題色彩、橫幅圖片和社交連結。
 - 設定特色頁面功能。
 
-4. **特色頁面配置：**
+6. **特色頁面配置：**
 
 - **追番頁面：** 在 `src/pages/anime.astro` 中編輯動畫列表。
 - **友鏈頁面：** 在 `src/content/spec/friends.md` 中編輯朋友資料。
@@ -162,15 +166,15 @@ BrightMoon 是一款融合現代簡約與優雅氣質的獨特二次元美學靜
 - **日記頁面：** 在 `src/data/diary.ts` 中編輯動態。
 - **關於頁面：** 在 `src/content/spec/about.md` 中編輯內容。
 - **贊助頁面：** 在 `src/content/spec/sponsors.md` 中編輯內容。
-  - 在 `src/config.ts` 中找到 `addpaymentConfig` 配置支付 QR Code，支付 QR Code 存放路徑在 `public/images/sponsors` 內。
+  - 在 `src/config/user.ts` 中找到 `addpaymentConfig` 配置支付 QR Code，支付 QR Code 存放路徑在 `public/images/sponsors` 內。
 - **回饋頁面：** 在 `src/content/spec/feedback.md` 中編輯內容。
-  - 在 `src/config.ts` 中找到 `contactEmailConfig` 配置站長電子郵件聯絡方式。
-  - 在 `src/config.ts` 中找到 `addfriendConfig` 配置加入好友 QR Code，QR Code 存放路徑在 `public/images/contact` 內。
+  - 在 `src/config/user.ts` 中找到 `contactEmailConfig` 配置站長電子郵件聯絡方式。
+  - 在 `src/config/user.ts` 中找到 `addfriendConfig` 配置加入好友 QR Code，QR Code 存放路徑在 `public/images/contact` 內。
 - **專案展示頁面：** 在 `src/data/projects.ts` 中編輯展示的內容。
 - **技能展示頁面：** 在 `src/data/skills.ts` 中編輯展示的內容。
 - **時間線頁面：** 在 `src/data/timeline.ts` 中編輯展示的內容。
 
-5. **文章內容管理：**
+7. **文章內容管理：**
 
 - **建立新文章：** `pnpm new-post <檔名>`。
 - **編輯文章：** 修改 `src/content/posts/` 中的檔案。
@@ -187,11 +191,11 @@ Frontmatter 欄位說明：
 - **tags**: 標籤陣列，用於分類
 - **category**: 文章分類
 - **draft**: 設定為 `true` 在生產環境中隱藏文章
-- **comment**: 設定為 `true` 或 `false` 可控制當前文章的留言開關（需先在 `src/config.ts` 中開啟 Twikoo 留言系統）
+- **comment**: 設定為 `true` 或 `false` 可控制當前文章的留言開關（需先在 `src/config/user.ts` 中開啟 Twikoo 留言系統）
 - **pinned**: 設定為 `true` 將文章置頂
 - **lang**: 文章語言（僅當與站點預設語言不同時設定）
 
-6. **啟動開發伺服器：**
+8. **啟動開發伺服器：**
 
    ```bash
    pnpm dev
@@ -199,7 +203,7 @@ Frontmatter 欄位說明：
 
    部落格將在 `http://localhost:4321` 可用。
 
-7. **升級 BrightMoon 部落格框架（可選）：**
+9. **升級 BrightMoon 部落格框架（可選）：**
 
    當有新版本發佈時，可使用內建升級工具進行升級：
 
@@ -213,9 +217,9 @@ Frontmatter 欄位說明：
    - **建立備份** - 手動建立專案完整備份，備份檔案儲存在 `backup` 目錄中。
    - **恢復備份** - 從 `backup` 目錄中選擇備份檔案恢復專案。
 
-   升級前會自動建立備份並偵測防回滾，升級完成後會自動執行 `pnpm install` 安裝新依賴並清理暫存檔案。如 `src/config.ts` 有變更，原檔案會自動備份，請手動遷移設定。
+   升級前會自動建立備份並偵測防回滾，升級完成後會自動執行 `pnpm install` 安裝新依賴並清理暫存檔案。`src/config/user.ts` 中的使用者配置升級時受保護，無需手動遷移；`src/config/defaults.ts` 中的上游預設值會自動更新。
 
-8. **所有指令都在專案根目錄執行：**
+10. **所有指令都在專案根目錄執行：**
 
 | 指令                      | 操作                                   |
 | :------------------------ | :------------------------------------- |

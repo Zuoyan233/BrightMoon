@@ -3,25 +3,33 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const CONFIG_PATH = path.join(
+const USER_CONFIG_PATH = path.join(
 	path.dirname(fileURLToPath(import.meta.url)),
-	"../src/config.ts",
+	"../src/config/user.ts",
+);
+const DEFAULTS_CONFIG_PATH = path.join(
+	path.dirname(fileURLToPath(import.meta.url)),
+	"../src/config/defaults.ts",
 );
 
-async function getAnimeModeFromConfig() {
+async function tryReadModeFromFile(filePath) {
 	try {
-		const configContent = await fs.readFile(CONFIG_PATH, "utf-8");
+		const configContent = await fs.readFile(filePath, "utf-8");
 		const match = configContent.match(
 			/anime:\s*\{[\s\S]*?mode:\s*["']([^"']+)["']/,
 		);
-
-		if (match?.[1]) {
-			return match[1];
-		}
-		return "bangumi";
+		return match?.[1] || null;
 	} catch {
-		return "bangumi";
+		return null;
 	}
+}
+
+async function getAnimeModeFromConfig() {
+	const userMode = await tryReadModeFromFile(USER_CONFIG_PATH);
+	if (userMode) return userMode;
+	const defaultMode = await tryReadModeFromFile(DEFAULTS_CONFIG_PATH);
+	if (defaultMode) return defaultMode;
+	return "local";
 }
 
 function runScript(scriptPath) {

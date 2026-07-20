@@ -87,9 +87,9 @@ export const de: Translation = {
 	[Key.animeEmptyBilibili]:
 		"Bilibili-Daten sind leer. Bitte führe `pnpm run update-bilibili` aus, um Daten zu erhalten",
 	[Key.animeSetBangumiUserId]:
-		"Bitte setze deine Bangumi-Benutzer-ID in der Datei src/config.ts",
+		"Bitte setze deine Bangumi-Benutzer-ID in der Datei src/config/user.ts",
 	[Key.animeSetBilibiliVmId]:
-		"Bitte setze deine Bilibili-vmID in der Datei src/config.ts",
+		"Bitte setze deine Bilibili-vmID in der Datei src/config/user.ts",
 	[Key.animeEmptyLocal]:
 		"Bitte füge Anime-Informationen in der Datei src/data/anime.ts hinzu",
 
@@ -457,7 +457,7 @@ export const de: Translation = {
 	// Wetter-Komponente
 	[Key.weather]: "Wetter",
 	[Key.weatherNoApiKey]:
-		"Bitte fügen Sie den WeatherAPI-Schlüssel in src/config.ts hinzu",
+		"Bitte fügen Sie den WeatherAPI-Schlüssel in src/config/user.ts hinzu",
 	[Key.weatherLocationDisabled]:
 		"Der Wetterortungsdienst wurde aufgrund der Ablehnung der Datenschutzvereinbarung deaktiviert",
 	[Key.weatherWaitingConsent]: "Warte auf Autorisierung der Wetterortung...",
@@ -514,7 +514,7 @@ export const de: Translation = {
 	[Key.twikooNotConfigured]:
 		"Twikoo-Kommentarsystem ist noch nicht konfiguriert",
 	[Key.twikooConfigHint]:
-		"Bitte konfigurieren Sie das Twikoo-Kommentarsystem in src/config.ts",
+		"Bitte konfigurieren Sie das Twikoo-Kommentarsystem in src/config/user.ts",
 	[Key.twikooPrivacyRejected]:
 		"Das Twikoo-Kommentarsystem wurde deaktiviert, da die Datenschutzvereinbarung abgelehnt wurde",
 

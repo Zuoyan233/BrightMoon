@@ -86,9 +86,9 @@ export const id: Translation = {
 	[Key.animeEmptyBilibili]:
 		"Data Bilibili kosong. Jalankan `pnpm run update-bilibili` untuk mendapatkan data",
 	[Key.animeSetBangumiUserId]:
-		"Harap atur ID pengguna Bangumi Anda di file src/config.ts",
+		"Harap atur ID pengguna Bangumi Anda di file src/config/user.ts",
 	[Key.animeSetBilibiliVmId]:
-		"Harap atur vmID Bilibili Anda di file src/config.ts",
+		"Harap atur vmID Bilibili Anda di file src/config/user.ts",
 	[Key.animeEmptyLocal]:
 		"Harap tambahkan informasi anime di file src/data/anime.ts",
 
@@ -445,7 +445,8 @@ export const id: Translation = {
 
 	// Komponen cuaca
 	[Key.weather]: "Cuaca",
-	[Key.weatherNoApiKey]: "Silakan tambahkan kunci WeatherAPI di src/config.ts",
+	[Key.weatherNoApiKey]:
+		"Silakan tambahkan kunci WeatherAPI di src/config/user.ts",
 	[Key.weatherLocationDisabled]:
 		"Layanan lokasi cuaca telah dinonaktifkan karena penolakan perjanjian privasi",
 	[Key.weatherWaitingConsent]: "Menunggu otorisasi lokasi cuaca...",
@@ -501,7 +502,7 @@ export const id: Translation = {
 	[Key.twikooInitializing]: "Menginisialisasi sistem komentar Twikoo...",
 	[Key.twikooNotConfigured]: "Sistem komentar Twikoo belum dikonfigurasi",
 	[Key.twikooConfigHint]:
-		"Silakan konfigurasi sistem komentar Twikoo di src/config.ts",
+		"Silakan konfigurasi sistem komentar Twikoo di src/config/user.ts",
 	[Key.twikooPrivacyRejected]:
 		"Sistem komentar Twikoo telah dinonaktifkan karena penolakan perjanjian privasi",
 

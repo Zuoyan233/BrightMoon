@@ -5,9 +5,13 @@ import axios from "axios";
 
 const API_BASE = "https://api.bilibili.com/x/space/bangumi/follow/list";
 const PAGE_SIZE = 30;
-const CONFIG_PATH = path.join(
+const USER_CONFIG_PATH = path.join(
 	path.dirname(fileURLToPath(import.meta.url)),
-	"../src/config.ts",
+	"../src/config/user.ts",
+);
+const DEFAULTS_CONFIG_PATH = path.join(
+	path.dirname(fileURLToPath(import.meta.url)),
+	"../src/config/defaults.ts",
 );
 const OUTPUT_FILE = path.join(
 	path.dirname(fileURLToPath(import.meta.url)),
@@ -37,78 +41,85 @@ async function withRetry(apiCall, retries = 3) {
 	}
 }
 
-async function getUserIdFromConfig() {
+async function tryReadValueFromFile(filePath, regex) {
 	try {
-		const configContent = await fs.readFile(CONFIG_PATH, "utf-8");
-		const match = configContent.match(
-			/anime:\s*\{[\s\S]*?bilibili:\s*\{[\s\S]*?vmid:\s*["']([^"']+)["']/,
-		);
-
-		if (match?.[1]) {
-			const vmid = match[1];
-			if (!vmid || vmid.trim() === "") {
-				console.warn("Warning: vmid in src/config.ts is empty.");
-				return null;
-			}
-			return vmid;
-		}
-		throw new Error("Could not find anime.bilibili.vmid in config.ts");
-	} catch (error) {
-		console.error("✘ Failed to read Bilibili vmid from config.ts");
-		throw error;
+		const configContent = await fs.readFile(filePath, "utf-8");
+		const match = configContent.match(regex);
+		return match?.[1] || null;
+	} catch {
+		return null;
 	}
+}
+
+async function getUserIdFromConfig() {
+	const vmidRegex =
+		/anime:\s*\{[\s\S]*?bilibili:\s*\{[\s\S]*?vmid:\s*["']([^"']+)["']/;
+
+	const userVmid = await tryReadValueFromFile(USER_CONFIG_PATH, vmidRegex);
+	if (userVmid && userVmid !== "your-bilibili-id" && userVmid.trim() !== "") {
+		return userVmid;
+	}
+
+	const defaultVmid = await tryReadValueFromFile(
+		DEFAULTS_CONFIG_PATH,
+		vmidRegex,
+	);
+	if (defaultVmid) {
+		console.warn(
+			"Warning: Could not find a valid bilibili vmid in user.ts, using default value.",
+		);
+		return defaultVmid;
+	}
+
+	throw new Error("Could not find anime.bilibili.vmid in config files");
 }
 
 async function getSessdataFromConfig() {
-	try {
-		const configContent = await fs.readFile(CONFIG_PATH, "utf-8");
-		const match = configContent.match(
-			/anime:\s*\{[\s\S]*?bilibili:\s*\{[\s\S]*?SESSDATA:\s*["']([^"']*)["']/,
-		);
-		return match ? match[1] : "";
-	} catch {
-		return "";
-	}
+	const regex =
+		/anime:\s*\{[\s\S]*?bilibili:\s*\{[\s\S]*?SESSDATA:\s*["']([^"']*)["']/;
+
+	const userVal = await tryReadValueFromFile(USER_CONFIG_PATH, regex);
+	if (userVal !== null) return userVal;
+
+	const defaultVal = await tryReadValueFromFile(DEFAULTS_CONFIG_PATH, regex);
+	return defaultVal || "";
 }
 
 async function getCoverMirrorFromConfig() {
-	try {
-		const configContent = await fs.readFile(CONFIG_PATH, "utf-8");
-		const match = configContent.match(
-			/anime:\s*\{[\s\S]*?bilibili:\s*\{[\s\S]*?coverMirror:\s*["']([^"']*)["']/,
-		);
-		return match ? match[1] : "";
-	} catch {
-		return "";
-	}
+	const regex =
+		/anime:\s*\{[\s\S]*?bilibili:\s*\{[\s\S]*?coverMirror:\s*["']([^"']*)["']/;
+
+	const userVal = await tryReadValueFromFile(USER_CONFIG_PATH, regex);
+	if (userVal !== null) return userVal;
+
+	const defaultVal = await tryReadValueFromFile(DEFAULTS_CONFIG_PATH, regex);
+	return defaultVal || "";
 }
 
 async function getUseWebpFromConfig() {
-	try {
-		const configContent = await fs.readFile(CONFIG_PATH, "utf-8");
-		const match = configContent.match(
-			/anime:\s*\{[\s\S]*?bilibili:\s*\{[\s\S]*?useWebp:\s*(true|false)/,
-		);
-		return match ? match[1] !== "false" : true;
-	} catch {
-		return true;
-	}
+	const regex =
+		/anime:\s*\{[\s\S]*?bilibili:\s*\{[\s\S]*?useWebp:\s*(true|false)/;
+
+	const userVal = await tryReadValueFromFile(USER_CONFIG_PATH, regex);
+	if (userVal !== null) return userVal !== "false";
+
+	const defaultVal = await tryReadValueFromFile(DEFAULTS_CONFIG_PATH, regex);
+	return defaultVal ? defaultVal !== "false" : true;
 }
 
 async function getAnimeModeFromConfig() {
-	try {
-		const configContent = await fs.readFile(CONFIG_PATH, "utf-8");
-		const match = configContent.match(
-			/anime:\s*\{[\s\S]*?mode:\s*["']([^"']+)["']/,
-		);
+	const modeRegex = /anime:\s*\{[\s\S]*?mode:\s*["']([^"']+)["']/;
 
-		if (match?.[1]) {
-			return match[1];
-		}
-		return "bangumi";
-	} catch {
-		return "bangumi";
-	}
+	const userMode = await tryReadValueFromFile(USER_CONFIG_PATH, modeRegex);
+	if (userMode) return userMode;
+
+	const defaultMode = await tryReadValueFromFile(
+		DEFAULTS_CONFIG_PATH,
+		modeRegex,
+	);
+	if (defaultMode) return defaultMode;
+
+	return "local";
 }
 
 async function getDataPage(vmid, status, typeNum = 1) {
@@ -334,7 +345,9 @@ async function main() {
 
 	const VMID = await getUserIdFromConfig();
 	if (!VMID) {
-		console.error("✘ Bilibili vmid is not set. Please set it in src/config.ts");
+		console.error(
+			"✘ Bilibili vmid is not set. Please set it in src/config/user.ts",
+		);
 		process.exit(1);
 	}
 	console.log(`Read User ID: ${VMID}`);

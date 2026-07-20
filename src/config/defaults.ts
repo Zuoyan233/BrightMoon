@@ -1,3 +1,14 @@
+/**
+ * BrightMoon 默认配置文件（升级时会被覆盖）
+ *
+ * 本文件由框架维护，包含所有配置项的默认值与字段结构定义。
+ * 升级时此文件会被直接替换，用户不应在此处修改个人配置。
+ *
+ * 用户配置请放入 src/config/user.ts，通过同名字段覆盖默认值。
+ * 用户未覆盖的字段会自动使用本文件中的默认值；
+ * 上游新增的字段会随升级自动生效，无需用户手动同步。
+ */
+
 import type {
 	AddpaymentConfig,
 	AnnouncementConfig,
@@ -11,24 +22,26 @@ import type {
 	MusicPlayerConfig,
 	NavBarConfig,
 	PermalinkConfig,
+	PioConfig,
 	ProfileConfig,
 	SakuraConfig,
 	ShareConfig,
 	SidebarLayoutConfig,
 	SiteConfig,
+	UmamiConfig,
 	UpgradeConfig,
 	VersionCheckConfig,
 	WeatherConfig,
-} from "./types/config";
-import { LinkPreset } from "./types/config";
-import { getTranslateLanguageFromConfig } from "./utils/language-utils";
+} from "../types/config";
+import { LinkPreset } from "../types/config";
+import { getTranslateLanguageFromConfig } from "../utils/language-utils";
 
 // 移除i18n导入以避免循环依赖
 
 // 定义站点语言
 const SITE_LANG = "en"; // 语言代码，例如：'en', 'zh_CN', 'zh_TW' , 'ja' , 'ar' , 'de' , 'es' , 'fr', 'id' , 'ko' , 'ru' , 'th' , 'tr' , 'vi' 等。
 const SITE_TIMEZONE = 8; //设置你的网站时区 from -12 to 12 default in UTC+8
-export const siteConfig: SiteConfig = {
+export const defaultSiteConfig: SiteConfig = {
 	title: "BrightMoon",
 	subtitle: "Modern, feature-rich static blog",
 	siteURL: "https://www.example.com/", // 请替换为你的站点URL，以斜杠结尾
@@ -214,7 +227,7 @@ export const siteConfig: SiteConfig = {
 
 		credit: {
 			enable: true, // 显示横幅图片来源文本
-			text: "图片来自：搜图神器", // 要显示的来源文本
+			text: "Image from: 搜图神器", // 要显示的来源文本
 			url: "https://www.soutushenqi.com/", // （可选）原始艺术品或艺术家页面的 URL 链接
 		},
 	},
@@ -280,7 +293,7 @@ export const siteConfig: SiteConfig = {
 	showLastModified: true, // 控制“上次编辑”卡片显示的开关
 };
 
-export const navBarConfig: NavBarConfig = {
+export const defaultNavBarConfig: NavBarConfig = {
 	links: [
 		LinkPreset.Home,
 		LinkPreset.Archive,
@@ -333,7 +346,7 @@ export const navBarConfig: NavBarConfig = {
 	],
 };
 
-export const profileConfig: ProfileConfig = {
+export const defaultProfileConfig: ProfileConfig = {
 	avatar: "assets/images/avatar.webp", // 相对于 /src 目录。如果以 '/' 开头，则相对于 /public 目录
 	name: "Zuoyan",
 	bio: "The world is so big, I want to see it.",
@@ -371,14 +384,14 @@ export const profileConfig: ProfileConfig = {
 	],
 };
 
-export const licenseConfig: LicenseConfig = {
+export const defaultLicenseConfig: LicenseConfig = {
 	enable: true,
 	name: "CC BY-NC-SA 4.0",
 	url: "https://creativecommons.org/licenses/by-nc-sa/4.0/",
 };
 
 // Permalink 固定链接配置
-export const permalinkConfig: PermalinkConfig = {
+export const defaultPermalinkConfig: PermalinkConfig = {
 	enable: false, // 是否启用全局 permalink 功能，关闭时使用默认的文件名作为链接
 	/**
 	 * permalink 格式模板
@@ -403,7 +416,7 @@ export const permalinkConfig: PermalinkConfig = {
 	format: "%postname%", // 默认使用文件名
 };
 
-export const expressiveCodeConfig: ExpressiveCodeConfig = {
+export const defaultExpressiveCodeConfig: ExpressiveCodeConfig = {
 	// 注意：某些样式（如背景颜色）已被覆盖，请参阅 astro.config.mjs 文件。
 	// 请选择深色主题，因为此博客主题目前仅支持深色背景
 	theme: "github-dark",
@@ -411,7 +424,7 @@ export const expressiveCodeConfig: ExpressiveCodeConfig = {
 	hideDuringThemeTransition: true,
 };
 
-export const commentConfig: CommentConfig = {
+export const defaultCommentConfig: CommentConfig = {
 	enable: false, // 启用评论功能。当设置为 false 时，评论组件将不会显示在文章区域。
 	twikoo: {
 		envId: "https://example-twikoo.top/",
@@ -419,29 +432,29 @@ export const commentConfig: CommentConfig = {
 	},
 };
 
-export const shareConfig: ShareConfig = {
+export const defaultShareConfig: ShareConfig = {
 	enable: true, // 启用分享功能
 };
 
-export const externalLinkConfirmConfig: ExternalLinkConfirmConfig = {
+export const defaultExternalLinkConfirmConfig: ExternalLinkConfirmConfig = {
 	enable: true, // 是否启用外部链接确认功能
 };
 
-export const contactEmailConfig: ContactEmailConfig = {
+export const defaultContactEmailConfig: ContactEmailConfig = {
 	// email填写你的电子邮箱地址，link此处填写你需要跳转到对应电子邮箱的网站，格式是 "https://example.mail.com/"。
 	emails: [
 		{
-			email: "演示邮箱1，请在src/config.ts中修改你的电子邮箱",
+			email: "演示邮箱1，请在src/config/user.ts中修改你的电子邮箱",
 			link: "https://example.mail.com/",
 		},
 		{
-			email: "演示邮箱2，请在src/config.ts中修改你的电子邮箱",
+			email: "演示邮箱2，请在src/config/user.ts中修改你的电子邮箱",
 			link: "https://example.mail.com/",
 		},
 	],
 };
 
-export const contactMethods: ContactMethods = [
+export const defaultContactMethods: ContactMethods = [
 	// method与icon是填写你的社交软件方式，qrCode是填写你的添加好友的二维码，存放路径在 "public/images/contact/" 文件夹内。
 	{
 		method: "wechat",
@@ -460,13 +473,13 @@ export const contactMethods: ContactMethods = [
 	},
 ];
 
-export const addpaymentConfig: AddpaymentConfig = {
+export const defaultAddpaymentConfig: AddpaymentConfig = {
 	// paymentQRCode: 此处存放你的赞助支付二维码，存放路径在 "public/images/sponsors" 文件夹内。
 	paymentQRCode_1: "/images/sponsors/alipay.webp",
 	paymentQRCode_2: "/images/sponsors/wechat pay.webp",
 };
 
-export const announcementConfig: AnnouncementConfig = {
+export const defaultAnnouncementConfig: AnnouncementConfig = {
 	title: "", // 公告标题，填空使用i18n字符串Key.announcement
 	content: "Welcome to BrightMoon! Modern, feature-rich static blog.", // 公告内容
 	closable: true, // 允许用户关闭公告
@@ -478,7 +491,7 @@ export const announcementConfig: AnnouncementConfig = {
 	},
 };
 
-export const musicPlayerConfig: MusicPlayerConfig = {
+export const defaultMusicPlayerConfig: MusicPlayerConfig = {
 	enable: true, // 启用音乐播放器功能
 	mode: "meting", // 音乐播放器模式，可选 "local" 或 "meting"
 	meting_api:
@@ -502,14 +515,14 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 	showLyrics: false, // 音乐播放器是否显示歌词，默认为 false (不显示)
 };
 
-export const footerConfig: FooterConfig = {
+export const defaultFooterConfig: FooterConfig = {
 	enable: true, // 是否启用Footer HTML注入功能
 	customHtml:
 		"This platform is a personal blog and is intended solely for learning and research purposes", // HTML格式的自定义页脚信息，例如备案号等，默认留空
 };
 
 // 版本检测组件配置
-export const versionCheckConfig: VersionCheckConfig = {
+export const defaultVersionCheckConfig: VersionCheckConfig = {
 	enable: true, // 是否启用版本检测按钮
 	autoCheck: true, // 是否启用自动检测更新
 
@@ -531,10 +544,11 @@ export const versionCheckConfig: VersionCheckConfig = {
 };
 
 // 框架升级工具配置
-export const upgradeConfig: UpgradeConfig = {
+export const defaultUpgradeConfig: UpgradeConfig = {
 	// 升级时受保护的文件列表，这些文件不会被新增、覆盖或删除
 	// 支持 glob 模式，如 "src/content/**" 匹配 src/content 下所有文件
 	protected: [
+		"src/config/user.ts",
 		"src/content/**",
 		"src/assets/images/**",
 		"src/data/friends.ts",
@@ -574,7 +588,7 @@ export const upgradeConfig: UpgradeConfig = {
 };
 
 // 天气组件配置
-export const weatherConfig: WeatherConfig = {
+export const defaultWeatherConfig: WeatherConfig = {
 	enable: true, // 是否启用天气组件
 	apiKey: "", // WeatherAPI API Key，在此处填写你的 Key
 	defaultLocation: "", // 默认位置，留空则根据IP自动检测当前地区
@@ -586,7 +600,7 @@ export const weatherConfig: WeatherConfig = {
  * 用于控制侧边栏组件的显示、排序、动画和响应式行为
  * sidebar: 控制组件所在的侧边栏（left 或 right）。注意：移动端通常不显示右侧栏内容。若组件设置在 right，请确保 layout.position 为 "both"。
  */
-export const sidebarLayoutConfig: SidebarLayoutConfig = {
+export const defaultSidebarLayoutConfig: SidebarLayoutConfig = {
 	// 侧边栏位置：单侧(unilateral)或双侧(both)
 	position: "both",
 
@@ -670,7 +684,7 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			// 组件类型：目录组件
 			type: "toc",
 			// 是否启用该组件
-			enable: siteConfig.toc.enable,
+			enable: defaultSiteConfig.toc.enable,
 			// 组件显示顺序
 			order: 5,
 			// 组件位置：粘性区域，滚动时保持可见
@@ -718,7 +732,7 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			// 组件类型：天气组件
 			type: "weather",
 			// 是否启用该组件
-			enable: weatherConfig.enable,
+			enable: defaultWeatherConfig.enable,
 			// 组件显示顺序
 			order: 4,
 			// 组件位置
@@ -767,7 +781,7 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 	},
 };
 
-export const sakuraConfig: SakuraConfig = {
+export const defaultSakuraConfig: SakuraConfig = {
 	enable: true, // 默认关闭樱花特效
 	sakuraNum: 10, // 樱花数量
 	limitTimes: -1, // 樱花越界限制次数，-1为无限循环
@@ -795,7 +809,7 @@ export const sakuraConfig: SakuraConfig = {
 };
 
 // Pio 看板娘配置
-export const pioConfig: import("./types/config").PioConfig = {
+export const defaultPioConfig: PioConfig = {
 	enable: true, // 启用看板娘
 	models: ["/pio/models/mikoto/mikoto.model.json"], // 默认模型路径
 	position: "left", // 模型位置
@@ -818,23 +832,12 @@ export const pioConfig: import("./types/config").PioConfig = {
 	},
 };
 
-// 导出所有配置的统一接口
-export const widgetConfigs = {
-	profile: profileConfig,
-	announcement: announcementConfig,
-	music: musicPlayerConfig,
-	layout: sidebarLayoutConfig,
-	sakura: sakuraConfig,
-	pio: pioConfig, // 添加 pio 配置
-	share: shareConfig, // 添加分享配置
-	weather: weatherConfig, // 添加天气配置
-} as const;
-
-export const umamiConfig = {
+// Umami 统计配置默认值
+export const defaultUmamiConfig: UmamiConfig = {
 	enabled: false, // 是否显示Umami统计
 	apiKey: import.meta.env.UMAMI_API_KEY || "api_xxxxxxxx", // API密钥优先从环境变量读取，否则使用配置文件中的值
 	baseUrl: "https://api.umami.is", // Umami Cloud API地址
 	scripts: `
 <script defer src="XXXX.XXX" data-website-id="ABCD1234"></script>
   `.trim(), // 上面填你要插入的Script,不用再去Layout中插入
-} as const;
+};

@@ -138,10 +138,10 @@ const I18N_DICT = {
 		fileAdd: "新增文件",
 		replaced: "直接替换",
 		configUpgradeTip:
-			"src/config.ts 已升级，原文件已备份，请手动迁移原配置，如需回滚请从备份恢复",
-		configRestoreTip: "src/config.ts 已恢复为备份版本，请检查配置是否正确",
+			"配置已升级到新架构（src/config/defaults.ts + src/config/user.ts + src/config/index.ts），旧配置文件 config.ts 或 src/config/user.ts 已备份至 backup/，请把你修改过的字段迁移到 src/config/user.ts",
+		configRestoreTip: "src/config.ts 或 src/config/user.ts 已恢复为备份版本，请检查配置是否正确",
 		configUpgradeNoBackupTip:
-			"src/config.ts 已升级，但创建备份未成功，请务必手动备份并迁移原配置",
+			"配置已升级到新架构，但创建备份未成功，请立即手动备份你的旧配置文件 config.ts 或 src/config/user.ts 并把修改过的字段迁移到 src/config/user.ts",
 		rollbackBlocked:
 			"检测到回滚操作（目标版本 {0} ≤ 当前版本 {1}），不允许降级升级，已终止。",
 		backingUp: "正在创建备份...",
@@ -236,11 +236,10 @@ const I18N_DICT = {
 		fileAdd: "New Files",
 		replaced: "Replaced",
 		configUpgradeTip:
-			"src/config.ts has been upgraded, original file backed up, please manually migrate your original config, restore from backup if needed",
-		configRestoreTip:
-			"src/config.ts has been restored to the backup version, please verify your configuration",
+			"Config upgraded to new architecture (src/config/defaults.ts + src/config/user.ts + src/config/index.ts). Old config.ts or src/config/user.ts has been backed up to backup/. Please migrate your customized fields to src/config/user.ts",
+		configRestoreTip: "src/config.ts or src/config/user.ts has been restored to the backup version, please verify your configuration",
 		configUpgradeNoBackupTip:
-			"src/config.ts has been upgraded, but backup creation failed, please manually back up and migrate your original config",
+			"Config upgraded to new architecture, but backup creation failed. Please immediately manually back up your old config.ts or src/config/user.ts and migrate your customized fields to src/config/user.ts",
 		rollbackBlocked:
 			"Rollback detected (target version {0} ≤ current version {1}), downgrade is not allowed, aborted.",
 		backingUp: "Creating backup...",
@@ -335,10 +334,10 @@ const I18N_DICT = {
 		fileAdd: "新增檔案",
 		replaced: "直接替換",
 		configUpgradeTip:
-			"src/config.ts 已升級，原檔案已備份，請手動遷移原配置，如需回滾請從備份恢復",
-		configRestoreTip: "src/config.ts 已復原為備份版本，請檢查配置是否正確",
+			"配置已升級到新架構（src/config/defaults.ts + src/config/user.ts + src/config/index.ts），舊配置檔 config.ts 或 src/config/user.ts 已備份至 backup/，請把你修改過的欄位遷移到 src/config/user.ts",
+		configRestoreTip: "src/config.ts 或 src/config/user.ts 已復原為備份版本，請檢查配置是否正確",
 		configUpgradeNoBackupTip:
-			"src/config.ts 已升級，但建立備份未成功，請務必手動備份並遷移原配置",
+			"配置已升級到新架構，但建立備份未成功，請立即手動備份你的舊配置檔 config.ts 或 src/config/user.ts 並把修改過的欄位遷移到 src/config/user.ts",
 		rollbackBlocked:
 			"偵測到回滾操作（目標版本 {0} ≤ 目前版本 {1}），不允許降級升級，已終止。",
 		backingUp: "正在建立備份...",
@@ -435,11 +434,11 @@ const I18N_DICT = {
 		fileAdd: "新規ファイル",
 		replaced: "直接置換",
 		configUpgradeTip:
-			"src/config.ts はアップグレードされました。元のファイルはバックアップ済みです。元の設定を手動で移行してください。ロールバックが必要な場合はバックアップから復元してください",
+			"設定を新アーキテクチャにアップグレードしました（src/config/defaults.ts + src/config/user.ts + src/config/index.ts）。旧設定ファイル config.ts または src/config/user.ts は backup/ にバックアップされています。変更したフィールドを src/config/user.ts に移行してください",
 		configRestoreTip:
-			"src/config.ts はバックアップ版に復元されました。設定が正しいか確認してください",
+			"src/config.ts 或 src/config/user.ts はバックアップ版に復元されました。設定が正しいか確認してください",
 		configUpgradeNoBackupTip:
-			"src/config.ts はアップグレードされましたが、バックアップの作成に失敗しました。元の設定を手動でバックアップし、移行してください",
+			"設定を新アーキテクチャにアップグレードしましたが、バックアップの作成に失敗しました。直ちに旧設定ファイル config.ts または src/config/user.ts を手動でバックアップし、変更したフィールドを src/config/user.ts に移行してください",
 		rollbackBlocked:
 			"ロールバックが検出されました（ターゲットバージョン {0} ≤ 現在のバージョン {1}）、ダウングレードは許可されていません、中止しました。",
 		backingUp: "バックアップを作成中...",
@@ -1139,29 +1138,114 @@ let _cachedUpgradeConfig = null;
 let _upgradeConfigResolved = false;
 
 /**
- * 从 src/config.ts 解析升级配置
- * 包含 protected（受保护文件）、ignore（忽略文件）、httpTimeout（超时）
+ * 读取新架构下的配置源码（config/user.ts 优先 + config/defaults.ts 兜底）
+ *
+ * 用户的覆盖项优先于默认值。旧版本用户没有 user 文件时，
+ * 自动回退读取 src/config.ts 中的字面量配置。
+ *
+ * @returns {{defaultsSrc: string, userSrc: string, legacySrc: string}}
+ */
+
+function readConfigSources() {
+	// 新架构路径：src/config/defaults.ts + src/config/user.ts
+	// 旧架构路径（兼容）：src/config.ts 单文件
+	const defaultsPath = path.join(ROOT, "src/config/defaults.ts");
+	const userPath = path.join(ROOT, "src/config/user.ts");
+	const legacyPath = path.join(ROOT, "src/config.ts");
+
+	let defaultsSrc = "";
+	let userSrc = "";
+	let legacySrc = "";
+
+	if (fs.existsSync(defaultsPath)) {
+		try {
+			defaultsSrc = fs.readFileSync(defaultsPath, "utf-8");
+		} catch (e) {
+			debugLog("readConfigSources:defaults", e);
+		}
+	}
+	if (fs.existsSync(userPath)) {
+		try {
+			userSrc = fs.readFileSync(userPath, "utf-8");
+		} catch (e) {
+			debugLog("readConfigSources:user", e);
+		}
+	}
+	// src/config.ts 在新架构下只是合并入口，不再含字面量配置；
+	// 仅当它不含 "./defaults" 导入时，才视为旧版字面量配置文件
+	if (fs.existsSync(legacyPath)) {
+		try {
+			const src = fs.readFileSync(legacyPath, "utf-8");
+			if (!/from\s+['"]\.\/config\/defaults['"]/.test(src)) {
+				legacySrc = src;
+			}
+		} catch (e) {
+			debugLog("readConfigSources:legacy", e);
+		}
+	}
+
+	return { defaultsSrc, userSrc, legacySrc };
+}
+
+/**
+ * 从源码列表中提取首个非空字符串值（按优先级顺序）
+ * @param {string[]} srcs - 源码列表（前者优先）
+ * @param {string} key - 配置键名
+ * @returns {string|null}
+ */
+function extractStringValueFromSources(srcs, key) {
+	for (const src of srcs) {
+		if (!src) continue;
+		const val = extractStringValue(src, key);
+		if (val) return val;
+	}
+	return null;
+}
+
+/**
+ * 从源码列表中合并字符串数组（去重，前者优先）
+ * @param {string[]} srcs - 源码列表
+ * @param {string} key - 配置键名
+ * @returns {string[]}
+ */
+function extractStringArrayFromSources(srcs, key) {
+	const result = [];
+	const seen = new Set();
+	for (const src of srcs) {
+		if (!src) continue;
+		const list = extractStringArray(src, key);
+		if (!list) continue;
+		for (const item of list) {
+			if (!seen.has(item)) {
+				seen.add(item);
+				result.push(item);
+			}
+		}
+	}
+	return result;
+}
+
+/**
+ * 解析升级配置（protected、ignore、httpTimeout）
  * @returns {{protected: string[], ignore: string[], httpTimeout: number}|null}
  */
 function getUpgradeConfig() {
 	if (_upgradeConfigResolved) return _cachedUpgradeConfig;
-	const configPath = path.join(ROOT, "src/config.ts");
-	if (!fs.existsSync(configPath)) {
-		_cachedUpgradeConfig = null;
-		_upgradeConfigResolved = true;
-		return null;
-	}
-	const src = fs.readFileSync(configPath, "utf-8");
-	const protectedList = extractStringArray(src, "protected");
-	const ignoreList = extractStringArray(src, "ignore");
-	const timeoutStr = extractStringValue(src, "httpTimeout");
+	const { defaultsSrc, userSrc, legacySrc } = readConfigSources();
+	// 用户覆盖优先：先扫 user，再扫 defaults，最后扫 legacy
+	const srcsByPriority = [userSrc, defaultsSrc, legacySrc];
+
+	const protectedList = extractStringArrayFromSources(srcsByPriority, "protected");
+	const ignoreList = extractStringArrayFromSources(srcsByPriority, "ignore");
+	const timeoutStr = extractStringValueFromSources(srcsByPriority, "httpTimeout");
 	const httpTimeout = timeoutStr ? Number.parseInt(timeoutStr, 10) : null;
-	if (!protectedList && !ignoreList && !httpTimeout) {
+
+	if (!protectedList.length && !ignoreList.length && !httpTimeout) {
 		_cachedUpgradeConfig = null;
 	} else {
 		_cachedUpgradeConfig = {
-			protected: protectedList || [],
-			ignore: ignoreList || [],
+			protected: protectedList.length ? protectedList : [],
+			ignore: ignoreList.length ? ignoreList : [],
 			httpTimeout: httpTimeout || 30_000,
 		};
 	}
@@ -1169,28 +1253,32 @@ function getUpgradeConfig() {
 	return _cachedUpgradeConfig;
 }
 
-/** 从 src/config.ts 解析 API URL */
+/**
+ * 解析 API URL（用户覆盖优先）
+ * @returns {string}
+ */
 function getApiUrlFromConfig() {
-	const configPath = path.join(ROOT, "src/config.ts");
-	if (!fs.existsSync(configPath)) return FALLBACK_API_URL;
-	const src = fs.readFileSync(configPath, "utf-8");
-	return extractStringValue(src, "apiUrl") || FALLBACK_API_URL;
+	const { defaultsSrc, userSrc, legacySrc } = readConfigSources();
+	return (
+		extractStringValueFromSources([userSrc, defaultsSrc, legacySrc], "apiUrl") ||
+		FALLBACK_API_URL
+	);
 }
 
 let _cachedPrefixPattern = null;
 let _prefixPatternResolved = false;
 
-/** 从 src/config.ts 解析版本号前缀正则模式 */
+/**
+ * 解析版本号前缀正则模式（用户覆盖优先）
+ * @returns {string|null}
+ */
 function getVersionPrefixPattern() {
 	if (_prefixPatternResolved) return _cachedPrefixPattern;
-	const configPath = path.join(ROOT, "src/config.ts");
-	if (!fs.existsSync(configPath)) {
-		_cachedPrefixPattern = null;
-		_prefixPatternResolved = true;
-		return null;
-	}
-	const src = fs.readFileSync(configPath, "utf-8");
-	_cachedPrefixPattern = extractStringValue(src, "versionPrefixPattern");
+	const { defaultsSrc, userSrc, legacySrc } = readConfigSources();
+	_cachedPrefixPattern = extractStringValueFromSources(
+		[userSrc, defaultsSrc, legacySrc],
+		"versionPrefixPattern",
+	);
 	_prefixPatternResolved = true;
 	return _cachedPrefixPattern;
 }
@@ -2497,20 +2585,25 @@ async function main() {
 	}
 	isInstallingDeps = false;
 
+	// 检测配置文件架构版本（新架构：src/config/ 目录，旧架构：src/config.ts 单文件）
 	const configTsPath = path.join(ROOT, "src/config.ts");
-	if (fs.existsSync(configTsPath)) {
-		if (isRestoreBackup) {
-			log(I18n("configRestoreTip"), "info");
-		} else {
-			log(
-				I18n(
-					backupName || hasExistingBackup()
-						? "configUpgradeTip"
-						: "configUpgradeNoBackupTip",
-				),
-				"info",
-			);
-		}
+	const configIndexPath = path.join(ROOT, "src/config/index.ts");
+
+	const hasNewArch = fs.existsSync(configIndexPath);
+	const hasOldArch = fs.existsSync(configTsPath);
+
+	if (isRestoreBackup) {
+		log(I18n("configRestoreTip"), "info");
+	} else if (hasNewArch || hasOldArch) {
+		// 新架构已就位：src/config/{index,defaults,user}.ts
+		log(
+			I18n(
+				backupName || hasExistingBackup()
+					? "configUpgradeTip"
+					: "configUpgradeNoBackupTip",
+			),
+			"info",
+		);
 	}
 
 	if (isRestoreBackup) {

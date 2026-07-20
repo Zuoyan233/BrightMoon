@@ -86,8 +86,9 @@ export const zh_CN: Translation = {
 	[Key.animeEmptyBilibili]:
 		"Bilibili 数据为空，请运行 pnpm run update-bilibili 获取数据",
 	[Key.animeSetBangumiUserId]:
-		"请在 src/config.ts 文件中设置你的 Bangumi userID",
-	[Key.animeSetBilibiliVmId]: "请在 src/config.ts 文件中设置你的 Bilibili vmID",
+		"请在 src/config/user.ts 文件中设置你的 Bangumi userID",
+	[Key.animeSetBilibiliVmId]:
+		"请在 src/config/user.ts 文件中设置你的 Bilibili vmID",
 	[Key.animeEmptyLocal]: "请在 src/data/anime.ts 文件中添加番剧信息",
 
 	// 短文页面
@@ -427,7 +428,7 @@ export const zh_CN: Translation = {
 
 	// 天气组件
 	[Key.weather]: "天气",
-	[Key.weatherNoApiKey]: "请在 src/config.ts 中添加 WeatherAPI 密钥",
+	[Key.weatherNoApiKey]: "请在 src/config/user.ts 中添加 WeatherAPI 密钥",
 	[Key.weatherLocationDisabled]: "因拒绝隐私协议，天气定位服务已关闭",
 	[Key.weatherWaitingConsent]: "等待天气定位授权...",
 	[Key.weatherDefaultLocationHint]:
@@ -480,7 +481,7 @@ export const zh_CN: Translation = {
 	// Twikoo 评论系统
 	[Key.twikooInitializing]: "正在初始化 Twikoo 评论系统...",
 	[Key.twikooNotConfigured]: "Twikoo 评论系统暂未配置",
-	[Key.twikooConfigHint]: "请在 src/config.ts 中配置 Twikoo 评论系统",
+	[Key.twikooConfigHint]: "请在 src/config/user.ts 中配置 Twikoo 评论系统",
 	[Key.twikooPrivacyRejected]: "因拒绝隐私协议，Twikoo 评论系统已关闭",
 
 	// 版本更新检测

@@ -86,8 +86,9 @@ export const zh_TW: Translation = {
 	[Key.animeEmptyBilibili]:
 		"Bilibili 數據為空，請執行 pnpm run update-bilibili 獲取數據",
 	[Key.animeSetBangumiUserId]:
-		"請在 src/config.ts 檔案中設定你的 Bangumi userID",
-	[Key.animeSetBilibiliVmId]: "請在 src/config.ts 檔案中設定你的 Bilibili vmID",
+		"請在 src/config/user.ts 檔案中設定你的 Bangumi userID",
+	[Key.animeSetBilibiliVmId]:
+		"請在 src/config/user.ts 檔案中設定你的 Bilibili vmID",
 	[Key.animeEmptyLocal]: "請在 src/data/anime.ts 檔案中新增番劇資訊",
 
 	// 短文頁面
@@ -427,7 +428,7 @@ export const zh_TW: Translation = {
 
 	// 天氣組件
 	[Key.weather]: "天氣",
-	[Key.weatherNoApiKey]: "請在 src/config.ts 中添加 WeatherAPI 金鑰",
+	[Key.weatherNoApiKey]: "請在 src/config/user.ts 中添加 WeatherAPI 金鑰",
 	[Key.weatherLocationDisabled]: "因拒絕隱私協議，天氣定位服務已關閉",
 	[Key.weatherWaitingConsent]: "等待天氣定位授權...",
 	[Key.weatherDefaultLocationHint]:
@@ -480,7 +481,7 @@ export const zh_TW: Translation = {
 	// Twikoo 留言系統
 	[Key.twikooInitializing]: "正在初始化 Twikoo 留言系統...",
 	[Key.twikooNotConfigured]: "Twikoo 留言系統暫未配置",
-	[Key.twikooConfigHint]: "請在 src/config.ts 中配置 Twikoo 留言系統",
+	[Key.twikooConfigHint]: "請在 src/config/user.ts 中配置 Twikoo 留言系統",
 	[Key.twikooPrivacyRejected]: "因拒絕隱私协议，Twikoo 留言系統已關閉",
 
 	// 版本更新檢測

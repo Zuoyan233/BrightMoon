@@ -86,9 +86,9 @@ export const ar: Translation = {
 	[Key.animeEmptyBilibili]:
 		"بيانات Bilibili فارغة. يرجى تشغيل `pnpm run update-bilibili` للحصول على البيانات",
 	[Key.animeSetBangumiUserId]:
-		"يرجى تعيين معرف مستخدم Bangumi الخاص بك في ملف src/config.ts",
+		"يرجى تعيين معرف مستخدم Bangumi الخاص بك في ملف src/config/user.ts",
 	[Key.animeSetBilibiliVmId]:
-		"يرجى تعيين معرف vm الخاص بـ Bilibili في ملف src/config.ts",
+		"يرجى تعيين معرف vm الخاص بـ Bilibili في ملف src/config/user.ts",
 	[Key.animeEmptyLocal]: "يرجى إضافة معلومات الأنمي في ملف src/data/anime.ts",
 
 	// صفحة اليوميات
@@ -437,7 +437,7 @@ export const ar: Translation = {
 
 	// مكون الطقس
 	[Key.weather]: "الطقس",
-	[Key.weatherNoApiKey]: "يرجى إضافة مفتاح WeatherAPI في src/config.ts",
+	[Key.weatherNoApiKey]: "يرجى إضافة مفتاح WeatherAPI في src/config/user.ts",
 	[Key.weatherLocationDisabled]:
 		"تتم تعطيل خدمة تحديد المواقع للطقس بسبب رفض اتفاقية الخصوصية",
 	[Key.weatherWaitingConsent]: "ففي انتظار التفويض لتحديد مواقع الطقس...",
@@ -491,7 +491,8 @@ export const ar: Translation = {
 	// نظام التعليقات Twikoo
 	[Key.twikooInitializing]: "جارٍ تهيئة نظام تعليقات Twikoo...",
 	[Key.twikooNotConfigured]: "نظام التعليقات Twikoo لم يتم تكوينه بعد",
-	[Key.twikooConfigHint]: "يرجى تكوين نظام التعليقات Twikoo في src/config.ts",
+	[Key.twikooConfigHint]:
+		"يرجى تكوين نظام التعليقات Twikoo في src/config/user.ts",
 	[Key.twikooPrivacyRejected]:
 		"تمم تعطيل نظام تعليقات Twikoo بسبب رفض اتفاقية الخصوصية",
 

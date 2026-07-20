@@ -87,9 +87,9 @@ export const tr: Translation = {
 	[Key.animeEmptyBilibili]:
 		"Bilibili verisi boş. Veri almak için lütfen `pnpm run update-bilibili` komutunu çalıştırın",
 	[Key.animeSetBangumiUserId]:
-		"Lütfen src/config.ts dosyasında Bangumi kullanıcı kimliğinizi ayarlayın",
+		"Lütfen src/config/user.ts dosyasında Bangumi kullanıcı kimliğinizi ayarlayın",
 	[Key.animeSetBilibiliVmId]:
-		"Lütfen src/config.ts dosyasında Bilibili vm kimliğinizi ayarlayın",
+		"Lütfen src/config/user.ts dosyasında Bilibili vm kimliğinizi ayarlayın",
 	[Key.animeEmptyLocal]:
 		"Lütfen src/data/anime.ts dosyasına anime bilgisi ekleyin",
 
@@ -452,7 +452,7 @@ export const tr: Translation = {
 	// Hava durumu bileşeni
 	[Key.weather]: "Hava Durumu",
 	[Key.weatherNoApiKey]:
-		"Lütfen src/config.ts dosyasına WeatherAPI anahtarını ekleyin",
+		"Lütfen src/config/user.ts dosyasına WeatherAPI anahtarını ekleyin",
 	[Key.weatherLocationDisabled]:
 		"Gizlilik sözleşmesinin reddedilmesi nedeniyle hava durumu konum hizmeti devre dışı bırakıldı",
 	[Key.weatherWaitingConsent]: "Hava durumu konum yetkisi bekleniyor...",
@@ -508,7 +508,7 @@ export const tr: Translation = {
 	[Key.twikooInitializing]: "Twikoo yorum sistemi başlatılıyor...",
 	[Key.twikooNotConfigured]: "Twikoo yorum sistemi henüz yapılandırılmadı",
 	[Key.twikooConfigHint]:
-		"Lütfen Twikoo yorum sistemini src/config.ts dosyasında yapılandırın",
+		"Lütfen Twikoo yorum sistemini src/config/user.ts dosyasında yapılandırın",
 	[Key.twikooPrivacyRejected]:
 		"Gizlilik sözleşmesinin reddedilmesi nedeniyle Twikoo yorum sistemi kapatılmıştır",
 

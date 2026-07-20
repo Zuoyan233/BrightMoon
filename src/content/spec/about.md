@@ -16,8 +16,7 @@ In Chinese culture, the "Bright Moon" symbolizes clarity, fulfillment, and const
 
 ### 🔧 Component Configuration System Refactor
 
-- **Configuration Integration:** All component configuration items are centrally integrated into `src/config.ts` for unified management.
-- **Album Logic Refactor:** Refactored hidden album logic, fixing access issues via direct links.
+- **Configuration Architecture:** Split into three layers: `src/config/defaults.ts` (upstream defaults, auto-updated on upgrade), `src/config/user.ts` (user configuration, protected on upgrade), and `src/config/index.ts` (merge entry). Edit only `src/config/user.ts`.
 - **Responsive Layout Adaptation:** Components support responsive layouts that automatically adjust based on device type.
 
 ### 📐 Layout System Optimization
@@ -92,6 +91,6 @@ In Chinese culture, the "Bright Moon" symbolizes clarity, fulfillment, and const
 - **Cookie Consent** - Cookie privacy policy banner with accept/deny support; auto-clears non-essential cookies on denial.
 - **Site Statistics** - Real-time display of current date (with multi-region format support), season, and time period.
 - **Framework Update Checker** - Automatically detects new BrightMoon releases via remote repository API, supports stable and pre-release detection, with prompt dialogs for updates.
-- **Framework Upgrade Tool** - Supports both online and local upgrades, with automatic project backup and rollback prevention before updating, and automatic dependency installation and temporary file cleanup after upgrading.
+- **Framework Upgrade Tool** - Supports both online and local upgrades, with automatic backup creation and rollback prevention before updating, and automatic dependency installation and temporary file cleanup after upgrading; supports manual backup creation and project restoration from backups.
 
 ---

@@ -566,3 +566,10 @@ export type UpgradeConfig = {
 	ignore: string[]; // 升级时忽略的文件列表，这些文件不参与同步
 	httpTimeout: number; // HTTP 请求超时时间（毫秒）
 };
+
+export type UmamiConfig = {
+	enabled: boolean; // 是否启用 Umami 统计
+	apiKey: string; // Umami API 密钥
+	baseUrl: string; // Umami API 基础地址
+	scripts: string; // 要插入的统计脚本
+};

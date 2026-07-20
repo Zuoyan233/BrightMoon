@@ -86,8 +86,9 @@ export const th: Translation = {
 	[Key.animeEmptyBilibili]:
 		"ไม่มีข้อมูลจาก Bilibili กรุณารัน `pnpm run update-bilibili` เพื่อดึงข้อมูล",
 	[Key.animeSetBangumiUserId]:
-		"กรุณาตั้งค่า Bangumi userID ของคุณในไฟล์ src/config.ts",
-	[Key.animeSetBilibiliVmId]: "กรุณาตั้งค่า Bilibili vmID ของคุณในไฟล์ src/config.ts",
+		"กรุณาตั้งค่า Bangumi userID ของคุณในไฟล์ src/config/user.ts",
+	[Key.animeSetBilibiliVmId]:
+		"กรุณาตั้งค่า Bilibili vmID ของคุณในไฟล์ src/config/user.ts",
 	[Key.animeEmptyLocal]: "กรุณาเพิ่มข้อมูลอนิเมะในไฟล์ src/data/anime.ts",
 
 	// หน้าไดอารี่
@@ -428,7 +429,7 @@ export const th: Translation = {
 
 	// ส่วนประกอบสภาพอากาศ
 	[Key.weather]: "สภาพอากาศ",
-	[Key.weatherNoApiKey]: "กรุณาเพิ่มคีย์ WeatherAPI ใน src/config.ts",
+	[Key.weatherNoApiKey]: "กรุณาเพิ่มคีย์ WeatherAPI ใน src/config/user.ts",
 	[Key.weatherLocationDisabled]:
 		"บริการระบุตำแหน่งสภาพอากาศถูกปิดใช้งานเนื่องจากการปฏิเสธข้อตกลงความเป็นส่วนตัว",
 	[Key.weatherWaitingConsent]: "กำลังรอการอนุญาตระบุตำแหน่งสภาพอากาศ...",
@@ -482,7 +483,8 @@ export const th: Translation = {
 	// ระบบความคิดเห็น Twikoo
 	[Key.twikooInitializing]: "กำลังเริ่มต้นระบบความคิดเห็น Twikoo...",
 	[Key.twikooNotConfigured]: "ระบบความคิดเห็น Twikoo ยังไม่ได้กำหนดค่า",
-	[Key.twikooConfigHint]: "โปรดกำหนดค่าระบบความคิดเห็น Twikoo ใน src/config.ts",
+	[Key.twikooConfigHint]:
+		"โปรดกำหนดค่าระบบความคิดเห็น Twikoo ใน src/config/user.ts",
 	[Key.twikooPrivacyRejected]:
 		"ระบบความคิดเห็น Twikoo ถูกปิดใช้งานเนื่องจากการปฏิเสธข้อตกลงความเป็นส่วนตัว",
 

@@ -88,9 +88,9 @@ export const fr: Translation = {
 	[Key.animeEmptyBilibili]:
 		"Les données Bilibili sont vides. Veuillez exécuter `pnpm run update-bilibili` pour obtenir les données",
 	[Key.animeSetBangumiUserId]:
-		"Veuillez définir votre ID utilisateur Bangumi dans le fichier src/config.ts",
+		"Veuillez définir votre ID utilisateur Bangumi dans le fichier src/config/user.ts",
 	[Key.animeSetBilibiliVmId]:
-		"Veuillez définir votre vmID Bilibili dans le fichier src/config.ts",
+		"Veuillez définir votre vmID Bilibili dans le fichier src/config/user.ts",
 	[Key.animeEmptyLocal]:
 		"Veuillez ajouter les informations d'anime dans le fichier src/data/anime.ts",
 
@@ -461,7 +461,7 @@ export const fr: Translation = {
 	// Composant météo
 	[Key.weather]: "Météo",
 	[Key.weatherNoApiKey]:
-		"Veuillez ajouter la clé WeatherAPI dans src/config.ts",
+		"Veuillez ajouter la clé WeatherAPI dans src/config/user.ts",
 	[Key.weatherLocationDisabled]:
 		"Le service de localisation météo a été désactivé en raison du refus de l'accord de confidentialité",
 	[Key.weatherWaitingConsent]:
@@ -520,7 +520,7 @@ export const fr: Translation = {
 	[Key.twikooNotConfigured]:
 		"Le système de commentaires Twikoo n'est pas encore configuré",
 	[Key.twikooConfigHint]:
-		"Veuillez configurer le système de commentaires Twikoo dans src/config.ts",
+		"Veuillez configurer le système de commentaires Twikoo dans src/config/user.ts",
 	[Key.twikooPrivacyRejected]:
 		"Le système de commentaires Twikoo a été désactivé en raison du refus de l'accord de confidentialité",
 

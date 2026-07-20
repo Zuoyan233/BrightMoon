@@ -49,7 +49,7 @@ BrightMoon 是一款融合现代简约与优雅气质的独特二次元美学静
 
 ### 🔧 组件配置系统重构
 
-- **统一配置整合：** 全部组件配置项集中整合到 `src/config.ts` 中，统一管理。
+- **分层配置架构：** 配置拆分为三层：`src/config/defaults.ts`（上游默认值，升级时自动更新）、`src/config/user.ts`（用户配置，升级时受保护）、`src/config/index.ts`（合并入口）。仅需编辑 `src/config/user.ts`。
 - **响应式布局适配：** 组件支持响应式布局，可根据设备类型自动调整显示。
 
 ### 📐 布局系统优化
@@ -130,14 +130,18 @@ BrightMoon 是一款融合现代简约与优雅气质的独特二次元美学静
 
 ## ⚡ 如何运行该项目？
 
-1. **克隆仓库：**
+1. **安装 Node.js ：** 项目要求 Node.js 22 或更高版本。
+
+2. **安装 Git：** 项目使用 Git 进行版本控制，确保已安装并配置好。
+
+3. **克隆仓库：**
 
    ```bash
    git clone https://github.com/Zuoyan233/BrightMoon.git
    cd BrightMoon
    ```
 
-2. **安装依赖：**
+4. **安装依赖：**
 
    ```bash
    # 如果没有安装 pnpm，先安装
@@ -147,13 +151,13 @@ BrightMoon 是一款融合现代简约与优雅气质的独特二次元美学静
    pnpm install
    ```
 
-3. **配置博客：**
+5. **配置博客：**
 
-- 编辑 `src/config.ts` 自定义博客设置。
+- 编辑 `src/config/user.ts` 自定义博客设置。
 - 更新站点信息、主题色彩、横幅图片和社交链接。
 - 配置特色页面功能。
 
-4. **特色页面配置：**
+6. **特色页面配置：**
 
 - **追番页面：** 在 `src/pages/anime.astro` 中编辑动画列表。
 - **友链页面：** 在 `src/content/spec/friends.md` 中编辑朋友数据。
@@ -162,15 +166,15 @@ BrightMoon 是一款融合现代简约与优雅气质的独特二次元美学静
 - **日记页面：** 在 `src/data/diary.ts` 中编辑动态。
 - **关于页面：** 在 `src/content/spec/about.md` 中编辑内容。
 - **赞助页面：** 在 `src/content/spec/sponsors.md` 中编辑内容。
-  - 在 `src/config.ts` 中找到 `addpaymentConfig` 配置支付二维码，支付二维码存放路径在 `public/images/sponsors` 内。
+  - 在 `src/config/user.ts` 中找到 `addpaymentConfig` 配置支付二维码，支付二维码存放路径在 `public/images/sponsors` 内。
 - **反馈页面：** 在 `src/content/spec/feedback.md` 中编辑内容。
-  - 在 `src/config.ts` 中找到 `contactEmailConfig` 配置站长电子邮箱联系方式。
-  - 在 `src/config.ts` 中找到 `addfriendConfig` 配置添加好友二维码，好友二维码存放路径在 `public/images/contact` 内。
+  - 在 `src/config/user.ts` 中找到 `contactEmailConfig` 配置站长电子邮箱联系方式。
+  - 在 `src/config/user.ts` 中找到 `addfriendConfig` 配置添加好友二维码，好友二维码存放路径在 `public/images/contact` 内。
 - **项目展示页面：** 在 `src/data/projects.ts` 中编辑展示的内容。
 - **技能展示页面：** 在 `src/data/skills.ts` 中编辑展示的内容。
 - **时间线页面：** 在 `src/data/timeline.ts` 中编辑展示的内容。
 
-5. **文章内容管理：**
+7. **文章内容管理：**
 
 - **创建新文章：** `pnpm new-post <文件名>`。
 - **编辑文章：** 修改 `src/content/posts/` 中的文件。
@@ -187,11 +191,11 @@ Frontmatter 字段说明：
 - **tags**: 标签数组，用于分类
 - **category**: 文章分类
 - **draft**: 设置为 `true` 在生产环境中隐藏文章
-- **comment**: 设置为 `true` 或 `false` 可控制当前文章的评论开关（需先在 `src/config.ts` 中开启 Twikoo 评论系统）
+- **comment**: 设置为 `true` 或 `false` 可控制当前文章的评论开关（需先在 `src/config/user.ts` 中开启 Twikoo 评论系统）
 - **pinned**: 设置为 `true` 将文章置顶
 - **lang**: 文章语言（仅当与站点默认语言不同时设置）
 
-6. **启动开发服务器：**
+8. **启动开发服务器：**
 
    ```bash
    pnpm dev
@@ -199,7 +203,7 @@ Frontmatter 字段说明：
 
    博客将在 `http://localhost:4321` 可用。
 
-7. **升级 BrightMoon 博客框架（可选）：**
+9. **升级 BrightMoon 博客框架（可选）：**
 
    当有新版本发布时，可使用内置升级工具进行升级：
 
@@ -213,9 +217,9 @@ Frontmatter 字段说明：
    - **创建备份** - 手动创建项目完整备份，备份文件保存在 `backup` 目录中。
    - **恢复备份** - 从 `backup` 目录中选择备份文件恢复项目。
 
-   升级前会自动创建备份并检测防回滚，升级完成后会自动运行 `pnpm install` 安装新依赖并清理临时文件。如 `src/config.ts` 有变更，原文件会自动备份，请手动迁移配置。
+   升级前会自动创建备份并检测防回滚，升级完成后会自动运行 `pnpm install` 安装新依赖并清理临时文件。`src/config/user.ts` 中的用户配置升级时受保护，无需手动迁移；`src/config/defaults.ts` 中的上游默认值会自动更新。
 
-8. **所有命令都在项目根目录运行：**
+10. **所有命令都在项目根目录运行：**
 
 | 命令                      | 操作                                   |
 | :------------------------ | :------------------------------------- |

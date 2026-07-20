@@ -87,9 +87,9 @@ export const vi: Translation = {
 	[Key.animeEmptyBilibili]:
 		"Dữ liệu Bilibili trống. Vui lòng chạy `pnpm run update-bilibili` để lấy dữ liệu",
 	[Key.animeSetBangumiUserId]:
-		"Vui lòng thiết lập Bangumi userID của bạn trong tệp src/config.ts",
+		"Vui lòng thiết lập Bangumi userID của bạn trong tệp src/config/user.ts",
 	[Key.animeSetBilibiliVmId]:
-		"Vui lòng thiết lập Bilibili vmID của bạn trong tệp src/config.ts",
+		"Vui lòng thiết lập Bilibili vmID của bạn trong tệp src/config/user.ts",
 	[Key.animeEmptyLocal]:
 		"Vui lòng thêm thông tin anime trong tệp src/data/anime.ts",
 
@@ -445,7 +445,8 @@ export const vi: Translation = {
 
 	// Thành phần thời tiết
 	[Key.weather]: "Thời tiết",
-	[Key.weatherNoApiKey]: "Vui lòng thêm khóa WeatherAPI trong src/config.ts",
+	[Key.weatherNoApiKey]:
+		"Vui lòng thêm khóa WeatherAPI trong src/config/user.ts",
 	[Key.weatherLocationDisabled]:
 		"Dịch vụ định vị thời tiết đã bị tắt do từ chối thỏa thuận quyền riêng tư",
 	[Key.weatherWaitingConsent]: "Đang chờ cấp quyền định vị thời tiết...",
@@ -501,7 +502,7 @@ export const vi: Translation = {
 	[Key.twikooInitializing]: "Đang khởi tạo hệ thống bình luận Twikoo...",
 	[Key.twikooNotConfigured]: "Hệ thống bình luận Twikoo chưa được cấu hình",
 	[Key.twikooConfigHint]:
-		"Vui lòng cấu hình hệ thống bình luận Twikoo trong src/config.ts",
+		"Vui lòng cấu hình hệ thống bình luận Twikoo trong src/config/user.ts",
 	[Key.twikooPrivacyRejected]:
 		"Hệ thống bình luận Twikoo đã bị tắt do từ chối thỏa thuận quyền riêng tư",
 

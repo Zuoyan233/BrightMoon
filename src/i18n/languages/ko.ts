@@ -86,9 +86,9 @@ export const ko: Translation = {
 	[Key.animeEmptyBilibili]:
 		"Bilibili 데이터가 비어 있습니다. `pnpm run update-bilibili`를 실행하여 데이터를 가져오세요",
 	[Key.animeSetBangumiUserId]:
-		"src/config.ts 파일에 Bangumi 사용자 ID를 설정해주세요",
+		"src/config/user.ts 파일에 Bangumi 사용자 ID를 설정해주세요",
 	[Key.animeSetBilibiliVmId]:
-		"src/config.ts 파일에 Bilibili vmID를 설정해주세요",
+		"src/config/user.ts 파일에 Bilibili vmID를 설정해주세요",
 	[Key.animeEmptyLocal]:
 		"src/data/anime.ts 파일에 애니메이션 정보를 추가해주세요",
 
@@ -439,7 +439,7 @@ export const ko: Translation = {
 
 	// 날씨 컴포넌트
 	[Key.weather]: "날씨",
-	[Key.weatherNoApiKey]: "src/config.ts 에 WeatherAPI 키를 추가하세요",
+	[Key.weatherNoApiKey]: "src/config/user.ts 에 WeatherAPI 키를 추가하세요",
 	[Key.weatherLocationDisabled]:
 		"개인정보 계약을 거부하여 날씨 위치 서비스가 비활성화되었습니다",
 	[Key.weatherWaitingConsent]: "날씨 위치 권한을 기다리는 중...",
@@ -493,7 +493,8 @@ export const ko: Translation = {
 	// Twikoo 댓글 시스템
 	[Key.twikooInitializing]: "Twikoo 댓글 시스템 초기화 중...",
 	[Key.twikooNotConfigured]: "Twikoo 댓글 시스템이 아직 구성되지 않았습니다",
-	[Key.twikooConfigHint]: "src/config.ts 에서 Twikoo 댓글 시스템을 구성하세요",
+	[Key.twikooConfigHint]:
+		"src/config/user.ts 에서 Twikoo 댓글 시스템을 구성하세요",
 	[Key.twikooPrivacyRejected]:
 		"개인정보 계약을 거부하여 Twikoo 댓글 시스템이 비활성화되었습니다",
 

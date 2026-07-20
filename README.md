@@ -49,7 +49,7 @@ This project is a customized extension based on Mizuki V8.2, with version number
 
 ### 🔧 Component Configuration System Refactor
 
-- **Configuration Integration:** All component configuration items are centrally integrated into `src/config.ts` for unified management.
+- **Configuration Architecture:** Split into three layers: `src/config/defaults.ts` (upstream defaults, auto-updated on upgrade), `src/config/user.ts` (user configuration, protected on upgrade), and `src/config/index.ts` (merge entry). Edit only `src/config/user.ts`.
 - **Responsive Layout Adaptation:** Components support responsive layouts that automatically adjust based on device type.
 
 ### 📐 Layout System Optimization
@@ -128,16 +128,20 @@ This project is a customized extension based on Mizuki V8.2, with version number
 
 ---
 
-## ⚡ How to Run
+## ⚡ How to Run This Project?
 
-1. **Clone the repository:**
+1. **Install Node.js:** This project requires Node.js 22 or higher.
+
+2. **Install Git:** This project uses Git for version control, ensure it is installed and configured.
+
+3. **Clone the repository:**
 
    ```bash
    git clone https://github.com/Zuoyan233/BrightMoon.git
    cd BrightMoon
    ```
 
-2. **Install dependencies:**
+4. **Install dependencies:**
 
    ```bash
    # Install pnpm if not already installed
@@ -147,13 +151,13 @@ This project is a customized extension based on Mizuki V8.2, with version number
    pnpm install
    ```
 
-3. **Configure the blog:**
+5. **Configure the blog:**
 
-- Edit `src/config.ts` to customize blog settings.
+- Edit `src/config/user.ts` to customize blog settings.
 - Update site information, theme colors, banner images, and social links.
 - Configure special page features.
 
-4. **Special page configuration:**
+6. **Special page configuration:**
 
 - **Anime Page:** Edit the anime list in `src/pages/anime.astro`.
 - **Friends Page:** Edit friend data in `src/content/spec/friends.md`.
@@ -162,15 +166,15 @@ This project is a customized extension based on Mizuki V8.2, with version number
 - **Diary Page:** Edit posts in `src/data/diary.ts`.
 - **About Page:** Edit content in `src/content/spec/about.md`.
 - **Sponsor Page:** Edit content in `src/content/spec/sponsors.md`.
-  - Configure payment QR codes via `addpaymentConfig` in `src/config.ts`. QR code images go in `public/images/sponsors`.
+  - Configure payment QR codes via `addpaymentConfig` in `src/config/user.ts`. QR code images go in `public/images/sponsors`.
 - **Feedback Page:** Edit content in `src/content/spec/feedback.md`.
-  - Configure the site owner's email via `contactEmailConfig` in `src/config.ts`.
-  - Configure friend QR codes via `addfriendConfig` in `src/config.ts`. QR code images go in `public/images/contact`.
+  - Configure the site owner's email via `contactEmailConfig` in `src/config/user.ts`.
+  - Configure friend QR codes via `addfriendConfig` in `src/config/user.ts`. QR code images go in `public/images/contact`.
 - **Projects Page:** Edit content in `src/data/projects.ts`.
 - **Skills Page:** Edit content in `src/data/skills.ts`.
 - **Timeline Page:** Edit content in `src/data/timeline.ts`.
 
-5. **Article management:**
+7. **Article management:**
 
 - **Create a new post:** `pnpm new-post <filename>`.
 - **Edit posts:** Modify files in `src/content/posts/`.
@@ -187,11 +191,11 @@ Frontmatter fields:
 - **tags**: Array of tags for categorization
 - **category**: Post category
 - **draft**: Set to `true` to hide the post in production
-- **comment**: Set to `true` or `false` to control comments for this post (requires Twikoo to be enabled in `src/config.ts` first)
+- **comment**: Set to `true` or `false` to control comments for this post (requires Twikoo to be enabled in `src/config/user.ts` first)
 - **pinned**: Set to `true` to pin the post to the top
 - **lang**: Post language (only set when different from the site default)
 
-6. **Start the development server:**
+8. **Start the development server:**
 
    ```bash
    pnpm dev
@@ -199,7 +203,7 @@ Frontmatter fields:
 
    The blog will be available at `http://localhost:4321`.
 
-7. **Upgrade the BrightMoon blog framework (optional):**
+9. **Upgrade the BrightMoon blog framework (optional):**
 
    When a new version is released, use the built-in upgrade tool:
 
@@ -213,9 +217,9 @@ Frontmatter fields:
    - **Create Backup** - Manually create a full project backup, saved to the `backup` directory.
    - **Restore Backup** - Select a backup file from the `backup` directory to restore the project.
 
-   Before upgrading, a backup is automatically created and rollback is prevented. After upgrading, `pnpm install` is automatically run to install new dependencies and clean up temporary files. If `src/config.ts` has changes, the original file is automatically backed up — please migrate your configuration manually.
+   Before upgrading, a backup is automatically created and rollback is prevented. After upgrading, `pnpm install` is automatically run to install new dependencies and clean up temporary files. User configuration in `src/config/user.ts` are protected during upgrades — no manual migration needed. Upstream default values in `src/config/defaults.ts` are updated automatically.
 
-8. **All commands are run from the project root:**
+10. **All commands are run from the project root:**
 
 | Command                    | Action                                         |
 | :------------------------- | :--------------------------------------------- |

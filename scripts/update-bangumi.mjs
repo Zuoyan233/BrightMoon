@@ -3,57 +3,69 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const API_BASE = "https://api.bgm.tv";
-const CONFIG_PATH = path.join(
+const USER_CONFIG_PATH = path.join(
 	path.dirname(fileURLToPath(import.meta.url)),
-	"../src/config.ts",
+	"../src/config/user.ts",
+);
+const DEFAULTS_CONFIG_PATH = path.join(
+	path.dirname(fileURLToPath(import.meta.url)),
+	"../src/config/defaults.ts",
 );
 const OUTPUT_FILE = path.join(
 	path.dirname(fileURLToPath(import.meta.url)),
 	"../src/data/bangumi-data.json",
 );
 
-async function getUserIdFromConfig() {
+async function tryReadValueFromFile(filePath, regex) {
 	try {
-		const configContent = await fs.readFile(CONFIG_PATH, "utf-8");
-		const match = configContent.match(
-			/anime:\s*\{[\s\S]*?bangumi:\s*\{[\s\S]*?userId:\s*["']([^"']+)["']/,
-		);
-
-		if (match?.[1]) {
-			const userId = match[1];
-			if (
-				userId === "your-bangumi-id" ||
-				userId === "your-user-id" ||
-				!userId
-			) {
-				console.warn(
-					"Warning: userId in src/config.ts appears to be a default value.",
-				);
-				return userId;
-			}
-			return userId;
-		}
-		throw new Error("Could not find anime.bangumi.userId in config.ts");
-	} catch (error) {
-		console.error("✘ Failed to read Bangumi ID from config.ts");
-		throw error;
+		const configContent = await fs.readFile(filePath, "utf-8");
+		const match = configContent.match(regex);
+		return match?.[1] || null;
+	} catch {
+		return null;
 	}
 }
 
-async function getAnimeModeFromConfig() {
-	try {
-		const configContent = await fs.readFile(CONFIG_PATH, "utf-8");
-		const match = configContent.match(
-			/anime:\s*\{[\s\S]*?mode:\s*["']([^"']+)["']/,
-		);
+async function getUserIdFromConfig() {
+	const userIdRegex =
+		/anime:\s*\{[\s\S]*?bangumi:\s*\{[\s\S]*?userId:\s*["']([^"']+)["']/;
 
-		if (match?.[1]) {
-			return match[1];
-		}
-		return "bangumi";
-	} catch {
-		return "bangumi";
+	const userUserId = await tryReadValueFromFile(USER_CONFIG_PATH, userIdRegex);
+	if (
+		userUserId &&
+		userUserId !== "your-bangumi-id" &&
+		userUserId !== "your-user-id"
+	) {
+		return userUserId;
 	}
+
+	const defaultUserId = await tryReadValueFromFile(
+		DEFAULTS_CONFIG_PATH,
+		userIdRegex,
+	);
+	if (defaultUserId) {
+		console.warn(
+			"Warning: Could not find a valid Bangumi userId in user.ts, using default value.",
+		);
+		return defaultUserId;
+	}
+
+	throw new Error("Could not find anime.bangumi.userId in config files");
+}
+
+async function getAnimeModeFromConfig() {
+	const modeRegex = /anime:\s*\{[\s\S]*?mode:\s*["']([^"']+)["']/;
+
+	const userMode = await tryReadValueFromFile(USER_CONFIG_PATH, modeRegex);
+	if (userMode) return userMode;
+
+	const defaultMode = await tryReadValueFromFile(
+		DEFAULTS_CONFIG_PATH,
+		modeRegex,
+	);
+	if (defaultMode) return defaultMode;
+
+	return "local";
 }
 
 // 模拟延迟防止 API 限制

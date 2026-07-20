@@ -87,9 +87,9 @@ export const ja: Translation = {
 	[Key.animeEmptyBilibili]:
 		"Bilibiliデータが空です。`pnpm run update-bilibili` を実行してデータを取得してください",
 	[Key.animeSetBangumiUserId]:
-		"src/config.ts ファイルにあなたのBangumiユーザーIDを設定してください",
+		"src/config/user.ts ファイルにあなたのBangumiユーザーIDを設定してください",
 	[Key.animeSetBilibiliVmId]:
-		"src/config.ts ファイルにあなたのBilibili vmIDを設定してください",
+		"src/config/user.ts ファイルにあなたのBilibili vmIDを設定してください",
 	[Key.animeEmptyLocal]:
 		"src/data/anime.ts ファイルにアニメ情報を追加してください",
 
@@ -441,7 +441,8 @@ export const ja: Translation = {
 
 	// 天気コンポーネント
 	[Key.weather]: "天気",
-	[Key.weatherNoApiKey]: "src/config.ts に WeatherAPI キーを追加してください",
+	[Key.weatherNoApiKey]:
+		"src/config/user.ts に WeatherAPI キーを追加してください",
 	[Key.weatherLocationDisabled]:
 		"プライバシー契約を拒否したため、天気位置情報サービスは無効になりました",
 	[Key.weatherWaitingConsent]: "天気位置情報の承認を待っています...",
@@ -496,7 +497,7 @@ export const ja: Translation = {
 	[Key.twikooInitializing]: "Twikoo コメントシステムを初期化中...",
 	[Key.twikooNotConfigured]: "Twikoo コメントシステムはまだ設定されていません",
 	[Key.twikooConfigHint]:
-		"src/config.ts で Twikoo コメントシステムを設定してください",
+		"src/config/user.ts で Twikoo コメントシステムを設定してください",
 	[Key.twikooPrivacyRejected]:
 		"プライバシー契約を拒否したため、Twikooコメントシステムは無効になりました",
 
