@@ -128,8 +128,13 @@ const hasBannerCredit = siteConfig.banner.credit.enable;
 const hasBannerLink = !!siteConfig.banner.credit.url;
 
 const isHomePage = Astro.url.pathname === "/" || Astro.url.pathname === "";
+const pathnameClean = Astro.url.pathname.replace(/^\/+|\/+$/g, "");
+const isPaginatedHome = /^\d+$/.test(pathnameClean);
 const showBreadcrumb =
-	isHomePage || breadcrumbItems !== undefined || title !== undefined;
+	isHomePage ||
+	isPaginatedHome ||
+	breadcrumbItems !== undefined ||
+	title !== undefined;
 
 // 基于 LinkPresets 的 URL 前缀匹配图标
 const urlIconPairs = Object.values(LinkPresets)
@@ -179,9 +184,9 @@ function matchIconByUrl(path: string): string | undefined {
 
 const currentPath = Astro.url.pathname;
 
-// 主页时收集所有候选页面/文章，供客户端随机推荐（避免构建时固化）
+// 主页及分页首页时收集所有候选页面/文章，供客户端随机推荐（避免构建时固化）
 const homepageCandidatesJson = await (async () => {
-	if (!isHomePage) return "[]";
+	if (!isHomePage && !isPaginatedHome) return "[]";
 
 	// 导航页面（排除首页）
 	const navPages = Object.values(LinkPresets).filter((p) => p.url !== "/");
@@ -212,9 +217,10 @@ const homepageCandidatesJson = await (async () => {
 	return JSON.stringify(allCandidates);
 })();
 
-// 主页时不渲染推荐项（由客户端 JS 随机选取并动态插入，避免构建时固化）
+// 主页及分页首页时不渲染推荐项（由客户端 JS 随机选取并动态插入，避免构建时固化）
 const breadcrumbBase =
-	breadcrumbItems || (isHomePage ? [] : [{ label: title || "" }]);
+	breadcrumbItems ||
+	(isHomePage || isPaginatedHome ? [] : [{ label: title || "" }]);
 
 const resolvedBreadcrumbItems = breadcrumbBase
 	.filter((item) => item.label !== "")
@@ -558,13 +564,13 @@ import "../scripts/main-grid.js";
                 <div id="content-wrapper" class="onload-animation transition-leaving">
                     {showBreadcrumb && (
                         <>
-                            <!-- 主页推荐候选项数据（JSON），供客户端随机选取 -->
-                            {isHomePage && (
+                            <!-- 主页及分页首页推荐候选项数据（JSON），供客户端随机选取 -->
+                            {(isHomePage || isPaginatedHome) && (
                                 <script id="homepage-suggestion-data" type="application/json" is:inline set:html={homepageCandidatesJson}></script>
                             )}
                             <Breadcrumb className="" items={resolvedBreadcrumbItems} />
-                            <!-- 主页时由客户端随机选取推荐项，避免构建时固化 -->
-                            {isHomePage && (
+                            <!-- 主页及分页首页时由客户端随机选取推荐项，避免构建时固化 -->
+                            {(isHomePage || isPaginatedHome) && (
                                 <script>
                                     (window as any).injectHomepageSuggestion?.();
                                 </script>

@@ -169,6 +169,14 @@ window.addEventListener("resize", () => {
 	}, 150);
 });
 
+// 判断是否为主页或分页首页（如 /2/、/3/ 等纯数字段路径）
+function isHomeOrPaginatedHome() {
+	const p = window.location.pathname;
+	if (p === "/" || p === "") return true;
+	const cleaned = p.replace(/^\/+|\/+$/g, "");
+	return /^\d+$/.test(cleaned);
+}
+
 // 统一处理 Swup 页面切换
 const handleSwupPageView = () => {
 	applyWallpaperMode();
@@ -199,8 +207,8 @@ const handleSwupPageView = () => {
 			}
 		}
 
-		// Swup 切换时重新随机选取主页推荐项
-		if (window.location.pathname === "/" || window.location.pathname === "") {
+		// Swup 切换时重新随机选取主页/分页首页推荐项
+		if (isHomeOrPaginatedHome()) {
 			if (typeof window.injectHomepageSuggestion === "function") {
 				window.injectHomepageSuggestion();
 			}
@@ -222,9 +230,8 @@ window.addEventListener("wallpaper-mode-change", updateTOCDisplay);
 
 // 主页推荐项随机选取函数（供初始加载和 Swup 切换共用）
 window.injectHomepageSuggestion = () => {
-	// 只在主页执行
-	if (window.location.pathname !== "/" && window.location.pathname !== "")
-		return;
+	// 只在主页或分页首页执行
+	if (!isHomeOrPaginatedHome()) return;
 
 	var dataScript = document.getElementById("homepage-suggestion-data");
 	if (!dataScript) return;
