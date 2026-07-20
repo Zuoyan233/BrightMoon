@@ -161,7 +161,6 @@ const I18N_DICT = {
 		step: "步骤",
 		version: "目标版本",
 		newVersionFound: "发现新版本",
-		current: "当前",
 		zipNotFound:
 			"未找到 zip 命令，无法创建备份。请先安装：\n  macOS: xcode-select --install\n  Linux: sudo apt install zip",
 		unzipNotFound:
@@ -265,7 +264,6 @@ const I18N_DICT = {
 		step: "Step",
 		version: "Target Version",
 		newVersionFound: "New version found",
-		current: "Current",
 		zipNotFound:
 			"zip command not found, cannot create backup. Please install:\n  macOS: xcode-select --install\n  Linux: sudo apt install zip",
 		unzipNotFound:
@@ -360,7 +358,6 @@ const I18N_DICT = {
 		step: "步驟",
 		version: "目標版本",
 		newVersionFound: "發現新版本",
-		current: "目前",
 		zipNotFound:
 			"未找到 zip 命令，無法建立備份。請先安裝：\n  macOS: xcode-select --install\n  Linux: sudo apt install zip",
 		unzipNotFound:
@@ -466,7 +463,6 @@ const I18N_DICT = {
 		step: "ステップ",
 		version: "ターゲットバージョン",
 		newVersionFound: "新バージョンが見つかりました",
-		current: "現在",
 		zipNotFound:
 			"zip コマンドが見つかりません。バックアップを作成できません。先にインストールしてください：\n  macOS: xcode-select --install\n  Linux: sudo apt install zip",
 		unzipNotFound:
@@ -2004,7 +2000,7 @@ function checkRollback(release, localVer) {
 			exitNow(1);
 		}
 		console.log(
-			`${I18n("version")}: ${updateVer} (${I18n("current")}: ${localVer})\n`,
+			`${I18n("version")}: ${updateVer} (${I18n("buildDate")}: ${localVer})\n`,
 		);
 	} catch (e) {
 		debugLog("checkRollback", e);
@@ -2295,7 +2291,7 @@ async function checkOnlineVersion() {
 		exitNow(0);
 	}
 	console.log(
-		`\x1b[32m${I18n("newVersionFound")}: ${selectedRelease.tag_name}\x1b[0m (${I18n("current")}: ${localVer})`,
+		`\x1b[32m${I18n("newVersionFound")}: ${selectedRelease.tag_name}\x1b[0m (${I18n("buildDate")}: ${localVer})`,
 	);
 	console.log();
 
