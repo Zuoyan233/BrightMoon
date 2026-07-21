@@ -251,9 +251,7 @@ function togglePlaylist() {
 	showPlaylist = !showPlaylist;
 	if (showPlaylist) {
 		showLyrics = false;
-		// 等待 DOM 渲染完成后自动滚动到当前播放歌曲
 		void tick().then(() => {
-			scrollToCurrentSong("auto");
 			setTimeout(() => scrollToCurrentSong("smooth"), 320);
 		});
 	}
@@ -307,17 +305,7 @@ function scrollToCurrentSong(behavior: ScrollBehavior = "smooth") {
 	const target = items[currentIndex] as HTMLElement | undefined;
 	if (!target) return;
 
-	const targetOffset = target.offsetTop;
-	const targetHeight = target.offsetHeight;
-	const containerHeight = container.clientHeight;
-	const targetScrollTop = Math.max(
-		0,
-		Math.min(
-			targetOffset - (containerHeight - targetHeight) / 2,
-			container.scrollHeight - containerHeight,
-		),
-	);
-	container.scrollTo({ top: targetScrollTop, behavior });
+	target.scrollIntoView({ behavior, block: "center" });
 }
 
 function toggleShuffle() {
