@@ -345,6 +345,7 @@ export const es: Translation = {
 	[Key.passwordDecryptRetry]:
 		"Error de descifrado, por favor inténtalo de nuevo",
 	[Key.passwordUnlockButton]: "Desbloquear",
+	[Key.passwordHintLabel]: "Pista de contraseña",
 	[Key.copyFailed]: "Error al copiar:",
 	[Key.syntaxHighlightFailed]: "Error al resaltar la sintaxis:",
 	[Key.autoSyntaxHighlightFailed]:

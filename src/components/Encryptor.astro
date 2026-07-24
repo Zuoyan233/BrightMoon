@@ -8,9 +8,10 @@ import "../styles/markdown-extend.styl";
 
 interface Props {
 	password: string | number;
+	passwordHint?: string;
 }
 
-const { password } = Astro.props;
+const { password, passwordHint = "" } = Astro.props;
 
 const htmlContent = await Astro.slots.render("default");
 
@@ -21,4 +22,7 @@ const encryptedContent = CryptoJS.AES.encrypt(
 ).toString();
 ---
 
-<PasswordProtection encryptedContent={encryptedContent} />
+<PasswordProtection
+	encryptedContent={encryptedContent}
+	passwordHint={passwordHint}
+/>

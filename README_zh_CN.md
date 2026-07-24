@@ -190,6 +190,9 @@ Frontmatter 字段说明：
 - **image**: 封面图片路径（相对于文章文件）
 - **tags**: 标签数组，用于分类
 - **category**: 文章分类
+- **encrypted**: 设置为 `true` 加密文章，需在 `src/config/user.ts` 中开启加密功能
+- **password**: 密码，用于加密文章
+- **passwordHint**: 密码提示，用于密码输入框
 - **draft**: 设置为 `true` 在生产环境中隐藏文章
 - **comment**: 设置为 `true` 或 `false` 可控制当前文章的评论开关（需先在 `src/config/user.ts` 中开启 Twikoo 评论系统）
 - **pinned**: 设置为 `true` 将文章置顶

@@ -331,6 +331,7 @@ export const ko: Translation = {
 	[Key.passwordDecryptFailed]: "복호화에 실패했습니다. 비밀번호를 확인해주세요",
 	[Key.passwordDecryptRetry]: "복호화에 실패했습니다. 다시 시도해주세요",
 	[Key.passwordUnlockButton]: "잠금 해제",
+	[Key.passwordHintLabel]: "비밀번호 힌트",
 	[Key.copyFailed]: "복사 실패:",
 	[Key.syntaxHighlightFailed]: "구문 강조 실패:",
 	[Key.autoSyntaxHighlightFailed]: "자동 구문 강조도 실패했습니다:",

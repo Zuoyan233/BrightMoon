@@ -190,6 +190,9 @@ Frontmatter フィールド説明：
 - **image**: カバー画像パス（記事ファイルからの相対パス）
 - **tags**: 分類用タグ配列
 - **category**: 記事カテゴリ
+- **encrypted**: `true` に設定すると、記事を暗号化（`src/config/user.ts` で暗号化機能を有効にする必要あり）
+- **password**: 記事の暗号化パスワード
+- **passwordHint**: 記事の暗号化パスワードヒント
 - **draft**: `true` に設定すると、本番環境で記事を非表示
 - **comment**: `true` または `false` に設定すると、現在の記事のコメントON/OFFを制御（事前に `src/config/user.ts` で Twikoo コメントシステムを有効にする必要あり）
 - **pinned**: `true` に設定すると記事をトップに固定

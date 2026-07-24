@@ -329,6 +329,7 @@ export const ar: Translation = {
 	[Key.passwordDecryptFailed]: "فشل فك التشفير، يرجى التحقق من كلمة المرور",
 	[Key.passwordDecryptRetry]: "فشل فك التشفير، يرجى المحاولة مرة أخرى",
 	[Key.passwordUnlockButton]: "فتح",
+	[Key.passwordHintLabel]: "تلميح كلمة المرور",
 	[Key.copyFailed]: "فشل النسخ:",
 	[Key.syntaxHighlightFailed]: "فشل تمييز بناء الجملة:",
 	[Key.autoSyntaxHighlightFailed]: "فشل تمييز بناء الجملة التلقائي أيضًا:",

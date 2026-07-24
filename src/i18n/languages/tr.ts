@@ -342,6 +342,7 @@ export const tr: Translation = {
 	[Key.passwordDecryptRetry]:
 		"Şifre çözme başarısız oldu, lütfen tekrar deneyin",
 	[Key.passwordUnlockButton]: "Kilidi Aç",
+	[Key.passwordHintLabel]: "Şifre İpucu",
 	[Key.copyFailed]: "Kopyalama başarısız oldu:",
 	[Key.syntaxHighlightFailed]: "Sözdizimi vurgulaması başarısız oldu:",
 	[Key.autoSyntaxHighlightFailed]:

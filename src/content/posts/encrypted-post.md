@@ -5,6 +5,7 @@ description: This is an article for testing the page encryption feature
 encrypted: true
 pinned: true
 password: "123456"
+passwordHint: "123456"
 alias: "encrypted-example"
 tags: ["Test", "Encryption"]
 category: "Technology"

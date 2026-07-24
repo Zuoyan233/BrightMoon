@@ -190,6 +190,9 @@ Frontmatter fields:
 - **image**: Cover image path (relative to the post file)
 - **tags**: Array of tags for categorization
 - **category**: Post category
+- **encrypted**: Set to `true` to encrypt the post (requires `src/config/user.ts` to be enabled first)
+- **password**: Password for the post
+- **passwordHint**: Password hint for the post
 - **draft**: Set to `true` to hide the post in production
 - **comment**: Set to `true` or `false` to control comments for this post (requires Twikoo to be enabled in `src/config/user.ts` first)
 - **pinned**: Set to `true` to pin the post to the top

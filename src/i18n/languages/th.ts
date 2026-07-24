@@ -322,6 +322,7 @@ export const th: Translation = {
 	[Key.passwordDecryptFailed]: "การถอดรหัสล้มเหลว กรุณาตรวจสอบรหัสผ่าน",
 	[Key.passwordDecryptRetry]: "การถอดรหัสล้มเหลว กรุณาลองอีกครั้ง",
 	[Key.passwordUnlockButton]: "ปลดล็อค",
+	[Key.passwordHintLabel]: "คำใบ้รหัสผ่าน",
 	[Key.copyFailed]: "คัดลอกล้มเหลว:",
 	[Key.syntaxHighlightFailed]: "การเน้นไวยากรณ์ล้มเหลว:",
 	[Key.autoSyntaxHighlightFailed]: "การเน้นไวยากรณ์อัตโนมัติก็ล้มเหลวเช่นกัน:",

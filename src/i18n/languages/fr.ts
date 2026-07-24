@@ -350,6 +350,7 @@ export const fr: Translation = {
 		"Échec du déchiffrement, veuillez vérifier le mot de passe",
 	[Key.passwordDecryptRetry]: "Échec du déchiffrement, veuillez réessayer",
 	[Key.passwordUnlockButton]: "Déverrouiller",
+	[Key.passwordHintLabel]: "Indice du mot de passe",
 	[Key.copyFailed]: "Échec de la copie :",
 	[Key.syntaxHighlightFailed]: "Échec de la coloration syntaxique :",
 	[Key.autoSyntaxHighlightFailed]:

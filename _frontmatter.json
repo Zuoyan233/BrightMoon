@@ -65,6 +65,12 @@
 					"title": "language",
 					"name": "language",
 					"type": "string"
+				},
+				{
+					"title": "passwordHint",
+					"name": "passwordHint",
+					"type": "string",
+					"single": true
 				}
 			]
 		}

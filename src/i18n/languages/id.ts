@@ -337,6 +337,7 @@ export const id: Translation = {
 	[Key.passwordDecryptFailed]: "Dekripsi gagal, periksa kata sandi",
 	[Key.passwordDecryptRetry]: "Dekripsi gagal, silakan coba lagi",
 	[Key.passwordUnlockButton]: "Buka Kunci",
+	[Key.passwordHintLabel]: "Petunjuk Kata Sandi",
 	[Key.copyFailed]: "Salin gagal:",
 	[Key.syntaxHighlightFailed]: "Penyorotan sintaks gagal:",
 	[Key.autoSyntaxHighlightFailed]: "Penyorotan sintaks otomatis juga gagal:",

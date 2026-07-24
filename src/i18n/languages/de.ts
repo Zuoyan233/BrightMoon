@@ -341,6 +341,7 @@ export const de: Translation = {
 	[Key.passwordDecryptRetry]:
 		"Entschlüsselung fehlgeschlagen, bitte versuchen Sie es erneut",
 	[Key.passwordUnlockButton]: "Entsperren",
+	[Key.passwordHintLabel]: "Passworthinweis",
 	[Key.copyFailed]: "Kopieren fehlgeschlagen:",
 	[Key.syntaxHighlightFailed]: "Syntaxhervorhebung fehlgeschlagen:",
 	[Key.autoSyntaxHighlightFailed]:

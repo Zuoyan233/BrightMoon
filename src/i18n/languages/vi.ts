@@ -337,6 +337,7 @@ export const vi: Translation = {
 	[Key.passwordDecryptFailed]: "Giải mã thất bại, vui lòng kiểm tra mật khẩu",
 	[Key.passwordDecryptRetry]: "Giải mã thất bại, vui lòng thử lại",
 	[Key.passwordUnlockButton]: "Mở khóa",
+	[Key.passwordHintLabel]: "Gợi ý mật khẩu",
 	[Key.copyFailed]: "Sao chép thất bại:",
 	[Key.syntaxHighlightFailed]: "Tô màu cú pháp thất bại:",
 	[Key.autoSyntaxHighlightFailed]: "Tô màu cú pháp tự động cũng thất bại:",

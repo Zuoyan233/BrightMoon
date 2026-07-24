@@ -335,6 +335,7 @@ export const ru: Translation = {
 	[Key.passwordDecryptFailed]: "Ошибка расшифровки, проверьте пароль",
 	[Key.passwordDecryptRetry]: "Ошибка расшифровки, попробуйте снова",
 	[Key.passwordUnlockButton]: "Разблокировать",
+	[Key.passwordHintLabel]: "Подсказка пароля",
 	[Key.copyFailed]: "Ошибка копирования:",
 	[Key.syntaxHighlightFailed]: "Ошибка подсветки синтаксиса:",
 	[Key.autoSyntaxHighlightFailed]:

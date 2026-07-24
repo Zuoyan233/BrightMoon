@@ -227,6 +227,7 @@ const jsonLd = {
                 isEncrypted ? (
                     <PasswordProtection
                         encryptedContent={encryptedContent}
+                        passwordHint={entry.data.passwordHint}
                     />
                 ) : (
                     <>
