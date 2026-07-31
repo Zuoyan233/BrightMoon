@@ -20,9 +20,9 @@ export const devicesData: DeviceCategory = {
 		{
 			name: "Xiaomi 17 Pro Max",
 			image: "/images/device/Xiaomi 17 Pro Max.webp",
-			specs: "黑色 / 16G + 1TB",
+			specs: "Green / 16G + 1TB",
 			description:
-				"第五代骁龙 8 至尊版移动平台，徕卡光影大师，小米金沙江电池，妙享背屏",
+				"Snapdragon 8 Elite Gen 5 Mobile Platform, Leica Master Imaging, Xiaomi Jinsha River Battery, Smart Back Display.",
 			link: "https://www.mi.com/prod/xiaomi-17-pro-max",
 		},
 	],
