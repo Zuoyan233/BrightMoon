@@ -2,17 +2,6 @@
  * BrightMoon 用户配置文件（用户配置，升级时受保护不会被覆盖）
  *
  * 在此文件中覆盖你在 src/config/defaults.ts 中想要修改的字段。
- * 规则：
- *   1. 仅写需要改动的字段，未写的字段自动使用 defaults 中的默认值。
- *   2. 深合并策略：对象会递归合并；数组整体替换（不会逐项合并）。
- *   3. 任何在 defaults 中新增的字段，升级后会自动生效，无需手动同步。
- *   4. 完全不写的配置会自动使用默认值。
- *
- * 从旧版升级迁移指南：
- *   1. 打开旧版 src/config.ts（升级前会自动备份到 backup/ 目录，新架构位于 src/config/index.ts）
- *   2. 找出你修改过的字段（与官方默认值不同的部分）
- *   3. 把这些字段按上面的示例格式填入本文件
- *   4. 重新启动项目验证：pnpm dev
  */
 
 import type {
@@ -488,32 +477,45 @@ export const userConfig: UserConfig = {
 		// email填写你的电子邮箱地址，link此处填写你需要跳转到对应电子邮箱的网站，格式是 "https://example.mail.com/"。
 		emails: [
 			{
-				email: "演示邮箱1，请在src/config/user.ts中修改你的电子邮箱",
+				email: "Demo email 1, please change your email in src/config/user.ts",
 				link: "https://example.mail.com/",
 			},
 			{
-				email: "演示邮箱2，请在src/config/user.ts中修改你的电子邮箱",
+				email: "Demo email 2, please change your email in src/config/user.ts",
 				link: "https://example.mail.com/",
 			},
 		],
 	},
 
 	contactMethods: [
-		// method与icon是填写你的社交软件方式，qrCode是填写你的添加好友的二维码，存放路径在 "public/images/contact/" 文件夹内。
+		// method是社交平台标识，label是显示名称（用于标签按钮），icon是图标名称
+		// qrCode是二维码图片路径，account是账号ID，link是跳转链接（用于打开App添加好友），tip是提示文字
 		{
 			method: "wechat",
+			label: "WeChat",
 			icon: "simple-icons:wechat",
 			qrCode: "/images/contact/wechat friend.webp",
+			account: "your_wechat_id",
+			link: "",
+			tip: "Scan the QR code to add a WeChat friend",
 		},
 		{
 			method: "qq",
+			label: "QQ",
 			icon: "simple-icons:qq",
 			qrCode: "/images/contact/qq friend.webp",
+			account: "your_qq_number",
+			link: "",
+			tip: "Scan the QR code to add a QQ friend",
 		},
 		{
 			method: "telegram",
+			label: "Telegram",
 			icon: "simple-icons:telegram",
 			qrCode: "/images/contact/telegram friend.webp",
+			account: "@your_telegram",
+			link: "https://t.me/your_telegram",
+			tip: "Scan the QR code to add a Telegram friend",
 		},
 	],
 

@@ -205,7 +205,7 @@ export const ru: Translation = {
 	[Key.rssBenefit4]: "Наслаждаться чтением без рекламы",
 	[Key.rssHowToUse]:
 		"Рекомендуется использовать Feedly, Inoreader или другие RSS-ридеры для подписки на этот сайт.",
-	[Key.rssCopied]: "Ссылка RSS скопирована в буфер обмена!",
+	[Key.rssCopied]: "Ссылка RSS скопирована в буфер обмена",
 	[Key.rssCopyFailed]: "Не удалось скопировать, скопируйте ссылку вручную",
 
 	// Atom страница
@@ -227,7 +227,7 @@ export const ru: Translation = {
 	[Key.atomBenefit4]: "Наслаждаться чтением без рекламы",
 	[Key.atomHowToUse]:
 		"Рекомендуется использовать Feedly, Inoreader или другие Atom-ридеры для подписки на этот сайт.",
-	[Key.atomCopied]: "Ссылка Atom скопирована в буфер обмена!",
+	[Key.atomCopied]: "Ссылка Atom скопирована в буфер обмена",
 	[Key.atomCopyFailed]: "Не удалось скопировать, скопируйте ссылку вручную",
 
 	// Режим обоев
@@ -437,12 +437,9 @@ export const ru: Translation = {
 	[Key.cancelText]: "Отмена",
 
 	// Добавить друзей в социальных сетях
-	[Key.contactMethod1]: "Wechat",
-	[Key.contactMethod2]: "QQ",
-	[Key.contactMethod3]: "Telegram",
-	[Key.scanContact1]: "Отсканируйте QR-код, чтобы добавить друга в WeChat",
-	[Key.scanContact2]: "Отсканируйте QR-код, чтобы добавить друга в QQ",
-	[Key.scanContact3]: "Отсканируйте QR-код, чтобы добавить друга в Telegram",
+	[Key.copyAccount]: "Копировать аккаунт",
+	[Key.copyAccountSuccess]: "Скопировано в буфер обмена",
+	[Key.openAppAdd]: "Открыть в приложении",
 
 	// Компонент погоды
 	[Key.weather]: "Погода",

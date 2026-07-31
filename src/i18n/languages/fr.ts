@@ -211,7 +211,7 @@ export const fr: Translation = {
 		"Profiter d'une expérience de lecture sans publicité et épurée",
 	[Key.rssHowToUse]:
 		"Il est recommandé d'utiliser Feedly, Inoreader ou d'autres lecteurs RSS pour vous abonner à ce site.",
-	[Key.rssCopied]: "Lien RSS copié dans le presse-papiers !",
+	[Key.rssCopied]: "Lien RSS copié dans le presse-papiers",
 	[Key.rssCopyFailed]:
 		"Échec de la copie, veuillez copier le lien manuellement",
 
@@ -237,7 +237,7 @@ export const fr: Translation = {
 		"Profiter d'une expérience de lecture sans publicité et épurée",
 	[Key.atomHowToUse]:
 		"Il est recommandé d'utiliser Feedly, Inoreader ou d'autres lecteurs Atom pour vous abonner à ce site.",
-	[Key.atomCopied]: "Lien Atom copié dans le presse-papiers !",
+	[Key.atomCopied]: "Lien Atom copié dans le presse-papiers",
 	[Key.atomCopyFailed]:
 		"Échec de la copie, veuillez copier le lien manuellement",
 
@@ -452,12 +452,9 @@ export const fr: Translation = {
 	[Key.cancelText]: "Annuler",
 
 	// Ajouter des amis sur les réseaux sociaux
-	[Key.contactMethod1]: "Wechat",
-	[Key.contactMethod2]: "QQ",
-	[Key.contactMethod3]: "Telegram",
-	[Key.scanContact1]: "Scannez le code QR pour ajouter un ami WeChat",
-	[Key.scanContact2]: "Scannez le code QR pour ajouter un ami QQ",
-	[Key.scanContact3]: "Scannez le code QR pour ajouter un ami Telegram",
+	[Key.copyAccount]: "Copier le compte",
+	[Key.copyAccountSuccess]: "Copié dans le presse-papiers",
+	[Key.openAppAdd]: "Ouvrir dans l'application",
 
 	// Composant météo
 	[Key.weather]: "Météo",

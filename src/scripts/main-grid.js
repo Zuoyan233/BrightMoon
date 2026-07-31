@@ -688,27 +688,35 @@ document.addEventListener("click", (e) => {
 	const url = btn.getAttribute("data-url");
 	if (!url) return;
 
+	const originalHTML = btn.dataset.originalHtml || btn.innerHTML;
 	const originalText =
 		btn.getAttribute("data-original-text") || btn.textContent?.trim() || "";
 	const copiedText = btn.getAttribute("data-copied-text") || originalText;
 	const failedText = btn.getAttribute("data-failed-text") || originalText;
 
+	if (!btn.dataset.originalHtml) {
+		btn.dataset.originalHtml = originalHTML;
+	}
+
 	navigator.clipboard
 		.writeText(url)
 		.then(() => {
-			btn.textContent = copiedText;
+			btn.innerHTML = `<span class="inline-flex items-center justify-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><polyline points="20 6 9 17 4 12"/></svg><span>${copiedText}</span></span>`;
 			btn.style.backgroundColor = "var(--success-color, #10b981)";
 
 			setTimeout(() => {
-				btn.textContent = originalText;
+				btn.innerHTML = originalHTML;
 				btn.style.backgroundColor = "";
 			}, 2000);
 		})
 		.catch((err) => {
-			console.error("复制失败:", err);
-			btn.textContent = failedText;
+			console.error("Copy failed:", err);
+			btn.innerHTML = `<span class="inline-flex items-center justify-center gap-1.5"><Icon name="material-symbols:error" class="text-base" /><span>${failedText}</span></span>`;
+			btn.style.backgroundColor = "var(--error-color, #ef4444)";
+
 			setTimeout(() => {
-				btn.textContent = originalText;
+				btn.innerHTML = originalHTML;
+				btn.style.backgroundColor = "";
 			}, 2000);
 		});
 });

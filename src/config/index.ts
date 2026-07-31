@@ -59,17 +59,10 @@ import {
 import { userConfig } from "./user";
 
 /**
- * 深合并工具：将 override 中的值递归合并到 base 中。
- *
- * 合并规则：
- *   - 对象：递归合并（同名键继续深合并）
- *   - 数组：override 整体替换 base（不逐项合并）
- *   - 基础类型：override 直接覆盖 base
- *   - null/undefined：不覆盖，保留 base 值
- *
+ * 深合并工具：递归合并 override 中的值到 base 中
  * @param base - 默认值（来自 config/defaults.ts）
  * @param override - 用户覆盖值（来自 config/user.ts）
- * @returns 合并后的对象
+ * @returns 合并后的配置对象
  */
 function deepMerge<T>(base: T, override: Partial<T> | undefined): T {
 	if (override === undefined || override === null) return base;

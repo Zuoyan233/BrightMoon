@@ -203,7 +203,7 @@ export const ja: Translation = {
 	[Key.rssBenefit4]: "広告のないクリーンな読書体験を楽しむ",
 	[Key.rssHowToUse]:
 		"Feedly、InoreaderなどのRSSリーダーを使用してこのサイトを購読することをお勧めします。",
-	[Key.rssCopied]: "RSSリンクをクリップボードにコピーしました！",
+	[Key.rssCopied]: "RSSリンクをクリップボードにコピーしました",
 	[Key.rssCopyFailed]: "コピーに失敗しました。リンクを手動でコピーしてください",
 
 	// Atomページ
@@ -223,7 +223,7 @@ export const ja: Translation = {
 	[Key.atomBenefit4]: "広告のないクリーンな読書体験を楽しむ",
 	[Key.atomHowToUse]:
 		"Feedly、InoreaderなどのAtomリーダーを使用してこのサイトを購読することをお勧めします。",
-	[Key.atomCopied]: "Atomリンクをクリップボードにコピーしました！",
+	[Key.atomCopied]: "Atomリンクをクリップボードにコピーしました",
 	[Key.atomCopyFailed]:
 		"コピーに失敗しました。リンクを手動でコピーしてください",
 
@@ -433,12 +433,9 @@ export const ja: Translation = {
 	[Key.cancelText]: "キャンセル",
 
 	// ソーシャルメディアで友達を追加
-	[Key.contactMethod1]: "Wechat",
-	[Key.contactMethod2]: "QQ",
-	[Key.contactMethod3]: "Telegram",
-	[Key.scanContact1]: "QRコードをスキャンしてWeChatの友達を追加",
-	[Key.scanContact2]: "QRコードをスキャンしてQQの友達を追加",
-	[Key.scanContact3]: "QRコードをスキャンしてTelegramの友達を追加",
+	[Key.copyAccount]: "アカウントをコピー",
+	[Key.copyAccountSuccess]: "クリップボードにコピーしました",
+	[Key.openAppAdd]: "アプリで開く",
 
 	// 天気コンポーネント
 	[Key.weather]: "天気",

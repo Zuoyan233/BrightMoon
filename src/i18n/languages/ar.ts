@@ -202,7 +202,7 @@ export const ar: Translation = {
 	[Key.rssBenefit4]: "الاستمتاع بتجربة قراءة نظيفة وخالية من الإعلانات",
 	[Key.rssHowToUse]:
 		"يُوصى باستخدام Feedly أو Inoreader أو أي قارئ RSS آخر للاشتراك في هذا الموقع.",
-	[Key.rssCopied]: "تم نسخ رابط RSS إلى الحافظة!",
+	[Key.rssCopied]: "تم نسخ رابط RSS إلى الحافظة",
 	[Key.rssCopyFailed]: "فشل النسخ، يرجى نسخ الرابط يدويًا",
 
 	// صفحة Atom
@@ -223,7 +223,7 @@ export const ar: Translation = {
 	[Key.atomBenefit4]: "الاستمتاع بتجربة قراءة نظيفة وخالية من الإعلانات",
 	[Key.atomHowToUse]:
 		"يُوصى باستخدام Feedly أو Inoreader أو أي قارئ Atom آخر للاشتراك في هذا الموقع.",
-	[Key.atomCopied]: "تم نسخ رابط Atom إلى الحافظة!",
+	[Key.atomCopied]: "تم نسخ رابط Atom إلى الحافظة",
 	[Key.atomCopyFailed]: "فشل النسخ، يرجى نسخ الرابط يدويًا",
 
 	// وضع الخلفية
@@ -429,12 +429,9 @@ export const ar: Translation = {
 	[Key.cancelText]: "إلغاء",
 
 	// إضافة أصدقاء على وسائل التواصل الاجتماعي
-	[Key.contactMethod1]: "Wechat",
-	[Key.contactMethod2]: "QQ",
-	[Key.contactMethod3]: "Telegram",
-	[Key.scanContact1]: "امسح رمز QR لإضافة صديق على WeChat",
-	[Key.scanContact2]: "امسح رمز QR لإضافة صديق على QQ",
-	[Key.scanContact3]: "امسح رمز QR لإضافة صديق على Telegram",
+	[Key.copyAccount]: "نسخ الحساب",
+	[Key.copyAccountSuccess]: "تم النسخ إلى الحافظة",
+	[Key.openAppAdd]: "فتح في التطبيق",
 
 	// مكون الطقس
 	[Key.weather]: "الطقس",

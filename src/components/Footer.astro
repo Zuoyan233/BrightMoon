@@ -96,14 +96,14 @@ for (const [lang, tr] of Object.entries(allTranslations)) {
 			title={versionCheckFailedTitle}
 		>
 			<img class="mx-auto block" src="/assets/home/home.webp" width="200px" alt="BrightMoon logo">
-			<div class="flex items-center justify-center text-[0.9rem]">
-				<span class="ignore inline-flex items-center gap-1 text-[0.9rem] text-[var(--primary)] font-semibold">BrightMoon CE_V{currentVersion}</span>
+			<div class="flex items-center justify-center">
+				<span class="ignore inline-flex items-center gap-1 text-base text-[var(--primary)] font-semibold">BrightMoon CE_V{currentVersion}</span>
 			</div>
 			<div class="flex flex-col gap-4">
-				<p class="m-0 text-[0.95rem] text-center text-[var(--content-meta)]">{versionCheckFailedDesc}</p>
+				<p class="m-0 text-sm text-center text-[var(--content-meta)]">{versionCheckFailedDesc}</p>
 			</div>
 			<div class="flex justify-center gap-4 mt-2">
-				<button class="version-check-failed-close border-none rounded-[8px] py-2.5 px-7 text-[0.95rem] font-semibold cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] active:scale-95 bg-transparent border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--btn-plain-bg-hover)]">{cancelText}</button>
+				<button class="version-check-failed-close border-none rounded-[8px] py-2.5 px-7 text-base font-semibold cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] active:scale-95 bg-transparent border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--btn-plain-bg-hover)]">{cancelText}</button>
 			</div>
 		</VersionCheckDialog>
 
@@ -115,13 +115,13 @@ for (const [lang, tr] of Object.entries(allTranslations)) {
 		>
 			<div class="flex flex-col gap-4">
 				<img class="mx-auto block" src="/assets/home/home.webp" width="200px" alt="BrightMoon logo">
-				<div class="flex items-center justify-center text-[0.9rem]">
-					<span class="ignore inline-flex items-center gap-1 text-[0.9rem] text-[var(--primary)] font-semibold">BrightMoon CE_V{currentVersion}</span>
+				<div class="flex items-center justify-center">
+					<span class="ignore inline-flex items-center gap-1 text-base text-[var(--primary)] font-semibold">BrightMoon CE_V{currentVersion}</span>
 				</div>
-				<p class="m-0 text-[0.95rem] text-center text-[var(--content-meta)]">{versionCheckSuccessDesc}</p>
+				<p class="m-0 text-sm text-center text-[var(--content-meta)]">{versionCheckSuccessDesc}</p>
 			</div>
 			<div class="flex justify-center gap-4 mt-2">
-				<button class="version-check-success-close border-none rounded-[8px] py-2.5 px-7 text-[0.95rem] font-semibold cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] active:scale-95 bg-transparent border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--btn-plain-bg-hover)]">{cancelText}</button>
+				<button class="version-check-success-close border-none rounded-[8px] py-2.5 px-7 text-base font-semibold cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] active:scale-95 bg-transparent border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--btn-plain-bg-hover)]">{cancelText}</button>
 			</div>
 		</VersionCheckDialog>
 
@@ -135,22 +135,22 @@ for (const [lang, tr] of Object.entries(allTranslations)) {
 		>
 			<img class="mx-auto block" src="/assets/home/home.webp" width="200px" alt="BrightMoon logo">
 			<div class="flex flex-col gap-2">
-				<div class="version-new-dialog-versions flex items-center justify-center text-[0.9rem]">
-					<span class="ignore inline-flex items-center gap-1 text-[0.9rem] text-[var(--primary)] font-semibold">BrightMoon</span>
+				<div class="version-new-dialog-versions flex items-center justify-center">
+					<span class="ignore inline-flex items-center gap-1 text-base text-[var(--primary)] font-semibold">BrightMoon</span>
 					<span class="version-new-tag ignore inline-flex items-center px-1 rounded-md bg-[var(--primary)]/10 text-[var(--primary)] font-semibold"></span>
 				</div>
 				<div class="version-pre-badge hidden text-center">
-					<span class="ignore inline-block text-[0.8rem] px-2 py-1.5 rounded-xl bg-[var(--primary)] text-white/90 font-medium leading-none">{versionPreReleaseText}</span>
+					<span class="ignore inline-block text-base px-2 py-1.5 rounded-xl bg-[var(--primary)] text-white/90 font-medium leading-none">{versionPreReleaseText}</span>
 				</div>
-				<div class="version-new-dialog-body text-[0.9rem] text-[var(--content-meta)] leading-relaxed max-h-48 overflow-y-auto rounded-xl bg-[var(--codeblock-bg)] border border-[var(--line-color)] py-3 px-4 break-words"></div>
+				<div class="version-new-dialog-body text-base text-[var(--content-meta)] leading-relaxed max-h-48 overflow-y-auto rounded-xl bg-[var(--codeblock-bg)] border border-[var(--line-color)] py-3 px-4 break-words"></div>
 			</div>
-			<div class="flex items-center justify-center gap-1.5 text-[0.85rem] text-[var(--content-meta)] m-0">
+			<div class="flex items-center justify-center gap-1.5 text-sm text-[var(--content-meta)] m-0">
 				<Icon name="material-symbols:error-outline" class="text-xl text-[var(--primary)]"></Icon>
 				{versionUpdateWarning}
 			</div>
 			<div class="flex justify-center gap-4 mt-2">
-				<button class="version-check-new-download border-none rounded-[8px] py-2.5 px-7 text-[0.95rem] font-semibold cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] active:scale-95 bg-[var(--btn-regular-bg)] text-[var(--btn-content)] hover:bg-[var(--btn-regular-bg-hover)] inline-flex items-center gap-1">{versionDownloadText}</button>
-				<button class="version-check-new-close border-none rounded-[8px] py-2.5 px-7 text-[0.95rem] font-semibold cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] active:scale-95 bg-transparent border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--btn-plain-bg-hover)]">{cancelText}</button>
+				<button class="version-check-new-download border-none rounded-[8px] py-2.5 px-7 text-base font-semibold cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] active:scale-95 bg-[var(--btn-regular-bg)] text-[var(--btn-content)] hover:bg-[var(--btn-regular-bg-hover)] inline-flex items-center gap-1">{versionDownloadText}</button>
+				<button class="version-check-new-close border-none rounded-[8px] py-2.5 px-7 text-base font-semibold cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] active:scale-95 bg-transparent border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--btn-plain-bg-hover)]">{cancelText}</button>
 			</div>
 		</VersionCheckDialog>
     </div>

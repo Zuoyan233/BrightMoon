@@ -205,7 +205,7 @@ export const tr: Translation = {
 	[Key.rssBenefit4]: "Reklamsız, temiz bir okuma deneyiminin keyfini çıkarın",
 	[Key.rssHowToUse]:
 		"Bu siteye abone olmak için Feedly, Inoreader veya diğer RSS okuyucularını kullanmanız önerilir.",
-	[Key.rssCopied]: "RSS bağlantısı panoya kopyalandı!",
+	[Key.rssCopied]: "RSS bağlantısı panoya kopyalandı",
 	[Key.rssCopyFailed]:
 		"Kopyalama başarısız oldu, lütfen bağlantıyı manuel olarak kopyalayın",
 
@@ -229,7 +229,7 @@ export const tr: Translation = {
 	[Key.atomBenefit4]: "Reklamsız, temiz bir okuma deneyiminin keyfini çıkarın",
 	[Key.atomHowToUse]:
 		"Bu siteye abone olmak için Feedly, Inoreader veya diğer Atom okuyucularını kullanmanız önerilir.",
-	[Key.atomCopied]: "Atom bağlantısı panoya kopyalandı!",
+	[Key.atomCopied]: "Atom bağlantısı panoya kopyalandı",
 	[Key.atomCopyFailed]:
 		"Kopyalama başarısız oldu, lütfen bağlantıyı manuel olarak kopyalayın",
 
@@ -443,12 +443,9 @@ export const tr: Translation = {
 	[Key.cancelText]: "İptal",
 
 	// Sosyal medyada arkadaş ekleme
-	[Key.contactMethod1]: "Wechat",
-	[Key.contactMethod2]: "QQ",
-	[Key.contactMethod3]: "Telegram",
-	[Key.scanContact1]: "Arkadaş eklemek için QR kodu tarayın WeChat",
-	[Key.scanContact2]: "Arkadaş eklemek için QR kodu tarayın QQ",
-	[Key.scanContact3]: "Arkadaş eklemek için QR kodu tarayın Telegram",
+	[Key.copyAccount]: "Hesabı Kopyala",
+	[Key.copyAccountSuccess]: "Panoya kopyalandı",
+	[Key.openAppAdd]: "Uygulamada Aç",
 
 	// Hava durumu bileşeni
 	[Key.weather]: "Hava Durumu",

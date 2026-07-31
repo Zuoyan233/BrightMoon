@@ -205,7 +205,7 @@ export const vi: Translation = {
 	[Key.rssBenefit4]: "Tận hưởng trải nghiệm đọc sạch sẽ, không quảng cáo",
 	[Key.rssHowToUse]:
 		"Nên sử dụng Feedly, Inoreader hoặc các trình đọc RSS khác để đăng ký trang này.",
-	[Key.rssCopied]: "Đã sao chép liên kết RSS vào bộ nhớ tạm!",
+	[Key.rssCopied]: "Đã sao chép liên kết RSS vào bộ nhớ tạm",
 	[Key.rssCopyFailed]: "Sao chép thất bại, vui lòng sao chép liên kết thủ công",
 
 	// Trang Atom
@@ -227,7 +227,7 @@ export const vi: Translation = {
 	[Key.atomBenefit4]: "Tận hưởng trải nghiệm đọc sạch sẽ, không quảng cáo",
 	[Key.atomHowToUse]:
 		"Nên sử dụng Feedly, Inoreader hoặc các trình đọc Atom khác để đăng ký trang này.",
-	[Key.atomCopied]: "Đã sao chép liên kết Atom vào bộ nhớ tạm!",
+	[Key.atomCopied]: "Đã sao chép liên kết Atom vào bộ nhớ tạm",
 	[Key.atomCopyFailed]:
 		"Sao chép thất bại, vui lòng sao chép liên kết thủ công",
 
@@ -437,12 +437,9 @@ export const vi: Translation = {
 	[Key.cancelText]: "Hủy bỏ",
 
 	// Thêm bạn bè trên mạng xã hội
-	[Key.contactMethod1]: "Wechat",
-	[Key.contactMethod2]: "QQ",
-	[Key.contactMethod3]: "Telegram",
-	[Key.scanContact1]: "Quét mã QR để kết bạn WeChat",
-	[Key.scanContact2]: "Quét mã QR để kết bạn QQ",
-	[Key.scanContact3]: "Quét mã QR để kết bạn Telegram",
+	[Key.copyAccount]: "Sao chép tài khoản",
+	[Key.copyAccountSuccess]: "Đã sao chép vào clipboard",
+	[Key.openAppAdd]: "Mở trong ứng dụng",
 
 	// Thành phần thời tiết
 	[Key.weather]: "Thời tiết",

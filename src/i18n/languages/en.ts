@@ -204,7 +204,7 @@ export const en: Translation = {
 	[Key.rssBenefit4]: "Enjoy an ad-free, clean reading experience",
 	[Key.rssHowToUse]:
 		"It is recommended to use Feedly, Inoreader or other RSS readers to subscribe to this site.",
-	[Key.rssCopied]: "RSS link copied to clipboard!",
+	[Key.rssCopied]: "RSS link copied to clipboard",
 	[Key.rssCopyFailed]: "Copy failed, please copy the link manually",
 
 	// Atom Page
@@ -226,7 +226,7 @@ export const en: Translation = {
 	[Key.atomBenefit4]: "Enjoy an ad-free, clean reading experience",
 	[Key.atomHowToUse]:
 		"It is recommended to use Feedly, Inoreader or other Atom readers to subscribe to this site.",
-	[Key.atomCopied]: "Atom link copied to clipboard!",
+	[Key.atomCopied]: "Atom link copied to clipboard",
 	[Key.atomCopyFailed]: "Copy failed, please copy the link manually",
 
 	// Wallpaper mode
@@ -436,12 +436,9 @@ export const en: Translation = {
 	[Key.cancelText]: "Cancel",
 
 	// Add friends on social media
-	[Key.contactMethod1]: "Wechat",
-	[Key.contactMethod2]: "QQ",
-	[Key.contactMethod3]: "Telegram",
-	[Key.scanContact1]: "Scan the QR code to add a WeChat friend",
-	[Key.scanContact2]: "Scan the QR code to add a QQ friend",
-	[Key.scanContact3]: "Scan the QR code to add a Telegram friend",
+	[Key.copyAccount]: "Copy Account",
+	[Key.copyAccountSuccess]: "Copied to clipboard",
+	[Key.openAppAdd]: "Open App to Add",
 
 	// Weather Component
 	[Key.weather]: "Weather",

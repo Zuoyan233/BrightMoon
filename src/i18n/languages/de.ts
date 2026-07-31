@@ -205,7 +205,7 @@ export const de: Translation = {
 	[Key.rssBenefit4]: "Ein werbefreies, sauberes Leseerlebnis genießen",
 	[Key.rssHowToUse]:
 		"Es wird empfohlen, Feedly, Inoreader oder andere RSS-Reader zu verwenden, um diese Seite zu abonnieren.",
-	[Key.rssCopied]: "RSS-Link in die Zwischenablage kopiert!",
+	[Key.rssCopied]: "RSS-Link in die Zwischenablage kopiert",
 	[Key.rssCopyFailed]:
 		"Kopieren fehlgeschlagen, bitte kopieren Sie den Link manuell",
 
@@ -228,7 +228,7 @@ export const de: Translation = {
 	[Key.atomBenefit4]: "Ein werbefreies, sauberes Leseerlebnis genießen",
 	[Key.atomHowToUse]:
 		"Es wird empfohlen, Feedly, Inoreader oder andere Atom-Reader zu verwenden, um diese Seite zu abonnieren.",
-	[Key.atomCopied]: "Atom-Link in die Zwischenablage kopiert!",
+	[Key.atomCopied]: "Atom-Link in die Zwischenablage kopiert",
 	[Key.atomCopyFailed]:
 		"Kopieren fehlgeschlagen, bitte kopieren Sie den Link manuell",
 
@@ -445,15 +445,9 @@ export const de: Translation = {
 	[Key.cancelText]: "Abbrechen",
 
 	// Freunde auf sozialen Medien hinzufügen
-	[Key.contactMethod1]: "Wechat",
-	[Key.contactMethod2]: "QQ",
-	[Key.contactMethod3]: "Telegram",
-	[Key.scanContact1]:
-		"Scannen Sie den QR-Code, um einen WeChat-Freund hinzuzufügen",
-	[Key.scanContact2]:
-		"Scannen Sie den QR-Code, um einen QQ-Freund hinzuzufügen",
-	[Key.scanContact3]:
-		"Scannen Sie den QR-Code, um einen Telegram-Freund hinzuzufügen",
+	[Key.copyAccount]: "Konto kopieren",
+	[Key.copyAccountSuccess]: "In die Zwischenablage kopiert",
+	[Key.openAppAdd]: "In App öffnen",
 
 	// Wetter-Komponente
 	[Key.weather]: "Wetter",

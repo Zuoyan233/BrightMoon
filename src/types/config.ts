@@ -538,11 +538,17 @@ export type AddpaymentConfig = {
 /**
  * 添加添加好友二维码配置
  */
-export type ContactMethods = {
+export type ContactMethod = {
 	method: string; // 社交平台名称
+	label: string; // 显示名称（用于标签按钮）
 	icon: string; // 图标名称
 	qrCode: string; // 二维码图片路径
-}[];
+	account?: string; // 账号ID
+	link?: string; // 跳转链接，用于打开App添加好友
+	tip: string; // 提示文字
+};
+
+export type ContactMethods = ContactMethod[];
 
 /**
  * 天气组件配置

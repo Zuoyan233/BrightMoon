@@ -198,7 +198,7 @@ export const th: Translation = {
 	[Key.rssBenefit4]: "เพลิดเพลินกับประสบการณ์การอ่านที่ไม่มีโฆษณา เรียบร้อย",
 	[Key.rssHowToUse]:
 		"แนะนำให้ใช้ Feedly, Inoreader หรือโปรแกรมอ่าน RSS อื่นๆ เพื่อสมัครรับข้อมูลไซต์นี้",
-	[Key.rssCopied]: "คัดลอกลิงก์ RSS ไปยังคลิปบอร์ดแล้ว!",
+	[Key.rssCopied]: "คัดลอกลิงก์ RSS ไปยังคลิปบอร์ดแล้ว",
 	[Key.rssCopyFailed]: "คัดลอกไม่สำเร็จ กรุณาคัดลอกลิงก์ด้วยตนเอง",
 
 	// หน้า Atom
@@ -218,7 +218,7 @@ export const th: Translation = {
 	[Key.atomBenefit4]: "เพลิดเพลินกับประสบการณ์การอ่านที่ไม่มีโฆษณา เรียบร้อย",
 	[Key.atomHowToUse]:
 		"แนะนำให้ใช้ Feedly, Inoreader หรือโปรแกรมอ่าน Atom อื่นๆ เพื่อสมัครรับข้อมูลไซต์นี้",
-	[Key.atomCopied]: "คัดลอกลิงก์ Atom ไปยังคลิปบอร์ดแล้ว!",
+	[Key.atomCopied]: "คัดลอกลิงก์ Atom ไปยังคลิปบอร์ดแล้ว",
 	[Key.atomCopyFailed]: "คัดลอกไม่สำเร็จ กรุณาคัดลอกลิงก์ด้วยตนเอง",
 
 	// โหมดวอลเปเปอร์
@@ -421,12 +421,9 @@ export const th: Translation = {
 	[Key.cancelText]: "ยกเลิก",
 
 	// เพิ่มเพื่อนบนโซเชียลมีเดีย
-	[Key.contactMethod1]: "Wechat",
-	[Key.contactMethod2]: "QQ",
-	[Key.contactMethod3]: "Telegram",
-	[Key.scanContact1]: "สแกน QR Code เพื่อเพิ่มเพื่อนบน WeChat",
-	[Key.scanContact2]: "สแกน QR Code เพื่อเพิ่มเพื่อนบน QQ",
-	[Key.scanContact3]: "สแกน QR Code เพื่อเพิ่มเพื่อนบน Telegram",
+	[Key.copyAccount]: "คัดลอกบัญชี",
+	[Key.copyAccountSuccess]: "คัดลอกไปยังคลิปบอร์ดแล้ว",
+	[Key.openAppAdd]: "เปิดในแอป",
 
 	// ส่วนประกอบสภาพอากาศ
 	[Key.weather]: "สภาพอากาศ",

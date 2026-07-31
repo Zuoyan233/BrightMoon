@@ -3,10 +3,6 @@
  *
  * 本文件由框架维护，包含所有配置项的默认值与字段结构定义。
  * 升级时此文件会被直接替换，用户不应在此处修改个人配置。
- *
- * 用户配置请放入 src/config/user.ts，通过同名字段覆盖默认值。
- * 用户未覆盖的字段会自动使用本文件中的默认值；
- * 上游新增的字段会随升级自动生效，无需用户手动同步。
  */
 
 import type {
@@ -455,21 +451,34 @@ export const defaultContactEmailConfig: ContactEmailConfig = {
 };
 
 export const defaultContactMethods: ContactMethods = [
-	// method与icon是填写你的社交软件方式，qrCode是填写你的添加好友的二维码，存放路径在 "public/images/contact/" 文件夹内。
+	// method是社交平台标识，label是显示名称（用于标签按钮），icon是图标名称
+	// qrCode是二维码图片路径，account是账号ID，link是跳转链接（用于打开App添加好友），tip是提示文字
 	{
 		method: "wechat",
+		label: "WeChat",
 		icon: "simple-icons:wechat",
 		qrCode: "/images/contact/wechat friend.webp",
+		account: "your_wechat_id",
+		link: "",
+		tip: "Scan the QR code to add a WeChat friend",
 	},
 	{
 		method: "qq",
+		label: "QQ",
 		icon: "simple-icons:qq",
 		qrCode: "/images/contact/qq friend.webp",
+		account: "your_qq_number",
+		link: "",
+		tip: "Scan the QR code to add a QQ friend",
 	},
 	{
 		method: "telegram",
+		label: "Telegram",
 		icon: "simple-icons:telegram",
 		qrCode: "/images/contact/telegram friend.webp",
+		account: "@your_telegram",
+		link: "https://t.me/your_telegram",
+		tip: "Scan the QR code to add a Telegram friend",
 	},
 ];
 

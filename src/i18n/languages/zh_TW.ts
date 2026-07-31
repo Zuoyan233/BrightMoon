@@ -295,7 +295,7 @@ export const zh_TW: Translation = {
 	[Key.rssBenefit3]: "避免錯過重要更新和文章",
 	[Key.rssBenefit4]: "享受無廣告的純淨閱讀體驗",
 	[Key.rssHowToUse]: "推薦使用 Feedly、Inoreader 或其他 RSS 閱讀器來訂閱本站。",
-	[Key.rssCopied]: "RSS 連結已複製到剪貼簿！",
+	[Key.rssCopied]: "RSS 連結已複製到剪貼簿",
 	[Key.rssCopyFailed]: "複製失敗，請手動複製連結",
 
 	// Atom 頁面
@@ -315,7 +315,7 @@ export const zh_TW: Translation = {
 	[Key.atomBenefit4]: "享受無廣告的純淨閱讀體驗",
 	[Key.atomHowToUse]:
 		"推薦使用 Feedly、Inoreader 或其他 Atom 閱讀器來訂閱本站。",
-	[Key.atomCopied]: "Atom 連結已複製到剪貼簿！",
+	[Key.atomCopied]: "Atom 連結已複製到剪貼簿",
 	[Key.atomCopyFailed]: "複製失敗，請手動複製連結",
 
 	// 桌布模式
@@ -420,12 +420,9 @@ export const zh_TW: Translation = {
 	[Key.cancelText]: "取消",
 
 	// 新增社群軟體好友
-	[Key.contactMethod1]: "微信",
-	[Key.contactMethod2]: "QQ",
-	[Key.contactMethod3]: "Telegram",
-	[Key.scanContact1]: "掃描二維碼添加微信好友",
-	[Key.scanContact2]: "掃描二維碼添加QQ好友",
-	[Key.scanContact3]: "掃描二維碼添加Telegram好友",
+	[Key.copyAccount]: "複製帳號",
+	[Key.copyAccountSuccess]: "已複製到剪貼簿",
+	[Key.openAppAdd]: "打開App添加",
 
 	// 天氣組件
 	[Key.weather]: "天氣",

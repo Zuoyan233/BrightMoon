@@ -205,7 +205,7 @@ export const id: Translation = {
 	[Key.rssBenefit4]: "Nikmati pengalaman membaca tanpa iklan dan bersih",
 	[Key.rssHowToUse]:
 		"Disarankan menggunakan Feedly, Inoreader, atau pembaca RSS lainnya untuk berlangganan situs ini.",
-	[Key.rssCopied]: "Tautan RSS disalin ke papan klip!",
+	[Key.rssCopied]: "Tautan RSS disalin ke papan klip",
 	[Key.rssCopyFailed]: "Salin gagal, silakan salin tautan secara manual",
 
 	// Halaman Atom
@@ -227,7 +227,7 @@ export const id: Translation = {
 	[Key.atomBenefit4]: "Nikmati pengalaman membaca tanpa iklan dan bersih",
 	[Key.atomHowToUse]:
 		"Disarankan menggunakan Feedly, Inoreader, atau pembaca Atom lainnya untuk berlangganan situs ini.",
-	[Key.atomCopied]: "Tautan Atom disalin ke papan klip!",
+	[Key.atomCopied]: "Tautan Atom disalin ke papan klip",
 	[Key.atomCopyFailed]: "Salin gagal, silakan salin tautan secara manual",
 
 	// Mode Wallpaper
@@ -437,12 +437,9 @@ export const id: Translation = {
 	[Key.cancelText]: "Batal",
 
 	// Tambahkan teman di media sosial
-	[Key.contactMethod1]: "Wechat",
-	[Key.contactMethod2]: "QQ",
-	[Key.contactMethod3]: "Telegram",
-	[Key.scanContact1]: "Pindai kode QR untuk menambahkan teman WeChat",
-	[Key.scanContact2]: "Pindai kode QR untuk menambahkan teman QQ",
-	[Key.scanContact3]: "Pindai kode QR untuk menambahkan teman Telegram",
+	[Key.copyAccount]: "Salin akun",
+	[Key.copyAccountSuccess]: "Disalin ke papan klip",
+	[Key.openAppAdd]: "Buka di aplikasi",
 
 	// Komponen cuaca
 	[Key.weather]: "Cuaca",

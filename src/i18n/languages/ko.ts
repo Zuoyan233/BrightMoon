@@ -203,7 +203,7 @@ export const ko: Translation = {
 	[Key.rssBenefit4]: "광고 없는 깔끔한 독서 경험을 즐길 수 있습니다",
 	[Key.rssHowToUse]:
 		"Feedly, Inoreader 등의 RSS 리더기를 사용하여 이 사이트를 구독하는 것을 권장합니다.",
-	[Key.rssCopied]: "RSS 링크가 클립보드에 복사되었습니다!",
+	[Key.rssCopied]: "RSS 링크가 클립보드에 복사되었습니다",
 	[Key.rssCopyFailed]: "복사 실패, 링크를 수동으로 복사해주세요",
 
 	// Atom 페이지
@@ -224,7 +224,7 @@ export const ko: Translation = {
 	[Key.atomBenefit4]: "광고 없는 깔끔한 독서 경험을 즐길 수 있습니다",
 	[Key.atomHowToUse]:
 		"Feedly, Inoreader 등의 Atom 리더기를 사용하여 이 사이트를 구독하는 것을 권장합니다.",
-	[Key.atomCopied]: "Atom 링크가 클립보드에 복사되었습니다!",
+	[Key.atomCopied]: "Atom 링크가 클립보드에 복사되었습니다",
 	[Key.atomCopyFailed]: "복사 실패, 링크를 수동으로 복사해주세요",
 
 	// 배경화면 모드
@@ -431,12 +431,9 @@ export const ko: Translation = {
 	[Key.cancelText]: "취소",
 
 	// 소셜 미디어에서 친구 추가하기
-	[Key.contactMethod1]: "Wechat",
-	[Key.contactMethod2]: "QQ",
-	[Key.contactMethod3]: "Telegram",
-	[Key.scanContact1]: "QR 코드를 스캔하여 WeChat 친구 추가",
-	[Key.scanContact2]: "QR 코드를 스캔하여 QQ 친구 추가",
-	[Key.scanContact3]: "QR 코드를 스캔하여 Telegram 친구 추가",
+	[Key.copyAccount]: "계정 복사",
+	[Key.copyAccountSuccess]: "클립보드에 복사됨",
+	[Key.openAppAdd]: "앱에서 열기",
 
 	// 날씨 컴포넌트
 	[Key.weather]: "날씨",
