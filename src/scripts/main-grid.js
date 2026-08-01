@@ -702,21 +702,23 @@ document.addEventListener("click", (e) => {
 		.writeText(url)
 		.then(() => {
 			btn.innerHTML = `<span class="inline-flex items-center justify-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><polyline points="20 6 9 17 4 12"/></svg><span>${copiedText}</span></span>`;
-			btn.style.backgroundColor = "var(--success-color, #10b981)";
+			btn.style.cssText =
+				"background-color: var(--success-color, #10b981) !important; border-color: transparent; box-shadow: none;";
 
 			setTimeout(() => {
 				btn.innerHTML = originalHTML;
-				btn.style.backgroundColor = "";
+				btn.style.cssText = "";
 			}, 2000);
 		})
 		.catch((err) => {
 			console.error("Copy failed:", err);
 			btn.innerHTML = `<span class="inline-flex items-center justify-center gap-1.5"><Icon name="material-symbols:error" class="text-base" /><span>${failedText}</span></span>`;
-			btn.style.backgroundColor = "var(--error-color, #ef4444)";
+			btn.style.cssText =
+				"background-color: var(--error-color, #ef4444) !important; border-color: transparent; box-shadow: none;";
 
 			setTimeout(() => {
 				btn.innerHTML = originalHTML;
-				btn.style.backgroundColor = "";
+				btn.style.cssText = "";
 			}, 2000);
 		});
 });
