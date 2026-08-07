@@ -1,6 +1,8 @@
 ---
 import { Icon } from "astro-icon/components";
 import { siteConfig } from "../../config";
+import Key from "@i18n/i18nKey";
+import { i18n } from "@i18n/translation";
 
 const tocDepth = siteConfig.toc.depth;
 const useJapaneseBadge = siteConfig.toc.useJapaneseBadge;
@@ -14,7 +16,8 @@ const useJapaneseBadge = siteConfig.toc.useJapaneseBadge;
 	<button
 		id="floating-toc-btn"
 		class="floating-toc-btn btn-card"
-		aria-label="Table of Contents"
+		title={i18n(Key.tocTitle)}
+		aria-label={i18n(Key.tocTitle)}
 	>
 		<svg
 			class="progress-ring"
@@ -37,6 +40,7 @@ const useJapaneseBadge = siteConfig.toc.useJapaneseBadge;
 		</div>
 	</button>
 	<div id="floating-toc-panel" class="floating-toc-panel">
+		<div class="floating-toc-panel-title">{i18n(Key.tocTitle)}</div>
 		<div class="floating-toc-panel-content" id="floating-toc-content"></div>
 	</div>
 </div>
@@ -125,24 +129,28 @@ const useJapaneseBadge = siteConfig.toc.useJapaneseBadge;
 		pointer-events: auto;
 	}
 
+	.floating-toc-panel-title {
+		@apply font-bold transition text-lg text-neutral-900 dark:text-neutral-100 relative ml-8 mt-4 mb-2 flex items-center
+			before:w-1 before:h-4 before:rounded-md before:bg-[var(--primary)]
+			before:absolute before:left-[-16px] before:top-[5.5px];
+	}
+
 	.floating-toc-panel-content {
-		padding: 0.75rem;
-		max-height: 60vh;
+		padding-left: 0.75rem;
+		padding-right: 0.75rem;
+		padding-bottom: 0.75rem;
+		max-height: calc(60vh - 3rem);
 		overflow-y: auto;
 		overflow-x: hidden;
 	}
 
+	.floating-toc-panel-content {
+		scrollbar-width: none;
+		-ms-overflow-style: none;
+	}
+
 	.floating-toc-panel-content::-webkit-scrollbar {
-		width: 4px;
-	}
-
-	.floating-toc-panel-content::-webkit-scrollbar-track {
-		background: transparent;
-	}
-
-	.floating-toc-panel-content::-webkit-scrollbar-thumb {
-		background: var(--line-color);
-		border-radius: 2px;
+		display: none;
 	}
 
 	@media (max-width: 1560px) {
@@ -444,6 +452,48 @@ const useJapaneseBadge = siteConfig.toc.useJapaneseBadge;
 				} else {
 					link.classList.remove("active");
 				}
+			});
+
+			// 让面板自动滚动，使当前激活项保持在视野内（跟随文章光标移动）
+			this.scrollToActiveHeading(activeIndex, links);
+		}
+
+		// 悬浮 TOC 面板跟随当前阅读位置滚动，行为与普通 TOC 一致
+		private scrollToActiveHeading(activeIndex: number, links: Element[]) {
+			if (activeIndex < 0 || !this.content) return;
+			const activeLink = links[activeIndex] as HTMLElement | undefined;
+			if (!activeLink) return;
+
+			const container = this.content;
+			const containerHeight = container.clientHeight;
+			const containerRect = container.getBoundingClientRect();
+
+			// 用相对容器的坐标计算，避免 offsetParent 错位导致第一个标题被遮住
+			const linkTop = activeLink.getBoundingClientRect().top - containerRect.top + container.scrollTop;
+			const linkBottom = linkTop + activeLink.offsetHeight;
+
+			const topPadding = 4; // 顶部留白，避免激活项贴边被面板圆角裁切
+
+			// 如果激活项已在可视区域内（含顶部留白），无需滚动
+			if (linkTop >= container.scrollTop + topPadding &&
+				linkBottom <= container.scrollTop + containerHeight) {
+				return;
+			}
+
+			// 优先把激活项显示在面板顶部附近；若底部项也能容纳则显示顶部项
+			let top: number;
+			const topmost = links[activeIndex] as HTMLElement;
+			const bottommost = activeLink;
+			if (bottommost.getBoundingClientRect().bottom - topmost.getBoundingClientRect().top < 0.9 * containerHeight) {
+				top = linkTop - topPadding;
+			} else {
+				top = linkBottom - containerHeight * 0.8;
+			}
+
+			container.scrollTo({
+				top: Math.max(0, top),
+				left: 0,
+				behavior: "smooth",
 			});
 		}
 

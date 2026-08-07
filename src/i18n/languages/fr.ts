@@ -543,4 +543,7 @@ export const fr: Translation = {
 	[Key.suggestion]: "Vous aimerez peut-être visiter",
 	[Key.navBack]: "Revenir à la page précédente",
 	[Key.navForward]: "Aller à la page suivante",
+
+	// Bouton "Retour en haut"
+	[Key.backToTop]: "Retour en haut",
 };

@@ -531,4 +531,7 @@ export const tr: Translation = {
 	[Key.suggestion]: "Belki ziyaret etmek istersiniz",
 	[Key.navBack]: "Önceki sayfaya dön",
 	[Key.navForward]: "Sonraki sayfaya git",
+
+	// "Başa dön" butonu
+	[Key.backToTop]: "Başa dön",
 };

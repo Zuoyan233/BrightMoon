@@ -525,4 +525,7 @@ export const ru: Translation = {
 	[Key.suggestion]: "Возможно, вам стоит посетить",
 	[Key.navBack]: "Вернуться на предыдущую страницу",
 	[Key.navForward]: "Перейти на следующую страницу",
+
+	// Кнопка "Наверх"
+	[Key.backToTop]: "Наверх",
 };

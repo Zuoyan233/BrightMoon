@@ -536,4 +536,7 @@ export const es: Translation = {
 	[Key.suggestion]: "Quizás quieras visitar",
 	[Key.navBack]: "Volver a la página anterior",
 	[Key.navForward]: "Ir a la página siguiente",
+
+	// Botón "Volver arriba"
+	[Key.backToTop]: "Volver arriba",
 };

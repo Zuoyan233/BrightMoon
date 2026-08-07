@@ -522,4 +522,7 @@ export const en: Translation = {
 	[Key.suggestion]: "You might want to visit",
 	[Key.navBack]: "Go back",
 	[Key.navForward]: "Go forward",
+
+	// Back to Top Button
+	[Key.backToTop]: "Back to Top",
 };

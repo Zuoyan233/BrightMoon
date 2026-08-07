@@ -520,4 +520,7 @@ export const ja: Translation = {
 	[Key.suggestion]: "訪れたいかもしれません",
 	[Key.navBack]: "前のページへ",
 	[Key.navForward]: "次のページへ",
+
+	// トップへ戻るボタン
+	[Key.backToTop]: "トップへ戻る",
 };

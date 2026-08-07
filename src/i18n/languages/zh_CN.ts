@@ -502,4 +502,7 @@ export const zh_CN: Translation = {
 	[Key.suggestion]: "你可能想访问",
 	[Key.navBack]: "返回上一页",
 	[Key.navForward]: "前往下一页",
+
+	// 回到顶部按钮
+	[Key.backToTop]: "回到顶部",
 };

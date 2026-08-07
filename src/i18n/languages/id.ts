@@ -525,4 +525,7 @@ export const id: Translation = {
 	[Key.suggestion]: "Mungkin Anda ingin mengunjungi",
 	[Key.navBack]: "Kembali ke halaman sebelumnya",
 	[Key.navForward]: "Ke halaman berikutnya",
+
+	// Tombol "Kembali ke Atas"
+	[Key.backToTop]: "Kembali ke Atas",
 };

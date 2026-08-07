@@ -487,6 +487,9 @@ enum I18nKey {
 	suggestion = "suggestion",
 	navBack = "navBack",
 	navForward = "navForward",
+
+	// 回到顶部按钮
+	backToTop = "backToTop",
 }
 
 export default I18nKey;
