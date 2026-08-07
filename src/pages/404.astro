@@ -5,7 +5,11 @@ import { i18n } from "../i18n/translation";
 import MainGridLayout from "../layouts/MainGridLayout.astro";
 ---
 
-<MainGridLayout title={i18n(I18nKey.notFound)} description={i18n(I18nKey.notFoundDescription)}>
+<MainGridLayout
+    title={i18n(I18nKey.notFound)}
+    description={i18n(I18nKey.notFoundDescription)}
+    breadcrumbItems={[{ label: i18n(I18nKey.notFound), icon: "material-symbols:error-outline" }]}
+>
     <!-- 引入右侧边栏布局管理器 -->
   <script>
     import('../scripts/right-sidebar-layout.js');
