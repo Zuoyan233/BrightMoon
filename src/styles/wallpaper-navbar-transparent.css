@@ -149,7 +149,8 @@ body.wallpaper-transparent #navbar[data-transparent-mode="semifull"].scrolled {
 	}
 
 	/* 搜索框内部颜色处理 */
-	body:has(#navbar[data-dynamic-transparent="none"]) #search-panel
+	body:has(#navbar[data-dynamic-transparent="none"])
+		#search-panel
 		#search-bar-inside {
 		background: rgba(0, 0, 0, 0.08);
 	}
@@ -162,7 +163,7 @@ body.wallpaper-transparent #navbar[data-transparent-mode="semifull"].scrolled {
 
 	/* 非首页时，移动端各个弹出面板不透明 */
 	#navbar:not([data-is-home="true"])
-		:is(#nav-menu-panel, #search-panel, #display-setting) {
+	:is(#nav-menu-panel, #search-panel, #display-setting) {
 		background: var(--card-bg);
 		backdrop-filter: none;
 	}

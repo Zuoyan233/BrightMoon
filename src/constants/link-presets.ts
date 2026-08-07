@@ -68,4 +68,14 @@ export const LinkPresets: { [key in LinkPreset]: NavBarLink } = {
 		url: "/devices/",
 		icon: "material-symbols:devices",
 	},
+	[LinkPreset.RSS]: {
+		name: i18n(I18nKey.rss),
+		url: "/rss/",
+		icon: "material-symbols:rss-feed",
+	},
+	[LinkPreset.Atom]: {
+		name: i18n(I18nKey.atom),
+		url: "/atom/",
+		icon: "material-symbols:rss-feed",
+	},
 };

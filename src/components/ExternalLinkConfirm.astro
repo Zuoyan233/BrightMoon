@@ -8,64 +8,92 @@ import { Icon } from "astro-icon/components";
 	id="external-link-dialog"
 	class="dialog fixed inset-0 m-auto rounded-[var(--radius-large)] bg-[var(--float-panel-bg)] p-0 w-[90%] max-w-[440px] shadow-lg overflow-hidden transition-all duration-250 ease-[cubic-bezier(0.2,0,0,1)] opacity-0 scale-95 translate-y-2.5 dialog-show:opacity-100 dialog-show:scale-100 dialog-show:translate-y-0"
 >
-	<div class="absolute inset-0 bg-[image:var(--dialog-bg-img)] bg-auto bg-right-bottom bg-no-repeat opacity-18 z-0 pointer-events-none"></div>
+	<div
+		class="absolute inset-0 bg-[image:var(--dialog-bg-img)] bg-auto bg-right-bottom bg-no-repeat opacity-18 z-0 pointer-events-none"
+	>
+	</div>
 
 	<div class="relative z-10 p-8 pb-7 flex flex-col gap-5">
-		<div class="flex items-center justify-center gap-2.5 text-[var(--primary)]">
-            <Icon name="material-symbols:exit-to-app" class="text-3xl"></Icon>
-			<h3 class="m-0 text-xl font-semibold text-[var(--btn-plain)]">{i18n(I18nKey.leaveSite)}</h3>
+		<div
+			class="flex items-center justify-center gap-2.5 text-[var(--primary)]"
+		>
+			<Icon name="material-symbols:exit-to-app" class="text-3xl" />
+			<h3 class="m-0 text-xl font-bold text-[var(--btn-plain)]">
+				{i18n(I18nKey.leaveSite)}
+			</h3>
 		</div>
 
 		<div class="flex flex-col gap-4">
-			<p class="m-0 text-base text-center text-[var(--content-meta)]">{i18n(I18nKey.goToExternalLink)}</p>
+			<p class="m-0 text-base text-center text-[var(--content-meta)]">
+				{i18n(I18nKey.goToExternalLink)}
+			</p>
 
-			<div class="flex items-center justify-between gap-3 bg-[var(--codeblock-bg)] border border-[var(--line-color)] rounded-xl py-3 px-4">
-				<p id="external-link-url" class="text-[var(--inline-code-color)] break-all m-0 font-mono text-[0.9rem] leading-[1.4] line-clamp-2"></p>
+			<div
+				class="flex items-center justify-between gap-3 bg-[var(--codeblock-bg)] border border-[var(--line-color)] rounded-xl py-3 px-4"
+			>
+				<p
+					id="external-link-url"
+					class="text-[var(--inline-code-color)] break-all m-0 font-mono text-sm leading-[1.4] line-clamp-2"
+				>
+				</p>
 				<button
 					id="external-link-copy"
 					class="flex-shrink-0 bg-transparent border-none text-[var(--primary)] cursor-pointer p-1.5 rounded-lg flex items-center justify-center hover:bg-[var(--btn-plain-bg-hover)] transition-colors duration-200"
 					title="copylink"
 				>
-					<Icon name="material-symbols:copy-all" class="copy-icon text-2xl block"></Icon>
-					<Icon name="material-symbols:check" class="check-icon text-2xl hidden"></Icon>
+					<Icon
+						name="material-symbols:copy-all"
+						class="copy-icon text-2xl block"
+					/>
+					<Icon
+						name="material-symbols:check"
+						class="check-icon text-2xl hidden"
+					/>
 				</button>
 			</div>
 
-			<div class="flex items-center justify-center gap-1.5 text-sm text-[var(--content-meta)] m-0">
-				<Icon name="material-symbols:error-outline" class="text-xl text-[var(--primary)]"></Icon>
+			<div
+				class="flex items-center justify-center gap-1.5 text-sm text-[var(--content-meta)] m-0"
+			>
+				<Icon
+					name="material-symbols:error-outline"
+					class="text-xl text-[var(--primary)]"
+				/>
 				{i18n(I18nKey.warningText)}
-            </div>
+			</div>
 		</div>
 
 		<div class="flex justify-center gap-4 mt-2">
 			<button
 				id="external-link-confirm"
-				class="border-none rounded-[8px] py-2.5 px-7 text-base font-semibold cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] active:scale-95 bg-[var(--btn-regular-bg)] text-[var(--btn-content)] hover:bg-[var(--btn-regular-bg-hover)]">{i18n(I18nKey.confirmText)}</button
+				class="border-none rounded-[8px] py-2.5 px-7 text-base font-bold cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] active:scale-95 bg-[var(--btn-regular-bg)] text-[var(--btn-content)] hover:bg-[var(--btn-regular-bg-hover)]"
+				>{i18n(I18nKey.confirmText)}</button
 			>
 			<button
 				id="external-link-cancel"
-				class="border-none rounded-[8px] py-2.5 px-7 text-base font-semibold cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] active:scale-95 bg-transparent border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--btn-plain-bg-hover)]">{i18n(I18nKey.cancelText)}</button
+				class="border-none rounded-[8px] py-2.5 px-7 text-base font-bold cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] active:scale-95 bg-transparent border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--btn-plain-bg-hover)]"
+				>{i18n(I18nKey.cancelText)}</button
 			>
 		</div>
 	</div>
 </dialog>
 
 <style>
-  /* 自定义修饰符规则 */
-  .dialog.dialog-show {
-    @apply opacity-100 scale-100 translate-y-0;
-  }
-  
-  /* backdrop 样式 */
-  .dialog::backdrop {
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(5px);
-    opacity: 0;
-    transition: opacity 0.25s ease;
-  }
-  .dialog.dialog-show::backdrop {
-    opacity: 1;
-  }
+	/* 自定义修饰符规则 */
+	.dialog.dialog-show {
+		@apply opacity-100 scale-100 translate-y-0;
+	}
+
+	/* backdrop 样式 */
+	.dialog::backdrop {
+		background-color: rgba(0, 0, 0, 0.5);
+		backdrop-filter: blur(5px);
+		opacity: 0;
+		transition: opacity 0.25s ease;
+	}
+	.dialog.dialog-show::backdrop {
+		opacity: 1;
+	}
 </style>
 
 <script>

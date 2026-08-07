@@ -116,82 +116,113 @@ const sizeClasses = getSizeClasses(size);
 const skillColor = skill.color || "#3B82F6";
 ---
 
-<div class="bg-transparent rounded-lg border border-black/10 dark:border-white/10 overflow-hidden hover:shadow-lg transition-all duration-300 group">
+<div
+  class="bg-transparent rounded-lg border border-black/10 dark:border-white/10 overflow-hidden hover:shadow-lg transition-all duration-300 group"
+>
   <div class={sizeClasses.container}>
     <div class="flex items-start gap-4">
       <!-- 技能图标 -->
-      {showIcon && skill.icon && (
-        <div class={`rounded-lg flex items-center justify-center shrink-0 ${sizeClasses.icon}`} style={`background-color: ${skillColor}20`}>
-          <Icon 
-            icon={skill.icon} 
-            class={sizeClasses.iconText} 
-            color={skillColor}
-            fallback={skill.name.charAt(0)}
-            loading="eager"
-          />
-        </div>
-      )}
-      
+      {
+        showIcon && skill.icon && (
+          <div
+            class={`rounded-lg flex items-center justify-center shrink-0 ${sizeClasses.icon}`}
+            style={`background-color: ${skillColor}20`}
+          >
+            <Icon
+              icon={skill.icon}
+              class={sizeClasses.iconText}
+              color={skillColor}
+              fallback={skill.name.charAt(0)}
+              loading="eager"
+            />
+          </div>
+        )
+      }
+
       <div class="flex-1 min-w-0">
         <!-- 技能名称和等级 -->
         <div class="flex items-center justify-between mb-2">
-          <h3 class={`font-semibold text-black/90 dark:text-white/90 ${sizeClasses.title} ${size === 'small' ? 'truncate' : ''}`}>
+          <h3
+            class={`font-bold text-black/90 dark:text-white/90 ${sizeClasses.title} ${size === "small" ? "truncate" : ""}`}
+          >
             {skill.name}
           </h3>
-          <span class={`px-2 py-1 rounded-full shrink-0 ml-2 ${sizeClasses.badge} ${getLevelColor(skill.level)}`}>
+          <span
+            class={`px-2 py-1 rounded-full shrink-0 ml-2 ${sizeClasses.badge} ${getLevelColor(skill.level)}`}
+          >
             {getLevelText(skill.level)}
           </span>
         </div>
-        
+
         <!-- 分类标签 -->
-        {skill.category && (
-          <div class="mb-2">
-            <span class={`px-2 py-1 bg-blue-600/20 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400 rounded ${sizeClasses.badge}`}>
-              {skill.category}
-            </span>
-          </div>
-        )}
-        
+        {
+          skill.category && (
+            <div class="mb-2">
+              <span
+                class={`px-2 py-1 bg-blue-600/20 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400 rounded ${sizeClasses.badge}`}
+              >
+                {skill.category}
+              </span>
+            </div>
+          )
+        }
+
         <!-- 技能描述 -->
-        <p class={`text-black/60 dark:text-white/60 mb-3 ${sizeClasses.description}`}>
+        <p
+          class={`text-black/60 dark:text-white/60 mb-3 ${sizeClasses.description}`}
+        >
           {skill.description}
         </p>
-        
+
         <!-- 经验和进度条 -->
-        {showProgress && (
-          <div class="mb-3">
-            <div class="flex justify-between text-sm mb-1">
-              <span class="text-black/60 dark:text-white/60">{i18n(I18nKey.skillExperience)}</span>
-              <span class="text-black/80 dark:text-white/80">{skill.experience}</span>
-            </div>
-            <div class={`w-full bg-gray-200 dark:bg-gray-700 rounded-full ${sizeClasses.progress}`}>
-              <div 
-                class={`rounded-full transition-all duration-500 ${sizeClasses.progress}`}
-                style={`width: ${getLevelWidth(skill.level)}; background-color: ${skillColor}`}
-              ></div>
-            </div>
-          </div>
-        )}
-        
-        <!-- 认证信息 -->
-        {skill.certifications && skill.certifications.length > 0 && (
-          <div class="mb-3">
-            <div class="flex flex-wrap gap-1">
-              {skill.certifications.map((cert) => (
-                <span class={`px-2 py-1 bg-green-600/20 text-green-700 dark:bg-green-900/30 dark:text-green-400 rounded ${sizeClasses.badge}`}>
-                  🏆 {cert}
+        {
+          showProgress && (
+            <div class="mb-3">
+              <div class="flex justify-between text-sm mb-1">
+                <span class="text-black/60 dark:text-white/60">
+                  {i18n(I18nKey.skillExperience)}
                 </span>
-              ))}
+                <span class="text-black/80 dark:text-white/80">
+                  {skill.experience}
+                </span>
+              </div>
+              <div
+                class={`w-full bg-gray-200 dark:bg-gray-700 rounded-full ${sizeClasses.progress}`}
+              >
+                <div
+                  class={`rounded-full transition-all duration-500 ${sizeClasses.progress}`}
+                  style={`width: ${getLevelWidth(skill.level)}; background-color: ${skillColor}`}
+                />
+              </div>
             </div>
-          </div>
-        )}
-        
+          )
+        }
+
+        <!-- 认证信息 -->
+        {
+          skill.certifications && skill.certifications.length > 0 && (
+            <div class="mb-3">
+              <div class="flex flex-wrap gap-1">
+                {skill.certifications.map((cert) => (
+                  <span
+                    class={`px-2 py-1 bg-green-600/20 text-green-700 dark:bg-green-900/30 dark:text-green-400 rounded ${sizeClasses.badge}`}
+                  >
+                    🏆 {cert}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )
+        }
+
         <!-- 相关项目 -->
-        {skill.relatedProjects && skill.relatedProjects.length > 0 && (
-          <div class="text-sm text-black/60 dark:text-white/60">
-            {i18n(I18nKey.skillsProjects)}: {skill.relatedProjects.length}
-          </div>
-        )}
+        {
+          skill.relatedProjects && skill.relatedProjects.length > 0 && (
+            <div class="text-sm text-black/60 dark:text-white/60">
+              {i18n(I18nKey.skillsProjects)}: {skill.relatedProjects.length}
+            </div>
+          )
+        }
       </div>
     </div>
   </div>
@@ -204,7 +235,7 @@ const skillColor = skill.color || "#3B82F6";
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  
+
   .line-clamp-3 {
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -215,15 +246,15 @@ const skillColor = skill.color || "#3B82F6";
 
 <script>
   // 监听图标加载完成事件
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener("DOMContentLoaded", () => {
     const skillCard = document.currentScript?.parentElement;
     if (skillCard) {
-      skillCard.classList.add('skill-card');
-      
+      skillCard.classList.add("skill-card");
+
       // 监听图标准备就绪事件
-      skillCard.addEventListener('iconify-ready', () => {
+      skillCard.addEventListener("iconify-ready", () => {
         // 图标加载完成，可以执行额外的初始化逻辑
-        skillCard.classList.add('icons-loaded');
+        skillCard.classList.add("icons-loaded");
       });
     }
   });

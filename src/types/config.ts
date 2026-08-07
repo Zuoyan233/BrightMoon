@@ -237,6 +237,8 @@ export enum LinkPreset {
 	Sponsors = 10,
 	Devices = 11,
 	Feedback = 12,
+	RSS = 13,
+	Atom = 14,
 }
 
 export type NavBarLink = {

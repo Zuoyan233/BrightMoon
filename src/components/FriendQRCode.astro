@@ -29,7 +29,7 @@ const methodsToShow = qrCodes
     <!-- 标题 -->
     <div class="flex items-center justify-center gap-2.5 text-[var(--primary)]">
       <Icon name="material-symbols:qr-code-scanner" class="text-3xl" />
-      <h3 class="m-0 text-xl font-semibold text-[var(--btn-plain)]">
+      <h3 class="m-0 text-xl font-bold text-[var(--btn-plain)]">
         {i18n(I18nKey.addFriends)}
       </h3>
     </div>
@@ -116,13 +116,13 @@ const methodsToShow = qrCodes
       <button
         id="dialog-open-app-btn"
         data-link=""
-        class="hidden border-none rounded-[8px] py-2.5 px-7 text-base font-semibold cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] active:scale-95 bg-[var(--btn-regular-bg)] text-[var(--btn-content)] hover:bg-[var(--btn-regular-bg-hover)] ignore"
+        class="hidden border-none rounded-[8px] py-2.5 px-7 text-base font-bold cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] active:scale-95 bg-[var(--btn-regular-bg)] text-[var(--btn-content)] hover:bg-[var(--btn-regular-bg-hover)] ignore"
       >
         {i18n(I18nKey.openAppAdd)}
       </button>
       <button
         id="dialog-close-btn"
-        class="border-none rounded-[8px] py-2.5 px-7 text-base font-semibold cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] active:scale-95 bg-transparent border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--btn-plain-bg-hover)]"
+        class="border-none rounded-[8px] py-2.5 px-7 text-base font-bold cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] active:scale-95 bg-transparent border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--btn-plain-bg-hover)]"
       >
         {i18n(I18nKey.cancelText)}
       </button>

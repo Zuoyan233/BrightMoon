@@ -19,26 +19,52 @@ const rejectText = i18n(I18nKey.cookieConsentReject);
 const uid = Math.random().toString(36).slice(2, 10);
 ---
 
-<div data-overlay={uid} class="fixed inset-0 z-[9998] bg-black/25 dark:bg-black/45" style="opacity:0;pointer-events:none;transition:opacity 0.4s cubic-bezier(0.4,0,0.2,1)"></div>
-<div data-bid={uid} class="fixed bottom-0 left-0 right-0 z-[9999] bg-[var(--card-bg-transparent)] backdrop-blur-sm shadow-[0_-4px_24px_rgba(0,0,0,0.08)] dark:shadow-[0_-4px_24px_rgba(0,0,0,0.3)]" style="transform:translateY(100%);opacity:0;pointer-events:none;transition:transform 0.4s cubic-bezier(0.4,0,0.2,1),opacity 0.4s cubic-bezier(0.4,0,0.2,1)">
-    <div class="max-w-[75rem] mx-auto px-6 py-4 flex items-center gap-6 max-md:flex-col max-md:gap-4 max-md:p-4">
+<div
+    data-overlay={uid}
+    class="fixed inset-0 z-[9998] bg-black/25 dark:bg-black/45"
+    style="opacity:0;pointer-events:none;transition:opacity 0.4s cubic-bezier(0.4,0,0.2,1)"
+>
+</div>
+<div
+    data-bid={uid}
+    class="fixed bottom-0 left-0 right-0 z-[9999] bg-[var(--card-bg-transparent)] backdrop-blur-sm shadow-[0_-4px_24px_rgba(0,0,0,0.08)] dark:shadow-[0_-4px_24px_rgba(0,0,0,0.3)]"
+    style="transform:translateY(100%);opacity:0;pointer-events:none;transition:transform 0.4s cubic-bezier(0.4,0,0.2,1),opacity 0.4s cubic-bezier(0.4,0,0.2,1)"
+>
+    <div
+        class="max-w-[75rem] mx-auto px-6 py-4 flex items-center gap-6 max-md:flex-col max-md:gap-4 max-md:p-4"
+    >
         <div class="flex-1 min-w-0">
-            <div class="flex items-center gap-2 text-xl font-semibold text-[var(--primary)] mb-2">
-                <Icon name="material-symbols:cookie-outline" class="text-[var(--primary)] shrink-0 w-5 h-5"></Icon>
+            <div
+                class="flex items-center gap-2 text-xl font-bold text-[var(--primary)] mb-2"
+            >
+                <Icon
+                    name="material-symbols:cookie-outline"
+                    class="text-[var(--primary)] shrink-0 w-5 h-5"
+                />
                 <span>{title}</span>
             </div>
-            <div class="text-sm leading-relaxed text-neutral-700 dark:text-white/80">
+            <div
+                class="text-sm leading-relaxed text-neutral-700 dark:text-white/80"
+            >
                 <p class="mb-1.5">{description}</p>
-                <p class="ignore text-xs text-neutral-500 dark:text-neutral-400 opacity-[0.85]">
+                <p
+                    class="ignore text-xs text-neutral-500 dark:text-neutral-400 opacity-[0.85]"
+                >
                     {ipInfoLoading}
                 </p>
             </div>
         </div>
-        <div class="flex flex-col gap-2 shrink-0 min-w-[120px] max-md:flex-row max-md:flex-wrap max-md:w-full">
-            <button class="px-4 py-2 rounded-md text-base font-medium cursor-pointer border-none transition-all duration-200 whitespace-nowrap max-md:flex-1 max-md:min-w-[100px] bg-[oklch(0.7_0.12_var(--hue))] text-white hover:bg-[oklch(0.95_0.025_var(--hue))] dark:hover:bg-[oklch(0.33_0.035_var(--hue))] hover:text-[var(--primary)]">
+        <div
+            class="flex flex-col gap-2 shrink-0 min-w-[120px] max-md:flex-row max-md:flex-wrap max-md:w-full"
+        >
+            <button
+                class="px-4 py-2 rounded-md text-base font-medium cursor-pointer border-none transition-all duration-200 whitespace-nowrap max-md:flex-1 max-md:min-w-[100px] bg-[oklch(0.7_0.12_var(--hue))] text-white hover:bg-[oklch(0.95_0.025_var(--hue))] dark:hover:bg-[oklch(0.33_0.035_var(--hue))] hover:text-[var(--primary)]"
+            >
                 {acceptText}
             </button>
-            <button class="px-4 py-2 rounded-md text-base font-medium cursor-pointer transition-all duration-200 whitespace-nowrap max-md:flex-1 max-md:min-w-[100px] bg-black/[0.12] dark:bg-white/[0.15] text-neutral-700 dark:text-white hover:text-[var(--primary)] dark:hover:text-[var(--primary)] border-none hover:bg-[oklch(0.95_0.025_var(--hue))] dark:hover:bg-[oklch(0.33_0.035_var(--hue))]">
+            <button
+                class="px-4 py-2 rounded-md text-base font-medium cursor-pointer transition-all duration-200 whitespace-nowrap max-md:flex-1 max-md:min-w-[100px] bg-black/[0.12] dark:bg-white/[0.15] text-neutral-700 dark:text-white hover:text-[var(--primary)] dark:hover:text-[var(--primary)] border-none hover:bg-[oklch(0.95_0.025_var(--hue))] dark:hover:bg-[oklch(0.33_0.035_var(--hue))]"
+            >
                 {rejectText}
             </button>
         </div>
@@ -46,114 +72,182 @@ const uid = Math.random().toString(36).slice(2, 10);
 </div>
 
 <script is:inline define:vars={{ uid, ipInfoLoading, ipInfoTimeout, enable }}>
-    (function() {
-        var cKey = 'siteNoticeConsent';
+    (function () {
+        var cKey = "siteNoticeConsent";
         var consent = localStorage.getItem(cKey);
         window.__siteNoticeConsent = consent;
 
         // 如果协议弹窗被关闭，自动视为已同意，不做任何权限拒绝
         if (!enable) {
-            localStorage.setItem(cKey, 'accepted');
-            window.__siteNoticeConsent = 'accepted';
-            window.dispatchEvent(new CustomEvent('siteNoticeConsentChange', { detail: 'accepted' }));
+            localStorage.setItem(cKey, "accepted");
+            window.__siteNoticeConsent = "accepted";
+            window.dispatchEvent(
+                new CustomEvent("siteNoticeConsentChange", {
+                    detail: "accepted",
+                }),
+            );
             return;
         }
 
-        if (consent === 'accepted' || consent === 'rejected') return;
+        if (consent === "accepted" || consent === "rejected") return;
 
         var bar = document.querySelector('[data-bid="' + uid + '"]');
         var overlay = document.querySelector('[data-overlay="' + uid + '"]');
         if (!bar) return;
 
-        var buttons = bar.querySelectorAll('button');
+        var buttons = bar.querySelectorAll("button");
         var acceptBtn = buttons[0];
         var rejectBtn = buttons[1];
         var ipEl = bar.querySelector('p[class*="opacity"]');
 
         function showBar() {
-            if (overlay) { overlay.style.opacity = ''; overlay.style.pointerEvents = ''; }
-            bar.style.transform = '';
-            bar.style.opacity = '';
-            bar.style.pointerEvents = '';
+            if (overlay) {
+                overlay.style.opacity = "";
+                overlay.style.pointerEvents = "";
+            }
+            bar.style.transform = "";
+            bar.style.opacity = "";
+            bar.style.pointerEvents = "";
         }
 
         function hideBar() {
-            if (overlay) { overlay.style.opacity = '0'; overlay.style.pointerEvents = 'none'; }
-            bar.style.transform = 'translateY(100%)';
-            bar.style.opacity = '0';
-            bar.style.pointerEvents = 'none';
-            setTimeout(function() { bar.style.display = 'none'; if (overlay) overlay.style.display = 'none'; }, 400);
+            if (overlay) {
+                overlay.style.opacity = "0";
+                overlay.style.pointerEvents = "none";
+            }
+            bar.style.transform = "translateY(100%)";
+            bar.style.opacity = "0";
+            bar.style.pointerEvents = "none";
+            setTimeout(function () {
+                bar.style.display = "none";
+                if (overlay) overlay.style.display = "none";
+            }, 400);
         }
 
         function clearNonEssentialCookies() {
             var essential = [cKey];
-            document.cookie.split(';').forEach(function(c) {
-                var name = c.split('=')[0].trim();
+            document.cookie.split(";").forEach(function (c) {
+                var name = c.split("=")[0].trim();
                 if (name && essential.indexOf(name) === -1) {
-                    document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/';
-                    document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=' + location.hostname;
+                    document.cookie =
+                        name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+                    document.cookie =
+                        name +
+                        "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=" +
+                        location.hostname;
                 }
             });
         }
 
         function clearWeatherCache() {
             try {
-                localStorage.removeItem('brightmoon_weather_cache');
-                localStorage.removeItem('brightmoon_weather_location');
+                localStorage.removeItem("brightmoon_weather_cache");
+                localStorage.removeItem("brightmoon_weather_location");
             } catch (e) {}
         }
 
-        acceptBtn.addEventListener('click', function() {
-            localStorage.setItem(cKey, 'accepted');
-            window.__siteNoticeConsent = 'accepted';
-            window.dispatchEvent(new CustomEvent('siteNoticeConsentChange', { detail: 'accepted' }));
+        acceptBtn.addEventListener("click", function () {
+            localStorage.setItem(cKey, "accepted");
+            window.__siteNoticeConsent = "accepted";
+            window.dispatchEvent(
+                new CustomEvent("siteNoticeConsentChange", {
+                    detail: "accepted",
+                }),
+            );
             hideBar();
         });
 
-        rejectBtn.addEventListener('click', function() {
-            localStorage.setItem(cKey, 'rejected');
-            window.__siteNoticeConsent = 'rejected';
+        rejectBtn.addEventListener("click", function () {
+            localStorage.setItem(cKey, "rejected");
+            window.__siteNoticeConsent = "rejected";
             clearNonEssentialCookies();
             clearWeatherCache();
-            window.dispatchEvent(new CustomEvent('siteNoticeConsentChange', { detail: 'rejected' }));
+            window.dispatchEvent(
+                new CustomEvent("siteNoticeConsentChange", {
+                    detail: "rejected",
+                }),
+            );
             hideBar();
         });
 
         // IP 地理位置
-        function atob_safe(s) { try { return atob(s); } catch(e) { return ''; } }
-        function dcd(arr) { var r=''; for(var i=0;i<arr.length;i++) r+=atob_safe(arr[i]); return r; }
+        function atob_safe(s) {
+            try {
+                return atob(s);
+            } catch (e) {
+                return "";
+            }
+        }
+        function dcd(arr) {
+            var r = "";
+            for (var i = 0; i < arr.length; i++) r += atob_safe(arr[i]);
+            return r;
+        }
 
-        var apiA = dcd(['aHR0cHM6Ly9hcGkuaXAuc2I=','L2dlb2lw']);
-        var apiB = dcd(['aHR0cHM6Ly9pcGFwaS5jbw==','L2pzb24v']);
+        var apiA = dcd(["aHR0cHM6Ly9hcGkuaXAuc2I=", "L2dlb2lw"]);
+        var apiB = dcd(["aHR0cHM6Ly9pcGFwaS5jbw==", "L2pzb24v"]);
 
         function fmtLoc(d, ipK, cityK, regK, ctryK, ispK) {
-            var loc = [d[cityK], d[regK], d[ctryK]].filter(Boolean).join(', ');
-            var ip = d[ipK] || '', isp = d[ispK] || '', txt = '';
-            if (loc) { txt = 'Location: ' + loc; if (ip) txt += '  |  IP: ' + ip; if (isp) txt += '  |  ISP: ' + isp; }
-            else if (ip) txt = 'IP: ' + ip;
+            var loc = [d[cityK], d[regK], d[ctryK]].filter(Boolean).join(", ");
+            var ip = d[ipK] || "",
+                isp = d[ispK] || "",
+                txt = "";
+            if (loc) {
+                txt = "Location: " + loc;
+                if (ip) txt += "  |  IP: " + ip;
+                if (isp) txt += "  |  ISP: " + isp;
+            } else if (ip) txt = "IP: " + ip;
             return txt;
         }
 
-        (async function() {
+        (async function () {
             if (!ipEl) return;
-            var txt = '';
+            var txt = "";
             var done = false;
-            var timeoutId = setTimeout(function() {
-                if (!done) { done = true; ipEl.textContent = ipInfoTimeout; }
+            var timeoutId = setTimeout(function () {
+                if (!done) {
+                    done = true;
+                    ipEl.textContent = ipInfoTimeout;
+                }
             }, 5000);
             try {
-                var c = new AbortController(), t = setTimeout(function(){c.abort();},5000);
-                var r = await fetch(apiA, {signal:c.signal,headers:{'Accept':'application/json'}});
+                var c = new AbortController(),
+                    t = setTimeout(function () {
+                        c.abort();
+                    }, 5000);
+                var r = await fetch(apiA, {
+                    signal: c.signal,
+                    headers: { Accept: "application/json" },
+                });
                 clearTimeout(t);
-                if (r.ok) { var d = await r.json(); txt = fmtLoc(d,'ip','city','region','country','isp'); }
-            } catch(e) {}
+                if (r.ok) {
+                    var d = await r.json();
+                    txt = fmtLoc(d, "ip", "city", "region", "country", "isp");
+                }
+            } catch (e) {}
             if (!done && !txt) {
                 try {
-                    var c2 = new AbortController(), t2 = setTimeout(function(){c2.abort();},5000);
-                    var r2 = await fetch(apiB, {signal:c2.signal,headers:{'Accept':'application/json'}});
+                    var c2 = new AbortController(),
+                        t2 = setTimeout(function () {
+                            c2.abort();
+                        }, 5000);
+                    var r2 = await fetch(apiB, {
+                        signal: c2.signal,
+                        headers: { Accept: "application/json" },
+                    });
                     clearTimeout(t2);
-                    if (r2.ok) { var d2 = await r2.json(); txt = fmtLoc(d2,'ip','city','region','country_name','org'); }
-                } catch(e) {}
+                    if (r2.ok) {
+                        var d2 = await r2.json();
+                        txt = fmtLoc(
+                            d2,
+                            "ip",
+                            "city",
+                            "region",
+                            "country_name",
+                            "org",
+                        );
+                    }
+                } catch (e) {}
             }
             if (!done) {
                 done = true;
