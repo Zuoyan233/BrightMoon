@@ -451,7 +451,7 @@ export const ar: Translation = {
 	[Key.weatherFeelsLike]: "يبدو وكأنه",
 	[Key.weatherUV]: "مؤشر الأشعة فوق البنفسجية",
 	[Key.weatherVisibility]: "الرؤية",
-	[Key.weatherForecast]: "توقعات 7 أيام",
+	[Key.weatherForecast]: "توقعات الطقس",
 	[Key.weatherToday]: "اليوم",
 	[Key.weatherHigh]: "عالي",
 	[Key.weatherLow]: "منخفض",

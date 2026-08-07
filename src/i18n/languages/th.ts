@@ -443,7 +443,7 @@ export const th: Translation = {
 	[Key.weatherFeelsLike]: "อุณหภูมิที่รู้สึก",
 	[Key.weatherUV]: "ดัชนี UV",
 	[Key.weatherVisibility]: "ทัศนวิสัย",
-	[Key.weatherForecast]: "พยากรณ์ 7 วัน",
+	[Key.weatherForecast]: "พยากรณ์อากาศ",
 	[Key.weatherToday]: "วันนี้",
 	[Key.weatherHigh]: "สูง",
 	[Key.weatherLow]: "ต่ำ",

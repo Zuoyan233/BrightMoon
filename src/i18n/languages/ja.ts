@@ -456,7 +456,7 @@ export const ja: Translation = {
 	[Key.weatherFeelsLike]: "体感温度",
 	[Key.weatherUV]: "UV指数",
 	[Key.weatherVisibility]: "視程",
-	[Key.weatherForecast]: "7日間予報",
+	[Key.weatherForecast]: "天気予報",
 	[Key.weatherToday]: "今日",
 	[Key.weatherHigh]: "最高",
 	[Key.weatherLow]: "最低",

@@ -21,55 +21,56 @@ const { class: className, style } = Astro.props;
 const weatherTranslations: Record<string, Record<string, string>> = {};
 for (const [lang, tr] of Object.entries(allTranslations)) {
 	weatherTranslations[lang] = {
-		weather: tr[I18nKey.weather] || "",
-		loading: tr[I18nKey.weatherLoading] || "",
-		loadFailed: tr[I18nKey.weatherLoadFailed] || "",
-		retry: tr[I18nKey.weatherRetry] || "",
-		noApiKey: tr[I18nKey.weatherNoApiKey] || "",
-		searchPlaceholder: tr[I18nKey.weatherSearchPlaceholder] || "",
-		humidity: tr[I18nKey.weatherHumidity] || "",
-		wind: tr[I18nKey.weatherWind] || "",
-		feelsLike: tr[I18nKey.weatherFeelsLike] || "",
-		uv: tr[I18nKey.weatherUV] || "",
-		visibility: tr[I18nKey.weatherVisibility] || "",
-		forecast: tr[I18nKey.weatherForecast] || "",
-		today: tr[I18nKey.weatherToday] || "",
-		high: tr[I18nKey.weatherHigh] || "",
-		low: tr[I18nKey.weatherLow] || "",
-		celsius: tr[I18nKey.weatherCelsius] || "",
-		fahrenheit: tr[I18nKey.weatherFahrenheit] || "",
-		kmh: tr[I18nKey.weatherKmh] || "",
-		mph: tr[I18nKey.weatherMph] || "",
-		changeLocation: tr[I18nKey.weatherChangeLocation] || "",
-		detectLocation: tr[I18nKey.weatherDetectLocation] || "",
-		locationDisabled: tr[I18nKey.weatherLocationDisabled] || "",
-		waitingConsent: tr[I18nKey.weatherWaitingConsent] || "",
-		defaultLocationHint: tr[I18nKey.weatherDefaultLocationHint] || "",
-		defaultLocationConfirm: tr[I18nKey.weatherDefaultLocationConfirm] || "",
+		weather: tr[I18nKey.weather],
+		loading: tr[I18nKey.weatherLoading],
+		loadFailed: tr[I18nKey.weatherLoadFailed],
+		retry: tr[I18nKey.weatherRetry],
+		noApiKey: tr[I18nKey.weatherNoApiKey],
+		searchPlaceholder: tr[I18nKey.weatherSearchPlaceholder],
+		search: tr[I18nKey.search],
+		humidity: tr[I18nKey.weatherHumidity],
+		wind: tr[I18nKey.weatherWind],
+		feelsLike: tr[I18nKey.weatherFeelsLike],
+		uv: tr[I18nKey.weatherUV],
+		visibility: tr[I18nKey.weatherVisibility],
+		forecast: tr[I18nKey.weatherForecast],
+		today: tr[I18nKey.weatherToday],
+		high: tr[I18nKey.weatherHigh],
+		low: tr[I18nKey.weatherLow],
+		celsius: tr[I18nKey.weatherCelsius],
+		fahrenheit: tr[I18nKey.weatherFahrenheit],
+		kmh: tr[I18nKey.weatherKmh],
+		mph: tr[I18nKey.weatherMph],
+		changeLocation: tr[I18nKey.weatherChangeLocation],
+		detectLocation: tr[I18nKey.weatherDetectLocation],
+		locationDisabled: tr[I18nKey.weatherLocationDisabled],
+		waitingConsent: tr[I18nKey.weatherWaitingConsent],
+		defaultLocationHint: tr[I18nKey.weatherDefaultLocationHint],
+		defaultLocationConfirm: tr[I18nKey.weatherDefaultLocationConfirm],
 
 		// 天气条件翻译
-		condSunny: tr[I18nKey.weatherCondSunny] || "",
-		condPartlyCloudy: tr[I18nKey.weatherCondPartlyCloudy] || "",
-		condCloudy: tr[I18nKey.weatherCondCloudy] || "",
-		condFog: tr[I18nKey.weatherCondFog] || "",
-		condDrizzle: tr[I18nKey.weatherCondDrizzle] || "",
-		condRain: tr[I18nKey.weatherCondRain] || "",
-		condHeavyRain: tr[I18nKey.weatherCondHeavyRain] || "",
-		condSnow: tr[I18nKey.weatherCondSnow] || "",
-		condHeavySnow: tr[I18nKey.weatherCondHeavySnow] || "",
+		condSunny: tr[I18nKey.weatherCondSunny],
+		condPartlyCloudy: tr[I18nKey.weatherCondPartlyCloudy],
+		condCloudy: tr[I18nKey.weatherCondCloudy],
+		condFog: tr[I18nKey.weatherCondFog],
+		condDrizzle: tr[I18nKey.weatherCondDrizzle],
+		condRain: tr[I18nKey.weatherCondRain],
+		condHeavyRain: tr[I18nKey.weatherCondHeavyRain],
+		condSnow: tr[I18nKey.weatherCondSnow],
+		condHeavySnow: tr[I18nKey.weatherCondHeavySnow],
 		condSleet: tr[I18nKey.weatherCondSleet] || "",
-		condThunderstorm: tr[I18nKey.weatherCondThunderstorm] || "",
-		condHail: tr[I18nKey.weatherCondHail] || "",
-		condDust: tr[I18nKey.weatherCondDust] || "",
+		condThunderstorm: tr[I18nKey.weatherCondThunderstorm],
+		condHail: tr[I18nKey.weatherCondHail],
+		condDust: tr[I18nKey.weatherCondDust],
 
 		// 日历星期翻译（用于预报日期显示）
-		calendarSunday: tr[I18nKey.calendarSunday] || "",
-		calendarMonday: tr[I18nKey.calendarMonday] || "",
-		calendarTuesday: tr[I18nKey.calendarTuesday] || "",
-		calendarWednesday: tr[I18nKey.calendarWednesday] || "",
-		calendarThursday: tr[I18nKey.calendarThursday] || "",
-		calendarFriday: tr[I18nKey.calendarFriday] || "",
-		calendarSaturday: tr[I18nKey.calendarSaturday] || "",
+		calendarSunday: tr[I18nKey.calendarSunday],
+		calendarMonday: tr[I18nKey.calendarMonday],
+		calendarTuesday: tr[I18nKey.calendarTuesday],
+		calendarWednesday: tr[I18nKey.calendarWednesday],
+		calendarThursday: tr[I18nKey.calendarThursday],
+		calendarFriday: tr[I18nKey.calendarFriday],
+		calendarSaturday: tr[I18nKey.calendarSaturday],
 	};
 }
 
@@ -102,10 +103,11 @@ const weatherApiLangMapJSON = JSON.stringify(langToWeatherApiMap);
 				class="flex-1 px-2 py-1.5 text-sm rounded-lg bg-[var(--card-bg)] border border-[var(--line-divider)] text-neutral-700 dark:text-neutral-300 placeholder-neutral-400 dark:placeholder-neutral-500 focus:outline-none focus:border-[var(--primary)] transition-colors mr-1"
 				placeholder=""
 			/>
-			<button
-				id="weather-search-confirm"
-				class="h-8 px-3 text-sm rounded-lg bg-[var(--primary)] text-white hover:opacity-80 transition-opacity shrink-0 flex items-center justify-center"
-			>
+		<button
+			id="weather-search-confirm"
+			title={i18n(I18nKey.search)}
+			class="h-8 px-3 text-sm rounded-lg bg-[var(--primary)] text-white hover:opacity-80 transition-opacity shrink-0 flex items-center justify-center"
+		>
 				<Icon name="material-symbols:search" class="text-base" />
 			</button>
 		</div>
@@ -198,7 +200,8 @@ const weatherApiLangMapJSON = JSON.stringify(langToWeatherApiMap);
 					<button
 						id="weather-detect-btn"
 						class="p-1 rounded-md hover:bg-[var(--btn-plain-bg-hover)] text-[var(--primary)] transition-all"
-						aria-label="Detect location"
+						aria-label={i18n(I18nKey.weatherDetectLocation)}
+						title={i18n(I18nKey.weatherDetectLocation)}
 					>
 						<Icon name="material-symbols:my-location" class="text-xl" />
 					</button>
@@ -616,38 +619,44 @@ const weatherApiLangMapJSON = JSON.stringify(langToWeatherApiMap);
 		if (dom.errorText) dom.errorText.textContent = getTr("loadFailed");
 		if (dom.retryText) dom.retryText.textContent = getTr("retry");
 		if (dom.noApiKeyText) dom.noApiKeyText.textContent = getTr("noApiKey");
-		if (dom.locationDisabledText) dom.locationDisabledText.textContent = getTr("locationDisabled") || "Location disabled due to privacy rejection";
-		if (dom.waitingConsentText) dom.waitingConsentText.textContent = getTr("waitingConsent") || "Waiting for location authorization...";
-		if (dom.defaultLocationHintText) dom.defaultLocationHintText.textContent = getTr("defaultLocationHint") || "Using default location due to privacy rejection";
-		if (dom.defaultLocationConfirmBtn) dom.defaultLocationConfirmBtn.textContent = getTr("defaultLocationConfirm") || "OK";
+		if (dom.locationDisabledText) dom.locationDisabledText.textContent = getTr("locationDisabled");
+		if (dom.waitingConsentText) dom.waitingConsentText.textContent = getTr("waitingConsent");
+		if (dom.defaultLocationHintText) dom.defaultLocationHintText.textContent = getTr("defaultLocationHint");
+		if (dom.defaultLocationConfirmBtn) dom.defaultLocationConfirmBtn.textContent = getTr("defaultLocationConfirm");
 		if (dom.titleEl) {
-			dom.titleEl.textContent = getTr("weather") || "Weather";
+			dom.titleEl.textContent = getTr("weather");
 			dom.titleEl.classList.add("ignore");
 			dom.titleEl.setAttribute("data-i18n-handled", "true");
 		}
-		if (dom.searchPlaceholder) dom.searchPlaceholder.placeholder = getTr("searchPlaceholder") || "Search city...";
+		if (dom.searchPlaceholder) dom.searchPlaceholder.placeholder = getTr("searchPlaceholder");
+		if (dom.searchConfirm) dom.searchConfirm.title = getTr("search");
+		if (dom.detectBtn) {
+			const detectLabel = getTr("detectLocation");
+			dom.detectBtn.title = detectLabel;
+			dom.detectBtn.setAttribute("aria-label", detectLabel);
+		}
 		if (dom.forecastTitle) {
-			dom.forecastTitle.textContent = getTr("forecast") || "7-Day Forecast";
+			dom.forecastTitle.textContent = getTr("forecast");
 			dom.forecastTitle.classList.add("ignore");
 			dom.forecastTitle.setAttribute("data-i18n-handled", "true");
 		}
 		if (dom.detailHumidity) {
-			dom.detailHumidity.textContent = getTr("humidity") || "Humidity";
+			dom.detailHumidity.textContent = getTr("humidity");
 			dom.detailHumidity.classList.add("ignore");
 			dom.detailHumidity.setAttribute("data-i18n-handled", "true");
 		}
 		if (dom.detailWind) {
-			dom.detailWind.textContent = getTr("wind") || "Wind";
+			dom.detailWind.textContent = getTr("wind");
 			dom.detailWind.classList.add("ignore");
 			dom.detailWind.setAttribute("data-i18n-handled", "true");
 		}
 		if (dom.detailFeelslike) {
-			dom.detailFeelslike.textContent = getTr("feelsLike") || "Feels Like";
+			dom.detailFeelslike.textContent = getTr("feelsLike");
 			dom.detailFeelslike.classList.add("ignore");
 			dom.detailFeelslike.setAttribute("data-i18n-handled", "true");
 		}
 		if (dom.detailUv) {
-			dom.detailUv.textContent = getTr("uv") || "UV";
+			dom.detailUv.textContent = getTr("uv");
 			dom.detailUv.classList.add("ignore");
 			dom.detailUv.setAttribute("data-i18n-handled", "true");
 		}

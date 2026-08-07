@@ -458,7 +458,7 @@ export const en: Translation = {
 	[Key.weatherFeelsLike]: "Feels Like",
 	[Key.weatherUV]: "UV Index",
 	[Key.weatherVisibility]: "Visibility",
-	[Key.weatherForecast]: "7-Day Forecast",
+	[Key.weatherForecast]: "Weather Forecast",
 	[Key.weatherToday]: "Today",
 	[Key.weatherHigh]: "High",
 	[Key.weatherLow]: "Low",

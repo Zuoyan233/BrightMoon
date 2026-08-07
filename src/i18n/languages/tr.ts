@@ -466,7 +466,7 @@ export const tr: Translation = {
 	[Key.weatherFeelsLike]: "Hissedilen",
 	[Key.weatherUV]: "UV İndeksi",
 	[Key.weatherVisibility]: "Görüş Mesafesi",
-	[Key.weatherForecast]: "7 Günlük Tahmin",
+	[Key.weatherForecast]: "Hava Durumu Tahmini",
 	[Key.weatherToday]: "Bugün",
 	[Key.weatherHigh]: "Yüksek",
 	[Key.weatherLow]: "Düşük",

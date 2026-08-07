@@ -460,7 +460,7 @@ export const id: Translation = {
 	[Key.weatherFeelsLike]: "Terasa Seperti",
 	[Key.weatherUV]: "Indeks UV",
 	[Key.weatherVisibility]: "Jarak Pandang",
-	[Key.weatherForecast]: "Prakiraan 7 Hari",
+	[Key.weatherForecast]: "Prakiraan Cuaca",
 	[Key.weatherToday]: "Hari Ini",
 	[Key.weatherHigh]: "Tinggi",
 	[Key.weatherLow]: "Rendah",

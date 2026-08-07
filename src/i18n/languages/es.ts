@@ -470,7 +470,7 @@ export const es: Translation = {
 	[Key.weatherFeelsLike]: "Sensación térmica",
 	[Key.weatherUV]: "Índice UV",
 	[Key.weatherVisibility]: "Visibilidad",
-	[Key.weatherForecast]: "Pronóstico 7 días",
+	[Key.weatherForecast]: "Pronóstico del tiempo",
 	[Key.weatherToday]: "Hoy",
 	[Key.weatherHigh]: "Máx",
 	[Key.weatherLow]: "Mín",

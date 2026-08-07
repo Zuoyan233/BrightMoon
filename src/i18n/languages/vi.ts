@@ -460,7 +460,7 @@ export const vi: Translation = {
 	[Key.weatherFeelsLike]: "Nhiệt độ cảm nhận",
 	[Key.weatherUV]: "Chỉ số UV",
 	[Key.weatherVisibility]: "Tầm nhìn",
-	[Key.weatherForecast]: "Dự báo 7 ngày",
+	[Key.weatherForecast]: "Dự báo thời tiết",
 	[Key.weatherToday]: "Hôm nay",
 	[Key.weatherHigh]: "Cao",
 	[Key.weatherLow]: "Thấp",

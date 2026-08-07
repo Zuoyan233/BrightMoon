@@ -441,7 +441,7 @@ export const zh_CN: Translation = {
 	[Key.weatherFeelsLike]: "体感温度",
 	[Key.weatherUV]: "紫外线指数",
 	[Key.weatherVisibility]: "能见度",
-	[Key.weatherForecast]: "七天预报",
+	[Key.weatherForecast]: "天气预报",
 	[Key.weatherToday]: "今天",
 	[Key.weatherHigh]: "最高",
 	[Key.weatherLow]: "最低",

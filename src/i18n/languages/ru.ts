@@ -460,7 +460,7 @@ export const ru: Translation = {
 	[Key.weatherFeelsLike]: "Ощущается",
 	[Key.weatherUV]: "УФ-индекс",
 	[Key.weatherVisibility]: "Видимость",
-	[Key.weatherForecast]: "Прогноз на 7 дней",
+	[Key.weatherForecast]: "Прогноз погоды",
 	[Key.weatherToday]: "Сегодня",
 	[Key.weatherHigh]: "Макс",
 	[Key.weatherLow]: "Мин",

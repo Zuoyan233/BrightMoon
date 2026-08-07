@@ -453,7 +453,7 @@ export const ko: Translation = {
 	[Key.weatherFeelsLike]: "체감온도",
 	[Key.weatherUV]: "자외선 지수",
 	[Key.weatherVisibility]: "가시거리",
-	[Key.weatherForecast]: "7일 예보",
+	[Key.weatherForecast]: "날씨 예보",
 	[Key.weatherToday]: "오늘",
 	[Key.weatherHigh]: "최고",
 	[Key.weatherLow]: "최저",
