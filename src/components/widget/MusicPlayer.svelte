@@ -542,10 +542,55 @@ function updateCurrentLyricIndex() {
 	currentLyricIndex = -1;
 }
 
-function setProgress(event: MouseEvent) {
-	if (!audio || !progressBar) return;
-	const rect = progressBar.getBoundingClientRect();
-	const percent = (event.clientX - rect.left) / rect.width;
+let isProgressDragging = false;
+let isProgressPointerDown = false;
+let progressBarRect: DOMRect | null = null;
+let progressRafId: number | null = null;
+
+function startProgressDrag(event: PointerEvent) {
+	if (!audio || !progressBar || !duration) return;
+	event.preventDefault();
+
+	isProgressPointerDown = true;
+	progressBar.setPointerCapture(event.pointerId);
+
+	progressBarRect = progressBar.getBoundingClientRect();
+	updateProgressLogic(event.clientX);
+}
+
+function handleProgressMove(event: PointerEvent) {
+	if (!isProgressPointerDown) return;
+	event.preventDefault();
+
+	isProgressDragging = true;
+	if (progressRafId) return;
+
+	progressRafId = requestAnimationFrame(() => {
+		updateProgressLogic(event.clientX);
+		progressRafId = null;
+	});
+}
+
+function stopProgressDrag(event: PointerEvent) {
+	if (!isProgressPointerDown) return;
+	isProgressPointerDown = false;
+	isProgressDragging = false;
+	progressBarRect = null;
+	if (progressBar) {
+		progressBar.releasePointerCapture(event.pointerId);
+	}
+
+	if (progressRafId) {
+		cancelAnimationFrame(progressRafId);
+		progressRafId = null;
+	}
+}
+
+function updateProgressLogic(clientX: number) {
+	if (!audio || !progressBar || !duration) return;
+
+	const rect = progressBarRect || progressBar.getBoundingClientRect();
+	const percent = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
 	const newTime = percent * duration;
 	audio.currentTime = newTime;
 	currentTime = newTime;
@@ -670,8 +715,8 @@ onDestroy(() => {
 ></audio>
 
 <svelte:window 
-    on:pointermove={handleVolumeMove} 
-    on:pointerup={stopVolumeDrag} 
+    on:pointermove={(e) => { handleProgressMove(e); handleVolumeMove(e); }} 
+    on:pointerup={(e) => { stopProgressDrag(e); stopVolumeDrag(e); }} 
 />
 
 {#if musicPlayerConfig.enable}
@@ -803,9 +848,9 @@ onDestroy(() => {
             
         </div>
         <div class="progress-section mb-4">
-            <div class="progress-bar flex-1 h-2 bg-[var(--btn-regular-bg)] rounded-full cursor-pointer"
+            <div class="progress-bar flex-1 h-2 bg-[var(--btn-regular-bg)] rounded-full cursor-pointer touch-none relative"
                  bind:this={progressBar}
-                 on:click={setProgress}
+                 on:pointerdown={startProgressDrag}
                  on:keydown={(e) => {
                      if (e.key === 'Enter' || e.key === ' ') {
                          e.preventDefault();
@@ -823,8 +868,11 @@ onDestroy(() => {
                  aria-valuemin="0"
                  aria-valuemax="100"
                  aria-valuenow={duration > 0 ? (currentTime / duration * 100) : 0}>
-                <div class="h-full bg-[var(--primary)] rounded-full transition-all duration-100"
+                <div class="h-full bg-[var(--primary)] rounded-full transition-all"
+                     class:duration-100={!isProgressDragging}
+                     class:duration-0={isProgressDragging}
                      style="width: {duration > 0 ? (currentTime / duration) * 100 : 0}%"></div>
+
             </div>
         </div>
         {#if showLyrics}
