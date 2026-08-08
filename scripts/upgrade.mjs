@@ -85,7 +85,7 @@ const I18N_DICT = {
 		langJA: "日本語",
 		methodTitle: "升级方式",
 		backupRestoreTitle: "备份与恢复",
-		backupWarning: "升级前请备份好数据，以免数据发生意外导致丢失",
+		backupWarning: "升级前请备份好数据，以免数据发生意外导致丢失。",
 		methodOnline: "在线下载并自动升级",
 		methodLocal: "本地升级",
 		tipOnline:
@@ -99,7 +99,7 @@ const I18N_DICT = {
 		backupExists: "检测到已有备份，是否覆盖备份？",
 		backupOverwriteYes: "是，覆盖备份",
 		backupOverwriteNo: "否，跳过备份",
-		noBackupFound: "backup 目录中未找到备份文件",
+		noBackupFound: "backup 目录中未找到备份文件。",
 		selectBackup: "选择要恢复的备份：",
 		restoringBackup: "正在从备份恢复...",
 		restoreComplete: "备份恢复完成！",
@@ -121,7 +121,8 @@ const I18N_DICT = {
 		cleaning: "正在清理临时文件...",
 		cleaningBackup: "正在清理备份残留...",
 		done: "升级完成！",
-		doneCheckTip: "请检查项目是否存在未同步的文件，如有问题请提交 Issue 反馈。",
+		doneCheckTip:
+			"请检查是否存在未同步的文件，如有问题请提交 Issue 反馈。如果您觉得工具有帮助，请考虑给 BrightMoon 项目一个星标支持我们！",
 		abort: "操作已取消。",
 		upgradeFailed: "升级失败:",
 		interrupted: "因中断操作导致升级失败，BrightMoon 博客框架升级工具已退出。",
@@ -131,22 +132,22 @@ const I18N_DICT = {
 		cleaningModules: "正在清理 node_modules...",
 		installingDeps: "正在安装依赖...",
 		manualInstall: "请手动运行 pnpm install 安装依赖。",
-		depsInstalled: "依赖安装完成",
+		depsInstalled: "依赖安装完成!",
 		reportTitle: "升级报告",
 		protected: "受保护（跳过）",
 		fileDelete: "同步删除文件",
 		fileAdd: "新增文件",
 		replaced: "直接替换",
 		configUpgradeTip:
-			"配置已升级到新架构（src/config/defaults.ts + src/config/user.ts + src/config/index.ts），旧配置文件 config.ts 或 src/config/user.ts 已备份至 backup/，请把你修改过的字段迁移到 src/config/user.ts",
-		configRestoreTip: "src/config.ts 或 src/config/user.ts 已恢复为备份版本，请检查配置是否正确",
+			"src/config/user.ts 已备份至 backup/，请把你修改过的字段迁移到 src/config/user.ts。",
+		configRestoreTip: "已恢复为备份版本，请检查配置是否正确。",
 		configUpgradeNoBackupTip:
-			"配置已升级到新架构，但创建备份未成功，请立即手动备份你的旧配置文件 config.ts 或 src/config/user.ts 并把修改过的字段迁移到 src/config/user.ts",
+			"框架升级成功，但是创建备份失败，如出现未知错误请手动从之前保存的备份恢复。",
 		rollbackBlocked:
 			"检测到回滚操作（目标版本 {0} ≤ 当前版本 {1}），不允许降级升级，已终止。",
 		backingUp: "正在创建备份...",
 		backupDone: "已备份至 backup/{0}\n",
-		backupFailed: "创建备份失败，升级将继续但不提供回滚保障",
+		backupFailed: "创建备份失败，升级将继续但不提供回滚保障。",
 		noRelease: "未找到 Release，升级终止。",
 		noNewVersion: "目前没有发现新版本，您已是最新版本。",
 		noNetwork: "网络连接失败，请检查网络后重试。",
@@ -162,11 +163,11 @@ const I18N_DICT = {
 		version: "目标版本",
 		newVersionFound: "发现新版本",
 		zipNotFound:
-			"未找到 zip 命令，无法创建备份。请先安装：\n  macOS: xcode-select --install\n  Linux: sudo apt install zip",
+			"未找到 zip 命令，无法创建备份。请先安装：\n  macOS: xcode-select --install\n  Linux: sudo apt install zip。",
 		unzipNotFound:
-			"未找到 unzip 命令，无法解压升级包。请先安装：\n  macOS: xcode-select --install\n  Linux: sudo apt install unzip",
-		sizeMismatch: "下载文件大小校验失败：预期 {0} 字节，实际 {1} 字节",
-		hashMismatch: "下载文件哈希校验失败（{0}）：预期 {1}，实际 {2}",
+			"未找到 unzip 命令，无法解压升级包。请先安装：\n  macOS: xcode-select --install\n  Linux: sudo apt install unzip。",
+		sizeMismatch: "下载文件大小校验失败：预期 {0} 字节，实际 {1} 字节。",
+		hashMismatch: "下载文件哈希校验失败（{0}）：预期 {1}，实际 {2}。",
 	},
 	en: {
 		welcome: "Welcome to BrightMoon Blog Framework Upgrade Tool",
@@ -180,7 +181,7 @@ const I18N_DICT = {
 		methodTitle: "Upgrade",
 		backupRestoreTitle: "Backup & Restore",
 		backupWarning:
-			"Please back up your data before upgrading to avoid unexpected data loss",
+			"Please back up your data before upgrading to avoid unexpected data loss.",
 		methodOnline: "Online download & auto upgrade",
 		methodLocal: "Local upgrade",
 		tipOnline:
@@ -194,7 +195,7 @@ const I18N_DICT = {
 		backupExists: "Existing backup found, overwrite the backup?",
 		backupOverwriteYes: "Yes, overwrite backup",
 		backupOverwriteNo: "No, skip backup",
-		noBackupFound: "No backup files found in backup directory",
+		noBackupFound: "No backup files found in backup directory.",
 		selectBackup: "Select a backup to restore:",
 		restoringBackup: "Restoring from backup...",
 		restoreComplete: "Backup restored!",
@@ -218,7 +219,7 @@ const I18N_DICT = {
 		cleaningBackup: "Cleaning up backup remnants...",
 		done: "Upgrade complete!",
 		doneCheckTip:
-			"Please check for unsynced files in the project. If you find issues, please submit an Issue.",
+			"Please check for unsynced files. If you find issues, please submit an Issue. If you find this tool helpful, please consider giving the BrightMoon project a star to support us!",
 		abort: "Operation cancelled.",
 		upgradeFailed: "Upgrade failed:",
 		interrupted:
@@ -229,23 +230,24 @@ const I18N_DICT = {
 		cleaningModules: "Cleaning node_modules...",
 		installingDeps: "Installing dependencies...",
 		manualInstall: "Please manually run pnpm install to install dependencies.",
-		depsInstalled: "Dependencies installed",
+		depsInstalled: "Dependencies installed!",
 		reportTitle: "Upgrade Report",
 		protected: "Protected (skipped)",
 		fileDelete: "Deleted Files",
 		fileAdd: "New Files",
 		replaced: "Replaced",
 		configUpgradeTip:
-			"Config upgraded to new architecture (src/config/defaults.ts + src/config/user.ts + src/config/index.ts). Old config.ts or src/config/user.ts has been backed up to backup/. Please migrate your customized fields to src/config/user.ts",
-		configRestoreTip: "src/config.ts or src/config/user.ts has been restored to the backup version, please verify your configuration",
+			"src/config/user.ts has been backed up to backup/. Please migrate your customized fields to src/config/user.ts after upgrade.",
+		configRestoreTip:
+			"Restored to backup version, please verify your configuration.",
 		configUpgradeNoBackupTip:
-			"Config upgraded to new architecture, but backup creation failed. Please immediately manually back up your old config.ts or src/config/user.ts and migrate your customized fields to src/config/user.ts",
+			"Framework upgraded successfully, but backup creation failed. If you encounter any unexpected errors, please manually restore from the previously saved backup.",
 		rollbackBlocked:
 			"Rollback detected (target version {0} ≤ current version {1}), downgrade is not allowed, aborted.",
 		backingUp: "Creating backup...",
 		backupDone: "Backed up to backup/{0}\n",
 		backupFailed:
-			"Backup creation failed. Upgrade will continue without rollback safety",
+			"Backup creation failed. Upgrade will continue without rollback safety.",
 		noRelease: "No Release found. Upgrade aborted.",
 		noNewVersion:
 			"No new version found. You are already on the latest version.",
@@ -264,11 +266,11 @@ const I18N_DICT = {
 		version: "Target Version",
 		newVersionFound: "New version found",
 		zipNotFound:
-			"zip command not found, cannot create backup. Please install:\n  macOS: xcode-select --install\n  Linux: sudo apt install zip",
+			"zip command not found, cannot create backup. Please install:\n  macOS: xcode-select --install\n  Linux: sudo apt install zip.",
 		unzipNotFound:
-			"unzip command not found, cannot extract upgrade archive. Please install:\n  macOS: xcode-select --install\n  Linux: sudo apt install unzip",
-		sizeMismatch: "Download size mismatch: expected {0} bytes, got {1} bytes",
-		hashMismatch: "Download hash mismatch ({0}): expected {1}, got {2}",
+			"unzip command not found, cannot extract upgrade archive. Please install:\n  macOS: xcode-select --install\n  Linux: sudo apt install unzip.",
+		sizeMismatch: "Download size mismatch: expected {0} bytes, got {1} bytes.",
+		hashMismatch: "Download hash mismatch ({0}): expected {1}, got {2}.",
 	},
 	"zh-TW": {
 		welcome: "歡迎使用 BrightMoon 博客框架升級工具",
@@ -281,7 +283,7 @@ const I18N_DICT = {
 		langJA: "日本語",
 		methodTitle: "升級方式",
 		backupRestoreTitle: "備份與復原",
-		backupWarning: "升級前請備份好資料，以免資料發生意外導致遺失",
+		backupWarning: "升級前請備份好資料，以免資料發生意外導致遺失。",
 		methodOnline: "線上下載並自動升級",
 		methodLocal: "本機升級",
 		tipOnline:
@@ -295,7 +297,7 @@ const I18N_DICT = {
 		backupExists: "偵測到已有備份，是否覆蓋備份？",
 		backupOverwriteYes: "是，覆蓋備份",
 		backupOverwriteNo: "否，跳過備份",
-		noBackupFound: "backup 目錄中未找到備份檔案",
+		noBackupFound: "backup 目錄中未找到備份檔案。",
 		selectBackup: "選擇要復原的備份：",
 		restoringBackup: "正在從備份復原...",
 		restoreComplete: "備份復原完成！",
@@ -317,7 +319,8 @@ const I18N_DICT = {
 		cleaning: "正在清理暫存檔案...",
 		cleaningBackup: "正在清理備份殘留...",
 		done: "升級完成！",
-		doneCheckTip: "請檢查專案是否存在未同步的檔案，如有問題請提交 Issue 回饋。",
+		doneCheckTip:
+			"請檢查是否存在未同步的檔案，如有問題請提交 Issue 回饋。如果您覺得工具有幫助，請考慮給 BrightMoon 專案一個星標支持我們！",
 		abort: "操作已取消。",
 		upgradeFailed: "升級失敗：",
 		interrupted: "因中斷操作導致升級失敗，BrightMoon 博客框架升級工具已退出。",
@@ -327,22 +330,22 @@ const I18N_DICT = {
 		cleaningModules: "正在清理 node_modules...",
 		installingDeps: "正在安裝依賴...",
 		manualInstall: "請手動執行 pnpm install 安裝依賴。",
-		depsInstalled: "依賴安裝完成",
+		depsInstalled: "依賴安裝完成 !",
 		reportTitle: "升級報告",
 		protected: "受保護（跳過）",
 		fileDelete: "同步刪除檔案",
 		fileAdd: "新增檔案",
 		replaced: "直接替換",
 		configUpgradeTip:
-			"配置已升級到新架構（src/config/defaults.ts + src/config/user.ts + src/config/index.ts），舊配置檔 config.ts 或 src/config/user.ts 已備份至 backup/，請把你修改過的欄位遷移到 src/config/user.ts",
-		configRestoreTip: "src/config.ts 或 src/config/user.ts 已復原為備份版本，請檢查配置是否正確",
+			"src/config/user.ts 已備份至 backup/，請把你修改過的欄位遷移到 src/config/user.ts。",
+		configRestoreTip: "已復原為備份版本，請檢查配置是否正確。",
 		configUpgradeNoBackupTip:
-			"配置已升級到新架構，但建立備份未成功，請立即手動備份你的舊配置檔 config.ts 或 src/config/user.ts 並把修改過的欄位遷移到 src/config/user.ts",
+			"框架升級成功，但是建立備份失敗，如出現未知錯誤請手動從之前儲存的備份復原。",
 		rollbackBlocked:
 			"偵測到回滾操作（目標版本 {0} ≤ 目前版本 {1}），不允許降級升級，已終止。",
 		backingUp: "正在建立備份...",
 		backupDone: "已備份至 backup/{0}\n",
-		backupFailed: "建立備份失敗，升級將繼續但不提供回滾保障",
+		backupFailed: "建立備份失敗，升級將繼續但不提供回滾保障。",
 		noRelease: "未找到 Release，升級終止。",
 		noNewVersion: "目前沒有發現新版本，您已是最新版本。",
 		noNetwork: "網路連線失敗，請檢查網路後重試。",
@@ -358,11 +361,11 @@ const I18N_DICT = {
 		version: "目標版本",
 		newVersionFound: "發現新版本",
 		zipNotFound:
-			"未找到 zip 命令，無法建立備份。請先安裝：\n  macOS: xcode-select --install\n  Linux: sudo apt install zip",
+			"未找到 zip 命令，無法建立備份。請先安裝：\n  macOS: xcode-select --install\n  Linux: sudo apt install zip。",
 		unzipNotFound:
-			"未找到 unzip 命令，無法解壓升級包。請先安裝：\n  macOS: xcode-select --install\n  Linux: sudo apt install unzip",
-		sizeMismatch: "下載檔案大小校驗失敗：預期 {0} 位元組，實際 {1} 位元組",
-		hashMismatch: "下載檔案雜湊校驗失敗（{0}）：預期 {1}，實際 {2}",
+			"未找到 unzip 命令，無法解壓升級包。請先安裝：\n  macOS: xcode-select --install\n  Linux: sudo apt install unzip。",
+		sizeMismatch: "下載檔案大小校驗失敗：預期 {0} 位元組，實際 {1} 位元組。",
+		hashMismatch: "下載檔案雜湊校驗失敗（{0}）：預期 {1}，實際 {2}。",
 	},
 	ja: {
 		welcome: "BrightMoon ブログフレームワークアップグレードツールへようこそ",
@@ -376,7 +379,7 @@ const I18N_DICT = {
 		methodTitle: "アップグレード",
 		backupRestoreTitle: "バックアップと復元",
 		backupWarning:
-			"アップグレード前にデータをバックアップし、予期しないデータ損失を防いでください",
+			"アップグレード前にデータをバックアップし、予期しないデータ損失を防いでください。",
 		methodOnline: "オンラインダウンロード＆自動アップグレード",
 		methodLocal: "ローカルアップグレード",
 		tipOnline:
@@ -391,7 +394,8 @@ const I18N_DICT = {
 			"既存のバックアップが見つかりました。バックアップを上書きしますか？",
 		backupOverwriteYes: "はい、バックアップを上書き",
 		backupOverwriteNo: "いいえ、バックアップをスキップ",
-		noBackupFound: "backup ディレクトリにバックアップファイルが見つかりません",
+		noBackupFound:
+			"backup ディレクトリにバックアップファイルが見つかりません。",
 		selectBackup: "復元するバックアップを選択：",
 		restoringBackup: "バックアップから復元中...",
 		restoreComplete: "バックアップ復元完了！",
@@ -415,7 +419,7 @@ const I18N_DICT = {
 		cleaningBackup: "バックアップの残骸をクリーンアップ中...",
 		done: "アップグレード完了！",
 		doneCheckTip:
-			"未同期のファイルがないかプロジェクトを確認してください。問題がある場合は Issue を提出してください。",
+			"未同期のファイルがないか確認してください。問題がある場合は Issue を提出してください。このツールが役に立った場合は、BrightMoon プロジェクトにスターを付けてサポートをお願いします！",
 		abort: "操作がキャンセルされました。",
 		upgradeFailed: "アップグレード失敗：",
 		interrupted:
@@ -427,24 +431,24 @@ const I18N_DICT = {
 		installingDeps: "依存関係をインストール中...",
 		manualInstall:
 			"手動で pnpm install を実行して依存関係をインストールしてください。",
-		depsInstalled: "依存関係のインストール完了",
+		depsInstalled: "依存関係のインストール完了!",
 		reportTitle: "アップグレードレポート",
 		protected: "保護済み（スキップ）",
 		fileDelete: "ファイル削除の同期",
 		fileAdd: "新規ファイル",
 		replaced: "直接置換",
 		configUpgradeTip:
-			"設定を新アーキテクチャにアップグレードしました（src/config/defaults.ts + src/config/user.ts + src/config/index.ts）。旧設定ファイル config.ts または src/config/user.ts は backup/ にバックアップされています。変更したフィールドを src/config/user.ts に移行してください",
+			"src/config/user.ts は backup/ にバックアップされています。変更したフィールドを src/config/user.ts に移行してください。",
 		configRestoreTip:
-			"src/config.ts 或 src/config/user.ts はバックアップ版に復元されました。設定が正しいか確認してください",
+			"バックアップ版に復元されました。設定が正しいか確認してください。",
 		configUpgradeNoBackupTip:
-			"設定を新アーキテクチャにアップグレードしましたが、バックアップの作成に失敗しました。直ちに旧設定ファイル config.ts または src/config/user.ts を手動でバックアップし、変更したフィールドを src/config/user.ts に移行してください",
+			"フレームワークのアップグレードに成功しましたが、バックアップの作成に失敗しました。予期しないエラーが発生した場合は、以前に保存したバックアップから手動で復元してください。",
 		rollbackBlocked:
 			"ロールバックが検出されました（ターゲットバージョン {0} ≤ 現在のバージョン {1}）、ダウングレードは許可されていません、中止しました。",
 		backingUp: "バックアップを作成中...",
 		backupDone: "backup/{0} にバックアップ済み\n",
 		backupFailed:
-			"バックアップの作成に失敗しました。アップグレードは続行しますが、ロールバックは保証されません",
+			"バックアップの作成に失敗しました。アップグレードは続行しますが、ロールバックは保証されません。",
 		noRelease: "Release が見つかりません。アップグレードを中止しました。",
 		noNewVersion:
 			"新しいバージョンは見つかりませんでした。最新バージョンをお使いです。",
@@ -463,13 +467,13 @@ const I18N_DICT = {
 		version: "ターゲットバージョン",
 		newVersionFound: "新バージョンが見つかりました",
 		zipNotFound:
-			"zip コマンドが見つかりません。バックアップを作成できません。先にインストールしてください：\n  macOS: xcode-select --install\n  Linux: sudo apt install zip",
+			"zip コマンドが見つかりません。バックアップを作成できません。先にインストールしてください：\n  macOS: xcode-select --install\n  Linux: sudo apt install zip。",
 		unzipNotFound:
-			"unzip コマンドが見つかりません。アップグレードアーカイブを展開できません。先にインストールしてください：\n  macOS: xcode-select --install\n  Linux: sudo apt install unzip",
+			"unzip コマンドが見つかりません。アップグレードアーカイブを展開できません。先にインストールしてください：\n  macOS: xcode-select --install\n  Linux: sudo apt install unzip。",
 		sizeMismatch:
-			"ダウンロードファイルサイズ検証失敗：予想 {0} バイト、実際 {1} バイト",
+			"ダウンロードファイルサイズ検証失敗：予想 {0} バイト、実際 {1} バイト。",
 		hashMismatch:
-			"ダウンロードファイルハッシュ検証失敗（{0}）：予想 {1}、実際 {2}",
+			"ダウンロードファイルハッシュ検証失敗（{0}）：予想 {1}、実際 {2}。",
 	},
 };
 
@@ -1235,9 +1239,15 @@ function getUpgradeConfig() {
 	// 用户覆盖优先：先扫 user，再扫 defaults，最后扫 legacy
 	const srcsByPriority = [userSrc, defaultsSrc, legacySrc];
 
-	const protectedList = extractStringArrayFromSources(srcsByPriority, "protected");
+	const protectedList = extractStringArrayFromSources(
+		srcsByPriority,
+		"protected",
+	);
 	const ignoreList = extractStringArrayFromSources(srcsByPriority, "ignore");
-	const timeoutStr = extractStringValueFromSources(srcsByPriority, "httpTimeout");
+	const timeoutStr = extractStringValueFromSources(
+		srcsByPriority,
+		"httpTimeout",
+	);
 	const httpTimeout = timeoutStr ? Number.parseInt(timeoutStr, 10) : null;
 
 	if (!protectedList.length && !ignoreList.length && !httpTimeout) {
@@ -1260,8 +1270,10 @@ function getUpgradeConfig() {
 function getApiUrlFromConfig() {
 	const { defaultsSrc, userSrc, legacySrc } = readConfigSources();
 	return (
-		extractStringValueFromSources([userSrc, defaultsSrc, legacySrc], "apiUrl") ||
-		FALLBACK_API_URL
+		extractStringValueFromSources(
+			[userSrc, defaultsSrc, legacySrc],
+			"apiUrl",
+		) || FALLBACK_API_URL
 	);
 }
 
