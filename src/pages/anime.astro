@@ -212,7 +212,8 @@ const hiddenAnimeList = animeList.slice(INITIAL_DISPLAY_COUNT);
 							>{i18n(I18nKey.animeStatusCompleted)}</button
 						>
 						{
-							(ANIME_MODE === "bangumi" || ANIME_MODE === "bilibili") && (
+							(ANIME_MODE === "bangumi" ||
+								ANIME_MODE === "bilibili") && (
 								<>
 									<button
 										class="anime-filter-tag"
@@ -235,20 +236,20 @@ const hiddenAnimeList = animeList.slice(INITIAL_DISPLAY_COUNT);
 
 			<div class="mb-8">
 				{
-						ANIME_MODE === "bilibili" &&
-						(!BILIBILI_VMID || BILIBILI_VMID === "") ? (
-							<div class="text-center py-12">
-								<div class="text-5xl mb-4">😢</div>
-								<h3 class="text-xl font-medium text-black/80 dark:text-white/80 mb-2">
-									{i18n(I18nKey.animeEmpty)}
-								</h3>
-								<p class="text-black/60 dark:text-white/60">
-									{i18n(I18nKey.animeSetBilibiliVmId)}
-								</p>
-							</div>
-						) : ANIME_MODE !== "local" &&
-							ANIME_MODE !== "bilibili" &&
-							BANGUMI_USER_ID === "your-user-id" ? (
+					ANIME_MODE === "bilibili" &&
+					(!BILIBILI_VMID || BILIBILI_VMID === "") ? (
+						<div class="text-center py-12">
+							<div class="text-5xl mb-4">😢</div>
+							<h3 class="text-xl font-medium text-black/80 dark:text-white/80 mb-2">
+								{i18n(I18nKey.animeEmpty)}
+							</h3>
+							<p class="text-black/60 dark:text-white/60">
+								{i18n(I18nKey.animeSetBilibiliVmId)}
+							</p>
+						</div>
+					) : ANIME_MODE !== "local" &&
+					  ANIME_MODE !== "bilibili" &&
+					  BANGUMI_USER_ID === "your-user-id" ? (
 						<div class="text-center py-12">
 							<div class="text-5xl mb-4">😢</div>
 							<h3 class="text-xl font-medium text-black/80 dark:text-white/80 mb-2">
@@ -495,7 +496,7 @@ const hiddenAnimeList = animeList.slice(INITIAL_DISPLAY_COUNT);
 											</div>
 
 											<div class="p-3">
-												<h3 class="text-sm font-bold text-black/90 dark:text-white/90 mb-1 leading-tight">
+												<h3 class="ignore text-sm font-bold text-black/90 dark:text-white/90 mb-1 leading-tight">
 													{anime.title}
 												</h3>
 												<p
@@ -582,7 +583,9 @@ const hiddenAnimeList = animeList.slice(INITIAL_DISPLAY_COUNT);
 				);
 				if (!animeListContainer) return false;
 				const mainGrid = document.getElementById("main-grid");
-				const defaultLayoutMode = mainGrid ? mainGrid.getAttribute("data-layout-mode") : "list";
+				const defaultLayoutMode = mainGrid
+					? mainGrid.getAttribute("data-layout-mode")
+					: "list";
 				const currentLayout =
 					localStorage.getItem("postListLayout") || defaultLayoutMode;
 				updateAnimeListLayout(currentLayout, false);
@@ -609,8 +612,11 @@ const hiddenAnimeList = animeList.slice(INITIAL_DISPLAY_COUNT);
 							"anime-list-container",
 						);
 						if (animeListContainer) {
-							const mainGrid = document.getElementById("main-grid");
-							const defaultLayoutMode = mainGrid ? mainGrid.getAttribute("data-layout-mode") : "list";
+							const mainGrid =
+								document.getElementById("main-grid");
+							const defaultLayoutMode = mainGrid
+								? mainGrid.getAttribute("data-layout-mode")
+								: "list";
 							const currentLayout =
 								localStorage.getItem("postListLayout") ||
 								defaultLayoutMode;
@@ -772,8 +778,11 @@ const hiddenAnimeList = animeList.slice(INITIAL_DISPLAY_COUNT);
 								"anime-list-container",
 							);
 							if (animeListContainer) {
-								const mainGrid = document.getElementById("main-grid");
-								const defaultLayoutMode = mainGrid ? mainGrid.getAttribute("data-layout-mode") : "list";
+								const mainGrid =
+									document.getElementById("main-grid");
+								const defaultLayoutMode = mainGrid
+									? mainGrid.getAttribute("data-layout-mode")
+									: "list";
 								const currentLayout =
 									localStorage.getItem("postListLayout") ||
 									defaultLayoutMode;
@@ -788,7 +797,10 @@ const hiddenAnimeList = animeList.slice(INITIAL_DISPLAY_COUNT);
 				if (window.swup) {
 					setupSwupListeners();
 				} else {
-					document.addEventListener("swup:enable", setupSwupListeners);
+					document.addEventListener(
+						"swup:enable",
+						setupSwupListeners,
+					);
 				}
 			}
 		})();
@@ -834,6 +846,15 @@ const hiddenAnimeList = animeList.slice(INITIAL_DISPLAY_COUNT);
 							fragment.appendChild(node);
 						}
 						listContainer.appendChild(fragment);
+						if (
+							typeof window.translationManager !== "undefined" &&
+							window.translationManager.isActive()
+						) {
+							window.translationManager.refresh({
+								root: listContainer,
+								reason: "anime-filter-load",
+							});
+						}
 					}
 
 					if (sentinel) sentinel.style.display = "none";
@@ -987,6 +1008,16 @@ const hiddenAnimeList = animeList.slice(INITIAL_DISPLAY_COUNT);
 
 							requestAnimationFrame(() => {
 								listContainer.appendChild(fragment);
+								if (
+									typeof window.translationManager !==
+										"undefined" &&
+									window.translationManager.isActive()
+								) {
+									window.translationManager.refresh({
+										root: listContainer,
+										reason: "anime-lazy-load",
+									});
+								}
 								if (lazyStore.content.children.length === 0) {
 									sentinel.style.display = "none";
 									observer.disconnect();
