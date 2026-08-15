@@ -515,6 +515,15 @@ async function fetchLyrics(song: Song) {
 			noLyricsFound = true;
 		} else {
 			lyrics = parsed;
+			// 歌词加载完成后，等待 DOM 更新，然后触发翻译刷新
+			if (translationManager.isActive()) {
+				void tick().then(() => {
+					void translationManager.refresh({
+						root: playerRoot,
+						reason: "lyrics-loaded",
+					});
+				});
+			}
 		}
 	} catch {
 		noLyricsFound = true;
@@ -527,6 +536,15 @@ function toggleLyrics() {
 	showLyrics = !showLyrics;
 	if (showLyrics) {
 		showPlaylist = false;
+		// 展开歌词后，如果翻译已激活，触发翻译刷新
+		if (translationManager.isActive() && lyrics.length > 0) {
+			void tick().then(() => {
+				void translationManager.refresh({
+					root: playerRoot,
+					reason: "lyrics-shown",
+				});
+			});
+		}
 	}
 }
 
