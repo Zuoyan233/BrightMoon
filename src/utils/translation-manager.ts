@@ -8,7 +8,7 @@ import {
 
 // 类型
 
-type RefreshOptions = { root?: HTMLElement; reason?: string };
+type RefreshOptions = { root?: HTMLElement; reason?: string; force?: boolean };
 type Renderer = () => void | Promise<void>;
 
 // 常量
@@ -26,6 +26,7 @@ let initPromise: Promise<void> | null = null;
 let configured = false;
 let active = false;
 let currentLang: string | null = null;
+let forceMode = false;
 let queue = Promise.resolve();
 const renderers = new Map<string, Renderer>();
 let debounceTimer: ReturnType<typeof setTimeout> | null = null;
@@ -235,13 +236,18 @@ const applyLang = async (lang: string, opts: RefreshOptions = {}) => {
 
 	if (t) t.to = lang;
 
-	if (!t || !needRemote(lang)) {
+	if (!t || (!needRemote(lang) && !opts.force)) {
 		document.dispatchEvent(
 			new CustomEvent("translate:applied", {
 				detail: { lang, reason: opts.reason },
 			}),
 		);
 		return;
+	}
+
+	const prevTranslateLocal = t.language?.translateLocal;
+	if (opts.force && !needRemote(lang) && t.language) {
+		t.language.translateLocal = true;
 	}
 
 	const titleData = createTitleProxy();
@@ -254,6 +260,10 @@ const applyLang = async (lang: string, opts: RefreshOptions = {}) => {
 		if (titleData) await applyTitle(titleData);
 	} catch (e) {
 		console.error("[Translate] exec failed:", e);
+	} finally {
+		if (opts.force && !needRemote(lang) && t.language) {
+			t.language.translateLocal = prevTranslateLocal ?? false;
+		}
 	}
 	document.dispatchEvent(
 		new CustomEvent("translate:applied", {
@@ -273,7 +283,11 @@ const resetAndApply = async (lang: string) => {
 			console.error("[Translate] reset failed:", e);
 		}
 	}
-	await applyLang(lang, { root: document.body, reason: "set-language" });
+	await applyLang(lang, {
+		root: document.body,
+		reason: "set-language",
+		force: true,
+	});
 };
 
 // 公开 API
@@ -287,6 +301,7 @@ export const translationManager: TranslationManagerInstance = {
 	setLanguage(language: string): Promise<void> {
 		currentLang = language;
 		active = true;
+		forceMode = !needRemote(language);
 		return enqueue(() => resetAndApply(language));
 	},
 
@@ -309,6 +324,7 @@ export const translationManager: TranslationManagerInstance = {
 				await applyLang(currentLang, {
 					root: options.root,
 					reason: options.reason ?? "refresh",
+					force: forceMode,
 				});
 			})
 				.then(() => r?.())

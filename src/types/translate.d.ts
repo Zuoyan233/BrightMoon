@@ -97,6 +97,7 @@ declare global {
 	interface TranslationRefreshOptions {
 		root?: HTMLElement;
 		reason?: string;
+		force?: boolean;
 	}
 
 	type TranslationRenderer = () => void | Promise<void>;
