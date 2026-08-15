@@ -14,152 +14,284 @@ const {
 	pauseTime = 2000,
 	class: className = "",
 } = Astro.props;
+
 const textData = Array.isArray(text) ? JSON.stringify(text) : text;
+const texts = Array.isArray(text) ? text : [text];
 ---
 
-<span class={`typewriter ${className}`} data-text={textData} data-speed={speed} data-delete-speed={deleteSpeed} data-pause-time={pauseTime}></span>
+<span
+	class={`typewriter ${className}`}
+	data-text={textData}
+	data-speed={speed}
+	data-delete-speed={deleteSpeed}
+	data-pause-time={pauseTime}
+>
+	<!-- 用于显示打字效果的容器 -->
+	<span class="typewriter-display ignore"></span>
+	<!-- 隐藏的真实文本源，用于翻译插件读取和无 JS 降级展示 -->
+	<span class="typewriter-source" style="display:none" aria-hidden="true">
+		{texts.map((t, i) => <span data-index={i}>{t}</span>)}
+	</span>
+</span>
 
 <script>
-class TypewriterEffect {
-    private element: HTMLElement;
-    private texts: string[];
-    private currentTextIndex: number = 0;
-    private speed: number;
-    private deleteSpeed: number;
-    private pauseTime: number;
-    private currentIndex: number = 0;
-    private isDeleting: boolean = false;
-    private timeoutId: number | null = null;
+	/** 打字机效果控制器 */
+	class TypewriterEffect {
+		private element: HTMLElement;
+		private displayEl: HTMLElement;
+		private sourceContainer: HTMLElement | null;
+		private texts: string[];
+		/** 当前轮播到的文本索引 */
+		private currentTextIndex: number = 0;
+		/** 打字速度（毫秒/字符） */
+		private speed: number;
+		/** 删除速度（毫秒/字符） */
+		private deleteSpeed: number;
+		/** 打完后的暂停时间（毫秒） */
+		private pauseTime: number;
+		/** 当前文本的字符索引 */
+		private currentIndex: number = 0;
+		/** 是否处于删除模式 */
+		private isDeleting: boolean = false;
+		/** setTimeout 的 ID，用于清理 */
+		private timeoutId: number | null = null;
+		/** 绑定后的 translate:applied 事件处理器 */
+		private boundOnTranslateApplied: (e: Event) => void;
 
-    constructor(element: HTMLElement) {
-        this.element = element;
-        const textData = element.dataset.text || '';
-        
-        // 尝试解析为JSON数组，如果失败则作为单个字符串处理
-        try {
-            const parsed = JSON.parse(textData);
-            this.texts = Array.isArray(parsed) ? parsed : [textData];
-        } catch {
-            this.texts = [textData];
-        }
-        
-        this.speed = parseInt(element.dataset.speed || '100');
-        this.deleteSpeed = parseInt(element.dataset.deleteSpeed || '50');
-        this.pauseTime = parseInt(element.dataset.pauseTime || '2000');
-        
-        // 如果有多条文本且未启用打字机效果，随机显示一条
-        if (this.texts.length > 1 && !this.isTypewriterEnabled()) {
-            this.showRandomText();
-        } else {
-            this.start();
-        }
-    }
+		constructor(element: HTMLElement) {
+			this.element = element;
 
-    private isTypewriterEnabled(): boolean {
-        // 检查是否有打字机相关的数据属性
-        return this.element.dataset.speed !== undefined || 
-               this.element.dataset.deleteSpeed !== undefined || 
-               this.element.dataset.pauseTime !== undefined;
-    }
+			// 获取或创建显示容器
+			this.displayEl = element.querySelector(
+				".typewriter-display",
+			) as HTMLElement;
+			if (!this.displayEl) {
+				this.displayEl = document.createElement("span");
+				this.displayEl.className = "typewriter-display";
+				element.prepend(this.displayEl);
+			}
 
-    private showRandomText() {
-        const randomIndex = Math.floor(Math.random() * this.texts.length);
-        this.element.textContent = this.texts[randomIndex];
-    }
+			this.sourceContainer = element.querySelector(".typewriter-source");
+			this.texts = this.readTexts();
 
-    private start() {
-        if (this.texts.length === 0) return;
-        this.type();
-    }
+			this.speed = parseInt(element.dataset.speed || "100");
+			this.deleteSpeed = parseInt(element.dataset.deleteSpeed || "50");
+			this.pauseTime = parseInt(element.dataset.pauseTime || "2000");
 
-    private getCurrentText(): string {
-        return this.texts[this.currentTextIndex] || '';
-    }
+			// 如果有多段文本且未显式开启打字机参数，则随机显示一段
+			if (this.texts.length > 1 && !this.isTypewriterEnabled()) {
+				this.showRandomText();
+			} else {
+				this.start();
+			}
 
-    private type() {
-        const currentText = this.getCurrentText();
-        
-        if (this.isDeleting) {
-            // 删除字符
-            if (this.currentIndex > 0) {
-                this.currentIndex--;
-                this.element.textContent = currentText.substring(0, this.currentIndex);
-                this.timeoutId = window.setTimeout(() => this.type(), this.deleteSpeed);
-            } else {
-                // 删除完成，切换到下一条文本
-                this.isDeleting = false;
-                this.currentTextIndex = (this.currentTextIndex + 1) % this.texts.length;
-                this.timeoutId = window.setTimeout(() => this.type(), this.speed);
-            }
-        } else {
-            // 添加字符
-            if (this.currentIndex < currentText.length) {
-                this.currentIndex++;
-                this.element.textContent = currentText.substring(0, this.currentIndex);
-                this.timeoutId = window.setTimeout(() => this.type(), this.speed);
-            } else {
-                // 打字完成，暂停后开始删除（如果有多条文本）
-                if (this.texts.length > 1) {
-                    this.isDeleting = true;
-                    this.timeoutId = window.setTimeout(() => this.type(), this.pauseTime);
-                } else {
-                    // 如果只有一条文本，保持显示不删除，但确保元素有内容
-                    if (this.texts.length === 1 && this.texts[0] === '') {
-                        this.element.innerHTML = '&nbsp;'; // 使用不间断空格保持布局
-                    }
-                }
-            }
-        }
-    }
+			// 监听翻译事件，翻译后自动更新文本
+			this.boundOnTranslateApplied = this.onTranslateApplied.bind(this);
+			document.addEventListener(
+				"translate:applied",
+				this.boundOnTranslateApplied,
+			);
+		}
 
-    public destroy() {
-        if (this.timeoutId) {
-            clearTimeout(this.timeoutId);
-        }
-    }
-}
+		/** 从 DOM 或 data-text 中读取文本数组 */
+		private readTexts(): string[] {
+			if (this.sourceContainer) {
+				const spans =
+					this.sourceContainer.querySelectorAll("span[data-index]");
+				const result = Array.from(spans)
+					.sort((a, b) => {
+						const ai = parseInt(
+							(a as HTMLElement).dataset.index || "0",
+						);
+						const bi = parseInt(
+							(b as HTMLElement).dataset.index || "0",
+						);
+						return ai - bi;
+					})
+					.map((span) => span.textContent || "")
+					.filter((t) => t);
+				if (result.length > 0) return result;
+			}
 
-// 全局实例追踪，用于页面切换时清理
-let activeInstances: TypewriterEffect[] = [];
+			const textData = this.element.dataset.text || "";
+			try {
+				const parsed = JSON.parse(textData);
+				return Array.isArray(parsed) ? parsed : [textData];
+			} catch {
+				return [textData];
+			}
+		}
 
-function cleanupTypewriters() {
-	activeInstances.forEach((instance) => instance.destroy());
-	activeInstances = [];
-}
+		/** 翻译应用后的回调：更新文本并继续打字 */
+		private onTranslateApplied() {
+			if (!this.sourceContainer) return;
 
-// 初始化所有打字机效果
-document.addEventListener("DOMContentLoaded", () => {
-	const typewriterElements = document.querySelectorAll(".typewriter");
-	typewriterElements.forEach((element) => {
-		activeInstances.push(new TypewriterEffect(element as HTMLElement));
+			const newTexts = this.readTexts();
+			if (
+				newTexts.length > 0 &&
+				JSON.stringify(newTexts) !== JSON.stringify(this.texts)
+			) {
+				this.texts = newTexts;
+				this.element.dataset.text = JSON.stringify(newTexts);
+				this.continueWithTranslatedText();
+			}
+		}
+
+		/** 翻译后重置状态并从新文本继续打字 */
+		private continueWithTranslatedText() {
+			if (this.timeoutId) {
+				clearTimeout(this.timeoutId);
+				this.timeoutId = null;
+			}
+
+			if (this.currentTextIndex >= this.texts.length) {
+				this.currentTextIndex = 0;
+			}
+
+			this.currentIndex = 0;
+			this.isDeleting = false;
+			this.displayEl.textContent = "";
+			this.type();
+		}
+
+		/** 判断用户是否显式配置了打字机参数 */
+		private isTypewriterEnabled(): boolean {
+			return (
+				this.element.dataset.speed !== undefined ||
+				this.element.dataset.deleteSpeed !== undefined ||
+				this.element.dataset.pauseTime !== undefined
+			);
+		}
+
+		/** 随机显示一段文本（非打字机模式） */
+		private showRandomText() {
+			const randomIndex = Math.floor(Math.random() * this.texts.length);
+			this.displayEl.textContent = this.texts[randomIndex];
+		}
+
+		/** 启动打字机效果 */
+		private start() {
+			if (this.texts.length === 0) return;
+			this.type();
+		}
+
+		/** 获取当前要显示的完整文本 */
+		private getCurrentText(): string {
+			return this.texts[this.currentTextIndex] || "";
+		}
+
+		/** 核心打字/删除循环 */
+		private type() {
+			const currentText = this.getCurrentText();
+
+			if (this.isDeleting) {
+				// 删除模式：逐个删除字符
+				if (this.currentIndex > 0) {
+					this.currentIndex--;
+					this.displayEl.textContent = currentText.substring(
+						0,
+						this.currentIndex,
+					);
+					this.timeoutId = window.setTimeout(
+						() => this.type(),
+						this.deleteSpeed,
+					);
+				} else {
+					// 删除完毕，切换到下一个文本
+					this.isDeleting = false;
+					this.currentTextIndex =
+						(this.currentTextIndex + 1) % this.texts.length;
+					this.timeoutId = window.setTimeout(
+						() => this.type(),
+						this.speed,
+					);
+				}
+			} else {
+				// 打字模式：逐个添加字符
+				if (this.currentIndex < currentText.length) {
+					this.currentIndex++;
+					this.displayEl.textContent = currentText.substring(
+						0,
+						this.currentIndex,
+					);
+					this.timeoutId = window.setTimeout(
+						() => this.type(),
+						this.speed,
+					);
+				} else {
+					// 当前文本打完
+					if (this.texts.length > 1) {
+						// 多文本：进入删除模式，暂停后删除
+						this.isDeleting = true;
+						this.timeoutId = window.setTimeout(
+							() => this.type(),
+							this.pauseTime,
+						);
+					} else {
+						// 单文本且为空时，显示空格占位
+						if (this.texts.length === 1 && this.texts[0] === "") {
+							this.displayEl.innerHTML = "&nbsp;";
+						}
+					}
+				}
+			}
+		}
+
+		/** 销毁实例，清理定时器和事件监听 */
+		public destroy() {
+			if (this.timeoutId) {
+				clearTimeout(this.timeoutId);
+			}
+			document.removeEventListener(
+				"translate:applied",
+				this.boundOnTranslateApplied,
+			);
+		}
+	}
+
+	/** 当前页面中所有活跃的打字机实例 */
+	let activeInstances: TypewriterEffect[] = [];
+
+	/** 清理所有打字机实例 */
+	function cleanupTypewriters() {
+		activeInstances.forEach((instance) => instance.destroy());
+		activeInstances = [];
+	}
+
+	// 页面加载完成后初始化打字机效果
+	document.addEventListener("DOMContentLoaded", () => {
+		const typewriterElements = document.querySelectorAll(".typewriter");
+		typewriterElements.forEach((element) => {
+			activeInstances.push(new TypewriterEffect(element as HTMLElement));
+		});
 	});
-});
 
-// 支持页面切换时重新初始化
-// 在内容替换前清理旧实例
-document.addEventListener("swup:willReplaceContent", () => {
-	cleanupTypewriters();
-});
-document.addEventListener("swup:contentReplaced", () => {
-	cleanupTypewriters();
-	const typewriterElements = document.querySelectorAll(".typewriter");
-	typewriterElements.forEach((element) => {
-		activeInstances.push(new TypewriterEffect(element as HTMLElement));
+	// Swup 页面切换前清理旧实例
+	document.addEventListener("swup:willReplaceContent", () => {
+		cleanupTypewriters();
 	});
-});
+
+	// Swup 页面切换后重新初始化
+	document.addEventListener("swup:contentReplaced", () => {
+		cleanupTypewriters();
+		const typewriterElements = document.querySelectorAll(".typewriter");
+		typewriterElements.forEach((element) => {
+			activeInstances.push(new TypewriterEffect(element as HTMLElement));
+		});
+	});
 </script>
 
 <style>
-.typewriter {
-    position: relative;
-    min-height: 1.5em; /* 确保即使没有文字也保持最小高度 */
-    display: inline-block;
-    vertical-align: baseline;
-}
+	.typewriter {
+		position: relative;
+		min-height: 1.5em;
+		display: inline-block;
+		vertical-align: baseline;
+	}
 
-/* 确保打字机效果不会导致布局抖动 */
-.typewriter:empty::before {
-    content: '\00A0'; /* 使用不间断空格保持高度 */
-    visibility: hidden;
-}
+	/** 空显示容器时插入不可见空格，保持行高稳定 */
+	.typewriter-display:empty::before {
+		content: "\00A0";
+		visibility: hidden;
+	}
 </style>
