@@ -1,5 +1,5 @@
 ---
-import CryptoJS from "crypto-js";
+import { AES } from "crypto-es";
 import PasswordProtection from "./PasswordProtection.astro";
 import "../styles/markdown.css";
 import "../styles/expressive-code.css";
@@ -16,7 +16,7 @@ const { password, passwordHint = "" } = Astro.props;
 const htmlContent = await Astro.slots.render("default");
 
 const contentToEncrypt = `BRIGHTMOON-VERIFY:${htmlContent}`;
-const encryptedContent = CryptoJS.AES.encrypt(
+const encryptedContent = AES.encrypt(
 	contentToEncrypt,
 	String(password),
 ).toString();

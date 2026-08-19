@@ -27,7 +27,7 @@ import {
 	getPostUrlBySlug,
 } from "@utils/url-utils";
 import { Icon } from "astro-icon/components";
-import CryptoJS from "crypto-js";
+import { AES } from "crypto-es";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import { licenseConfig } from "src/config";
@@ -83,7 +83,7 @@ let isEncrypted = entry.data.encrypted && entry.data.password;
 
 if (isEncrypted) {
 	const contentToEncrypt = `BRIGHTMOON-VERIFY:${entry.body}`;
-	encryptedContent = CryptoJS.AES.encrypt(
+	encryptedContent = AES.encrypt(
 		contentToEncrypt,
 		String(entry.data.password),
 	).toString();
