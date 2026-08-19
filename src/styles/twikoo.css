@@ -164,7 +164,7 @@ Make the emoji component display correctly when there are too many emoji packs
 	overflow: visible;
 }
 
-/* 防止 Twikoo 操作时的意外滚动 */
+/* Twikoo 操作按钮样式 */
 html:root:root .tk-action-icon,
 html:root:root .tk-owo,
 html:root:root .tk-submit,
@@ -201,4 +201,71 @@ html:root:root .tk-edit {
 
 .tk-sort-item.__active {
 	@apply border-none rounded-lg px-3 py-0 h-8 bg-[oklch(0.85_0.08_var(--hue))] dark:bg-[oklch(0.43_0.045_var(--hue))];
+}
+
+/* 搜索容器 */
+.tk-comments .tk-comments-search {
+	@apply flex flex-row items-center gap-2 flex-nowrap;
+}
+
+/* 搜索输入框容器 */
+.tk-comments .tk-comments-search > .el-input {
+	@apply flex-1 min-w-0;
+
+	.el-input__inner {
+		@apply w-full px-2 py-1.5 text-sm rounded-lg border border-solid focus:outline-none transition-colors;
+		background-color: var(--card-bg);
+		color: #374151; /* neutral-700 */
+		border-color: var(--line-divider);
+
+		html.dark & {
+			color: #d1d5db; /* neutral-300 */
+		}
+
+		&::placeholder {
+			@apply text-[#9ca3af]; /* neutral-400 */
+		}
+
+		html.dark &::placeholder {
+			@apply text-[#6b7280]; /* neutral-500 */
+		}
+
+		&:focus {
+			border-color: var(--primary);
+		}
+	}
+}
+
+/* 搜索按钮 */
+.tk-comments .tk-comments-search > .el-button--primary {
+	font-family: inherit;
+	@apply border-none rounded-lg px-3 py-0 h-8 whitespace-nowrap transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+	background-color: var(--btn-regular-bg-active);
+	color: var(--btn-content);
+	border: none;
+
+	&:hover:not(:disabled) {
+		background-color: var(--btn-plain-bg-hover);
+	}
+
+	&:active:not(:disabled) {
+		background-color: var(--btn-regular-bg);
+	}
+
+	&:disabled {
+		background-color: var(--btn-regular-bg);
+		color: #ffffffa1;
+	}
+
+	span {
+		@apply font-normal;
+	}
+}
+
+/* 将表情面板改为上方显示 */
+.twikoo .OwO .OwO-body {
+	top: auto;
+	bottom: 100%;
+	margin-bottom: 6px;
+	border-radius: var(--radius-large);
 }

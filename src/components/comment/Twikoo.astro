@@ -13,75 +13,73 @@ const config = {
 ---
 
 <div id="tcomment"></div>
-<script is:inline src="/scroll-protection.js"></script>
 <script is:inline src="/assets/js/twikoo.all.min.js"></script>
 <script is:inline define:vars={{ config }}>
-
-function getPath() {
-	var p = window.location.pathname;
-	return p.endsWith('/') && p.length > 1 ? p.slice(0, -1) : p;
-}
-
-function getLang() {
-	return window.translationManager?.getTwikooLanguage() || config.lang;
-}
-
-var lastLang = null;
-
-function initTwikoo() {
-	if (typeof twikoo === 'undefined') {
-		setTimeout(initTwikoo, 500);
-		return;
+	function getPath() {
+		var p = window.location.pathname;
+		return p.endsWith("/") && p.length > 1 ? p.slice(0, -1) : p;
 	}
-	var el = document.getElementById('tcomment');
-	if (!el) return;
-	el.innerHTML = '';
-	lastLang = getLang();
 
-	var cfg = Object.assign({}, config, {
-		lang: lastLang,
-		path: getPath(),
-	});
+	function getLang() {
+		return window.translationManager?.getTwikooLanguage() || config.lang;
+	}
 
-	console.log('[Twikoo] init:', cfg);
-	twikoo.init(cfg).catch(function(e) {
-		console.error('[Twikoo] failed:', e);
-	});
-}
+	var lastLang = null;
 
-function onContentReplace() {
-	lastLang = null;
-	setTimeout(initTwikoo, 200);
-}
+	function initTwikoo() {
+		if (typeof twikoo === "undefined") {
+			setTimeout(initTwikoo, 500);
+			return;
+		}
+		var el = document.getElementById("tcomment");
+		if (!el) return;
+		el.innerHTML = "";
+		lastLang = getLang();
 
-function setupSwup() {
-	if (window.swup?.hooks) {
-		window.swup.hooks.on('content:replace', onContentReplace);
-	} else {
-		document.addEventListener('swup:enable', function() {
-			if (window.swup?.hooks) {
-				window.swup.hooks.on('content:replace', onContentReplace);
-			}
+		var cfg = Object.assign({}, config, {
+			lang: lastLang,
+			path: getPath(),
+		});
+
+		console.log("[Twikoo] init:", cfg);
+		twikoo.init(cfg).catch(function (e) {
+			console.error("[Twikoo] failed:", e);
 		});
 	}
-}
 
-document.addEventListener('DOMContentLoaded', initTwikoo);
-
-document.addEventListener('brightmoon:page:loaded', function() {
-	if (document.getElementById('tcomment')) {
+	function onContentReplace() {
 		lastLang = null;
-		initTwikoo();
+		setTimeout(initTwikoo, 200);
 	}
-});
 
-document.addEventListener('translate:applied', function() {
-	var newLang = getLang();
-	if (newLang !== lastLang && document.getElementById('tcomment')) {
-		lastLang = newLang;
-		initTwikoo();
+	function setupSwup() {
+		if (window.swup?.hooks) {
+			window.swup.hooks.on("content:replace", onContentReplace);
+		} else {
+			document.addEventListener("swup:enable", function () {
+				if (window.swup?.hooks) {
+					window.swup.hooks.on("content:replace", onContentReplace);
+				}
+			});
+		}
 	}
-});
 
-setupSwup();
+	document.addEventListener("DOMContentLoaded", initTwikoo);
+
+	document.addEventListener("brightmoon:page:loaded", function () {
+		if (document.getElementById("tcomment")) {
+			lastLang = null;
+			initTwikoo();
+		}
+	});
+
+	document.addEventListener("translate:applied", function () {
+		var newLang = getLang();
+		if (newLang !== lastLang && document.getElementById("tcomment")) {
+			lastLang = newLang;
+			initTwikoo();
+		}
+	});
+
+	setupSwup();
 </script>
