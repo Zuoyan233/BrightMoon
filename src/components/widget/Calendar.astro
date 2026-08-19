@@ -544,7 +544,7 @@ const translateToI18nMapJSON = JSON.stringify(translateToLangMap);
 
 				return `
             <a href="/posts/${post.id}/" class="${containerClass}">
-                <span class="${titleClass}">${post.title}</span>
+                <span class="${titleClass}" title="${post.title.replace(/"/g, "&quot;")}">${post.title}</span>
                 <span class="${dateClass}">${dateStr}</span>
             </a>
         `;
