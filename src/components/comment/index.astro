@@ -42,7 +42,7 @@ const commentEnabled = data.comment ?? true;
         <Twikoo path={path} />
       </div>
     )}
-    <div id="twikoo-not-configured" class="hidden flex flex-col items-center justify-center py-12 text-center">
+    <div id="twikoo-not-configured" class="flex flex-col items-center justify-center py-12 text-center">
       <Icon name="material-symbols:chat-bubble-off-outline" class="text-4xl mb-4 text-[var(--primary)]"></Icon>
       <p class="text-lg font-bold text-black/90 dark:text-white/90">
         {i18n(I18nKey.twikooNotConfigured)}
@@ -51,7 +51,7 @@ const commentEnabled = data.comment ?? true;
         {i18n(I18nKey.twikooConfigHint)}
       </p>
     </div>
-    <div id="twikoo-privacy-rejected" class="hidden flex flex-col items-center justify-center py-12 text-center">
+    <div id="twikoo-privacy-rejected" class="flex flex-col items-center justify-center py-12 text-center">
       <Icon name="material-symbols:block-outline" class="text-4xl mb-4 text-[var(--primary)]"></Icon>
       <p class="text-lg font-bold text-black/90 dark:text-white/90">
         {i18n(I18nKey.twikooPrivacyRejected)}

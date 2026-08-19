@@ -7,13 +7,13 @@
 
 /* frame容器样式 - 与expressive-code.css保持一致 */
 #decrypted-content .expressive-code .frame {
-	@apply !shadow-none relative rounded-lg overflow-hidden;
+	@apply !shadow-none relative overflow-hidden;
 	background: var(--codeblock-bg);
 }
 
 /* pre元素样式 */
 #decrypted-content .frame pre {
-	@apply p-4 overflow-x-auto m-0;
+	@apply p-4 overflow-hidden m-0;
 	font-family:
 		"JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, Monaco,
 		Consolas, "Liberation Mono", "Courier New", monospace;
@@ -66,13 +66,13 @@
 
 /* 内联代码样式 - 与markdown.css保持一致 */
 #decrypted-content .custom-md code:not(.astro-code code) {
-	@apply bg-[var(--inline-code-bg)] text-[var(--inline-code-color)] px-1 py-0.5 rounded-md overflow-hidden;
+	@apply text-[var(--inline-code-color)] px-1 py-0.5 overflow-hidden;
 }
 
 /* 代码块内的code元素不应用内联代码样式 */
 #decrypted-content .astro-code code {
 	background: transparent;
-	padding: 0;
+	padding: 1rem 0;
 	border-radius: 0;
 	counter-reset: line; /* 重置行号计数器 */
 	/* 移除强制白色，让语法高亮颜色显示 */
@@ -344,7 +344,7 @@
 	padding: 0;
 }
 
-#decrypted-content .expressive-code pre code {
+#decrypted-content .expressive-code .frame pre code {
 	background-color: transparent;
-	padding: 1rem 0 1rem 0;
+	padding: 1rem 0;
 }

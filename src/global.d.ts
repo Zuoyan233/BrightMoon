@@ -39,11 +39,25 @@ declare global {
 		siteConfig: Record<string, unknown>;
 		CryptoJS?: {
 			AES: {
-				encrypt: (message: string, password: string) => { toString: () => string };
-				decrypt: (ciphertext: string, password: string) => { toString: (encoder?: { parse: (s: string) => unknown; stringify: (w: unknown) => string }) => string };
+				encrypt: (
+					message: string,
+					password: string,
+				) => { toString: () => string };
+				decrypt: (
+					ciphertext: string,
+					password: string,
+				) => {
+					toString: (encoder?: {
+						parse: (s: string) => unknown;
+						stringify: (w: unknown) => string;
+					}) => string;
+				};
 			};
 			enc: {
-				Utf8: { parse: (s: string) => unknown; stringify: (w: unknown) => string };
+				Utf8: {
+					parse: (s: string) => unknown;
+					stringify: (w: unknown) => string;
+				};
 			};
 		};
 	}
