@@ -74,7 +74,9 @@ export default defineConfig({
 				return event.state?.url?.includes("#");
 			},
 		}),
-		icon(),
+		icon({
+    		iconDir: "src/assets",
+		}),	
 		expressiveCode({
 			themes: ["github-light", "github-dark"],
 			plugins: [

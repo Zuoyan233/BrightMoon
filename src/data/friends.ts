@@ -22,21 +22,28 @@ export const friendsData: FriendItem[] = [
 	},
 	{
 		id: 2,
-		title: "Zuoyan233",
-		imgurl:
-			"https://avatars.githubusercontent.com/u/241030983?s=400&u=4e94ec9d22f989c4befd4923ec399d1efc58fb37&v=4",
-		desc: "Web content developer",
-		siteurl: "https://github.com/Zuoyan233/BrightMoon",
-		tags: ["Github"],
+		title: "Twikoo",
+		imgurl: "https://avatars.githubusercontent.com/u/92834001?s=200&v=4",
+		desc: "A simple, safe, free comment system",
+		siteurl: "https://twikoo.js.org/",
+		tags: ["Comment-System"],
 	},
 	{
 		id: 3,
-		title: "Mizuki Docs",
+		title: "Tailwind CSS",
 		imgurl:
-			"http://q.qlogo.cn/headimg_dl?dst_uin=3231515355&spec=640&img_type=jpg",
-		desc: "Mizuki User Manual",
-		siteurl: "https://docs.mizuki.mysqil.com",
-		tags: ["Docs"],
+			"https://www.runoob.com/wp-content/uploads/2024/11/Tailwind_CSS_Logo.png",
+		desc: "A utility-first CSS framework for rapidly building custom user interfaces",
+		siteurl: "https://tailwindcss.com/",
+		tags: ["CSS"],
+	},
+	{
+		id: 4,
+		title: "Svelte",
+		imgurl: "https://v4.svelte.dev/favicon.png",
+		desc: "Cybernetically enhancedweb apps",
+		siteurl: "https://v4.svelte.dev/",
+		tags: ["Framework"],
 	},
 ];
 
