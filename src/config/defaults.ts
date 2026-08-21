@@ -219,6 +219,57 @@ export const defaultSiteConfig: SiteConfig = {
 				deleteSpeed: 50, // 删除速度（毫秒）
 				pauseTime: 6000, // 完全显示后的暂停时间（毫秒）
 			},
+			festivalEasterEgg: {
+				enable: true, // 启用节日彩蛋
+				dates: [
+					{
+						date: "01-01", // 格式 MM-DD 或 MM-DD~MM-DD（日期范围），如需周年递进请改用 startDate
+						title: "Happy New Year !", // 节日横幅主标题，支持 {years} 占位符
+						subtitle: "May the new year bring you joy and happiness", // 节日横幅副标题
+					},
+					{
+						date: "02-14",
+						title: "Happy Valentine's Day !",
+						subtitle: ["Love is in the air", "Be my Valentine"],
+					},
+					{
+						date: "03-08",
+						title: "Happy Women's Day !",
+						subtitle: "Celebrating the strength and grace of women",
+					},
+					{
+						date: "04-01",
+						title: "April Fools' Day !",
+						subtitle: "Watch out for pranks today !",
+					},
+					{
+						date: "05-01",
+						title: "Happy Labour Day !",
+						subtitle: "Celebrating the workers of the world",
+					},
+					{
+						date: "06-01",
+						title: "Happy Children's Day !",
+						subtitle: "May you always keep a childlike heart",
+					},
+					{
+						date: "10-01~10-07",
+						title: "Happy National Day !",
+						subtitle: [
+							"Celebrating the motherland",
+							"Wishing prosperity and happiness",
+						],
+					},
+					{
+						date: "12-25",
+						title: "Merry Christmas !",
+						subtitle: [
+							"Jingle bells, jingle bells",
+							"Wishing you warmth and joy",
+						],
+					},
+				],
+			},
 		},
 
 		credit: {

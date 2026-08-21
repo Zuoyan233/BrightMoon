@@ -207,18 +207,6 @@ export const pioConfig: PioConfig = deepMerge(
 	userConfig.pioConfig,
 );
 
-// 导出所有配置的统一接口
-export const widgetConfigs = {
-	profile: profileConfig,
-	announcement: announcementConfig,
-	music: musicPlayerConfig,
-	layout: sidebarLayoutConfig,
-	sakura: sakuraConfig,
-	pio: pioConfig, // 添加 pio 配置
-	share: shareConfig, // 添加分享配置
-	weather: weatherConfig, // 添加天气配置
-} as const;
-
 export const umamiConfig: UmamiConfig = deepMerge(
 	defaultUmamiConfig,
 	userConfig.umamiConfig,

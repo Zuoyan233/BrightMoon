@@ -10,7 +10,7 @@ const BANNER_HEIGHT = 35;
 const BANNER_HEIGHT_EXTEND = 30;
 const BANNER_HEIGHT_HOME = BANNER_HEIGHT + BANNER_HEIGHT_EXTEND;
 
-import { siteConfig, widgetConfigs } from "../config";
+import { sakuraConfig, siteConfig } from "../config";
 import { initSakura } from "../utils/sakura-manager";
 import { translationManager } from "../utils/translation-manager";
 
@@ -308,7 +308,6 @@ if (siteConfig.translate?.enable) {
 }
 
 function setupSakura() {
-	const sakuraConfig = widgetConfigs?.sakura;
 	if (!sakuraConfig) return;
 	if (window.sakuraInitialized) return;
 

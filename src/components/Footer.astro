@@ -62,8 +62,8 @@ for (const [lang, tr] of Object.entries(allTranslations)) {
 
     <div class="ignore mb-2">
 			&copy; <span id="copyright-year">{currentYear}</span> {profileConfig.name}. All Rights Reserved. /
-			<a class="transition link text-[var(--primary)] font-medium" href={url('rss/')} onclick={`event.preventDefault(); navigateToPage('${url('rss/')}')`}>RSS</a> /
-			<a class="transition link text-[var(--primary)] font-medium" href={url('atom/')} onclick={`event.preventDefault(); navigateToPage('${url('atom/')}')`}>Atom</a> /
+			<a class="transition link text-[var(--primary)] font-medium" href={url('rss/')}>RSS</a> /
+			<a class="transition link text-[var(--primary)] font-medium" href={url('atom/')}>Atom</a> /
 			<a class="transition link text-[var(--primary)] font-medium" target="_blank" href={url('sitemap-index.xml')}>Sitemap</a>
     </div>
 

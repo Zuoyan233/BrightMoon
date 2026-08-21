@@ -191,6 +191,15 @@ export type SiteConfig = {
 				deleteSpeed: number; // 删除速度（毫秒）
 				pauseTime: number; // 完整显示后的暂停时间（毫秒）
 			};
+			festivalEasterEgg?: {
+				enable: boolean; // 是否启用节日彩蛋
+				dates: {
+					date?: string; // 日期，格式 MM-DD 或 MM-DD~MM-DD（日期范围）
+					startDate?: string; // 起始日期，格式 YYYY-MM-DD，用于周年/生日递进计算，同时提取月日进行匹配
+					title?: string; // 节日横幅主标题，支持 {years} 占位符
+					subtitle?: string | string[]; // 节日横幅副标题
+				}[];
+			};
 		};
 		credit: {
 			enable: boolean;

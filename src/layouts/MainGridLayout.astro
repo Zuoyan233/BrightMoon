@@ -230,6 +230,46 @@ const resolvedBreadcrumbItems = breadcrumbBase
 	}));
 
 const showHomeText = siteConfig.banner.homeText?.enable && isHomePage;
+
+// 横幅模式节日彩蛋：检查今天是否匹配某个节日日期，匹配则覆盖 title / subtitle
+function getFestivalOverride() {
+	const easterEgg = siteConfig.banner.homeText?.festivalEasterEgg;
+	if (!easterEgg?.enable || !easterEgg.dates?.length) return null;
+	const now = new Date();
+	const today = `${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+	for (const item of easterEgg.dates) {
+		let matched = false;
+		if (item.startDate) {
+			const mmdd = item.startDate.slice(5);
+			matched = today === mmdd;
+		} else if (item.date) {
+			if (item.date.includes("~")) {
+				const [start, end] = item.date.split("~");
+				matched = today >= start && today <= end;
+			} else {
+				matched = today === item.date;
+			}
+		}
+		if (matched) {
+			let title = item.title;
+			if (title?.includes("{years}") && item.startDate) {
+				const start = new Date(item.startDate);
+				const diff = now.getFullYear() - start.getFullYear();
+				const years = diff > 0 ? diff : 1;
+				const yearsText = String(years);
+				title = title.replace("{years}", yearsText);
+			}
+			return { ...item, title };
+		}
+	}
+	return null;
+}
+const festivalOverride = getFestivalOverride();
+const homeTextTitle =
+	festivalOverride?.title ?? siteConfig.banner.homeText?.title;
+const homeTextSubtitle =
+	festivalOverride?.subtitle ?? siteConfig.banner.homeText?.subtitle;
+
 // 手机端非首页不显示banner的CSS类
 const mobileNonHomeBannerClass = !isHomePage ? "mobile-hide-banner" : "";
 
@@ -442,25 +482,25 @@ import "../scripts/main-grid.js";
         <div class={`banner-text-overlay absolute inset-0 z-20 flex items-center justify-center ${!showHomeText ? 'hidden' : ''}`}>
             <div class="w-4/5 lg:w-3/4 text-center mb-0">
                 <div class="flex flex-col">
-                    {siteConfig.banner.homeText?.title && (
+                    {homeTextTitle && (
                         <h1 class="banner-title text-6xl lg:text-8xl text-white drop-shadow-lg mb-2 lg:mb-4">
-                            {siteConfig.banner.homeText.title}
+                            {homeTextTitle}
                         </h1>
                     )}
-                    {siteConfig.banner.homeText?.subtitle && (
+                    {homeTextSubtitle && (
                         <h2 class="banner-subtitle text-xl lg:text-3xl text-white/90 drop-shadow-md">
                             <span class="inline-block min-h-[1.2em]">
                                 {siteConfig.banner.homeText.typewriter?.enable ? (
                                     <TypewriterText 
-                                        text={siteConfig.banner.homeText.subtitle}
+                                        text={homeTextSubtitle}
                                         speed={siteConfig.banner.homeText.typewriter.speed}
                                         deleteSpeed={siteConfig.banner.homeText.typewriter.deleteSpeed}
                                         pauseTime={siteConfig.banner.homeText.typewriter.pauseTime}
                                     />
                                 ) : (
-                                    Array.isArray(siteConfig.banner.homeText.subtitle) 
-                                        ? siteConfig.banner.homeText.subtitle[0] 
-                                        : siteConfig.banner.homeText.subtitle
+                                    Array.isArray(homeTextSubtitle) 
+                                        ? homeTextSubtitle[0] 
+                                        : homeTextSubtitle
                                 )}
                             </span>
                         </h2>
