@@ -516,7 +516,7 @@ export const en: Translation = {
 	[Key.versionCheckSuccessDesc]: "No new version found. You are up to date",
 	[Key.versionDownload]: "Download Latest Version",
 	[Key.versionUpdateWarning]:
-		"It is recommended to use the BrightMoon blog framework upgrade tool. Please back up your data before upgrading.",
+		"It is recommended to use the BrightMoon blog framework upgrade tool. Please back up your data before upgrading",
 
 	// Breadcrumb Navigation
 	[Key.suggestion]: "You might want to visit",

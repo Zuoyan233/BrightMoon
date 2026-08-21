@@ -519,7 +519,7 @@ export const id: Translation = {
 		"Tidak ada versi baru ditemukan. Anda sudah menggunakan versi terbaru",
 	[Key.versionDownload]: "Unduh Versi Terbaru",
 	[Key.versionUpdateWarning]:
-		"Disarankan menggunakan alat peningkatan framework blog BrightMoon. Harap cadangkan data Anda sebelum meningkatkan.",
+		"Disarankan menggunakan alat peningkatan framework blog BrightMoon. Harap cadangkan data Anda sebelum meningkatkan",
 
 	// Navigasi remah roti
 	[Key.suggestion]: "Mungkin Anda ingin mengunjungi",

@@ -519,7 +519,7 @@ export const vi: Translation = {
 		"Không tìm thấy phiên bản mới. Bạn đang sử dụng phiên bản mới nhất.",
 	[Key.versionDownload]: "Tải xuống phiên bản mới nhất",
 	[Key.versionUpdateWarning]:
-		"Khuyên dùng công cụ nâng cấp framework blog BrightMoon. Vui lòng sao lưu dữ liệu trước khi nâng cấp.",
+		"Khuyên dùng công cụ nâng cấp framework blog BrightMoon. Vui lòng sao lưu dữ liệu trước khi nâng cấp",
 
 	// Điều hướng Breadcrumb
 	[Key.suggestion]: "Có thể bạn muốn truy cập",

@@ -525,7 +525,7 @@ export const tr: Translation = {
 		"Yeni sürüm bulunamadı. Güncel sürümü kullanıyorsunuz",
 	[Key.versionDownload]: "Son Sürümü İndir",
 	[Key.versionUpdateWarning]:
-		"BrightMoon blog framework yükseltme aracının kullanılması önerilir. Lütfen yükseltmeden önce verilerinizi yedekleyin.",
+		"BrightMoon blog framework yükseltme aracının kullanılması önerilir. Lütfen yükseltmeden önce verilerinizi yedekleyin",
 
 	// Ekmek kırıntısı gezinmesi
 	[Key.suggestion]: "Belki ziyaret etmek istersiniz",

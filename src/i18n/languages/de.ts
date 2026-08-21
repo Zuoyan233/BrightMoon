@@ -528,7 +528,7 @@ export const de: Translation = {
 		"Keine neue Version gefunden. Sie sind auf dem neuesten Stand",
 	[Key.versionDownload]: "Neueste Version herunterladen",
 	[Key.versionUpdateWarning]:
-		"Es wird empfohlen, das BrightMoon-Blog-Framework-Upgrade-Tool zu verwenden. Bitte sichern Sie Ihre Daten vor dem Upgrade.",
+		"Es wird empfohlen, das BrightMoon-Blog-Framework-Upgrade-Tool zu verwenden. Bitte sichern Sie Ihre Daten vor dem Upgrade",
 
 	// Brotkrumen-Navigation
 	[Key.suggestion]: "Vielleicht möchten Sie besuchen",

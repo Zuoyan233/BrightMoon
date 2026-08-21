@@ -537,7 +537,7 @@ export const fr: Translation = {
 		"Aucune nouvelle version trouvée. Vous êtes à jour",
 	[Key.versionDownload]: "Télécharger la dernière version",
 	[Key.versionUpdateWarning]:
-		"Il est recommandé d'utiliser l'outil de mise à jour du framework de blog BrightMoon. Veuillez sauvegarder vos données avant la mise à jour.",
+		"Il est recommandé d'utiliser l'outil de mise à jour du framework de blog BrightMoon. Veuillez sauvegarder vos données avant la mise à jour",
 
 	// Fil d'Ariane
 	[Key.suggestion]: "Vous aimerez peut-être visiter",

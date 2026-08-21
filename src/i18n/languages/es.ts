@@ -530,7 +530,7 @@ export const es: Translation = {
 		"No se ha encontrado una nueva versión. Estás al día",
 	[Key.versionDownload]: "Descargar última versión",
 	[Key.versionUpdateWarning]:
-		"Se recomienda utilizar la herramienta de actualización del framework de blog BrightMoon. Haga una copia de seguridad de sus datos antes de actualizar.",
+		"Se recomienda utilizar la herramienta de actualización del framework de blog BrightMoon. Haga una copia de seguridad de sus datos antes de actualizar",
 
 	// Navegación de migas de pan
 	[Key.suggestion]: "Quizás quieras visitar",
