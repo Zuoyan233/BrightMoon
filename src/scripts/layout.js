@@ -3,7 +3,16 @@
  * 包含面板管理、代码块折叠、滚动处理、轮播控制、版本检查等功能
  */
 
-import { DARK_MODE, DEFAULT_THEME, SYSTEM_MODE } from "../constants/constants";
+import {
+	DARK_MODE,
+	DEFAULT_THEME,
+	SYSTEM_MODE,
+	WALLPAPER_BANNER,
+} from "../constants/constants";
+import {
+	getStoredWallpaperMode,
+	setWallpaperMode,
+} from "../utils/setting-utils";
 import { pathsEqual, url } from "../utils/url-utils";
 
 const BANNER_HEIGHT = 35;
@@ -11,7 +20,7 @@ const BANNER_HEIGHT_EXTEND = 30;
 const BANNER_HEIGHT_HOME = BANNER_HEIGHT + BANNER_HEIGHT_EXTEND;
 
 import { sakuraConfig, siteConfig } from "../config";
-import { initSakura } from "../utils/sakura-manager";
+import { getSakuraStatus, initSakura } from "../utils/sakura-manager";
 import { translationManager } from "../utils/translation-manager";
 
 import "./code-collapse.js";
@@ -329,6 +338,59 @@ if (document.readyState === "loading") {
 	document.addEventListener("DOMContentLoaded", setupSakura);
 } else {
 	setupSakura();
+}
+
+function setupFestivalEasterEgg() {
+	const festivalConfig = window.siteConfig?.festivalEasterEgg;
+	if (!festivalConfig?.enable || !festivalConfig.dates?.length) return;
+
+	const now = new Date();
+	const today = `${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+
+	let matchedItem = null;
+	for (const item of festivalConfig.dates) {
+		let matched = false;
+		if (item.startDate) {
+			const mmdd = item.startDate.slice(5);
+			matched = today === mmdd;
+		} else if (item.date) {
+			if (item.date.includes("~")) {
+				const [start, end] = item.date.split("~");
+				matched = today >= start && today <= end;
+			} else {
+				matched = today === item.date;
+			}
+		}
+		if (matched) {
+			matchedItem = item;
+			break;
+		}
+	}
+
+	if (!matchedItem) return;
+
+	const shouldForceFestivalMode = festivalConfig.forceFestivalMode ?? true;
+
+	if (shouldForceFestivalMode) {
+		const currentMode = getStoredWallpaperMode();
+		if (currentMode !== WALLPAPER_BANNER) {
+			setWallpaperMode(WALLPAPER_BANNER);
+		}
+	}
+
+	if (shouldForceFestivalMode && sakuraConfig) {
+		if (!getSakuraStatus()) {
+			localStorage.setItem("sakuraEnabled", "true");
+			initSakura({ ...sakuraConfig, enable: true }, "/festivalEasterEgg.png"); // 使用节日彩蛋图片
+			window.dispatchEvent(new CustomEvent("sakura-status-change"));
+		}
+	}
+}
+
+if (document.readyState === "loading") {
+	document.addEventListener("DOMContentLoaded", setupFestivalEasterEgg);
+} else {
+	setupFestivalEasterEgg();
 }
 
 function setupWaves() {

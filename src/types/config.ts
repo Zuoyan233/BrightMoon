@@ -193,6 +193,7 @@ export type SiteConfig = {
 			};
 			festivalEasterEgg?: {
 				enable: boolean; // 是否启用节日彩蛋
+				forceFestivalMode?: boolean; // 节日时强制切换到横幅模式并启用樱花飘落特效
 				dates: {
 					date?: string; // 日期，格式 MM-DD 或 MM-DD~MM-DD（日期范围）
 					startDate?: string; // 起始日期，格式 YYYY-MM-DD，用于周年/生日递进计算，同时提取月日进行匹配

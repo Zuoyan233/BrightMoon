@@ -259,6 +259,7 @@ export const userConfig: UserConfig = {
 				},
 				festivalEasterEgg: {
 					enable: true, // 启用节日彩蛋
+					forceFestivalMode: true, // 节日时强制切换到横幅模式并启用樱花飘落特效
 					dates: [
 						{
 							date: "01-01", // 格式 MM-DD 或 MM-DD~MM-DD（日期范围），如需周年递进请改用 startDate
@@ -871,7 +872,7 @@ export const userConfig: UserConfig = {
 	},
 
 	sakuraConfig: {
-		enable: true, // 默认关闭樱花特效
+		enable: true, // 启用樱花特效 Appearance UI 显示
 		sakuraNum: 10, // 樱花数量
 		limitTimes: -1, // 樱花越界限制次数，-1为无限循环
 		size: {

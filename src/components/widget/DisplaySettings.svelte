@@ -428,8 +428,29 @@ onMount(() => {
 	// 监听窗口大小变化
 	window.addEventListener("resize", checkWallpaperVisibility);
 
+	// 监听壁纸模式外部变化（如节日彩蛋强制切换）
+	const onWallpaperModeChange = (e: CustomEvent<{ mode: WALLPAPER_MODE }>) => {
+		currentWallpaperMode = e.detail.mode;
+	};
+	window.addEventListener(
+		"wallpaper-mode-change",
+		onWallpaperModeChange as EventListener,
+	);
+
+	// 监听樱花状态外部变化（如节日彩蛋强制开启）
+	const onSakuraStatusChange = () => {
+		sakuraAvailable = true;
+		sakuraEnabled = getSakuraStatus();
+	};
+	window.addEventListener("sakura-status-change", onSakuraStatusChange);
+
 	return () => {
 		window.removeEventListener("resize", checkWallpaperVisibility);
+		window.removeEventListener(
+			"wallpaper-mode-change",
+			onWallpaperModeChange as EventListener,
+		);
+		window.removeEventListener("sakura-status-change", onSakuraStatusChange);
 	};
 });
 

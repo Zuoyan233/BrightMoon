@@ -186,6 +186,7 @@ function getRandom(
 // 樱花管理器类
 export class SakuraManager {
 	private config: SakuraConfig;
+	private imageSrc: string;
 	private canvas: HTMLCanvasElement | null = null;
 	private ctx: CanvasRenderingContext2D | null = null;
 	private sakuraList: SakuraList | null = null;
@@ -194,8 +195,9 @@ export class SakuraManager {
 	private isRunning = false;
 	private boundHandleResize: (() => void) | null = null;
 
-	constructor(config: SakuraConfig) {
+	constructor(config: SakuraConfig, imageSrc?: string) {
 		this.config = config;
+		this.imageSrc = imageSrc || "/sakura.png";
 	}
 
 	// 初始化樱花特效
@@ -206,7 +208,7 @@ export class SakuraManager {
 
 		// 创建图片对象
 		this.img = new Image();
-		this.img.src = "/sakura.png"; // 使用樱花图片
+		this.img.src = this.imageSrc; // 使用樱花图片
 
 		// 等待图片加载完成
 		await new Promise<void>((resolve, reject) => {
@@ -341,13 +343,16 @@ export class SakuraManager {
 	}
 
 	// 更新配置
-	updateConfig(newConfig: SakuraConfig): void {
+	updateConfig(newConfig: SakuraConfig, imageSrc?: string): void {
 		const wasRunning = this.isRunning;
 		if (wasRunning) {
 			this.stop();
 		}
 		this.config = newConfig;
-		if (wasRunning && newConfig.enable) {
+		if (imageSrc) {
+			this.imageSrc = imageSrc;
+		}
+		if (newConfig.enable) {
 			this.init();
 		}
 	}
@@ -362,11 +367,11 @@ export class SakuraManager {
 let globalSakuraManager: SakuraManager | null = null;
 
 // 初始化樱花特效
-export function initSakura(config: SakuraConfig): void {
+export function initSakura(config: SakuraConfig, imageSrc?: string): void {
 	if (globalSakuraManager) {
-		globalSakuraManager.updateConfig(config);
+		globalSakuraManager.updateConfig(config, imageSrc);
 	} else {
-		globalSakuraManager = new SakuraManager(config);
+		globalSakuraManager = new SakuraManager(config, imageSrc);
 		if (config.enable) {
 			globalSakuraManager.init();
 		}
