@@ -6,6 +6,9 @@ import { slide } from "svelte/transition";
 import { musicPlayerConfig, siteConfig } from "../../config";
 // 导入国际化相关的 Key 和 i18n 实例
 import Key from "../../i18n/i18nKey";
+
+type I18nKey = (typeof Key)[keyof typeof Key];
+
 import { getTranslation, i18n } from "../../i18n/translation";
 import { translationManager } from "../../utils/translation-manager";
 
@@ -55,8 +58,8 @@ let isLoading = musicPlayerConfig.isLoading;
 let isShuffled = musicPlayerConfig.isShuffled;
 // 循环模式
 let isRepeating = musicPlayerConfig.isRepeating;
-// 错误信息
-let errorMessage = musicPlayerConfig.errorMessage;
+// 错误信息的 i18n Key
+let errorKey: I18nKey | null = null;
 // 是否显示错误信息，默认为 false
 let showError = musicPlayerConfig.showError;
 
@@ -135,6 +138,7 @@ $: lyricsTitle = currentI18n
 		? currentI18n[Key.musicPlayerLyricsHide]
 		: currentI18n[Key.musicPlayerLyricsShow]
 	: "";
+$: errorMessage = errorKey && currentI18n ? (currentI18n[errorKey] ?? "") : "";
 
 $: if (showPlaylist) {
 	void tick().then(() => {
@@ -217,7 +221,7 @@ async function fetchMetingPlaylist() {
 		}
 		isLoading = false;
 	} catch (e) {
-		showErrorMessage(i18n(Key.musicPlayerErrorPlaylist));
+		showErrorMessage(Key.musicPlayerErrorPlaylist);
 		isLoading = false;
 	}
 }
@@ -411,13 +415,13 @@ function handleUserInteraction() {
 function handleLoadError(_event: Event) {
 	if (!currentSong.url) return;
 	isLoading = false;
-	showErrorMessage(i18n(Key.musicPlayerErrorSong));
+	showErrorMessage(Key.musicPlayerErrorSong);
 
 	const shouldContinue = isPlaying || willAutoPlay;
 	if (playlist.length > 1) {
 		setTimeout(() => nextSong(shouldContinue), 1000);
 	} else {
-		showErrorMessage(i18n(Key.musicPlayerErrorEmpty));
+		showErrorMessage(Key.musicPlayerErrorEmpty);
 	}
 }
 
@@ -434,8 +438,8 @@ function handleAudioEnded() {
 	}
 }
 
-function showErrorMessage(message: string) {
-	errorMessage = message;
+function showErrorMessage(key: I18nKey) {
+	errorKey = key;
 	showError = true;
 	setTimeout(() => {
 		showError = false;
@@ -699,7 +703,7 @@ onMount(() => {
 		if (playlist.length > 0) {
 			loadSong(playlist[0]);
 		} else {
-			showErrorMessage("The local playlist is empty");
+			showErrorMessage(Key.musicPlayerErrorEmpty);
 		}
 	}
 });
