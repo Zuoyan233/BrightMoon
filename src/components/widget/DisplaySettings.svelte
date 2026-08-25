@@ -440,7 +440,7 @@ onMount(() => {
 	// 监听樱花状态外部变化（如节日彩蛋强制开启）
 	const onSakuraStatusChange = () => {
 		sakuraAvailable = true;
-		sakuraEnabled = getSakuraStatus();
+		sakuraEnabled = getStoredSakuraEnabled();
 	};
 	window.addEventListener("sakura-status-change", onSakuraStatusChange);
 

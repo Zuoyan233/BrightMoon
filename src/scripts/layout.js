@@ -10,7 +10,9 @@ import {
 	WALLPAPER_BANNER,
 } from "../constants/constants";
 import {
+	getHue,
 	getStoredWallpaperMode,
+	setHue,
 	setWallpaperMode,
 } from "../utils/setting-utils";
 import { pathsEqual, url } from "../utils/url-utils";
@@ -20,7 +22,11 @@ const BANNER_HEIGHT_EXTEND = 30;
 const BANNER_HEIGHT_HOME = BANNER_HEIGHT + BANNER_HEIGHT_EXTEND;
 
 import { sakuraConfig, siteConfig } from "../config";
-import { getSakuraStatus, initSakura } from "../utils/sakura-manager";
+import {
+	getSakuraStatus,
+	initSakura,
+	stopSakura,
+} from "../utils/sakura-manager";
 import { translationManager } from "../utils/translation-manager";
 
 import "./code-collapse.js";
@@ -324,7 +330,7 @@ function setupSakura() {
 		? sakuraConfig.enable
 		: localStorage.getItem("sakuraEnabled") !== null
 			? localStorage.getItem("sakuraEnabled") === "true"
-			: false;
+			: (sakuraConfig.uiDefaultEnabled ?? false);
 
 	if (!shouldEnable) {
 		initSakura({ ...sakuraConfig, enable: false });
@@ -343,6 +349,8 @@ if (document.readyState === "loading") {
 function setupFestivalEasterEgg() {
 	const festivalConfig = window.siteConfig?.festivalEasterEgg;
 	if (!festivalConfig?.enable || !festivalConfig.dates?.length) return;
+
+	const FESTIVAL_BACKUP_KEY = "festivalEasterEgg_backup";
 
 	const now = new Date();
 	const today = `${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
@@ -367,14 +375,128 @@ function setupFestivalEasterEgg() {
 		}
 	}
 
-	if (!matchedItem) return;
+	if (!matchedItem) {
+		const backup = localStorage.getItem(FESTIVAL_BACKUP_KEY);
+		if (backup) {
+			try {
+				const { wallpaperMode, sakuraEnabled, hue } = JSON.parse(backup);
+				if (wallpaperMode) {
+					setWallpaperMode(wallpaperMode);
+				}
+				if (sakuraEnabled === "false") {
+					localStorage.setItem("sakuraEnabled", "false");
+					stopSakura();
+					window.dispatchEvent(new CustomEvent("sakura-status-change"));
+				}
+				if (typeof hue === "number") {
+					setHue(hue);
+				}
+			} catch {}
+			localStorage.removeItem(FESTIVAL_BACKUP_KEY);
+		}
+
+		// 节日已过，恢复横幅主副标题为原始配置
+		const homeText = siteConfig.banner?.homeText;
+		if (homeText?.title) {
+			const bannerTitleEl = document.querySelector(".banner-title");
+			if (bannerTitleEl) {
+				bannerTitleEl.textContent = homeText.title;
+			}
+		}
+		if (homeText?.subtitle) {
+			const typewriterEl = document.querySelector(
+				".banner-subtitle .typewriter",
+			);
+			if (typewriterEl) {
+				const newTexts = Array.isArray(homeText.subtitle)
+					? homeText.subtitle
+					: [homeText.subtitle];
+				typewriterEl.dataset.text = JSON.stringify(newTexts);
+				const sourceContainer =
+					typewriterEl.querySelector(".typewriter-source");
+				if (sourceContainer) {
+					sourceContainer.innerHTML = newTexts
+						.map((t, i) => `<span data-index="${i}">${t}</span>`)
+						.join("");
+				}
+				document.dispatchEvent(new CustomEvent("translate:applied"));
+			} else {
+				const bannerSubtitleEl = document.querySelector(
+					".banner-subtitle span",
+				);
+				if (bannerSubtitleEl) {
+					const subtitleText = Array.isArray(homeText.subtitle)
+						? homeText.subtitle[0]
+						: homeText.subtitle;
+					bannerSubtitleEl.textContent = subtitleText;
+				}
+			}
+		}
+
+		return;
+	}
+
+	let festivalTitle = matchedItem.title;
+	if (festivalTitle?.includes("{years}") && matchedItem.startDate) {
+		const start = new Date(matchedItem.startDate);
+		const diff = now.getFullYear() - start.getFullYear();
+		const years = diff > 0 ? diff : 1;
+		festivalTitle = festivalTitle.replace("{years}", String(years));
+	}
+	const festivalSubtitle = matchedItem.subtitle;
+
+	const bannerTitleEl = document.querySelector(".banner-title");
+	if (bannerTitleEl && festivalTitle) {
+		bannerTitleEl.textContent = festivalTitle;
+	}
+
+	if (festivalSubtitle) {
+		const typewriterEl = document.querySelector(".banner-subtitle .typewriter");
+		if (typewriterEl) {
+			const newTexts = Array.isArray(festivalSubtitle)
+				? festivalSubtitle
+				: [festivalSubtitle];
+			typewriterEl.dataset.text = JSON.stringify(newTexts);
+			const sourceContainer = typewriterEl.querySelector(".typewriter-source");
+			if (sourceContainer) {
+				sourceContainer.innerHTML = newTexts
+					.map((t, i) => `<span data-index="${i}">${t}</span>`)
+					.join("");
+			}
+			document.dispatchEvent(new CustomEvent("translate:applied"));
+		} else {
+			const bannerSubtitleEl = document.querySelector(".banner-subtitle span");
+			if (bannerSubtitleEl) {
+				const subtitleText = Array.isArray(festivalSubtitle)
+					? festivalSubtitle[0]
+					: festivalSubtitle;
+				bannerSubtitleEl.textContent = subtitleText;
+			}
+		}
+	}
 
 	const shouldForceFestivalMode = festivalConfig.forceFestivalMode ?? true;
 
 	if (shouldForceFestivalMode) {
+		if (!localStorage.getItem(FESTIVAL_BACKUP_KEY)) {
+			const backupData = {
+				wallpaperMode: getStoredWallpaperMode(),
+				sakuraEnabled:
+					localStorage.getItem("sakuraEnabled") ??
+					(sakuraConfig.uiDefaultEnabled ? "true" : "false"),
+				hue: getHue(),
+			};
+			localStorage.setItem(FESTIVAL_BACKUP_KEY, JSON.stringify(backupData));
+		}
+
 		const currentMode = getStoredWallpaperMode();
 		if (currentMode !== WALLPAPER_BANNER) {
 			setWallpaperMode(WALLPAPER_BANNER);
+		}
+
+		// 节日期间强制主题色色相为 0（红色）
+		if (getHue() !== 0) {
+			setHue(0);
 		}
 	}
 
@@ -387,11 +509,24 @@ function setupFestivalEasterEgg() {
 	}
 }
 
-if (document.readyState === "loading") {
-	document.addEventListener("DOMContentLoaded", setupFestivalEasterEgg);
-} else {
-	setupFestivalEasterEgg();
+function initFestivalEasterEgg() {
+	if (document.readyState === "loading") {
+		document.addEventListener("DOMContentLoaded", setupFestivalEasterEgg);
+	} else {
+		setupFestivalEasterEgg();
+	}
+
+	// swup 页面切换后重新检查节日状态，确保横幅标题正确切换
+	if (window?.swup?.hooks) {
+		window.swup.hooks.on("page:view", setupFestivalEasterEgg);
+	} else {
+		document.addEventListener("swup:enable", () => {
+			window.swup.hooks.on("page:view", setupFestivalEasterEgg);
+		});
+	}
 }
+
+initFestivalEasterEgg();
 
 function setupWaves() {
 	if (window.wavesInitialized) return;

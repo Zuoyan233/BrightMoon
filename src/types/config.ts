@@ -193,7 +193,7 @@ export type SiteConfig = {
 			};
 			festivalEasterEgg?: {
 				enable: boolean; // 是否启用节日彩蛋
-				forceFestivalMode?: boolean; // 节日时强制切换到横幅模式并启用樱花飘落特效
+				forceFestivalMode?: boolean; // 节日时强制切换到横幅模式、启用樱花飘落特效并更改主题色色相
 				dates: {
 					date?: string; // 日期，格式 MM-DD 或 MM-DD~MM-DD（日期范围）
 					startDate?: string; // 起始日期，格式 YYYY-MM-DD，用于周年/生日递进计算，同时提取月日进行匹配
@@ -449,7 +449,8 @@ export type SidebarLayoutConfig = {
 };
 
 export type SakuraConfig = {
-	enable: boolean; // 是否启用樱花特效
+	enable: boolean; // 启用樱花特效（Appearance UI 中显示开关）
+	uiDefaultEnabled: boolean; // 默认开启樱花特效 （已开启 Appearance UI 生效）
 	sakuraNum: number; // 樱花数量，默认21
 	limitTimes: number; // 樱花越界限制次数，-1为无限循环
 	size: {

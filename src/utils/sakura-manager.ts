@@ -194,6 +194,7 @@ export class SakuraManager {
 	private img: HTMLImageElement | null = null;
 	private isRunning = false;
 	private boundHandleResize: (() => void) | null = null;
+	private initToken = 0;
 
 	constructor(config: SakuraConfig, imageSrc?: string) {
 		this.config = config;
@@ -205,6 +206,9 @@ export class SakuraManager {
 		if (!this.config.enable) {
 			return;
 		}
+
+		// 令牌守卫：使之前尚未完成的异步初始化作废，避免重复创建画布导致画面残留
+		const token = ++this.initToken;
 
 		// 创建图片对象
 		this.img = new Image();
@@ -218,6 +222,11 @@ export class SakuraManager {
 					reject(new Error("Failed to load sakura image"));
 			}
 		});
+
+		// 等待期间若发起了新的 init 或 stop，放弃本次初始化
+		if (token !== this.initToken) {
+			return;
+		}
 
 		this.createCanvas();
 		this.createSakuraList();
@@ -310,6 +319,9 @@ export class SakuraManager {
 
 	// 停止樱花特效
 	stop(): void {
+		// 使尚未完成的异步初始化作废
+		this.initToken++;
+
 		if (this.animationId) {
 			cancelAnimationFrame(this.animationId);
 			this.animationId = null;

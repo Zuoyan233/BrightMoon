@@ -312,7 +312,8 @@ export function getStoredSakuraEnabled(): boolean {
 	if (stored !== null) {
 		return stored === "true";
 	}
-	return false;
+	// 用户未操作过开关时，使用配置的默认状态
+	return configCarrier?.dataset.sakuraDefaultEnabled === "true";
 }
 
 export function setSakuraEnabled(enabled: boolean): void {

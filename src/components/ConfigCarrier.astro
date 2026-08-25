@@ -9,6 +9,8 @@ const festivalConfig = festivalEasterEgg?.enable
 			dates: (festivalEasterEgg.dates || []).map((d) => ({
 				date: d.date,
 				startDate: d.startDate,
+				title: d.title,
+				subtitle: d.subtitle,
 			})),
 		}
 	: { enable: false };
@@ -21,6 +23,7 @@ const festivalConfig = festivalEasterEgg?.enable
   data-appearance-fixed={siteConfig.appearance.fixed ? "true" : "false"}
   data-sakura-available={sakuraConfig.enable ? "true" : "false"}
   data-sakura-enabled={sakuraConfig.enable ? "true" : "false"}
+  data-sakura-default-enabled={sakuraConfig.uiDefaultEnabled ? "true" : "false"}
   data-waves-enabled={siteConfig.appearance.waves?.enable ? "true" : "false"}
   data-waves-performance-mode={siteConfig.appearance.waves?.performanceMode
     ? "true"
