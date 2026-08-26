@@ -79,7 +79,7 @@ function formatTime(dateString: string): string {
 				<div class="diary-images grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3 lg:gap-4 mb-3 md:mb-4">
 					{moment.images.map((image, _index) => (
 					<div class="image-item relative rounded-md overflow-hidden aspect-square cursor-pointer hover:scale-105 transition-transform">
-						<a href="javascript:void(0)" data-src={image} data-fancybox={`gallery-${index}-${_index}`} class="block w-full h-full">
+						<a href="javascript:void(0)" data-src={image} data-fancybox={`gallery-${index}`} class="block w-full h-full">
 							<img 
 								src={image} 
 								alt="diary moment image"
