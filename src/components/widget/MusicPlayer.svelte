@@ -1076,10 +1076,10 @@ onDestroy(() => {
                                 {/if}
                             </div>
                             <div class="flex-1 min-w-0">
-                                <div class="font-bold truncate text-sm ignore transition-colors duration-300 group-hover:text-[var(--primary)]" class:text-[var(--primary)]={index === currentIndex} class:text-90={index !== currentIndex}>
+                                <div class="font-bold truncate text-sm ignore transition-colors duration-300 group-hover:text-[var(--primary)]" class:text-[var(--primary)]={index === currentIndex} class:text-90={index !== currentIndex} title={song.title}>
                                     {song.title}
                                 </div>
-                                <div class="text-xs text-[var(--content-meta)] truncate ignore transition-colors duration-300 group-hover:text-[var(--primary)]" class:text-[var(--primary)]={index === currentIndex}>
+                                <div class="text-xs text-[var(--content-meta)] truncate ignore transition-colors duration-300 group-hover:text-[var(--primary)]" class:text-[var(--primary)]={index === currentIndex} title={song.artist}>
                                     {song.artist}
                                 </div>
                             </div>
