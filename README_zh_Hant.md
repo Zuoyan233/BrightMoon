@@ -161,7 +161,191 @@ BrightMoon 是一款融合現代簡約與優雅氣質的獨特二次元美學靜
 
 - **追番頁面：** 在 `src/pages/anime.astro` 中編輯動畫列表。
 - **友鏈頁面：** 在 `src/content/spec/friends.md` 中編輯朋友資料。
-- **相簿頁面：** 在 `public/images/albums` 中編輯相簿資訊，如何使用請前往 [相簿功能使用說明](./public/images/albums/README.md)。
+- **相簿頁面：** 在 `public/images/albums` 中編輯相簿資訊。相簿功能採用**自動掃描機制**，只需建立資料夾、放置圖片和設定檔即可，無需手動撰寫程式碼！
+
+  <details>
+  <summary><b>相簿功能使用說明</b>（點擊展開）</summary>
+
+  BrightMoon 相簿功能採用**自動掃描**機制，只需建立資料夾、放置圖片和設定檔即可，無需手動撰寫程式碼（外連相簿則需要手動定義每張圖片的 `src` 等資訊）。
+
+  ##### 快速開始
+
+  建立一個相簿只需 3 步：
+
+  1. 在 `public/images/albums/`（本說明檔所在目錄）下建立一個資料夾（資料夾名即為相簿 ID）
+  2. 在資料夾中放置 `cover.jpg`（封面圖）和其他照片
+  3. 建立 `info.json` 設定檔
+
+  完成！相簿會自動出現在相簿列表頁面。
+
+  ##### 目錄結構
+
+  ```
+  public/images/albums/
+  ├── my-travel-2024/              # 相簿資料夾（資料夾名 = 相簿ID）
+  │   ├── info.json                # 相簿設定檔（必需）
+  │   ├── cover.jpg                # 封面圖（必需）
+  │   ├── photo1.jpg               # 相簿照片
+  │   ├── photo2.jpg
+  │   └── photo3.jpg
+  ├── daily-life/                  # 另一個相簿
+  │   ├── info.json
+  │   ├── cover.jpg
+  │   └── ...
+  ```
+
+  ##### 設定檔說明
+
+  **本地圖片模式**
+
+  在相簿資料夾中建立 `info.json`：
+
+  ```json
+  {
+    "title": "我的旅行相簿",
+    "description": "2024年夏天的美好回憶",
+    "date": "2024-08-01",
+    "location": "日本東京",
+    "tags": ["旅行", "風景", "夏天"],
+    "layout": "masonry",
+    "columns": 3,
+    "hidden": false
+  }
+  ```
+
+  **設定項說明：**
+
+  | 欄位 | 必需 | 說明 | 預設值 |
+  |------|------|------|--------|
+  | `title` | 是 | 相簿標題 | 使用資料夾名 |
+  | `description` | 否 | 相簿描述 | 空 |
+  | `date` | 否 | 相簿日期（格式：YYYY-MM-DD） | 目前日期 |
+  | `location` | 否 | 拍攝地點 | 空 |
+  | `tags` | 否 | 標籤陣列 | `[]` |
+  | `layout` | 否 | 佈局方式：`grid`（網格）或 `masonry`（瀑布流） | `grid` |
+  | `columns` | 否 | 欄數（2-4） | `3` |
+  | `hidden` | 否 | 是否隱藏相簿 | `false` |
+
+  **外連圖片模式**
+
+  如果想使用外部圖片連結（例如使用圖床），設定 `mode: "external"`：
+
+  ```json
+  {
+    "mode": "external",
+    "title": "外連相簿範例",
+    "description": "使用外部圖片連結的相簿",
+    "date": "2024-08-28",
+    "location": "網路",
+    "tags": ["外連", "範例"],
+    "layout": "masonry",
+    "columns": 3,
+    "cover": "https://example.com/cover.jpg",
+    "photos": [
+      {
+        "id": "photo-1",
+        "src": "https://example.com/photo1.jpg",
+        "alt": "圖片描述",
+        "title": "圖片標題",
+        "description": "詳細描述",
+        "tags": ["標籤1"],
+        "width": 1920,
+        "height": 1280
+      }
+    ]
+  }
+  ```
+
+  **外連模式額外欄位：**
+
+  | 欄位 | 必需 | 說明 |
+  |------|------|------|
+  | `mode` | 是 | 設定為 `"external"` 啟用外連模式 |
+  | `cover` | 是 | 封面圖片 URL（僅外連模式需要） |
+  | `photos` | 是 | 照片陣列，每張照片包含 `src`、`alt`、`title` 等欄位，詳見下表 |
+
+  **photos 陣列中每張圖片的欄位說明（僅外連模式需要）：**
+
+  | 欄位 | 必需 | 說明 | 範例 |
+  |------|------|------|------|
+  | `id` | 否 | 照片唯一識別碼 | `"photo-1"` |
+  | `src` | 是 | 照片 URL 位址 | `"https://example.com/photo.jpg"` |
+  | `thumbnail` | 否 | 縮圖 URL（不提供則使用原圖） | `"https://example.com/thumb.jpg"` |
+  | `alt` | 否 | 圖片替代文字（用於無障礙存取） | `"美麗的日落"` |
+  | `title` | 否 | 照片標題 | `"海邊日落"` |
+  | `description` | 否 | 照片詳細描述 | `"2024年夏天在海邊拍攝的日落"` |
+  | `tags` | 否 | 照片標籤陣列 | `["日落", "海邊"]` |
+  | `date` | 否 | 拍攝日期（格式：YYYY-MM-DD） | `"2024-08-01"` |
+  | `location` | 否 | 拍攝地點 | `"沖繩海灘"` |
+  | `width` | 否 | 照片寬度（像素） | `1920` |
+  | `height` | 否 | 照片高度（像素） | `1280` |
+  | `camera` | 否 | 相機型號 | `"Canon EOS R5"` |
+  | `lens` | 否 | 鏡頭型號 | `"RF 24-70mm F2.8"` |
+  | `settings` | 否 | 拍攝參數（字串） | `"f/2.8, 1/500s, ISO 100"` |
+
+  > **注意：**
+  > - 本地圖片模式**不需要**設定 `photos` 欄位，系統會自動掃描資料夾中的所有圖片檔案
+  > - 外連模式**必須**手動設定 `photos` 陣列，至少需要提供 `src` 欄位
+  > - 建議為外連照片提供 `thumbnail` 縮圖以提升載入速度
+
+  ##### 圖片格式建議
+
+  **封面圖片 (cover.jpg)：**
+  - **尺寸**：800×600px（4:3 比例）
+  - **格式**：JPG（外連模式可支援更多格式）
+  - **大小**：建議 < 200KB
+
+  **相簿照片：**
+  - **格式**：JPG、JPEG、PNG、WebP、GIF、SVG、AVIF
+  - **尺寸**：建議最大寬度 1920px
+  - **最佳化**：建議壓縮後上傳，提升載入速度
+
+  ##### 佈局選項
+
+  **網格佈局 (Grid)：**
+  ```json
+  { "layout": "grid", "columns": 3 }
+  ```
+  - 適合尺寸統一的照片，支援 2-4 欄，照片會被裁剪為正方形
+
+  **瀑布流佈局 (Masonry)：**
+  ```json
+  { "layout": "masonry", "columns": 3 }
+  ```
+  - 適合不同尺寸的照片，保持照片原始比例，自動排列，視覺效果更自然
+
+  ##### 進階功能
+
+  **檔名標籤（實驗性）**
+
+  系統支援從檔名解析標籤（格式：`基本名_標籤1_標籤2.ext`）：
+  ```
+  photo_sunset_beach.jpg  →  標籤：sunset, beach
+  ```
+
+  **隱藏相簿**
+
+  設定 `"hidden": true` 可以隱藏相簿，但仍可透過 URL 直接存取：
+  ```
+  存取：/albums/your-album-id/
+  ```
+
+  ##### 常見問題
+
+  **Q: 為什麼我的相簿沒有顯示？**  
+  A: 檢查是否存在 `info.json` 和 `cover.jpg`，以及 `hidden` 是否設定為 `true`。
+
+  **Q: 可以使用其他圖片格式嗎？**  
+  A: 可以，支援 JPG、PNG、WebP、GIF、SVG、AVIF 等格式。
+
+  **Q: 如何最佳化圖片載入速度？**  
+  A: 建議使用 WebP 等壓縮率較高的格式壓縮圖片大小。使用外連模式時設定縮圖。
+
+  **Q: 如何更改相簿排序？**  
+  A: 相簿按時間順序展示，可透過修改相簿的 `date` 欄位調整排序。
+
+  </details>
+
 - **我的裝置頁面：** 在 `src/data/devices.ts` 中編輯裝置資訊。
 - **日記頁面：** 在 `src/data/diary.ts` 中編輯動態。
 - **關於頁面：** 在 `src/content/spec/about.md` 中編輯內容。

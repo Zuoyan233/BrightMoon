@@ -7,7 +7,7 @@ import {
 	DARK_MODE,
 	DEFAULT_THEME,
 	SYSTEM_MODE,
-	WALLPAPER_BANNER,
+	WALLPAPER_FULLSCREEN_BANNER,
 } from "../constants/constants";
 import {
 	getHue,
@@ -393,6 +393,7 @@ function setupFestivalEasterEgg() {
 				}
 			} catch {}
 			localStorage.removeItem(FESTIVAL_BACKUP_KEY);
+			localStorage.removeItem("festivalEasterEgg_forcedBanner");
 		}
 
 		// 节日已过，恢复横幅主副标题为原始配置
@@ -476,6 +477,7 @@ function setupFestivalEasterEgg() {
 	}
 
 	const shouldForceFestivalMode = festivalConfig.forceFestivalMode ?? true;
+	const FESTIVAL_FORCED_BANNER_KEY = "festivalEasterEgg_forcedBanner";
 
 	if (shouldForceFestivalMode) {
 		if (!localStorage.getItem(FESTIVAL_BACKUP_KEY)) {
@@ -489,9 +491,13 @@ function setupFestivalEasterEgg() {
 			localStorage.setItem(FESTIVAL_BACKUP_KEY, JSON.stringify(backupData));
 		}
 
-		const currentMode = getStoredWallpaperMode();
-		if (currentMode !== WALLPAPER_BANNER) {
-			setWallpaperMode(WALLPAPER_BANNER);
+		const forcedBanner = localStorage.getItem(FESTIVAL_FORCED_BANNER_KEY);
+		if (!forcedBanner) {
+			const currentMode = getStoredWallpaperMode();
+			if (currentMode !== WALLPAPER_FULLSCREEN_BANNER) {
+				setWallpaperMode(WALLPAPER_FULLSCREEN_BANNER);
+			}
+			localStorage.setItem(FESTIVAL_FORCED_BANNER_KEY, "true");
 		}
 
 		// 节日期间强制主题色色相为 0（红色）
@@ -745,8 +751,10 @@ const setup = () => {
 		if (bodyElement) {
 			if (isHomePage) {
 				bodyElement.classList.add("lg:is-home");
+				bodyElement.setAttribute("data-is-home", "true");
 			} else {
 				bodyElement.classList.remove("lg:is-home");
+				bodyElement.setAttribute("data-is-home", "false");
 			}
 		}
 

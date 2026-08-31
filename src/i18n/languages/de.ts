@@ -236,6 +236,7 @@ export const de: Translation = {
 	[Key.wallpaperMode]: "Hintergrundbild-Modus",
 	[Key.wallpaperBanner]: "Banner-Modus",
 	[Key.wallpaperFullscreen]: "Vollbild-Modus",
+	[Key.wallpaperFullscreenBanner]: "Vollbild-Banner",
 	[Key.wallpaperNone]: "Hintergrundbild ausblenden",
 	[Key.wallpaperPosition]: "Hintergrundbild-Position",
 	[Key.wallpaperPositionTop]: "Oben",

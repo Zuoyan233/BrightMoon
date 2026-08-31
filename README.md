@@ -161,7 +161,191 @@ This project is a customized extension based on Mizuki V8.2, with version number
 
 - **Anime Page:** Edit the anime list in `src/pages/anime.astro`.
 - **Friends Page:** Edit friend data in `src/content/spec/friends.md`.
-- **Album Page:** Edit album info in `public/images/albums`. See the [album guide](./public/images/albums/README.md) for usage instructions.
+- **Album Page:** Edit album info in `public/images/albums`. The album feature uses an auto-scan mechanism - just create folders, add images and config files, no coding needed!
+
+  <details>
+  <summary><b>Album Feature Usage Guide</b> (Click to expand)</summary>
+
+  BrightMoon album feature adopts an **auto-scan mechanism**. Simply create folders, place images and configuration files - no manual coding required (external link albums require manually defining each image's `src` and other information).
+
+  ##### Quick Start
+
+  Creating an album requires only 3 steps:
+
+  1. Create a folder under `public/images/albums/` (this README's location) (folder name = album ID)
+  2. Place `cover.jpg` (cover image) and other photos in the folder
+  3. Create an `info.json` configuration file
+
+  Done! The album will automatically appear on the album list page.
+
+  ##### Directory Structure
+
+  ```
+  public/images/albums/
+  ├── my-travel-2024/              # Album folder (folder name = album ID)
+  │   ├── info.json                # Album config file (required)
+  │   ├── cover.jpg                # Cover image (required)
+  │   ├── photo1.jpg               # Album photos
+  │   ├── photo2.jpg
+  │   └── photo3.jpg
+  ├── daily-life/                  # Another album
+  │   ├── info.json
+  │   ├── cover.jpg
+  │   └── ...
+  ```
+
+  ##### Configuration File Guide
+
+  **Local Image Mode**
+
+  Create `info.json` in the album folder:
+
+  ```json
+  {
+    "title": "My Travel Album",
+    "description": "Beautiful memories from summer 2024",
+    "date": "2024-08-01",
+    "location": "Tokyo, Japan",
+    "tags": ["travel", "scenery", "summer"],
+    "layout": "masonry",
+    "columns": 3,
+    "hidden": false
+  }
+  ```
+
+  **Configuration fields:**
+
+  | Field | Required | Description | Default |
+  |-------|----------|-------------|---------|
+  | `title` | Yes | Album title | Use folder name |
+  | `description` | No | Album description | Empty |
+  | `date` | No | Album date (format: YYYY-MM-DD) | Current date |
+  | `location` | No | Shooting location | Empty |
+  | `tags` | No | Tag array | `[]` |
+  | `layout` | No | Layout: `grid` or `masonry` | `grid` |
+  | `columns` | No | Number of columns (2-4) | `3` |
+  | `hidden` | No | Hide album | `false` |
+
+  **External Link Image Mode**
+
+  To use external image links (e.g., image hosting), set `mode: "external"`:
+
+  ```json
+  {
+    "mode": "external",
+    "title": "External Link Album Example",
+    "description": "Album using external image links",
+    "date": "2024-08-28",
+    "location": "Internet",
+    "tags": ["external", "example"],
+    "layout": "masonry",
+    "columns": 3,
+    "cover": "https://example.com/cover.jpg",
+    "photos": [
+      {
+        "id": "photo-1",
+        "src": "https://example.com/photo1.jpg",
+        "alt": "Image description",
+        "title": "Image title",
+        "description": "Detailed description",
+        "tags": ["tag1"],
+        "width": 1920,
+        "height": 1280
+      }
+    ]
+  }
+  ```
+
+  **Additional fields for external mode:**
+
+  | Field | Required | Description |
+  |-------|----------|-------------|
+  | `mode` | Yes | Set to `"external"` to enable external mode |
+  | `cover` | Yes | Cover image URL (only for external mode) |
+  | `photos` | Yes | Photo array, each containing `src`, `alt`, `title` etc. |
+
+  **Photo object fields in photos array (only for external mode):**
+
+  | Field | Required | Description | Example |
+  |-------|----------|-------------|---------|
+  | `id` | No | Photo unique identifier | `"photo-1"` |
+  | `src` | Yes | Photo URL | `"https://example.com/photo.jpg"` |
+  | `thumbnail` | No | Thumbnail URL (uses original if not provided) | `"https://example.com/thumb.jpg"` |
+  | `alt` | No | Alt text for accessibility | `"Beautiful sunset"` |
+  | `title` | No | Photo title | `"Sunset by the sea"` |
+  | `description` | No | Detailed photo description | `"Sunset captured at the beach in summer 2024"` |
+  | `tags` | No | Photo tag array | `["sunset", "beach"]` |
+  | `date` | No | Shooting date (YYYY-MM-DD) | `"2024-08-01"` |
+  | `location` | No | Shooting location | `"Okinawa Beach"` |
+  | `width` | No | Photo width (pixels) | `1920` |
+  | `height` | No | Photo height (pixels) | `1280` |
+  | `camera` | No | Camera model | `"Canon EOS R5"` |
+  | `lens` | No | Lens model | `"RF 24-70mm F2.8"` |
+  | `settings` | No | Shooting settings (string) | `"f/2.8, 1/500s, ISO 100"` |
+
+  > **Note:**
+  > - Local image mode does **not** require the `photos` field - the system automatically scans all image files in the folder
+  > - External mode **must** manually configure the `photos` array, at minimum providing the `src` field
+  > - It is recommended to provide `thumbnail` thumbnails for external photos to improve loading speed
+
+  ##### Image Format Recommendations
+
+  **Cover Image (cover.jpg):**
+  - **Size:** 800×600px (4:3 ratio)
+  - **Format:** JPG (external mode supports more formats)
+  - **Size:** Recommend < 200KB
+
+  **Album Photos:**
+  - **Formats:** JPG, JPEG, PNG, WebP, GIF, SVG, AVIF
+  - **Size:** Recommend max width 1920px
+  - **Optimization:** Compress before upload to improve loading speed
+
+  ##### Layout Options
+
+  **Grid Layout:**
+  ```json
+  { "layout": "grid", "columns": 3 }
+  ```
+  - Suitable for uniform-sized photos, supports 2-4 columns, photos are cropped to square
+
+  **Masonry Layout:**
+  ```json
+  { "layout": "masonry", "columns": 3 }
+  ```
+  - Suitable for different-sized photos, maintains original aspect ratio, auto-arranged for natural visual effect
+
+  ##### Advanced Features
+
+  **Filename Tags (Experimental)**
+
+  The system supports parsing tags from filenames (format: `basename_tag1_tag2.ext`):
+  ```
+  photo_sunset_beach.jpg  →  Tags: sunset, beach
+  ```
+
+  **Hidden Albums**
+
+  Set `"hidden": true` to hide albums, but they can still be accessed via direct URL:
+  ```
+  Visit: /albums/your-album-id/
+  ```
+
+  ##### FAQ
+
+  **Q: Why isn't my album showing?**  
+  A: Check if `info.json` and `cover.jpg` exist, and if `hidden` is set to `true`.
+
+  **Q: Can I use other image formats?**  
+  A: Yes, JPG, PNG, WebP, GIF, SVG, AVIF formats are supported.
+
+  **Q: How can I optimize image loading speed?**  
+  A: Recommend using high-compression formats like WebP. Set thumbnails when using external mode.
+
+  **Q: How do I change album sorting order?**  
+  A: Albums are displayed chronologically; adjust sorting by modifying the `date` field.
+
+  </details>
+
 - **Devices Page:** Edit device info in `src/data/devices.ts`.
 - **Diary Page:** Edit posts in `src/data/diary.ts`.
 - **About Page:** Edit content in `src/content/spec/about.md`.

@@ -99,11 +99,11 @@ export const userConfig: UserConfig = {
 			},
 			// 壁纸模式配置
 			wallpaperMode: {
-				// 默认壁纸模式：banner=顶部横幅，fullscreen=全屏壁纸，none=无壁纸
+				// 默认壁纸模式：banner=顶部横幅，fullscreen=全屏壁纸，fullscreen-banner=全屏横幅，none=无壁纸
 				defaultMode: "banner",
-				// 默认横幅位置（banner模式时生效）：top=顶部对齐，center=居中，bottom=底部对齐
+				// 默认横幅位置（banner 与 fullscreen-banner 模式时生效，仅支持桌面端与移动端）：top=顶部对齐，center=居中，bottom=底部对齐
 				defaultBannerPosition: "center",
-				// 默认壁纸位置（全屏壁纸时生效）：top=顶部对齐，center=居中，bottom=底部对齐
+				// 默认壁纸位置（全屏壁纸时生效，仅支持桌面端）：top=顶部对齐，center=居中，bottom=底部对齐
 				defaultFullscreenPosition: "center",
 				// 默认壁纸透明度（全屏壁纸时生效），有效值：0.2-1
 				defaultOpacity: 0.8,
@@ -259,7 +259,7 @@ export const userConfig: UserConfig = {
 				},
 				festivalEasterEgg: {
 					enable: true, // 启用节日彩蛋
-					forceFestivalMode: true, // 节日时强制切换到横幅模式、启用樱花飘落特效并更改主题色色相
+					forceFestivalMode: true, // 节日时强制切换到全屏横幅模式、启用樱花飘落特效并更改主题色色相
 					dates: [
 						{
 							date: "01-01", // 格式 MM-DD 或 MM-DD~MM-DD（日期范围），如需周年递进请改用 startDate

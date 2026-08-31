@@ -234,6 +234,7 @@ export const id: Translation = {
 	[Key.wallpaperMode]: "Mode Wallpaper",
 	[Key.wallpaperBanner]: "Mode Spanduk",
 	[Key.wallpaperFullscreen]: "Mode Layar Penuh",
+	[Key.wallpaperFullscreenBanner]: "Banner Layar Penuh",
 	[Key.wallpaperNone]: "Sembunyikan Wallpaper",
 	[Key.wallpaperPosition]: "Posisi Wallpaper",
 	[Key.wallpaperPositionTop]: "Atas",
