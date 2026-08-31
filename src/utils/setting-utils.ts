@@ -4,6 +4,10 @@ import {
 	LIGHT_MODE,
 	NAVBAR_TRANSPARENT_SEMI,
 	SYSTEM_MODE,
+	WALLPAPER_BANNER,
+	WALLPAPER_FULLSCREEN,
+	WALLPAPER_FULLSCREEN_BANNER,
+	WALLPAPER_NONE,
 } from "@constants/constants";
 import { siteConfig } from "@/config";
 import type { LIGHT_DARK_MODE, WALLPAPER_MODE } from "@/types/config";
@@ -185,11 +189,24 @@ export function getStoredTheme(): LIGHT_DARK_MODE {
 	return (localStorage.getItem("theme") as LIGHT_DARK_MODE) || DEFAULT_THEME;
 }
 
+const VALID_WALLPAPER_MODES: WALLPAPER_MODE[] = [
+	WALLPAPER_BANNER,
+	WALLPAPER_FULLSCREEN,
+	WALLPAPER_FULLSCREEN_BANNER,
+	WALLPAPER_NONE,
+];
+
+export function isFullscreenWallpaperMode(mode: WALLPAPER_MODE): boolean {
+	return mode === WALLPAPER_FULLSCREEN || mode === WALLPAPER_FULLSCREEN_BANNER;
+}
+
 export function getStoredWallpaperMode(): WALLPAPER_MODE {
-	return (
-		(localStorage.getItem("wallpaperMode") as WALLPAPER_MODE) ||
-		siteConfig.appearance.wallpaperMode.defaultMode
-	);
+	const stored = localStorage.getItem("wallpaperMode") as WALLPAPER_MODE | null;
+	const defaultMode = siteConfig.appearance.wallpaperMode.defaultMode;
+	if (stored && VALID_WALLPAPER_MODES.includes(stored)) {
+		return stored;
+	}
+	return defaultMode;
 }
 
 export function setWallpaperMode(mode: WALLPAPER_MODE): void {

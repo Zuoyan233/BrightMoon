@@ -20,6 +20,7 @@ import { sidebarLayoutConfig, siteConfig } from "../config";
 import {
 	BANNER_HEIGHT,
 	BANNER_HEIGHT_EXTEND,
+	BANNER_HEIGHT_FULLSCREEN,
 	// BANNER_HEIGHT_HOME,
 	// MAIN_PANEL_OVERLAPS_BANNER_HEIGHT,
 } from "../constants/constants";
@@ -229,9 +230,13 @@ const resolvedBreadcrumbItems = breadcrumbBase
 		icon: item.icon || matchIconByUrl(item.href || currentPath),
 	}));
 
-const showHomeText = siteConfig.banner.homeText?.enable && isHomePage;
+const defaultWallpaperMode = siteConfig.appearance.wallpaperMode.defaultMode;
+// 首页始终显示 banner 主副标题；全屏横幅模式下非首页也显示，以便进入其他页面时保持文字
+const showHomeText =
+	siteConfig.banner.homeText?.enable &&
+	(isHomePage || defaultWallpaperMode === "fullscreen-banner");
 
-// 横幅模式节日彩蛋：检查今天是否匹配某个节日日期，匹配则覆盖 title / subtitle
+// 全屏横幅模式节日彩蛋：检查今天是否匹配某个节日日期，匹配则覆盖 title / subtitle
 function getFestivalOverride() {
 	const easterEgg = siteConfig.banner.homeText?.festivalEasterEgg;
 	if (!easterEgg?.enable || !easterEgg.dates?.length) return null;
@@ -274,19 +279,22 @@ const homeTextSubtitle =
 const mobileNonHomeBannerClass = !isHomePage ? "mobile-hide-banner" : "";
 
 // 计算主内容区域位置，考虑手机端非首页时banner被隐藏
-// 当默认模式为 banner 时，使用banner高度；否则使用顶栏高度
+// 当默认模式为 banner 时，使用banner高度；fullscreen-banner 时使用全屏banner高度；否则使用顶栏高度
 // 让主内容区域紧贴波浪线下方，波浪线高度约为10-15vh，所以主内容从banner顶部开始
-const mainPanelTop =
-	siteConfig.appearance.wallpaperMode.defaultMode === "banner"
-		? `${BANNER_HEIGHT}vh`
-		: "5.5rem";
+const mainPanelTop = (() => {
+	const mode = siteConfig.appearance.wallpaperMode.defaultMode;
+	if (mode === "banner") return `${BANNER_HEIGHT}vh`;
+	if (mode === "fullscreen-banner") return `${BANNER_HEIGHT_FULLSCREEN}vh`;
+	return "5.5rem";
+})();
 // const mobileNonHomeMainTop = !isHomePage ? "5.5rem" : mainPanelTop;
 
-// 当默认模式不是 banner 时，主内容区域应该始终从顶栏下面开始
-const finalMainPanelTop =
-	siteConfig.appearance.wallpaperMode.defaultMode === "banner"
-		? mainPanelTop
-		: "5.5rem";
+// 当默认模式不是 banner / fullscreen-banner 时，主内容区域应该始终从顶栏下面开始
+const finalMainPanelTop = (() => {
+	const mode = siteConfig.appearance.wallpaperMode.defaultMode;
+	if (mode === "banner" || mode === "fullscreen-banner") return mainPanelTop;
+	return "5.5rem";
+})();
 
 // 检查侧边栏是否启用，动态调整网格布局
 // 响应式配置：不同设备上的侧边栏显示状态
@@ -421,7 +429,8 @@ import "../scripts/main-grid.js";
 </div>
 
 <!-- Banner - 始终渲染，通过 JS 控制显示隐藏 -->
-<div id="banner-wrapper" class={`absolute z-10 w-full transition duration-700 overflow-hidden ${mobileNonHomeBannerClass}`} style={`top: -${BANNER_HEIGHT_EXTEND}vh`}>
+<!-- 注意：不要在此加 Tailwind 的 transition/duration 工具类，其属性列表不含 height/top 且会覆盖 Layout.astro 中的统一过渡规则，导致模式切换时高度瞬间跳变 -->
+<div id="banner-wrapper" class={`absolute z-10 w-full overflow-hidden ${mobileNonHomeBannerClass}`} style={`top: -${BANNER_HEIGHT_EXTEND}vh`}>
 
     {siteConfig.banner.carousel?.enable && ((bannerImages.desktop && Array.isArray(bannerImages.desktop) && bannerImages.desktop.length > 1) || (bannerImages.mobile && Array.isArray(bannerImages.mobile) && bannerImages.mobile.length > 1)) ? (
         <div id="banner-carousel" class="relative h-full w-full">
@@ -477,9 +486,9 @@ import "../scripts/main-grid.js";
         </div>
     )}
     
-    <!-- Home page text overlay -->
+    <!-- Home page text overlay（全屏横幅模式下非首页也渲染，由 JS 控制显隐） -->
     {siteConfig.banner.homeText?.enable && (
-        <div class={`banner-text-overlay absolute inset-0 z-20 flex items-center justify-center ${!showHomeText ? 'hidden' : ''}`}>
+        <div id="banner-text-overlay" class={`banner-text-overlay absolute inset-0 z-20 flex items-center justify-center ${!showHomeText ? 'hidden' : ''}`}>
             <div class="w-4/5 lg:w-3/4 text-center mb-0">
                 <div class="flex flex-col">
                     {homeTextTitle && (
@@ -788,6 +797,7 @@ body.no-banner-mode .absolute.w-full.z-30 {
         min-height: 450px;
         max-height: none; /* 移除最大高度限制 */
         top: 0 !important; /* 移动端从顶部开始，避免被导航栏覆盖 */
+        transform: translateY(0) !important; /* 覆盖桌面端的 banner-extend 偏移 */
     }
     
     /* 主内容区域位置调整 - 确保在banner下面 */
@@ -795,7 +805,12 @@ body.no-banner-mode .absolute.w-full.z-30 {
         top: 70vh !important; /* 与banner高度对应 */
         min-height: calc(100vh - 70vh) !important;
     }
-    
+
+    /* 覆盖桌面端 #main-grid 的 banner-extend 下移，避免移动端出现 30vh 空白间隙 */
+    body.enable-banner[data-is-home="true"] #main-grid {
+        transform: translateY(0) !important;
+    }
+
     /* 横幅文本覆盖层优化 */
     .banner-text-overlay {
         align-items: center !important; /* 垂直居中 */
@@ -842,6 +857,7 @@ body.no-banner-mode .absolute.w-full.z-30 {
         min-height: 500px;
         max-height: none; /* 移除最大高度限制 */
         top: 0 !important; /* 移动端从顶部开始，避免被导航栏覆盖 */
+        transform: translateY(0) !important; /* 覆盖桌面端的 banner-extend 偏移 */
     }
     
     /* 主内容区域位置调整 - 确保在banner下面 */
@@ -849,7 +865,12 @@ body.no-banner-mode .absolute.w-full.z-30 {
         top: 75vh !important; /* 与banner高度对应 */
         min-height: calc(100vh - 75vh) !important;
     }
-    
+
+    /* 覆盖桌面端 #main-grid 的 banner-extend 下移，避免移动端出现 30vh 空白间隙 */
+    body.enable-banner[data-is-home="true"] #main-grid {
+        transform: translateY(0) !important;
+    }
+
     /* 横幅文本覆盖层优化 */
     .banner-text-overlay {
         align-items: center !important; /* 垂直居中 */
@@ -895,6 +916,7 @@ body.no-banner-mode .absolute.w-full.z-30 {
         height: 70vh !important;
         min-height: 500px;
         top: 0 !important; /* 移动端从顶部开始，避免被导航栏覆盖 */
+        transform: translateY(0) !important; /* 覆盖桌面端的 banner-extend 偏移 */
     }
     
     /* 主内容区域位置调整 - 确保在banner下面 */
@@ -902,7 +924,12 @@ body.no-banner-mode .absolute.w-full.z-30 {
         top: 70vh !important; /* 与banner高度对应 */
         min-height: calc(100vh - 70vh) !important;
     }
-    
+
+    /* 覆盖桌面端 #main-grid 的 banner-extend 下移，避免移动端出现 30vh 空白间隙 */
+    body.enable-banner[data-is-home="true"] #main-grid {
+        transform: translateY(0) !important;
+    }
+
     /* 横幅文本覆盖层优化 */
     .banner-text-overlay {
         align-items: center !important; /* 垂直居中 */
@@ -959,6 +986,49 @@ body.no-banner-mode .absolute.w-full.z-30 {
     /* 平板端footer也要居中 */
     .mobile-both-sidebar .footer {
         grid-column: 1 / -1 !important;
+    }
+}
+
+:root {
+    --safe-area-top: env(safe-area-inset-top, 0px);
+}
+
+/* 桌面端全屏横幅模式（只用 height，min/max-height 会瞬间钳制导致高度过渡跳变） */
+@media (min-width: 1280px) {
+    body.enable-banner.fullscreen-banner #banner-wrapper {
+        height: 100vh !important;
+        top: 0 !important;
+    }
+
+    body.enable-banner.fullscreen-banner .absolute.w-full.z-30 {
+        top: 100vh !important;
+        min-height: calc(100vh - 100vh) !important;
+    }
+}
+
+/* 平板端全屏横幅模式 */
+@media (min-width: 744px) and (max-width: 1279px) {
+    body.enable-banner.fullscreen-banner #banner-wrapper {
+        height: 100vh !important;
+        top: 0 !important;
+    }
+
+    body.enable-banner.fullscreen-banner .absolute.w-full.z-30:not(.mobile-main-no-banner) {
+        top: 100vh !important;
+        min-height: 0 !important;
+    }
+}
+
+/* 移动端全屏横幅模式 */
+@media (max-width: 743px) {
+    body.enable-banner.fullscreen-banner #banner-wrapper {
+        height: 100vh !important;
+        top: 0 !important;
+    }
+
+    body.enable-banner.fullscreen-banner .absolute.w-full.z-30:not(.mobile-main-no-banner) {
+        top: 100vh !important;
+        min-height: 0 !important;
     }
 }
 
@@ -1068,10 +1138,11 @@ body.no-banner-mode .absolute.w-full.z-30 {
 /* 手机端非首页隐藏banner - 改进的分阶段动画 */
 @media (max-width: 1279px) {
     #banner-wrapper {
-        transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease-out;
+        /* 高度/位置与桌面端模式切换过渡保持一致，transform/opacity 用于非首页隐藏动画 */
+        transition: height 0.7s cubic-bezier(0.4, 0, 0.2, 1), top 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease-out;
         transform-origin: top center;
         /* 硬件加速优化 */
-        will-change: transform, opacity;
+        will-change: transform, opacity, height, top;
         backface-visibility: hidden;
         -webkit-backface-visibility: hidden;
         transform: translateZ(0);
@@ -1097,9 +1168,12 @@ body.no-banner-mode .absolute.w-full.z-30 {
         */
     }
     
-    .absolute.w-full.z-30.mobile-main-no-banner {
-        top: 5.5rem !important;
-        min-height: calc(100vh - 5.5rem) !important;
+    /* 非首页移动端/平板端主内容区域从导航栏下方开始，避免 banner 被隐藏后顶部留空 */
+    body.enable-banner .absolute.w-full.z-30.mobile-main-no-banner,
+    body.wallpaper-transparent .absolute.w-full.z-30.mobile-main-no-banner,
+    body.no-banner-mode .absolute.w-full.z-30.mobile-main-no-banner {
+        top: calc(5.5rem + var(--safe-area-top)) !important;
+        min-height: calc(100vh - 5.5rem - var(--safe-area-top)) !important;
         /* 内容区域快速上移 */
         transition: top 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s !important;
     }
@@ -1280,12 +1354,18 @@ body.no-banner-mode .absolute.w-full.z-30 {
     #banner-wrapper:not(.mobile-hide-banner) {
         top: 0 !important; /* 横屏模式从顶部开始，避免被导航栏覆盖 */
         height: 60vh !important;
+        transform: translateY(0) !important; /* 覆盖桌面端的 banner-extend 偏移 */
     }
     
     /* 主内容区域位置调整 - 确保在banner下面，但不影响非首页 */
     .absolute.w-full.z-30:not(.mobile-main-no-banner) {
         top: 60vh !important; /* 与banner高度对应 */
         min-height: calc(100vh - 60vh) !important;
+    }
+
+    /* 覆盖桌面端 #main-grid 的 banner-extend 下移，避免移动端出现空白间隙 */
+    body.enable-banner[data-is-home="true"] #main-grid {
+        transform: translateY(0) !important;
     }
     
     .banner-container {
@@ -1489,6 +1569,14 @@ body.no-banner-mode .absolute.w-full.z-30 {
         height: 75vh !important;
         min-height: 450px !important;
     }
+
+    body.enable-banner.fullscreen-banner #banner-wrapper:not(.mobile-hide-banner) {
+        height: 100vh !important;
+    }
+
+    body.enable-banner.fullscreen-banner .absolute.w-full.z-30:not(.mobile-main-no-banner) {
+        top: 100vh !important;
+    }
     
     .banner-text-overlay {
         padding: 2rem !important;
@@ -1520,6 +1608,14 @@ body.no-banner-mode .absolute.w-full.z-30 {
     #banner-wrapper {
         height: 90vh !important; /* 横屏时占用更多高度 */
         min-height: 300px !important;
+    }
+
+    body.enable-banner.fullscreen-banner #banner-wrapper:not(.mobile-hide-banner) {
+        height: 100vh !important;
+    }
+
+    body.enable-banner.fullscreen-banner .absolute.w-full.z-30:not(.mobile-main-no-banner) {
+        top: 100vh !important;
     }
     
     .banner-text-overlay {

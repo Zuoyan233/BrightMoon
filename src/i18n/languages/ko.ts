@@ -231,6 +231,7 @@ export const ko: Translation = {
 	[Key.wallpaperMode]: "배경화면 모드",
 	[Key.wallpaperBanner]: "배너 모드",
 	[Key.wallpaperFullscreen]: "전체 화면 모드",
+	[Key.wallpaperFullscreenBanner]: "전체 화면 배너",
 	[Key.wallpaperNone]: "배경화면 숨기기",
 	[Key.wallpaperPosition]: "배경화면 위치",
 	[Key.wallpaperPositionTop]: "상단",

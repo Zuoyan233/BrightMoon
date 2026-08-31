@@ -239,6 +239,7 @@ export const es: Translation = {
 	[Key.wallpaperMode]: "Modo de fondo de pantalla",
 	[Key.wallpaperBanner]: "Modo banner",
 	[Key.wallpaperFullscreen]: "Modo pantalla completa",
+	[Key.wallpaperFullscreenBanner]: "Banner pantalla completa",
 	[Key.wallpaperNone]: "Ocultar fondo de pantalla",
 	[Key.wallpaperPosition]: "Posición del fondo de pantalla",
 	[Key.wallpaperPositionTop]: "Superior",

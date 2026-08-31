@@ -230,6 +230,7 @@ export const ar: Translation = {
 	[Key.wallpaperMode]: "وضع الخلفية",
 	[Key.wallpaperBanner]: "وضع الشريط",
 	[Key.wallpaperFullscreen]: "وضع ملء الشاشة",
+	[Key.wallpaperFullscreenBanner]: "وضع الشريط الكامل",
 	[Key.wallpaperNone]: "إخفاء الخلفية",
 	[Key.wallpaperPosition]: "موضع الخلفية",
 	[Key.wallpaperPositionTop]: "أعلى",

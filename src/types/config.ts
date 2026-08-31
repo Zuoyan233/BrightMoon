@@ -4,6 +4,7 @@ import type {
 	SYSTEM_MODE,
 	WALLPAPER_BANNER,
 	WALLPAPER_FULLSCREEN,
+	WALLPAPER_FULLSCREEN_BANNER,
 	WALLPAPER_NONE,
 } from "../constants/constants";
 
@@ -71,9 +72,9 @@ export type SiteConfig = {
 		};
 		// 壁纸模式配置
 		wallpaperMode: {
-			defaultMode: "banner" | "fullscreen" | "none"; // 默认壁纸模式：banner=顶部横幅，fullscreen=全屏壁纸，none=无壁纸
-			defaultBannerPosition?: "top" | "center" | "bottom"; // 默认横幅位置（banner模式时生效）：top=顶部对齐，center=居中，bottom=底部对齐
-			defaultFullscreenPosition?: "top" | "center" | "bottom"; // 默认壁纸位置（全屏壁纸时生效）：top=顶部对齐，center=居中，bottom=底部对齐
+			defaultMode: "banner" | "fullscreen" | "fullscreen-banner" | "none"; // 默认壁纸模式：banner=顶部横幅，fullscreen=全屏壁纸，fullscreen-banner=全屏横幅，none=无壁纸
+			defaultBannerPosition?: "top" | "center" | "bottom"; // 默认横幅位置（banner 与 fullscreen-banner 模式时生效，仅支持桌面端与移动端）：top=顶部对齐，center=居中，bottom=底部对齐
+			defaultFullscreenPosition?: "top" | "center" | "bottom"; // 默认壁纸位置（全屏壁纸时生效，仅支持桌面端）：top=顶部对齐，center=居中，bottom=底部对齐
 			defaultOpacity?: number; // 默认壁纸透明度，0-1之间（全屏壁纸时生效）
 			defaultBlur?: number; // 默认背景模糊程度，单位px（全屏壁纸时生效）
 			defaultCardOpacity?: number; // 默认卡片透明度，0-1之间（全屏壁纸时生效）
@@ -193,7 +194,7 @@ export type SiteConfig = {
 			};
 			festivalEasterEgg?: {
 				enable: boolean; // 是否启用节日彩蛋
-				forceFestivalMode?: boolean; // 节日时强制切换到横幅模式、启用樱花飘落特效并更改主题色色相
+				forceFestivalMode?: boolean; // 节日时强制切换到全屏横幅模式、启用樱花飘落特效并更改主题色色相
 				dates: {
 					date?: string; // 日期，格式 MM-DD 或 MM-DD~MM-DD（日期范围）
 					startDate?: string; // 起始日期，格式 YYYY-MM-DD，用于周年/生日递进计算，同时提取月日进行匹配
@@ -330,6 +331,7 @@ export type LIGHT_DARK_MODE =
 export type WALLPAPER_MODE =
 	| typeof WALLPAPER_BANNER
 	| typeof WALLPAPER_FULLSCREEN
+	| typeof WALLPAPER_FULLSCREEN_BANNER
 	| typeof WALLPAPER_NONE;
 
 export type BlogPostData = {

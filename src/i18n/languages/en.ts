@@ -233,6 +233,7 @@ export const en: Translation = {
 	[Key.wallpaperMode]: "Wallpaper Mode",
 	[Key.wallpaperBanner]: "Banner Mode",
 	[Key.wallpaperFullscreen]: "Fullscreen Mode",
+	[Key.wallpaperFullscreenBanner]: "Fullscreen Banner",
 	[Key.wallpaperNone]: "Hide Wallpaper",
 	[Key.wallpaperPosition]: "Wallpaper Position",
 	[Key.wallpaperPositionTop]: "Top",

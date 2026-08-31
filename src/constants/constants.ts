@@ -9,6 +9,7 @@ export const DEFAULT_THEME = SYSTEM_MODE;
 export const BANNER_HEIGHT = 35;
 export const BANNER_HEIGHT_EXTEND = 30;
 export const BANNER_HEIGHT_HOME = BANNER_HEIGHT + BANNER_HEIGHT_EXTEND;
+export const BANNER_HEIGHT_FULLSCREEN = 100;
 
 // The height the main panel overlaps the banner, unit: rem
 export const MAIN_PANEL_OVERLAPS_BANNER_HEIGHT = 3.5;
@@ -22,6 +23,7 @@ export const UNCATEGORIZED = "uncategorized";
 // Wallpaper mode constants
 export const WALLPAPER_BANNER = "banner";
 export const WALLPAPER_FULLSCREEN = "fullscreen";
+export const WALLPAPER_FULLSCREEN_BANNER = "fullscreen-banner";
 export const WALLPAPER_NONE = "none";
 
 // Navbar transparent mode constants

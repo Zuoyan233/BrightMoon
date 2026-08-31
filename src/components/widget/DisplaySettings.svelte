@@ -2,6 +2,7 @@
 import {
 	WALLPAPER_BANNER,
 	WALLPAPER_FULLSCREEN,
+	WALLPAPER_FULLSCREEN_BANNER,
 	WALLPAPER_NONE,
 } from "@constants/constants";
 import I18nKey from "@i18n/i18nKey";
@@ -61,6 +62,11 @@ let wavesAvailable = true;
 
 // 壁纸模式
 let currentWallpaperMode: WALLPAPER_MODE = WALLPAPER_BANNER;
+
+// 桌面端判断（用于全屏横幅模式下隐藏移动端/平板端的壁纸位置）
+let isDesktop = true;
+// 平板端判断（768px - 1279px）
+let isTablet = false;
 
 // 横幅位置（banner模式时有效）
 let currentBannerPosition: WALLPAPER_POSITION = "center";
@@ -187,6 +193,8 @@ function wallpaperModeLabel(mode: string): string {
 			return i18n(I18nKey.wallpaperBanner);
 		case WALLPAPER_FULLSCREEN:
 			return i18n(I18nKey.wallpaperFullscreen);
+		case WALLPAPER_FULLSCREEN_BANNER:
+			return i18n(I18nKey.wallpaperFullscreenBanner);
 		case WALLPAPER_NONE:
 			return i18n(I18nKey.wallpaperNone);
 		default:
@@ -363,6 +371,12 @@ function checkWallpaperVisibility() {
 	}
 }
 
+// 更新桌面端状态（1280px 以上视为桌面端，与主样式断点一致）
+function updateDesktopState() {
+	isDesktop = window.innerWidth >= 1280;
+	isTablet = window.innerWidth >= 768 && window.innerWidth < 1280;
+}
+
 onMount(() => {
 	isMounted = true;
 	defaultHue = getDefaultHue();
@@ -425,8 +439,14 @@ onMount(() => {
 	// 初始化壁纸区域可见性
 	checkWallpaperVisibility();
 
+	// 初始化桌面端状态
+	updateDesktopState();
+
 	// 监听窗口大小变化
-	window.addEventListener("resize", checkWallpaperVisibility);
+	window.addEventListener("resize", () => {
+		checkWallpaperVisibility();
+		updateDesktopState();
+	});
 
 	// 监听壁纸模式外部变化（如节日彩蛋强制切换）
 	const onWallpaperModeChange = (e: CustomEvent<{ mode: WALLPAPER_MODE }>) => {
@@ -547,7 +567,7 @@ $: if (isMounted && (hue || hue === 0)) {
 	</div>
 {/if}
 
-{#if wavesAvailable && currentWallpaperMode === WALLPAPER_BANNER}
+{#if wavesAvailable && (currentWallpaperMode === WALLPAPER_BANNER || currentWallpaperMode === WALLPAPER_FULLSCREEN_BANNER)}
 	<!-- 水波纹特效开关 -->
 	<div class="mb-3 flex items-center justify-between">
 		<div class="flex items-center gap-2">
@@ -614,7 +634,7 @@ $: if (isMounted && (hue || hue === 0)) {
 				</span>
 		</div>
 		<div class="mb-3">
-			<div class="grid grid-cols-3 gap-2">
+			<div class="grid grid-cols-2 gap-2">
 			<button
 				class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
 					border-2 relative text-neutral-600 dark:text-neutral-300"
@@ -648,6 +668,21 @@ $: if (isMounted && (hue || hue === 0)) {
 			<button
 				class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
 					border-2 relative text-neutral-600 dark:text-neutral-300"
+				class:bg-[var(--primary)]={currentWallpaperMode === WALLPAPER_FULLSCREEN_BANNER}
+				class:border-[var(--primary)]={currentWallpaperMode === WALLPAPER_FULLSCREEN_BANNER}
+				class:!text-white={currentWallpaperMode === WALLPAPER_FULLSCREEN_BANNER}
+				class:border-transparent={currentWallpaperMode !== WALLPAPER_FULLSCREEN_BANNER}
+				class:hover:border-[var(--primary)]={currentWallpaperMode !== WALLPAPER_FULLSCREEN_BANNER}
+				class:hover:text-[var(--primary)]={currentWallpaperMode !== WALLPAPER_FULLSCREEN_BANNER}
+				class:dark:hover:text-[var(--primary)]={currentWallpaperMode !== WALLPAPER_FULLSCREEN_BANNER}
+				on:click={() => selectWallpaperMode(WALLPAPER_FULLSCREEN_BANNER)}
+			>
+				<Icon icon="material-symbols:panorama-outline" class={'text-lg' + (currentWallpaperMode === WALLPAPER_FULLSCREEN_BANNER ? ' text-white' : '')} />
+				<span>{wallpaperModeLabel(WALLPAPER_FULLSCREEN_BANNER)}</span>
+			</button>
+			<button
+				class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
+					border-2 relative text-neutral-600 dark:text-neutral-300"
 				class:bg-[var(--primary)]={currentWallpaperMode === WALLPAPER_NONE}
 				class:border-[var(--primary)]={currentWallpaperMode === WALLPAPER_NONE}
 				class:!text-white={currentWallpaperMode === WALLPAPER_NONE}
@@ -664,8 +699,8 @@ $: if (isMounted && (hue || hue === 0)) {
 		</div>
 {/if}
 
-{#if showWallpaperSection && currentWallpaperMode === WALLPAPER_BANNER}
-		<!-- 横幅位置选择（banner模式时显示） -->
+{#if showWallpaperSection && ((currentWallpaperMode === WALLPAPER_BANNER && !isTablet) || (currentWallpaperMode === WALLPAPER_FULLSCREEN_BANNER && isDesktop))}
+		<!-- 横幅位置选择（banner / fullscreen-banner 模式仅在桌面端显示） -->
 		<div>
 			<div class="flex items-center gap-2 mb-3">
 				<Icon icon="material-symbols:vertical-align-center" class="text-[var(--btn-content)] text-lg" />
@@ -888,8 +923,8 @@ $: if (isMounted && (hue || hue === 0)) {
 
 {/if}
 
-{#if currentWallpaperMode === WALLPAPER_BANNER}
-<!-- 导航栏透明模式选择 -->
+{#if currentWallpaperMode === WALLPAPER_BANNER || currentWallpaperMode === WALLPAPER_FULLSCREEN_BANNER}
+<!-- 导航栏透明模式选择（banner / fullscreen-banner 模式时显示） -->
 <div class="mb-4 transition-all duration-200">
 	<div class="flex items-center gap-2 mb-3">
 		<Icon icon="material-symbols:menu-rounded" class="text-[var(--btn-content)] text-lg" />
@@ -958,9 +993,9 @@ $: if (isMounted && (hue || hue === 0)) {
 		</span>
 	</div>
 </div>
-<div class="mb-3 grid grid-cols-2 gap-3">
+<div class="mb-3 grid grid-cols-2 gap-2">
 	<button
-		class="flex items-center justify-center gap-2 py-3 px-4 rounded-lg text-sm transition-all duration-200
+		class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
 			border-2 relative text-neutral-600 dark:text-neutral-300"
 		class:bg-[var(--primary)]={postListLayout === "list"}
 		class:border-[var(--primary)]={postListLayout === "list"}
@@ -971,11 +1006,11 @@ $: if (isMounted && (hue || hue === 0)) {
 		class:dark:hover:text-[var(--primary)]={postListLayout !== "list"}
 		on:click={() => selectPostListLayout("list")}
 	>
-		<Icon icon="material-symbols:format-list-bulleted" class={'text-base' + (postListLayout === 'list' ? ' text-white' : '')} />
+		<Icon icon="material-symbols:format-list-bulleted" class={'text-lg' + (postListLayout === 'list' ? ' text-white' : '')} />
 		<span>{i18n(I18nKey.listMode)}</span>
 	</button>
 	<button
-		class="flex items-center justify-center gap-2 py-3 px-4 rounded-lg text-sm transition-all duration-200
+		class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
 			border-2 relative text-neutral-600 dark:text-neutral-300"
 		class:bg-[var(--primary)]={postListLayout === "grid"}
 		class:border-[var(--primary)]={postListLayout === "grid"}
@@ -986,7 +1021,7 @@ $: if (isMounted && (hue || hue === 0)) {
 		class:dark:hover:text-[var(--primary)]={postListLayout !== "grid"}
 		on:click={() => selectPostListLayout("grid")}
 	>
-		<Icon icon="material-symbols:grid-view-outline" class={'text-base' + (postListLayout === 'grid' ? ' text-white' : '')} />
+		<Icon icon="material-symbols:grid-view-outline" class={'text-lg' + (postListLayout === 'grid' ? ' text-white' : '')} />
 		<span>{i18n(I18nKey.gridMode)}</span>
 	</button>
 </div>

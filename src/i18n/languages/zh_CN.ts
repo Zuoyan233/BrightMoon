@@ -322,6 +322,7 @@ export const zh_CN: Translation = {
 	[Key.wallpaperMode]: "壁纸模式",
 	[Key.wallpaperBanner]: "横幅模式",
 	[Key.wallpaperFullscreen]: "全屏模式",
+	[Key.wallpaperFullscreenBanner]: "全屏横幅",
 	[Key.wallpaperNone]: "隐藏壁纸",
 	[Key.wallpaperPosition]: "壁纸位置",
 	[Key.wallpaperPositionTop]: "顶部",

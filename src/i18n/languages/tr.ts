@@ -237,6 +237,7 @@ export const tr: Translation = {
 	[Key.wallpaperMode]: "Duvar Kağıdı Modu",
 	[Key.wallpaperBanner]: "Afiş Modu",
 	[Key.wallpaperFullscreen]: "Tam Ekran Modu",
+	[Key.wallpaperFullscreenBanner]: "Tam Ekran Afiş",
 	[Key.wallpaperNone]: "Duvar Kağıdını Gizle",
 	[Key.wallpaperPosition]: "Duvar Kağıdı Konumu",
 	[Key.wallpaperPositionTop]: "Üst",
