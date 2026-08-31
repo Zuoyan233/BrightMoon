@@ -2,6 +2,7 @@
 import {
 	WALLPAPER_BANNER,
 	WALLPAPER_FULLSCREEN,
+	WALLPAPER_FULLSCREEN_BANNER,
 	WALLPAPER_NONE,
 } from "@constants/constants";
 import I18nKey from "@i18n/i18nKey";
@@ -26,6 +27,11 @@ const wallpaperOptions: {
 		mode: WALLPAPER_FULLSCREEN,
 		icon: "material-symbols:wallpaper",
 		label: I18nKey.wallpaperFullscreen,
+	},
+	{
+		mode: WALLPAPER_FULLSCREEN_BANNER,
+		icon: "material-symbols:panorama-outline",
+		label: I18nKey.wallpaperFullscreenBanner,
 	},
 	{
 		mode: WALLPAPER_NONE,

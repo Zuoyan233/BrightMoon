@@ -235,6 +235,7 @@ export const vi: Translation = {
 	[Key.wallpaperMode]: "Chế độ hình nền",
 	[Key.wallpaperBanner]: "Chế độ Banner",
 	[Key.wallpaperFullscreen]: "Chế độ Toàn màn hình",
+	[Key.wallpaperFullscreenBanner]: "Biểu ngữ Toàn màn hình",
 	[Key.wallpaperNone]: "Ẩn hình nền",
 	[Key.wallpaperPosition]: "Vị trí hình nền",
 	[Key.wallpaperPositionTop]: "Trên cùng",

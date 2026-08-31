@@ -311,6 +311,7 @@ enum I18nKey {
 	wallpaperMode = "wallpaperMode",
 	wallpaperBanner = "wallpaperBanner",
 	wallpaperFullscreen = "wallpaperFullscreen",
+	wallpaperFullscreenBanner = "wallpaperFullscreenBanner",
 	wallpaperNone = "wallpaperNone",
 	wallpaperPosition = "wallpaperPosition",
 	wallpaperPositionTop = "wallpaperPositionTop",

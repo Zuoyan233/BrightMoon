@@ -245,6 +245,7 @@ export const fr: Translation = {
 	[Key.wallpaperMode]: "Mode fond d'écran",
 	[Key.wallpaperBanner]: "Mode bannière",
 	[Key.wallpaperFullscreen]: "Mode plein écran",
+	[Key.wallpaperFullscreenBanner]: "Bannière plein écran",
 	[Key.wallpaperNone]: "Masquer le fond d'écran",
 	[Key.wallpaperPosition]: "Position du fond d'écran",
 	[Key.wallpaperPositionTop]: "Haut",

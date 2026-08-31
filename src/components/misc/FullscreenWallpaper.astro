@@ -211,6 +211,10 @@ const renderGroups = [
 			return localStorage.getItem('wallpaperMode') || defaultWallpaperMode;
 		}
 
+		function isFullscreenWallpaperMode() {
+			return getEffectiveMode() === 'fullscreen';
+		}
+
 		function applyCardOpacity(value) {
 			var alpha = value / 100;
 			var isDark = document.documentElement.classList.contains('dark');
@@ -222,43 +226,35 @@ const renderGroups = [
 		}
 
 		function resetCardOpacity() {
-			var isDark = document.documentElement.classList.contains('dark');
-			if (isDark) {
-				document.body.style.removeProperty('--card-bg-transparent');
-			} else {
-				document.body.style.removeProperty('--card-bg-transparent');
-			}
+			document.body.style.removeProperty('--card-bg-transparent');
 		}
 
-		var mode = getEffectiveMode();
-		if (mode === 'fullscreen') {
+		function applyStoredCardOpacity() {
 			var storedCardOpacity = localStorage.getItem('cardOpacity');
 			applyCardOpacity(storedCardOpacity !== null ? parseFloat(storedCardOpacity) : defaultCardOpacity * 100);
 		}
 
+		if (isFullscreenWallpaperMode()) {
+			applyStoredCardOpacity();
+		}
+
 		window.addEventListener('card-opacity-change', function(e) {
-			if (e.detail && typeof e.detail.opacity === 'number') {
-				var currentMode = getEffectiveMode();
-				if (currentMode === 'fullscreen') {
-					applyCardOpacity(e.detail.opacity);
-				}
+			if (e.detail && typeof e.detail.opacity === 'number' && isFullscreenWallpaperMode()) {
+				applyCardOpacity(e.detail.opacity);
 			}
 		});
 
 		window.addEventListener('wallpaper-mode-change', function(e) {
 			if (e.detail && e.detail.mode === 'fullscreen') {
-				var storedCardOpacity = localStorage.getItem('cardOpacity');
-				applyCardOpacity(storedCardOpacity !== null ? parseFloat(storedCardOpacity) : defaultCardOpacity * 100);
+				applyStoredCardOpacity();
 			} else {
 				resetCardOpacity();
 			}
 		});
 
 		var observer = new MutationObserver(function() {
-			var currentMode = getEffectiveMode();
-			if (currentMode === 'fullscreen') {
-				var storedCardOpacity = localStorage.getItem('cardOpacity');
-				applyCardOpacity(storedCardOpacity !== null ? parseFloat(storedCardOpacity) : defaultCardOpacity * 100);
+			if (isFullscreenWallpaperMode()) {
+				applyStoredCardOpacity();
 			}
 		});
 		observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });

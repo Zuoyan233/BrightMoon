@@ -234,6 +234,7 @@ export const ru: Translation = {
 	[Key.wallpaperMode]: "Режим обоев",
 	[Key.wallpaperBanner]: "Режим баннера",
 	[Key.wallpaperFullscreen]: "Полноэкранный режим",
+	[Key.wallpaperFullscreenBanner]: "Баннер во весь экран",
 	[Key.wallpaperNone]: "Скрыть обои",
 	[Key.wallpaperPosition]: "Позиция обоев",
 	[Key.wallpaperPositionTop]: "Сверху",

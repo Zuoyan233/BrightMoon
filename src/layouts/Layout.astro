@@ -19,6 +19,7 @@ import themeInitRaw from "../scripts/theme-init.js?raw";
 const BANNER_HEIGHT = 35;
 const BANNER_HEIGHT_EXTEND = 30;
 const BANNER_HEIGHT_HOME = BANNER_HEIGHT + BANNER_HEIGHT_EXTEND;
+const BANNER_HEIGHT_FULLSCREEN = 100;
 
 import { PAGE_WIDTH } from "../constants/constants";
 import { defaultFavicons } from "../constants/icon";
@@ -47,6 +48,8 @@ let { title, banner, description, lang, setOGTypeArticle, postSlug } =
 // Swup can update the body for each page visit, but it's after the page transition, causing a delay for banner height change
 // so use Swup hooks instead to change the height immediately when a link is clicked
 const isHomePage = pathsEqual(Astro.url.pathname, url("/"));
+const defaultWallpaperMode = siteConfig.appearance.wallpaperMode.defaultMode;
+const isFullscreenBannerDefault = defaultWallpaperMode === "fullscreen-banner";
 
 // defines global css variables
 // why doing this in Layout instead of GlobalStyles: https://github.com/withastro/astro/issues/6728#issuecomment-1502203757
@@ -174,6 +177,7 @@ if (siteConfig.font?.fontFamily) {
 		defaultBannerPosition: siteConfig.appearance.wallpaperMode.defaultBannerPosition || "center",
 		defaultPostListLayout: siteConfig.appearance.postListLayout?.defaultMode || "list",
 		BANNER_HEIGHT: BANNER_HEIGHT,
+		BANNER_HEIGHT_FULLSCREEN: BANNER_HEIGHT_FULLSCREEN,
 		responsiveTocModes: {
 			mobile: siteConfig.toc.responsive?.mobile || "float",
 			tablet: siteConfig.toc.responsive?.tablet || "float",
@@ -268,9 +272,10 @@ if (siteConfig.font?.fontFamily) {
 	<body
 		class="min-h-screen"
 		class:list={[
-			{ "lg:is-home": isHomePage, "enable-banner": enableBanner },
+			{ "lg:is-home": isHomePage, "enable-banner": enableBanner, "fullscreen-banner": isFullscreenBannerDefault },
 			{ "hide-translate-select": siteConfig.translate?.enable && siteConfig.translate?.showSelectTag === false },
 		]}
+		data-is-home={isHomePage}
 		style={bodyFontFamily ? `font-family: ${bodyFontFamily};` : ""}
 	>
 		<ProgressBar client:load />
@@ -316,33 +321,61 @@ if (siteConfig.font?.fontFamily) {
 		bannerOffset,
 		"banner-height-home": `${BANNER_HEIGHT_HOME}vh`,
 		"banner-height": `${BANNER_HEIGHT}vh`,
+		"banner-height-fullscreen": `${BANNER_HEIGHT_FULLSCREEN}vh`,
 	}}
 >
 	@tailwind components;
 	@layer components {
-		.enable-banner.is-home #banner-wrapper {
+		.enable-banner[data-is-home="true"] #banner-wrapper {
 			@apply h-[var(--banner-height-home)] translate-y-[var(--banner-height-extend)];
 		}
 		.enable-banner #banner-wrapper {
 			@apply h-[var(--banner-height-home)];
 		}
-		.enable-banner.is-home #banner {
+		/* 全屏横幅模式：banner 占满整个视口 */
+		.enable-banner.fullscreen-banner[data-is-home="true"] #banner-wrapper,
+		.enable-banner.fullscreen-banner #banner-wrapper {
+			@apply h-[var(--banner-height-fullscreen)] translate-y-0;
+		}
+		.enable-banner[data-is-home="true"] #banner {
 			@apply h-[var(--banner-height-home)] translate-y-0;
 		}
 		.enable-banner #banner {
 			@apply h-[var(--banner-height-home)] translate-y-[var(--bannerOffset)];
 		}
-		.enable-banner.is-home #main-grid {
+		.enable-banner.fullscreen-banner[data-is-home="true"] #banner,
+		.enable-banner.fullscreen-banner #banner {
+			@apply h-[var(--banner-height-fullscreen)] translate-y-0;
+		}
+		.enable-banner[data-is-home="true"] #main-grid {
 			@apply translate-y-[var(--banner-height-extend)];
 		}
+		/* 全屏横幅模式下主网格不需要额外下移 */
+		.enable-banner.fullscreen-banner[data-is-home="true"] #main-grid {
+			@apply translate-y-0;
+		}
+		/* 壁纸模式切换过渡：banner 高度/位移、内层 banner、sticky 侧边栏统一 700ms，与主内容 top / main-grid 位移保持同步 */
+		.enable-banner #banner-wrapper,
+		.enable-banner #banner,
+		.enable-banner #sidebar-sticky,
+		.enable-banner #right-sidebar-sticky {
+			transition-property: height, top, transform, opacity;
+			transition-duration: 0.7s;
+			transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+		}
 		.enable-banner #top-row {
-			@apply h-[calc(var(--banner-height-home)_-_4.5rem)] transition-all duration-300;
+			@apply h-[calc(var(--banner-height-home)_-_4.5rem)] transition-all duration-700;
 		}
-		.enable-banner.is-home #sidebar-sticky {
+		.enable-banner[data-is-home="true"] #sidebar-sticky {
 			@apply top-[calc(1rem_-_var(--banner-height-extend))];
 		}
-		.enable-banner.is-home #right-sidebar-sticky {
+		.enable-banner[data-is-home="true"] #right-sidebar-sticky {
 			@apply top-[calc(1rem_-_var(--banner-height-extend))];
+		}
+		/* 全屏横幅模式下侧边栏 sticky 位置恢复为 1rem */
+		.enable-banner.fullscreen-banner[data-is-home="true"] #sidebar-sticky,
+		.enable-banner.fullscreen-banner[data-is-home="true"] #right-sidebar-sticky {
+			@apply top-4;
 		}
 		.navbar-hidden {
 			@apply opacity-0 -translate-y-16;

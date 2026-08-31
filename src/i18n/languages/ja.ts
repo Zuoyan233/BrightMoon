@@ -231,6 +231,7 @@ export const ja: Translation = {
 	[Key.wallpaperMode]: "壁紙モード",
 	[Key.wallpaperBanner]: "バナーモード",
 	[Key.wallpaperFullscreen]: "フルスクリーンモード",
+	[Key.wallpaperFullscreenBanner]: "全画面バナー",
 	[Key.wallpaperNone]: "壁紙を非表示",
 	[Key.wallpaperPosition]: "壁紙の位置",
 	[Key.wallpaperPositionTop]: "上部",
