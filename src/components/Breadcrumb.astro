@@ -141,8 +141,46 @@ const { items, className } = Astro.props;
 <script>
   const SITE_NAV_STACK = "siteNavStack";
   const SITE_NAV_PENDING = "siteNavPendingIdx";
+  const SITE_SCROLL_POS = "siteNavScrollPositions";
+
+  function getCurrentFullPath(): string {
+    return window.location.pathname + window.location.search;
+  }
+
+  function saveScrollPosition() {
+    const path = getCurrentFullPath();
+    try {
+      const positions = JSON.parse(
+        sessionStorage.getItem(SITE_SCROLL_POS) || "{}",
+      );
+      positions[path] = { x: window.scrollX, y: window.scrollY };
+      sessionStorage.setItem(SITE_SCROLL_POS, JSON.stringify(positions));
+    } catch (e) {
+      // ignore
+    }
+  }
+
+  function restoreScrollPosition() {
+    const path = getCurrentFullPath();
+    try {
+      const positions = JSON.parse(
+        sessionStorage.getItem(SITE_SCROLL_POS) || "{}",
+      );
+      const saved = positions[path];
+      if (saved && (saved.x !== undefined || saved.y !== undefined)) {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            window.scrollTo(saved.x || 0, saved.y || 0);
+          });
+        });
+      }
+    } catch (e) {
+      // ignore
+    }
+  }
 
   function navigateTo(url: string, targetIndex: number) {
+    saveScrollPosition();
     sessionStorage.setItem(SITE_NAV_PENDING, String(targetIndex));
     if (window.swup) {
       try {
@@ -232,8 +270,23 @@ const { items, className } = Astro.props;
         navigateTo(stack.paths[stack.index + 1], stack.index + 1);
       }
     };
+
+    restoreScrollPosition();
   }
 
   initBreadcrumbNav();
   document.addEventListener("astro:page-load", initBreadcrumbNav);
+
+  // 保存滚动位置：完整页面导航时
+  window.addEventListener("beforeunload", saveScrollPosition);
+
+  // 保存滚动位置：Swup 无刷新导航时
+  if (window.swup) {
+    window.swup.hooks.on("animation:out:start", saveScrollPosition);
+  }
+
+  // 恢复滚动位置：Swup 页面切换完成后（延迟以确保覆盖其他滚动逻辑）
+  document.addEventListener("swup:page:view", () => {
+    setTimeout(restoreScrollPosition, 100);
+  });
 </script>
