@@ -318,10 +318,6 @@ function initCarousel() {
 	}
 }
 
-if (siteConfig.translate?.enable) {
-	void translationManager.init();
-}
-
 function setupSakura() {
 	if (!sakuraConfig) return;
 	if (window.sakuraInitialized) return;
@@ -600,9 +596,7 @@ async function initFancybox() {
 		Fancybox = mod.Fancybox;
 	}
 
-	if (fancyboxSelectors.length > 0) {
-		return; // 已经初始化，直接返回
-	}
+	cleanupFancybox();
 
 	const commonConfig = {
 		Thumbs: { autoStart: true, showOnStart: "yes" },
@@ -736,11 +730,6 @@ const setup = () => {
 		}
 		// 清理上一页的 Fancybox
 		cleanupFancybox();
-
-		// 新页面到达前预初始化翻译系统，让 translate.js 就绪
-		if (siteConfig.translate?.enable) {
-			void translationManager.init();
-		}
 
 		// 平滑滚动到顶部，与 swup 过渡动画同步
 		window.scrollTo({ top: 0, behavior: "smooth" });

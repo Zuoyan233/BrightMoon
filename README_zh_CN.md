@@ -9,7 +9,7 @@ BrightMoon 是一款融合现代简约与优雅气质的独特二次元美学静
 
 [![Node.js >= 22](https://img.shields.io/badge/node.js-%3E%3D22-brightgreen)](https://nodejs.org/)
 [![pnpm >= 11](https://img.shields.io/badge/pnpm-%3E%3D11-blue)](https://pnpm.io/)
-[![Astro](https://img.shields.io/badge/Astro-7.2.3-orange)](https://astro.build/)
+[![Astro](https://img.shields.io/badge/Astro-7.2.9-orange)](https://astro.build/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-blue)](https://www.typescriptlang.org/)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?logo=apache)](https://opensource.org/licenses/Apache-2.0)
 
@@ -173,7 +173,7 @@ BrightMoon 是一款融合现代简约与优雅气质的独特二次元美学静
   创建一个相册只需 3 步：
 
   1. 在 `public/images/albums/`（本说明文件所在目录）下创建一个文件夹（文件夹名即为相册 ID）
-  2. 在文件夹中放置 `cover.jpg`（封面图）和其他照片
+  2. 在文件夹中放置 `cover.webp`（封面图）和其他照片
   3. 创建 `info.json` 配置文件
 
   完成！相册会自动出现在相册列表页面。
@@ -184,13 +184,13 @@ BrightMoon 是一款融合现代简约与优雅气质的独特二次元美学静
   public/images/albums/
   ├── my-travel-2024/              # 相册文件夹（文件夹名 = 相册ID）
   │   ├── info.json                # 相册配置文件（必需）
-  │   ├── cover.jpg                # 封面图（必需）
+  │   ├── cover.webp                # 封面图（必需）
   │   ├── photo1.jpg               # 相册照片
   │   ├── photo2.jpg
   │   └── photo3.jpg
   ├── daily-life/                  # 另一个相册
   │   ├── info.json
-  │   ├── cover.jpg
+  │   ├── cover.webp
   │   └── ...
   ```
 
@@ -240,7 +240,7 @@ BrightMoon 是一款融合现代简约与优雅气质的独特二次元美学静
     "tags": ["外链", "示例"],
     "layout": "masonry",
     "columns": 3,
-    "cover": "https://example.com/cover.jpg",
+    "cover": "https://example.com/cover.webp",
     "photos": [
       {
         "id": "photo-1",
@@ -290,7 +290,7 @@ BrightMoon 是一款融合现代简约与优雅气质的独特二次元美学静
 
   ##### 图片格式建议
 
-  **封面图片 (cover.jpg)：**
+  **封面图片 (cover.webp)：**
   - **尺寸**：800×600px（4:3 比例）
   - **格式**：JPG（外链模式可支持更多格式）
   - **大小**：建议 < 200KB
@@ -333,7 +333,7 @@ BrightMoon 是一款融合现代简约与优雅气质的独特二次元美学静
   ##### 常见问题
 
   **Q: 为什么我的相册没有显示？**  
-  A: 检查是否存在 `info.json` 和 `cover.jpg`，以及 `hidden` 是否设置为 `true`。
+  A: 检查是否存在 `info.json` 和 `cover.webp`，以及 `hidden` 是否设置为 `true`。
 
   **Q: 可以使用其他图片格式吗？**  
   A: 可以，支持 JPG、PNG、WebP、GIF、SVG、AVIF 等格式。

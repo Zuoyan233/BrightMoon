@@ -6,6 +6,7 @@ import MainGridLayout from "../../../layouts/MainGridLayout.astro";
 // import type { GetStaticPaths } from "astro";
 import type { AlbumGroup, Photo } from "../../../types/album";
 import { scanAlbums } from "../../../utils/album-scanner";
+import "../../../styles/albums.css";
 
 // 检查相册页面是否启用
 if (!siteConfig.featurePages.albums) {
@@ -31,120 +32,169 @@ if (!album) {
 }
 ---
 
-<MainGridLayout title={album.title} description={album.description || album.title} breadcrumbItems={[{ label: i18n(I18nKey.albums), href: "/albums/" }, { label: album.title }]}>
-  {album.hidden && (
-    <Fragment slot="head">
-      <meta name="robots" content="noindex, nofollow" />
-    </Fragment>
-  )}
-  <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
+<MainGridLayout
+  title={album.title}
+  description={album.description || album.title}
+  breadcrumbItems={[
+    { label: i18n(I18nKey.albums), href: "/albums/" },
+    { label: album.title },
+  ]}
+>
+  {
+    album.hidden && (
+      <Fragment slot="head">
+        <meta name="robots" content="noindex, nofollow" />
+      </Fragment>
+    )
+  }
+  <div
+    class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32"
+  >
     <div class="card-base z-10 px-9 py-6 relative w-full">
-      
       <!-- 返回按钮 -->
       <div class="mb-6">
-        <a 
-          href="/albums/" 
+        <a
+          href="/albums/"
           class="inline-flex items-center gap-2 text-neutral-600 dark:text-neutral-400 hover:text-[var(--primary)] dark:hover:text-[var(--primary)] transition-colors"
         >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 19l-7-7 7-7"></path>
           </svg>
           {i18n(I18nKey.albumsBackToList)}
         </a>
       </div>
 
       <!-- 隐藏相册提示 -->
-      {album.hidden && (
-        <div class="mb-6 p-4 bg-yellow-100 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-800 rounded-lg">
-          <div class="flex items-center gap-2 text-yellow-800 dark:text-yellow-200">
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-            </svg>
-            <span class="font-medium">{i18n(I18nKey.hiddenAlbum)}</span>
+      {
+        album.hidden && (
+          <div class="mb-6 p-4 bg-yellow-100 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-800 rounded-lg">
+            <div class="flex items-center gap-2 text-yellow-800 dark:text-yellow-200">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fill-rule="evenodd"
+                  d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              <span class="font-medium">{i18n(I18nKey.hiddenAlbum)}</span>
+            </div>
+            <p class="mt-1 text-sm text-yellow-700 dark:text-yellow-300">
+              {i18n(I18nKey.hideAlbumTip)}
+            </p>
           </div>
-          <p class="mt-1 text-sm text-yellow-700 dark:text-yellow-300">
-            {i18n(I18nKey.hideAlbumTip)}
-          </p>
-        </div>
-      )}
+        )
+      }
 
       <!-- 相册标题信息 -->
       <header class="mb-8">
-        <h1 class="text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-3">
+        <h1
+          class="text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-3"
+        >
           {album.title}
         </h1>
-        
-        {album.description && (
-          <p class="text-neutral-600 dark:text-neutral-400 mb-4">
-            {album.description}
-          </p>
-        )}
-        
+
+        {
+          album.description && (
+            <p class="text-neutral-600 dark:text-neutral-400 mb-4">
+              {album.description}
+            </p>
+          )
+        }
+
         <!-- 相册元数据 -->
-        <div class="flex flex-wrap items-center gap-4 text-sm text-neutral-500 dark:text-neutral-500">
-          <span>{album.photos.length} {album.photos.length > 1 ? i18n(I18nKey.albumsPhotosCount) : i18n(I18nKey.albumsPhotoCount)}</span>
-          <time>{new Date(album.date).toLocaleDateString('zh-CN')}</time>
-          {album.location && (
-            <span class="flex items-center gap-1">
-              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
-              </svg>
-              {album.location}
-            </span>
-          )}
-        </div>
-        
-        <!-- 标签 -->
-        {album.tags && album.tags.length > 0 && (
-          <div class="flex flex-wrap gap-2 mt-4">
-            {album.tags.map((tag: string) => (
-              <span class="btn-regular h-8 text-sm px-3 rounded-lg">
-                {tag}
+        <div
+          class="flex flex-wrap items-center gap-4 text-sm text-neutral-500 dark:text-neutral-500"
+        >
+          <span
+            >{album.photos.length}
+            {
+              album.photos.length > 1
+                ? i18n(I18nKey.albumsPhotosCount)
+                : i18n(I18nKey.albumsPhotoCount)
+            }</span
+          >
+          <time>{new Date(album.date).toLocaleDateString("zh-CN")}</time>
+          {
+            album.location && (
+              <span class="flex items-center gap-1">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                {album.location}
               </span>
-            ))}
-          </div>
-        )}
+            )
+          }
+        </div>
+
+        <!-- 标签 -->
+        {
+          album.tags && album.tags.length > 0 && (
+            <div class="flex flex-wrap gap-2 mt-4">
+              {album.tags.map((tag: string) => (
+                <span class="btn-regular h-8 text-sm px-3 rounded-lg">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )
+        }
       </header>
 
       <!-- 照片网格 -->
-      <div 
-        class={`photo-gallery ${album.layout === 'masonry' ? 'masonry-layout' : 'grid-layout'}`}
-        data-layout={album.layout || 'grid'}
+      <div
+        class={`photo-gallery ${album.layout === "masonry" ? "masonry-layout" : "grid-layout"}`}
+        data-layout={album.layout || "grid"}
         data-columns={album.columns || 3}
       >
-        {album.photos.map((photo: Photo, _index: number) => (
-          <figure class="photo-item group relative overflow-hidden rounded-lg">
-            <a 
-              href="javascript:void(0)"
-              data-src={photo.src}
-              data-fancybox="gallery-album"
-              class="block"
-            >
-              <img 
-                src={photo.src}
-                alt={photo.alt}
-                class="photo-image w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 cursor-pointer"
-                loading="lazy"
-                onload="this.removeAttribute('loading')"
-              />
-            </a>
-          </figure>
-        ))}
+        {
+          album.photos.map((photo: Photo, _index: number) => (
+            <figure class="photo-item group relative overflow-hidden rounded-lg">
+              <a
+                href="javascript:void(0)"
+                data-src={photo.src}
+                data-fancybox="gallery-album"
+                class="block"
+              >
+                <img
+                  src={photo.src}
+                  alt={photo.alt}
+                  class="photo-image w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 cursor-pointer"
+                  loading="lazy"
+                  onload="this.removeAttribute('loading')"
+                />
+              </a>
+            </figure>
+          ))
+        }
       </div>
     </div>
   </div>
-
 </MainGridLayout>
 
 <script>
   // 确保Fancybox正确处理相册图片
-  document.addEventListener('DOMContentLoaded', () => {
-    console.log('=== 相册页面加载完成 ===');
-    
+  document.addEventListener("DOMContentLoaded", () => {
+    console.log("=== 相册页面加载完成 ===");
+
     // 检查页面中的图片元素
-    const albumImages = document.querySelectorAll('.moment-images img, .photo-gallery img');
-    console.log('相册图片数量:', albumImages.length);
-    
+    const albumImages = document.querySelectorAll(
+      ".moment-images img, .photo-gallery img",
+    );
+    console.log("相册图片数量:", albumImages.length);
+
     // 预加载图片以确保正确显示
     albumImages.forEach((img) => {
       if (img instanceof HTMLImageElement) {
@@ -160,41 +210,41 @@ if (!album) {
     display: grid;
     gap: 1rem;
   }
-  
+
   .grid-layout[data-columns="2"] {
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   }
-  
+
   .grid-layout[data-columns="3"] {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   }
-  
+
   .grid-layout[data-columns="4"] {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
-  
+
   .masonry-layout {
     columns: 2;
     column-gap: 1rem;
   }
-  
+
   @media (min-width: 744px) {
     .masonry-layout {
       columns: 3;
     }
   }
-  
+
   @media (min-width: 1024px) {
     .masonry-layout[data-columns="4"] {
       columns: 4;
     }
   }
-  
+
   .masonry-layout .photo-item {
     break-inside: avoid;
     margin-bottom: 1rem;
   }
-  
+
   .grid-layout .photo-container {
     aspect-ratio: 1;
   }

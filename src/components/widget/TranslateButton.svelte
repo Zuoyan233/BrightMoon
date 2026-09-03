@@ -91,7 +91,6 @@ onMount(() => {
 
 	currentLanguage =
 		translationManager.getTargetLanguage() || defaultTranslateLanguage;
-	void translationManager.init();
 });
 
 onDestroy(() => {

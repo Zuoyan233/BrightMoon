@@ -461,6 +461,7 @@ import "../scripts/main-grid.js";
                                     src={Array.isArray(bannerImages.mobile) ? bannerImages.mobile[index] : (typeof bannerImages.mobile === 'string' ? bannerImages.mobile : '')} 
                                     position={siteConfig.appearance.wallpaperMode.defaultBannerPosition}
                                     loading={index === 0 ? "eager" : "lazy"}
+                                    fetchpriority={index === 0 ? "high" : undefined}
                                 />
                             )}
                             <!-- Desktop/Tablet: use desktop-specific images -->
@@ -471,6 +472,7 @@ import "../scripts/main-grid.js";
                                     src={Array.isArray(bannerImages.desktop) ? bannerImages.desktop[index] : (typeof bannerImages.desktop === 'string' ? bannerImages.desktop : '')} 
                                     position={siteConfig.appearance.wallpaperMode.defaultBannerPosition}
                                     loading={index === 0 ? "eager" : "lazy"}
+                                    fetchpriority={index === 0 ? "high" : undefined}
                                 />
                             )}
                         </li>

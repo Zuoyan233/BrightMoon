@@ -9,7 +9,7 @@ BrightMoon is a unique anime-aesthetic static blog template blending modern simp
 
 [![Node.js >= 22](https://img.shields.io/badge/node.js-%3E%3D22-brightgreen)](https://nodejs.org/)
 [![pnpm >= 11](https://img.shields.io/badge/pnpm-%3E%3D11-blue)](https://pnpm.io/)
-[![Astro](https://img.shields.io/badge/Astro-7.2.3-orange)](https://astro.build/)
+[![Astro](https://img.shields.io/badge/Astro-7.2.9-orange)](https://astro.build/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-blue)](https://www.typescriptlang.org/)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?logo=apache)](https://opensource.org/licenses/Apache-2.0)
 
@@ -173,7 +173,7 @@ This project is a customized extension based on Mizuki V8.2, with version number
   Creating an album requires only 3 steps:
 
   1. Create a folder under `public/images/albums/` (this README's location) (folder name = album ID)
-  2. Place `cover.jpg` (cover image) and other photos in the folder
+  2. Place `cover.webp` (cover image) and other photos in the folder
   3. Create an `info.json` configuration file
 
   Done! The album will automatically appear on the album list page.
@@ -184,13 +184,13 @@ This project is a customized extension based on Mizuki V8.2, with version number
   public/images/albums/
   ├── my-travel-2024/              # Album folder (folder name = album ID)
   │   ├── info.json                # Album config file (required)
-  │   ├── cover.jpg                # Cover image (required)
+  │   ├── cover.webp                # Cover image (required)
   │   ├── photo1.jpg               # Album photos
   │   ├── photo2.jpg
   │   └── photo3.jpg
   ├── daily-life/                  # Another album
   │   ├── info.json
-  │   ├── cover.jpg
+  │   ├── cover.webp
   │   └── ...
   ```
 
@@ -240,7 +240,7 @@ This project is a customized extension based on Mizuki V8.2, with version number
     "tags": ["external", "example"],
     "layout": "masonry",
     "columns": 3,
-    "cover": "https://example.com/cover.jpg",
+    "cover": "https://example.com/cover.webp",
     "photos": [
       {
         "id": "photo-1",
@@ -290,7 +290,7 @@ This project is a customized extension based on Mizuki V8.2, with version number
 
   ##### Image Format Recommendations
 
-  **Cover Image (cover.jpg):**
+  **Cover Image (cover.webp):**
   - **Size:** 800×600px (4:3 ratio)
   - **Format:** JPG (external mode supports more formats)
   - **Size:** Recommend < 200KB
@@ -333,7 +333,7 @@ This project is a customized extension based on Mizuki V8.2, with version number
   ##### FAQ
 
   **Q: Why isn't my album showing?**  
-  A: Check if `info.json` and `cover.jpg` exist, and if `hidden` is set to `true`.
+  A: Check if `info.json` and `cover.webp` exist, and if `hidden` is set to `true`.
 
   **Q: Can I use other image formats?**  
   A: Yes, JPG, PNG, WebP, GIF, SVG, AVIF formats are supported.

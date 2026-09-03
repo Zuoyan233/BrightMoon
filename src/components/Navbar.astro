@@ -252,6 +252,7 @@ if (document.readyState === 'loading') {
 
 {import.meta.env.PROD && <script is:inline define:vars={{scriptUrl: url('/pagefind/pagefind.js')}}>
 async function loadPagefind() {
+    if (window.pagefind && typeof window.pagefind.search === 'function') return;
     try {
         const response = await fetch(scriptUrl, { method: 'HEAD' });
         if (!response.ok) {
@@ -267,7 +268,6 @@ async function loadPagefind() {
         window.pagefind = pagefind;
 
         document.dispatchEvent(new CustomEvent('pagefindready'));
-        console.log('Pagefind loaded and initialized successfully, event dispatched.');
     } catch (error) {
         console.error('Failed to load Pagefind:', error);
         window.pagefind = {
@@ -275,13 +275,12 @@ async function loadPagefind() {
             options: () => Promise.resolve(),
         };
         document.dispatchEvent(new CustomEvent('pagefindloaderror'));
-        console.log('Pagefind load error, event dispatched.');
     }
 }
 
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', loadPagefind);
-} else {
+window.__loadPagefind = loadPagefind;
+
+document.addEventListener('searchpanelopen', () => {
     loadPagefind();
-}
+}, { once: true });
 </script>}

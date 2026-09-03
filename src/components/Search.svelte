@@ -41,7 +41,11 @@ const fakeResult: SearchResult[] = [
 
 const togglePanel = () => {
 	const panel = document.getElementById("search-panel");
+	const wasClosed = panel?.classList.contains("float-panel-closed");
 	panel?.classList.toggle("float-panel-closed");
+	if (wasClosed) {
+		document.dispatchEvent(new CustomEvent("searchpanelopen"));
+	}
 };
 
 const toggleDesktopSearch = () => {
@@ -51,6 +55,7 @@ const toggleDesktopSearch = () => {
 	}
 	isDesktopSearchExpanded = !isDesktopSearchExpanded;
 	if (isDesktopSearchExpanded) {
+		document.dispatchEvent(new CustomEvent("searchpanelopen"));
 		setTimeout(() => {
 			const input = document.getElementById(
 				"search-input-desktop",

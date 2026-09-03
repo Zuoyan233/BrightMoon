@@ -75,8 +75,8 @@ export default defineConfig({
 			},
 		}),
 		icon({
-    		iconDir: "src/assets",
-		}),	
+			iconDir: "src/assets",
+		}),
 		expressiveCode({
 			themes: ["github-light", "github-dark"],
 			plugins: [

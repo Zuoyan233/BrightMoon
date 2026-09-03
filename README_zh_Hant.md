@@ -9,7 +9,7 @@ BrightMoon 是一款融合現代簡約與優雅氣質的獨特二次元美學靜
 
 [![Node.js >= 22](https://img.shields.io/badge/node.js-%3E%3D22-brightgreen)](https://nodejs.org/)
 [![pnpm >= 11](https://img.shields.io/badge/pnpm-%3E%3D11-blue)](https://pnpm.io/)
-[![Astro](https://img.shields.io/badge/Astro-7.2.3-orange)](https://astro.build/)
+[![Astro](https://img.shields.io/badge/Astro-7.2.9-orange)](https://astro.build/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-blue)](https://www.typescriptlang.org/)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?logo=apache)](https://opensource.org/licenses/Apache-2.0)
 
@@ -173,7 +173,7 @@ BrightMoon 是一款融合現代簡約與優雅氣質的獨特二次元美學靜
   建立一個相簿只需 3 步：
 
   1. 在 `public/images/albums/`（本說明檔所在目錄）下建立一個資料夾（資料夾名即為相簿 ID）
-  2. 在資料夾中放置 `cover.jpg`（封面圖）和其他照片
+  2. 在資料夾中放置 `cover.webp`（封面圖）和其他照片
   3. 建立 `info.json` 設定檔
 
   完成！相簿會自動出現在相簿列表頁面。
@@ -184,13 +184,13 @@ BrightMoon 是一款融合現代簡約與優雅氣質的獨特二次元美學靜
   public/images/albums/
   ├── my-travel-2024/              # 相簿資料夾（資料夾名 = 相簿ID）
   │   ├── info.json                # 相簿設定檔（必需）
-  │   ├── cover.jpg                # 封面圖（必需）
+  │   ├── cover.webp                # 封面圖（必需）
   │   ├── photo1.jpg               # 相簿照片
   │   ├── photo2.jpg
   │   └── photo3.jpg
   ├── daily-life/                  # 另一個相簿
   │   ├── info.json
-  │   ├── cover.jpg
+  │   ├── cover.webp
   │   └── ...
   ```
 
@@ -240,7 +240,7 @@ BrightMoon 是一款融合現代簡約與優雅氣質的獨特二次元美學靜
     "tags": ["外連", "範例"],
     "layout": "masonry",
     "columns": 3,
-    "cover": "https://example.com/cover.jpg",
+    "cover": "https://example.com/cover.webp",
     "photos": [
       {
         "id": "photo-1",
@@ -290,7 +290,7 @@ BrightMoon 是一款融合現代簡約與優雅氣質的獨特二次元美學靜
 
   ##### 圖片格式建議
 
-  **封面圖片 (cover.jpg)：**
+  **封面圖片 (cover.webp)：**
   - **尺寸**：800×600px（4:3 比例）
   - **格式**：JPG（外連模式可支援更多格式）
   - **大小**：建議 < 200KB
@@ -333,7 +333,7 @@ BrightMoon 是一款融合現代簡約與優雅氣質的獨特二次元美學靜
   ##### 常見問題
 
   **Q: 為什麼我的相簿沒有顯示？**  
-  A: 檢查是否存在 `info.json` 和 `cover.jpg`，以及 `hidden` 是否設定為 `true`。
+  A: 檢查是否存在 `info.json` 和 `cover.webp`，以及 `hidden` 是否設定為 `true`。
 
   **Q: 可以使用其他圖片格式嗎？**  
   A: 可以，支援 JPG、PNG、WebP、GIF、SVG、AVIF 等格式。

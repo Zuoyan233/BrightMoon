@@ -13,7 +13,6 @@ import {
 	siteConfig,
 } from "@/config";
 import { umamiConfig } from "../config";
-import analyticsRaw from "../scripts/analytics.js?raw";
 import themeInitRaw from "../scripts/theme-init.js?raw";
 
 const BANNER_HEIGHT = 35;
@@ -172,28 +171,43 @@ if (siteConfig.font?.fontFamily) {
 	data-config-hue={configHue}
 	data-page-scaling={JSON.stringify(siteConfig.pageScaling || {})}
 	data-main-grid-config={JSON.stringify({
-		navbarTransparentMode: siteConfig.appearance?.navbar?.transparentMode || "semi",
+		navbarTransparentMode:
+			siteConfig.appearance?.navbar?.transparentMode || "semi",
 		defaultWallpaperMode: siteConfig.appearance.wallpaperMode.defaultMode,
-		defaultBannerPosition: siteConfig.appearance.wallpaperMode.defaultBannerPosition || "center",
-		defaultPostListLayout: siteConfig.appearance.postListLayout?.defaultMode || "list",
+		defaultBannerPosition:
+			siteConfig.appearance.wallpaperMode.defaultBannerPosition ||
+			"center",
+		defaultPostListLayout:
+			siteConfig.appearance.postListLayout?.defaultMode || "list",
 		BANNER_HEIGHT: BANNER_HEIGHT,
 		BANNER_HEIGHT_FULLSCREEN: BANNER_HEIGHT_FULLSCREEN,
 		responsiveTocModes: {
 			mobile: siteConfig.toc.responsive?.mobile || "float",
 			tablet: siteConfig.toc.responsive?.tablet || "float",
-			desktop: siteConfig.toc.responsive?.desktop || "sidebar"
-		}
+			desktop: siteConfig.toc.responsive?.desktop || "sidebar",
+		},
 	})}
 >
 	<head>
+		<meta charset="UTF-8" />
+
 		<!-- 动态字体引入 -->
 		<Fragment set:html={fontFaceStyle} />
-		
-		<!-- 第三方分析脚本 - 延迟加载优化 -->
-		<script is:inline set:html={analyticsRaw}></script>
+
+		<!-- 字体预加载：提前发起请求，避免 FOIT 和 LCP 延迟 -->
+		{
+			siteConfig.font?.fontFile && (
+				<link
+					rel="preload"
+					href={siteConfig.font.fontFile}
+					as="font"
+					type="font/woff2"
+					crossorigin="anonymous"
+				/>
+			)
+		}
 
 		<title>{pageTitle}</title>
-		<meta charset="UTF-8" />
 		<meta name="description" content={description || pageTitle} />
 		{
 			siteConfig.keywords && siteConfig.keywords.length > 0 && (
@@ -241,7 +255,7 @@ if (siteConfig.font?.fontFamily) {
 		}
 
 		<!-- Set the theme before the page is rendered to avoid a flash -->
-		<script is:inline set:html={themeInitRaw}></script>
+		<script is:inline set:html={themeInitRaw} />
 		<style
 			define:vars={{
 				configHue,
@@ -272,21 +286,22 @@ if (siteConfig.font?.fontFamily) {
 	<body
 		class="min-h-screen"
 		class:list={[
-			{ "lg:is-home": isHomePage, "enable-banner": enableBanner, "fullscreen-banner": isFullscreenBannerDefault },
-			{ "hide-translate-select": siteConfig.translate?.enable && siteConfig.translate?.showSelectTag === false },
+			{
+				"lg:is-home": isHomePage,
+				"enable-banner": enableBanner,
+				"fullscreen-banner": isFullscreenBannerDefault,
+			},
+			{
+				"hide-translate-select":
+					siteConfig.translate?.enable &&
+					siteConfig.translate?.showSelectTag === false,
+			},
 		]}
 		data-is-home={isHomePage}
 		style={bodyFontFamily ? `font-family: ${bodyFontFamily};` : ""}
 	>
-		<ProgressBar client:load />
+		<ProgressBar client:idle />
 
-		<noscript
-			><iframe
-				src="https://www.googletagmanager.com/ns.html?id=GTM-KRX3XGVH"
-				height="0"
-				width="0"
-				style="display:none;visibility:hidden"></iframe></noscript
-		>
 		<!-- 页面顶部渐变高光效果 - 只在full和semifull模式下显示 -->
 		{shouldShowTopHighlight && <div class="top-gradient-highlight" />}
 
@@ -311,7 +326,6 @@ if (siteConfig.font?.fontFamily) {
 
 		<!-- increase the page height during page transition to prevent the scrolling animation from jumping -->
 		<div id="page-height-extend" class="hidden h-[300vh]"></div>
-
 	</body>
 </html>
 
@@ -374,7 +388,8 @@ if (siteConfig.font?.fontFamily) {
 		}
 		/* 全屏横幅模式下侧边栏 sticky 位置恢复为 1rem */
 		.enable-banner.fullscreen-banner[data-is-home="true"] #sidebar-sticky,
-		.enable-banner.fullscreen-banner[data-is-home="true"] #right-sidebar-sticky {
+		.enable-banner.fullscreen-banner[data-is-home="true"]
+			#right-sidebar-sticky {
 			@apply top-4;
 		}
 		.navbar-hidden {

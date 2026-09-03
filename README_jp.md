@@ -9,7 +9,7 @@ BrightMoon は、モダンなミニマリズムと優雅さを融合した、獨
 
 [![Node.js >= 22](https://img.shields.io/badge/node.js-%3E%3D22-brightgreen)](https://nodejs.org/)
 [![pnpm >= 11](https://img.shields.io/badge/pnpm-%3E%3D11-blue)](https://pnpm.io/)
-[![Astro](https://img.shields.io/badge/Astro-7.2.3-orange)](https://astro.build/)
+[![Astro](https://img.shields.io/badge/Astro-7.2.9-orange)](https://astro.build/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-blue)](https://www.typescriptlang.org/)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?logo=apache)](https://opensource.org/licenses/Apache-2.0)
 
@@ -173,7 +173,7 @@ BrightMoon は、モダンなミニマリズムと優雅さを融合した、獨
   アルバムを作成するには以下の3ステップだけです：
 
   1. `public/images/albums/`（この説明ファイルのあるディレクトリ）の下にフォルダを作成します（フォルダ名＝アルバムID）
-  2. フォルダに `cover.jpg`（カバー画像）とその他の写真を配置します
+  2. フォルダに `cover.webp`（カバー画像）とその他の写真を配置します
   3. `info.json` 設定ファイルを作成します
 
   完了！アルバムは自動的にアルバム一覧ページに表示されます。
@@ -184,13 +184,13 @@ BrightMoon は、モダンなミニマリズムと優雅さを融合した、獨
   public/images/albums/
   ├── my-travel-2024/              # アルバムフォルダ（フォルダ名 = アルバムID）
   │   ├── info.json                # アルバム設定ファイル（必須）
-  │   ├── cover.jpg                # カバー画像（必須）
+  │   ├── cover.webp                # カバー画像（必須）
   │   ├── photo1.jpg               # アルバム写真
   │   ├── photo2.jpg
   │   └── photo3.jpg
   ├── daily-life/                  # 別のアルバム
   │   ├── info.json
-  │   ├── cover.jpg
+  │   ├── cover.webp
   │   └── ...
   ```
 
@@ -240,7 +240,7 @@ BrightMoon は、モダンなミニマリズムと優雅さを融合した、獨
     "tags": ["外部リンク", "例"],
     "layout": "masonry",
     "columns": 3,
-    "cover": "https://example.com/cover.jpg",
+    "cover": "https://example.com/cover.webp",
     "photos": [
       {
         "id": "photo-1",
@@ -290,7 +290,7 @@ BrightMoon は、モダンなミニマリズムと優雅さを融合した、獨
 
   ##### 画像フォーマット推奨事項
 
-  **カバー画像 (cover.jpg)：**
+  **カバー画像 (cover.webp)：**
   - **サイズ**：800×600px（4:3 比率）
   - **フォーマット**：JPG（外部モードはより多くのフォーマットをサポート）
   - **サイズ**：200KB未満を推奨
@@ -333,7 +333,7 @@ BrightMoon は、モダンなミニマリズムと優雅さを融合した、獨
   ##### よくある質問
 
   **Q: 私のアルバムが表示されないのはなぜですか？**  
-  A: `info.json` と `cover.jpg` が存在するか、および `hidden` が `true` に設定されていないか確認してください。
+  A: `info.json` と `cover.webp` が存在するか、および `hidden` が `true` に設定されていないか確認してください。
 
   **Q: 他の画像フォーマットは使用できますか？**  
   A: はい、JPG、PNG、WebP、GIF、SVG、AVIF などのフォーマットをサポートしています。

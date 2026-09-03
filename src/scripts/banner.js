@@ -39,6 +39,7 @@
 			"block md:hidden object-cover h-full w-full transition duration-700 opacity-100";
 		mobileImg.src = mobileSrc;
 		mobileImg.loading = "eager";
+		mobileImg.fetchPriority = "high";
 		mobileImg.dataset.position = position;
 		container.appendChild(mobileImg);
 	}
@@ -51,6 +52,7 @@
 			"hidden md:block object-cover h-full w-full transition duration-700 opacity-100";
 		desktopImg.src = desktopSrc;
 		desktopImg.loading = "eager";
+		desktopImg.fetchPriority = "high";
 		desktopImg.dataset.position = position;
 		container.appendChild(desktopImg);
 	}

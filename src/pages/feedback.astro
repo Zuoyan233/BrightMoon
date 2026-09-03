@@ -39,16 +39,20 @@ if (commentConfig?.enable && commentConfig?.twikoo) {
 <MainGridLayout title={title}>
   <!-- 引入右侧边栏布局管理器 -->
   <script>
-    import('../scripts/right-sidebar-layout.js');
+    import("../scripts/right-sidebar-layout.js");
   </script>
-  
-  <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
+
+  <div
+    class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32"
+  >
     <div class="card-base z-10 px-9 py-6 relative w-full">
       <!-- 页面标题 -->
       <div class="flex flex-col items-start justify-center mb-8">
-        <h1 class="text-4xl font-bold text-black/90 dark:text-white/90 mb-2 relative
+        <h1
+          class="text-4xl font-bold text-black/90 dark:text-white/90 mb-2 relative
                   before:w-1 before:h-8 before:rounded-md before:bg-[var(--primary)]
-                  before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-4">
+                  before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-4"
+        >
           {title}
         </h1>
       </div>
@@ -60,47 +64,66 @@ if (commentConfig?.enable && commentConfig?.twikoo) {
     </div>
   </div>
 
-  <br>
+  <br />
 
-  <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
+  <div
+    class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32"
+  >
     <div class="card-base z-10 px-9 py-6 relative w-full">
       <!-- 页面标题 -->
       <div class="flex flex-col items-start justify-center mb-8">
-        <h1 class="text-3xl font-bold text-black/90 dark:text-white/90 mb-2 relative
+        <h1
+          class="text-3xl font-bold text-black/90 dark:text-white/90 mb-2 relative
                   before:w-1 before:h-8 before:rounded-md before:bg-[var(--primary)]
-                  before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-4">
+                  before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-4"
+        >
           {i18n(I18nKey.contactMe)}
         </h1>
       </div>
 
       <!-- 联系站长电子邮箱方式 -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-5">
-        <div class="bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))] rounded-xl p-8 shadow-sm hover:shadow-lg dark:hover:shadow-lg dark:hover:shadow-white/30 transition-shadow duration-300">
-          <Icon name="material-symbols:mail-outline" class="text-4xl m-0 mb-4 text-left text-[var(--primary)]"></Icon>
+        <div
+          class="bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))] rounded-xl p-8 shadow-sm hover:shadow-lg dark:hover:shadow-lg dark:hover:shadow-white/30 transition-shadow duration-300"
+        >
+          <Icon
+            name="material-symbols:mail-outline"
+            class="text-4xl m-0 mb-4 text-left text-[var(--primary)]"
+          />
           <p class="text-md font-normal text-black/100 dark:text-white/80">
             {i18n(I18nKey.contactEmail)}
           </p>
-          {contactEmailConfig.emails.map((emailItem, index) => (
-            <div>
-              <a 
-                class="transition link text-[var(--primary)] hover:text-gray-600 dark:hover:text-white/80 font-medium" 
-                target="_blank" 
-                href={emailItem.link}
-              >
-                {emailItem.email}
-              </a>
-              {index < contactEmailConfig.emails.length - 1 && <br>}
-            </div>
-          ))}
+          {
+            contactEmailConfig.emails.map((emailItem, index) => (
+              <div>
+                <a
+                  class="transition link text-[var(--primary)] hover:text-gray-600 dark:hover:text-white/80 font-medium"
+                  target="_blank"
+                  href={emailItem.link}
+                >
+                  {emailItem.email}
+                </a>
+                {index < contactEmailConfig.emails.length - 1 && <br />}
+              </div>
+            ))
+          }
         </div>
 
         <!-- 联系站长添加好友方式 -->
-        <div class="bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))] rounded-xl p-8 shadow-sm hover:shadow-lg dark:hover:shadow-lg dark:hover:shadow-white/30 transition-shadow duration-300">
-          <Icon name="material-symbols:group-add-outline" class="text-4xl m-0 mb-4 text-left text-[var(--primary)]"></Icon>
+        <div
+          class="bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))] rounded-xl p-8 shadow-sm hover:shadow-lg dark:hover:shadow-lg dark:hover:shadow-white/30 transition-shadow duration-300"
+        >
+          <Icon
+            name="material-symbols:group-add-outline"
+            class="text-4xl m-0 mb-4 text-left text-[var(--primary)]"
+          />
           <p class="text-md font-normal text-black/100 dark:text-white/80">
             {i18n(I18nKey.contactSocialFriends)}
           </p>
-          <a id="show-qrcode-btn" class="btn-regular bg-[oklch(0.7_0.12_var(--hue))] text-white/90 hover:text-[var(--primary)] h-10 mx-auto text-sm px-3 rounded-lg mt-2 cursor-pointer">
+          <a
+            id="show-qrcode-btn"
+            class="btn-regular bg-[oklch(0.7_0.12_var(--hue))] text-white/90 hover:text-[var(--primary)] h-10 mx-auto text-sm px-3 rounded-lg mt-2 cursor-pointer"
+          >
             {i18n(I18nKey.addFriends)}
           </a>
         </div>
@@ -108,28 +131,52 @@ if (commentConfig?.enable && commentConfig?.twikoo) {
     </div>
   </div>
 
-  <br>
+  <br />
 
   <!-- Twikoo 评论系统 -->
   <div class="card-base p-6 mb-4">
-    <div id="twikoo-initializing" class="flex flex-col items-center justify-center py-12 text-center">
+    <div
+      id="twikoo-initializing"
+      class="flex flex-col items-center justify-center py-12 text-center"
+    >
       <div class="twikoo-spinner mb-3">
         <svg class="twikoo-spinner-svg" viewBox="0 0 48 48">
-          <circle class="twikoo-spinner-track" cx="24" cy="24" r="20" fill="none" stroke-width="4" />
-          <circle class="twikoo-spinner-arc" cx="24" cy="24" r="20" fill="none" stroke-width="4" stroke-linecap="round" />
+          <circle
+            class="twikoo-spinner-track"
+            cx="24"
+            cy="24"
+            r="20"
+            fill="none"
+            stroke-width="4"></circle>
+          <circle
+            class="twikoo-spinner-arc"
+            cx="24"
+            cy="24"
+            r="20"
+            fill="none"
+            stroke-width="4"
+            stroke-linecap="round"></circle>
         </svg>
       </div>
       <p class="text-lg font-bold text-black/90 dark:text-white/90">
         {i18n(I18nKey.twikooInitializing)}
       </p>
     </div>
-    {commentService === 'twikoo' && (
-      <div id="twikoo-comment-container" class="hidden">
-        <Twikoo path={path} />
-      </div>
-    )}
-    <div id="twikoo-not-configured" class="hidden flex-col items-center justify-center py-12 text-center">
-      <Icon name="material-symbols:chat-bubble-off-outline" class="text-4xl mb-4 text-[var(--primary)]"></Icon>
+    {
+      commentService === "twikoo" && (
+        <div id="twikoo-comment-container" class="hidden">
+          <Twikoo path={path} />
+        </div>
+      )
+    }
+    <div
+      id="twikoo-not-configured"
+      class="hidden flex-col items-center justify-center py-12 text-center"
+    >
+      <Icon
+        name="material-symbols:chat-bubble-off-outline"
+        class="text-4xl mb-4 text-[var(--primary)]"
+      />
       <p class="text-lg font-bold text-black/90 dark:text-white/90">
         {i18n(I18nKey.twikooNotConfigured)}
       </p>
@@ -137,41 +184,66 @@ if (commentConfig?.enable && commentConfig?.twikoo) {
         {i18n(I18nKey.twikooConfigHint)}
       </p>
     </div>
-    <div id="twikoo-privacy-rejected" class="hidden flex-col items-center justify-center py-12 text-center">
-      <Icon name="material-symbols:block-outline" class="text-4xl mb-4 text-[var(--primary)]"></Icon>
+    <div
+      id="twikoo-privacy-rejected"
+      class="hidden flex-col items-center justify-center py-12 text-center"
+    >
+      <Icon
+        name="material-symbols:block-outline"
+        class="text-4xl mb-4 text-[var(--primary)]"
+      />
       <p class="text-lg font-bold text-black/90 dark:text-white/90">
         {i18n(I18nKey.twikooPrivacyRejected)}
       </p>
     </div>
     <script is:inline>
-      (function() {
-        var consent = localStorage.getItem('siteNoticeConsent');
-        var initializing = document.getElementById('twikoo-initializing');
-        var twikooContainer = document.getElementById('twikoo-comment-container');
-        var notConfigured = document.getElementById('twikoo-not-configured');
-        var privacyRejected = document.getElementById('twikoo-privacy-rejected');
+      (function () {
+        var consent = localStorage.getItem("siteNoticeConsent");
+        var initializing = document.getElementById("twikoo-initializing");
+        var twikooContainer = document.getElementById(
+          "twikoo-comment-container",
+        );
+        var notConfigured = document.getElementById("twikoo-not-configured");
+        var privacyRejected = document.getElementById(
+          "twikoo-privacy-rejected",
+        );
 
         function updateTwikooState(c) {
-          if (c !== 'accepted' && c !== 'rejected') return;
-          if (initializing) initializing.classList.add('hidden');
-          if (c === 'rejected') {
-            if (twikooContainer) twikooContainer.classList.add('hidden');
-            if (notConfigured) { notConfigured.classList.add('hidden'); notConfigured.classList.remove('flex'); }
-            if (privacyRejected) { privacyRejected.classList.remove('hidden'); privacyRejected.classList.add('flex'); }
+          if (c !== "accepted" && c !== "rejected") return;
+          if (initializing) initializing.classList.add("hidden");
+          if (c === "rejected") {
+            if (twikooContainer) twikooContainer.classList.add("hidden");
+            if (notConfigured) {
+              notConfigured.classList.add("hidden");
+              notConfigured.classList.remove("flex");
+            }
+            if (privacyRejected) {
+              privacyRejected.classList.remove("hidden");
+              privacyRejected.classList.add("flex");
+            }
           } else {
-            if (privacyRejected) { privacyRejected.classList.add('hidden'); privacyRejected.classList.remove('flex'); }
+            if (privacyRejected) {
+              privacyRejected.classList.add("hidden");
+              privacyRejected.classList.remove("flex");
+            }
             if (twikooContainer) {
-              twikooContainer.classList.remove('hidden');
-              if (notConfigured) { notConfigured.classList.add('hidden'); notConfigured.classList.remove('flex'); }
+              twikooContainer.classList.remove("hidden");
+              if (notConfigured) {
+                notConfigured.classList.add("hidden");
+                notConfigured.classList.remove("flex");
+              }
             } else {
-              if (notConfigured) { notConfigured.classList.remove('hidden'); notConfigured.classList.add('flex'); }
+              if (notConfigured) {
+                notConfigured.classList.remove("hidden");
+                notConfigured.classList.add("flex");
+              }
             }
           }
         }
 
         updateTwikooState(consent);
 
-        window.addEventListener('siteNoticeConsentChange', function(e) {
+        window.addEventListener("siteNoticeConsentChange", function (e) {
           updateTwikooState(e.detail);
         });
       })();
@@ -179,28 +251,29 @@ if (commentConfig?.enable && commentConfig?.twikoo) {
   </div>
 
   <!-- 添加好友二维码对话框 - 使用数组方式传递 -->
-  <FriendQRCode 
-    qrCodes={availableQRCodes}
-  />
+  <FriendQRCode qrCodes={availableQRCodes} />
 
   <!-- 添加好友按钮点击事件 -->
   <script>
     // 使用事件委托，确保按钮即使被重新创建也能正常工作
-    document.addEventListener('click', (e) => {
+    document.addEventListener("click", (e) => {
       const target = e.target as HTMLElement;
-      if (target.id === 'show-qrcode-btn' || target.closest('#show-qrcode-btn')) {
+      if (
+        target.id === "show-qrcode-btn" ||
+        target.closest("#show-qrcode-btn")
+      ) {
         e.preventDefault();
-        
+
         // 等待一小段时间确保对话框已初始化
         const showDialog = () => {
-          if (typeof (window as any).showContactDialog === 'function') {
+          if (typeof (window as any).showContactDialog === "function") {
             (window as any).showContactDialog();
           } else {
-            console.warn('showContactDialog not ready, retrying...');
+            console.warn("showContactDialog not ready, retrying...");
             setTimeout(showDialog, 50);
           }
         };
-        
+
         showDialog();
       }
     });
@@ -231,7 +304,9 @@ if (commentConfig?.enable && commentConfig?.twikoo) {
   }
 
   @keyframes twikoo-spinner-rotate {
-    100% { transform: rotate(360deg); }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 
   @keyframes twikoo-spinner-dash {

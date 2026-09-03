@@ -29,6 +29,7 @@ declare global {
 		};
 
 		initSemifullScrollDetection?: () => void;
+		__loadPagefind?: () => Promise<void>;
 		iconifyLoaded?: boolean;
 		__iconifyLoader?: {
 			load: () => Promise<void>;
