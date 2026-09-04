@@ -419,7 +419,7 @@ Frontmatter 欄位說明：
 | `pnpm check`              | 執行 Astro 錯誤檢查                    |
 | `pnpm format`             | 使用 Biome 格式化程式碼                |
 | `pnpm lint`               | 檢查並修復程式碼問題                   |
-| `pnpm opt-images`         | 執行圖片體積壓縮工具                   |
+| `pnpm optimize-images`    | 執行圖片體積壓縮工具                   |
 | `pnpm new-post <檔名>`    | 建立新部落格文章                       |
 | `pnpm astro ...`          | 執行 Astro CLI 指令                    |
 

@@ -419,7 +419,7 @@ Frontmatter フィールド説明：
 | `pnpm check`                 | Astro エラーチェック実行                                  |
 | `pnpm format`                | Biome を使用してコードフォーマット                        |
 | `pnpm lint`                  | コード問題のチェックと修正                                |
-| `pnpm opt-images`            | 画像体積圧縮ツールを実行                                  |
+| `pnpm optimize-images`       | 画像体積圧縮ツールを実行                                  |
 | `pnpm new-post <ファイル名>` | 新規ブログ記事作成                                        |
 | `pnpm astro ...`             | Astro CLI コマンド実行                                    |
 

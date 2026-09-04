@@ -988,7 +988,7 @@ async function compressFonts() {
 				// 根据文件类型决定处理方式
 				if (ext === ".woff2" || ext === ".woff") {
 					console.log(
-						`✓ ${fontFile}: skipped (already ${ext.slice(1).toUpperCase()}).`,
+						`✓ ${fontFile}: skipped (already ${ext.slice(1).toUpperCase()})`,
 					);
 					continue;
 				}

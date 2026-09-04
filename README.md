@@ -419,7 +419,7 @@ Frontmatter fields:
 | `pnpm check`               | Run Astro error checks                         |
 | `pnpm format`              | Format code using Biome                        |
 | `pnpm lint`                | Check and fix code issues                      |
-| `pnpm opt-images`          | Run image volume compression tool              |
+| `pnpm optimize-images`     | Run image volume compression tool              |
 | `pnpm new-post <filename>` | Create a new blog post                         |
 | `pnpm astro ...`           | Run Astro CLI commands                         |
 
