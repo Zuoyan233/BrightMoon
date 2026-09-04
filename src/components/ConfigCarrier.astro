@@ -78,5 +78,5 @@ const festivalConfig = festivalEasterEgg?.enable
   console.log("TOC Config:", window.siteConfig.toc);
 </script>
 
-<!-- 引入Umami Share工具脚本 -->
-<script is:inline src="/js/umami-share.js"></script>
+<!-- 引入Umami Share工具脚本（defer：非阻塞加载，脚本仅注册全局工具函数） -->
+<script is:inline src="/js/umami-share.js" defer></script>

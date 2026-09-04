@@ -45,7 +45,7 @@ async function getUserIdFromConfig() {
 	);
 	if (defaultUserId) {
 		console.warn(
-			"Warning: Could not find a valid Bangumi userId in user.ts, using default value.",
+			"Warning: Could not find a valid Bangumi userId in user.ts, using default value.\n",
 		);
 		return defaultUserId;
 	}
@@ -54,7 +54,7 @@ async function getUserIdFromConfig() {
 }
 
 async function getAnimeModeFromConfig() {
-	const modeRegex = /anime:\s*\{[\s\S]*?mode:\s*["']([^"']+)["']/;
+	const modeRegex = /anime:\s*\{[^{}]*?mode:\s*["']([^"']*)["']/;
 
 	const userMode = await tryReadValueFromFile(USER_CONFIG_PATH, modeRegex);
 	if (userMode) return userMode;
@@ -117,7 +117,7 @@ async function fetchCollection(userId, type) {
 			if (!response.ok) {
 				if (response.status === 404) {
 					console.log(
-						`   User ${userId} does not exist or has no data of this type.`,
+						`User ${userId} does not exist or has no data of this type.\n`,
 					);
 					return [];
 				}
@@ -128,7 +128,7 @@ async function fetchCollection(userId, type) {
 
 			if (data.data && data.data.length > 0) {
 				allData = [...allData, ...data.data];
-				process.stdout.write(`   Fetched ${allData.length} records...\r`);
+				process.stdout.write(`Fetched ${allData.length} records...\r`);
 			}
 
 			if (!data.data || data.data.length < limit) {
@@ -138,7 +138,7 @@ async function fetchCollection(userId, type) {
 				await delay(300);
 			}
 		} catch (e) {
-			console.error(`\nFetch failed (Type ${type}):`, e.message);
+			console.error(`Fetch failed (Type ${type}):`, e.message);
 			hasMore = false;
 		}
 	}
@@ -203,23 +203,23 @@ async function processData(items, status) {
 			endDate: item.subject?.date || "",
 		});
 	}
-	console.log(`\n✓ Completed ${status} list processing`);
+	console.log(`✓ Completed ${status} list processing.\n`);
 	return results;
 }
 
 async function main() {
-	console.log("Initializing Bangumi data update script...");
+	console.log("Initializing Bangumi data update script...\n");
 
 	const animeMode = await getAnimeModeFromConfig();
 	if (animeMode !== "bangumi") {
 		console.log(
-			`Detected current anime mode is "${animeMode}", skipping Bangumi data update.`,
+			`Detected current anime mode is "${animeMode}", skipping Bangumi data update.\n`,
 		);
 		return;
 	}
 
 	const USER_ID = await getUserIdFromConfig();
-	console.log(`Read User ID: ${USER_ID}`);
+	console.log(`Read User ID: ${USER_ID}\n`);
 
 	const collections = [
 		{ type: 3, status: "watching" },
@@ -247,12 +247,12 @@ async function main() {
 	}
 
 	await fs.writeFile(OUTPUT_FILE, JSON.stringify(finalAnimeList, null, 2));
-	console.log(`\nUpdate complete! Data saved to: ${OUTPUT_FILE}`);
-	console.log(`Total collected: ${finalAnimeList.length} anime series`);
+	console.log(`Total collected: ${finalAnimeList.length} anime series:`);
+	console.log(`Update complete! Data saved to: ${OUTPUT_FILE}\n`);
 }
 
 main().catch((err) => {
-	console.error("\n✘ Script execution error:");
+	console.error("✘ Script execution error:");
 	console.error(err);
 	process.exit(1);
 });

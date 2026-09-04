@@ -148,7 +148,7 @@ export type SiteConfig = {
 		};
 		// Bilibili 配置
 		bilibili?: {
-			vmid?: string; // Bilibili用户ID (vmid)
+			vmId?: string; // Bilibili用户ID (vmid)
 			fetchOnDev?: boolean; // 是否在开发环境下获取 Bilibili 数据
 			SESSDATA?: string; // Bilibili SESSDATA（可选，用于获取进度信息）
 			coverMirror?: string; // 封面图片镜像源（可选，默认为空字符串）
@@ -573,6 +573,20 @@ export type WeatherConfig = {
 	apiKey: string; // WeatherAPI API Key
 	defaultLocation?: string; // 默认位置，留空则根据IP自动检测
 	unit?: "celsius" | "fahrenheit"; // 温度单位，默认摄氏度
+};
+
+export type ImageOptimizeTaskConfig = {
+	name: string; // 任务名称
+	dir: string; // 输出目录
+	sourceDir?: string; // 源目录（可选，用于匹配源文件到输出目录）
+	maxWidth: number; // 最大宽度
+	maxHeight: number; // 最大高度
+	recursive?: boolean; // 是否递归处理子目录
+};
+
+export type ImageOptimizeConfig = {
+	webpQuality: number; // WebP 压缩质量 (1-100)
+	tasks: ImageOptimizeTaskConfig[]; // 图片优化任务列表
 };
 
 export type VersionCheckConfig = {

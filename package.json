@@ -1,7 +1,7 @@
 {
 	"name": "brightmoon",
 	"type": "module",
-	"version": "26.9.3-beta.1",
+	"version": "26.9.3-beta.2",
 	"scripts": {
 		"dev": "astro dev",
 		"start": "astro dev",
@@ -9,7 +9,7 @@
 		"update-anime": "node scripts/update-anime.mjs",
 		"update-bangumi": "node scripts/update-bangumi.mjs",
 		"update-bilibili": "node scripts/update-bilibili.mjs",
-		"build": "node scripts/update-anime.mjs && node scripts/optimize-images.js && astro build && pagefind --site dist && node scripts/compress-fonts.js",
+		"build": "node scripts/update-anime.mjs && astro build && pagefind --site dist && node scripts/optimize-images.js && node scripts/compress-fonts.js",
 		"brightmoon-upgrade": "node scripts/upgrade.mjs",
 		"submit": "node scripts/indexnow-submit.js",
 		"preview": "astro preview",

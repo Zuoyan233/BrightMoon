@@ -16,9 +16,11 @@ async function tryReadModeFromFile(filePath) {
 	try {
 		const configContent = await fs.readFile(filePath, "utf-8");
 		const match = configContent.match(
-			/anime:\s*\{[\s\S]*?mode:\s*["']([^"']+)["']/,
+			/anime:\s*\{[^{}]*?mode:\s*["']([^"']*)["']/,
 		);
-		return match?.[1] || null;
+		if (!match) return null;
+		// 模式为空时直接使用 local
+		return match[1] === "" ? "local" : match[1];
 	} catch {
 		return null;
 	}
@@ -36,7 +38,7 @@ function runScript(scriptPath) {
 	return new Promise((resolve, reject) => {
 		const script = spawn("node", [scriptPath], {
 			stdio: "inherit",
-			shell: true,
+			shell: false,
 		});
 
 		script.on("close", (code) => {
@@ -58,13 +60,13 @@ async function main() {
 	const scriptsDir = path.dirname(fileURLToPath(import.meta.url));
 
 	if (mode === "bilibili") {
-		console.log("Detected anime mode: bilibili, running update-bilibili.mjs");
+		console.log("Detected anime mode: bilibili, running update-bilibili.mjs\n");
 		await runScript(path.join(scriptsDir, "update-bilibili.mjs"));
 	} else if (mode === "bangumi") {
-		console.log("Detected anime mode: bangumi, running update-bangumi.mjs");
+		console.log("Detected anime mode: bangumi, running update-bangumi.mjs\n");
 		await runScript(path.join(scriptsDir, "update-bangumi.mjs"));
 	} else {
-		console.log(`Anime mode is "${mode}", skipping data update.`);
+		console.log(`Anime mode is "${mode}", skipping data update.\n`);
 	}
 }
 

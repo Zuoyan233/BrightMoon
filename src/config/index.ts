@@ -17,6 +17,7 @@ import type {
 	ExpressiveCodeConfig,
 	ExternalLinkConfirmConfig,
 	FooterConfig,
+	ImageOptimizeConfig,
 	LicenseConfig,
 	MusicPlayerConfig,
 	NavBarConfig,
@@ -41,6 +42,7 @@ import {
 	defaultExpressiveCodeConfig,
 	defaultExternalLinkConfirmConfig,
 	defaultFooterConfig,
+	defaultImageOptimizeConfig,
 	defaultLicenseConfig,
 	defaultMusicPlayerConfig,
 	defaultNavBarConfig,
@@ -175,6 +177,11 @@ export const musicPlayerConfig: MusicPlayerConfig = deepMerge(
 export const footerConfig: FooterConfig = deepMerge(
 	defaultFooterConfig,
 	userConfig.footerConfig,
+);
+
+export const imageOptimizeConfig: ImageOptimizeConfig = deepMerge(
+	defaultImageOptimizeConfig,
+	userConfig.imageOptimizeConfig,
 );
 
 export const versionCheckConfig: VersionCheckConfig = deepMerge(

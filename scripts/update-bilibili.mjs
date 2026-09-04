@@ -53,7 +53,7 @@ async function tryReadValueFromFile(filePath, regex) {
 
 async function getUserIdFromConfig() {
 	const vmidRegex =
-		/anime:\s*\{[\s\S]*?bilibili:\s*\{[\s\S]*?vmid:\s*["']([^"']+)["']/;
+		/anime:\s*\{[\s\S]*?bilibili:\s*\{[\s\S]*?vmId:\s*["']([^"']+)["']/;
 
 	const userVmid = await tryReadValueFromFile(USER_CONFIG_PATH, vmidRegex);
 	if (userVmid && userVmid !== "your-bilibili-id" && userVmid.trim() !== "") {
@@ -66,12 +66,12 @@ async function getUserIdFromConfig() {
 	);
 	if (defaultVmid) {
 		console.warn(
-			"Warning: Could not find a valid bilibili vmid in user.ts, using default value.",
+			"Warning: Could not find a valid bilibili vmId in user.ts, using default value.\n",
 		);
 		return defaultVmid;
 	}
 
-	throw new Error("Could not find anime.bilibili.vmid in config files");
+	throw new Error("Could not find anime.bilibili.vmId in config files");
 }
 
 async function getSessdataFromConfig() {
@@ -108,7 +108,7 @@ async function getUseWebpFromConfig() {
 }
 
 async function getAnimeModeFromConfig() {
-	const modeRegex = /anime:\s*\{[\s\S]*?mode:\s*["']([^"']+)["']/;
+	const modeRegex = /anime:\s*\{[^{}]*?mode:\s*["']([^"']*)["']/;
 
 	const userMode = await tryReadValueFromFile(USER_CONFIG_PATH, modeRegex);
 	if (userMode) return userMode;
@@ -161,7 +161,7 @@ async function getData(
 
 	if (response?.data?.code !== 0) {
 		throw new Error(
-			`Failed to fetch data: ${response?.data?.message || "Unknown error"}`,
+			`Failed to fetch data: ${response?.data?.message || "Unknown error"}\n`,
 		);
 	}
 
@@ -315,7 +315,7 @@ async function processData(
 	const totalPages = page.data - 1;
 
 	for (let i = 1; i < page.data; i++) {
-		process.stdout.write(`   Fetching page ${i}/${totalPages}...\r`);
+		process.stdout.write(`ℹ Fetching page ${i}/${totalPages}...\r`);
 		const data = await getData(
 			vmid,
 			status,
@@ -328,17 +328,16 @@ async function processData(
 		list.push(...data);
 		await delay(300); // 延迟避免请求过快
 	}
-	console.log("");
 	return list;
 }
 
 async function main() {
-	console.log("Initializing Bilibili data update script...");
+	console.log("Initializing Bilibili data update script...\n");
 
 	const animeMode = await getAnimeModeFromConfig();
 	if (animeMode !== "bilibili") {
 		console.log(
-			`Detected current anime mode is "${animeMode}", skipping Bilibili data update.`,
+			`Detected current anime mode is "${animeMode}", skipping Bilibili data update.\n`,
 		);
 		return;
 	}
@@ -346,7 +345,7 @@ async function main() {
 	const VMID = await getUserIdFromConfig();
 	if (!VMID) {
 		console.error(
-			"✘ Bilibili vmid is not set. Please set it in src/config/user.ts",
+			"✘ Bilibili vmId is not set. Please set it in src/config/user.ts\n",
 		);
 		process.exit(1);
 	}
@@ -378,6 +377,9 @@ async function main() {
 
 	const finalAnimeList = [...planned, ...watching, ...completed];
 
+	// 进度输出完成后换行，避免被后续输出覆盖
+	console.log("\n");
+
 	const dir = path.dirname(OUTPUT_FILE);
 	try {
 		await fs.access(dir);
@@ -386,11 +388,12 @@ async function main() {
 	}
 
 	await fs.writeFile(OUTPUT_FILE, JSON.stringify(finalAnimeList, null, 2));
-	console.log(`\nUpdate complete! Data saved to: ${OUTPUT_FILE}`);
-	console.log(`Total collected: ${finalAnimeList.length} anime series`);
-	console.log(`  - Planned: ${planned.length}`);
-	console.log(`  - Watching: ${watching.length}`);
-	console.log(`  - Completed: ${completed.length}`);
+	console.log(`Total collected: ${finalAnimeList.length} anime series:`);
+	console.log(`- Planned: ${planned.length}`);
+	console.log(`- Watching: ${watching.length}`);
+	console.log(`- Completed: ${completed.length}`);
+	console.log();
+	console.log(`Update complete! Data saved to: ${OUTPUT_FILE}\n`);
 }
 
 main().catch((err) => {

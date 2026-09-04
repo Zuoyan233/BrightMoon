@@ -6,17 +6,38 @@ import Fontmin from "fontmin";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// 配置已拆分为 user.ts / defaults.ts / index.ts，按优先级依次读取
+const CONFIG_DIR = path.join(__dirname, "../src/config");
+
+function readConfigContents() {
+	const files = ["user.ts", "defaults.ts", "index.ts"];
+	const contents = [];
+	for (const file of files) {
+		const filePath = path.join(CONFIG_DIR, file);
+		if (fs.existsSync(filePath)) {
+			contents.push(fs.readFileSync(filePath, "utf-8"));
+		}
+	}
+	return contents;
+}
+
+// 按优先级在配置文件中匹配（user.ts > defaults.ts > index.ts）
+function matchConfig(regex) {
+	for (const content of readConfigContents()) {
+		const match = content.match(regex);
+		if (match) return match;
+	}
+	return null;
+}
+
 // 读取配置文件获取语言设置和字体配置
 async function getConfig() {
-	const configPath = path.join(__dirname, "../src/config/index.ts");
-	const configContent = fs.readFileSync(configPath, "utf-8");
-
 	// 提取语言设置
-	const langMatch = configContent.match(/const SITE_LANG = ["'](.+?)["']/);
+	const langMatch = matchConfig(/const SITE_LANG = ["'](.+?)["']/);
 	const lang = langMatch ? langMatch[1] : "zh_CN";
 
 	// 提取字体配置
-	const fontConfigMatch = configContent.match(/font:\s*\{([\s\S]*?)\n\t\},/);
+	const fontConfigMatch = matchConfig(/font:\s*\{([\s\S]*?)\n\s*\},/);
 	if (!fontConfigMatch) {
 		console.log("⚠ Font config not found, using default settings");
 		return { lang, fonts: [] };
@@ -142,65 +163,71 @@ function extractText(content, ext) {
 // 获取 Meting API 歌单数据中的文字
 async function fetchMetingPlaylistText() {
 	try {
-		// 读取配置文件获取音乐播放器配置
-		const configPath = path.join(__dirname, "../src/config/index.ts");
-		const configContent = fs.readFileSync(configPath, "utf-8");
+		// 读取音乐播放器配置（配置已拆分，按优先级查找）
+		const musicConfigMatch = matchConfig(
+			/musicPlayerConfig:\s*\{([\s\S]*?)\n\s*\},/,
+		);
+		const configStr = musicConfigMatch ? musicConfigMatch[1] : "";
 
 		// 检查音乐播放器是否启用
-		const enableMatch = configContent.match(
-			/musicPlayerConfig:\s*MusicPlayerConfig\s*=\s*\{[\s\S]*?enable:\s*(true|false)/,
-		);
+		const enableMatch = configStr.match(/enable:\s*(true|false)/);
 		if (!enableMatch || enableMatch[1] === "false") {
 			console.log(
-				"ℹ Music player disabled, skipping Meting API text collection",
+				"ℹ Music player disabled, skipping Meting API text collection.\n",
 			);
 			return new Set();
 		}
 
-		// 提取音乐播放器配置（使用默认值，因为配置可能不完整）
-		// 在实际的音乐播放器组件中，如果配置中没有指定模式，默认使用 "meting"
-		const musicConfigMatch = configContent.match(
-			/musicPlayerConfig:\s*MusicPlayerConfig\s*=\s*\{([\s\S]*?)\}/,
+		// 从 defaults.ts 读取默认值
+		const defaultsContent = (() => {
+			const filePath = path.join(CONFIG_DIR, "defaults.ts");
+			return fs.existsSync(filePath) ? fs.readFileSync(filePath, "utf-8") : "";
+		})();
+		const defaultsMatch = defaultsContent.match(
+			/defaultMusicPlayerConfig[^{]*\{([\s\S]*?)\n\s*\}/,
 		);
-		let mode = "meting"; // 默认模式
-		let meting_api =
-			"https://www.bilibili.uno/api?server=:server&type=:type&id=:id&auth=:auth&r=:r";
-		let meting_id = "14164869977";
-		let meting_server = "netease";
-		let meting_type = "playlist";
+		const defaultsStr = defaultsMatch ? defaultsMatch[1] : "";
 
-		if (musicConfigMatch) {
-			const configStr = musicConfigMatch[1];
+		// 从 user.ts 读取用户覆盖
+		const userContent = (() => {
+			const filePath = path.join(CONFIG_DIR, "user.ts");
+			return fs.existsSync(filePath) ? fs.readFileSync(filePath, "utf-8") : "";
+		})();
+		const userMatch = userContent.match(
+			/musicPlayerConfig:\s*\{([\s\S]*?)\n\s*\},/,
+		);
+		const userStr = userMatch ? userMatch[1] : "";
 
-			const modeMatch = configStr.match(/mode:\s*["']([^"']+)["']/);
-			if (modeMatch) {
-				mode = modeMatch[1];
-			}
-
-			const apiMatch = configStr.match(/meting_api:\s*["']([^"']+)["']/);
-			if (apiMatch) {
-				meting_api = apiMatch[1];
-			}
-
-			const idMatch = configStr.match(/id:\s*["']([^"']+)["']/);
-			if (idMatch) {
-				meting_id = idMatch[1];
-			}
-
-			const serverMatch = configStr.match(/server:\s*["']([^"']+)["']/);
-			if (serverMatch) {
-				meting_server = serverMatch[1];
-			}
-
-			const typeMatch = configStr.match(/type:\s*["']([^"']+)["']/);
-			if (typeMatch) {
-				meting_type = typeMatch[1];
-			}
+		// 合并：defaults 为底，user 覆盖
+		function extractField(str, regex) {
+			const m = str.match(regex);
+			return m ? m[1] : null;
 		}
+
+		let mode = extractField(defaultsStr, /mode:\s*["']([^"']+)["']/);
+		let meting_api = extractField(
+			defaultsStr,
+			/meting_api:\s*["`]([^"`]+)["`]/,
+		);
+		let meting_id = extractField(defaultsStr, /id:\s*["']([^"']+)["']/);
+		let meting_server = extractField(defaultsStr, /server:\s*["']([^"']+)["']/);
+		let meting_type = extractField(defaultsStr, /type:\s*["']([^"']+)["']/);
+
+		// 用户覆盖
+		const userMode = extractField(userStr, /mode:\s*["']([^"']+)["']/);
+		if (userMode) mode = userMode;
+		const userApi = extractField(userStr, /meting_api:\s*["`]([^"`]+)["`]/);
+		if (userApi) meting_api = userApi;
+		const userId = extractField(userStr, /id:\s*["']([^"']+)["']/);
+		if (userId) meting_id = userId;
+		const userServer = extractField(userStr, /server:\s*["']([^"']+)["']/);
+		if (userServer) meting_server = userServer;
+		const userType = extractField(userStr, /type:\s*["']([^"']+)["']/);
+		if (userType) meting_type = userType;
 
 		if (mode !== "meting") {
 			console.log(
-				'ℹ Music player mode is not "meting", skipping API text collection',
+				'ℹ Music player mode is not "meting", skipping API text collection.\n',
 			);
 			return new Set();
 		}
@@ -214,7 +241,7 @@ async function fetchMetingPlaylistText() {
 			.replace(":r", Date.now().toString());
 
 		console.log("ℹ Fetching music playlist from Meting API...");
-		console.log(`  URL: ${apiUrl}`);
+		console.log(`  URL: ${apiUrl}\n`);
 
 		// 设置请求超时
 		const controller = new AbortController();
@@ -243,7 +270,7 @@ async function fetchMetingPlaylistText() {
 			}
 
 			console.log(
-				`✓ Successfully fetched ${playlist.length} songs from Meting API`,
+				`✓ Successfully fetched ${playlist.length} songs from Meting API.\n`,
 			);
 
 			// 提取歌曲信息中的文字
@@ -268,18 +295,18 @@ async function fetchMetingPlaylistText() {
 				}
 			});
 			if (songCount === 0) {
-				console.log("⚠ No valid song data found in API response");
+				console.log("⚠ No valid song data found in API response.\n");
 			}
 		} catch (fetchError) {
 			clearTimeout(timeoutId);
 
 			if (fetchError.name === "AbortError") {
 				console.log(
-					"⚠ Meting API request timeout (10s), skipping music text collection",
+					"⚠ Meting API request timeout (10s), skipping music text collection.\n",
 				);
 			} else {
 				console.log(
-					`⚠ Failed to fetch Meting API data: ${fetchError.message}, skipping music text collection`,
+					`⚠ Failed to fetch Meting API data: ${fetchError.message}, skipping music text collection.\n`,
 				);
 			}
 		}
@@ -287,7 +314,7 @@ async function fetchMetingPlaylistText() {
 		return textSet;
 	} catch (error) {
 		console.log(
-			`⚠ Error processing Meting API config: ${error.message}, skipping music text collection`,
+			`⚠ Error processing Meting API config: ${error.message}, skipping music text collection.\n`,
 		);
 		return new Set();
 	}
@@ -296,32 +323,30 @@ async function fetchMetingPlaylistText() {
 // 获取 Bilibili 番剧数据中的文字
 async function fetchBilibiliAnimeText() {
 	try {
-		// 读取配置文件获取番剧配置
-		const configPath = path.join(__dirname, "../src/config/index.ts");
-		const configContent = fs.readFileSync(configPath, "utf-8");
-
-		// 检查番剧页面是否启用
-		const featurePagesMatch = configContent.match(
-			/featurePages:\s*\{([\s\S]*?)\}/,
+		// 检查番剧页面是否启用（配置已拆分，按优先级查找）
+		const featurePagesMatch = matchConfig(
+			/featurePages:\s*\{([\s\S]*?)\n\s*\},/,
 		);
 		if (featurePagesMatch) {
 			const featureConfig = featurePagesMatch[1];
 			const animeMatch = featureConfig.match(/anime:\s*(true|false)/);
 			if (!animeMatch || animeMatch[1] === "false") {
-				console.log("ℹ Anime page disabled, skipping Bilibili text collection");
+				console.log(
+					"ℹ Anime page disabled, skipping Bilibili text collection.\n",
+				);
 				return new Set();
 			}
 		}
 
-		// 提取番剧配置
-		const animeModeMatch = configContent.match(
+		// 提取番剧配置（配置已拆分，按优先级查找）
+		const animeModeMatch = matchConfig(
 			/anime:\s*\{[\s\S]*?mode:\s*["']([^"']+)["']/,
 		);
 		const mode = animeModeMatch ? animeModeMatch[1] : "bangumi";
 
 		if (mode !== "bilibili") {
 			console.log(
-				`ℹ Anime mode is not "bilibili", skipping Bilibili text collection`,
+				`ℹ Anime mode is not "bilibili" or no vmId configured, skipping Bilibili text collection.\n`,
 			);
 			return new Set();
 		}
@@ -330,7 +355,7 @@ async function fetchBilibiliAnimeText() {
 		const dataFilePath = path.join(__dirname, "../src/data/bilibili-data.json");
 		if (!fs.existsSync(dataFilePath)) {
 			console.log(
-				"ℹ Bilibili data file not found, skipping Bilibili text collection",
+				"ℹ Bilibili data file not found, skipping Bilibili text collection.\n",
 			);
 			return new Set();
 		}
@@ -342,7 +367,7 @@ async function fetchBilibiliAnimeText() {
 		const animeList = JSON.parse(fileContent);
 
 		if (!Array.isArray(animeList)) {
-			console.log("⚠ Bilibili data is not an array, skipping text collection");
+			console.log("⚠ Bilibili data is not an array, skipping text collection.\n");
 			return new Set();
 		}
 
@@ -398,16 +423,16 @@ async function fetchBilibiliAnimeText() {
 
 		if (processedCount > 0) {
 			console.log(
-				`✓ Successfully processed ${processedCount} anime items from Bilibili data`,
+				`✓ Successfully processed ${processedCount} anime items from Bilibili data.\n`,
 			);
 		} else {
-			console.log("⚠ No anime data found in Bilibili data file");
+			console.log("⚠ No anime data found in Bilibili data file.\n");
 		}
 
 		return textSet;
 	} catch (error) {
 		console.log(
-			`⚠ Error processing Bilibili data: ${error.message}, skipping Bilibili text collection`,
+			`⚠ Error processing Bilibili data: ${error.message}, skipping Bilibili text collection.\n`,
 		);
 		return new Set();
 	}
@@ -416,30 +441,26 @@ async function fetchBilibiliAnimeText() {
 // 获取 Bangumi API 番剧数据中的文字
 async function fetchBangumiAnimeText() {
 	try {
-		// 读取配置文件获取番剧配置
-		const configPath = path.join(__dirname, "../src/config/index.ts");
-		const configContent = fs.readFileSync(configPath, "utf-8");
-
-		// 检查番剧页面是否启用
-		const featurePagesMatch = configContent.match(
-			/featurePages:\s*\{([\s\S]*?)\}/,
+		// 检查番剧页面是否启用（配置已拆分，按优先级查找）
+		const featurePagesMatch = matchConfig(
+			/featurePages:\s*\{([\s\S]*?)\n\s*\},/,
 		);
 		if (featurePagesMatch) {
 			const featureConfig = featurePagesMatch[1];
 			const animeMatch = featureConfig.match(/anime:\s*(true|false)/);
 			if (!animeMatch || animeMatch[1] === "false") {
 				console.log(
-					"ℹ Anime page disabled, skipping Bangumi API text collection",
+					"ℹ Anime page disabled, skipping Bangumi API text collection.",
 				);
 				return new Set();
 			}
 		}
 
-		// 提取番剧配置
-		const bangumiUserIdMatch = configContent.match(
+		// 提取番剧配置（配置已拆分，按优先级查找）
+		const bangumiUserIdMatch = matchConfig(
 			/anime:\s*\{[\s\S]*?bangumi:\s*\{[\s\S]*?userId:\s*["']([^"']+)["']/,
 		);
-		const animeModeMatch = configContent.match(
+		const animeModeMatch = matchConfig(
 			/anime:\s*\{[\s\S]*?mode:\s*["']([^"']+)["']/,
 		);
 
@@ -448,7 +469,7 @@ async function fetchBangumiAnimeText() {
 
 		if (mode !== "bangumi" || !userId) {
 			console.log(
-				`ℹ Anime mode is not "bangumi" or no userId configured, skipping Bangumi API text collection`,
+				`ℹ Anime mode is not "bangumi" or no userId configured, skipping Bangumi API text collection.\n`,
 			);
 			return new Set();
 		}
@@ -509,7 +530,7 @@ async function fetchBangumiAnimeText() {
 				return allData;
 			} catch (error) {
 				console.log(
-					`⚠ Failed to fetch collection type ${type}: ${error.message}`,
+					`⚠ Failed to fetch collection type ${type}: ${error.message}.\n`,
 				);
 				return [];
 			}
@@ -555,7 +576,7 @@ async function fetchBangumiAnimeText() {
 			}
 
 			console.log(
-				`✓ Fetched ${collections.length} items from collection type ${type}`,
+				`✓ Fetched ${collections.length} items from collection type ${type}.\n`,
 			);
 			totalItems += collections.length;
 
@@ -617,16 +638,16 @@ async function fetchBangumiAnimeText() {
 
 		if (totalItems > 0) {
 			console.log(
-				`✓ Successfully processed ${totalItems} anime items from Bangumi API`,
+				`✓ Successfully processed ${totalItems} anime items from Bangumi API.\n`,
 			);
 		} else {
-			console.log("⚠ No anime data found from Bangumi API");
+			console.log("⚠ No anime data found from Bangumi API.\n");
 		}
 
 		return textSet;
 	} catch (error) {
 		console.log(
-			`⚠ Error processing Bangumi API config: ${error.message}, skipping anime text collection`,
+			`⚠ Error processing Bangumi API config: ${error.message}, skipping anime text collection.\n`,
 		);
 		return new Set();
 	}
@@ -698,11 +719,8 @@ async function collectText() {
 		}
 	});
 
-	// 2. 读取 src/config/index.ts 文件
-	const configFile = path.join(__dirname, "../src/config/index.ts");
-	if (fs.existsSync(configFile)) {
-		const content = fs.readFileSync(configFile, "utf-8");
-
+	// 2. 读取配置文件（配置拆分后分布在 user.ts / defaults.ts / index.ts，全部纳入扫描）
+	for (const content of readConfigContents()) {
 		// 改进的字符串匹配
 		const patterns = [
 			// 双引号字符串
@@ -814,7 +832,7 @@ async function collectText() {
 	// 检查目录是否存在
 	if (!fs.existsSync(contentDir)) {
 		console.log(`⚠ Content directory does not exist: ${contentDir}`);
-		console.log("  Skipping content text collection");
+		console.log("ℹ Skipping content text collection...\n");
 	} else {
 		const contentFiles = readFilesRecursively(contentDir);
 
@@ -859,7 +877,7 @@ async function collectText() {
 
 	if (metingTextSet.size > 0) {
 		console.log(
-			`✓ Added ${metingTextSet.size} unique characters from music playlist`,
+			`✓ Added ${metingTextSet.size} unique characters from music playlist.\n`,
 		);
 	}
 
@@ -873,7 +891,7 @@ async function collectText() {
 
 	if (bangumiTextSet.size > 0) {
 		console.log(
-			`✓ Added ${bangumiTextSet.size} unique characters from Bangumi anime data`,
+			`✓ Added ${bangumiTextSet.size} unique characters from Bangumi anime data.\n`,
 		);
 	}
 
@@ -887,7 +905,7 @@ async function collectText() {
 
 	if (bilibiliTextSet.size > 0) {
 		console.log(
-			`✓ Added ${bilibiliTextSet.size} unique characters from Bilibili anime data`,
+			`✓ Added ${bilibiliTextSet.size} unique characters from Bilibili anime data.\n`,
 		);
 	}
 
@@ -913,18 +931,16 @@ async function compressFonts() {
 
 		if (fonts.length === 0) {
 			console.log(
-				"⚠ No fonts to compress (enableCompress=false or localFonts is empty)",
+				"⚠ No fonts to compress (enableCompress=false or localFonts is empty).\n",
 			);
 			return;
 		}
-
-		console.log(`Found ${fonts.length} font configs to compress`);
 
 		// 检查 dist 目录是否存在
 		const distDir = path.join(__dirname, "../dist");
 		if (!fs.existsSync(distDir)) {
 			console.log(
-				"⚠ dist directory does not exist, please run astro build first",
+				"⚠ dist directory does not exist, please run astro build first.\n",
 			);
 			return;
 		}
@@ -939,6 +955,7 @@ async function compressFonts() {
 		const allText = await collectText(); // 统一字体使用完整字符集（包含 ASCII 和 CJK）
 
 		console.log("Starting font compression...");
+		console.log(`ℹ Found ${fonts.length} font configs to compress.`);
 
 		let totalOriginalSize = 0;
 		let totalCompressedSize = 0;
@@ -958,7 +975,7 @@ async function compressFonts() {
 				const baseName = path.basename(fontFile, ext);
 
 				if (!fs.existsSync(fontSrc)) {
-					const errorMsg = `❌ Config error: Font file does not exist   In config: "${fontFile}"\n   Expected path: public/assets/font/${fontFile}\n   \n   Please check:\n   1. Is the filename correct (case sensitive)?\n   2. Is the file in public/assets/font/?\n   3. Is font.localFonts in src/config/user.ts correct?`;
+					const errorMsg = `✗ Config error: Font file does not exist in config: "${fontFile}"\n   Expected path: public/assets/font/${fontFile}\n   \n   Please check:\n   1. Is the filename correct (case sensitive)?\n   2. Is the file in public/assets/font/?\n   3. Is font.localFonts in src/config/user.ts correct?\n`;
 
 					errors.push(errorMsg);
 					console.log(`\n${errorMsg}\n`);
@@ -970,15 +987,13 @@ async function compressFonts() {
 
 				// 根据文件类型决定处理方式
 				if (ext === ".woff2" || ext === ".woff") {
-					// woff/woff2 已经是 Web 优化格式，不支持进一步子集化压缩
-					console.log(`⚠ Skipping ${fontFile} (already web-optimized format)`);
+					console.log(
+						`✓ ${fontFile}: skipped (already ${ext.slice(1).toUpperCase()}).`,
+					);
+					continue;
+				}
 
-					// 直接复制到 dist
-					const destFile = path.join(distFontDir, fontFile);
-					fs.copyFileSync(fontSrc, destFile);
-					totalCompressedSize += originalSize;
-					// 不计入处理数量
-				} else if (ext === ".ttf" || ext === ".otf") {
+				if (ext === ".ttf" || ext === ".otf") {
 					// TTF/OTF 需要压缩为 woff2
 					console.log(`Compressing ${fontFile}...`);
 
@@ -1019,19 +1034,21 @@ async function compressFonts() {
 						).toFixed(2);
 
 						console.log(
-							`✓ ${fontFile} → ${baseName}.woff2 (${(compressedSize / 1024).toFixed(2)} KB, reduced ${reduction}%)`,
+							`✓ ${fontFile} → ${baseName}.woff2 (${(compressedSize / 1024).toFixed(2)} KB, reduced ${reduction}%)\n`,
 						);
 						processedCount++;
 					}
-				} else {
-					console.log(`⚠ Unsupported font format, skipping: ${fontFile}`);
+				}
+
+				if (ext !== ".ttf" && ext !== ".otf") {
+					console.log(`⚠ Unsupported font format, skipping: ${fontFile}...\n`);
 				}
 			}
 		}
 
 		// 输出总结
 		if (errors.length > 0) {
-			console.log("\n❌ Font compression encountered errors!");
+			console.log("\n✗ Font compression encountered errors!");
 			console.log(`${errors.length} errors, please fix and retry.\n`);
 
 			// 列出实际存在的字体文件
@@ -1051,7 +1068,7 @@ async function compressFonts() {
 						console.log(`  - ${f}`);
 					}
 				} else {
-					console.log("  (font directory is empty)");
+					console.log("⚠ font directory is empty\n");
 				}
 			}
 
@@ -1063,15 +1080,14 @@ async function compressFonts() {
 				(1 - totalCompressedSize / totalOriginalSize) *
 				100
 			).toFixed(2);
-			console.log("\n✓ Font optimization complete!");
 			console.log(
-				`  Files processed: ${processedCount}, Overall reduction: ${totalReduction}%`,
+				`\n✓ Font optimization complete!, Files processed: ${processedCount}, Overall reduction: ${totalReduction}%\n`,
 			);
 		} else {
-			console.log("\n⚠ No font files processed");
+			console.log("⚠ No font files processed.\n");
 		}
 	} catch (error) {
-		console.error("❌ Font compression failed:", error);
+		console.error("\n✗ Font compression failed:", error);
 		process.exit(1);
 	}
 }
