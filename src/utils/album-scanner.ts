@@ -88,7 +88,7 @@ async function processAlbumFolder(
 		// 本地模式：检查本地文件
 		const coverPath = path.join(folderPath, "cover.webp");
 		if (!fs.existsSync(coverPath)) {
-			console.warn(`Album ${folderName} is missing cover.webp file`);
+			console.warn(`Album ${folderName} is missing cover.webp file.\n`);
 			return null;
 		}
 
@@ -179,7 +179,7 @@ function processExternalPhotos(
 
 	externalPhotos.forEach((photo, index) => {
 		if (!photo.src) {
-			console.warn(`Photo ${albumId} #${index + 1} is missing src field`);
+			console.warn(`Photo ${albumId} #${index + 1} is missing src field.`);
 			return;
 		}
 

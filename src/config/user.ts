@@ -13,6 +13,7 @@ import type {
 	ExpressiveCodeConfig,
 	ExternalLinkConfirmConfig,
 	FooterConfig,
+	ImageOptimizeConfig,
 	LicenseConfig,
 	MusicPlayerConfig,
 	NavBarConfig,
@@ -58,6 +59,7 @@ export interface UserConfig {
 	sakuraConfig?: Partial<SakuraConfig>;
 	pioConfig?: Partial<PioConfig>;
 	umamiConfig?: Partial<UmamiConfig>;
+	imageOptimizeConfig?: Partial<ImageOptimizeConfig>;
 }
 
 const SITE_LANG = "en"; // 语言代码，例如：'en', 'zh_CN', 'zh_TW', 'ja', 'ar', 'de', 'es', 'fr', 'id', 'ko', 'ru', 'th', 'tr', 'vi' 等
@@ -188,7 +190,7 @@ export const userConfig: UserConfig = {
 			// Bilibili 配置
 			bilibili: {
 				// 第一次配置请把vmid和anime mode模式正确设置好，然后输入pnpm run update-bilibili获取番剧数据
-				vmid: "your-bilibili-id", // 在此处设置你的Bilibili用户ID (vmid)，例如 "352580971"
+				vmId: "your-bilibili-id", // 在此处设置你的Bilibili用户ID (vmId)，例如 "352580971"
 				fetchOnDev: false, // 是否在开发环境下获取 Bilibili 数据（默认 false）
 				SESSDATA: "", // Bilibili SESSDATA（可选，用于获取观看进度，从浏览器cookie中获取）
 				coverMirror: "", // 封面图片镜像源（可选，如果需要使用镜像源，例如 "https://images.weserv.nl/?url="）
@@ -370,9 +372,9 @@ export const userConfig: UserConfig = {
 		font: {
 			fontFamily: "MiSans-Normal", // 字体名称（用于 CSS font-family）
 			fontWeight: "500", // 字体粗细
-			localFonts: ["MiSans-Normal.woff2"], // 源字体文件（仅支持 TTF / OTF / WOFF2）：TTF / OTF 字体格式会由脚本自动压缩并转换为 WOFF2 字体格式，若本身已是 WOFF2 字体格式则直接跳过，无需处理
+			localFonts: ["MiSans-Normal.woff2"], // 源字体文件（支持 TTF / OTF / WOFF / WOFF2）：WOFF/WOFF2 跳过，TTF/OTF 按站点实际使用的字符子集化并输出为 WOFF2
 			// Web 字体文件路径（WOFF2 格式，在浏览器中实际使用）
-			// 注意：此文件需要在运行构建和压缩脚本后才会生成，Dev 环境下如果看不到字体，请确保 public/assets/font/ 目录下有对应的 WOFF2 文件，或者临时将此路径改为 TTF 文件路径进行开发
+			// 注意：子集化仅在构建时作用于 dist 输出目录；Dev 环境直接使用 public/assets/font/ 下的源文件，请确保该目录下存在对应文件
 			fontFile: "/assets/font/MiSans-Normal.woff2",
 			enableCompress: true, // 是否启用字体子集优化（减少字体文件大小，只保留实际使用的字符）
 		},
@@ -617,6 +619,107 @@ export const userConfig: UserConfig = {
 		enable: true, // 是否启用Footer HTML注入功能
 		customHtml:
 			"This platform is a personal blog and is intended solely for learning and research purposes", // HTML格式的自定义页脚信息，例如备案号等，默认留空
+	},
+
+	imageOptimizeConfig: {
+		webpQuality: 80, // WebP 压缩质量 (1-100)
+		tasks: [
+			{
+				name: "Desktop Banner", // 任务名称
+				sourceDir: "public/assets/desktop-banner", // 源目录，未构建时直接优化此目录
+				dir: "dist/assets/desktop-banner", // 构建后输出目录
+				maxWidth: 1920, // 最大宽度
+				maxHeight: 1080, // 最大高度
+				recursive: true, // 是否递归处理子目录
+			},
+			{
+				name: "Mobile Banner",
+				sourceDir: "public/assets/mobile-banner",
+				dir: "dist/assets/mobile-banner",
+				maxWidth: 800,
+				maxHeight: 1200, 
+				recursive: true,
+			},
+			{
+				name: "Home Images",
+				sourceDir: "public/assets/home",
+				dir: "dist/assets/home",
+				maxWidth: 256,
+				maxHeight: 256,
+				recursive: true,
+			},
+			{
+				name: "Avatar",
+				sourceDir: "src/assets/images",
+				dir: "dist/_astro",
+				maxWidth: 256,
+				maxHeight: 256,
+				recursive: true,
+			},
+			{
+				name: "Anime Covers",
+				sourceDir: "public/assets/anime",
+				dir: "dist/assets/anime",
+				maxWidth: 450,
+				maxHeight: 600,
+				recursive: true,
+			},
+			{
+				name: "Albums",
+				sourceDir: "public/images/albums",
+				dir: "dist/images/albums",
+				maxWidth: 1920,
+				maxHeight: 1080,
+				recursive: true,
+			},
+			{
+				name: "Post Covers",
+				sourceDir: "src/content/posts",
+				dir: "dist/_astro",
+				maxWidth: 1920,
+				maxHeight: 1080,
+			},
+			{
+				name: "Posts",
+				sourceDir: "public/images/posts",
+				dir: "dist/images/posts",
+				maxWidth: 1920,
+				maxHeight: 1080,
+				recursive: true,
+			},
+			{
+				name: "Sponsors",
+				sourceDir: "public/images/sponsors",
+				dir: "dist/images/sponsors",
+				maxWidth: 600,
+				maxHeight: 600,
+				recursive: true,
+			},
+			{
+				name: "Contact QR",
+				sourceDir: "public/images/contact",
+				dir: "dist/images/contact",
+				maxWidth: 600,
+				maxHeight: 600,
+				recursive: true,
+			},
+			{
+				name: "Diary",			
+				sourceDir: "public/images/diary",
+				dir: "dist/images/diary",
+				maxWidth: 1920,
+				maxHeight: 1080,
+				recursive: true,
+			},
+			{
+				name: "Device",
+				sourceDir: "public/images/device",
+				dir: "dist/images/device",
+				maxWidth: 800,
+				maxHeight: 800,
+				recursive: true,
+			},
+		],
 	},
 
 	versionCheckConfig: {

@@ -123,6 +123,7 @@ This project is a customized extension based on Mizuki V8.2, with version number
 - **Weather Widget** - Powered by WeatherAPI, supporting 7-day forecasts, IP-based auto-location, and manual city search.
 - **Cookie Consent** - Cookie privacy policy banner with accept/deny support; auto-clears non-essential cookies on denial.
 - **Site Statistics** - Real-time display of current date (with multi-region format support), season, and time period.
+- **Image Volume Compression** - Automatically compress images, and convert them to WebP format, reducing load times and enhancing user experience.
 - **Framework Update Checker** - Automatically detects new BrightMoon releases via remote repository API, supports stable and pre-release detection, with prompt dialogs for updates.
 - **Framework Upgrade Tool** - Supports both online and local upgrades, with automatic backup creation and rollback prevention before updating, and automatic dependency installation and temporary file cleanup after upgrading; supports manual backup creation and project restoration from backups.
 
@@ -418,6 +419,7 @@ Frontmatter fields:
 | `pnpm check`               | Run Astro error checks                         |
 | `pnpm format`              | Format code using Biome                        |
 | `pnpm lint`                | Check and fix code issues                      |
+| `pnpm opt-images`          | Run image volume compression tool              |
 | `pnpm new-post <filename>` | Create a new blog post                         |
 | `pnpm astro ...`           | Run Astro CLI commands                         |
 

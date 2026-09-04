@@ -1,7 +1,7 @@
 <script lang="ts">
 import Icon from "@iconify/svelte";
 import { onDestroy, onMount, tick } from "svelte";
-import { slide } from "svelte/transition";
+import { fly, slide } from "svelte/transition";
 // 从配置文件中导入音乐播放器配置
 import { musicPlayerConfig, siteConfig } from "../../config";
 // 导入国际化相关的 Key 和 i18n 实例
@@ -744,8 +744,9 @@ onDestroy(() => {
 {#if musicPlayerConfig.enable}
 {#if showError}
 <div class="fixed right-4 z-[60] max-w-sm transition-all duration-300"
+     transition:fly={{ y: 100, duration: 300 }}
      style="bottom: {isExpanded && playerRoot ? playerRoot.offsetHeight + 240 : 100}px">
-    <div class="bg-red-500 text-white px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 animate-slide-up">
+    <div class="bg-red-500 text-white px-4 py-3 rounded-lg shadow-lg flex items-center gap-3">
         <Icon icon="material-symbols:error" class="text-xl flex-shrink-0" />
         <span class="text-sm flex-1">{errorMessage}</span>
         <button on:click={hideError} class="text-white/80 hover:text-white transition-colors">
@@ -1230,19 +1231,7 @@ onDestroy(() => {
 	contain-intrinsic-size: auto 52px;
 }
 
-@keyframes slide-up {
-    from {
-        transform: translateY(100%);
-        opacity: 0;
-	}
-    to {
-        transform: translateY(0);
-        opacity: 1;
-	}
-}
-.animate-slide-up {
-    animation: slide-up 0.3s ease-out;
-}
+
 @media (hover: none) and (pointer: coarse) {
     .music-player button,
     .playlist-item {
