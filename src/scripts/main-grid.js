@@ -644,13 +644,29 @@ function applyWallpaperMode() {
 			break;
 	}
 
-	// 控制 banner 主副标题 overlay：全屏横幅模式或首页时显示，普通横幅模式非首页时隐藏
+	// 控制 banner 主副标题 overlay：需同时满足 homeTextEnabled 开关开启，且全屏横幅模式或首页时显示
+	var homeTextEnabled = (() => {
+		var configCarrier = document.getElementById("config-carrier");
+		if (configCarrier && configCarrier.dataset.appearanceFixed === "true") {
+			return configCarrier.dataset.homeTextAvailable === "true";
+		}
+		var stored = localStorage.getItem("homeTextEnabled");
+		if (stored !== null) {
+			return stored === "true";
+		}
+		return configCarrier
+			? configCarrier.dataset.homeTextAvailable === "true"
+			: true;
+	})();
 	const bannerTextOverlay = document.getElementById("banner-text-overlay");
 	if (bannerTextOverlay) {
-		if (wallpaperMode === "fullscreen-banner" || isHomeOrPaginatedHome()) {
-			bannerTextOverlay.classList.remove("hidden");
+		if (
+			homeTextEnabled &&
+			(wallpaperMode === "fullscreen-banner" || isHomeOrPaginatedHome())
+		) {
+			bannerTextOverlay.classList.remove("banner-text-hidden");
 		} else {
-			bannerTextOverlay.classList.add("hidden");
+			bannerTextOverlay.classList.add("banner-text-hidden");
 		}
 	}
 }

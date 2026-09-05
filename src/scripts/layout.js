@@ -11,6 +11,7 @@ import {
 } from "../constants/constants";
 import {
 	getHue,
+	getStoredHomeTextEnabled,
 	getStoredWallpaperMode,
 	setHomeTextEnabled,
 	setHue,
@@ -304,12 +305,13 @@ function initCarousel() {
 		}
 
 		// 鼠标悬停暂停（桌面端）
-		if (carousel) {
-			carousel.addEventListener("mouseenter", () => {
+		const bannerWrapper = document.getElementById("banner-wrapper");
+		if (bannerWrapper) {
+			bannerWrapper.addEventListener("mouseenter", () => {
 				isPaused = true;
 				clearInterval(carouselInterval);
 			});
-			carousel.addEventListener("mouseleave", () => {
+			bannerWrapper.addEventListener("mouseleave", () => {
 				isPaused = false;
 				startCarousel();
 			});
@@ -406,9 +408,9 @@ function setupFestivalEasterEgg() {
 					);
 					if (bannerTextOverlay) {
 						if (homeTextEnabled) {
-							bannerTextOverlay.classList.remove("hidden");
+							bannerTextOverlay.classList.remove("banner-text-hidden");
 						} else {
-							bannerTextOverlay.classList.add("hidden");
+							bannerTextOverlay.classList.add("banner-text-hidden");
 						}
 					}
 				}
@@ -539,7 +541,7 @@ function setupFestivalEasterEgg() {
 			setHomeTextEnabled(true);
 			const bannerTextOverlay = document.getElementById("banner-text-overlay");
 			if (bannerTextOverlay) {
-				bannerTextOverlay.classList.remove("hidden");
+				bannerTextOverlay.classList.remove("banner-text-hidden");
 			}
 
 			if (sakuraConfig) {
@@ -807,13 +809,18 @@ const setup = () => {
 			}
 		}
 
-		// Control banner text visibility based on page
+		// Control banner text visibility based on page and homeTextEnabled setting
 		const bannerTextOverlay = document.querySelector(".banner-text-overlay");
 		if (bannerTextOverlay) {
-			if (isHomePage) {
-				bannerTextOverlay.classList.remove("hidden");
+			const wallpaperMode = localStorage.getItem("wallpaperMode") || "banner";
+			const homeTextEnabled = getStoredHomeTextEnabled();
+			const shouldShowBannerText =
+				homeTextEnabled &&
+				(wallpaperMode === "fullscreen-banner" || isHomePage);
+			if (shouldShowBannerText) {
+				bannerTextOverlay.classList.remove("banner-text-hidden");
 			} else {
-				bannerTextOverlay.classList.add("hidden");
+				bannerTextOverlay.classList.add("banner-text-hidden");
 			}
 		}
 

@@ -47,6 +47,19 @@ import { onMount, tick } from "svelte";
 import type { WALLPAPER_MODE } from "@/types/config";
 import { translationManager } from "@/utils/translation-manager";
 
+/**
+ * 判断当前页面是否为首页或分页首页
+ * 用于控制 banner 主副标题的显示：
+ * - 全屏横幅模式（fullscreen-banner）：首页和非首页都显示
+ * - 普通横幅模式（banner）：仅首页显示，非首页隐藏
+ */
+function isHomeOrPaginatedHome(): boolean {
+	const p = window.location.pathname;
+	if (p === "/" || p === "") return true;
+	const cleaned = p.replace(/^\/+|\/+$/g, "");
+	return /^\d+$/.test(cleaned);
+}
+
 let hue = 250;
 let defaultHue = 250;
 let isMounted = false;
@@ -192,10 +205,14 @@ function toggleHomeText() {
 	setHomeTextEnabled(homeTextEnabled);
 	const bannerTextOverlay = document.getElementById("banner-text-overlay");
 	if (bannerTextOverlay) {
-		if (homeTextEnabled) {
-			bannerTextOverlay.classList.remove("hidden");
+		if (
+			homeTextEnabled &&
+			(currentWallpaperMode === WALLPAPER_FULLSCREEN_BANNER ||
+				isHomeOrPaginatedHome())
+		) {
+			bannerTextOverlay.classList.remove("banner-text-hidden");
 		} else {
-			bannerTextOverlay.classList.add("hidden");
+			bannerTextOverlay.classList.add("banner-text-hidden");
 		}
 	}
 }
@@ -206,12 +223,12 @@ function selectWallpaperMode(mode: WALLPAPER_MODE) {
 	const bannerTextOverlay = document.getElementById("banner-text-overlay");
 	if (bannerTextOverlay) {
 		if (
-			(mode === WALLPAPER_BANNER || mode === WALLPAPER_FULLSCREEN_BANNER) &&
-			homeTextEnabled
+			homeTextEnabled &&
+			(mode === WALLPAPER_FULLSCREEN_BANNER || isHomeOrPaginatedHome())
 		) {
-			bannerTextOverlay.classList.remove("hidden");
+			bannerTextOverlay.classList.remove("banner-text-hidden");
 		} else {
-			bannerTextOverlay.classList.add("hidden");
+			bannerTextOverlay.classList.add("banner-text-hidden");
 		}
 	}
 }
@@ -453,13 +470,13 @@ onMount(() => {
 	const bannerTextOverlayInit = document.getElementById("banner-text-overlay");
 	if (bannerTextOverlayInit) {
 		if (
-			(currentWallpaperMode === WALLPAPER_BANNER ||
-				currentWallpaperMode === WALLPAPER_FULLSCREEN_BANNER) &&
-			homeTextEnabled
+			homeTextEnabled &&
+			(currentWallpaperMode === WALLPAPER_FULLSCREEN_BANNER ||
+				isHomeOrPaginatedHome())
 		) {
-			bannerTextOverlayInit.classList.remove("hidden");
+			bannerTextOverlayInit.classList.remove("banner-text-hidden");
 		} else {
-			bannerTextOverlayInit.classList.add("hidden");
+			bannerTextOverlayInit.classList.add("banner-text-hidden");
 		}
 	}
 
@@ -501,13 +518,13 @@ onMount(() => {
 		const bannerTextOverlay = document.getElementById("banner-text-overlay");
 		if (bannerTextOverlay) {
 			if (
-				(e.detail.mode === WALLPAPER_BANNER ||
-					e.detail.mode === WALLPAPER_FULLSCREEN_BANNER) &&
-				homeTextEnabled
+				homeTextEnabled &&
+				(e.detail.mode === WALLPAPER_FULLSCREEN_BANNER ||
+					isHomeOrPaginatedHome())
 			) {
-				bannerTextOverlay.classList.remove("hidden");
+				bannerTextOverlay.classList.remove("banner-text-hidden");
 			} else {
-				bannerTextOverlay.classList.add("hidden");
+				bannerTextOverlay.classList.add("banner-text-hidden");
 			}
 		}
 	};
