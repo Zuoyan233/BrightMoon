@@ -340,6 +340,12 @@ export const defaultSiteConfig: SiteConfig = {
 		enableCompress: true, // 是否启用字体子集优化（减少字体文件大小，只保留实际使用的字符）
 	},
 	showLastModified: true, // 控制“上次编辑”卡片显示的开关
+
+	thirdPartyAnalytics: {
+		enable: false, // 是否启用第三方统计，默认关闭，启用可能影响 Lighthouse 评分
+		gtmId: "", // Google Tag Manager 容器 ID，留空则不加载 GTM
+		clarityId: "", // Clarity 项目 ID，留空则不加载 Clarity
+	},
 };
 
 export const defaultNavBarConfig: NavBarConfig = {
@@ -600,7 +606,7 @@ export const defaultImageOptimizeConfig: ImageOptimizeConfig = {
 			sourceDir: "public/assets/mobile-banner",
 			dir: "dist/assets/mobile-banner",
 			maxWidth: 800,
-			maxHeight: 1200, 
+			maxHeight: 1200,
 			recursive: true,
 		},
 		{
@@ -667,7 +673,7 @@ export const defaultImageOptimizeConfig: ImageOptimizeConfig = {
 			recursive: true,
 		},
 		{
-			name: "Diary",			
+			name: "Diary",
 			sourceDir: "public/images/diary",
 			dir: "dist/images/diary",
 			maxWidth: 1920,

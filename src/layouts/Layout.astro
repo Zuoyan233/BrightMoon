@@ -1,4 +1,5 @@
 ---
+import AnalyticsScripts from "@components/AnalyticsScripts.astro";
 import ConfigCarrier from "@components/ConfigCarrier.astro";
 import CookieConsent from "@components/CookieConsent.astro";
 import ExternalLinkConfirm from "@components/ExternalLinkConfirm.astro";
@@ -272,6 +273,11 @@ if (siteConfig.font?.fontFamily) {
 				<link rel="stylesheet" href="/pio/static/pio.css" />
 			)
 		}
+
+		<!-- 第三方分析脚本 -->
+		<AnalyticsScripts
+			thirdPartyAnalytics={siteConfig.thirdPartyAnalytics}
+		/>
 
 		<link
 			rel="alternate"

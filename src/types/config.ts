@@ -226,6 +226,7 @@ export type SiteConfig = {
 	generateOgImages: boolean;
 	favicon: Favicon[];
 	showLastModified: boolean; // 控制“上次编辑”卡片显示的开关
+	thirdPartyAnalytics?: ThirdPartyAnalyticsConfig; // 第三方统计配置
 };
 
 export type Favicon = {
@@ -607,4 +608,13 @@ export type UmamiConfig = {
 	apiKey: string; // Umami API 密钥
 	baseUrl: string; // Umami API 基础地址
 	scripts: string; // 要插入的统计脚本
+};
+
+/**
+ * 第三方统计配置（可能影响 Lighthouse 评分）
+ */
+export type ThirdPartyAnalyticsConfig = {
+	enable: boolean; // 是否启用第三方统计，默认关闭
+	gtmId?: string; // Google Tag Manager 容器 ID，留空则不加载 GTM
+	clarityId?: string; // Clarity 项目 ID，留空则不加载 Clarity
 };
