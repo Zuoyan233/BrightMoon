@@ -212,6 +212,10 @@ export type SiteConfig = {
 
 	fullscreenWallpaper: FullscreenWallpaperConfig;
 
+	breadcrumb: {
+		enable: boolean;
+	};
+
 	toc: {
 		enable: boolean;
 		responsive?: {

@@ -132,10 +132,11 @@ const isHomePage = Astro.url.pathname === "/" || Astro.url.pathname === "";
 const pathnameClean = Astro.url.pathname.replace(/^\/+|\/+$/g, "");
 const isPaginatedHome = /^\d+$/.test(pathnameClean);
 const showBreadcrumb =
-	isHomePage ||
-	isPaginatedHome ||
-	breadcrumbItems !== undefined ||
-	title !== undefined;
+	siteConfig.breadcrumb.enable &&
+	(isHomePage ||
+		isPaginatedHome ||
+		breadcrumbItems !== undefined ||
+		title !== undefined);
 
 // 基于 LinkPresets 的 URL 前缀匹配图标
 const urlIconPairs = Object.values(LinkPresets)

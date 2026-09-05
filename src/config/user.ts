@@ -346,6 +346,10 @@ export const userConfig: UserConfig = {
 			},
 		},
 
+		breadcrumb: {
+			enable: true, // 启用面包屑导航
+		},
+
 		toc: {
 			enable: tocEnabled, // 启用目录功能
 			responsive: {

@@ -15,9 +15,8 @@ interface Props {
 	thirdPartyAnalytics?: ThirdPartyAnalyticsConfig;
 }
 
-const {
-	thirdPartyAnalytics = { enable: false, gtmId: "", clarityId: "" },
-} = Astro.props;
+const { thirdPartyAnalytics = { enable: false, gtmId: "", clarityId: "" } } =
+	Astro.props;
 
 const analyticsEnabled = thirdPartyAnalytics.enable;
 const gtmEnable = analyticsEnabled && !!thirdPartyAnalytics.gtmId;
