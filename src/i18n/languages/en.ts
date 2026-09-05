@@ -57,6 +57,7 @@ export const en: Translation = {
 	[Key.sakuraEffect]: "Sakura Effect",
 	[Key.wavesEffect]: "Waves Effect",
 	[Key.wavesPerformanceMode]: "Performance Mode",
+	[Key.homeText]: "Banner Display",
 
 	[Key.lightMode]: "Light",
 	[Key.darkMode]: "Dark",

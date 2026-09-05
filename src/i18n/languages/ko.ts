@@ -57,6 +57,7 @@ export const ko: Translation = {
 	[Key.sakuraEffect]: "벚꽃 효과",
 	[Key.wavesEffect]: "물결 효과",
 	[Key.wavesPerformanceMode]: "성능 모드",
+	[Key.homeText]: "배너 표시",
 
 	[Key.lightMode]: "라이트 모드",
 	[Key.darkMode]: "다크 모드",

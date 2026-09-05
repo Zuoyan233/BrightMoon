@@ -12,7 +12,9 @@ import {
 import {
 	getHue,
 	getStoredWallpaperMode,
+	setHomeTextEnabled,
 	setHue,
+	setSakuraEnabled,
 	setWallpaperMode,
 } from "../utils/setting-utils";
 import { pathsEqual, url } from "../utils/url-utils";
@@ -375,18 +377,50 @@ function setupFestivalEasterEgg() {
 		const backup = localStorage.getItem(FESTIVAL_BACKUP_KEY);
 		if (backup) {
 			try {
-				const { wallpaperMode, sakuraEnabled, hue } = JSON.parse(backup);
+				const {
+					wallpaperMode,
+					sakuraEnabled,
+					hue,
+					homeTextEnabled,
+					sakuraAvailable,
+					homeTextAvailable,
+				} = JSON.parse(backup);
 				if (wallpaperMode) {
 					setWallpaperMode(wallpaperMode);
 				}
-				if (sakuraEnabled === "false") {
-					localStorage.setItem("sakuraEnabled", "false");
+				if (sakuraEnabled === "true") {
+					setSakuraEnabled(true);
+					initSakura({ ...sakuraConfig, enable: true }, "/sakura.png");
+				} else {
+					setSakuraEnabled(false);
 					stopSakura();
-					window.dispatchEvent(new CustomEvent("sakura-status-change"));
 				}
+				window.dispatchEvent(new CustomEvent("sakura-status-change"));
 				if (typeof hue === "number") {
 					setHue(hue);
 				}
+				if (typeof homeTextEnabled === "boolean") {
+					setHomeTextEnabled(homeTextEnabled);
+					const bannerTextOverlay = document.getElementById(
+						"banner-text-overlay",
+					);
+					if (bannerTextOverlay) {
+						if (homeTextEnabled) {
+							bannerTextOverlay.classList.remove("hidden");
+						} else {
+							bannerTextOverlay.classList.add("hidden");
+						}
+					}
+				}
+				window.dispatchEvent(
+					new CustomEvent("festival-restore", {
+						detail: {
+							sakuraAvailable: !!sakuraAvailable,
+							homeTextAvailable: !!homeTextAvailable,
+							hue: typeof hue === "number" ? hue : undefined,
+						},
+					}),
+				);
 			} catch {}
 			localStorage.removeItem(FESTIVAL_BACKUP_KEY);
 			localStorage.removeItem("festivalEasterEgg_forcedBanner");
@@ -476,38 +510,64 @@ function setupFestivalEasterEgg() {
 	const FESTIVAL_FORCED_BANNER_KEY = "festivalEasterEgg_forcedBanner";
 
 	if (shouldForceFestivalMode) {
-		if (!localStorage.getItem(FESTIVAL_BACKUP_KEY)) {
+		const isFirstEntry = !localStorage.getItem(FESTIVAL_BACKUP_KEY);
+
+		if (isFirstEntry) {
+			const configCarrier = document.getElementById("config-carrier");
 			const backupData = {
 				wallpaperMode: getStoredWallpaperMode(),
 				sakuraEnabled:
 					localStorage.getItem("sakuraEnabled") ??
 					(sakuraConfig.uiDefaultEnabled ? "true" : "false"),
 				hue: getHue(),
+				homeTextEnabled: localStorage.getItem("homeTextEnabled") === "true",
+				sakuraAvailable: configCarrier?.dataset.sakuraAvailable === "true",
+				homeTextAvailable: configCarrier?.dataset.homeTextAvailable === "true",
 			};
 			localStorage.setItem(FESTIVAL_BACKUP_KEY, JSON.stringify(backupData));
-		}
 
-		const forcedBanner = localStorage.getItem(FESTIVAL_FORCED_BANNER_KEY);
-		if (!forcedBanner) {
+			// 首次进入节日：强制全屏横幅模式、色相归零、开启樱花和横幅显示
 			const currentMode = getStoredWallpaperMode();
 			if (currentMode !== WALLPAPER_FULLSCREEN_BANNER) {
 				setWallpaperMode(WALLPAPER_FULLSCREEN_BANNER);
 			}
-			localStorage.setItem(FESTIVAL_FORCED_BANNER_KEY, "true");
+
+			if (getHue() !== 0) {
+				setHue(0);
+			}
+
+			setHomeTextEnabled(true);
+			const bannerTextOverlay = document.getElementById("banner-text-overlay");
+			if (bannerTextOverlay) {
+				bannerTextOverlay.classList.remove("hidden");
+			}
+
+			if (sakuraConfig) {
+				setSakuraEnabled(true);
+				initSakura({ ...sakuraConfig, enable: true }, "/festivalEasterEgg.png");
+			}
 		}
 
-		// 节日期间强制主题色色相为 0（红色）
-		if (getHue() !== 0) {
-			setHue(0);
-		}
-	}
+		localStorage.setItem(FESTIVAL_FORCED_BANNER_KEY, "true");
 
-	if (shouldForceFestivalMode && sakuraConfig) {
-		if (!getSakuraStatus()) {
-			localStorage.setItem("sakuraEnabled", "true");
-			initSakura({ ...sakuraConfig, enable: true }, "/festivalEasterEgg.png"); // 使用节日彩蛋图片
-			window.dispatchEvent(new CustomEvent("sakura-status-change"));
+		// 非首次进入节日时，确保樱花使用节日图片（刷新后 setupSakura 可能已用默认图片初始化）
+		if (!isFirstEntry && sakuraConfig) {
+			if (getSakuraStatus()) {
+				initSakura({ ...sakuraConfig, enable: true }, "/festivalEasterEgg.png");
+			} else {
+				initSakura(
+					{ ...sakuraConfig, enable: false },
+					"/festivalEasterEgg.png",
+				);
+			}
 		}
+
+		// 通知面板：显示开关（首次还强制开启，后续尊重用户选择）
+		window.dispatchEvent(
+			new CustomEvent("festival-force-change", {
+				detail: { firstEntry: isFirstEntry, hue: getHue() },
+			}),
+		);
 	}
 }
 

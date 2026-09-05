@@ -57,6 +57,7 @@ export const ar: Translation = {
 	[Key.sakuraEffect]: "تأثير الساكورا",
 	[Key.wavesEffect]: "تأثير الأمواج",
 	[Key.wavesPerformanceMode]: "وضع الأداء",
+	[Key.homeText]: "عرض البانر",
 
 	[Key.lightMode]: "فاتح",
 	[Key.darkMode]: "داكن",

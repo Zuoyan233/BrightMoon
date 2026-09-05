@@ -19,6 +19,7 @@ import {
 	getHue,
 	getStoredBannerPosition,
 	getStoredCardOpacity,
+	getStoredHomeTextEnabled,
 	getStoredNavbarTransparentMode,
 	getStoredPostListLayout,
 	getStoredSakuraEnabled,
@@ -30,6 +31,7 @@ import {
 	getStoredWavesPerformanceMode,
 	setBannerPosition,
 	setCardOpacity,
+	setHomeTextEnabled,
 	setHue,
 	setNavbarTransparentMode,
 	setPostListLayout,
@@ -60,13 +62,16 @@ let wavesPerformanceMode = true;
 // 水波纹功能是否可用（由 config 控制）
 let wavesAvailable = true;
 
+// 横幅显示状态
+let homeTextEnabled = false;
+// 横幅显示功能是否可用（由 config 控制）
+let homeTextAvailable = true;
+
 // 壁纸模式
 let currentWallpaperMode: WALLPAPER_MODE = WALLPAPER_BANNER;
 
-// 桌面端判断（用于全屏横幅模式下隐藏移动端/平板端的壁纸位置）
-let isDesktop = true;
-// 平板端判断（768px - 1279px）
-let isTablet = false;
+// 节日强制模式（节日期间禁用樱花和横幅显示开关）
+let isFestivalForced = false;
 
 // 横幅位置（banner模式时有效）
 let currentBannerPosition: WALLPAPER_POSITION = "center";
@@ -182,9 +187,33 @@ function toggleWavesPerformanceMode() {
 	}
 }
 
+function toggleHomeText() {
+	homeTextEnabled = !homeTextEnabled;
+	setHomeTextEnabled(homeTextEnabled);
+	const bannerTextOverlay = document.getElementById("banner-text-overlay");
+	if (bannerTextOverlay) {
+		if (homeTextEnabled) {
+			bannerTextOverlay.classList.remove("hidden");
+		} else {
+			bannerTextOverlay.classList.add("hidden");
+		}
+	}
+}
+
 function selectWallpaperMode(mode: WALLPAPER_MODE) {
 	currentWallpaperMode = mode;
 	setWallpaperMode(mode);
+	const bannerTextOverlay = document.getElementById("banner-text-overlay");
+	if (bannerTextOverlay) {
+		if (
+			(mode === WALLPAPER_BANNER || mode === WALLPAPER_FULLSCREEN_BANNER) &&
+			homeTextEnabled
+		) {
+			bannerTextOverlay.classList.remove("hidden");
+		} else {
+			bannerTextOverlay.classList.add("hidden");
+		}
+	}
 }
 
 function wallpaperModeLabel(mode: string): string {
@@ -371,12 +400,6 @@ function checkWallpaperVisibility() {
 	}
 }
 
-// 更新桌面端状态（1280px 以上视为桌面端，与主样式断点一致）
-function updateDesktopState() {
-	isDesktop = window.innerWidth >= 1280;
-	isTablet = window.innerWidth >= 768 && window.innerWidth < 1280;
-}
-
 onMount(() => {
 	isMounted = true;
 	defaultHue = getDefaultHue();
@@ -422,6 +445,24 @@ onMount(() => {
 		wavesAvailable = configCarrier.dataset.wavesEnabled === "true";
 	}
 
+	// 读取横幅显示状态
+	if (configCarrier?.dataset.homeTextAvailable) {
+		homeTextAvailable = configCarrier.dataset.homeTextAvailable === "true";
+	}
+	homeTextEnabled = getStoredHomeTextEnabled();
+	const bannerTextOverlayInit = document.getElementById("banner-text-overlay");
+	if (bannerTextOverlayInit) {
+		if (
+			(currentWallpaperMode === WALLPAPER_BANNER ||
+				currentWallpaperMode === WALLPAPER_FULLSCREEN_BANNER) &&
+			homeTextEnabled
+		) {
+			bannerTextOverlayInit.classList.remove("hidden");
+		} else {
+			bannerTextOverlayInit.classList.add("hidden");
+		}
+	}
+
 	// 读取壁纸显示设置
 	if (configCarrier?.dataset.wallpaperShowSwitch) {
 		wallpaperShowSwitch = configCarrier.dataset.wallpaperShowSwitch;
@@ -436,21 +477,39 @@ onMount(() => {
 	// 读取导航栏透明模式
 	navbarTransparentMode = getStoredNavbarTransparentMode();
 
+	// 初始化节日强制模式状态（显示开关，启用状态从 localStorage 读取以尊重用户手动操作）
+	isFestivalForced =
+		localStorage.getItem("festivalEasterEgg_forcedBanner") === "true";
+	if (isFestivalForced) {
+		sakuraAvailable = true;
+		homeTextAvailable = true;
+		sakuraEnabled = getStoredSakuraEnabled();
+		homeTextEnabled = getStoredHomeTextEnabled();
+	}
+
 	// 初始化壁纸区域可见性
 	checkWallpaperVisibility();
-
-	// 初始化桌面端状态
-	updateDesktopState();
 
 	// 监听窗口大小变化
 	window.addEventListener("resize", () => {
 		checkWallpaperVisibility();
-		updateDesktopState();
 	});
 
 	// 监听壁纸模式外部变化（如节日彩蛋强制切换）
 	const onWallpaperModeChange = (e: CustomEvent<{ mode: WALLPAPER_MODE }>) => {
 		currentWallpaperMode = e.detail.mode;
+		const bannerTextOverlay = document.getElementById("banner-text-overlay");
+		if (bannerTextOverlay) {
+			if (
+				(e.detail.mode === WALLPAPER_BANNER ||
+					e.detail.mode === WALLPAPER_FULLSCREEN_BANNER) &&
+				homeTextEnabled
+			) {
+				bannerTextOverlay.classList.remove("hidden");
+			} else {
+				bannerTextOverlay.classList.add("hidden");
+			}
+		}
 	};
 	window.addEventListener(
 		"wallpaper-mode-change",
@@ -459,10 +518,63 @@ onMount(() => {
 
 	// 监听樱花状态外部变化（如节日彩蛋强制开启）
 	const onSakuraStatusChange = () => {
-		sakuraAvailable = true;
 		sakuraEnabled = getStoredSakuraEnabled();
 	};
 	window.addEventListener("sakura-status-change", onSakuraStatusChange);
+
+	// 监听横幅显示状态外部变化（如节日彩蛋强制开启）
+	const onHomeTextStatusChange = () => {
+		homeTextEnabled = getStoredHomeTextEnabled();
+	};
+	window.addEventListener(
+		"home-text-enabled-change",
+		onHomeTextStatusChange as EventListener,
+	);
+
+	// 监听节日强制模式：显示樱花和横幅显示开关（首次进入还强制开启，后续尊重用户选择）
+	const onFestivalForceChange = (
+		e: CustomEvent<{ firstEntry: boolean; hue?: number }>,
+	) => {
+		isFestivalForced = true;
+		sakuraAvailable = true;
+		homeTextAvailable = true;
+		if (e.detail?.firstEntry) {
+			sakuraEnabled = true;
+			homeTextEnabled = true;
+		} else {
+			sakuraEnabled = getStoredSakuraEnabled();
+			homeTextEnabled = getStoredHomeTextEnabled();
+		}
+		if (typeof e.detail?.hue === "number") {
+			hue = e.detail.hue;
+		}
+	};
+	window.addEventListener(
+		"festival-force-change",
+		onFestivalForceChange as EventListener,
+	);
+
+	// 监听节日结束恢复：恢复樱花和横幅显示的可用性和启用状态
+	const onFestivalRestore = (
+		e: CustomEvent<{
+			sakuraAvailable: boolean;
+			homeTextAvailable: boolean;
+			hue?: number;
+		}>,
+	) => {
+		isFestivalForced = false;
+		sakuraAvailable = e.detail.sakuraAvailable;
+		sakuraEnabled = getStoredSakuraEnabled();
+		homeTextAvailable = e.detail.homeTextAvailable;
+		homeTextEnabled = getStoredHomeTextEnabled();
+		if (typeof e.detail.hue === "number") {
+			hue = e.detail.hue;
+		}
+	};
+	window.addEventListener(
+		"festival-restore",
+		onFestivalRestore as EventListener,
+	);
 
 	return () => {
 		window.removeEventListener("resize", checkWallpaperVisibility);
@@ -471,6 +583,18 @@ onMount(() => {
 			onWallpaperModeChange as EventListener,
 		);
 		window.removeEventListener("sakura-status-change", onSakuraStatusChange);
+		window.removeEventListener(
+			"home-text-enabled-change",
+			onHomeTextStatusChange as EventListener,
+		);
+		window.removeEventListener(
+			"festival-force-change",
+			onFestivalForceChange as EventListener,
+		);
+		window.removeEventListener(
+			"festival-restore",
+			onFestivalRestore as EventListener,
+		);
 	};
 });
 
@@ -487,6 +611,23 @@ $: if (isMounted && currentWallpaperMode !== lastWallpaperModeForTranslation) {
 let lastWavesEnabledForTranslation: boolean | null = null;
 $: if (isMounted && wavesEnabled !== lastWavesEnabledForTranslation) {
 	lastWavesEnabledForTranslation = wavesEnabled;
+	void tick().then(() => {
+		translationManager.refresh();
+	});
+}
+
+// 横幅显示开关或壁纸模式变化时，刷新翻译以确保新出现的 UI 元素被正确翻译
+let lastHomeTextVisibleForTranslation: boolean | null = null;
+$: if (
+	isMounted &&
+	homeTextAvailable &&
+	(currentWallpaperMode === WALLPAPER_BANNER ||
+		currentWallpaperMode === WALLPAPER_FULLSCREEN_BANNER) !==
+		lastHomeTextVisibleForTranslation
+) {
+	lastHomeTextVisibleForTranslation =
+		currentWallpaperMode === WALLPAPER_BANNER ||
+		currentWallpaperMode === WALLPAPER_FULLSCREEN_BANNER;
 	void tick().then(() => {
 		translationManager.refresh();
 	});
@@ -625,6 +766,35 @@ $: if (isMounted && (hue || hue === 0)) {
 	{/if}
 {/if}
 
+{#if homeTextAvailable && (currentWallpaperMode === WALLPAPER_BANNER || currentWallpaperMode === WALLPAPER_FULLSCREEN_BANNER)}
+	<!-- 横幅显示开关 -->
+	<div class="mb-3 flex items-center justify-between">
+		<div class="flex items-center gap-2">
+			<Icon icon="material-symbols:text-fields-outline" class="text-[var(--btn-content)] text-lg" />
+			<span class="text-base font-bold text-neutral-700 dark:text-neutral-300">
+				{i18n(I18nKey.homeText)}
+			</span>
+		</div>
+		<button
+			class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200
+				focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-1"
+			class:bg-[var(--primary)]={homeTextEnabled}
+			class:bg-neutral-300={!homeTextEnabled}
+			class:dark:bg-neutral-600={!homeTextEnabled}
+			on:click={toggleHomeText}
+			aria-label={i18n(I18nKey.homeText)}
+			role="switch"
+			aria-checked={homeTextEnabled}
+		>
+			<span
+				class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200"
+				class:translate-x-6={homeTextEnabled}
+				class:translate-x-1={!homeTextEnabled}
+			></span>
+		</button>
+	</div>
+{/if}
+
 {#if showWallpaperSection}
 		<!-- 壁纸模式选择 -->
 		 <div class="flex items-center gap-2 mb-3">
@@ -699,8 +869,8 @@ $: if (isMounted && (hue || hue === 0)) {
 		</div>
 {/if}
 
-{#if showWallpaperSection && ((currentWallpaperMode === WALLPAPER_BANNER && !isTablet) || (currentWallpaperMode === WALLPAPER_FULLSCREEN_BANNER && isDesktop))}
-		<!-- 横幅位置选择（banner / fullscreen-banner 模式仅在桌面端显示） -->
+{#if showWallpaperSection && (currentWallpaperMode === WALLPAPER_BANNER || currentWallpaperMode === WALLPAPER_FULLSCREEN_BANNER)}
+		<!-- 横幅位置选择（banner / fullscreen-banner 模式） -->
 		<div>
 			<div class="flex items-center gap-2 mb-3">
 				<Icon icon="material-symbols:vertical-align-center" class="text-[var(--btn-content)] text-lg" />
@@ -761,8 +931,8 @@ $: if (isMounted && (hue || hue === 0)) {
 {/if}
 
 {#if showWallpaperSection && currentWallpaperMode === WALLPAPER_FULLSCREEN}
-		<!-- 壁纸位置选择（仅全屏壁纸时显示，移动端隐藏） -->
-		<div class="hidden lg:block">
+		<!-- 壁纸位置选择（全屏壁纸模式） -->
+		<div>
 			<div class="flex items-center gap-2 mb-3">
 				<Icon icon="material-symbols:vertical-align-center" class="text-[var(--btn-content)] text-lg" />
 				<span class="text-base font-bold text-neutral-700 dark:text-neutral-300">

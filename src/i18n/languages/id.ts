@@ -57,6 +57,7 @@ export const id: Translation = {
 	[Key.sakuraEffect]: "Efek Sakura",
 	[Key.wavesEffect]: "Efek Ombak",
 	[Key.wavesPerformanceMode]: "Mode Performa",
+	[Key.homeText]: "Tampilan Banner",
 
 	[Key.lightMode]: "Terang",
 	[Key.darkMode]: "Gelap",

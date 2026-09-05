@@ -73,8 +73,8 @@ export type SiteConfig = {
 		// 壁纸模式配置
 		wallpaperMode: {
 			defaultMode: "banner" | "fullscreen" | "fullscreen-banner" | "none"; // 默认壁纸模式：banner=顶部横幅，fullscreen=全屏壁纸，fullscreen-banner=全屏横幅，none=无壁纸
-			defaultBannerPosition?: "top" | "center" | "bottom"; // 默认横幅位置（banner 与 fullscreen-banner 模式时生效，仅支持桌面端与移动端）：top=顶部对齐，center=居中，bottom=底部对齐
-			defaultFullscreenPosition?: "top" | "center" | "bottom"; // 默认壁纸位置（全屏壁纸时生效，仅支持桌面端）：top=顶部对齐，center=居中，bottom=底部对齐
+			defaultBannerPosition?: "top" | "center" | "bottom"; // 默认横幅位置（banner 与 fullscreen-banner 模式时生效，支持桌面端、平板端与移动端）：top=顶部对齐，center=居中，bottom=底部对齐
+			defaultFullscreenPosition?: "top" | "center" | "bottom"; // 默认壁纸位置（全屏壁纸时生效，支持桌面端、平板端与移动端）：top=顶部对齐，center=居中，bottom=底部对齐
 			defaultOpacity?: number; // 默认壁纸透明度，0-1之间（全屏壁纸时生效）
 			defaultBlur?: number; // 默认背景模糊程度，单位px（全屏壁纸时生效）
 			defaultCardOpacity?: number; // 默认卡片透明度，0-1之间（全屏壁纸时生效）

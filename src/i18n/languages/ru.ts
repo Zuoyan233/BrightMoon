@@ -57,6 +57,7 @@ export const ru: Translation = {
 	[Key.sakuraEffect]: "Эффект сакуры",
 	[Key.wavesEffect]: "Эффект волн",
 	[Key.wavesPerformanceMode]: "Режим производительности",
+	[Key.homeText]: "Отображение баннера",
 
 	[Key.lightMode]: "Светлая",
 	[Key.darkMode]: "Тёмная",

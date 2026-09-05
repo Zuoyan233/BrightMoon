@@ -57,6 +57,7 @@ export const zh_CN: Translation = {
 	[Key.sakuraEffect]: "樱花特效",
 	[Key.wavesEffect]: "水波纹特效",
 	[Key.wavesPerformanceMode]: "性能模式",
+	[Key.homeText]: "横幅显示",
 
 	[Key.lightMode]: "亮色",
 	[Key.darkMode]: "暗色",

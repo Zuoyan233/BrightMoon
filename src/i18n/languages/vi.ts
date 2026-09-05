@@ -57,6 +57,7 @@ export const vi: Translation = {
 	[Key.sakuraEffect]: "Hiệu ứng hoa anh đào",
 	[Key.wavesEffect]: "Hiệu ứng sóng",
 	[Key.wavesPerformanceMode]: "Chế độ hiệu suất",
+	[Key.homeText]: "Hiển thị biểu ngữ",
 
 	[Key.lightMode]: "Sáng",
 	[Key.darkMode]: "Tối",

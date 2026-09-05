@@ -57,6 +57,7 @@ export const de: Translation = {
 	[Key.sakuraEffect]: "Kirschblüten-Effekt",
 	[Key.wavesEffect]: "Welleneffekt",
 	[Key.wavesPerformanceMode]: "Leistungsmodus",
+	[Key.homeText]: "Banner-Anzeige",
 
 	[Key.lightMode]: "Hell",
 	[Key.darkMode]: "Dunkel",

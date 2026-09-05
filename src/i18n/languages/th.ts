@@ -57,6 +57,7 @@ export const th: Translation = {
 	[Key.sakuraEffect]: "เอฟเฟกต์ซากุระ",
 	[Key.wavesEffect]: "เอฟเฟกต์คลื่น",
 	[Key.wavesPerformanceMode]: "โหมดประสิทธิภาพ",
+	[Key.homeText]: "การแสดงแบนเนอร์",
 
 	[Key.lightMode]: "สว่าง",
 	[Key.darkMode]: "มืด",

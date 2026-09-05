@@ -436,3 +436,22 @@ export function setWavesPerformanceMode(enabled: boolean): void {
 		new CustomEvent("waves-performance-mode-change", { detail: { enabled } }),
 	);
 }
+
+export function getStoredHomeTextEnabled(): boolean {
+	const configCarrier = document.getElementById("config-carrier");
+	if (configCarrier?.dataset.appearanceFixed === "true") {
+		return configCarrier?.dataset.homeTextAvailable === "true";
+	}
+	const stored = localStorage.getItem("homeTextEnabled");
+	if (stored !== null) {
+		return stored === "true";
+	}
+	return configCarrier?.dataset.homeTextAvailable === "true";
+}
+
+export function setHomeTextEnabled(enabled: boolean): void {
+	localStorage.setItem("homeTextEnabled", String(enabled));
+	window.dispatchEvent(
+		new CustomEvent("home-text-enabled-change", { detail: { enabled } }),
+	);
+}

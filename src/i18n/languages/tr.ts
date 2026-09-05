@@ -57,6 +57,7 @@ export const tr: Translation = {
 	[Key.sakuraEffect]: "Sakura Efekti",
 	[Key.wavesEffect]: "Dalga Efekti",
 	[Key.wavesPerformanceMode]: "Performans Modu",
+	[Key.homeText]: "Banner Görünümü",
 
 	[Key.lightMode]: "Açık",
 	[Key.darkMode]: "Koyu",
