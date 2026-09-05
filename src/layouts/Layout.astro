@@ -306,7 +306,16 @@ if (siteConfig.font?.fontFamily) {
 		data-is-home={isHomePage}
 		style={bodyFontFamily ? `font-family: ${bodyFontFamily};` : ""}
 	>
-		<ProgressBar client:idle />
+		<!-- 顶部加载条 -->
+		{
+			siteConfig.progressBar?.enable !== false &&
+				siteConfig.progressBar?.fadeDuration != null && (
+					<ProgressBar
+						fadeDuration={siteConfig.progressBar.fadeDuration}
+						client:idle
+					/>
+				)
+		}
 
 		<!-- 页面顶部渐变高光效果 - 只在full和semifull模式下显示 -->
 		{shouldShowTopHighlight && <div class="top-gradient-highlight" />}

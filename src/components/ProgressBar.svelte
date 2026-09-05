@@ -1,4 +1,6 @@
 <script lang="ts">
+let { fadeDuration }: { fadeDuration: number } = $props();
+
 let progress = $state(0);
 let visible = $state(false);
 let animating = $state(false);
@@ -28,7 +30,7 @@ function completeProgress() {
 	setTimeout(() => {
 		visible = false;
 		progress = 0;
-	}, 400);
+	}, fadeDuration);
 }
 
 function setupSwupHooks() {
@@ -59,7 +61,7 @@ $effect(() => {
     <div
       class="progress-bar"
       class:complete={progress >= 1}
-      style="width: {progress * 100}%"
+      style="width: {progress * 100}%; --fade-duration: {fadeDuration}ms"
     ></div>
   </div>
 {/if}
@@ -87,7 +89,7 @@ $effect(() => {
     width: 100% !important;
     transition:
       width 120ms ease-out,
-      opacity 250ms ease-in;
+      opacity var(--fade-duration, 250ms) ease-in;
     opacity: 0;
   }
 </style>

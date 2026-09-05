@@ -156,6 +156,12 @@ export type SiteConfig = {
 		};
 	};
 
+	// 顶部加载条配置
+	progressBar?: {
+		enable: boolean; // 是否启用顶部加载条
+		fadeDuration?: number; // 加载完成后淡出时长（毫秒），默认 400
+	};
+
 	// Cookie 隐私协议配置
 	cookieConsent?: {
 		enable: boolean; // true=显示协议弹窗，false=关闭弹窗且默认同意所有权限

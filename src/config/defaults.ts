@@ -118,6 +118,12 @@ export const defaultSiteConfig: SiteConfig = {
 		sponsors: true, // 赞助页面开关
 	},
 
+	// 顶部加载条配置
+	progressBar: {
+		enable: true, // 是否启用顶部加载条
+		fadeDuration: 400, // 加载完成后淡出时长（毫秒）
+	},
+
 	// Cookie 隐私协议开关：true=显示协议弹窗，false=关闭弹窗且默认同意所有权限
 	cookieConsent: {
 		enable: true,
