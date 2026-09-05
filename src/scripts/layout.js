@@ -808,11 +808,14 @@ const setup = () => {
 			heightExtend.classList.remove("hidden");
 		}
 
-		// 确保页面滚动到顶部，特别是移动端banner关闭时
-		window.scrollTo({
-			top: 0,
-			behavior: "smooth",
-		});
+		// 全屏横幅模式下由 main-grid.js 的 scrollToMainPanelReliably 控制滚动定位
+		const wallpaperMode = localStorage.getItem("wallpaperMode") || "banner";
+		if (wallpaperMode !== "fullscreen-banner") {
+			window.scrollTo({
+				top: 0,
+				behavior: "smooth",
+			});
+		}
 
 		// 同步主题状态 - 解决从首页进入文章页面时代码块渲染问题
 		const storedTheme = localStorage.getItem("theme") || DEFAULT_THEME;

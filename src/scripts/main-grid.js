@@ -203,14 +203,60 @@ function scrollToMainPanelIfNeeded(isNavigation = false) {
 	}
 }
 
+// 全屏横幅模式下，页面切换后可靠地滚动到主内容区域
+function scrollToMainPanelReliably() {
+	if (window.innerWidth < 1280) return;
+
+	const wallpaperMode =
+		localStorage.getItem("wallpaperMode") || defaultWallpaperMode;
+	if (wallpaperMode !== "fullscreen-banner") return;
+
+	const maxRetries = 6;
+	const retryInterval = 100;
+	let retryCount = 0;
+	let lastTargetY = -1;
+
+	function attemptScroll() {
+		const mainPanel = document.querySelector(
+			".absolute.w-full.z-30.pointer-events-none",
+		);
+		if (!mainPanel) {
+			retryCount++;
+			if (retryCount < maxRetries) {
+				setTimeout(attemptScroll, retryInterval);
+			}
+			return;
+		}
+
+		const rect = mainPanel.getBoundingClientRect();
+		const targetY = Math.max(0, rect.top + window.scrollY - 60);
+
+		if (targetY <= 0) {
+			return;
+		}
+
+		if (targetY === lastTargetY) {
+			window.scrollTo({ top: targetY, behavior: "smooth" });
+			return;
+		}
+
+		lastTargetY = targetY;
+		retryCount++;
+		if (retryCount < maxRetries) {
+			setTimeout(attemptScroll, retryInterval);
+		} else {
+			window.scrollTo({ top: targetY, behavior: "smooth" });
+		}
+	}
+
+	setTimeout(attemptScroll, 150);
+}
+
 // 统一处理 Swup 页面切换
 const handleSwupPageView = () => {
 	applyWallpaperMode();
 
-	// 延迟滚动，等待布局类与过渡就位
-	setTimeout(() => {
-		scrollToMainPanelIfNeeded(true);
-	}, 100);
+	scrollToMainPanelReliably();
 
 	// 延迟更新 TOC 显示，等待新页面内容渲染完成
 	setTimeout(() => {
