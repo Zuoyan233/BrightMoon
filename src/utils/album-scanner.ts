@@ -86,13 +86,13 @@ async function processAlbumFolder(
 		photos = processExternalPhotos(info.photos || [], folderName);
 	} else {
 		// 本地模式：检查本地文件
-		const coverPath = path.join(folderPath, "cover.webp");
+		const coverPath = path.join(folderPath, "cover.jpg");
 		if (!fs.existsSync(coverPath)) {
-			console.warn(`Album ${folderName} is missing cover.webp file.\n`);
+			console.warn(`Album ${folderName} is missing cover.jpg file.\n`);
 			return null;
 		}
 
-		cover = `/images/albums/${folderName}/cover.webp`;
+		cover = `/images/albums/${folderName}/cover.jpg`;
 		photos = scanPhotos(folderPath, folderName);
 	}
 
@@ -132,7 +132,7 @@ function scanPhotos(folderPath: string, albumId: string): Photo[] {
 				".bmp",
 				".tiff",
 				".tif",
-			].includes(ext) && file !== "cover.webp"
+			].includes(ext) && file !== "cover.jpg"
 		);
 	});
 

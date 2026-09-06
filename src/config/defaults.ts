@@ -601,7 +601,7 @@ export const defaultFooterConfig: FooterConfig = {
 
 // 图片优化配置
 export const defaultImageOptimizeConfig: ImageOptimizeConfig = {
-	webpQuality: 80, // WebP 压缩质量 (1-100)
+	imageQuality: 80, // 图片压缩质量 (1-100)
 	tasks: [
 		{
 			name: "Desktop Banner", // 任务名称
@@ -609,6 +609,7 @@ export const defaultImageOptimizeConfig: ImageOptimizeConfig = {
 			dir: "dist/assets/desktop-banner", // 构建后输出目录
 			maxWidth: 1920, // 最大宽度
 			maxHeight: 1080, // 最大高度
+			formats: ["webp"], // 目标转换格式，可选 "webp" | "avif"
 			recursive: true, // 是否递归处理子目录
 		},
 		{
@@ -617,6 +618,7 @@ export const defaultImageOptimizeConfig: ImageOptimizeConfig = {
 			dir: "dist/assets/mobile-banner",
 			maxWidth: 800,
 			maxHeight: 1200,
+			formats: ["webp"],
 			recursive: true,
 		},
 		{
@@ -625,6 +627,7 @@ export const defaultImageOptimizeConfig: ImageOptimizeConfig = {
 			dir: "dist/assets/home",
 			maxWidth: 256,
 			maxHeight: 256,
+			formats: ["webp"],
 			recursive: true,
 		},
 		{
@@ -633,6 +636,7 @@ export const defaultImageOptimizeConfig: ImageOptimizeConfig = {
 			dir: "dist/_astro",
 			maxWidth: 256,
 			maxHeight: 256,
+			formats: ["webp"],
 			recursive: true,
 		},
 		{
@@ -641,6 +645,7 @@ export const defaultImageOptimizeConfig: ImageOptimizeConfig = {
 			dir: "dist/assets/anime",
 			maxWidth: 450,
 			maxHeight: 600,
+			formats: ["webp"],
 			recursive: true,
 		},
 		{
@@ -649,6 +654,7 @@ export const defaultImageOptimizeConfig: ImageOptimizeConfig = {
 			dir: "dist/images/albums",
 			maxWidth: 1920,
 			maxHeight: 1080,
+			formats: ["webp"],
 			recursive: true,
 		},
 		{
@@ -657,6 +663,8 @@ export const defaultImageOptimizeConfig: ImageOptimizeConfig = {
 			dir: "dist/_astro",
 			maxWidth: 1920,
 			maxHeight: 1080,
+			formats: ["webp"],
+			recursive: true,
 		},
 		{
 			name: "Posts",
@@ -664,6 +672,7 @@ export const defaultImageOptimizeConfig: ImageOptimizeConfig = {
 			dir: "dist/images/posts",
 			maxWidth: 1920,
 			maxHeight: 1080,
+			formats: ["webp"],
 			recursive: true,
 		},
 		{
@@ -672,6 +681,7 @@ export const defaultImageOptimizeConfig: ImageOptimizeConfig = {
 			dir: "dist/images/sponsors",
 			maxWidth: 600,
 			maxHeight: 600,
+			formats: ["webp"],
 			recursive: true,
 		},
 		{
@@ -680,6 +690,7 @@ export const defaultImageOptimizeConfig: ImageOptimizeConfig = {
 			dir: "dist/images/contact",
 			maxWidth: 600,
 			maxHeight: 600,
+			formats: ["webp"],
 			recursive: true,
 		},
 		{
@@ -688,6 +699,7 @@ export const defaultImageOptimizeConfig: ImageOptimizeConfig = {
 			dir: "dist/images/diary",
 			maxWidth: 1920,
 			maxHeight: 1080,
+			formats: ["webp"],
 			recursive: true,
 		},
 		{
@@ -696,6 +708,7 @@ export const defaultImageOptimizeConfig: ImageOptimizeConfig = {
 			dir: "dist/images/device",
 			maxWidth: 800,
 			maxHeight: 800,
+			formats: ["webp"],
 			recursive: true,
 		},
 	],

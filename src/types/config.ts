@@ -593,10 +593,11 @@ export type ImageOptimizeTaskConfig = {
 	maxWidth: number; // 最大宽度
 	maxHeight: number; // 最大高度
 	recursive?: boolean; // 是否递归处理子目录
+	formats?: ("webp" | "avif")[]; // 目标转换格式
 };
 
 export type ImageOptimizeConfig = {
-	webpQuality: number; // WebP 压缩质量 (1-100)
+	imageQuality: number; // 图片压缩质量 (1-100)
 	tasks: ImageOptimizeTaskConfig[]; // 图片优化任务列表
 };
 

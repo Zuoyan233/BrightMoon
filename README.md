@@ -123,7 +123,7 @@ This project is a customized extension based on Mizuki V8.2, with version number
 - **Weather Widget** - Powered by WeatherAPI, supporting 7-day forecasts, IP-based auto-location, and manual city search.
 - **Cookie Consent** - Cookie privacy policy banner with accept/deny support; auto-clears non-essential cookies on denial.
 - **Site Statistics** - Real-time display of current date (with multi-region format support), season, and time period.
-- **Image Volume Compression** - Automatically compress images, and convert them to WebP format, reducing load times and enhancing user experience.
+- **Image Volume Compression** - Automatically compress images, and convert them to WebP or AVIF format, reducing load times and enhancing user experience.
 - **Framework Update Checker** - Automatically detects new BrightMoon releases via remote repository API, supports stable and pre-release detection, with prompt dialogs for updates.
 - **Framework Upgrade Tool** - Supports both online and local upgrades, with automatic backup creation and rollback prevention before updating, and automatic dependency installation and temporary file cleanup after upgrading; supports manual backup creation and project restoration from backups.
 
@@ -174,7 +174,7 @@ This project is a customized extension based on Mizuki V8.2, with version number
   Creating an album requires only 3 steps:
 
   1. Create a folder under `public/images/albums/` (this README's location) (folder name = album ID)
-  2. Place `cover.webp` (cover image) and other photos in the folder
+  2. Place `cover.jpg` (cover image) and other photos in the folder
   3. Create an `info.json` configuration file
 
   Done! The album will automatically appear on the album list page.
@@ -185,13 +185,13 @@ This project is a customized extension based on Mizuki V8.2, with version number
   public/images/albums/
   ├── my-travel-2024/              # Album folder (folder name = album ID)
   │   ├── info.json                # Album config file (required)
-  │   ├── cover.webp                # Cover image (required)
+  │   ├── cover.jpg                # Cover image (required)
   │   ├── photo1.jpg               # Album photos
   │   ├── photo2.jpg
   │   └── photo3.jpg
   ├── daily-life/                  # Another album
   │   ├── info.json
-  │   ├── cover.webp
+  │   ├── cover.jpg
   │   └── ...
   ```
 
@@ -241,7 +241,7 @@ This project is a customized extension based on Mizuki V8.2, with version number
     "tags": ["external", "example"],
     "layout": "masonry",
     "columns": 3,
-    "cover": "https://example.com/cover.webp",
+    "cover": "https://example.com/cover.jpg",
     "photos": [
       {
         "id": "photo-1",
@@ -291,7 +291,7 @@ This project is a customized extension based on Mizuki V8.2, with version number
 
   ##### Image Format Recommendations
 
-  **Cover Image (cover.webp):**
+  **Cover Image (cover.jpg):**
   - **Size:** 800×600px (4:3 ratio)
   - **Format:** JPG (external mode supports more formats)
   - **Size:** Recommend < 200KB
@@ -334,7 +334,7 @@ This project is a customized extension based on Mizuki V8.2, with version number
   ##### FAQ
 
   **Q: Why isn't my album showing?**  
-  A: Check if `info.json` and `cover.webp` exist, and if `hidden` is set to `true`.
+  A: Check if `info.json` and `cover.jpg` exist, and if `hidden` is set to `true`.
 
   **Q: Can I use other image formats?**  
   A: Yes, JPG, PNG, WebP, GIF, SVG, AVIF formats are supported.
