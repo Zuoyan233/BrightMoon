@@ -615,6 +615,16 @@ export const userConfig: UserConfig = {
 		id: "766208154", // 歌单ID
 		server: "netease", // 音乐源服务器。有的meting的api源支持更多平台，一般来说，netease=网易云音乐，tencent=QQ音乐，kugou=酷狗音乐，xiami=虾米音乐，baidu=百度音乐
 		type: "playlist", // 播单类型
+		localPlaylist: [
+			{
+				id: 1, // 歌曲唯一标识
+				title: "", // 歌曲标题
+				artist: "", // 歌手/艺术家
+				cover: "", // 封面图片地址
+				url: "", // 音频文件地址
+				duration: 240, // 歌曲时长（秒）
+			},
+		], // 本地播放列表，mode 为 "local" 时生效
 		currentTime: 0, // 音乐播放器当前播放时间，默认为 0
 		duration: 0, // 音乐播放器音乐时长，默认为 0
 		volume: 1, // 音乐播放器音量，音量从小到大值是 0.1-1

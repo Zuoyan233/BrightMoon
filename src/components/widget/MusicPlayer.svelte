@@ -163,17 +163,8 @@ function refreshI18n() {
 	i18nVersion++;
 }
 
-// 本地播放列表
-const localPlaylist = [
-	{
-		id: 1,
-		title: "",
-		artist: "",
-		cover: "",
-		url: "",
-		duration: 240,
-	},
-];
+// 本地播放列表，从配置中获取
+const localPlaylist = musicPlayerConfig.localPlaylist;
 
 async function fetchMetingPlaylist() {
 	if (!meting_api || !meting_id) return;

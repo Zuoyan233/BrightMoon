@@ -381,6 +381,16 @@ export type AnnouncementConfig = {
 	};
 };
 
+export type MusicPlayerLocalSong = {
+	id: number; // 歌曲唯一标识
+	title: string; // 歌曲标题
+	artist: string; // 歌手/艺术家
+	cover: string; // 封面图片地址
+	url: string; // 音频文件地址
+	duration: number; // 歌曲时长（秒）
+	lrc?: string; // 歌词文件地址（可选）
+};
+
 export type MusicPlayerConfig = {
 	enable: boolean; // 是否启用音乐播放器功能
 	mode: "meting" | "local"; // 音乐播放器模式
@@ -388,6 +398,7 @@ export type MusicPlayerConfig = {
 	id: string; // 歌单ID
 	server: string; // 音乐源服务器
 	type: string; // 音乐类型
+	localPlaylist: MusicPlayerLocalSong[]; // 本地播放列表，mode 为 "local" 时生效
 	currentTime: number; // 当前播放时间
 	duration: number; // 音乐时长
 	volume: number; // 音量
