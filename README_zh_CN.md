@@ -49,7 +49,7 @@ BrightMoon 是一款融合现代简约与优雅气质的独特二次元美学静
 
 ### 🔧 组件配置系统重构
 
-- **分层配置架构：** 配置拆分为三层：`src/config/defaults.ts`（上游默认值，升级时自动更新）、`src/config/user.ts`（用户配置，升级时受保护）、`src/config/index.ts`（合并入口）。仅需编辑 `src/config/user.ts`。
+- **分层配置架构：** 配置拆分为三层：`src/config/defaults/`（上游默认值目录，升级时自动更新）、`src/config/user/`（用户配置目录，升级时受保护）、`src/config/index.ts`（合并入口）。每个配置模块对应独立文件（如 `site.ts`、`navbar.ts`、`profile.ts`）。仅需编辑 `src/config/user/` 下的文件。
 - **响应式布局适配：** 组件支持响应式布局，可根据设备类型自动调整显示。
 
 ### 📐 布局系统优化
@@ -154,7 +154,7 @@ BrightMoon 是一款融合现代简约与优雅气质的独特二次元美学静
 
 5. **配置博客：**
 
-- 编辑 `src/config/user.ts` 自定义博客设置。
+- 编辑 `src/config/user/` 下的文件自定义博客设置（如 `site.ts`、`navbar.ts`、`profile.ts`）。
 - 更新站点信息、主题色彩、横幅图片和社交链接。
 - 配置特色页面功能。
 
@@ -351,10 +351,10 @@ BrightMoon 是一款融合现代简约与优雅气质的独特二次元美学静
 - **日记页面：** 在 `src/data/diary.ts` 中编辑动态。
 - **关于页面：** 在 `src/content/spec/about.md` 中编辑内容。
 - **赞助页面：** 在 `src/content/spec/sponsors.md` 中编辑内容。
-  - 在 `src/config/user.ts` 中找到 `addpaymentConfig` 配置支付二维码，支付二维码存放路径在 `public/images/sponsors` 内。
+  - 在 `src/config/user/addpayment.ts` 中找到 `addpaymentConfig` 配置支付二维码，支付二维码存放路径在 `public/images/sponsors` 内。
 - **反馈页面：** 在 `src/content/spec/feedback.md` 中编辑内容。
-  - 在 `src/config/user.ts` 中找到 `contactEmailConfig` 配置站长电子邮箱联系方式。
-  - 在 `src/config/user.ts` 中找到 `addfriendConfig` 配置添加好友二维码，好友二维码存放路径在 `public/images/contact` 内。
+  - 在 `src/config/user/contact-email.ts` 中找到 `contactEmailConfig` 配置站长电子邮箱联系方式。
+  - 在 `src/config/user/contact-methods.ts` 中找到 `addfriendConfig` 配置添加好友二维码，好友二维码存放路径在 `public/images/contact` 内。
 - **项目展示页面：** 在 `src/data/projects.ts` 中编辑展示的内容。
 - **技能展示页面：** 在 `src/data/skills.ts` 中编辑展示的内容。
 - **时间线页面：** 在 `src/data/timeline.ts` 中编辑展示的内容。
@@ -375,11 +375,11 @@ Frontmatter 字段说明：
 - **image**: 封面图片路径（相对于文章文件）
 - **tags**: 标签数组，用于分类
 - **category**: 文章分类
-- **encrypted**: 设置为 `true` 加密文章，需在 `src/config/user.ts` 中开启加密功能
+- **encrypted**: 设置为 `true` 加密文章，需在 `src/config/user/site.ts` 中开启加密功能
 - **password**: 密码，用于加密文章
 - **passwordHint**: 密码提示，用于密码输入框
 - **draft**: 设置为 `true` 在生产环境中隐藏文章
-- **comment**: 设置为 `true` 或 `false` 可控制当前文章的评论开关（需先在 `src/config/user.ts` 中开启 Twikoo 评论系统）
+- **comment**: 设置为 `true` 或 `false` 可控制当前文章的评论开关（需先在 `src/config/user/comment.ts` 中开启 Twikoo 评论系统）
 - **pinned**: 设置为 `true` 将文章置顶
 - **lang**: 文章语言（仅当与站点默认语言不同时设置）
 
@@ -405,7 +405,7 @@ Frontmatter 字段说明：
    - **创建备份** - 手动创建项目完整备份，备份文件保存在 `backup` 目录中。
    - **恢复备份** - 从 `backup` 目录中选择备份文件恢复项目。
 
-   升级前会自动创建备份并检测防回滚，升级完成后会自动运行 `pnpm install` 安装新依赖并清理临时文件。`src/config/user.ts` 中的用户配置升级时受保护，无需手动迁移；`src/config/defaults.ts` 中的上游默认值会自动更新。
+   升级前会自动创建备份并检测防回滚，升级完成后会自动运行 `pnpm install` 安装新依赖并清理临时文件。`src/config/user/` 中的用户配置升级时受保护，无需手动迁移；`src/config/defaults/` 中的上游默认值会自动更新。
 
 10. **所有命令都在项目根目录运行：**
 

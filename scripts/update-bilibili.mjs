@@ -5,13 +5,9 @@ import axios from "axios";
 
 const API_BASE = "https://api.bilibili.com/x/space/bangumi/follow/list";
 const PAGE_SIZE = 30;
-const USER_CONFIG_PATH = path.join(
+const CONFIG_DIR = path.join(
 	path.dirname(fileURLToPath(import.meta.url)),
-	"../src/config/user.ts",
-);
-const DEFAULTS_CONFIG_PATH = path.join(
-	path.dirname(fileURLToPath(import.meta.url)),
-	"../src/config/defaults.ts",
+	"../src/config",
 );
 const OUTPUT_FILE = path.join(
 	path.dirname(fileURLToPath(import.meta.url)),
@@ -41,34 +37,38 @@ async function withRetry(apiCall, retries = 3) {
 	}
 }
 
-async function tryReadValueFromFile(filePath, regex) {
-	try {
-		const configContent = await fs.readFile(filePath, "utf-8");
-		const match = configContent.match(regex);
-		return match?.[1] || null;
-	} catch {
-		return null;
+async function readAllConfigContents() {
+	const dirs = ["user", "defaults"];
+	const contents = [];
+	for (const dir of dirs) {
+		const dirPath = path.join(CONFIG_DIR, dir);
+		try {
+			const files = await fs.readdir(dirPath);
+			for (const file of files.filter(
+				(f) => f.endsWith(".ts") && f !== "index.ts",
+			)) {
+				contents.push(await fs.readFile(path.join(dirPath, file), "utf-8"));
+			}
+		} catch {}
 	}
+	return contents;
+}
+
+async function matchConfig(regex) {
+	for (const content of await readAllConfigContents()) {
+		const match = content.match(regex);
+		if (match) return match;
+	}
+	return null;
 }
 
 async function getUserIdFromConfig() {
 	const vmidRegex =
 		/anime:\s*\{[\s\S]*?bilibili:\s*\{[\s\S]*?vmId:\s*["']([^"']+)["']/;
 
-	const userVmid = await tryReadValueFromFile(USER_CONFIG_PATH, vmidRegex);
-	if (userVmid && userVmid !== "your-bilibili-id" && userVmid.trim() !== "") {
-		return userVmid;
-	}
-
-	const defaultVmid = await tryReadValueFromFile(
-		DEFAULTS_CONFIG_PATH,
-		vmidRegex,
-	);
-	if (defaultVmid) {
-		console.warn(
-			"Warning: Could not find a valid bilibili vmId in user.ts, using default value.\n",
-		);
-		return defaultVmid;
+	const match = await matchConfig(vmidRegex);
+	if (match && match[1] !== "your-bilibili-id" && match[1].trim() !== "") {
+		return match[1];
 	}
 
 	throw new Error("Could not find anime.bilibili.vmId in config files");
@@ -78,48 +78,31 @@ async function getSessdataFromConfig() {
 	const regex =
 		/anime:\s*\{[\s\S]*?bilibili:\s*\{[\s\S]*?SESSDATA:\s*["']([^"']*)["']/;
 
-	const userVal = await tryReadValueFromFile(USER_CONFIG_PATH, regex);
-	if (userVal !== null) return userVal;
-
-	const defaultVal = await tryReadValueFromFile(DEFAULTS_CONFIG_PATH, regex);
-	return defaultVal || "";
+	const match = await matchConfig(regex);
+	return match ? match[1] : "";
 }
 
 async function getCoverMirrorFromConfig() {
 	const regex =
 		/anime:\s*\{[\s\S]*?bilibili:\s*\{[\s\S]*?coverMirror:\s*["']([^"']*)["']/;
 
-	const userVal = await tryReadValueFromFile(USER_CONFIG_PATH, regex);
-	if (userVal !== null) return userVal;
-
-	const defaultVal = await tryReadValueFromFile(DEFAULTS_CONFIG_PATH, regex);
-	return defaultVal || "";
+	const match = await matchConfig(regex);
+	return match ? match[1] : "";
 }
 
 async function getUseWebpFromConfig() {
 	const regex =
 		/anime:\s*\{[\s\S]*?bilibili:\s*\{[\s\S]*?useWebp:\s*(true|false)/;
 
-	const userVal = await tryReadValueFromFile(USER_CONFIG_PATH, regex);
-	if (userVal !== null) return userVal !== "false";
-
-	const defaultVal = await tryReadValueFromFile(DEFAULTS_CONFIG_PATH, regex);
-	return defaultVal ? defaultVal !== "false" : true;
+	const match = await matchConfig(regex);
+	return match ? match[1] !== "false" : true;
 }
 
 async function getAnimeModeFromConfig() {
 	const modeRegex = /anime:\s*\{[^{}]*?mode:\s*["']([^"']*)["']/;
 
-	const userMode = await tryReadValueFromFile(USER_CONFIG_PATH, modeRegex);
-	if (userMode) return userMode;
-
-	const defaultMode = await tryReadValueFromFile(
-		DEFAULTS_CONFIG_PATH,
-		modeRegex,
-	);
-	if (defaultMode) return defaultMode;
-
-	return "local";
+	const match = await matchConfig(modeRegex);
+	return match ? match[1] || "local" : "local";
 }
 
 async function getDataPage(vmid, status, typeNum = 1) {
@@ -345,7 +328,7 @@ async function main() {
 	const VMID = await getUserIdFromConfig();
 	if (!VMID) {
 		console.error(
-			"✘ Bilibili vmId is not set. Please set it in src/config/user.ts\n",
+			"✘ Bilibili vmId is not set. Please set it in src/config/user/site.ts\n",
 		);
 		process.exit(1);
 	}

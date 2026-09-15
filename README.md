@@ -49,7 +49,7 @@ This project is a customized extension based on Mizuki V8.2, with version number
 
 ### 🔧 Component Configuration System Refactor
 
-- **Configuration Architecture:** Split into three layers: `src/config/defaults.ts` (upstream defaults, auto-updated on upgrade), `src/config/user.ts` (user configuration, protected on upgrade), and `src/config/index.ts` (merge entry). Edit only `src/config/user.ts`.
+- **Configuration Architecture:** Split into three layers: `src/config/defaults/` (upstream defaults directory, auto-updated on upgrade), `src/config/user/` (user configuration directory, protected on upgrade), and `src/config/index.ts` (merge entry). Each config module has its own file (e.g. `site.ts`, `navbar.ts`, `profile.ts`). Edit only files under `src/config/user/`.
 - **Responsive Layout Adaptation:** Components support responsive layouts that automatically adjust based on device type.
 
 ### 📐 Layout System Optimization
@@ -154,7 +154,7 @@ This project is a customized extension based on Mizuki V8.2, with version number
 
 5. **Configure the blog:**
 
-- Edit `src/config/user.ts` to customize blog settings.
+- Edit files under `src/config/user/` to customize blog settings (e.g. `site.ts`, `navbar.ts`, `profile.ts`).
 - Update site information, theme colors, banner images, and social links.
 - Configure special page features.
 
@@ -351,10 +351,10 @@ This project is a customized extension based on Mizuki V8.2, with version number
 - **Diary Page:** Edit posts in `src/data/diary.ts`.
 - **About Page:** Edit content in `src/content/spec/about.md`.
 - **Sponsor Page:** Edit content in `src/content/spec/sponsors.md`.
-  - Configure payment QR codes via `addpaymentConfig` in `src/config/user.ts`. QR code images go in `public/images/sponsors`.
+  - Configure payment QR codes via `addpaymentConfig` in `src/config/user/addpayment.ts`. QR code images go in `public/images/sponsors`.
 - **Feedback Page:** Edit content in `src/content/spec/feedback.md`.
-  - Configure the site owner's email via `contactEmailConfig` in `src/config/user.ts`.
-  - Configure friend QR codes via `addfriendConfig` in `src/config/user.ts`. QR code images go in `public/images/contact`.
+  - Configure the site owner's email via `contactEmailConfig` in `src/config/user/contact-email.ts`.
+  - Configure friend QR codes via `addfriendConfig` in `src/config/user/contact-methods.ts`. QR code images go in `public/images/contact`.
 - **Projects Page:** Edit content in `src/data/projects.ts`.
 - **Skills Page:** Edit content in `src/data/skills.ts`.
 - **Timeline Page:** Edit content in `src/data/timeline.ts`.
@@ -375,11 +375,11 @@ Frontmatter fields:
 - **image**: Cover image path (relative to the post file)
 - **tags**: Array of tags for categorization
 - **category**: Post category
-- **encrypted**: Set to `true` to encrypt the post (requires `src/config/user.ts` to be enabled first)
+- **encrypted**: Set to `true` to encrypt the post (requires encryption to be enabled in `src/config/user/site.ts` first)
 - **password**: Password for the post
 - **passwordHint**: Password hint for the post
 - **draft**: Set to `true` to hide the post in production
-- **comment**: Set to `true` or `false` to control comments for this post (requires Twikoo to be enabled in `src/config/user.ts` first)
+- **comment**: Set to `true` or `false` to control comments for this post (requires Twikoo to be enabled in `src/config/user/comment.ts` first)
 - **pinned**: Set to `true` to pin the post to the top
 - **lang**: Post language (only set when different from the site default)
 
@@ -405,7 +405,7 @@ Frontmatter fields:
    - **Create Backup** - Manually create a full project backup, saved to the `backup` directory.
    - **Restore Backup** - Select a backup file from the `backup` directory to restore the project.
 
-   Before upgrading, a backup is automatically created and rollback is prevented. After upgrading, `pnpm install` is automatically run to install new dependencies and clean up temporary files. User configuration in `src/config/user.ts` are protected during upgrades — no manual migration needed. Upstream default values in `src/config/defaults.ts` are updated automatically.
+   Before upgrading, a backup is automatically created and rollback is prevented. After upgrading, `pnpm install` is automatically run to install new dependencies and clean up temporary files. User configuration in `src/config/user/` are protected during upgrades — no manual migration needed. Upstream default values in `src/config/defaults/` are updated automatically.
 
 10. **All commands are run from the project root:**
 

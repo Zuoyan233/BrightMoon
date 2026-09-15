@@ -6,22 +6,27 @@ import Fontmin from "fontmin";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// 配置已拆分为 user.ts / defaults.ts / index.ts，按优先级依次读取
+// 配置已拆分为 user/ 和 defaults/ 目录，按优先级依次读取
 const CONFIG_DIR = path.join(__dirname, "../src/config");
 
 function readConfigContents() {
-	const files = ["user.ts", "defaults.ts", "index.ts"];
+	const dirs = ["user", "defaults"];
 	const contents = [];
-	for (const file of files) {
-		const filePath = path.join(CONFIG_DIR, file);
-		if (fs.existsSync(filePath)) {
-			contents.push(fs.readFileSync(filePath, "utf-8"));
+	for (const dir of dirs) {
+		const dirPath = path.join(CONFIG_DIR, dir);
+		if (fs.existsSync(dirPath) && fs.statSync(dirPath).isDirectory()) {
+			const files = fs
+				.readdirSync(dirPath)
+				.filter((f) => f.endsWith(".ts") && f !== "index.ts");
+			for (const file of files) {
+				contents.push(fs.readFileSync(path.join(dirPath, file), "utf-8"));
+			}
 		}
 	}
 	return contents;
 }
 
-// 按优先级在配置文件中匹配（user.ts > defaults.ts > index.ts）
+// 按优先级在配置文件中匹配（user/ > defaults/）
 function matchConfig(regex) {
 	for (const content of readConfigContents()) {
 		const match = content.match(regex);
@@ -165,7 +170,7 @@ async function fetchMetingPlaylistText() {
 	try {
 		// 读取音乐播放器配置（配置已拆分，按优先级查找）
 		const musicConfigMatch = matchConfig(
-			/musicPlayerConfig:\s*\{([\s\S]*?)\n\s*\},/,
+			/(?:user)?MusicPlayerConfig:\s*(?:Partial<MusicPlayerConfig>\s*=\s*)?\{([\s\S]*?)\n\s*\},?/,
 		);
 		const configStr = musicConfigMatch ? musicConfigMatch[1] : "";
 
@@ -178,23 +183,37 @@ async function fetchMetingPlaylistText() {
 			return new Set();
 		}
 
-		// 从 defaults.ts 读取默认值
+		// 从 defaults/ 目录读取默认值
 		const defaultsContent = (() => {
-			const filePath = path.join(CONFIG_DIR, "defaults.ts");
-			return fs.existsSync(filePath) ? fs.readFileSync(filePath, "utf-8") : "";
+			const dirPath = path.join(CONFIG_DIR, "defaults");
+			if (!fs.existsSync(dirPath) || !fs.statSync(dirPath).isDirectory())
+				return "";
+			const files = fs
+				.readdirSync(dirPath)
+				.filter((f) => f.endsWith(".ts") && f !== "index.ts");
+			return files
+				.map((f) => fs.readFileSync(path.join(dirPath, f), "utf-8"))
+				.join("\n");
 		})();
 		const defaultsMatch = defaultsContent.match(
-			/defaultMusicPlayerConfig[^{]*\{([\s\S]*?)\n\s*\}/,
+			/defaultMusicPlayerConfig[^{]*\{([\s\S]*?)\n\s*\},?/,
 		);
 		const defaultsStr = defaultsMatch ? defaultsMatch[1] : "";
 
-		// 从 user.ts 读取用户覆盖
+		// 从 user/ 目录读取用户覆盖
 		const userContent = (() => {
-			const filePath = path.join(CONFIG_DIR, "user.ts");
-			return fs.existsSync(filePath) ? fs.readFileSync(filePath, "utf-8") : "";
+			const dirPath = path.join(CONFIG_DIR, "user");
+			if (!fs.existsSync(dirPath) || !fs.statSync(dirPath).isDirectory())
+				return "";
+			const files = fs
+				.readdirSync(dirPath)
+				.filter((f) => f.endsWith(".ts") && f !== "index.ts");
+			return files
+				.map((f) => fs.readFileSync(path.join(dirPath, f), "utf-8"))
+				.join("\n");
 		})();
 		const userMatch = userContent.match(
-			/musicPlayerConfig:\s*\{([\s\S]*?)\n\s*\},/,
+			/userMusicPlayerConfig[^{]*\{([\s\S]*?)\n\s*\},?/,
 		);
 		const userStr = userMatch ? userMatch[1] : "";
 
@@ -332,7 +351,7 @@ async function fetchBilibiliAnimeText() {
 			const animeMatch = featureConfig.match(/anime:\s*(true|false)/);
 			if (!animeMatch || animeMatch[1] === "false") {
 				console.log(
-					"ℹ Anime page disabled, skipping Bilibili text collection.\n",
+					"ℹ Anime page disabled, skipping Bilibili API text collection.\n",
 				);
 				return new Set();
 			}
@@ -346,7 +365,7 @@ async function fetchBilibiliAnimeText() {
 
 		if (mode !== "bilibili") {
 			console.log(
-				`ℹ Anime mode is not "bilibili" or no vmId configured, skipping Bilibili text collection.\n`,
+				`ℹ Anime mode is not "bilibili" or no vmId configured, skipping Bilibili API text collection.\n`,
 			);
 			return new Set();
 		}
@@ -355,7 +374,7 @@ async function fetchBilibiliAnimeText() {
 		const dataFilePath = path.join(__dirname, "../src/data/bilibili-data.json");
 		if (!fs.existsSync(dataFilePath)) {
 			console.log(
-				"ℹ Bilibili data file not found, skipping Bilibili text collection.\n",
+				"ℹ Bilibili data file not found, skipping Bilibili API text collection.\n",
 			);
 			return new Set();
 		}
@@ -367,7 +386,9 @@ async function fetchBilibiliAnimeText() {
 		const animeList = JSON.parse(fileContent);
 
 		if (!Array.isArray(animeList)) {
-			console.log("⚠ Bilibili data is not an array, skipping text collection.\n");
+			console.log(
+				"⚠ Bilibili data is not an array, skipping text collection.\n",
+			);
 			return new Set();
 		}
 
@@ -432,7 +453,7 @@ async function fetchBilibiliAnimeText() {
 		return textSet;
 	} catch (error) {
 		console.log(
-			`⚠ Error processing Bilibili data: ${error.message}, skipping Bilibili text collection.\n`,
+			`⚠ Error processing Bilibili data: ${error.message}, skipping Bilibili API text collection.\n`,
 		);
 		return new Set();
 	}
@@ -719,7 +740,7 @@ async function collectText() {
 		}
 	});
 
-	// 2. 读取配置文件（配置拆分后分布在 user.ts / defaults.ts / index.ts，全部纳入扫描）
+	// 2. 读取配置文件（配置拆分后分布在 user/ 和 defaults/ 目录，全部纳入扫描）
 	for (const content of readConfigContents()) {
 		// 改进的字符串匹配
 		const patterns = [
@@ -975,7 +996,7 @@ async function compressFonts() {
 				const baseName = path.basename(fontFile, ext);
 
 				if (!fs.existsSync(fontSrc)) {
-					const errorMsg = `✗ Config error: Font file does not exist in config: "${fontFile}"\n   Expected path: public/assets/font/${fontFile}\n   \n   Please check:\n   1. Is the filename correct (case sensitive)?\n   2. Is the file in public/assets/font/?\n   3. Is font.localFonts in src/config/user.ts correct?\n`;
+					const errorMsg = `✗ Config error: Font file does not exist in config: "${fontFile}"\n   Expected path: public/assets/font/${fontFile}\n   \n   Please check:\n   1. Is the filename correct (case sensitive)?\n   2. Is the file in public/assets/font/?\n   3. Is font.localFonts in src/config/user/site.ts correct?\n`;
 
 					errors.push(errorMsg);
 					console.log(`\n${errorMsg}\n`);

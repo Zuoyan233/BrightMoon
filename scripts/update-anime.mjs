@@ -3,34 +3,34 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const USER_CONFIG_PATH = path.join(
+const CONFIG_DIR = path.join(
 	path.dirname(fileURLToPath(import.meta.url)),
-	"../src/config/user.ts",
-);
-const DEFAULTS_CONFIG_PATH = path.join(
-	path.dirname(fileURLToPath(import.meta.url)),
-	"../src/config/defaults.ts",
+	"../src/config",
 );
 
-async function tryReadModeFromFile(filePath) {
-	try {
-		const configContent = await fs.readFile(filePath, "utf-8");
-		const match = configContent.match(
-			/anime:\s*\{[^{}]*?mode:\s*["']([^"']*)["']/,
-		);
-		if (!match) return null;
-		// 模式为空时直接使用 local
-		return match[1] === "" ? "local" : match[1];
-	} catch {
-		return null;
+async function readAllConfigContents() {
+	const dirs = ["user", "defaults"];
+	const contents = [];
+	for (const dir of dirs) {
+		const dirPath = path.join(CONFIG_DIR, dir);
+		try {
+			const files = await fs.readdir(dirPath);
+			for (const file of files.filter(
+				(f) => f.endsWith(".ts") && f !== "index.ts",
+			)) {
+				contents.push(await fs.readFile(path.join(dirPath, file), "utf-8"));
+			}
+		} catch {}
 	}
+	return contents;
 }
 
 async function getAnimeModeFromConfig() {
-	const userMode = await tryReadModeFromFile(USER_CONFIG_PATH);
-	if (userMode) return userMode;
-	const defaultMode = await tryReadModeFromFile(DEFAULTS_CONFIG_PATH);
-	if (defaultMode) return defaultMode;
+	const modeRegex = /anime:\s*\{[^{}]*?mode:\s*["']([^"']*)["']/;
+	for (const content of await readAllConfigContents()) {
+		const match = content.match(modeRegex);
+		if (match) return match[1] === "" ? "local" : match[1];
+	}
 	return "local";
 }
 

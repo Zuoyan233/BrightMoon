@@ -2,10 +2,8 @@
  * BrightMoon 配置入口（合并默认值与用户覆盖）
  *
  * 本文件由框架维护，请勿在此处修改个人配置：
- *   - 默认值请见 src/config/defaults.ts（升级时会被覆盖）
- *   - 用户配置请见 src/config/user.ts（升级时受保护）
- *
- * 业务代码无需改动，仍然从 '@/config' 或 '../config' 引入同名导出。
+ *   - 默认值请见 src/config/defaults/（升级时会被覆盖）
+ *   - 用户配置请见 src/config/user/（升级时受保护）
  */
 
 import type {
@@ -58,12 +56,88 @@ import {
 	defaultVersionCheckConfig,
 	defaultWeatherConfig,
 } from "./defaults";
-import { userConfig } from "./user";
+import {
+	userAddpaymentConfig,
+	userAnnouncementConfig,
+	userCommentConfig,
+	userContactEmailConfig,
+	userContactMethods,
+	userExpressiveCodeConfig,
+	userExternalLinkConfirmConfig,
+	userFooterConfig,
+	userImageOptimizeConfig,
+	userLicenseConfig,
+	userMusicPlayerConfig,
+	userNavBarConfig,
+	userPermalinkConfig,
+	userPioConfig,
+	userProfileConfig,
+	userSakuraConfig,
+	userShareConfig,
+	userSidebarLayoutConfig,
+	userSiteConfig,
+	userUmamiConfig,
+	userUpgradeConfig,
+	userVersionCheckConfig,
+	userWeatherConfig,
+} from "./user";
+
+interface UserConfig {
+	siteConfig?: Partial<SiteConfig>;
+	navBarConfig?: Partial<NavBarConfig>;
+	profileConfig?: Partial<ProfileConfig>;
+	licenseConfig?: Partial<LicenseConfig>;
+	permalinkConfig?: Partial<PermalinkConfig>;
+	expressiveCodeConfig?: Partial<ExpressiveCodeConfig>;
+	commentConfig?: Partial<CommentConfig>;
+	shareConfig?: Partial<ShareConfig>;
+	externalLinkConfirmConfig?: Partial<ExternalLinkConfirmConfig>;
+	contactEmailConfig?: Partial<ContactEmailConfig>;
+	contactMethods?: Partial<ContactMethods>;
+	addpaymentConfig?: Partial<AddpaymentConfig>;
+	announcementConfig?: Partial<AnnouncementConfig>;
+	musicPlayerConfig?: Partial<MusicPlayerConfig>;
+	footerConfig?: Partial<FooterConfig>;
+	versionCheckConfig?: Partial<VersionCheckConfig>;
+	upgradeConfig?: Partial<UpgradeConfig>;
+	weatherConfig?: Partial<WeatherConfig>;
+	sidebarLayoutConfig?: Partial<SidebarLayoutConfig>;
+	sakuraConfig?: Partial<SakuraConfig>;
+	pioConfig?: Partial<PioConfig>;
+	umamiConfig?: Partial<UmamiConfig>;
+	imageOptimizeConfig?: Partial<ImageOptimizeConfig>;
+}
+
+const userConfig: UserConfig = {
+	siteConfig: userSiteConfig,
+	navBarConfig: userNavBarConfig,
+	profileConfig: userProfileConfig,
+	licenseConfig: userLicenseConfig,
+	permalinkConfig: userPermalinkConfig,
+	expressiveCodeConfig: userExpressiveCodeConfig,
+	commentConfig: userCommentConfig,
+	shareConfig: userShareConfig,
+	externalLinkConfirmConfig: userExternalLinkConfirmConfig,
+	contactEmailConfig: userContactEmailConfig,
+	contactMethods: userContactMethods,
+	addpaymentConfig: userAddpaymentConfig,
+	announcementConfig: userAnnouncementConfig,
+	musicPlayerConfig: userMusicPlayerConfig,
+	footerConfig: userFooterConfig,
+	imageOptimizeConfig: userImageOptimizeConfig,
+	versionCheckConfig: userVersionCheckConfig,
+	upgradeConfig: userUpgradeConfig,
+	weatherConfig: userWeatherConfig,
+	sidebarLayoutConfig: userSidebarLayoutConfig,
+	sakuraConfig: userSakuraConfig,
+	pioConfig: userPioConfig,
+	umamiConfig: userUmamiConfig,
+};
 
 /**
  * 深合并工具：递归合并 override 中的值到 base 中
- * @param base - 默认值（来自 config/defaults.ts）
- * @param override - 用户覆盖值（来自 config/user.ts）
+ * @param base - 默认值（来自 config/defaults/）
+ * @param override - 用户覆盖值（来自 config/user/）
  * @returns 合并后的配置对象
  */
 function deepMerge<T>(base: T, override: Partial<T> | undefined): T {
@@ -101,8 +175,7 @@ function deepMerge<T>(base: T, override: Partial<T> | undefined): T {
 	}
 	return result as T;
 }
-
-// 导出合并后的配置（保持与原 config.ts 完全相同的导出名）
+// 导出合并后的配置对象
 
 export const siteConfig: SiteConfig = deepMerge(
 	defaultSiteConfig,

@@ -49,7 +49,7 @@ BrightMoon 是一款融合現代簡約與優雅氣質的獨特二次元美學靜
 
 ### 🔧 元件配置系統重構
 
-- **分層配置架構：** 配置拆分為三層：`src/config/defaults.ts`（上游預設值，升級時自動更新）、`src/config/user.ts`（使用者配置，升級時受保護）、`src/config/index.ts`（合併入口）。僅需編輯 `src/config/user.ts`。
+- **分層配置架構：** 配置拆分為三層：`src/config/defaults/`（上游預設值目錄，升級時自動更新）、`src/config/user/`（使用者配置目錄，升級時受保護）、`src/config/index.ts`（合併入口）。每個配置模組對應獨立檔案（如 `site.ts`、`navbar.ts`、`profile.ts`）。僅需編輯 `src/config/user/` 下的檔案。
 - **響應式佈局適配：** 元件支援響應式佈局，可根據裝置類型自動調整顯示。
 
 ### 📐 佈局系統最佳化
@@ -154,7 +154,7 @@ BrightMoon 是一款融合現代簡約與優雅氣質的獨特二次元美學靜
 
 5. **設定部落格：**
 
-- 編輯 `src/config/user.ts` 自訂部落格設定。
+- 編輯 `src/config/user/` 下的檔案自訂部落格設定（如 `site.ts`、`navbar.ts`、`profile.ts`）。
 - 更新站點資訊、主題色彩、橫幅圖片和社交連結。
 - 設定特色頁面功能。
 
@@ -351,10 +351,10 @@ BrightMoon 是一款融合現代簡約與優雅氣質的獨特二次元美學靜
 - **日記頁面：** 在 `src/data/diary.ts` 中編輯動態。
 - **關於頁面：** 在 `src/content/spec/about.md` 中編輯內容。
 - **贊助頁面：** 在 `src/content/spec/sponsors.md` 中編輯內容。
-  - 在 `src/config/user.ts` 中找到 `addpaymentConfig` 配置支付 QR Code，支付 QR Code 存放路徑在 `public/images/sponsors` 內。
+  - 在 `src/config/user/addpayment.ts` 中找到 `addpaymentConfig` 配置支付 QR Code，支付 QR Code 存放路徑在 `public/images/sponsors` 內。
 - **回饋頁面：** 在 `src/content/spec/feedback.md` 中編輯內容。
-  - 在 `src/config/user.ts` 中找到 `contactEmailConfig` 配置站長電子郵件聯絡方式。
-  - 在 `src/config/user.ts` 中找到 `addfriendConfig` 配置加入好友 QR Code，QR Code 存放路徑在 `public/images/contact` 內。
+  - 在 `src/config/user/contact-email.ts` 中找到 `contactEmailConfig` 配置站長電子郵件聯絡方式。
+  - 在 `src/config/user/contact-methods.ts` 中找到 `addfriendConfig` 配置加入好友 QR Code，QR Code 存放路徑在 `public/images/contact` 內。
 - **專案展示頁面：** 在 `src/data/projects.ts` 中編輯展示的內容。
 - **技能展示頁面：** 在 `src/data/skills.ts` 中編輯展示的內容。
 - **時間線頁面：** 在 `src/data/timeline.ts` 中編輯展示的內容。
@@ -375,11 +375,11 @@ Frontmatter 欄位說明：
 - **image**: 封面圖片路徑（相對於文章檔案）
 - **tags**: 標籤陣列，用於分類
 - **category**: 文章分類
-- **encrypted**: 設定為 `true` 加密文章，需在 `src/config/user.ts` 中開啟加密功能
+- **encrypted**: 設定為 `true` 加密文章，需在 `src/config/user/site.ts` 中開啟加密功能
 - **password**: 密碼，用於加密文章
 - **passwordHint**: 密碼提示，用於密碼輸框提示
 - **draft**: 設定為 `true` 在生產環境中隱藏文章
-- **comment**: 設定為 `true` 或 `false` 可控制當前文章的留言開關（需先在 `src/config/user.ts` 中開啟 Twikoo 留言系統）
+- **comment**: 設定為 `true` 或 `false` 可控制當前文章的留言開關（需先在 `src/config/user/comment.ts` 中開啟 Twikoo 留言系統）
 - **pinned**: 設定為 `true` 將文章置頂
 - **lang**: 文章語言（僅當與站點預設語言不同時設定）
 
@@ -405,7 +405,7 @@ Frontmatter 欄位說明：
    - **建立備份** - 手動建立專案完整備份，備份檔案儲存在 `backup` 目錄中。
    - **恢復備份** - 從 `backup` 目錄中選擇備份檔案恢復專案。
 
-   升級前會自動建立備份並偵測防回滾，升級完成後會自動執行 `pnpm install` 安裝新依賴並清理暫存檔案。`src/config/user.ts` 中的使用者配置升級時受保護，無需手動遷移；`src/config/defaults.ts` 中的上游預設值會自動更新。
+   升級前會自動建立備份並偵測防回滾，升級完成後會自動執行 `pnpm install` 安裝新依賴並清理暫存檔案。`src/config/user/` 中的使用者配置升級時受保護，無需手動遷移；`src/config/defaults/` 中的上游預設值會自動更新。
 
 10. **所有指令都在專案根目錄執行：**
 

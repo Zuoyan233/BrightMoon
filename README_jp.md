@@ -49,7 +49,7 @@ BrightMoon は、モダンなミニマリズムと優雅さを融合した、獨
 
 ### 🔧 コンポーネント設定システムの再構築
 
-- **階層型設定アーキテクチャ：** 設定は3層に分割：`src/config/defaults.ts`（上流デフォルト値、アップグレード時に自動更新）、`src/config/user.ts`（ユーザー設定、アップグレード時に保護）、`src/config/index.ts`（マージエントリ）。編集するのは `src/config/user.ts` のみ。
+- **階層型設定アーキテクチャ：** 設定は3層に分割：`src/config/defaults/`（上流デフォルト値ディレクトリ、アップグレード時に自動更新）、`src/config/user/`（ユーザー設定ディレクトリ、アップグレード時に保護）、`src/config/index.ts`（マージエントリ）。各設定モジュールは独立したファイル（例：`site.ts`、`navbar.ts`、`profile.ts`）。編集するのは `src/config/user/` 下のファイルのみ。
 - **レスポンシブレイアウト対応：** コンポーネントがレスポンシブレイアウトをサポートし、デバイスタイプに応じて自動的に表示を調整。
 
 ### 📐 レイアウトシステムの最適化
@@ -154,7 +154,7 @@ BrightMoon は、モダンなミニマリズムと優雅さを融合した、獨
 
 5. **ブログの設定：**
 
-- `src/config/user.ts` を編集してブログ設定をカスタマイズ。
+- `src/config/user/` 下のファイルを編集してブログ設定をカスタマイズ（例：`site.ts`、`navbar.ts`、`profile.ts`）。
 - サイト情報、テーマカラー、バナー画像、ソーシャルリンクを更新。
 - 特徴的なページ機能を設定。
 
@@ -351,10 +351,10 @@ BrightMoon は、モダンなミニマリズムと優雅さを融合した、獨
 - **ダイアリーページ：** `src/data/diary.ts` で投稿を編集。
 - **アバウトページ：** `src/content/spec/about.md` でコンテンツを編集。
 - **スポンサーページ：** `src/content/spec/sponsors.md` でコンテンツを編集。
-  - `src/config/user.ts` 内の `addpaymentConfig` で決済QRコードを設定。QRコード画像の保存先は `public/images/sponsors`。
+  - `src/config/user/addpayment.ts` 内の `addpaymentConfig` で決済QRコードを設定。QRコード画像の保存先は `public/images/sponsors`。
 - **フィードバックページ：** `src/content/spec/feedback.md` でコンテンツを編集。
-  - `src/config/user.ts` 内の `contactEmailConfig` でサイト管理者のメールアドレスを設定。
-  - `src/config/user.ts` 内の `addfriendConfig` で友達追加QRコードを設定。QRコード画像の保存先は `public/images/contact`。
+  - `src/config/user/contact-email.ts` 内の `contactEmailConfig` でサイト管理者のメールアドレスを設定。
+  - `src/config/user/contact-methods.ts` 内の `addfriendConfig` で友達追加QRコードを設定。QRコード画像の保存先は `public/images/contact`。
 - **プロジェクト紹介ページ：** `src/data/projects.ts` で表示コンテンツを編集。
 - **スキル紹介ページ：** `src/data/skills.ts` で表示コンテンツを編集。
 - **タイムラインページ：** `src/data/timeline.ts` で表示コンテンツを編集。
@@ -375,11 +375,11 @@ Frontmatter フィールド説明：
 - **image**: カバー画像パス（記事ファイルからの相対パス）
 - **tags**: 分類用タグ配列
 - **category**: 記事カテゴリ
-- **encrypted**: `true` に設定すると、記事を暗号化（`src/config/user.ts` で暗号化機能を有効にする必要あり）
+- **encrypted**: `true` に設定すると、記事を暗号化（`src/config/user/site.ts` で暗号化機能を有効にする必要あり）
 - **password**: 記事の暗号化パスワード
 - **passwordHint**: 記事の暗号化パスワードヒント
 - **draft**: `true` に設定すると、本番環境で記事を非表示
-- **comment**: `true` または `false` に設定すると、現在の記事のコメントON/OFFを制御（事前に `src/config/user.ts` で Twikoo コメントシステムを有効にする必要あり）
+- **comment**: `true` または `false` に設定すると、現在の記事のコメントON/OFFを制御（事前に `src/config/user/comment.ts` で Twikoo コメントシステムを有効にする必要あり）
 - **pinned**: `true` に設定すると記事をトップに固定
 - **lang**: 記事の言語（サイトデフォルト言語と異なる場合のみ設定）
 
@@ -405,7 +405,7 @@ Frontmatter フィールド説明：
    - **バックアップ作成** - プロジェクト全体の手動バックアップを作成し、`backup` ディレクトリに保存します。
    - **バックアップ復元** - `backup` ディレクトリからバックアップファイルを選択してプロジェクトを復元します。
 
-   アップグレード前にバックアップが自動作成され、ロールバックが防止されます。アップグレード後は `pnpm install` が自動的に実行され、新しい依存関係がインストールされ、一時ファイルがクリーンアップされます。アップグレード処理中、`src/config/user.ts` 内のユーザー設定は保護され、手動での移行は不要です。`src/config/defaults.ts` 内のアップストリームのデフォルト値は自動的に更新されます。
+   アップグレード前にバックアップが自動作成され、ロールバックが防止されます。アップグレード後は `pnpm install` が自動的に実行され、新しい依存関係がインストールされ、一時ファイルがクリーンアップされます。アップグレード処理中、`src/config/user/` 内のユーザー設定は保護され、手動での移行は不要です。`src/config/defaults/` 内のアップストリームのデフォルト値は自動的に更新されます。
 
 10. **全コマンドはプロジェクトルートディレクトリで実行：**
 

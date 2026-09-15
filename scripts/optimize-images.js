@@ -9,12 +9,17 @@ const projectRoot = path.resolve(__dirname, "..");
 const CONFIG_DIR = path.join(__dirname, "../src/config");
 
 function readConfigContents() {
-	const files = ["user.ts", "defaults.ts"];
+	const dirs = ["user", "defaults"];
 	const contents = [];
-	for (const file of files) {
-		const filePath = path.join(CONFIG_DIR, file);
-		if (fs.existsSync(filePath)) {
-			const raw = fs.readFileSync(filePath, "utf-8");
+	for (const dir of dirs) {
+		const dirPath = path.join(CONFIG_DIR, dir);
+		if (!fs.existsSync(dirPath) || !fs.statSync(dirPath).isDirectory())
+			continue;
+		const files = fs
+			.readdirSync(dirPath)
+			.filter((f) => f.endsWith(".ts") && f !== "index.ts");
+		for (const file of files) {
+			const raw = fs.readFileSync(path.join(dirPath, file), "utf-8");
 			contents.push(raw.replace(/\/\/.*$/gm, ""));
 		}
 	}
@@ -440,7 +445,7 @@ async function main() {
 			console.log(`  ✗ ${issue}`);
 		}
 		console.log(
-			" \nℹ These images were not optimized. Check imageOptimizeConfig in src/config/user.ts if this is unexpected, or verify the files exist (missing files will be skipped).\n",
+			" \nℹ These images were not optimized. Check imageOptimizeConfig in src/config/user/image-optimize.ts if this is unexpected, or verify the files exist (missing files will be skipped).\n",
 		);
 	} else {
 		console.log("\n✓ Image optimization complete!\n");
@@ -481,9 +486,7 @@ function updateHtmlReferences() {
 
 		if (count > 0) {
 			totalReplacements += count;
-			console.log(
-				`  ✓ ${oldUrl} → ${newUrl} (updated in ${count} file(s))`,
-			);
+			console.log(`  ✓ ${oldUrl} → ${newUrl} (updated in ${count} file(s))`);
 		}
 	}
 

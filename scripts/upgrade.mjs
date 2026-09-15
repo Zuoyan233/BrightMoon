@@ -139,7 +139,7 @@ const I18N_DICT = {
 		fileAdd: "新增文件",
 		replaced: "直接替换",
 		configUpgradeTip:
-			"src/config/user.ts 已备份至 backup/，请把你修改过的字段迁移到 src/config/user.ts。",
+			"src/config/user/ 已备份至 backup/，请把你修改过的字段迁移到 src/config/user/。",
 		configRestoreTip: "已恢复为备份版本，请检查配置是否正确。",
 		configUpgradeNoBackupTip:
 			"框架升级成功，但是创建备份失败，如出现未知错误请手动从之前保存的备份恢复。",
@@ -237,7 +237,7 @@ const I18N_DICT = {
 		fileAdd: "New Files",
 		replaced: "Replaced",
 		configUpgradeTip:
-			"src/config/user.ts has been backed up to backup/. Please migrate your customized fields to src/config/user.ts after upgrade.",
+			"src/config/user/ has been backed up to backup/. Please migrate your customized fields to src/config/user/ after upgrade.",
 		configRestoreTip:
 			"Restored to backup version, please verify your configuration.",
 		configUpgradeNoBackupTip:
@@ -337,7 +337,7 @@ const I18N_DICT = {
 		fileAdd: "新增檔案",
 		replaced: "直接替換",
 		configUpgradeTip:
-			"src/config/user.ts 已備份至 backup/，請把你修改過的欄位遷移到 src/config/user.ts。",
+			"src/config/user/ 已備份至 backup/，請把你修改過的欄位遷移到 src/config/user/。",
 		configRestoreTip: "已復原為備份版本，請檢查配置是否正確。",
 		configUpgradeNoBackupTip:
 			"框架升級成功，但是建立備份失敗，如出現未知錯誤請手動從之前儲存的備份復原。",
@@ -438,7 +438,7 @@ const I18N_DICT = {
 		fileAdd: "新規ファイル",
 		replaced: "直接置換",
 		configUpgradeTip:
-			"src/config/user.ts は backup/ にバックアップされています。変更したフィールドを src/config/user.ts に移行してください。",
+			"src/config/user/ は backup/ にバックアップされています。変更したフィールドを src/config/user/ に移行してください。",
 		configRestoreTip:
 			"バックアップ版に復元されました。設定が正しいか確認してください。",
 		configUpgradeNoBackupTip:
@@ -1142,7 +1142,7 @@ let _cachedUpgradeConfig = null;
 let _upgradeConfigResolved = false;
 
 /**
- * 读取新架构下的配置源码（config/user.ts 优先 + config/defaults.ts 兜底）
+ * 读取新架构下的配置源码（config/user/ 优先 + config/defaults/ 兜底）
  *
  * 用户的覆盖项优先于默认值。旧版本用户没有 user 文件时，
  * 自动回退读取 src/config.ts 中的字面量配置。
@@ -1151,26 +1151,36 @@ let _upgradeConfigResolved = false;
  */
 
 function readConfigSources() {
-	// 新架构路径：src/config/defaults.ts + src/config/user.ts
+	// 新架构路径：src/config/defaults/ + src/config/user/ 目录
 	// 旧架构路径（兼容）：src/config.ts 单文件
-	const defaultsPath = path.join(ROOT, "src/config/defaults.ts");
-	const userPath = path.join(ROOT, "src/config/user.ts");
+	const defaultsDir = path.join(ROOT, "src/config/defaults");
+	const userDir = path.join(ROOT, "src/config/user");
 	const legacyPath = path.join(ROOT, "src/config.ts");
 
 	let defaultsSrc = "";
 	let userSrc = "";
 	let legacySrc = "";
 
-	if (fs.existsSync(defaultsPath)) {
+	if (fs.existsSync(defaultsDir) && fs.statSync(defaultsDir).isDirectory()) {
 		try {
-			defaultsSrc = fs.readFileSync(defaultsPath, "utf-8");
+			const files = fs
+				.readdirSync(defaultsDir)
+				.filter((f) => f.endsWith(".ts") && f !== "index.ts");
+			defaultsSrc = files
+				.map((f) => fs.readFileSync(path.join(defaultsDir, f), "utf-8"))
+				.join("\n");
 		} catch (e) {
 			debugLog("readConfigSources:defaults", e);
 		}
 	}
-	if (fs.existsSync(userPath)) {
+	if (fs.existsSync(userDir) && fs.statSync(userDir).isDirectory()) {
 		try {
-			userSrc = fs.readFileSync(userPath, "utf-8");
+			const files = fs
+				.readdirSync(userDir)
+				.filter((f) => f.endsWith(".ts") && f !== "index.ts");
+			userSrc = files
+				.map((f) => fs.readFileSync(path.join(userDir, f), "utf-8"))
+				.join("\n");
 		} catch (e) {
 			debugLog("readConfigSources:user", e);
 		}
