@@ -28,6 +28,7 @@
 	"liveServer.settings.root": "/dist",
 	"frontMatter.dashboard.openOnStart": false,
 	"css.lint.unknownAtRules": "ignore",
+	"css.lint.unknownProperties": "ignore",
 	"files.associations": {
 		"*.css": "tailwindcss"
 	}

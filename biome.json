@@ -89,7 +89,17 @@
 				"enabled": true,
 				"rules": {
 					"suspicious": {
-						"noUnknownAtRules": "off"
+						"noUnknownAtRules": "off",
+						"noDuplicateProperties": "off"
+					},
+					"correctness": {
+						"noUnknownProperty": "off"
+					},
+					"complexity": {
+						"noImportantStyles": "off"
+					},
+					"style": {
+						"noDescendingSpecificity": "off"
 					}
 				}
 			}
