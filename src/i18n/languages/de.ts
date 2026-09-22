@@ -98,7 +98,6 @@ export const de: Translation = {
 	[Key.diarySubtitle]: "Teile das Leben, jederzeit und überall",
 	[Key.diaryCount]: "Tagebucheinträge",
 	[Key.diaryReply]: "Antworten",
-	[Key.diaryTips]: "Es werden nur die letzten 30 Tagebucheinträge angezeigt",
 	[Key.diaryMinutesAgo]: "Minuten her",
 	[Key.diaryHoursAgo]: "Stunden her",
 	[Key.diaryDaysAgo]: "Tagen her",

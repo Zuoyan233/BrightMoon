@@ -98,7 +98,6 @@ export const ru: Translation = {
 	[Key.diarySubtitle]: "Делитесь жизнью, где угодно и когда угодно",
 	[Key.diaryCount]: "записей в дневнике",
 	[Key.diaryReply]: "Ответить",
-	[Key.diaryTips]: "Показаны только последние 30 записей",
 	[Key.diaryMinutesAgo]: "минут назад",
 	[Key.diaryHoursAgo]: "часов назад",
 	[Key.diaryDaysAgo]: "дней назад",

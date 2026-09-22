@@ -7,9 +7,10 @@ interface Props {
 	page: Page;
 	class?: string;
 	style?: string;
+	baseUrl?: string;
 }
 
-const { page, style } = Astro.props;
+const { page, style, baseUrl } = Astro.props;
 
 const HIDDEN = -1;
 
@@ -45,20 +46,26 @@ if (r < page.lastPage - 2) pages.push(HIDDEN);
 if (r === page.lastPage - 2) pages.push(page.lastPage - 1);
 if (r < page.lastPage) pages.push(page.lastPage);
 
+const effectiveBaseUrl = baseUrl || "/";
+
 const getPageUrl = (p: number) => {
-	if (p === 1) return "/";
-	return `/${p}/`;
+	if (p === 1) return effectiveBaseUrl;
+	return `${effectiveBaseUrl}${p}/`;
 };
+
+const prevUrl = page.currentPage > 1 ? getPageUrl(page.currentPage - 1) : null;
+const nextUrl =
+	page.currentPage < page.lastPage ? getPageUrl(page.currentPage + 1) : null;
 ---
 
 <div
-    class:list={[className, "flex flex-row gap-3 justify-center"]}
+    class:list={[className, "flex flex-row gap-3 justify-center flex-shrink-0"]}
     style={style}
 >
     {
-        page.url.prev ? (
+        prevUrl ? (
             <a
-                href={page.url.prev}
+                href={url(prevUrl)}
                 aria-label="Previous Page"
                 class="btn-card overflow-hidden rounded-lg text-[var(--primary)] w-11 h-11"
             >
@@ -110,9 +117,9 @@ const getPageUrl = (p: number) => {
         }
     </div>
     {
-        page.url.next ? (
+        nextUrl ? (
             <a
-                href={page.url.next}
+                href={url(nextUrl)}
                 aria-label="Next Page"
                 class="btn-card overflow-hidden rounded-lg text-[var(--primary)] w-11 h-11"
             >

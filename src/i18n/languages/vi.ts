@@ -98,7 +98,6 @@ export const vi: Translation = {
 	[Key.diarySubtitle]: "Chia sẻ cuộc sống, mọi lúc mọi nơi",
 	[Key.diaryCount]: "bài nhật ký",
 	[Key.diaryReply]: "Phản hồi",
-	[Key.diaryTips]: "Chỉ hiển thị 30 bài nhật ký gần nhất",
 	[Key.diaryMinutesAgo]: "phút trước",
 	[Key.diaryHoursAgo]: "giờ trước",
 	[Key.diaryDaysAgo]: "ngày trước",

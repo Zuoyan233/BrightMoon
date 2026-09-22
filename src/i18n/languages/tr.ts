@@ -98,7 +98,6 @@ export const tr: Translation = {
 	[Key.diarySubtitle]: "Hayatı paylaş, her zaman, her yerde",
 	[Key.diaryCount]: "günlük kaydı",
 	[Key.diaryReply]: "Cevapla",
-	[Key.diaryTips]: "Sadece son 30 günlük kaydı gösterir",
 	[Key.diaryMinutesAgo]: "dakika önce",
 	[Key.diaryHoursAgo]: "saat önce",
 	[Key.diaryDaysAgo]: "gün önce",

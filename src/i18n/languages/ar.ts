@@ -96,7 +96,6 @@ export const ar: Translation = {
 	[Key.diarySubtitle]: "شارك الحياة، في أي وقت وفي أي مكان",
 	[Key.diaryCount]: "مدخلة في المذكرات",
 	[Key.diaryReply]: "رد",
-	[Key.diaryTips]: "يتم عرض أحدث 30 مدخلة فقط من المذكرات",
 	[Key.diaryMinutesAgo]: "دقيقة مضت",
 	[Key.diaryHoursAgo]: "ساعة مضت",
 	[Key.diaryDaysAgo]: "يوم مضى",

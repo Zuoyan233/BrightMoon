@@ -97,7 +97,6 @@ export const ko: Translation = {
 	[Key.diarySubtitle]: "언제 어디서나 삶을 공유하세요",
 	[Key.diaryCount]: "개의 일기",
 	[Key.diaryReply]: "댓글",
-	[Key.diaryTips]: "최신 30개의 일기만 표시됩니다",
 	[Key.diaryMinutesAgo]: "분 전",
 	[Key.diaryHoursAgo]: "시간 전",
 	[Key.diaryDaysAgo]: "일 전",

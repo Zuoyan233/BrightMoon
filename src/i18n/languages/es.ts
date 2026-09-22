@@ -98,7 +98,6 @@ export const es: Translation = {
 	[Key.diarySubtitle]: "Comparte la vida, en cualquier momento y lugar",
 	[Key.diaryCount]: "entradas de diario",
 	[Key.diaryReply]: "Responder",
-	[Key.diaryTips]: "Solo se muestran las últimas 30 entradas",
 	[Key.diaryMinutesAgo]: "minutos atrás",
 	[Key.diaryHoursAgo]: "horas atrás",
 	[Key.diaryDaysAgo]: "días atrás",

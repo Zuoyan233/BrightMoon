@@ -97,7 +97,6 @@ export const id: Translation = {
 	[Key.diarySubtitle]: "Berbagi kehidupan, kapan saja, di mana saja",
 	[Key.diaryCount]: "entri catatan harian",
 	[Key.diaryReply]: "Balas",
-	[Key.diaryTips]: "Hanya menampilkan 30 entri catatan harian terbaru",
 	[Key.diaryMinutesAgo]: "menit yang lalu",
 	[Key.diaryHoursAgo]: "jam yang lalu",
 	[Key.diaryDaysAgo]: "hari yang lalu",

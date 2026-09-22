@@ -96,7 +96,6 @@ export const th: Translation = {
 	[Key.diarySubtitle]: "แบ่งปันชีวิต ทุกที่ ทุกเวลา",
 	[Key.diaryCount]: "รายการบันทึก",
 	[Key.diaryReply]: "ตอบกลับ",
-	[Key.diaryTips]: "แสดงเฉพาะ 30 รายการบันทึกล่าสุด",
 	[Key.diaryMinutesAgo]: "นาทีที่แล้ว",
 	[Key.diaryHoursAgo]: "ชั่วโมงที่แล้ว",
 	[Key.diaryDaysAgo]: "วันที่แล้ว",

@@ -99,7 +99,6 @@ export const fr: Translation = {
 	[Key.diarySubtitle]: "Partager la vie, à tout moment, n'importe où",
 	[Key.diaryCount]: "entrées de journal",
 	[Key.diaryReply]: "Répondre",
-	[Key.diaryTips]: "Affiche uniquement les 30 dernières entrées du journal",
 	[Key.diaryMinutesAgo]: "minutes",
 	[Key.diaryHoursAgo]: "heures",
 	[Key.diaryDaysAgo]: "jours",

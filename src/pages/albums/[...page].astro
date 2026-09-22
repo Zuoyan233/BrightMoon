@@ -1,33 +1,38 @@
 ---
-import { siteConfig } from "../config";
-import I18nKey from "../i18n/i18nKey";
-import { i18n } from "../i18n/translation";
-import MainGridLayout from "../layouts/MainGridLayout.astro";
-import { scanVisibleAlbums } from "../utils/album-scanner";
-import "../styles/albums.css";
+import type { GetStaticPaths } from "astro";
+import Pagination from "../../components/control/Pagination.astro";
+import { siteConfig } from "../../config";
+import I18nKey from "../../i18n/i18nKey";
+import { i18n } from "../../i18n/translation";
+import MainGridLayout from "../../layouts/MainGridLayout.astro";
+import { scanVisibleAlbums } from "../../utils/album-scanner";
+import "../../styles/albums.css";
 
-// 检查相册页面是否启用
 if (!siteConfig.featurePages.albums) {
 	return Astro.redirect("/404/");
 }
 
-// 只获取非隐藏的相册
-const albumsData = await scanVisibleAlbums();
+export const getStaticPaths = (async ({ paginate }) => {
+	const albumsData = await scanVisibleAlbums();
+	albumsData.sort(
+		(a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+	);
+	return paginate(albumsData, { pageSize: 9 });
+}) satisfies GetStaticPaths;
 
-// 按日期排序（最新的在前面）
-albumsData.sort(
-	(a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-);
+const { page } = Astro.props;
+
+const len = page.data.length;
 ---
 
 <MainGridLayout title={i18n(I18nKey.albums)} description={i18n(I18nKey.albumsSubtitle)}>
     <!-- 引入右侧边栏布局管理器 -->
   <script>
-    import('../scripts/right-sidebar-layout.js');
+    import('../../scripts/right-sidebar-layout.js');
   </script>
   <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
     <div class="card-base z-10 px-9 py-6 relative w-full">
-      
+
       <!-- 页面标题 -->
       <header class="mb-8">
         <h1 class="text-4xl font-bold text-neutral-900 dark:text-neutral-100 mb-3 relative
@@ -42,33 +47,33 @@ albumsData.sort(
 
       <!-- 相册网格 -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {albumsData.map(album => (
-          <article 
+        {page.data.map(album => (
+          <article
             class="album-card group bg-white dark:bg-neutral-900 rounded-lg overflow-hidden shadow-sm hover:shadow-lg dark:hover:shadow-white/30 transition-all duration-300 border border-neutral-200 dark:border-neutral-800"
           >
             <a href={`/albums/${album.id}/`} class="block">
               <!-- 封面图片 -->
               <div class="aspect-[4/3] overflow-hidden bg-neutral-100 dark:bg-neutral-700">
-                <img 
-                  src={album.cover} 
+                <img
+                  src={album.cover}
                   alt={album.title}
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   loading="lazy"
                 />
               </div>
-              
+
               <!-- 相册信息 -->
               <div class="p-4">
                 <h3 class="font-bold text-lg text-neutral-900 dark:text-neutral-100 mb-2 group-hover:text-[var(--primary)] transition-colors">
                   {album.title}
                 </h3>
-                
+
                 {album.description && (
                   <p class="text-neutral-600 dark:text-neutral-400 text-sm mb-3 line-clamp-2" title={album.description}>
                     {album.description}
                   </p>
                 )}
-                
+
                 <!-- 元数据 -->
                 <div class="flex items-center justify-between text-xs text-neutral-500 dark:text-neutral-500">
                   <div class="flex items-center gap-4">
@@ -84,7 +89,7 @@ albumsData.sort(
                   </div>
                   <time>{new Date(album.date).toLocaleDateString('zh-CN')}</time>
                 </div>
-                
+
                 <!-- 标签 -->
                 {album.tags && album.tags.length > 0 && (
                   <div class="flex flex-wrap gap-1 mt-3">
@@ -105,9 +110,9 @@ albumsData.sort(
           </article>
         ))}
       </div>
-      
+
       <!-- 空状态 -->
-      {albumsData.length === 0 && (
+      {page.data.length === 0 && (
         <div class="text-center py-12">
           <div class="text-neutral-400 dark:text-neutral-600 mb-4">
             <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -124,6 +129,9 @@ albumsData.sort(
       )}
     </div>
   </div>
+  <div class="mt-4">
+    <Pagination class="mx-auto onload-animation" page={page} baseUrl="/albums/" style={`animation-delay: calc(var(--content-delay) + ${(len)*50}ms)`}></Pagination>
+  </div>
 </MainGridLayout>
 
 <style>
@@ -133,11 +141,11 @@ albumsData.sort(
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  
+
   .album-card:hover {
     transform: translateY(-2px);
   }
-  
+
   @keyframes fadeInUp {
     from {
       opacity: 0;
@@ -148,7 +156,7 @@ albumsData.sort(
       transform: translateY(0);
     }
   }
-  
+
   .album-card {
     animation: fadeInUp 0.3s ease-out;
   }
