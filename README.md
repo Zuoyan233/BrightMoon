@@ -169,7 +169,7 @@ This project is a customized extension based on Mizuki V8.2, with version number
 
   BrightMoon album feature adopts an **auto-scan mechanism**. Simply create folders, place images and configuration files - no manual coding required (external link albums require manually defining each image's `src` and other information).
 
-  ##### Quick Start
+  # Quick Start
 
   Creating an album requires only 3 steps:
 
@@ -179,7 +179,7 @@ This project is a customized extension based on Mizuki V8.2, with version number
 
   Done! The album will automatically appear on the album list page.
 
-  ##### Directory Structure
+  ## Directory Structure
 
   ```
   public/images/albums/
@@ -195,7 +195,7 @@ This project is a customized extension based on Mizuki V8.2, with version number
   │   └── ...
   ```
 
-  ##### Configuration File Guide
+  ## Configuration File Guide
 
   **Local Image Mode**
 
@@ -289,7 +289,7 @@ This project is a customized extension based on Mizuki V8.2, with version number
   > - External mode **must** manually configure the `photos` array, at minimum providing the `src` field
   > - It is recommended to provide `thumbnail` thumbnails for external photos to improve loading speed
 
-  ##### Image Format Recommendations
+  ## Image Format Recommendations
 
   **Cover Image (cover.jpg):**
   - **Size:** 800×600px (4:3 ratio)
@@ -301,7 +301,7 @@ This project is a customized extension based on Mizuki V8.2, with version number
   - **Size:** Recommend max width 1920px
   - **Optimization:** Compress before upload to improve loading speed
 
-  ##### Layout Options
+  ## Layout Options
 
   **Grid Layout:**
   ```json
@@ -315,7 +315,7 @@ This project is a customized extension based on Mizuki V8.2, with version number
   ```
   - Suitable for different-sized photos, maintains original aspect ratio, auto-arranged for natural visual effect
 
-  ##### Advanced Features
+  ## Advanced Features
 
   **Filename Tags (Experimental)**
 
@@ -331,7 +331,7 @@ This project is a customized extension based on Mizuki V8.2, with version number
   Visit: /albums/your-album-id/
   ```
 
-  ##### FAQ
+  # FAQ
 
   **Q: Why isn't my album showing?**  
   A: Check if `info.json` and `cover.jpg` exist, and if `hidden` is set to `true`.
@@ -359,7 +359,7 @@ This project is a customized extension based on Mizuki V8.2, with version number
 - **Skills Page:** Edit content in `src/data/skills.ts`.
 - **Timeline Page:** Edit content in `src/data/timeline.ts`.
 
-7. **Article management:**
+1. **Article management:**
 
 - **Create a new post:** `pnpm new-post <filename>`.
 - **Edit posts:** Modify files in `src/content/posts/`.

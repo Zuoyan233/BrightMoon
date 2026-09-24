@@ -123,6 +123,12 @@ const issues = [];
 // 记录文件格式转换映射（原始路径 → 新格式路径），用于后处理更新 HTML 引用
 const renameMap = new Map();
 
+const processedPaths = new Set();
+
+function normalizePath(filePath) {
+	return path.resolve(filePath).toLowerCase();
+}
+
 async function safeOptimizeImage(
 	taskName,
 	filePath,
@@ -130,6 +136,11 @@ async function safeOptimizeImage(
 	maxHeight,
 	formats,
 ) {
+	const normalized = normalizePath(filePath);
+	if (processedPaths.has(normalized)) {
+		return;
+	}
+	processedPaths.add(normalized);
 	try {
 		await optimizeImage(filePath, maxWidth, maxHeight, formats);
 	} catch (err) {
@@ -470,8 +481,8 @@ function updateHtmlReferences() {
 		const oldRel = path.relative(projectRoot, oldPath).replace(/\\/g, "/");
 		const newRel = path.relative(projectRoot, newPath).replace(/\\/g, "/");
 
-		const oldUrl = "/" + oldRel.replace(/^dist\//, "");
-		const newUrl = "/" + newRel.replace(/^dist\//, "");
+		const oldUrl = `/${oldRel.replace(/^dist\//, "")}`;
+		const newUrl = `/${newRel.replace(/^dist\//, "")}`;
 
 		let count = 0;
 		for (const file of targetFiles) {
