@@ -709,9 +709,6 @@ body.no-banner-mode .absolute.w-full.z-30 {
 		-moz-user-drag: none;
 		-o-user-drag: none;
 		user-drag: none;
-
-		/* 触摸优化 */
-		pointer-events: none;
 	}
 
 	/* 移动端轮播指示器 */
