@@ -476,6 +476,9 @@ function setupFestivalEasterEgg() {
 		const years = diff > 0 ? diff : 1;
 		festivalTitle = festivalTitle.replace("{years}", String(years));
 	}
+	if (festivalTitle?.includes("{year}")) {
+		festivalTitle = festivalTitle.replace("{year}", String(now.getFullYear()));
+	}
 	const festivalSubtitle = matchedItem.subtitle;
 
 	const bannerTitleEl = document.querySelector(".banner-title");

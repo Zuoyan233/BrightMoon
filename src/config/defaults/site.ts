@@ -196,7 +196,7 @@ export const defaultSiteConfig: SiteConfig = {
 				dates: [
 					{
 						date: "01-01", // 格式 MM-DD 或 MM-DD~MM-DD（日期范围），如需周年递进请改用 startDate
-						title: "Happy New Year !", // 节日横幅主标题，支持 {years} 占位符
+						title: "Happy New Year !", // 节日横幅主标题，date 类型支持 {year} 占位符（当前年份），startDate 类型支持 {years} 占位符（周年数）
 						subtitle: "May the new year bring you joy and happiness", // 节日横幅副标题
 						imageSrc: "/assets/falling/firecrackers.png", // 自定义飘落图片路径，不设置则使用默认图片
 					},

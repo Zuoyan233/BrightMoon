@@ -259,6 +259,9 @@ function getFestivalOverride() {
 				const yearsText = String(years);
 				title = title.replace("{years}", yearsText);
 			}
+			if (title?.includes("{year}")) {
+				title = title.replace("{year}", String(now.getFullYear()));
+			}
 			return { ...item, title };
 		}
 	}
