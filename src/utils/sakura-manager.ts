@@ -198,7 +198,7 @@ export class SakuraManager {
 
 	constructor(config: SakuraConfig, imageSrc?: string) {
 		this.config = config;
-		this.imageSrc = imageSrc || "/sakura.png";
+		this.imageSrc = imageSrc || "/assets/falling/sakura.png";
 	}
 
 	// 初始化樱花特效

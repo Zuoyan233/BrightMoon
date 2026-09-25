@@ -546,21 +546,22 @@ function setupFestivalEasterEgg() {
 
 			if (sakuraConfig) {
 				setSakuraEnabled(true);
-				initSakura({ ...sakuraConfig, enable: true }, "/festivalEasterEgg.png");
+				const festivalImage =
+					matchedItem.imageSrc || "/assets/falling/sakura.png";
+				initSakura({ ...sakuraConfig, enable: true }, festivalImage);
 			}
 		}
 
 		localStorage.setItem(FESTIVAL_FORCED_BANNER_KEY, "true");
 
-		// 非首次进入节日时，确保樱花使用节日图片（刷新后 setupSakura 可能已用默认图片初始化）
+		// 非首次进入节日时，确保樱花使用节日图片
 		if (!isFirstEntry && sakuraConfig) {
+			const festivalImage =
+				matchedItem.imageSrc || "/assets/falling/sakura.png";
 			if (getSakuraStatus()) {
-				initSakura({ ...sakuraConfig, enable: true }, "/festivalEasterEgg.png");
+				initSakura({ ...sakuraConfig, enable: true }, festivalImage);
 			} else {
-				initSakura(
-					{ ...sakuraConfig, enable: false },
-					"/festivalEasterEgg.png",
-				);
+				initSakura({ ...sakuraConfig, enable: false }, festivalImage);
 			}
 		}
 

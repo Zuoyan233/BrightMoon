@@ -198,31 +198,37 @@ export const defaultSiteConfig: SiteConfig = {
 						date: "01-01", // 格式 MM-DD 或 MM-DD~MM-DD（日期范围），如需周年递进请改用 startDate
 						title: "Happy New Year !", // 节日横幅主标题，支持 {years} 占位符
 						subtitle: "May the new year bring you joy and happiness", // 节日横幅副标题
+						imageSrc: "/assets/falling/firecrackers.png", // 自定义飘落图片路径，不设置则使用默认图片
 					},
 					{
 						date: "02-14",
 						title: "Happy Valentine's Day !",
 						subtitle: ["Love is in the air", "Be my Valentine"],
+						imageSrc: "/assets/falling/sakura.png",
 					},
 					{
 						date: "03-08",
 						title: "Happy Women's Day !",
 						subtitle: "Celebrating the strength and grace of women",
+						imageSrc: "/assets/falling/sakura.png",
 					},
 					{
 						date: "04-01",
 						title: "April Fools' Day !",
 						subtitle: "Watch out for pranks today !",
+						imageSrc: "/assets/falling/green_leaf.png",
 					},
 					{
 						date: "05-01",
 						title: "Happy Labour Day !",
 						subtitle: "Celebrating the workers of the world",
+						imageSrc: "/assets/falling/birthday.png",
 					},
 					{
 						date: "06-01",
 						title: "Happy Children's Day !",
 						subtitle: "May you always keep a childlike heart",
+						imageSrc: "/assets/falling/heart.png",
 					},
 					{
 						date: "10-01~10-07",
@@ -231,6 +237,7 @@ export const defaultSiteConfig: SiteConfig = {
 							"Celebrating the motherland",
 							"Wishing prosperity and happiness",
 						],
+						imageSrc: "/assets/falling/birthday.png",
 					},
 					{
 						date: "12-25",
@@ -239,6 +246,7 @@ export const defaultSiteConfig: SiteConfig = {
 							"Jingle bells, jingle bells",
 							"Wishing you warmth and joy",
 						],
+						imageSrc: "/assets/falling/snowflake.png",
 					},
 				],
 			},

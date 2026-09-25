@@ -11,13 +11,13 @@ import MainGridLayout from "../../layouts/MainGridLayout.astro";
 
 // 检查日记页面是否启用
 if (!siteConfig.featurePages.diary) {
-    return Astro.redirect("/404/");
+	return Astro.redirect("/404/");
 }
 
 // 分页配置：每页 PAGE_SIZE 条日记
 export const getStaticPaths = (({ paginate }) => {
-    const moments = getDiaryList();
-    return paginate(moments, { pageSize: PAGE_SIZE });
+	const moments = getDiaryList();
+	return paginate(moments, { pageSize: PAGE_SIZE });
 }) satisfies GetStaticPaths;
 
 const { page } = Astro.props;
@@ -25,27 +25,26 @@ const diaryStats = getDiaryStats();
 
 // 格式化时间为相对时间（几分钟前、几小时前、几天前）
 function formatTime(dateString: string): string {
-    var TG = 8;
-    if (siteConfig.timeZone >= -12 && siteConfig.timeZone <= 12)
-        TG = siteConfig.timeZone;
-    const timeGap = TG;
+	var TG = 8;
+	if (siteConfig.timeZone >= -12 && siteConfig.timeZone <= 12)
+		TG = siteConfig.timeZone;
+	const timeGap = TG;
 
-    const now = new Date();
-    const date = new Date(dateString);
-    const diffInMinutes = Math.floor(
-        (now.getTime() + timeGap * 60 * 60 * 1000 - date.getTime()) /
-            (1000 * 60),
-    );
+	const now = new Date();
+	const date = new Date(dateString);
+	const diffInMinutes = Math.floor(
+		(now.getTime() + timeGap * 60 * 60 * 1000 - date.getTime()) / (1000 * 60),
+	);
 
-    if (diffInMinutes < 60) {
-        return `${diffInMinutes} ${i18n(I18nKey.diaryMinutesAgo)}`;
-    }
-    if (diffInMinutes < 1440) {
-        const hours = Math.floor(diffInMinutes / 60);
-        return `${hours} ${i18n(I18nKey.diaryHoursAgo)}`;
-    }
-    const days = Math.floor(diffInMinutes / 1440);
-    return `${days} ${i18n(I18nKey.diaryDaysAgo)}`;
+	if (diffInMinutes < 60) {
+		return `${diffInMinutes} ${i18n(I18nKey.diaryMinutesAgo)}`;
+	}
+	if (diffInMinutes < 1440) {
+		const hours = Math.floor(diffInMinutes / 60);
+		return `${hours} ${i18n(I18nKey.diaryHoursAgo)}`;
+	}
+	const days = Math.floor(diffInMinutes / 1440);
+	return `${days} ${i18n(I18nKey.diaryDaysAgo)}`;
 }
 
 const len = page.data.length;

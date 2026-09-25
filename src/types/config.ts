@@ -206,6 +206,7 @@ export type SiteConfig = {
 					startDate?: string; // 起始日期，格式 YYYY-MM-DD，用于周年/生日递进计算，同时提取月日进行匹配
 					title?: string; // 节日横幅主标题，支持 {years} 占位符
 					subtitle?: string | string[]; // 节日横幅副标题
+					imageSrc?: string; // 自定义飘落图片路径，不设置则使用默认的 /assets/falling/festivalEasterEgg.png
 				}[];
 			};
 		};
