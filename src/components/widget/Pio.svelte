@@ -15,28 +15,37 @@ let pioInstance = null;
 let pioInitialized = false;
 let pioContainer;
 let pioCanvas;
+let initTimeoutId = null;
 
 // 样式已通过 Layout.astro 静态引入，无需动态加载
 
 // 等待 DOM 加载完成后再初始化 Pio
 function initPio() {
+	// 清理之前的定时器，防止重复调度
+	if (initTimeoutId) {
+		clearTimeout(initTimeoutId);
+		initTimeoutId = null;
+	}
+
+	// 组件已销毁或DOM不存在，终止初始化
+	if (!pioContainer || !pioCanvas) {
+		return;
+	}
+
 	if (typeof window !== "undefined" && typeof Paul_Pio !== "undefined") {
 		try {
 			// 确保DOM元素存在
-			if (pioContainer && pioCanvas && !pioInitialized) {
+			if (!pioInitialized) {
 				pioInstance = new Paul_Pio(pioOptions);
 				pioInitialized = true;
 				console.log("Pio initialized successfully (Svelte)");
-			} else if (!pioContainer || !pioCanvas) {
-				console.warn("Pio DOM elements not found, retrying...");
-				setTimeout(initPio, 100);
 			}
 		} catch (e) {
 			console.error("Pio initialization error:", e);
 		}
 	} else {
 		// 如果 Paul_Pio 还未定义，稍后再试
-		setTimeout(initPio, 100);
+		initTimeoutId = setTimeout(initPio, 100);
 	}
 }
 
@@ -94,9 +103,11 @@ onMount(() => {
 });
 
 onDestroy(() => {
-	// Svelte 组件销毁时不需要清理 Pio 实例
-	// 因为我们希望它在页面切换时保持状态
-	console.log("Pio Svelte component destroyed (keeping instance alive)");
+	// 清理初始化定时器，防止组件销毁后仍在后台尝试初始化
+	if (initTimeoutId) {
+		clearTimeout(initTimeoutId);
+		initTimeoutId = null;
+	}
 });
 </script>
 
