@@ -388,8 +388,8 @@ export type MusicPlayerLocalSong = {
 	artist: string; // 歌手/艺术家
 	cover: string; // 封面图片地址
 	url: string; // 音频文件地址
+	lrc?: string; // 歌词文件地址
 	duration: number; // 歌曲时长（秒）
-	lrc?: string; // 歌词文件地址（可选）
 };
 
 export type MusicPlayerConfig = {

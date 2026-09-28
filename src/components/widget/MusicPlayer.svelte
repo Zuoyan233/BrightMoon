@@ -9,8 +9,8 @@ type Song = {
 	artist: string;
 	cover: string;
 	url: string;
-	duration: number;
 	lrc?: string;
+	duration: number;
 };
 
 type LyricLine = {
@@ -437,6 +437,8 @@ import { translationManager } from "../../utils/translation-manager";
 let showPlaylist = $state(musicPlayerConfig.showPlaylist);
 let showLyrics = $state(musicPlayerConfig.showLyrics ?? false);
 let showSettings = $state(false);
+
+let isLocalMode = $derived(musicPlayerConfig.mode === "local");
 let settingsId = $state(musicPlayerConfig.id ?? "766208154");
 let settingsServer = $state(musicPlayerConfig.server ?? "netease");
 let settingsType = $state(musicPlayerConfig.type ?? "playlist");
@@ -972,14 +974,16 @@ onDestroy(() => {
         before:w-1 before:h-4 before:rounded-md before:bg-[var(--primary)]
         before:absolute before:left-[-16px] before:top-[5.5px]">
         <span>{i18n(Key.musicPlayer)}</span>
+        {#if !isLocalMode}
         <button data-settings-btn class="btn-plain w-7 h-7 rounded-lg flex items-center justify-center"
                 class:btn-active={showSettings}
                 onclick={toggleSettings}
                 title={i18n(Key.musicPlayerSettings)}>
             <Icon icon="material-symbols:settings-outline-rounded" class="text-xl" />
         </button>
+        {/if}
     </div>
-    {#if showSettings}
+    {#if showSettings && !isLocalMode}
     <div class="px-4 mb-2" transition:slide={{ duration: 200, axis: 'y' }}>
         <div bind:this={settingsPanel} class="rounded-lg p-3 bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))] space-y-3">
 			<div class="flex items-center gap-2">

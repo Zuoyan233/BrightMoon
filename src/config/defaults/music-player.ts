@@ -16,6 +16,7 @@ export const defaultMusicPlayerConfig: MusicPlayerConfig = {
 			artist: "", // 歌手
 			cover: "", // 封面图片 URL
 			url: "", // 音频文件 URL
+			lrc: "", // 歌词文件 URL
 			duration: 240, // 时长（秒）
 		},
 	],
