@@ -771,7 +771,14 @@ function scrollToCurrentSong(behavior: ScrollBehavior = "smooth") {
 	const target = items[sharedCurrentIndex] as HTMLElement | undefined;
 	if (!target) return;
 
-	target.scrollIntoView({ behavior, block: "center" });
+	const containerHeight = container.clientHeight;
+	const itemHeight = target.clientHeight;
+	const scrollTop = target.offsetTop - containerHeight / 2 + itemHeight / 2;
+
+	container.scrollTo({
+		top: Math.max(0, scrollTop),
+		behavior,
+	});
 }
 
 function getAssetPath(path: string): string {
@@ -1165,7 +1172,7 @@ onDestroy(() => {
             </button>
         </div>
         <div class="bottom-controls flex items-center gap-2">
-            <button class="btn-plain w-8 h-8 rounded-lg" onclick={toggleMute} title={muteTitle}>
+            <button class="btn-plain w-8 h-8 rounded-lg" onclick={(e) => { e.stopPropagation(); toggleMute(); }} title={muteTitle}>
                 {#if sharedIsMuted || sharedVolume === 0}
                     <Icon icon="material-symbols:volume-off" class="text-lg" />
                 {:else if sharedVolume < 0.5}
