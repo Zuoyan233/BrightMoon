@@ -6,7 +6,7 @@ export const defaultMusicPlayerConfig: MusicPlayerConfig = {
 	meting_api:
 		"https://meting.liveling.top/api?server=:server&type=:type&id=:id&auth=:auth&r=:r", // MetingJS API 地址
 	id: "766208154", // 歌单或单曲 ID
-	server: "netease", // 音乐平台："netease" 网易云音乐，"tencent" QQ音乐，"kugou" 酷狗，"baidu" 百度
+	server: "netease", // 音乐平台："netease" 网易云音乐，"tencent" QQ音乐，"kugou" 酷狗
 	type: "playlist", // 类型："playlist" 歌单，"song" 单曲，"album" 专辑，"artist" 歌手
 	localPlaylist: [
 		// 本地音乐列表（mode 为 "local" 时生效）

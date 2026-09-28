@@ -2,14 +2,14 @@
 
 <img align='right' src='./project-preview/images/logo.webp' width='200px' alt="BrightMoon logo">
 
-BrightMoon 是一款融合現代簡約與優雅氣質的獨特二次元美學靜態部落格模板。專案以 [Astro](https://astro.build/) 為構建基石，將先進功能與精美視覺融為一體。
+BrightMoon 是一款兼具現代簡約與優雅氣質的獨特二次元美學靜態部落格模板。專案以 [Astro](https://astro.build/) 為構建基礎，介面設計汲取 Android Material Design 3 的靈感，將先進功能與精緻視覺渾然融合。
 
 **_如明月初升，清輝如故_** <br>
 **_以此為始，重新出發。_**
 
 [![Node.js >= 22](https://img.shields.io/badge/node.js-%3E%3D22-brightgreen)](https://nodejs.org/)
 [![pnpm >= `12`](https://img.shields.io/badge/pnpm-%3E%3D12-blue)](https://pnpm.io/)
-[![Astro](https://img.shields.io/badge/Astro-7.3.3-orange)](https://astro.build/)
+[![Astro](https://img.shields.io/badge/Astro-7.3.5-orange)](https://astro.build/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-blue)](https://www.typescriptlang.org/)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?logo=apache)](https://opensource.org/licenses/Apache-2.0)
 

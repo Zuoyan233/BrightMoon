@@ -82,7 +82,7 @@ let links: NavBarLink[] = navBarConfig.links.map(
         </div>
         <NavMenuPanel links={links}></NavMenuPanel>
         {musicPlayerConfig.enable && (
-            <div id="music-player-panel" class="float-panel float-panel-closed fixed transition-all right-4 max-h-[80vh] overflow-y-auto w-[340px]">
+            <div id="music-player-panel" class="float-panel float-panel-closed fixed transition-all right-4 max-h-[80vh] overflow-y-auto w-[300px]">
                 <MusicPlayer client:idle />
             </div>
         )}

@@ -619,6 +619,8 @@ function toggleLyrics() {
 function toggleSettings() {
 	showSettings = !showSettings;
 	if (showSettings) {
+		showLyrics = false;
+		showPlaylist = false;
 		settingsId = musicPlayerConfig.id ?? "766208154";
 		settingsServer = musicPlayerConfig.server ?? "netease";
 		settingsType = musicPlayerConfig.type ?? "playlist";
@@ -908,6 +910,23 @@ onMount(() => {
 
 	// 监听点击外部收起设置面板
 	document.addEventListener("click", handleClickOutside, { capture: true });
+
+	// 监听音乐播放器面板关闭，收起歌词和播放列表面板
+	const musicPanel = document.getElementById("music-player-panel");
+	if (musicPanel) {
+		const observer = new MutationObserver((mutations) => {
+			for (const mutation of mutations) {
+				if (mutation.type === "attributes" && mutation.attributeName === "class") {
+					if (musicPanel.classList.contains("float-panel-closed")) {
+						showLyrics = false;
+						showPlaylist = false;
+					}
+				}
+			}
+		});
+		observer.observe(musicPanel, { attributes: true, attributeFilter: ["class"] });
+		onDestroy(() => observer.disconnect());
+	}
 });
 
 function handleClickOutside(event: MouseEvent) {
@@ -1048,11 +1067,11 @@ onDestroy(() => {
                  title={progressTitle}
                  aria-valuemin="0"
                  aria-valuemax="100"
-                 aria-valuenow={sharedDuration > 0 ? (sharedCurrentTime / sharedDuration * 100) : 0}>
+                 aria-valuenow={sharedDuration > 0 ? Math.min(sharedCurrentTime / sharedDuration * 100, 100) : 0}>
                 <div class="h-full bg-[var(--primary)] rounded-full transition-all"
                      class:duration-100={!isProgressDragging}
                      class:duration-0={isProgressDragging}
-                     style="width: {sharedDuration > 0 ? (sharedCurrentTime / sharedDuration) * 100 : 0}%"></div>
+                     style="width: {sharedDuration > 0 ? Math.min((sharedCurrentTime / sharedDuration) * 100, 100) : 0}%"></div>
 
             </div>
         </div>
@@ -1264,10 +1283,14 @@ onDestroy(() => {
         opacity: 0.5;
 	}
 }
+.progress-section div,
+.bottom-controls > div {
+    transition: transform 0.2s ease;
+}
+
 .progress-section div:hover,
 .bottom-controls > div:hover {
-    transform: scaleY(1.2);
-    transition: transform 0.2s ease;
+    transform: scaleY(1.3);
 }
 
 .playlist-item {
