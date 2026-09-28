@@ -84,6 +84,10 @@ async function initializePanelManager() {
 			panel: "wallpaper-mode-panel",
 			ignores: ["wallpaper-mode-panel", "wallpaper-mode-switch"],
 		});
+		panelCloseConfigs.push({
+			panel: "music-player-panel",
+			ignores: ["music-player-panel", "music-player-switch"],
+		});
 
 		return panelManager;
 	} catch (error) {

@@ -64,6 +64,14 @@
 	transform: scaleY(0) scaleX(0.5);
 }
 
+#music-player-panel {
+	transform-origin: top right;
+}
+
+#music-player-panel.float-panel-closed {
+	transform: scaleY(0) scaleX(0.65);
+}
+
 /* 移动端 */
 @media (max-width: 744px) {
 	.float-panel-closed {

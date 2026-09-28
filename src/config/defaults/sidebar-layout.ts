@@ -1,4 +1,5 @@
 import type { SidebarLayoutConfig } from "../../types/config";
+import { defaultMusicPlayerConfig } from "./music-player";
 import { defaultSiteConfig } from "./site";
 import { defaultWeatherConfig } from "./weather";
 
@@ -84,6 +85,15 @@ export const defaultSidebarLayoutConfig: SidebarLayoutConfig = {
 			sidebar: "left",
 			class: "onload-animation",
 			animationDelay: 300,
+		},
+		{
+			type: "music-player", // 音乐播放器组件
+			enable: defaultMusicPlayerConfig.enable,
+			order: 8,
+			position: "top",
+			sidebar: "left",
+			class: "onload-animation",
+			animationDelay: 350,
 		},
 	],
 

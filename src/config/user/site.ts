@@ -96,7 +96,7 @@ export const userSiteConfig: Partial<SiteConfig> = {
 	// 顶栏标题配置
 	navbarTitle: {
 		// 显示模式："text-icon" 显示图标+文本，"logo" 仅显示Logo
-		mode: "text-icon",
+		mode: "logo",
 		// 顶栏标题文本
 		text: "BrightMoon Blog",
 		// 顶栏标题图标路径，默认使用 public/assets/home/home.png

@@ -1,6 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
-import { navBarConfig, siteConfig } from "../config";
+import { musicPlayerConfig, navBarConfig, siteConfig } from "../config";
 import { LinkPresets } from "../constants/link-presets";
 import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
@@ -10,6 +10,7 @@ import LightDarkSwitch from "./LightDarkSwitch.svelte";
 import Search from "./Search.svelte";
 import DisplaySettings from "./widget/DisplaySettings.svelte";
 import DropdownMenu from "./widget/DropdownMenu.astro";
+import MusicPlayer from "./widget/MusicPlayer.svelte";
 import NavMenuPanel from "./widget/NavMenuPanel.astro";
 import TranslateButton from "./widget/TranslateButton.svelte";
 
@@ -63,6 +64,11 @@ let links: NavBarLink[] = navBarConfig.links.map(
             <div id="search-container">
                 <Search client:only="svelte"></Search>
             </div>
+            {musicPlayerConfig.enable && (
+                <button aria-label="Music Player" title={i18n(I18nKey.musicPlayer)} class="btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90" id="music-player-switch">
+                    <Icon name="material-symbols:music-note" class="text-[1.25rem]"></Icon>
+                </button>
+            )}
             {!siteConfig.appearance.fixed && (
                     <button aria-label="Display Settings" title={i18n(I18nKey.appearance)} class="btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90" id="display-settings-switch">
                         <Icon name="material-symbols:palette-outline" class="text-[1.25rem]"></Icon>
@@ -75,6 +81,11 @@ let links: NavBarLink[] = navBarConfig.links.map(
             </button>
         </div>
         <NavMenuPanel links={links}></NavMenuPanel>
+        {musicPlayerConfig.enable && (
+            <div id="music-player-panel" class="float-panel float-panel-closed fixed transition-all right-4 max-h-[80vh] overflow-y-auto w-[340px]">
+                <MusicPlayer client:idle />
+            </div>
+        )}
         <DisplaySettings client:only="svelte"></DisplaySettings>
     </div>
 </div>
@@ -143,6 +154,13 @@ async function loadButtonScript() {
                 await panelManager.togglePanel('nav-menu-panel');
             };
         }
+
+        let musicBtn = document.getElementById("music-player-switch");
+        if (musicBtn) {
+            musicBtn.onclick = async function () {
+                await panelManager.togglePanel('music-player-panel');
+            };
+        }
     } catch (error) {
         console.error('Failed to load panel manager:', error);
         // 备用逻辑
@@ -162,6 +180,16 @@ async function loadButtonScript() {
                 let menuPanel = document.getElementById("nav-menu-panel");
                 if (menuPanel) {
                     menuPanel.classList.toggle("float-panel-closed");
+                }
+            };
+        }
+
+        let musicBtn = document.getElementById("music-player-switch");
+        if (musicBtn) {
+            musicBtn.onclick = function () {
+                let musicPanel = document.getElementById("music-player-panel");
+                if (musicPanel) {
+                    musicPanel.classList.toggle("float-panel-closed");
                 }
             };
         }

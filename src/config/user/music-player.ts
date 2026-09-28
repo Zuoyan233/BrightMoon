@@ -5,7 +5,7 @@ export const userMusicPlayerConfig: Partial<MusicPlayerConfig> = {
 	mode: "meting", // 播放器模式："meting" 使用 MetingJS API，"local" 使用本地音乐列表
 	meting_api:
 		"https://meting.liveling.top/api?server=:server&type=:type&id=:id&auth=:auth&r=:r", // MetingJS API 地址
-	id: "766208154", // 歌单 ID
+	id: "766208154", // 歌单或单曲 ID
 	server: "netease", // 音乐平台："netease" 网易云音乐，"tencent" QQ音乐，"kugou" 酷狗，"baidu" 百度
 	type: "playlist", // 类型："playlist" 歌单，"song" 单曲，"album" 专辑，"artist" 歌手
 	localPlaylist: [
@@ -26,8 +26,6 @@ export const userMusicPlayerConfig: Partial<MusicPlayerConfig> = {
 	errorMessage: "", // 错误信息
 	showError: false, // 显示错误信息
 	isPlaying: false, // 是否正在播放
-	isExpanded: false, // 是否展开播放器
-	isHidden: false, // 是否隐藏播放器
 	showPlaylist: false, // 显示播放列表
 	isMuted: false, // 是否静音
 	isLoading: false, // 是否加载中

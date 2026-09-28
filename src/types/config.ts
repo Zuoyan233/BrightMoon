@@ -407,8 +407,6 @@ export type MusicPlayerConfig = {
 	errorMessage: string; // 错误信息
 	showError: boolean; // 是否显示错误信息
 	isPlaying: boolean; // 播放状态
-	isExpanded: boolean; // 是否展开
-	isHidden: boolean; // 是否隐藏
 	showPlaylist: boolean; // 是否显示播放列表
 	isMuted: boolean; // 是否静音
 	isLoading: boolean; // 是否加载中

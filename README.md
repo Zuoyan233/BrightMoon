@@ -110,6 +110,7 @@ This project is a customized extension based on Mizuki V8.2, with version number
 - **Projects Page** - Development project portfolio.
 - **Skills Page** - Technical skills and expertise.
 - **Timeline Page** - Growth journey and key milestones.
+- **Music Player** - Integrated music player with playlist support, playback controls, and visual effects.
 
 ### 🛠 Technical Features
 
@@ -167,9 +168,9 @@ This project is a customized extension based on Mizuki V8.2, with version number
   <details>
   <summary><b>Album Feature Usage Guide</b> (Click to expand)</summary>
 
-  BrightMoon album feature adopts an **auto-scan mechanism**. Simply create folders, place images and configuration files - no manual coding required (external link albums require manually defining each image's `src` and other information).
-
   # Quick Start
+
+  BrightMoon album feature adopts an **auto-scan mechanism**. Simply create folders, place images and configuration files - no manual coding required (external link albums require manually defining each image's `src` and other information).
 
   Creating an album requires only 3 steps:
 
@@ -358,6 +359,14 @@ This project is a customized extension based on Mizuki V8.2, with version number
 - **Projects Page:** Edit content in `src/data/projects.ts`.
 - **Skills Page:** Edit content in `src/data/skills.ts`.
 - **Timeline Page:** Edit content in `src/data/timeline.ts`.
+- **Music Player:** Configure via `userMusicPlayerConfig` in `src/config/user/music-player.ts`.
+  - `enable`: Set to `true` to enable the music player.
+  - `mode`: Choose `"meting"` (use MetingJS API) or `"local"` (use local music list).
+  - `meting_api`: MetingJS API endpoint address.
+  - `id`: Playlist or song ID.
+  - `server`: Music platform — `"netease"` (NetEase Cloud Music), `"tencent"` (QQ Music), `"kugou"` (Kugou), `"baidu"` (Baidu).
+  - `type`: Content type — `"playlist"`, `"song"`, `"album"`, or `"artist"`.
+  - `localPlaylist`: Local music list (effective when `mode` is `"local"`), configure `title`, `artist`, `cover`, `url`, `duration` for each song.
 
 1. **Article management:**
 

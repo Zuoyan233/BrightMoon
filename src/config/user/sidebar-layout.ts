@@ -1,4 +1,5 @@
 import type { SidebarLayoutConfig } from "../../types/config";
+import { userMusicPlayerConfig } from "./music-player";
 import { userSiteConfig } from "./site";
 import { userWeatherConfig } from "./weather";
 
@@ -84,6 +85,15 @@ export const userSidebarLayoutConfig: Partial<SidebarLayoutConfig> = {
 			sidebar: "left",
 			class: "onload-animation",
 			animationDelay: 300,
+		},
+		{
+			type: "music-player", // 音乐播放器组件
+			enable: userMusicPlayerConfig.enable ?? true,
+			order: 8,
+			position: "top",
+			sidebar: "left",
+			class: "onload-animation",
+			animationDelay: 350,
 		},
 	],
 

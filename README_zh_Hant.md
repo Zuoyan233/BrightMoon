@@ -110,6 +110,7 @@ BrightMoon 是一款融合現代簡約與優雅氣質的獨特二次元美學靜
 - **專案展示頁面** - 開發專案作品集。
 - **技能展示頁面** - 技術技能和專業知識。
 - **時間線頁面** - 成長歷程和重要里程碑。
+- **音樂播放器** - 集成音樂播放器，支援播放清單、播放控制和視覺效果。
 
 ### 🛠 技術特性
 
@@ -167,9 +168,9 @@ BrightMoon 是一款融合現代簡約與優雅氣質的獨特二次元美學靜
   <details>
   <summary><b>相簿功能使用說明</b>（點擊展開）</summary>
 
-  BrightMoon 相簿功能採用**自動掃描**機制，只需建立資料夾、放置圖片和設定檔即可，無需手動撰寫程式碼（外連相簿則需要手動定義每張圖片的 `src` 等資訊）。
-
   # 快速開始
+
+  BrightMoon 相簿功能採用**自動掃描**機制，只需建立資料夾、放置圖片和設定檔即可，無需手動撰寫程式碼（外連相簿則需要手動定義每張圖片的 `src` 等資訊）。
 
   建立一個相簿只需 3 步：
 
@@ -358,6 +359,14 @@ BrightMoon 是一款融合現代簡約與優雅氣質的獨特二次元美學靜
 - **專案展示頁面：** 在 `src/data/projects.ts` 中編輯展示的內容。
 - **技能展示頁面：** 在 `src/data/skills.ts` 中編輯展示的內容。
 - **時間線頁面：** 在 `src/data/timeline.ts` 中編輯展示的內容。
+- **音樂播放器：** 在 `src/config/user/music-player.ts` 中找到 `userMusicPlayerConfig` 進行配置。
+  - `enable`：設置為 `true` 啟用音樂播放器。
+  - `mode`：選擇 `"meting"`（使用 MetingJS API）或 `"local"`（使用本地音樂列表）。
+  - `meting_api`：MetingJS API 接口地址。
+  - `id`：歌單或單曲 ID。
+  - `server`：音樂平台 — `"netease"` 網易雲音樂、`"tencent"` QQ音樂、`"kugou"` 酷狗、`"baidu"` 百度。
+  - `type`：內容類型 — `"playlist"` 歌單、`"song"` 單曲、`"album"` 專輯、`"artist"` 歌手。
+  - `localPlaylist`：本地音樂列表（`mode` 為 `"local"` 時生效），為每首歌曲配置 `title`、`artist`、`cover`、`url`、`duration`。
 
 1. **文章內容管理：**
 

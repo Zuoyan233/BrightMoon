@@ -72,6 +72,9 @@ function renderComponent(
     topComponents.length > 0 && (
       <div class="flex flex-col w-full gap-4 mb-4">
         {topComponents.map((component, index) => {
+          if (component.type === "music-player") {
+            return <MusicPlayer client:idle />;
+          }
           const renderData = renderComponent(component, index, topComponents);
           if (!renderData) return null;
 
@@ -90,10 +93,13 @@ function renderComponent(
         class="transition-all duration-700 flex flex-col w-full gap-4 sticky top-4"
       >
         {stickyComponents.map((component, index) => {
+          if (component.type === "music-player") {
+            return <MusicPlayer client:idle />;
+          }
           const renderData = renderComponent(
             component,
             index,
-            stickyComponents
+            stickyComponents,
           );
           if (!renderData) return null;
 
@@ -129,20 +135,20 @@ function renderComponent(
 
 <script>
   import { widgetManager } from "../../utils/widget-manager";
-  
+
   // 响应式布局管理
   class RightSidebarManager {
     constructor() {
       this.init();
     }
-    
+
     init() {
       this.updateResponsiveDisplay();
-      window.addEventListener('resize', () => this.updateResponsiveDisplay());
-      
+      window.addEventListener("resize", () => this.updateResponsiveDisplay());
+
       // 监听SWUP内容替换事件
       if (window.swup?.hooks) {
-        window.swup.hooks.on('content:replace', () => {
+        window.swup.hooks.on("content:replace", () => {
           // 延迟执行以确保DOM已更新
           setTimeout(() => {
             this.updateResponsiveDisplay();
@@ -150,32 +156,32 @@ function renderComponent(
         });
       }
     }
-    
+
     updateResponsiveDisplay() {
       const breakpoints = widgetManager.getBreakpoints();
       const width = window.innerWidth;
-      
-      let deviceType: 'mobile' | 'tablet' | 'desktop';
+
+      let deviceType: "mobile" | "tablet" | "desktop";
       if (width < breakpoints.mobile) {
-        deviceType = 'mobile';
+        deviceType = "mobile";
       } else if (width < breakpoints.tablet) {
-        deviceType = 'tablet';
+        deviceType = "tablet";
       } else {
-        deviceType = 'desktop';
+        deviceType = "desktop";
       }
-      
+
       const shouldShow = widgetManager.shouldShowSidebar(deviceType);
-      const sidebar = document.getElementById('right-sidebar');
-      
+      const sidebar = document.getElementById("right-sidebar");
+
       if (sidebar) {
         sidebar.style.setProperty(
-          `--sidebar-${deviceType}-display`, 
-          shouldShow ? 'block' : 'none'
+          `--sidebar-${deviceType}-display`,
+          shouldShow ? "block" : "none",
         );
       }
     }
   }
-  
+
   // 初始化右侧边栏管理器
   new RightSidebarManager();
 </script>
