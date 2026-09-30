@@ -155,7 +155,7 @@ const loadScript = (): Promise<void> => {
 		}
 		const s = document.createElement("script");
 		s.id = SCRIPT_ID;
-		s.src = "/translate.js";
+		s.src = "/js/translate.js";
 		s.async = true;
 		s.addEventListener("load", ready, { once: true });
 		s.addEventListener("error", fail, { once: true });
