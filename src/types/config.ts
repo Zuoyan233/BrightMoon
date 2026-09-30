@@ -399,6 +399,7 @@ export type MusicPlayerConfig = {
 	id: string; // 歌单ID
 	server: string; // 音乐源服务器
 	type: string; // 音乐类型
+	coverProxy?: string; // 第三方封面代理地址，用于解决下载时 CORS 跨域问题
 	localPlaylist: MusicPlayerLocalSong[]; // 本地播放列表，mode 为 "local" 时生效
 	currentTime: number; // 当前播放时间
 	duration: number; // 音乐时长

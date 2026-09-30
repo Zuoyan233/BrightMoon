@@ -125,6 +125,8 @@ export const th: Translation = {
 	[Key.musicPlayerErrorPlaylist]: "ไม่สามารถดึงข้อมูลรายการเพลงได้",
 	[Key.musicPlayerErrorSong]: "ไม่สามารถโหลดเพลงปัจจุบัน กำลังลองเพลงถัดไป",
 	[Key.musicPlayerErrorEmpty]: "ไม่มีเพลงในรายการ",
+	[Key.musicPlayerErrorCoverCORS]:
+		"การฝังปกอัลบั้มถูกบล็อกโดยนโยบาย CORS การดาวน์โหลดเสียงไม่ได้รับผลกระทบ",
 	[Key.musicPlayerLyricsShow]: "แสดงเนื้อเพลง",
 	[Key.musicPlayerLyricsHide]: "ซ่อนเนื้อเพลง",
 	[Key.musicPlayerNoLyrics]: "ไม่มีเนื้อเพลง",

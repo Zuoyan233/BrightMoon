@@ -128,6 +128,8 @@ export const id: Translation = {
 	[Key.musicPlayerErrorSong]:
 		"Gagal memuat lagu saat ini, mencoba lagu berikutnya",
 	[Key.musicPlayerErrorEmpty]: "Tidak ada lagu tersedia di daftar putar",
+	[Key.musicPlayerErrorCoverCORS]:
+		"Penyematan sampul diblokir oleh kebijakan CORS. Unduhan audio tidak terpengaruh.",
 	[Key.musicPlayerLyricsShow]: "Tampilkan Lirik",
 	[Key.musicPlayerLyricsHide]: "Sembunyikan Lirik",
 	[Key.musicPlayerNoLyrics]: "Lirik tidak tersedia",

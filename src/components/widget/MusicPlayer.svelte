@@ -40,18 +40,41 @@ let sharedNoLyricsFound = $state(false); // 是否未找到歌词
 let sharedWillAutoPlay = $state(false); // 是否将在加载后自动播放
 let sharedAutoplayFailed = $state(false); // 自动播放是否因浏览器策略失败
 
+function getInitialCurrentSong(): Song {
+	const mode = musicPlayerConfig.mode ?? "meting";
+	if (mode === "local") {
+		const list = musicPlayerConfig.localPlaylist;
+		if (list.length > 0) {
+			const first = list[0];
+			return {
+				id: Number(first.id) || 1,
+				title: first.title || i18n(Key.unknownSong),
+				artist: first.artist || i18n(Key.unknownArtist),
+				cover: first.cover || "/favicon/Vinyl record.ico",
+				url: first.url || "",
+				lrc: first.lrc,
+				duration: first.duration || 0,
+			};
+		}
+	}
+	return {
+		id: 0,
+		title: i18n(Key.unknownSong),
+		artist: i18n(Key.unknownArtist),
+		cover: "/favicon/Vinyl record.ico",
+		url: "",
+		duration: 0,
+	};
+}
+
 // 当前播放的歌曲信息
-let sharedCurrentSong: Song = $state({
-	id: 0,
-	title: i18n(Key.unknownSong),
-	artist: i18n(Key.unknownArtist),
-	cover: "/favicon/Vinyl record.ico",
-	url: "",
-	duration: 0,
-});
+let sharedCurrentSong: Song = $state(getInitialCurrentSong());
 
 // 记录已初始化（防止多个实例重复加载播放列表）
 let sharedInitialized = $state(false);
+
+// 记录初始化时的模式，用于检测模式切换后重新初始化
+let sharedInitializedMode: string | null = null;
 
 // 实例计数，用于管理 audio 元素生命周期
 let instanceCount = 0;
@@ -222,6 +245,8 @@ function sharedLoadSong(song: Song) {
 				? song.url
 				: `/${song.url}`;
 		audio.load();
+	} else if (sharedLyrics.length === 0 && !sharedLyricsLoading && song.lrc) {
+		sharedFetchLyrics(song);
 	}
 }
 
@@ -333,7 +358,10 @@ async function sharedFetchLyrics(song: Song) {
 			if (!res.ok) throw new Error("lyrics fetch failed");
 			lrcText = await res.text();
 		} else {
-			lrcText = song.lrc;
+			const lrcPath = song.lrc.startsWith("/") ? song.lrc : `/${song.lrc}`;
+			const res = await fetch(lrcPath);
+			if (!res.ok) throw new Error("lyrics fetch failed");
+			lrcText = await res.text();
 		}
 
 		const parsed = parseLrc(lrcText);
@@ -406,10 +434,12 @@ async function sharedFetchMetingPlaylist() {
 }
 
 function sharedInitPlaylist() {
-	if (sharedInitialized) return;
-	sharedInitialized = true;
-
 	const mode = musicPlayerConfig.mode ?? "meting";
+	// 如果已经初始化且模式没有变化，则跳过
+	if (sharedInitialized && sharedInitializedMode === mode) return;
+	sharedInitialized = true;
+	sharedInitializedMode = mode;
+
 	if (mode === "meting") {
 		sharedFetchMetingPlaylist();
 	} else {
@@ -431,6 +461,9 @@ import { slide } from "svelte/transition";
 import { siteConfig } from "../../config";
 import { getTranslation } from "../../i18n/translation";
 import { translationManager } from "../../utils/translation-manager";
+
+// 外部传入的 props
+let { class: className = "" }: { class?: string } = $props();
 
 // 这些状态只影响当前实例的 UI，不影响播放核心状态
 
@@ -634,6 +667,7 @@ function applySettings() {
 	musicPlayerConfig.server = settingsServer;
 	musicPlayerConfig.type = settingsType;
 	sharedInitialized = false;
+	sharedInitializedMode = null;
 	sharedPlaylist = [];
 	sharedCurrentIndex = 0;
 	sharedIsPlaying = false;
@@ -681,6 +715,312 @@ function sanitizeFilename(name: string): string {
 	return name.replace(/[\\/:*?"<>|]/g, "_").trim() || "untitled";
 }
 
+function inferAudioExt(url: string, mimeType: string): string {
+	const urlExtMatch = url.match(/\.(\w+)(?:\?|$)/);
+	if (urlExtMatch) {
+		const ext = urlExtMatch[1].toLowerCase();
+		if (ext === "m4a") return "m4a";
+	}
+	const mimeMap: Record<string, string> = {
+		"audio/mp4": "m4a",
+		"audio/x-m4a": "m4a",
+	};
+	if (mimeMap[mimeType.toLowerCase()]) return "m4a";
+	return "mp3";
+}
+
+async function fetchCoverImage(coverUrl: string): Promise<{ data: ArrayBuffer; mime: string } | null> {
+	if (!coverUrl) return null;
+	try {
+		const proxyUrl = coverUrl.startsWith("http://") || coverUrl.startsWith("https://")
+			? `${musicPlayerConfig.coverProxy || ""}${encodeURIComponent(coverUrl)}`
+			: getAssetPath(coverUrl);
+		const res = await fetch(proxyUrl);
+		if (!res.ok) return null;
+		const mime = res.headers.get("content-type") || "image/jpeg";
+		const data = await res.arrayBuffer();
+		if (data.byteLength === 0) return null;
+		return { data, mime };
+	} catch (error) {
+		if (coverUrl.startsWith("http://") || coverUrl.startsWith("https://")) {
+			showSharedErrorMessage(Key.musicPlayerErrorCoverCORS);
+		}
+		return null;
+	}
+}
+
+function buildId3v2ApicFrame(imageData: ArrayBuffer, imageMime: string): Uint8Array {
+	const mimeStr = (imageMime.includes("png") ? "image/png" : "image/jpeg") + "\0";
+	const mimeBytes = new TextEncoder().encode(mimeStr);
+	const frameDataLen = 1 + mimeBytes.length + 1 + 1 + imageData.byteLength;
+	const frame = new Uint8Array(10 + frameDataLen);
+	const view = new DataView(frame.buffer);
+	frame[0] = 0x41; frame[1] = 0x50; frame[2] = 0x49; frame[3] = 0x43;
+	view.setUint32(4, frameDataLen);
+	frame[8] = 0; frame[9] = 0;
+	frame[10] = 0;
+	frame.set(mimeBytes, 11);
+	let off = 11 + mimeBytes.length;
+	frame[off++] = 3;
+	frame[off++] = 0;
+	frame.set(new Uint8Array(imageData), off);
+	return frame;
+}
+
+function embedMp3Cover(audioData: ArrayBuffer, imageData: ArrayBuffer, imageMime: string): ArrayBuffer {
+	const bytes = new Uint8Array(audioData);
+	const hasId3 = bytes.length >= 10 && bytes[0] === 0x49 && bytes[1] === 0x44 && bytes[2] === 0x33;
+	const apicFrame = buildId3v2ApicFrame(imageData, imageMime);
+
+	if (hasId3) {
+		const version = bytes[3];
+		const tagBodySize = ((bytes[6] & 0x7f) << 21) | ((bytes[7] & 0x7f) << 14) | ((bytes[8] & 0x7f) << 7) | (bytes[9] & 0x7f);
+		const tagTotal = 10 + tagBodySize;
+		const frames: Uint8Array[] = [];
+		let pos = 10;
+		while (pos + 10 <= tagTotal) {
+			if (bytes[pos] === 0) break;
+			const id = String.fromCharCode(bytes[pos], bytes[pos + 1], bytes[pos + 2], bytes[pos + 3]);
+			let fsize: number;
+			if (version === 4) {
+				fsize = ((bytes[pos + 4] & 0x7f) << 21) | ((bytes[pos + 5] & 0x7f) << 14) | ((bytes[pos + 6] & 0x7f) << 7) | (bytes[pos + 7] & 0x7f);
+			} else {
+				fsize = (bytes[pos + 4] << 24) | (bytes[pos + 5] << 16) | (bytes[pos + 6] << 8) | bytes[pos + 7];
+			}
+			if (fsize <= 0 || pos + 10 + fsize > tagTotal) break;
+			if (id !== "APIC") frames.push(bytes.slice(pos, pos + 10 + fsize));
+			pos += 10 + fsize;
+		}
+		frames.push(apicFrame);
+		const totalFrameBytes = frames.reduce((s, f) => s + f.length, 0);
+		const newTag = new Uint8Array(10 + totalFrameBytes);
+		newTag[0] = 0x49; newTag[1] = 0x44; newTag[2] = 0x33;
+		newTag[3] = 3; newTag[4] = 0; newTag[5] = 0;
+		newTag[6] = (totalFrameBytes >> 21) & 0x7f;
+		newTag[7] = (totalFrameBytes >> 14) & 0x7f;
+		newTag[8] = (totalFrameBytes >> 7) & 0x7f;
+		newTag[9] = totalFrameBytes & 0x7f;
+		let w = 10;
+		for (const f of frames) { newTag.set(f, w); w += f.length; }
+		const result = new Uint8Array(newTag.length + (audioData.byteLength - tagTotal));
+		result.set(newTag);
+		result.set(bytes.subarray(tagTotal), newTag.length);
+		return result.buffer as ArrayBuffer;
+	}
+
+	const totalFrameBytes = apicFrame.length;
+	const tag = new Uint8Array(10 + totalFrameBytes);
+	tag[0] = 0x49; tag[1] = 0x44; tag[2] = 0x33;
+	tag[3] = 3; tag[4] = 0; tag[5] = 0;
+	tag[6] = (totalFrameBytes >> 21) & 0x7f;
+	tag[7] = (totalFrameBytes >> 14) & 0x7f;
+	tag[8] = (totalFrameBytes >> 7) & 0x7f;
+	tag[9] = totalFrameBytes & 0x7f;
+	tag.set(apicFrame, 10);
+	const result = new Uint8Array(tag.length + audioData.byteLength);
+	result.set(tag);
+	result.set(bytes, tag.length);
+	return result.buffer;
+}
+
+function mp4FindAtom(data: Uint8Array, start: number, end: number, type: string): { offset: number; size: number } | null {
+	let pos = start;
+	while (pos + 8 <= end && pos + 8 <= data.length) {
+		const size = (data[pos] << 24) | (data[pos + 1] << 16) | (data[pos + 2] << 8) | data[pos + 3];
+		const t = String.fromCharCode(data[pos + 4], data[pos + 5], data[pos + 6], data[pos + 7]);
+		if (t === type) return { offset: pos, size };
+		if (size < 8 || pos + size > end) break;
+		pos += size;
+	}
+	return null;
+}
+
+function mp4FindAllAtoms(data: Uint8Array, start: number, end: number, type: string): { offset: number; size: number }[] {
+	const results: { offset: number; size: number }[] = [];
+	let pos = start;
+	while (pos + 8 <= end && pos + 8 <= data.length) {
+		const size = (data[pos] << 24) | (data[pos + 1] << 16) | (data[pos + 2] << 8) | data[pos + 3];
+		const t = String.fromCharCode(data[pos + 4], data[pos + 5], data[pos + 6], data[pos + 7]);
+		if (t === type) results.push({ offset: pos, size });
+		if (size < 8 || pos + size > end) break;
+		pos += size;
+	}
+	return results;
+}
+
+function m4aUpdateStcoOffsets(data: Uint8Array, moovStart: number, moovEnd: number, delta: number) {
+	const traks = mp4FindAllAtoms(data, moovStart + 8, moovEnd, "trak");
+	for (const trak of traks) {
+		const mdia = mp4FindAtom(data, trak.offset + 8, trak.offset + trak.size, "mdia");
+		if (!mdia) continue;
+		const minf = mp4FindAtom(data, mdia.offset + 8, mdia.offset + mdia.size, "minf");
+		if (!minf) continue;
+		const stbl = mp4FindAtom(data, minf.offset + 8, minf.offset + minf.size, "stbl");
+		if (!stbl) continue;
+
+		const stco = mp4FindAtom(data, stbl.offset + 8, stbl.offset + stbl.size, "stco");
+		if (stco) {
+			const entryCount = (data[stco.offset + 12] << 24) | (data[stco.offset + 13] << 16) | (data[stco.offset + 14] << 8) | data[stco.offset + 15];
+			for (let i = 0; i < entryCount; i++) {
+				const off = stco.offset + 16 + i * 4;
+				const oldVal = (data[off] << 24) | (data[off + 1] << 16) | (data[off + 2] << 8) | data[off + 3];
+				const newVal = oldVal + delta;
+				data[off] = (newVal >> 24) & 0xff;
+				data[off + 1] = (newVal >> 16) & 0xff;
+				data[off + 2] = (newVal >> 8) & 0xff;
+				data[off + 3] = newVal & 0xff;
+			}
+		}
+
+		const co64 = mp4FindAtom(data, stbl.offset + 8, stbl.offset + stbl.size, "co64");
+		if (co64) {
+			const entryCount = (data[co64.offset + 12] << 24) | (data[co64.offset + 13] << 16) | (data[co64.offset + 14] << 8) | data[co64.offset + 15];
+			for (let i = 0; i < entryCount; i++) {
+				const off = co64.offset + 16 + i * 8;
+				const hi = (data[off] << 24) | (data[off + 1] << 16) | (data[off + 2] << 8) | data[off + 3];
+				const lo = (data[off + 4] << 24) | (data[off + 5] << 16) | (data[off + 6] << 8) | data[off + 7];
+				const oldVal = (BigInt(hi) << BigInt(32)) | BigInt(lo >>> 0);
+				const newVal = oldVal + BigInt(delta);
+				const newHi = Number(newVal >> BigInt(32));
+				const newLo = Number(newVal & BigInt(0xffffffff));
+				data[off] = (newHi >> 24) & 0xff;
+				data[off + 1] = (newHi >> 16) & 0xff;
+				data[off + 2] = (newHi >> 8) & 0xff;
+				data[off + 3] = newHi & 0xff;
+				data[off + 4] = (newLo >> 24) & 0xff;
+				data[off + 5] = (newLo >> 16) & 0xff;
+				data[off + 6] = (newLo >> 8) & 0xff;
+				data[off + 7] = newLo & 0xff;
+			}
+		}
+	}
+}
+
+function mp4WriteSize(data: Uint8Array, offset: number, size: number) {
+	data[offset] = (size >> 24) & 0xff;
+	data[offset + 1] = (size >> 16) & 0xff;
+	data[offset + 2] = (size >> 8) & 0xff;
+	data[offset + 3] = size & 0xff;
+}
+
+function buildCovrAtom(imageData: ArrayBuffer, imageMime: string): Uint8Array {
+	const typeFlag = imageMime.includes("png") ? 0x0e : 0x0d;
+	const dataAtomSize = 8 + 1 + 3 + 4 + imageData.byteLength;
+	const dataAtom = new Uint8Array(dataAtomSize);
+	mp4WriteSize(dataAtom, 0, dataAtomSize);
+	dataAtom[4] = 0x64; dataAtom[5] = 0x61; dataAtom[6] = 0x74; dataAtom[7] = 0x61;
+	dataAtom[8] = 0;
+	dataAtom[9] = 0; dataAtom[10] = 0; dataAtom[11] = typeFlag;
+	dataAtom[12] = 0; dataAtom[13] = 0; dataAtom[14] = 0; dataAtom[15] = 0;
+	dataAtom.set(new Uint8Array(imageData), 16);
+	const covrSize = 8 + dataAtomSize;
+	const covr = new Uint8Array(covrSize);
+	mp4WriteSize(covr, 0, covrSize);
+	covr[4] = 0x63; covr[5] = 0x6f; covr[6] = 0x76; covr[7] = 0x72;
+	covr.set(dataAtom, 8);
+	return covr;
+}
+
+function m4aBuildIlstAtom(imageData: ArrayBuffer, imageMime: string): Uint8Array {
+	const covr = buildCovrAtom(imageData, imageMime);
+	const ilst = new Uint8Array(8 + covr.length);
+	mp4WriteSize(ilst, 0, ilst.length);
+	ilst[4] = 0x69; ilst[5] = 0x6c; ilst[6] = 0x73; ilst[7] = 0x74;
+	ilst.set(covr, 8);
+	return ilst;
+}
+
+function m4aBuildMetaAtom(imageData: ArrayBuffer, imageMime: string): Uint8Array {
+	const hdlr = new Uint8Array(33);
+	mp4WriteSize(hdlr, 0, 33);
+	hdlr[4] = 0x68; hdlr[5] = 0x64; hdlr[6] = 0x6c; hdlr[7] = 0x72;
+	hdlr[16] = 0x6d; hdlr[17] = 0x64; hdlr[18] = 0x69; hdlr[19] = 0x72;
+	const ilst = m4aBuildIlstAtom(imageData, imageMime);
+	const meta = new Uint8Array(8 + 4 + hdlr.length + ilst.length);
+	mp4WriteSize(meta, 0, meta.length);
+	meta[4] = 0x6d; meta[5] = 0x65; meta[6] = 0x74; meta[7] = 0x61;
+	meta.set(hdlr, 12);
+	meta.set(ilst, 12 + hdlr.length);
+	return meta;
+}
+
+function m4aInsertAndResize(data: Uint8Array, insertPos: number, insertData: Uint8Array, parentOffsets: number[]): Uint8Array {
+	const result = new Uint8Array(data.length + insertData.length);
+	result.set(data.subarray(0, insertPos));
+	result.set(insertData, insertPos);
+	result.set(data.subarray(insertPos), insertPos + insertData.length);
+	for (const off of parentOffsets) {
+		const old = (result[off] << 24) | (result[off + 1] << 16) | (result[off + 2] << 8) | result[off + 3];
+		mp4WriteSize(result, off, old + insertData.length);
+	}
+	return result;
+}
+
+function embedM4aCover(audioData: ArrayBuffer, imageData: ArrayBuffer, imageMime: string): ArrayBuffer {
+	const data = new Uint8Array(audioData);
+	const moov = mp4FindAtom(data, 0, data.length, "moov");
+	if (!moov) return audioData;
+
+	const mdat = mp4FindAtom(data, 0, data.length, "mdat");
+	const moovBeforeMdat = mdat ? moov.offset < mdat.offset : false;
+
+	const moovEnd = moov.offset + moov.size;
+	const udta = mp4FindAtom(data, moov.offset + 8, moovEnd, "udta");
+
+	if (!udta) {
+		const metaAtom = m4aBuildMetaAtom(imageData, imageMime);
+		const udtaAtom = new Uint8Array(8 + metaAtom.length);
+		mp4WriteSize(udtaAtom, 0, udtaAtom.length);
+		udtaAtom[4] = 0x75; udtaAtom[5] = 0x64; udtaAtom[6] = 0x74; udtaAtom[7] = 0x61;
+		udtaAtom.set(metaAtom, 8);
+		const result = m4aInsertAndResize(data, moovEnd, udtaAtom, [moov.offset]);
+		if (moovBeforeMdat) m4aUpdateStcoOffsets(result, moov.offset, moovEnd + udtaAtom.length, udtaAtom.length);
+		return result as unknown as ArrayBuffer;
+	}
+
+	const meta = mp4FindAtom(data, udta.offset + 8, udta.offset + udta.size, "meta");
+	if (!meta) {
+		const metaAtom = m4aBuildMetaAtom(imageData, imageMime);
+		const insertPos = udta.offset + udta.size;
+		const result = m4aInsertAndResize(data, insertPos, metaAtom, [udta.offset, moov.offset]);
+		if (moovBeforeMdat) m4aUpdateStcoOffsets(result, moov.offset, moovEnd + metaAtom.length, metaAtom.length);
+		return result as unknown as ArrayBuffer;
+	}
+
+	const metaChildrenStart = meta.offset + 12;
+	const metaChildrenEnd = meta.offset + meta.size;
+	const ilst = mp4FindAtom(data, metaChildrenStart, metaChildrenEnd, "ilst");
+	if (!ilst) {
+		const ilstAtom = m4aBuildIlstAtom(imageData, imageMime);
+		const insertPos = meta.offset + meta.size;
+		const result = m4aInsertAndResize(data, insertPos, ilstAtom, [meta.offset, udta.offset, moov.offset]);
+		if (moovBeforeMdat) m4aUpdateStcoOffsets(result, moov.offset, moovEnd + ilstAtom.length, ilstAtom.length);
+		return result as unknown as ArrayBuffer;
+	}
+
+	const covr = mp4FindAtom(data, ilst.offset + 8, ilst.offset + ilst.size, "covr");
+	const covrAtom = buildCovrAtom(imageData, imageMime);
+
+	if (covr) {
+		const delta = covrAtom.length - covr.size;
+		const result = new Uint8Array(data.length + delta);
+		result.set(data.subarray(0, covr.offset));
+		result.set(covrAtom, covr.offset);
+		result.set(data.subarray(covr.offset + covr.size), covr.offset + covrAtom.length);
+		for (const off of [ilst.offset, meta.offset, udta.offset, moov.offset]) {
+			const old = (result[off] << 24) | (result[off + 1] << 16) | (result[off + 2] << 8) | result[off + 3];
+			mp4WriteSize(result, off, old + delta);
+		}
+		if (moovBeforeMdat) m4aUpdateStcoOffsets(result, moov.offset, moovEnd + delta, delta);
+		return result.buffer as ArrayBuffer;
+	}
+
+	const insertPos = ilst.offset + ilst.size;
+	const result = m4aInsertAndResize(data, insertPos, covrAtom, [ilst.offset, meta.offset, udta.offset, moov.offset]);
+	if (moovBeforeMdat) m4aUpdateStcoOffsets(result, moov.offset, moovEnd + covrAtom.length, covrAtom.length);
+	return result as unknown as ArrayBuffer;
+}
+
 async function downloadCurrentSong() {
 	const song = sharedCurrentSong;
 	if (!song.url) return;
@@ -691,10 +1031,26 @@ async function downloadCurrentSong() {
 		const audioRes = await fetch(getAssetPath(song.url));
 		if (!audioRes.ok) throw new Error("audio fetch failed");
 		const audioBlob = await audioRes.blob();
-		const audioUrl = URL.createObjectURL(audioBlob);
+		const ext = inferAudioExt(song.url, audioBlob.type);
+		let audioData = await audioBlob.arrayBuffer();
+
+		const cover = await fetchCoverImage(song.cover);
+		if (cover) {
+			try {
+				if (ext === "mp3") {
+					audioData = embedMp3Cover(audioData, cover.data, cover.mime);
+				} else if (ext === "m4a") {
+					audioData = embedM4aCover(audioData, cover.data, cover.mime);
+				}
+			} catch (e) {
+				console.warn("Failed to embed cover:", e);
+			}
+		}
+
+		const audioUrl = URL.createObjectURL(new Blob([audioData], { type: audioBlob.type }));
 		const a = document.createElement("a");
 		a.href = audioUrl;
-		a.download = `${baseName}.mp3`;
+		a.download = `${baseName}.${ext}`;
 		a.click();
 		URL.revokeObjectURL(audioUrl);
 	} catch (e) {
@@ -976,7 +1332,7 @@ onDestroy(() => {
 />
 
 {#if musicPlayerConfig.enable}
-<div class="pb-4 card-base">
+<div class="pb-4 card-base {className}">
     <div class="font-bold transition text-lg text-neutral-900 dark:text-neutral-100 relative ml-8 mt-4 mb-2 flex items-center justify-between pr-4
         before:w-1 before:h-4 before:rounded-md before:bg-[var(--primary)]
         before:absolute before:left-[-16px] before:top-[5.5px]">

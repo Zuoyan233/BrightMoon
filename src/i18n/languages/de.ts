@@ -129,6 +129,8 @@ export const de: Translation = {
 	[Key.musicPlayerErrorSong]:
 		"Aktueller Song konnte nicht geladen werden, nächster wird versucht",
 	[Key.musicPlayerErrorEmpty]: "Keine verfügbaren Songs in der Wiedergabeliste",
+	[Key.musicPlayerErrorCoverCORS]:
+		"Cover-Einbettung durch CORS-Richtlinie blockiert. Audio-Download ist nicht betroffen.",
 	[Key.musicPlayerLyricsShow]: "Liedtext anzeigen",
 	[Key.musicPlayerLyricsHide]: "Liedtext ausblenden",
 	[Key.musicPlayerNoLyrics]: "Kein Liedtext verfügbar",

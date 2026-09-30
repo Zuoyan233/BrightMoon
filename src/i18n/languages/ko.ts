@@ -128,6 +128,8 @@ export const ko: Translation = {
 	[Key.musicPlayerErrorSong]:
 		"현재 곡을 불러오지 못했습니다. 다음 곡을 재생합니다",
 	[Key.musicPlayerErrorEmpty]: "재생목록에 사용 가능한 곡이 없습니다",
+	[Key.musicPlayerErrorCoverCORS]:
+		"CORS 정책으로 인해 커버 이미지 임베딩이 차단되었습니다. 오디오 다운로드는 영향을 받지 않습니다.",
 	[Key.musicPlayerLyricsShow]: "가사 보기",
 	[Key.musicPlayerLyricsHide]: "가사 숨기기",
 	[Key.musicPlayerNoLyrics]: "가사 없음",

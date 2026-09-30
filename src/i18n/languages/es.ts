@@ -129,6 +129,8 @@ export const es: Translation = {
 	[Key.musicPlayerErrorSong]:
 		"Error al cargar la canción, probando con la siguiente",
 	[Key.musicPlayerErrorEmpty]: "No hay canciones disponibles en la lista",
+	[Key.musicPlayerErrorCoverCORS]:
+		"Incrustación de portada bloqueada por política CORS. La descarga de audio no se ve afectada.",
 	[Key.musicPlayerLyricsShow]: "Mostrar letras",
 	[Key.musicPlayerLyricsHide]: "Ocultar letras",
 	[Key.musicPlayerNoLyrics]: "Letras no disponibles",

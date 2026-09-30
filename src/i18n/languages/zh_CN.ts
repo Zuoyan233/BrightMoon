@@ -125,6 +125,8 @@ export const zh_CN: Translation = {
 	[Key.musicPlayerErrorPlaylist]: "播放列表获取失败",
 	[Key.musicPlayerErrorSong]: "当前歌曲加载失败，尝试加载下一首",
 	[Key.musicPlayerErrorEmpty]: "播放列表中没有可用的歌曲",
+	[Key.musicPlayerErrorCoverCORS]:
+		"封面嵌入被 CORS 跨域策略阻止，音频下载不受影响",
 	[Key.musicPlayerLyricsShow]: "显示歌词",
 	[Key.musicPlayerLyricsHide]: "隐藏歌词",
 	[Key.musicPlayerNoLyrics]: "暂无歌词",

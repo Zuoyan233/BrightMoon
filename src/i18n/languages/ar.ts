@@ -127,6 +127,8 @@ export const ar: Translation = {
 	[Key.musicPlayerErrorSong]:
 		"فشل في تحميل الأغنية الحالية، جاري تجربة التالية",
 	[Key.musicPlayerErrorEmpty]: "لا توجد أغانٍ متاحة في قائمة التشغيل",
+	[Key.musicPlayerErrorCoverCORS]:
+		"تم حظر تضمين الغلاف بواسطة سياسة CORS. تنزيل الصوت غير متأثر.",
 	[Key.musicPlayerLyricsShow]: "إظهار الكلمات",
 	[Key.musicPlayerLyricsHide]: "إخفاء الكلمات",
 	[Key.musicPlayerNoLyrics]: "لا توجد كلمات متاحة",

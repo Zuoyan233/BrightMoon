@@ -129,6 +129,8 @@ export const ja: Translation = {
 	[Key.musicPlayerErrorSong]:
 		"現在の曲の読み込みに失敗しました。次の曲を試します",
 	[Key.musicPlayerErrorEmpty]: "プレイリストに利用可能な曲がありません",
+	[Key.musicPlayerErrorCoverCORS]:
+		"CORSポリシーによりカバー画像の埋め込みがブロックされました。音声のダウンロードには影響ありません。",
 	[Key.musicPlayerLyricsShow]: "歌詞を表示",
 	[Key.musicPlayerLyricsHide]: "歌詞を非表示",
 	[Key.musicPlayerNoLyrics]: "歌詞はありません",

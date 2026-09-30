@@ -59,11 +59,7 @@ const allYearSuffixesJSON = JSON.stringify(allYearSuffixes);
 const translateToI18nMapJSON = JSON.stringify(translateToLangMap);
 ---
 
-<WidgetLayout
-	id="calendar-widget"
-	class={`hidden md:block ${className}`}
-	style={style}
->
+<WidgetLayout id="calendar-widget" class={className} style={style}>
 	<div class="flex justify-between items-center mb-2 mt-2">
 		<div
 			class="font-bold transition text-lg text-neutral-900 dark:text-neutral-100 relative ml-4 flex items-center

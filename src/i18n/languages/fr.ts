@@ -132,6 +132,8 @@ export const fr: Translation = {
 		"Échec du chargement de la chanson en cours, tentative suivante",
 	[Key.musicPlayerErrorEmpty]:
 		"Aucune chanson disponible dans la liste de lecture",
+	[Key.musicPlayerErrorCoverCORS]:
+		"Intégration de la couverture bloquée par la politique CORS. Le téléchargement audio n'est pas affecté.",
 	[Key.musicPlayerLyricsShow]: "Afficher les paroles",
 	[Key.musicPlayerLyricsHide]: "Masquer les paroles",
 	[Key.musicPlayerNoLyrics]: "Pas de paroles disponibles",

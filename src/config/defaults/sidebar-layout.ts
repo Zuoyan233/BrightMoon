@@ -4,7 +4,7 @@ import { defaultSiteConfig } from "./site";
 import { defaultWeatherConfig } from "./weather";
 
 export const defaultSidebarLayoutConfig: SidebarLayoutConfig = {
-	position: "both", // 侧边栏位置："left" 仅左侧，"right" 仅右侧，"both" 双侧
+	position: "both", // 侧边栏位置："unilateral" 单侧，"both" 双侧
 
 	components: [
 		// 侧边栏组件配置，按 order 排序
@@ -15,7 +15,7 @@ export const defaultSidebarLayoutConfig: SidebarLayoutConfig = {
 			position: "top", // 位置："top" 顶部，"sticky" 粘性
 			sidebar: "left", // 所属侧边栏："left" 左侧，"right" 右侧
 			class: "onload-animation", // CSS 类名
-			animationDelay: 0, // 动画延迟（毫秒）
+			animationDelay: 200, // 动画延迟（毫秒）
 		},
 		{
 			type: "announcement", // 公告组件
@@ -24,7 +24,7 @@ export const defaultSidebarLayoutConfig: SidebarLayoutConfig = {
 			position: "top",
 			sidebar: "left",
 			class: "onload-animation",
-			animationDelay: 50,
+			animationDelay: 200,
 		},
 		{
 			type: "categories", // 分类组件
@@ -33,7 +33,7 @@ export const defaultSidebarLayoutConfig: SidebarLayoutConfig = {
 			position: "top",
 			sidebar: "left",
 			class: "onload-animation",
-			animationDelay: 150,
+			animationDelay: 200,
 			responsive: {
 				collapseThreshold: 5, // 超过此数量时折叠
 			},
@@ -45,7 +45,7 @@ export const defaultSidebarLayoutConfig: SidebarLayoutConfig = {
 			position: "top",
 			sidebar: "left",
 			class: "onload-animation",
-			animationDelay: 250,
+			animationDelay: 200,
 			responsive: {
 				collapseThreshold: 20,
 			},
@@ -57,7 +57,10 @@ export const defaultSidebarLayoutConfig: SidebarLayoutConfig = {
 			position: "top",
 			sidebar: "left",
 			class: "onload-animation",
-			animationDelay: 350,
+			animationDelay: 200,
+			responsive: {
+				hidden: ["mobile"], // 默认移动端隐藏
+			},
 		},
 		{
 			type: "toc", // 目录组件
@@ -66,7 +69,7 @@ export const defaultSidebarLayoutConfig: SidebarLayoutConfig = {
 			position: "sticky",
 			sidebar: "left",
 			class: "onload-animation",
-			animationDelay: 300,
+			animationDelay: 200,
 		},
 		{
 			type: "site-stats", // 站点统计组件
@@ -84,7 +87,10 @@ export const defaultSidebarLayoutConfig: SidebarLayoutConfig = {
 			position: "sticky",
 			sidebar: "right",
 			class: "onload-animation",
-			animationDelay: 250,
+			animationDelay: 200,
+			responsive: {
+				hidden: ["mobile"], // 默认移动端隐藏
+			},
 		},
 		{
 			type: "weather", // 天气组件
@@ -93,7 +99,7 @@ export const defaultSidebarLayoutConfig: SidebarLayoutConfig = {
 			position: "top",
 			sidebar: "left",
 			class: "onload-animation",
-			animationDelay: 300,
+			animationDelay: 200,
 		},
 	],
 

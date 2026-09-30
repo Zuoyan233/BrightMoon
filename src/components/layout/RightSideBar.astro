@@ -72,13 +72,13 @@ function renderComponent(
     topComponents.length > 0 && (
       <div class="flex flex-col w-full gap-4 mb-4">
         {topComponents.map((component, index) => {
-          if (component.type === "music-player") {
-            return <MusicPlayer client:idle />;
-          }
           const renderData = renderComponent(component, index, topComponents);
           if (!renderData) return null;
 
           const { Component, props } = renderData;
+          if (component.type === "music-player") {
+            return <MusicPlayer {...(props as any)} client:idle />;
+          }
           return <Component {...(props as any)} />;
         })}
       </div>
@@ -93,9 +93,6 @@ function renderComponent(
         class="transition-all duration-700 flex flex-col w-full gap-4 sticky top-4"
       >
         {stickyComponents.map((component, index) => {
-          if (component.type === "music-player") {
-            return <MusicPlayer client:idle />;
-          }
           const renderData = renderComponent(
             component,
             index,
@@ -104,6 +101,9 @@ function renderComponent(
           if (!renderData) return null;
 
           const { Component, props } = renderData;
+          if (component.type === "music-player") {
+            return <MusicPlayer {...(props as any)} client:idle />;
+          }
           return <Component {...(props as any)} />;
         })}
       </div>

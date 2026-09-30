@@ -128,6 +128,8 @@ export const tr: Translation = {
 	[Key.musicPlayerErrorPlaylist]: "Çalma listesi alınamadı",
 	[Key.musicPlayerErrorSong]: "Geçerli şarkı yüklenemedi, sonraki deneniyor",
 	[Key.musicPlayerErrorEmpty]: "Çalma listesinde uygun şarkı yok",
+	[Key.musicPlayerErrorCoverCORS]:
+		"CORS politikası nedeniyle kapak gömme engellendi. Ses indirme etkilenmez.",
 	[Key.musicPlayerLyricsShow]: "Sözleri Göster",
 	[Key.musicPlayerLyricsHide]: "Sözleri Gizle",
 	[Key.musicPlayerNoLyrics]: "Şarkı sözü yok",

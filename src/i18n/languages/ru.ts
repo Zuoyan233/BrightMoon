@@ -129,6 +129,8 @@ export const ru: Translation = {
 	[Key.musicPlayerErrorSong]:
 		"Не удалось загрузить текущий трек, пробую следующий",
 	[Key.musicPlayerErrorEmpty]: "В плейлисте нет доступных треков",
+	[Key.musicPlayerErrorCoverCORS]:
+		"Встраивание обложки заблокировано политикой CORS. Загрузка аудио не затронута.",
 	[Key.musicPlayerLyricsShow]: "Показать текст",
 	[Key.musicPlayerLyricsHide]: "Скрыть текст",
 	[Key.musicPlayerNoLyrics]: "Текст песни недоступен",

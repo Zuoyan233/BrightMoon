@@ -120,6 +120,7 @@ enum I18nKey {
 	musicPlayerErrorPlaylist = "musicPlayerErrorPlaylist",
 	musicPlayerErrorSong = "musicPlayerErrorSong",
 	musicPlayerErrorEmpty = "musicPlayerErrorEmpty",
+	musicPlayerErrorCoverCORS = "musicPlayerErrorCoverCORS",
 	musicPlayerLyricsShow = "musicPlayerLyricsShow",
 	musicPlayerLyricsHide = "musicPlayerLyricsHide",
 	musicPlayerNoLyrics = "musicPlayerNoLyrics",

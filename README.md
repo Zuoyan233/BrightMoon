@@ -110,7 +110,7 @@ This project is a customized extension based on Mizuki V8.2, with version number
 - **Projects Page** - Development project portfolio.
 - **Skills Page** - Technical skills and expertise.
 - **Timeline Page** - Growth journey and key milestones.
-- **Music Player** - Integrated music player with playlist support, playback controls, and visual effects.
+- **Music Player** - Integrated music player with playlist support, playback controls, and visual effects; automatically embeds cover art when downloading music (supports MP3 and M4A formats).
 
 ### 🛠 Technical Features
 

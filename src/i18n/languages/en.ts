@@ -128,6 +128,8 @@ export const en: Translation = {
 	[Key.musicPlayerErrorPlaylist]: "Failed to fetch playlist",
 	[Key.musicPlayerErrorSong]: "Failed to load current song, trying next",
 	[Key.musicPlayerErrorEmpty]: "No available songs in playlist",
+	[Key.musicPlayerErrorCoverCORS]:
+		"Cover embedding blocked by CORS policy. Audio download is not affected.",
 	[Key.musicPlayerLyricsShow]: "Show Lyrics",
 	[Key.musicPlayerLyricsHide]: "Hide Lyrics",
 	[Key.musicPlayerNoLyrics]: "No lyrics available",
