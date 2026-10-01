@@ -25,11 +25,7 @@ const BANNER_HEIGHT_EXTEND = 30;
 const BANNER_HEIGHT_HOME = BANNER_HEIGHT + BANNER_HEIGHT_EXTEND;
 
 import { sakuraConfig, siteConfig } from "../config";
-import {
-	getSakuraStatus,
-	initSakura,
-	stopSakura,
-} from "../utils/sakura-manager";
+import { initSakura, stopSakura } from "../utils/sakura-manager";
 import { translationManager } from "../utils/translation-manager";
 
 import "./code-collapse.js";
@@ -565,7 +561,12 @@ function setupFestivalEasterEgg() {
 		if (!isFirstEntry && sakuraConfig) {
 			const festivalImage =
 				matchedItem.imageSrc || "/assets/falling/sakura.png";
-			if (getSakuraStatus()) {
+			const shouldEnableSakura = siteConfig.appearance.fixed
+				? sakuraConfig.enable
+				: localStorage.getItem("sakuraEnabled") !== null
+					? localStorage.getItem("sakuraEnabled") === "true"
+					: (sakuraConfig.uiDefaultEnabled ?? false);
+			if (shouldEnableSakura) {
 				initSakura({ ...sakuraConfig, enable: true }, festivalImage);
 			} else {
 				initSakura({ ...sakuraConfig, enable: false }, festivalImage);

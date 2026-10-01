@@ -356,9 +356,22 @@ export class SakuraManager {
 
 	// 更新配置
 	updateConfig(newConfig: SakuraConfig, imageSrc?: string): void {
+		this.initToken++;
 		const wasRunning = this.isRunning;
 		if (wasRunning) {
-			this.stop();
+			if (this.animationId) {
+				cancelAnimationFrame(this.animationId);
+				this.animationId = null;
+			}
+			if (this.canvas) {
+				document.body.removeChild(this.canvas);
+				this.canvas = null;
+			}
+			if (this.boundHandleResize) {
+				window.removeEventListener("resize", this.boundHandleResize);
+				this.boundHandleResize = null;
+			}
+			this.isRunning = false;
 		}
 		this.config = newConfig;
 		if (imageSrc) {
