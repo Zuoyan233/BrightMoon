@@ -19,15 +19,12 @@ html.dark {
 }
 
 /* Text Area */
-.tk-row {
-	.tk-col {
-		@apply flex-col-reverse;
-		.tk-input {
-			textarea {
-				@apply rounded-[var(--radius-large)] py-4 px-6 !min-h-[150px] focus:border-[var(--primary)];
-			}
-		}
-	}
+.twikoo .tk-row .tk-col {
+	flex-direction: column-reverse !important;
+}
+
+.twikoo .tk-row .tk-col .tk-input textarea {
+	@apply rounded-[var(--radius-large)] py-4 px-6 !min-h-[150px] focus:border-[var(--primary)];
 }
 
 /* Meta */
@@ -35,13 +32,26 @@ html.dark {
 	@apply relative mt-3;
 	div {
 		@apply min-h-10;
-		.el-input-group__prepend {
-			@apply !bg-inherit rounded-l-lg;
+		.el-input-group__prepend,
+		.tk-input-group__prepend {
+			@apply rounded-l-lg;
 			min-height: inherit;
+			background-color: var(--card-bg) !important;
+			border-color: var(--line-divider) !important;
+			color: var(--tk-text) !important;
+			border-radius: 0.5rem 0 0 0.5rem !important;
 		}
-		input {
-			@apply px-4 rounded-r-lg focus:!border-[var(--primary)];
+		input,
+		.tk-input__inner {
 			min-height: inherit;
+			background-color: var(--card-bg) !important;
+			border-color: var(--line-divider) !important;
+			color: var(--tk-text) !important;
+			border-radius: 0 0.5rem 0.5rem 0 !important;
+
+			&:focus {
+				border-color: var(--primary) !important;
+			}
 		}
 	}
 }
@@ -87,14 +97,12 @@ html.dark {
 	}
 }
 
-.tk-meta {
-	.tk-tag {
-		@apply border-none rounded-lg text-[var(--btn-content)];
-	}
+.twikoo .tk-meta .tk-tag {
+	@apply border-none rounded-lg text-[var(--btn-content)];
+}
 
-	.tk-tag-green {
-		@apply bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)] dark:text-[var(--deep-text)];
-	}
+.twikoo .tk-meta .tk-tag-green {
+	@apply bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)] dark:text-[var(--deep-text)];
 }
 
 /* Content & Preview */
@@ -195,24 +203,31 @@ html:root:root .tk-edit {
 	z-index: 100;
 }
 
-.tk-sort-item {
+.twikoo .tk-sort-item {
 	@apply font-normal !text-[oklch(0.55_0.12_var(--hue))] dark:!text-[oklch(0.75_0.1_var(--hue))];
 }
 
-.tk-sort-item.__active {
-	@apply border-none rounded-lg px-3 py-0 h-8 bg-[oklch(0.85_0.08_var(--hue))] dark:bg-[oklch(0.43_0.045_var(--hue))];
+.twikoo .tk-sort-item.__active {
+	@apply border-none rounded-lg px-3 py-0 h-8 bg-[oklch(0.85_0.08_var(--hue))];
+}
+
+html.dark .twikoo .tk-sort-item.__active {
+	@apply bg-[oklch(0.43_0.045_var(--hue))];
 }
 
 /* 搜索容器 */
-.tk-comments .tk-comments-search {
+html:root:root .twikoo .tk-comments-search {
 	@apply flex flex-row items-center gap-2 flex-nowrap;
+	margin-bottom: 0.5rem;
 }
 
 /* 搜索输入框容器 */
-.tk-comments .tk-comments-search > .el-input {
+html:root:root .twikoo .tk-comments-search > .el-input,
+html:root:root .twikoo .tk-comments-search > .tk-input {
 	@apply flex-1 min-w-0;
 
-	.el-input__inner {
+	.el-input__inner,
+	.tk-input__inner {
 		@apply w-full px-2 py-1.5 text-sm rounded-lg border border-solid focus:outline-none transition-colors;
 		background-color: var(--card-bg);
 		color: #374151; /* neutral-700 */
@@ -231,30 +246,31 @@ html:root:root .tk-edit {
 		}
 
 		&:focus {
-			border-color: var(--primary);
+			border-color: var(--primary) !important;
 		}
 	}
 }
 
 /* 搜索按钮 */
-.tk-comments .tk-comments-search > .el-button--primary {
+html:root:root .twikoo .tk-comments-search > .el-button--primary,
+html:root:root .twikoo .tk-comments-search > .tk-button--primary {
 	font-family: inherit;
 	@apply border-none rounded-lg px-3 py-0 h-8 whitespace-nowrap transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
-	background-color: var(--btn-regular-bg-active);
-	color: var(--btn-content);
-	border: none;
+	background-color: var(--btn-regular-bg-active) !important;
+	color: var(--btn-content) !important;
+	border: none !important;
 
 	&:hover:not(:disabled) {
-		background-color: var(--btn-plain-bg-hover);
+		background-color: var(--btn-plain-bg-hover) !important;
 	}
 
 	&:active:not(:disabled) {
-		background-color: var(--btn-regular-bg);
+		background-color: var(--btn-regular-bg) !important;
 	}
 
 	&:disabled {
-		background-color: var(--btn-regular-bg);
-		color: #ffffffa1;
+		background-color: var(--btn-regular-bg) !important;
+		color: #ffffffa1 !important;
 	}
 
 	span {
