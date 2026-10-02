@@ -632,9 +632,6 @@ function togglePlaylist() {
 	showPlaylist = !showPlaylist;
 	if (showPlaylist) {
 		showLyrics = false;
-		void tick().then(() => {
-			setTimeout(() => scrollToCurrentSong("smooth"), 320);
-		});
 	}
 }
 
@@ -1128,8 +1125,8 @@ function scrollToCurrentSong(behavior: ScrollBehavior = "smooth") {
 	if (!target) return;
 
 	const containerHeight = container.clientHeight;
-	const itemHeight = target.clientHeight;
-	const scrollTop = target.offsetTop - containerHeight / 2 + itemHeight / 2;
+	const targetHeight = target.clientHeight;
+	const scrollTop = target.offsetTop - containerHeight / 2 + targetHeight / 2;
 
 	container.scrollTo({
 		top: Math.max(0, scrollTop),
@@ -1594,6 +1591,7 @@ onDestroy(() => {
                     {#each sharedPlaylist as song, index}
                         <div class="playlist-item group flex items-center gap-3 px-3 py-2"
                              class:bg-[var(--btn-plain-bg)]={index === sharedCurrentIndex}
+                             data-current={index === sharedCurrentIndex ? "true" : undefined}
                              onclick={() => playSong(index)}
                              onkeydown={(e) => {
                                  if (e.key === 'Enter' || e.key === ' ') {
@@ -1666,11 +1664,6 @@ onDestroy(() => {
 .progress-section div:hover,
 .bottom-controls > div:hover {
     transform: scaleY(1.3);
-}
-
-.playlist-item {
-	content-visibility: auto;
-	contain-intrinsic-size: auto 52px;
 }
 
 @media (hover: none) and (pointer: coarse) {
