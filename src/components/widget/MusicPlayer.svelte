@@ -1412,11 +1412,18 @@ onDestroy(() => {
             <div class="flex-1 min-w-0">
                 <div class="ignore song-title text-lg font-bold text-90 truncate mb-1" title={sharedCurrentSong.title}>{sharedCurrentSong.title}</div>
                 <div class="ignore song-artist text-sm text-50 truncate" title={sharedCurrentSong.artist}>{sharedCurrentSong.artist}</div>
-                <div class="text-xs text-30 mt-1">
-                    {formatTime(sharedCurrentTime)} / {formatTime(sharedDuration)}
-                </div>
             </div>
         </div>
+
+		<div class="flex justify-between mb-2">
+                <div class="text-xs text-50 whitespace-nowrap">
+                    {formatTime(sharedCurrentTime)}
+                </div>
+                <div class="text-xs text-50 whitespace-nowrap">
+                    {formatTime(sharedDuration)}
+                </div>
+        </div>
+
         <div class="progress-section mb-4">
             <div class="progress-bar flex-1 h-2 bg-[var(--btn-regular-bg)] rounded-full cursor-pointer touch-none relative"
                  bind:this={progressBar}
@@ -1517,7 +1524,7 @@ onDestroy(() => {
                     class:btn-regular={sharedIsRepeating > 0}
                     class:btn-plain={sharedIsRepeating === 0}
                     title={repeatTitle}
-                    onclick={toggleRepeat}>
+                    onclick={(e) => { e.stopPropagation(); toggleRepeat(); }}>
                 {#if sharedIsRepeating === 1}
                     <Icon icon="material-symbols:repeat-one" class="text-lg" />
                 {:else if sharedIsRepeating === 2}
@@ -1554,9 +1561,10 @@ onDestroy(() => {
                  aria-valuemin="0"
                  aria-valuemax="100"
                  aria-valuenow={sharedVolume * 100}>
-                <div class="h-full bg-[var(--primary)] rounded-full transition-all"
-                     class:duration-100={!isVolumeDragging}
-                     class:duration-0={isVolumeDragging}
+                <div class="h-full bg-[var(--primary)] rounded-full"
+                     class:transition-all={!isVolumeDragging}
+                     class:duration-200={!isVolumeDragging}
+                     class:opacity-50={sharedIsMuted}
                      style="width: {sharedVolume * 100}%"></div>
             </div>
             <button class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center disabled:cursor-not-allowed disabled:text-neutral-300 disabled:dark:text-neutral-600 disabled:hover:bg-transparent disabled:hover:text-neutral-300 disabled:hover:dark:text-neutral-600"
