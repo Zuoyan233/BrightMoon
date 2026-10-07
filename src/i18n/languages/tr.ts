@@ -30,6 +30,8 @@ export const tr: Translation = {
 	[Key.announcement]: "Duyuru",
 	[Key.announcementClose]: "Kapat",
 
+	[Key.dailyQuote]: "Günün Sözü",
+
 	[Key.comments]: "Yorumlar",
 	[Key.friends]: "Arkadaşlar",
 	[Key.friendsSubtitle]: "Daha fazla harika web sitesi keşfedin",

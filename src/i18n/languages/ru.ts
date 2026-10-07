@@ -30,6 +30,8 @@ export const ru: Translation = {
 	[Key.announcement]: "Объявление",
 	[Key.announcementClose]: "Закрыть",
 
+	[Key.dailyQuote]: "Цитата дня",
+
 	[Key.comments]: "Комментарии",
 	[Key.friends]: "Друзья",
 	[Key.friendsSubtitle]: "Откройте для себя другие интересные сайты",

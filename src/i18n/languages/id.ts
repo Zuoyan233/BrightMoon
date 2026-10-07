@@ -30,6 +30,8 @@ export const id: Translation = {
 	[Key.announcement]: "Pengumuman",
 	[Key.announcementClose]: "Tutup",
 
+	[Key.dailyQuote]: "Kutipan Hari Ini",
+
 	[Key.comments]: "Komentar",
 	[Key.friends]: "Teman",
 	[Key.friendsSubtitle]: "Temukan situs web hebat lainnya",

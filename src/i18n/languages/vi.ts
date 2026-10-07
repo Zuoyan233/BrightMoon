@@ -30,6 +30,8 @@ export const vi: Translation = {
 	[Key.announcement]: "Thông báo",
 	[Key.announcementClose]: "Đóng",
 
+	[Key.dailyQuote]: "Lời hay ý đẹp",
+
 	[Key.comments]: "Bình luận",
 	[Key.friends]: "Bạn bè",
 	[Key.friendsSubtitle]: "Khám phá thêm nhiều trang web tuyệt vời",

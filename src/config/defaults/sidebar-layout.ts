@@ -51,11 +51,32 @@ export const defaultSidebarLayoutConfig: SidebarLayoutConfig = {
 			},
 		},
 		{
-			type: "music-player", // 音乐播放器组件
-			enable: defaultMusicPlayerConfig.enable ?? true,
+			type: "site-stats", // 站点统计组件
+			enable: true,
 			order: 5,
 			position: "top",
-			sidebar: "left",
+			sidebar: "right",
+			class: "onload-animation",
+			animationDelay: 200,
+		},
+		{
+			type: "calendar", // 日历组件
+			enable: true,
+			order: 6,
+			position: "sticky",
+			sidebar: "right",
+			class: "onload-animation",
+			animationDelay: 200,
+			responsive: {
+				hidden: ["mobile"], // 默认移动端隐藏
+			},
+		},
+		{
+			type: "music-player", // 音乐播放器组件
+			enable: defaultMusicPlayerConfig.enable ?? true,
+			order: 7,
+			position: "sticky",
+			sidebar: "right",
 			class: "onload-animation",
 			animationDelay: 200,
 			responsive: {
@@ -65,32 +86,20 @@ export const defaultSidebarLayoutConfig: SidebarLayoutConfig = {
 		{
 			type: "toc", // 目录组件
 			enable: defaultSiteConfig.toc?.enable ?? true,
-			order: 6,
+			order: 8,
 			position: "sticky",
 			sidebar: "left",
 			class: "onload-animation",
 			animationDelay: 200,
 		},
 		{
-			type: "site-stats", // 站点统计组件
+			type: "daily-quote", // 每日一言组件
 			enable: true,
-			order: 7,
+			order: 9,
 			position: "sticky",
-			sidebar: "right",
+			sidebar: "left",
 			class: "onload-animation",
 			animationDelay: 200,
-		},
-		{
-			type: "calendar", // 日历组件
-			enable: true,
-			order: 8,
-			position: "sticky",
-			sidebar: "right",
-			class: "onload-animation",
-			animationDelay: 200,
-			responsive: {
-				hidden: ["mobile"], // 默认移动端隐藏
-			},
 		},
 		{
 			type: "weather", // 天气组件

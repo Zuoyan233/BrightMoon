@@ -11,6 +11,7 @@ export { userCommentConfig } from "./comment";
 export { SITE_LANG, SITE_TIMEZONE } from "./constants";
 export { userContactEmailConfig } from "./contact-email";
 export { userContactMethods } from "./contact-methods";
+export { userDailyQuoteConfig } from "./daily-quote";
 export { userExpressiveCodeConfig } from "./expressive-code";
 export { userExternalLinkConfirmConfig } from "./external-link-confirm";
 export { userFooterConfig } from "./footer";

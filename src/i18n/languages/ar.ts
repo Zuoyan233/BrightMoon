@@ -30,6 +30,8 @@ export const ar: Translation = {
 	[Key.announcement]: "إعلان",
 	[Key.announcementClose]: "إغلاق",
 
+	[Key.dailyQuote]: "اقتباس اليوم",
+
 	[Key.comments]: "التعليقات",
 	[Key.friends]: "الأصدقاء",
 	[Key.friendsSubtitle]: "اكتشف المزيد من المواقع الرائعة",

@@ -2,7 +2,7 @@ import type { MusicPlayerConfig } from "../../types/config";
 
 export const defaultMusicPlayerConfig: MusicPlayerConfig = {
 	enable: true, // 启用音乐播放器
-	mode: "local", // 播放器模式："meting" 使用 MetingJS API，"local" 使用本地音乐列表
+	mode: "local", // 播放器模式："meting" 使用 Meting API，"local" 使用本地音乐列表
 	meting_api:
 		"https://meting.liveling.top/api?server=:server&type=:type&id=:id&auth=:auth&r=:r", // MetingJS API 地址
 	id: "766208154", // 歌单或单曲 ID

@@ -30,6 +30,8 @@ export const th: Translation = {
 	[Key.announcement]: "ประกาศ",
 	[Key.announcementClose]: "ปิด",
 
+	[Key.dailyQuote]: "คำคมประจำวัน",
+
 	[Key.comments]: "ความคิดเห็น",
 	[Key.friends]: "เพื่อน",
 	[Key.friendsSubtitle]: "ค้นพบเว็บไซต์ดีๆ เพิ่มเติม",

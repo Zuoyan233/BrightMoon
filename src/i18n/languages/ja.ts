@@ -30,6 +30,8 @@ export const ja: Translation = {
 	[Key.announcement]: "お知らせ",
 	[Key.announcementClose]: "閉じる",
 
+	[Key.dailyQuote]: "今日の一言",
+
 	[Key.comments]: "コメント",
 	[Key.friends]: "フレンズ",
 	[Key.friendsSubtitle]: "素晴らしいウェブサイトを発見しよう",

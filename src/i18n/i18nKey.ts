@@ -1,4 +1,5 @@
 enum I18nKey {
+	// 主导航
 	home = "home",
 	about = "about",
 	archive = "archive",
@@ -16,6 +17,7 @@ enum I18nKey {
 	navAbout = "navAbout",
 	navOthers = "navOthers",
 
+	// 标签与分类
 	tags = "tags",
 	categories = "categories",
 	recentPosts = "recentPosts",
@@ -27,12 +29,18 @@ enum I18nKey {
 	announcement = "announcement",
 	announcementClose = "announcementClose",
 
+	// 每日一言
+	dailyQuote = "dailyQuote",
+
+	// 评论
 	comments = "comments",
 
+	// 文章状态
 	untitled = "untitled",
 	uncategorized = "uncategorized",
 	noTags = "noTags",
 
+	// 文章统计
 	wordCount = "wordCount",
 	wordsCount = "wordsCount",
 	minuteCount = "minuteCount",
@@ -40,6 +48,7 @@ enum I18nKey {
 	postCount = "postCount",
 	postsCount = "postsCount",
 
+	// 外观与主题
 	appearance = "appearance",
 	themeSwitch = "themeSwitch",
 	themeColor = "themeColor",
@@ -48,15 +57,20 @@ enum I18nKey {
 	wavesPerformanceMode = "wavesPerformanceMode",
 	homeText = "homeText",
 
+	// 主题模式
 	lightMode = "lightMode",
 	darkMode = "darkMode",
 	systemMode = "systemMode",
 
+	// 通用
 	more = "more",
 
+	// 文章元信息
 	author = "author",
 	publishedAt = "publishedAt",
 	license = "license",
+
+	// 友链页面
 	friends = "friends",
 	friendsSubtitle = "friendsSubtitle",
 	friendsSearchPlaceholder = "friendsSearchPlaceholder",
@@ -66,6 +80,8 @@ enum I18nKey {
 	friendsCopyLink = "friendsCopyLink",
 	friendsCopySuccess = "friendsCopySuccess",
 	friendsTags = "friendsTags",
+
+	// 导航分类
 	anime = "anime",
 	diary = "diary",
 
@@ -184,7 +200,7 @@ enum I18nKey {
 	projectsVisit = "projectsVisit",
 	projectsGitHub = "projectsGitHub",
 
-	// Skills page
+	// 技能页面
 	skills = "skills",
 	skillsSubtitle = "skillsSubtitle",
 	skillsFrontend = "skillsFrontend",
@@ -212,7 +228,7 @@ enum I18nKey {
 	skillsByCategory = "skillsByCategory",
 	noData = "noData",
 
-	// Timeline page
+	// 时间线页面
 	timeline = "timeline",
 	timelineSubtitle = "timelineSubtitle",
 	timelineEducation = "timelineEducation",
@@ -271,7 +287,7 @@ enum I18nKey {
 	autoSyntaxHighlightFailed = "autoSyntaxHighlightFailed",
 	decryptionError = "decryptionError",
 
-	//最后编辑时间卡片
+	// 最后编辑时间卡片
 	lastModifiedPrefix = "lastModifiedPrefix",
 	lastModifiedOutdated = "lastModifiedOutdated",
 	year = "year",
@@ -281,7 +297,7 @@ enum I18nKey {
 	minute = "minute",
 	second = "second",
 
-	// RSS and Atom
+	// RSS 订阅
 	rss = "rss",
 	rssDescription = "rssDescription",
 	rssSubtitle = "rssSubtitle",
@@ -299,6 +315,7 @@ enum I18nKey {
 	rssCopied = "rssCopied",
 	rssCopyFailed = "rssCopyFailed",
 
+	// Atom 订阅
 	atom = "atom",
 	atomDescription = "atomDescription",
 	atomSubtitle = "atomSubtitle",
@@ -316,7 +333,7 @@ enum I18nKey {
 	atomCopied = "atomCopied",
 	atomCopyFailed = "atomCopyFailed",
 
-	// Wallpaper mode
+	// 壁纸模式
 	wallpaperMode = "wallpaperMode",
 	wallpaperBanner = "wallpaperBanner",
 	wallpaperFullscreen = "wallpaperFullscreen",
@@ -330,7 +347,7 @@ enum I18nKey {
 	wallpaperBlur = "wallpaperBlur",
 	cardOpacity = "cardOpacity",
 
-	// Navbar transparent mode
+	// 导航栏透明模式
 	navbarTransparentMode = "navbarTransparentMode",
 	navbarTransparentSemi = "navbarTransparentSemi",
 	navbarTransparentFull = "navbarTransparentFull",

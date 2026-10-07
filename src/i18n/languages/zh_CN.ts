@@ -30,6 +30,9 @@ export const zh_CN: Translation = {
 	[Key.announcement]: "公告",
 	[Key.announcementClose]: "关闭",
 
+	// 每日一言
+	[Key.dailyQuote]: "每日一言",
+
 	[Key.comments]: "评论",
 	[Key.friends]: "友链",
 	[Key.friendsSubtitle]: "发现更多优质网站",

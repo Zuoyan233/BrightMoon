@@ -1,6 +1,7 @@
 ---
 import { sidebarLayoutConfig } from "../../config";
 import Calendar from "./Calendar.astro";
+import DailyQuote from "./DailyQuote.astro";
 import SiteStats from "./SiteStats.astro";
 import Weather from "./Weather.astro";
 
@@ -27,26 +28,36 @@ const stickyComponents = rightSidebarComponents.filter(
 <div class="right-sidebar" id="right-sidebar">
   <!-- 顶部固定区域 -->
   <div class="sidebar-top">
-    {topComponents.map((component, _index) => (
-      <div class={`sidebar-component ${component.class || ''}`} 
-           style={`animation-delay: ${component.animationDelay || 0}ms; ${component.style || ''}`}>
-        {component.type === "site-stats" && <SiteStats />}
-        {component.type === "calendar" && <Calendar />}
-        {component.type === "weather" && <Weather />}
-      </div>
-    ))}
+    {
+      topComponents.map((component, _index) => (
+        <div
+          class={`sidebar-component ${component.class || ""}`}
+          style={`animation-delay: ${component.animationDelay || 0}ms; ${component.style || ""}`}
+        >
+          {component.type === "site-stats" && <SiteStats />}
+          {component.type === "calendar" && <Calendar />}
+          {component.type === "weather" && <Weather />}
+          {component.type === "daily-quote" && <DailyQuote />}
+        </div>
+      ))
+    }
   </div>
-  
+
   <!-- 粘性定位区域 -->
   <div class="sidebar-sticky">
-    {stickyComponents.map((component, _index) => (
-      <div class={`sidebar-component ${component.class || ''}`} 
-           style={`animation-delay: ${component.animationDelay || 0}ms; ${component.style || ''}`}>
-        {component.type === "site-stats" && <SiteStats />}
-        {component.type === "calendar" && <Calendar />}
-        {component.type === "weather" && <Weather />}
-      </div>
-    ))}
+    {
+      stickyComponents.map((component, _index) => (
+        <div
+          class={`sidebar-component ${component.class || ""}`}
+          style={`animation-delay: ${component.animationDelay || 0}ms; ${component.style || ""}`}
+        >
+          {component.type === "site-stats" && <SiteStats />}
+          {component.type === "calendar" && <Calendar />}
+          {component.type === "weather" && <Weather />}
+          {component.type === "daily-quote" && <DailyQuote />}
+        </div>
+      ))
+    }
   </div>
 </div>
 
@@ -61,13 +72,13 @@ const stickyComponents = rightSidebarComponents.filter(
     position: sticky;
     top: 80px;
   }
-  
+
   .sidebar-top {
     display: flex;
     flex-direction: column;
     gap: 16px;
   }
-  
+
   .sidebar-sticky {
     display: flex;
     flex-direction: column;
@@ -75,27 +86,27 @@ const stickyComponents = rightSidebarComponents.filter(
     position: sticky;
     top: 0;
   }
-  
+
   .sidebar-component {
     opacity: 0;
     transform: translateY(20px);
     animation: fadeInUp 0.5s forwards;
   }
-  
+
   @keyframes fadeInUp {
     to {
       opacity: 1;
       transform: translateY(0);
     }
   }
-  
+
   /* 响应式设计 */
   @media (max-width: 1280px) {
     .right-sidebar {
       max-width: 260px;
     }
   }
-  
+
   @media (max-width: 1024px) {
     .right-sidebar {
       display: none;

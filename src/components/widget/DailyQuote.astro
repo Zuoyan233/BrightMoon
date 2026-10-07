@@ -1,0 +1,72 @@
+---
+import { dailyQuoteConfig } from "../../config";
+import I18nKey from "../../i18n/i18nKey";
+import { i18n } from "../../i18n/translation";
+import WidgetLayout from "./WidgetLayout.astro";
+
+const config = dailyQuoteConfig;
+const quotes = config.quotes;
+const mode = config.mode;
+
+interface Props {
+	class?: string;
+	style?: string;
+}
+const className = Astro.props.class;
+const style = Astro.props.style;
+---
+
+<WidgetLayout
+    name={i18n(I18nKey.dailyQuote)}
+    id="daily-quote"
+    class={className}
+    style={style}
+>
+    <div class="daily-quote-container">
+        <p
+            id="daily-quote-text"
+            class="italic text-base text-neutral-700 dark:text-neutral-300 leading-relaxed mb-2"
+        >
+        </p>
+        <p
+            id="daily-quote-author"
+            class="text-right text-sm text-neutral-500 dark:text-neutral-400"
+        >
+        </p>
+    </div>
+</WidgetLayout>
+
+<script define:vars={{ quotes, mode }}>
+    function initDailyQuote() {
+        const textEl = document.getElementById("daily-quote-text");
+        const authorEl = document.getElementById("daily-quote-author");
+        if (!textEl || !authorEl || !quotes || quotes.length === 0) return;
+
+        let index;
+        if (mode === "per-refresh") {
+            index = Math.floor(Math.random() * quotes.length);
+        } else {
+            const today = new Date();
+            const seed =
+                today.getFullYear() * 10000 +
+                (today.getMonth() + 1) * 100 +
+                today.getDate();
+            index = seed % quotes.length;
+        }
+
+        const quote = quotes[index];
+
+        textEl.textContent = `\u201C${quote.text}\u201D`;
+        if (quote.author) {
+            authorEl.textContent = `\u2014\u2014 ${quote.author}`;
+        }
+    }
+
+    initDailyQuote();
+
+    if (typeof window !== "undefined" && window.swup) {
+        window.swup.hooks.on("content:replace", () => {
+            setTimeout(initDailyQuote, 100);
+        });
+    }
+</script>

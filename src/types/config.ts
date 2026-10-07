@@ -9,17 +9,17 @@ import type {
 } from "../constants/constants";
 
 export type SiteConfig = {
-	title: string;
-	subtitle: string;
+	title: string; // 站点标题
+	subtitle: string; // 站点副标题
 	siteURL: string; // 站点URL，以斜杠结尾，例如：https://www.example.com/
 	keywords?: string[]; // 站点关键词，用于生成 <meta name="keywords">
 	siteStats: {
-		siteStartDate?: string;
+		siteStartDate?: string; // 站点起始日期，用于计算运行天数
 		dynamicEnable?: boolean; // 启用动态更新站点统计和时间段显示
 		enable12HourClock?: boolean; // 启用12小时制
 	};
 
-	timeZone:
+	timeZone: // 时区偏移量，-12 到 +12
 		| -12
 		| -11
 		| -10
@@ -46,7 +46,7 @@ export type SiteConfig = {
 		| 11
 		| 12;
 
-	lang:
+	lang: // 站点语言
 		| "en"
 		| "zh_CN"
 		| "zh_TW"
@@ -63,8 +63,8 @@ export type SiteConfig = {
 		| "ru";
 
 	appearance: {
-		hue: number;
-		fixed: boolean;
+		hue: number; // 主题色色相值
+		fixed: boolean; // 是否固定色相（不允许用户调整）
 		// 水波纹效果配置
 		waves?: {
 			enable: boolean; // 是否启用水波纹效果
@@ -131,11 +131,11 @@ export type SiteConfig = {
 
 	// 添加字体配置
 	font: {
-		fontFamily: string;
-		fontWeight: string | number;
-		localFonts: string[];
-		fontFile?: string;
-		enableCompress: boolean;
+		fontFamily: string; // 字体族名称
+		fontWeight: string | number; // 字体粗细
+		localFonts: string[]; // 本地字体列表
+		fontFile?: string; // 自定义字体文件路径
+		enableCompress: boolean; // 是否启用字体压缩
 	};
 
 	// 番剧页面配置（整合 bangumi、bilibili 配置）
@@ -211,79 +211,81 @@ export type SiteConfig = {
 			};
 		};
 		credit: {
-			enable: boolean;
-			text: string;
-			url?: string;
+			enable: boolean; // 是否显示图片来源信息
+			text: string; // 来源文本
+			url?: string; // 来源链接
 		};
 	};
 
-	fullscreenWallpaper: FullscreenWallpaperConfig;
+	fullscreenWallpaper: FullscreenWallpaperConfig; // 全屏壁纸配置
 
 	breadcrumb: {
-		enable: boolean;
+		enable: boolean; // 是否启用面包屑导航
 	};
 
 	toc: {
-		enable: boolean;
+		enable: boolean; // 是否启用目录
 		responsive?: {
+			// 响应式目录配置
 			mobile: "float"; // 手机端模式
 			tablet: "float" | "sidebar"; // 平板端模式
 			desktop: "float" | "sidebar"; // 桌面端模式
 		};
-		depth: 1 | 2 | 3;
+		depth: 1 | 2 | 3; // 目录深度，1=仅h1，2=h1+h2，3=h1+h2+h3
 		useJapaneseBadge?: boolean; // 使用日语假名标记（あいうえお...）代替数字
 	};
 	showCoverInContent: boolean; // 控制文章封面在文章内容页显示的开关
-	generateOgImages: boolean;
-	favicon: Favicon[];
-	showLastModified: boolean; // 控制“上次编辑”卡片显示的开关
+	generateOgImages: boolean; // 是否自动生成Open Graph图片
+	favicon: Favicon[]; // 网站图标配置列表
+	showLastModified: boolean; // 控制"上次编辑"卡片显示的开关
 	thirdPartyAnalytics?: ThirdPartyAnalyticsConfig; // 第三方统计配置
 };
 
 export type Favicon = {
-	src: string;
-	theme?: "light" | "dark";
-	sizes?: string;
+	src: string; // 图标文件路径
+	theme?: "light" | "dark"; // 适用的主题模式，light=浅色模式，dark=深色模式
+	sizes?: string; // 图标尺寸，例如 "32x32"
 };
 
 export enum LinkPreset {
-	Home = 0,
-	Archive = 1,
-	About = 2,
-	Friends = 3,
-	Anime = 4,
-	Diary = 5,
-	Albums = 6,
-	Projects = 7,
-	Skills = 8,
-	Timeline = 9,
-	Sponsors = 10,
-	Devices = 11,
-	Feedback = 12,
-	RSS = 13,
-	Atom = 14,
+	Home = 0, // 首页
+	Archive = 1, // 归档
+	About = 2, // 关于
+	Friends = 3, // 友链
+	Anime = 4, // 番剧
+	Diary = 5, // 日记
+	Albums = 6, // 相册
+	Projects = 7, // 项目
+	Skills = 8, // 技能
+	Timeline = 9, // 时间线
+	Sponsors = 10, // 赞助
+	Devices = 11, // 设备
+	Feedback = 12, // 反馈
+	RSS = 13, // RSS 订阅
+	Atom = 14, // Atom 订阅
 }
 
 export type NavBarLink = {
-	name: string;
-	url: string;
-	external?: boolean;
+	name: string; // 菜单项名称
+	url: string; // 菜单项链接
+	external?: boolean; // 是否为外部链接（新窗口打开）
 	icon?: string; // 菜单项图标
 	children?: (NavBarLink | LinkPreset)[]; // 支持子菜单，可以是NavBarLink或LinkPreset
 };
 
 export type NavBarConfig = {
-	links: (NavBarLink | LinkPreset)[];
+	links: (NavBarLink | LinkPreset)[]; // 导航栏链接列表
 };
 
 export type ProfileConfig = {
-	avatar?: string;
-	name: string;
-	bio?: string;
+	avatar?: string; // 头像图片路径
+	name: string; // 昵称
+	bio?: string; // 个人简介
 	links: {
-		name: string;
-		url: string;
-		icon: string;
+		// 社交链接列表
+		name: string; // 链接名称
+		url: string; // 链接地址
+		icon: string; // 链接图标
 	}[];
 	typewriter?: {
 		enable: boolean; // 是否启用打字机效果
@@ -292,9 +294,9 @@ export type ProfileConfig = {
 };
 
 export type LicenseConfig = {
-	enable: boolean;
-	name: string;
-	url: string;
+	enable: boolean; // 是否启用文章许可声明
+	name: string; // 许可证名称，例如："CC BY-NC-SA 4.0"
+	url: string; // 许可证链接地址
 };
 
 // Permalink 配置
@@ -330,41 +332,49 @@ export type CommentConfig = {
 };
 
 type TwikooConfig = {
-	envId: string;
-	region?: string;
-	lang?: string;
+	envId: string; // Twikoo API 地址
+	region?: string; // 环境地域，例如 "ap-shanghai"
+	lang?: string; // 语言代码，例如 "zh-CN"
 };
 
 export type LIGHT_DARK_MODE =
-	| typeof LIGHT_MODE
-	| typeof DARK_MODE
-	| typeof SYSTEM_MODE;
+	// 亮色/暗色模式类型
+	typeof LIGHT_MODE | typeof DARK_MODE | typeof SYSTEM_MODE;
 
 export type WALLPAPER_MODE =
+	// 壁纸模式类型
 	| typeof WALLPAPER_BANNER
 	| typeof WALLPAPER_FULLSCREEN
 	| typeof WALLPAPER_FULLSCREEN_BANNER
 	| typeof WALLPAPER_NONE;
 
 export type BlogPostData = {
-	body: string;
-	title: string;
-	published: Date;
-	description: string;
-	tags: string[];
-	draft?: boolean;
-	image?: string;
-	category?: string;
-	pinned?: boolean;
-	prevTitle?: string;
-	prevSlug?: string;
-	nextTitle?: string;
-	nextSlug?: string;
+	body: string; // 文章正文内容
+	title: string; // 文章标题
+	published: Date; // 发布日期
+	description: string; // 文章描述/摘要
+	tags: string[]; // 文章标签列表
+	draft?: boolean; // 是否为草稿
+	image?: string; // 文章封面图片路径
+	category?: string; // 文章分类
+	pinned?: boolean; // 是否置顶
+	prevTitle?: string; // 上一篇文章标题
+	prevSlug?: string; // 上一篇文章slug
+	nextTitle?: string; // 下一篇文章标题
+	nextSlug?: string; // 下一篇文章slug
 };
 
 export type ExpressiveCodeConfig = {
-	theme: string;
+	theme: string; // 代码高亮主题名称
 	hideDuringThemeTransition?: boolean; // 是否在主题切换时隐藏代码块
+};
+
+export type DailyQuoteConfig = {
+	mode: "per-day" | "per-refresh"; // "per-day" 每天固定一条，"per-refresh" 每次刷新随机一条
+	quotes: {
+		text: string; // 语句内容
+		author?: string; // 作者
+	}[];
 };
 
 export type AnnouncementConfig = {
@@ -422,17 +432,18 @@ export type FooterConfig = {
 
 // 组件配置类型定义
 export type WidgetComponentType =
-	| "profile"
-	| "announcement"
-	| "categories"
-	| "tags"
-	| "toc"
-	| "music-player"
-	| "pio" // 添加 pio 组件类型
+	| "profile" // 个人资料组件
+	| "announcement" // 公告组件
+	| "categories" // 分类组件
+	| "tags" // 标签组件
+	| "toc" // 目录组件
+	| "music-player" // 音乐播放器组件
+	| "pio" // 看板娘组件
 	| "site-stats" // 站点统计组件
 	| "calendar" // 日历组件
 	| "weather" // 天气组件
-	| "custom";
+	| "daily-quote" // 每日一言组件
+	| "custom"; // 自定义组件
 
 export type WidgetComponentConfig = {
 	type: WidgetComponentType; // 组件类型
@@ -551,7 +562,7 @@ export type ShareConfig = {
  * 外部链接确认配置
  */
 export type ExternalLinkConfirmConfig = {
-	enable: boolean;
+	enable: boolean; // 是否启用外部链接跳转确认
 };
 
 /**
@@ -559,8 +570,9 @@ export type ExternalLinkConfirmConfig = {
  */
 export type ContactEmailConfig = {
 	emails: {
-		email: string;
-		link: string;
+		// 邮箱列表
+		email: string; // 邮箱地址
+		link: string; // 邮箱链接（mailto:地址）
 	}[];
 };
 
@@ -568,8 +580,8 @@ export type ContactEmailConfig = {
  * 添加赞助支付二维码配置
  */
 export type AddpaymentConfig = {
-	paymentQRCode_1: string;
-	paymentQRCode_2: string;
+	paymentQRCode_1: string; // 支付二维码图片路径1（如支付宝）
+	paymentQRCode_2: string; // 支付二维码图片路径2（如微信）
 };
 
 /**
@@ -585,7 +597,7 @@ export type ContactMethod = {
 	tip: string; // 提示文字
 };
 
-export type ContactMethods = ContactMethod[];
+export type ContactMethods = ContactMethod[]; // 联系方式列表
 
 /**
  * 天气组件配置

@@ -30,6 +30,8 @@ export const de: Translation = {
 	[Key.announcement]: "Ankündigung",
 	[Key.announcementClose]: "Schließen",
 
+	[Key.dailyQuote]: "Tageszitat",
+
 	[Key.comments]: "Kommentare",
 	[Key.friends]: "Freunde",
 	[Key.friendsSubtitle]: "Entdecke weitere tolle Websites",

@@ -12,6 +12,7 @@ import type {
 	CommentConfig,
 	ContactEmailConfig,
 	ContactMethods,
+	DailyQuoteConfig,
 	ExpressiveCodeConfig,
 	ExternalLinkConfirmConfig,
 	FooterConfig,
@@ -37,6 +38,7 @@ import {
 	defaultCommentConfig,
 	defaultContactEmailConfig,
 	defaultContactMethods,
+	defaultDailyQuoteConfig,
 	defaultExpressiveCodeConfig,
 	defaultExternalLinkConfirmConfig,
 	defaultFooterConfig,
@@ -62,6 +64,7 @@ import {
 	userCommentConfig,
 	userContactEmailConfig,
 	userContactMethods,
+	userDailyQuoteConfig,
 	userExpressiveCodeConfig,
 	userExternalLinkConfirmConfig,
 	userFooterConfig,
@@ -96,6 +99,7 @@ interface UserConfig {
 	contactMethods?: Partial<ContactMethods>;
 	addpaymentConfig?: Partial<AddpaymentConfig>;
 	announcementConfig?: Partial<AnnouncementConfig>;
+	dailyQuoteConfig?: Partial<DailyQuoteConfig>;
 	musicPlayerConfig?: Partial<MusicPlayerConfig>;
 	footerConfig?: Partial<FooterConfig>;
 	versionCheckConfig?: Partial<VersionCheckConfig>;
@@ -122,6 +126,7 @@ const userConfig: UserConfig = {
 	contactMethods: userContactMethods,
 	addpaymentConfig: userAddpaymentConfig,
 	announcementConfig: userAnnouncementConfig,
+	dailyQuoteConfig: userDailyQuoteConfig,
 	musicPlayerConfig: userMusicPlayerConfig,
 	footerConfig: userFooterConfig,
 	imageOptimizeConfig: userImageOptimizeConfig,
@@ -240,6 +245,11 @@ export const addpaymentConfig: AddpaymentConfig = deepMerge(
 export const announcementConfig: AnnouncementConfig = deepMerge(
 	defaultAnnouncementConfig,
 	userConfig.announcementConfig,
+);
+
+export const dailyQuoteConfig: DailyQuoteConfig = deepMerge(
+	defaultDailyQuoteConfig,
+	userConfig.dailyQuoteConfig,
 );
 
 export const musicPlayerConfig: MusicPlayerConfig = deepMerge(

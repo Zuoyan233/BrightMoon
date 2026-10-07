@@ -19,6 +19,7 @@ export const WIDGET_COMPONENT_MAP = {
 	"site-stats": "../components/widget/SiteStats.astro", // 站点统计组件
 	calendar: "../components/widget/Calendar.astro", // 日历组件
 	weather: "../components/widget/Weather.astro", // 天气组件
+	"daily-quote": "../components/widget/DailyQuote.astro", // 每日一言组件
 	custom: null, // 自定义组件需要在配置中指定路径
 } as const;
 

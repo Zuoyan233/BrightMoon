@@ -30,6 +30,8 @@ export const ko: Translation = {
 	[Key.announcement]: "공지사항",
 	[Key.announcementClose]: "닫기",
 
+	[Key.dailyQuote]: "오늘의 한마디",
+
 	[Key.comments]: "댓글",
 	[Key.friends]: "친구 블로그",
 	[Key.friendsSubtitle]: "다양한 웹사이트를 발견해보세요",
