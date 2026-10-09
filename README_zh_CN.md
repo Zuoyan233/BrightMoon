@@ -13,7 +13,7 @@ BrightMoon 是一款兼具现代简约与优雅气质的独特二次元美学静
 [![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-blue)](https://www.typescriptlang.org/)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?logo=apache)](https://opensource.org/licenses/Apache-2.0)
 
-💻 欢迎进入我的网站参观：[点击进入](https://www.zuoyanblogs.xyz/)
+💻 欢迎进入我的网站参观：[点击进入](https://www.zuoyanblog.dpdns.org/)
 
 🌐 README 语言：[繁體中文](./README_zh_Hant.md) &nbsp;|&nbsp; [English](./README.md) &nbsp;|&nbsp; [日本語](./README_jp.md)
 
@@ -41,7 +41,7 @@ BrightMoon 是一款兼具现代简约与优雅气质的独特二次元美学静
 
 ## 📌 版本说明
 
-本项目基于 Mizuki V8.2 进行定制化拓展开发，版本号以 BrightMoon Custom Edition（CE）为后缀，代表 BrightMoon 的轻度定制版本（目前正在恶补市面流行的网站框架，等有空了再继续推进）。
+因 Mizuki 项目已停止维护，BrightMoon 现已作为独立项目继续维护，不再使用 Custom Edition（CE）后缀。
 
 ---
 
@@ -120,7 +120,7 @@ BrightMoon 是一款兼具现代简约与优雅气质的独特二次元美学静
 - **SEO 优化** - 包含站点地图和元标签。
 - **性能优化** - 懒加载和缓存机制。
 - **评论系统** - 集成最新版 Twikoo 评论系统，支持多维度配置。
-- **翻译组件** - 采用本地 i18n 语言库 + translate.js 实现毫秒级翻译，内置十四个国家站点语言文本。
+- **翻译组件** - 采用本地 i18n 语言库 + translate.js 实现毫秒级翻译，内置八个国家站点语言文本。
 - **天气组件** - 采用 WeatherAPI 服务，支持七日天气预报、IP 自动定位当前地区，支持手动搜索切换查看其他地区天气。
 - **Cookie 隐私提示** - Cookie 隐私政策确认横幅，支持接受/拒绝，拒绝后自动清除非必要 Cookie。
 - **站点统计** - 实时显示当前日期（支持多地区格式）、季节和时段信息。

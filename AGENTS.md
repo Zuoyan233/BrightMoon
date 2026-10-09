@@ -2,19 +2,19 @@
 
 ## Project Overview
 
-BrightMoon is a feature-rich static blog site built on **Astro + Svelte + Tailwind CSS** (versions from `package.json` → `dependencies`: `astro`, `svelte`, `tailwindcss`), derived from the Fuwari template with deep customization. Project version is defined in `package.json` → `version` field. Licensed under Apache 2.0.
+BrightMoon is a feature-rich static blog site built on Astro + Svelte + Tailwind CSS (versions from package.json → dependencies: astro, svelte, tailwindcss), derived from the Fuwari template with deep customization. Project version is defined in package.json → version field. Licensed under Apache 2.0.
 
 Core features:
-- **Static site generation** (optional Cloudflare Workers adapter)
-- **14-language i18n** (en / zh_CN / zh_TW / ja / ko / es / th / vi / tr / id / ar / de / fr / ru)
+- **Static site generation** (optional Cloudflare Workers adapter via `CF_WORKERS=1`)
+- **8-language i18n** (en / zh_CN / zh_TW / ja / ko / fr / de / ru)
 - **Post encryption** (AES, client-side decryption via crypto-es)
 - **Anime tracking** (local data + Bangumi/Bilibili API sync)
 - **Pagefind full-text search**
 - **Swup page transition animations**
 - **RSS / Atom / Sitemap / OG image generation**
 - **Live2D mascot (Pio)**
-- **Music player / Weather widget / Calendar / Timeline / Albums**
-- **Cookie consent / External link confirmation / Third-party analytics (GTM, Clarity, Umami)**
+- **Music player / Weather widget / Calendar / Timeline / Albums** (feature pages toggleable via `siteConfig.featurePages`)
+- **Cookie consent / External link confirmation / Third-party analytics (GTM, Microsoft Clarity, Umami)**
 - **IndexNow SEO submission**
 - **Interactive framework upgrade tool** (SHA256 verification, backup, protected file skipping)
 
@@ -22,27 +22,24 @@ Core features:
 
 | Command | Purpose |
 |---------|---------|
-| `pnpm dev` / `pnpm start` | Start dev server |
+| `pnpm dev` | Start dev server |
 | `pnpm build` | Full build (update-anime → astro build → pagefind → optimize-images → compress-fonts) |
 | `pnpm check` | Astro type checking |
-| `pnpm type-check` | TypeScript strict check (`tsc --noEmit --isolatedDeclarations`) |
 | `pnpm lint` | Biome lint + auto-fix |
-| `pnpm format` | Biome format |
 | `pnpm preview` | Preview build output |
 | `pnpm new-post -- <filename>` | Create a new post (auto-generates frontmatter) |
 | `pnpm update-anime` | Update anime data |
 | `pnpm update-bangumi` | Sync data from Bangumi API |
 | `pnpm update-bilibili` | Sync data from Bilibili API |
-| `pnpm optimize-images` | Image optimization (WebP conversion) |
+| `pnpm optimize-images` | Image optimization |
 | `pnpm compress-fonts` | Font subsetting & compression |
-| `pnpm submit` | IndexNow search engine submission |
 | `pnpm brightmoon-upgrade` | Interactive framework upgrade |
 
 **Package manager: pnpm** (version pinned in `package.json` → `packageManager` field). npm/yarn are forbidden (enforced by `preinstall` script).
 
 ### CI Pipeline
 
-GitHub Actions (`.github/workflows/CI.yml`) runs on the `master` branch:
+GitHub Actions (`.github/workflows/CI.yml`) runs on the `master` branch with two jobs:
 1. **Astro Check** — `pnpm astro check`
 2. **Astro Build** — `pnpm astro build` (sets `ENABLE_CONTENT_SYNC=false` to skip external API calls)
 
@@ -52,28 +49,34 @@ Dependencies are installed with `pnpm install --frozen-lockfile`.
 
 ```
 src/
-├── config/          # Site config (defaults.ts framework-maintained / user.ts user overrides / index.ts deep merge)
+├── config/          # Site config (defaults/ framework-maintained / user/ user overrides / index.ts deep merge)
+│   ├── defaults/    # Default config values (overwritten on upgrade)
+│   ├── user/        # User config overrides (protected during upgrade)
+│   └── index.ts     # Deep merge entry point
 ├── content/
 │   ├── posts/       # Blog posts (Markdown with frontmatter)
 │   └── spec/        # Special pages (about / feedback / friends / sponsors)
 ├── components/      # Astro + Svelte components
 │   ├── comment/     # Comment system (Twikoo)
 │   ├── control/     # Interactive controls (pagination, back-to-top, floating TOC)
-│   ├── widget/      # Sidebar widgets (weather, calendar, tags, categories, music, mascot, etc.)
-│   ├── misc/        # General components (icons, image wrapper, license, share poster)
-│   └── skills/      # Skills chart
+│   ├── layout/      # Layout components (RightSideBar)
+│   ├── misc/        # General components (icons, image wrapper, license, share poster, etc.)
+│   ├── skills/      # Skills chart
+│   └── widget/      # Sidebar widgets (weather, calendar, tags, categories, music, mascot, etc.)
 ├── layouts/         # Page layouts (Layout.astro / MainGridLayout.astro)
 ├── pages/           # Route pages + API endpoints
+│   ├── albums/      # Album dynamic routes
+│   ├── anime/       # Anime tracking page
 │   ├── api/         # JSON API (calendar data)
+│   ├── diary/       # Diary page
 │   ├── og/          # OG image generation
-│   ├── posts/       # Post dynamic routes
-│   └── albums/      # Album dynamic routes
+│   └── posts/       # Post dynamic routes
 ├── plugins/         # rehype/remark plugins + expressive-code plugins
 ├── scripts/         # Client-side JS (theme init, layout, banner, etc.)
 ├── styles/          # CSS / Stylus stylesheets
 ├── utils/           # Utility functions
 ├── i18n/            # Internationalization (language files + translation system)
-├── data/            # Static data (anime, friends, projects, skills, timeline, etc.)
+├── data/            # Static data (anime, devices, diary, friends, projects, skills, timeline)
 ├── types/           # TypeScript type definitions
 ├── content.config.ts # Content collection Zod schema definitions
 └── env.d.ts         # Environment variable type declarations
@@ -98,10 +101,12 @@ public/               # Static assets (images, fonts, JS, Live2D models, etc.)
   - `useSingleVarDeclarator: error`
   - `noUselessElse: error`
   - `noInferrableTypes: error`
+  - `noUnusedTemplateLiteral: error`
+  - `useNumberNamespace: error`
 
 ### File-Type Specific Rules
 
-- **`.astro` / `.svelte` / `.vue`**: Relaxed `useConst`, `useImportType`, `noUnusedVariables`, `noUnusedImports` (unavoidable in framework-generated code)
+- **`.astro` / `.svelte`**: Relaxed `useConst`, `useImportType`, `noUnusedVariables`, `noUnusedImports` (unavoidable in framework-generated code)
 - **`.d.ts`**: Relaxed `noUnusedVariables`
 - **`.css`**: Allows `formatWithErrors`, disables `noUnknownAtRules` (Tailwind directives)
 
@@ -116,12 +121,12 @@ public/               # Static assets (images, fonts, JS, Live2D models, etc.)
 
 - Page-level components use `.astro`
 - Components requiring client-side interactivity use `.svelte` (Svelte, version from `package.json` → `svelte`, runes syntax)
-- Path aliases: `@/` → `src/`, `@components/`, `@i18n/`, `@utils/`, etc.
+- Path aliases: `@/` → `src/`, `@components/` → `src/components/`, `@i18n/` → `src/i18n/`, `@utils/` → `src/utils/`, `@assets/` → `src/assets/`, `@constants/` → `src/constants/`, `@layouts/` → `src/layouts/`
 
 ### Configuration Pattern
 
-- **Defaults**: `src/config/defaults.ts` (overwritten on upgrade — do not edit manually)
-- **User overrides**: `src/config/user.ts` (protected during upgrade, all fields optional)
+- **Defaults**: `src/config/defaults/` (overwritten on upgrade — do not edit manually)
+- **User overrides**: `src/config/user/` (protected during upgrade, all fields optional)
 - **Merge entry**: `src/config/index.ts` (deep merge, business code imports from here)
 - **Type definitions**: `src/types/config.ts`
 
@@ -134,7 +139,6 @@ Posts live in `src/content/posts/` and support nested directories. Frontmatter f
 ```yaml
 title: string          # Required
 published: date        # Required
-updated: date          # Optional
 draft: boolean         # Default false
 description: string    # Default ""
 image: string          # Cover image path, default ""
@@ -142,17 +146,10 @@ tags: string[]         # Default []
 category: string       # Default ""
 lang: string           # Default ""
 pinned: boolean        # Pin to top, default false
-priority: number       # Pin sort priority (lower = higher priority)
 comment: boolean       # Default true
-author: string
-sourceLink: string
-licenseName: string
-licenseUrl: string
 encrypted: boolean     # Encrypted post, default false
 password: string       # Encryption password (build-time only, not exposed as plaintext to frontend)
-passwordHint: string   # Password hint
-alias: string          # URL alias
-permalink: string      # Custom permalink (takes precedence over alias)
+passwordHint: string   # Password hint, default ""
 ```
 
 ### Creating a New Post
@@ -171,12 +168,12 @@ Copy `.env.example` to `.env`:
 
 | Variable | Purpose |
 |----------|---------|
-| `UMAMI_API_KEY` | Umami analytics API key |
+| `UMAMI_API_KEY` | Umami analytics API key (used in `src/env.d.ts`) |
 | `INDEXNOW_KEY` | IndexNow SEO submission key |
-| `INDEXNOW_HOST` | Site domain |
+| `INDEXNOW_HOST` | Site domain for IndexNow |
 | `CF_WORKERS` | Set to any value to enable Cloudflare Workers adapter |
 
-**`.env` and `.env.production` are in `.gitignore` — never commit them.**
+**`.env` is in `.gitignore` — never commit it.**
 
 ## Deployment Steps
 
@@ -195,22 +192,23 @@ Copy `.env.example` to `.env`:
 ### Build Pipeline Details
 
 `pnpm build` executes the following steps in order:
-1. `node scripts/update-anime.mjs` — Sync anime data
+1. `node scripts/update-anime.mjs` — Sync anime data (skipped if `ENABLE_CONTENT_SYNC=false`)
 2. `astro build` — Astro static site build
 3. `pagefind --site dist` — Generate search index
 4. `node scripts/optimize-images.js --dist` — Optimize output images
-5. `node scripts/compress-fonts.js` — Font subsetting
+5. `node scripts/compress-fonts.js` — Font subsetting & compression
 
 ## Commit Conventions
 
-The project does not enforce a commit message format, but the PR template requires categorization:
+The project does not enforce a commit message format, but the PR template (`.github/pull_request_template.md`) requires categorization:
 
 - **Bug fix**: Non-breaking change that fixes an issue
 - **New feature**: Non-breaking change that adds functionality
 - **Breaking change**: Change that causes existing functionality to break
+- **Other**: Custom changes
 
 PR Checklist:
-- [ ] Read the CONTRIBUTING document
+- [ ] Read the [CONTRIBUTING](https://github.com/saicaca/fuwari/blob/main/CONTRIBUTING.md) document
 - [ ] Confirm PR is not for personal config changes
 - [ ] Self-reviewed code
 - [ ] Changes generate no new warnings
@@ -227,22 +225,22 @@ PR Checklist:
 
 ### Common Pitfalls
 
-1. **Edits to `defaults.ts` are lost on upgrade** — All user config must go in `user.ts`; `defaults.ts` is framework-maintained.
+1. **Edits to `src/config/defaults/` are lost on upgrade** — All user config must go in `src/config/user/`; `defaults/` is framework-maintained.
 2. **`content/` directory is gitignored** — When using the independent content repo mode, `/content/` is excluded. Ensure content is in the correct location.
-3. **`src/data/myself.ts` and `src/pages/myself.astro` are gitignored** — Personal pages are protected; upgrades won't overwrite them.
+3. **`src/data/devices.ts` is user data** — Device list page data, protected during upgrade.
 4. **`src/data/bangumi-data.json` and `src/data/bilibili-data.json` are gitignored** — API-synced data is not version-controlled.
 5. **Build-time external API calls** — `update-anime`, `update-bangumi`, `update-bilibili` scripts call external APIs. CI skips them via `ENABLE_CONTENT_SYNC=false`. Local builds may fail without network or if APIs are rate-limited.
 6. **pnpm strict lockfile** — Must use `pnpm install --frozen-lockfile`; `npm` and `yarn` are not accepted.
-7. **Dependabot ignores major version updates** — Config only auto-merges patch and minor updates; major versions require manual handling.
+7. **Dependabot ignores major version updates** — `.github/dependabot.yml` groups patch and minor updates; major versions are ignored and require manual handling.
 8. **Swup and anchor navigation** — Swup is configured with `skipPopStateHandling` to skip anchor links. When modifying Swup config, be careful not to break anchor jump behavior.
-9. **Image format** — The project heavily uses WebP; `optimize-images.js` auto-converts. Prefer WebP when adding new images.
+9. **Image format** — The project heavily uses WebP and AVIF; `optimize-images.js` auto-converts.
 10. **Live2D models** — `public/pio/` contains Live2D model data (moc/mtn/textures) which is large. Be mindful of build output size when modifying.
 
 ## Dependency Update Strategy
 
-- **Dependabot**: Monthly checks, only auto-creates PRs for patch + minor updates; major versions require manual evaluation
+- **Dependabot**: `.github/dependabot.yml` — monthly checks, groups patch + minor updates into grouped PRs; major versions are ignored and require manual evaluation
 - **Upgrade tool**: `pnpm brightmoon-upgrade` provides interactive framework upgrade with:
   - SHA256 hash verification for download integrity
   - Full project backup before upgrade
-  - Automatic skipping of protected files (`user.ts`, `myself.ts`, etc.)
+  - Automatic skipping of protected files (`src/config/user/`, `src/content/`, `src/data/`, `public/assets/`, `.env`, etc.)
   - Rollback prevention detection

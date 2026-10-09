@@ -2,24 +2,14 @@
 // 用于管理日记页面的数据
 
 export interface DiaryItem {
-	id: number;
-	content: string;
-	date: string;
-	images?: string[];
-	location?: string;
-	mood?: string;
-	tags?: string[];
+	id: number; // 唯一标识
+	content: string; // 日记内容
+	date: string; // 发布日期（ISO 格式）
+	images?: string[]; // 配图路径列表
+	location?: string; // 地理位置
+	mood?: string; // 心情
+	tags?: string[]; // 标签列表
 }
-
-// 示例日记数据
-const diaryData: DiaryItem[] = [
-	{
-		id: 1,
-		content: "Welcome to Blue Archive !",
-		date: "2026-04-10T12:00:00Z",
-		images: ["/images/diary/2026-4-10.webp"],
-	},
-];
 
 // 获取日记统计数据
 export const getDiaryStats = () => {
@@ -88,5 +78,15 @@ export const getAllTags = () => {
 	});
 	return Array.from(tags).sort();
 };
+
+// 日记数据（此处填写内容）
+const diaryData: DiaryItem[] = [
+	{
+		id: 1, // 唯一标识
+		content: "Welcome to Blue Archive !", // 日记内容
+		date: "2026-04-10T12:00:00Z", // 发布日期（ISO 格式）
+		images: ["/images/diary/2026-4-10.webp"], // 配图路径列表
+	},
+];
 
 export default diaryData;

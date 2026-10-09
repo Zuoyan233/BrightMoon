@@ -88,11 +88,11 @@ const getCategoryText = (category: string) => {
       </div>
 
       <!-- 统计信息 -->
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         <div
-          class="bg-blue-500/10 dark:bg-blue-900/30 rounded-lg p-4 border border-blue-500/20 dark:border-blue-900/30 hover:shadow-lg dark:hover:shadow-white/30 transition-shadow duration-300"
+          class="bg-blue-500/10 dark:bg-blue-900/30 rounded-xl p-4 border border-blue-500/20 dark:border-blue-900/30 hover:shadow-lg dark:hover:shadow-white/30 transition-shadow duration-300"
         >
-          <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">
+          <div class="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-1">
             {stats.total}
           </div>
           <div class="text-sm text-blue-600/70 dark:text-blue-400/70">
@@ -100,9 +100,11 @@ const getCategoryText = (category: string) => {
           </div>
         </div>
         <div
-          class="bg-green-500/10 dark:bg-green-900/30 rounded-lg p-4 border border-green-500/20 dark:border-green-900/30 hover:shadow-lg dark:hover:shadow-white/30 transition-shadow duration-300"
+          class="bg-green-500/10 dark:bg-green-900/30 rounded-xl p-4 border border-green-500/20 dark:border-green-900/30 hover:shadow-lg dark:hover:shadow-white/30 transition-shadow duration-300"
         >
-          <div class="text-2xl font-bold text-green-600 dark:text-green-400">
+          <div
+            class="text-2xl font-bold text-green-600 dark:text-green-400 mb-1"
+          >
             {stats.byStatus.completed}
           </div>
           <div class="text-sm text-green-600/70 dark:text-green-400/70">
@@ -110,19 +112,23 @@ const getCategoryText = (category: string) => {
           </div>
         </div>
         <div
-          class="bg-yellow-500/10 dark:bg-yellow-900/30 rounded-lg p-4 border border-yellow-500/20 dark:border-yellow-900/30 hover:shadow-lg dark:hover:shadow-white/30 transition-shadow duration-300"
+          class="bg-orange-500/10 dark:bg-orange-900/30 rounded-xl p-4 border border-orange-500/20 dark:border-orange-900/30 hover:shadow-lg dark:hover:shadow-white/30 transition-shadow duration-300"
         >
-          <div class="text-2xl font-bold text-yellow-600 dark:text-yellow-400">
+          <div
+            class="text-2xl font-bold text-orange-600 dark:text-orange-400 mb-1"
+          >
             {stats.byStatus.inProgress}
           </div>
-          <div class="text-sm text-yellow-600/70 dark:text-yellow-400/70">
+          <div class="text-sm text-orange-600/70 dark:text-orange-400/70">
             {i18n(I18nKey.projectsInProgress)}
           </div>
         </div>
         <div
-          class="bg-purple-500/10 dark:bg-purple-900/30 rounded-lg p-4 border border-purple-500/20 dark:border-purple-900/30 hover:shadow-lg dark:hover:shadow-white/30 transition-shadow duration-300"
+          class="bg-purple-500/10 dark:bg-purple-900/30 rounded-xl p-4 border border-purple-500/20 dark:border-purple-900/30 hover:shadow-lg dark:hover:shadow-white/30 transition-shadow duration-300"
         >
-          <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">
+          <div
+            class="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-1"
+          >
             {allTechStack.length}
           </div>
           <div class="text-sm text-purple-600/70 dark:text-purple-400/70">
@@ -160,7 +166,7 @@ const getCategoryText = (category: string) => {
                         {project.title}
                       </h3>
                       <span
-                        class={`px-2 py-1 text-xs rounded-full ${
+                        class={`px-2 py-1 text-xs rounded-md ${
                           project.status === "completed"
                             ? "bg-green-600/20 text-green-700 dark:bg-green-900/30 dark:text-green-400"
                             : project.status === "in-progress"
@@ -185,12 +191,12 @@ const getCategoryText = (category: string) => {
                     </p>
                     <div class="ignore flex flex-wrap gap-2 mb-4">
                       {project.techStack.slice(0, 4).map((tech) => (
-                        <span class="px-2 py-1 text-xs bg-blue-600/20 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 rounded">
+                        <span class="px-3 py-1.5 text-xs bg-[oklch(0.95_0.025_var(--hue))] text-[oklch(0.55_0.12_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))] dark:text-neutral-300 rounded-lg">
                           {tech}
                         </span>
                       ))}
                       {project.techStack.length > 4 && (
-                        <span class="px-2 py-1 text-xs bg-gray-600/20 text-gray-700 dark:bg-gray-900/30 dark:text-gray-400 rounded">
+                        <span class="px-3 py-1.5 text-xs bg-[oklch(0.95_0.025_var(--hue))] text-[oklch(0.55_0.12_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))] dark:text-neutral-300 rounded-lg">
                           +{project.techStack.length - 4}
                         </span>
                       )}
@@ -250,9 +256,6 @@ const getCategoryText = (category: string) => {
                         before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-4"
                 >
                   {getCategoryText(category)}
-                  <span class="text-lg font-normal text-black/60 dark:text-white/60 ml-2">
-                    ({categoryProjects.length})
-                  </span>
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {categoryProjects.map((project) => (
@@ -272,7 +275,7 @@ const getCategoryText = (category: string) => {
                             {project.title}
                           </h3>
                           <span
-                            class={`px-2 py-1 text-xs rounded-full shrink-0 ml-2 ${
+                            class={`px-2 py-1 text-xs rounded-md shrink-0 ml-2 ${
                               project.status === "completed"
                                 ? "bg-green-600/20 text-green-700 dark:bg-green-900/30 dark:text-green-400"
                                 : project.status === "in-progress"
@@ -297,12 +300,12 @@ const getCategoryText = (category: string) => {
                         </p>
                         <div class="ignore flex flex-wrap gap-1 mb-3">
                           {project.techStack.slice(0, 3).map((tech) => (
-                            <span class="px-2 py-1 text-xs bg-blue-600/20 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 rounded">
+                            <span class="px-3 py-1.5 text-xs bg-[oklch(0.95_0.025_var(--hue))] text-[oklch(0.55_0.12_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))] dark:text-neutral-300 rounded-lg">
                               {tech}
                             </span>
                           ))}
                           {project.techStack.length > 3 && (
-                            <span class="px-2 py-1 text-xs bg-gray-600/20 text-gray-700 dark:bg-gray-900/30 dark:text-gray-400 rounded">
+                            <span class="px-3 py-1.5 text-xs bg-[oklch(0.95_0.025_var(--hue))] text-[oklch(0.55_0.12_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))] dark:text-neutral-300 rounded-lg">
                               +{project.techStack.length - 3}
                             </span>
                           )}
@@ -351,13 +354,17 @@ const getCategoryText = (category: string) => {
 
       <!-- 技术栈统计 -->
       <div class="mt-12 pt-8 border-t border-black/10 dark:border-white/10">
-        <h2 class="text-2xl font-bold text-black/90 dark:text-white/90 mb-4">
+        <h2
+          class="text-2xl font-bold text-black/90 dark:text-white/90 mb-4 relative
+                before:w-1 before:h-6 before:rounded-md before:bg-[var(--primary)]
+                before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-4"
+        >
           {i18n(I18nKey.projectsTechStack)}
         </h2>
         <div class="ignore flex flex-wrap gap-2">
           {
             allTechStack.map((tech) => (
-              <span class="px-3 py-1 text-sm bg-[var(--primary)] text-white dark:bg-[var(--primary)] dark:text-white rounded-full">
+              <span class="px-3 py-1.5 text-sm bg-[oklch(0.95_0.025_var(--hue))] text-[oklch(0.55_0.12_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))] dark:text-neutral-300 rounded-lg">
                 {tech}
               </span>
             ))

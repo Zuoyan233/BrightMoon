@@ -10,15 +10,9 @@ export const langToTranslateMap: Record<string, string> = {
 	en: "english",
 	ja: "japanese",
 	ko: "korean",
-	es: "spanish",
-	th: "thai",
-	vi: "vietnamese",
-	tr: "turkish",
-	id: "indonesian",
 	fr: "french",
 	de: "deutsch",
 	ru: "russian",
-	ar: "arabic",
 };
 
 // 翻译服务语言代码到配置文件语言代码的映射
@@ -28,15 +22,9 @@ export const translateToLangMap: Record<string, string> = {
 	english: "en",
 	japanese: "ja",
 	korean: "ko",
-	spanish: "es",
-	thai: "th",
-	vietnamese: "vi",
-	turkish: "tr",
-	indonesian: "id",
 	french: "fr",
 	deutsch: "de",
 	russian: "ru",
-	arabic: "ar",
 };
 
 // 配置文件语言代码到 Locale 的映射（用于日期格式化等）
@@ -46,15 +34,9 @@ export const langToLocaleMap: Record<string, string> = {
 	en: "en-US",
 	ja: "ja-JP",
 	ko: "ko-KR",
-	es: "es-ES",
-	th: "th-TH",
-	vi: "vi-VN",
-	tr: "tr-TR",
-	id: "id-ID",
 	fr: "fr-FR",
 	de: "de-DE",
 	ru: "ru-RU",
-	ar: "ar-SA",
 };
 
 // 配置文件语言代码到 Twikoo 语言代码的映射
@@ -64,15 +46,9 @@ export const langToTwikooMap: Record<string, string> = {
 	en: "en",
 	ja: "ja",
 	ko: "ko",
-	es: "es",
-	th: "th",
-	vi: "vi",
-	tr: "tr",
-	id: "id",
 	fr: "fr",
 	de: "de",
 	ru: "ru",
-	ar: "ar",
 };
 
 // 配置文件语言代码到 WeatherAPI 语言代码的映射
@@ -82,15 +58,9 @@ export const langToWeatherApiMap: Record<string, string> = {
 	zh_TW: "zh",
 	ja: "ja",
 	ko: "ko",
-	es: "es",
-	th: "th",
-	vi: "vi",
-	tr: "tr",
-	id: "id",
 	fr: "fr",
 	de: "de",
 	ru: "ru",
-	ar: "ar",
 };
 
 /**
@@ -105,29 +75,17 @@ export function getLanguageDisplayName(langCode: string): string {
 		en: "English",
 		ja: "日本語",
 		ko: "한국어",
-		es: "Español",
-		th: "ไทย",
-		vi: "Tiếng Việt",
-		tr: "Türkçe",
-		id: "Bahasa Indonesia",
 		fr: "Français",
 		de: "Deutsch",
 		ru: "Русский",
-		ar: "العربية",
 		chinese_simplified: "简体中文",
 		chinese_traditional: "繁體中文",
 		english: "English",
 		japanese: "日本語",
 		korean: "한국어",
-		spanish: "Español",
-		thai: "ไทย",
-		vietnamese: "Tiếng Việt",
-		turkish: "Türkçe",
-		indonesian: "Bahasa Indonesia",
 		french: "Français",
 		deutsch: "Deutsch",
 		russian: "Русский",
-		arabic: "العربية",
 	};
 
 	return languageNames[langCode] || langCode;

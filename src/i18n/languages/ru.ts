@@ -74,7 +74,6 @@ export const ru: Translation = {
 	[Key.diary]: "Дневник",
 
 	// Страница аниме
-	[Key.animeTitle]: "Мой список аниме",
 	[Key.animeSubtitle]: "Записываю мой путь в мире аниме",
 	[Key.animeStatusWatching]: "Смотрю",
 	[Key.animeStatusCompleted]: "Просмотрено",
@@ -90,11 +89,12 @@ export const ru: Translation = {
 	[Key.animeEmptyBilibili]:
 		"Данные Bilibili отсутствуют. Запустите `pnpm run update-bilibili` для получения данных",
 	[Key.animeSetBangumiUserId]:
-		"Пожалуйста, укажите ваш идентификатор пользователя Bangumi в файле src/config/user.ts",
+		"Пожалуйста, укажите ваш идентификатор пользователя Bangumi в файле src/config/user/site.ts",
 	[Key.animeSetBilibiliVmId]:
-		"Пожалуйста, укажите ваш vmID Bilibili в файле src/config/user.ts",
+		"Пожалуйста, укажите ваш vmID Bilibili в файле src/config/user/site.ts",
 	[Key.animeEmptyLocal]:
 		"Пожалуйста, добавьте информацию об аниме в файл src/data/anime.ts",
+	[Key.animeFilterEmpty]: "В этой категории нет аниме",
 
 	// Страница дневника
 	[Key.diarySubtitle]: "Делитесь жизнью, где угодно и когда угодно",
@@ -270,7 +270,6 @@ export const ru: Translation = {
 	[Key.skillsDatabase]: "Базы данных",
 	[Key.skillsTools]: "Инструменты разработки",
 	[Key.skillsOther]: "Другие навыки",
-	[Key.skillLevel]: "Уровень владения",
 	[Key.skillLevelBeginner]: "Начальный",
 	[Key.skillLevelIntermediate]: "Средний",
 	[Key.skillLevelAdvanced]: "Продвинутый",
@@ -279,16 +278,8 @@ export const ru: Translation = {
 	[Key.skillYears]: "лет",
 	[Key.skillMonths]: "мес.",
 	[Key.skillsTotal]: "Всего навыков",
-	[Key.skillsExpert]: "Уровень эксперта",
-	[Key.skillsAdvanced]: "Продвинутый",
-	[Key.skillsIntermediate]: "Средний",
-	[Key.skillsBeginner]: "Начальный",
 	[Key.skillsAdvancedTitle]: "Профессиональные навыки",
-	[Key.skillsProjects]: "Связанные проекты",
-	[Key.skillsDistribution]: "Распределение навыков",
-	[Key.skillsByLevel]: "По уровню",
-	[Key.skillsByCategory]: "По категориям",
-	[Key.noData]: "Нет данных",
+	[Key.skillsFilterEmpty]: "В этой категории нет навыков",
 
 	// Страница хронологии
 	[Key.timeline]: "Хронология",
@@ -298,18 +289,12 @@ export const ru: Translation = {
 	[Key.timelineProject]: "Опыт проектов",
 	[Key.timelineAchievement]: "Достижения",
 	[Key.timelinePresent]: "Настоящее время",
-	[Key.timelineLocation]: "Местоположение",
-	[Key.timelineDescription]: "Подробное описание",
 	[Key.timelineMonths]: "мес.",
 	[Key.timelineYears]: "лет",
 	[Key.timelineTotal]: "Всего",
-	[Key.timelineProjects]: "Проектов",
-	[Key.timelineExperience]: "Опыт работы",
 	[Key.timelineCurrent]: "Текущий статус",
-	[Key.timelineHistory]: "История",
 	[Key.timelineAchievements]: "Достижения",
-	[Key.timelineStartDate]: "Дата начала",
-	[Key.timelineDuration]: "Продолжительность",
+	[Key.timelineFilterEmpty]: "В этой категории нет записей временной шкалы",
 
 	// Страница обратной связи - Модуль связи с веб-мастером
 	[Key.contactMe]: "Связаться с веб-мастером",
@@ -513,7 +498,7 @@ export const ru: Translation = {
 	[Key.twikooInitializing]: "Инициализация системы комментариев Twikoo...",
 	[Key.twikooNotConfigured]: "Система комментариев Twikoo еще не настроена",
 	[Key.twikooConfigHint]:
-		"Пожалуйста, настройте систему комментариев Twikoo в src/config/user.ts",
+		"Пожалуйста, настройте систему комментариев Twikoo в src/config/user/comment.ts",
 	[Key.twikooPrivacyRejected]:
 		"Система комментариев Twikoo отключена из-за отказа от соглашения о конфиденциальности",
 

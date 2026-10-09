@@ -1,5 +1,4 @@
 ---
-
 import { getEntry, render } from "astro:content";
 import Markdown from "@components/misc/Markdown.astro";
 import { Icon } from "astro-icon/components";
@@ -24,85 +23,128 @@ if (!siteConfig.featurePages.sponsors) {
 const { Content } = await render(sponsorsPost);
 const title = i18n(I18nKey.sponsors);
 ---
+
 <MainGridLayout title={title}>
-	<!-- 引入右侧边栏布局管理器 -->
-  <script>
-    import('../scripts/right-sidebar-layout.js');
-  </script>
-    <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
+    <!-- 引入右侧边栏布局管理器 -->
+    <script>
+        import("../scripts/right-sidebar-layout.js");
+    </script>
+    <div
+        class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32"
+    >
         <div class="card-base z-10 px-9 py-6 relative w-full">
             <!-- 页面标题 -->
             <div class="flex flex-col items-start justify-center mb-8">
-                <h1 class="text-4xl font-bold text-black/90 dark:text-white/90 mb-2 relative
+                <h1
+                    class="text-4xl font-bold text-black/90 dark:text-white/90 mb-2 relative
                         before:w-1 before:h-8 before:rounded-md before:bg-[var(--primary)]
-                        before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-4">
+                        before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-4"
+                >
                     {title}
                 </h1>
             </div>
-            
+
             <div class="mb-6">
-               <p class="text-md text-black/80 dark:text-white/80">
-                  {i18n(I18nKey.sponsorsNotice1)}
-               </p>
-            <br>
-               <p class="text-md font-bold dark:text-white/100">
-                  {i18n(I18nKey.sponsorsNotice2)}
-               </p>
+                <p class="text-md text-black/80 dark:text-white/80">
+                    {i18n(I18nKey.sponsorsNotice1)}
+                </p>
+                <br />
+                <p class="text-md font-bold dark:text-white/100">
+                    {i18n(I18nKey.sponsorsNotice2)}
+                </p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-5">
                 <!-- 支付方式一 -->
-                <div class="bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))] rounded-xl p-8 shadow-sm hover:shadow-lg dark:hover:shadow-lg dark:hover:shadow-white/30 transition-shadow duration-300">
+                <div
+                    class="bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))] rounded-xl p-8 shadow-sm hover:shadow-lg dark:hover:shadow-lg dark:hover:shadow-white/30 transition-shadow duration-300"
+                >
                     <div class="flex items-center gap-3 mb-4">
-                        <div class="h-10 w-10 rounded-lg bg-blue-500 flex items-center justify-center">
-                            <Icon name="simple-icons:alipay" class="text-[1.5rem] text-white" />
+                        <div
+                            class="h-10 w-10 rounded-lg bg-blue-500 flex items-center justify-center"
+                        >
+                            <Icon
+                                name="simple-icons:alipay"
+                                class="text-[1.5rem] text-white"
+                            />
                         </div>
                         <div>
-                            <h3 class="text-lg font-bold text-black/100 dark:text-white/80">{i18n(I18nKey.aliPay)}</h3>
-                            <p class="text-sm text-black/60 dark:text-white/60">{i18n(I18nKey.scanPayQRcode)}</p>
+                            <h2
+                                class="text-lg font-bold text-black/100 dark:text-white/80"
+                            >
+                                {i18n(I18nKey.aliPay)}
+                            </h2>
+                            <p class="text-sm text-black/60 dark:text-white/60">
+                                {i18n(I18nKey.scanPayQRcode)}
+                            </p>
                         </div>
                     </div>
-                    
+
                     <!-- 修改：添加图片容器并设置样式 -->
                     <div class="flex-1 flex items-center justify-center">
-                        <img src={paymentQRCode_1} class="max-h-48 object-contain">
+                        <img
+                            src={paymentQRCode_1}
+                            alt={i18n(I18nKey.aliPay)}
+                            class="max-h-48 object-contain"
+                        />
                     </div>
                 </div>
 
                 <!-- 支付方式二 -->
-                <div class="bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))] rounded-xl p-8 shadow-sm hover:shadow-lg dark:hover:shadow-lg dark:hover:shadow-white/30 transition-shadow duration-300">
+                <div
+                    class="bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))] rounded-xl p-8 shadow-sm hover:shadow-lg dark:hover:shadow-lg dark:hover:shadow-white/30 transition-shadow duration-300"
+                >
                     <div class="flex items-center gap-3 mb-4">
-                        <div class="h-10 w-10 rounded-lg bg-green-500 flex items-center justify-center">
-                            <Icon name="simple-icons:wechat" class="text-[1.5rem] text-white" />
+                        <div
+                            class="h-10 w-10 rounded-lg bg-green-500 flex items-center justify-center"
+                        >
+                            <Icon
+                                name="simple-icons:wechat"
+                                class="text-[1.5rem] text-white"
+                            />
                         </div>
                         <div>
-                            <h3 class="text-lg font-bold text-black/100 dark:text-white/80">{i18n(I18nKey.wechatPay)}</h3>
-                            <p class="text-sm text-black/60 dark:text-white/60">{i18n(I18nKey.scanPayQRcode)}</p>
+                            <h2
+                                class="text-lg font-bold text-black/100 dark:text-white/80"
+                            >
+                                {i18n(I18nKey.wechatPay)}
+                            </h2>
+                            <p class="text-sm text-black/60 dark:text-white/60">
+                                {i18n(I18nKey.scanPayQRcode)}
+                            </p>
                         </div>
                     </div>
-                    
+
                     <!-- 修改：添加图片容器并设置样式 -->
                     <div class="flex-1 flex items-center justify-center">
-                        <img src={paymentQRCode_2} class="max-h-48 object-contain">
+                        <img
+                            src={paymentQRCode_2}
+                            alt={i18n(I18nKey.wechatPay)}
+                            class="max-h-48 object-contain"
+                        />
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-<br>
+    <br />
 
-    <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
+    <div
+        class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32"
+    >
         <div class="card-base z-10 px-9 py-6 relative w-full">
             <!-- 页面标题 -->
             <div class="flex flex-col items-start justify-center mb-8">
-                <h1 class="text-3xl font-bold text-black/90 dark:text-white/90 mb-2 relative
+                <h1
+                    class="text-3xl font-bold text-black/90 dark:text-white/90 mb-2 relative
                           before:w-1 before:h-8 before:rounded-md before:bg-[var(--primary)]
-                          before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-4">
+                          before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-4"
+                >
                     {i18n(I18nKey.sponsorsPartner)}
                 </h1>
             </div>
-            
+
             <!-- 从MD文件读取的内容 -->
             <Markdown class="mt-2">
                 <Content />
@@ -110,46 +152,69 @@ const title = i18n(I18nKey.sponsors);
         </div>
     </div>
 
-<br>
+    <br />
 
-    <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
+    <div
+        class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32"
+    >
         <div class="card-base z-10 px-9 py-6 relative w-full">
             <!-- 页面标题 -->
             <div class="flex flex-col items-start justify-center mb-8">
-                <h1 class="text-3xl font-bold text-black/90 dark:text-white/90 mb-2 relative
+                <h1
+                    class="text-3xl font-bold text-black/90 dark:text-white/90 mb-2 relative
                           before:w-1 before:h-8 before:rounded-md before:bg-[var(--primary)]
-                          before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-4">
+                          before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-4"
+                >
                     {i18n(I18nKey.otherSupportOptions)}
                 </h1>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-x-5 gap-y-5">
                 <!-- 分享博客卡片 -->
-                <div class="bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))] rounded-xl p-8 shadow-sm hover:shadow-lg dark:hover:shadow-lg dark:hover:shadow-white/30 transition-shadow duration-300">
-                    <Icon name="material-symbols:share-outline" class="text-4xl m-0 mb-4 text-left text-[var(--primary)]"></Icon>
-                    <p class="text-md font-normal text-black/100 dark:text-white/80">
+                <div
+                    class="bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))] rounded-xl p-8 shadow-sm hover:shadow-lg dark:hover:shadow-lg dark:hover:shadow-white/30 transition-shadow duration-300"
+                >
+                    <Icon
+                        name="material-symbols:share-outline"
+                        class="text-4xl m-0 mb-4 text-left text-[var(--primary)]"
+                    />
+                    <p
+                        class="text-md font-normal text-black/100 dark:text-white/80"
+                    >
                         {i18n(I18nKey.shareBlog)}
                     </p>
                 </div>
-                
+
                 <!-- 留言卡片 -->
-                <div class="bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))] rounded-xl p-8 shadow-sm hover:shadow-lg dark:hover:shadow-lg dark:hover:shadow-white/30 transition-shadow duration-300">
-                    <Icon name="material-symbols:edit-note-outline" class="text-4xl m-0 mb-4 text-left text-[var(--primary)]"></Icon>
-                    <p class="text-md font-normal text-black/100 dark:text-white/80">
+                <div
+                    class="bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))] rounded-xl p-8 shadow-sm hover:shadow-lg dark:hover:shadow-lg dark:hover:shadow-white/30 transition-shadow duration-300"
+                >
+                    <Icon
+                        name="material-symbols:edit-note-outline"
+                        class="text-4xl m-0 mb-4 text-left text-[var(--primary)]"
+                    />
+                    <p
+                        class="text-md font-normal text-black/100 dark:text-white/80"
+                    >
                         {i18n(I18nKey.leaveComment)}
-                    </p> 
+                    </p>
                 </div>
 
                 <!-- 订阅文章卡片 -->
-                <div class="bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))] rounded-xl p-8 shadow-sm hover:shadow-lg dark:hover:shadow-lg dark:hover:shadow-white/30 transition-shadow duration-300">
-                    <Icon name="material-symbols:rss-feed" class="text-4xl m-0 mb-4 text-left text-[var(--primary)]"></Icon>
-                    <p class="text-md font-normal text-black/100 dark:text-white/80">
+                <div
+                    class="bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))] rounded-xl p-8 shadow-sm hover:shadow-lg dark:hover:shadow-lg dark:hover:shadow-white/30 transition-shadow duration-300"
+                >
+                    <Icon
+                        name="material-symbols:rss-feed"
+                        class="text-4xl m-0 mb-4 text-left text-[var(--primary)]"
+                    />
+                    <p
+                        class="text-md font-normal text-black/100 dark:text-white/80"
+                    >
                         {i18n(I18nKey.subscribeToArticles)}
                     </p>
                 </div>
             </div>
-
         </div>
     </div>
-
 </MainGridLayout>

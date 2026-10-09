@@ -74,7 +74,6 @@ export const de: Translation = {
 	[Key.diary]: "Tagebuch",
 
 	// Anime-Seite
-	[Key.animeTitle]: "Meine Anime-Liste",
 	[Key.animeSubtitle]: "Dokumentiere meine Anime-Reise",
 	[Key.animeStatusWatching]: "Schaut",
 	[Key.animeStatusCompleted]: "Abgeschlossen",
@@ -95,6 +94,7 @@ export const de: Translation = {
 		"Bitte setze deine Bilibili-vmID in der Datei src/config/user.ts",
 	[Key.animeEmptyLocal]:
 		"Bitte füge Anime-Informationen in der Datei src/data/anime.ts hinzu",
+	[Key.animeFilterEmpty]: "Keine Anime in dieser Kategorie gefunden",
 
 	// Tagebuch-Seite
 	[Key.diarySubtitle]: "Teile das Leben, jederzeit und überall",
@@ -272,7 +272,6 @@ export const de: Translation = {
 	[Key.skillsDatabase]: "Datenbank",
 	[Key.skillsTools]: "Entwicklungswerkzeuge",
 	[Key.skillsOther]: "Weitere Fähigkeiten",
-	[Key.skillLevel]: "Kenntnisstufe",
 	[Key.skillLevelBeginner]: "Anfänger",
 	[Key.skillLevelIntermediate]: "Fortgeschritten",
 	[Key.skillLevelAdvanced]: "Erweitert",
@@ -281,16 +280,8 @@ export const de: Translation = {
 	[Key.skillYears]: "Jahre",
 	[Key.skillMonths]: "Monate",
 	[Key.skillsTotal]: "Fähigkeiten insgesamt",
-	[Key.skillsExpert]: "Expertenniveau",
-	[Key.skillsAdvanced]: "Erweitert",
-	[Key.skillsIntermediate]: "Fortgeschritten",
-	[Key.skillsBeginner]: "Anfänger",
 	[Key.skillsAdvancedTitle]: "Professionelle Fähigkeiten",
-	[Key.skillsProjects]: "Verwandte Projekte",
-	[Key.skillsDistribution]: "Fähigkeitsverteilung",
-	[Key.skillsByLevel]: "Nach Stufe",
-	[Key.skillsByCategory]: "Nach Kategorie",
-	[Key.noData]: "Keine Daten",
+	[Key.skillsFilterEmpty]: "Keine Fähigkeiten in dieser Kategorie",
 
 	// Zeitleiste-Seite
 	[Key.timeline]: "Zeitleiste",
@@ -300,18 +291,12 @@ export const de: Translation = {
 	[Key.timelineProject]: "Projekterfahrung",
 	[Key.timelineAchievement]: "Errungenschaften",
 	[Key.timelinePresent]: "Heute",
-	[Key.timelineLocation]: "Ort",
-	[Key.timelineDescription]: "Detaillierte Beschreibung",
 	[Key.timelineMonths]: "Monate",
 	[Key.timelineYears]: "Jahre",
 	[Key.timelineTotal]: "Insgesamt",
-	[Key.timelineProjects]: "Projekte",
-	[Key.timelineExperience]: "Berufserfahrung",
 	[Key.timelineCurrent]: "Aktueller Status",
-	[Key.timelineHistory]: "Verlauf",
 	[Key.timelineAchievements]: "Errungenschaften",
-	[Key.timelineStartDate]: "Startdatum",
-	[Key.timelineDuration]: "Dauer",
+	[Key.timelineFilterEmpty]: "Keine Timeline-Einträge in dieser Kategorie",
 
 	// Feedback-Seite - Modul „Kontakt zum Webmaster“
 	[Key.contactMe]: "Kontakt zum Webmaster",
@@ -522,7 +507,7 @@ export const de: Translation = {
 	[Key.twikooNotConfigured]:
 		"Twikoo-Kommentarsystem ist noch nicht konfiguriert",
 	[Key.twikooConfigHint]:
-		"Bitte konfigurieren Sie das Twikoo-Kommentarsystem in src/config/user.ts",
+		"Bitte konfigurieren Sie das Twikoo-Kommentarsystem in src/config/user/comment.ts",
 	[Key.twikooPrivacyRejected]:
 		"Das Twikoo-Kommentarsystem wurde deaktiviert, da die Datenschutzvereinbarung abgelehnt wurde",
 

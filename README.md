@@ -13,7 +13,7 @@ BrightMoon is a distinctive anime-aesthetic static blog template that blends mod
 [![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-blue)](https://www.typescriptlang.org/)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?logo=apache)](https://opensource.org/licenses/Apache-2.0)
 
-💻 Welcome to my website: [Click here](https://www.zuoyanblogs.xyz/)
+💻 Welcome to my website: [Click here](https://www.zuoyanblog.dpdns.org/)
 
 🌐 README Languages：[简体中文](./README_zh_CN.md) &nbsp;|&nbsp; [繁體中文](./README_zh_Hant.md) &nbsp;|&nbsp; [日本語](./README_jp.md)
 
@@ -41,7 +41,7 @@ BrightMoon is a distinctive anime-aesthetic static blog template that blends mod
 
 ## 📌 Version Notes
 
-This project is a customized extension based on Mizuki V8.2, with version numbers suffixed with BrightMoon Custom Edition (CE), representing a light custom version of BrightMoon (currently cramming popular web frameworks — will continue when I have more time).
+As Mizuki has ceased maintenance, BrightMoon now continues to be maintained as an independent project, no longer using the Custom Edition (CE) suffix.
 
 ---
 
@@ -120,7 +120,7 @@ This project is a customized extension based on Mizuki V8.2, with version number
 - **SEO Optimization** - Includes sitemaps and meta tags.
 - **Performance Optimization** - Lazy loading and caching mechanisms.
 - **Comment System** - Integrated with the latest Twikoo comment system, supporting multi-dimensional configuration.
-- **Translation Component** - Local i18n library + translate.js for millisecond-speed translations, with built-in language support for fourteen countries.
+- **Translation Component** - Local i18n library + translate.js for millisecond-speed translations, with built-in language support for eight countries.
 - **Weather Widget** - Powered by WeatherAPI, supporting 7-day forecasts, IP-based auto-location, and manual city search.
 - **Cookie Consent** - Cookie privacy policy banner with accept/deny support; auto-clears non-essential cookies on denial.
 - **Site Statistics** - Real-time display of current date (with multi-region format support), season, and time period.

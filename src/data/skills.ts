@@ -1,34 +1,81 @@
-// Skill data configuration file
-// Used to manage data for the skill display page
+// 技能数据配置文件
+// 用于管理技能展示页面的数据
 
 export interface Skill {
-	id: string;
-	name: string;
-	description: string;
-	icon: string; // Iconify icon name
-	category: "frontend" | "backend" | "database" | "tools" | "other";
-	level: "beginner" | "intermediate" | "advanced" | "expert";
+	id: string; // 技能唯一标识
+	name: string; // 技能名称
+	description: string; // 技能描述
+	icon: string; // Iconify 图标名称
+	category: "frontend" | "backend" | "database" | "tools" | "other"; // 技能分类
+	level: "beginner" | "intermediate" | "advanced" | "expert"; // 掌握程度：入门 / 中级 / 高级 / 专家
 	experience: {
-		years: number;
-		months: number;
+		years: number; // 经验年数
+		months: number; // 经验月数
 	};
-	projects?: string[]; // Related project IDs
-	certifications?: string[];
-	color?: string; // Skill card theme color
+	projects?: string[]; // 关联的项目 ID
+	certifications?: string[]; // 相关证书
+	color?: string; // 卡片主题色，格式为 #RRGGBB
 }
 
+// 获取技能统计信息
+export const getSkillStats = () => {
+	const total = skillsData.length;
+	const byLevel = {
+		beginner: skillsData.filter((s) => s.level === "beginner").length,
+		intermediate: skillsData.filter((s) => s.level === "intermediate").length,
+		advanced: skillsData.filter((s) => s.level === "advanced").length,
+		expert: skillsData.filter((s) => s.level === "expert").length,
+	};
+	const byCategory = {
+		frontend: skillsData.filter((s) => s.category === "frontend").length,
+		backend: skillsData.filter((s) => s.category === "backend").length,
+		database: skillsData.filter((s) => s.category === "database").length,
+		tools: skillsData.filter((s) => s.category === "tools").length,
+		other: skillsData.filter((s) => s.category === "other").length,
+	};
+
+	return { total, byLevel, byCategory };
+};
+
+// 获取指定分类的技能
+export const getSkillsByCategory = (category?: string) => {
+	if (!category || category === "all") {
+		return skillsData;
+	}
+	return skillsData.filter((s) => s.category === category);
+};
+
+// 获取高级技能
+export const getAdvancedSkills = () => {
+	return skillsData.filter(
+		(s) => s.level === "advanced" || s.level === "expert",
+	);
+};
+
+// 获取总经验
+export const getTotalExperience = () => {
+	const totalMonths = skillsData.reduce((total, skill) => {
+		return total + skill.experience.years * 12 + skill.experience.months;
+	}, 0);
+	return {
+		years: Math.floor(totalMonths / 12),
+		months: totalMonths % 12,
+	};
+};
+
+// 技能数据（此处填写内容）
 export const skillsData: Skill[] = [
 	// 前端技能
 	{
-		id: "javascript",
-		name: "JavaScript",
-		description: "现代 JavaScript 开发，包括 ES6+ 语法、异步编程和模块化开发。",
-		icon: "logos:javascript",
-		category: "frontend",
-		level: "intermediate",
-		experience: { years: 3, months: 6 },
-		projects: ["portfolio-website", "data-visualization-tool"],
-		color: "#F7DF1E",
+		id: "javascript", // 技能唯一标识
+		name: "JavaScript", // 技能名称
+		description: "现代 JavaScript 开发，包括 ES6+ 语法、异步编程和模块化开发。", // 技能描述
+		icon: "logos:javascript", // Iconify 图标名称
+		category: "frontend", // 技能分类
+		level: "intermediate", // 掌握程度：入门 / 中级 / 高级 / 专家
+		experience: { years: 3, months: 6 }, // 经验年数和月数
+		projects: ["portfolio-website", "data-visualization-tool"], // 关联的项目 ID
+		color: "#F7DF1E", // 卡片主题色，格式为 #RRGGBB
 	},
 	{
 		id: "typescript",
@@ -227,49 +274,3 @@ export const skillsData: Skill[] = [
 		color: "#31A8FF",
 	},
 ];
-
-// Get skill statistics
-export const getSkillStats = () => {
-	const total = skillsData.length;
-	const byLevel = {
-		beginner: skillsData.filter((s) => s.level === "beginner").length,
-		intermediate: skillsData.filter((s) => s.level === "intermediate").length,
-		advanced: skillsData.filter((s) => s.level === "advanced").length,
-		expert: skillsData.filter((s) => s.level === "expert").length,
-	};
-	const byCategory = {
-		frontend: skillsData.filter((s) => s.category === "frontend").length,
-		backend: skillsData.filter((s) => s.category === "backend").length,
-		database: skillsData.filter((s) => s.category === "database").length,
-		tools: skillsData.filter((s) => s.category === "tools").length,
-		other: skillsData.filter((s) => s.category === "other").length,
-	};
-
-	return { total, byLevel, byCategory };
-};
-
-// Get skills by category
-export const getSkillsByCategory = (category?: string) => {
-	if (!category || category === "all") {
-		return skillsData;
-	}
-	return skillsData.filter((s) => s.category === category);
-};
-
-// Get advanced skills
-export const getAdvancedSkills = () => {
-	return skillsData.filter(
-		(s) => s.level === "advanced" || s.level === "expert",
-	);
-};
-
-// Calculate total years of experience
-export const getTotalExperience = () => {
-	const totalMonths = skillsData.reduce((total, skill) => {
-		return total + skill.experience.years * 12 + skill.experience.months;
-	}, 0);
-	return {
-		years: Math.floor(totalMonths / 12),
-		months: totalMonths % 12,
-	};
-};

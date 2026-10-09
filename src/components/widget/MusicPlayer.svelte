@@ -1347,7 +1347,7 @@ onDestroy(() => {
     <div class="px-4 mb-2" transition:slide={{ duration: 200, axis: 'y' }}>
         <div bind:this={settingsPanel} class="rounded-lg p-3 bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))] space-y-3">
 			<div class="flex items-center gap-2">
-					<label for="mp-settings-type" class="text-sm text-[oklch(0.55_0.12_var(--hue))] dark:text-white/80 w-16 shrink-0">{settingsTypeLabel}</label>
+					<label for="mp-settings-type" class="text-sm font-bold text-[oklch(0.55_0.12_var(--hue))] dark:text-white/80 w-16 shrink-0">{settingsTypeLabel}</label>
 					<select id="mp-settings-type" bind:value={settingsType}
 							class="mp-select flex-1 text-sm px-2 py-1.5 rounded-lg bg-[var(--card-bg)] border border-[var(--line-divider)] text-neutral-700 dark:text-neutral-300 focus:outline-none focus:border-[var(--primary)] transition-colors">
 						<option value="playlist">{settingsPlaylistLabel}</option>
@@ -1357,12 +1357,12 @@ onDestroy(() => {
 					</select>
 			</div>
             <div class="flex items-center gap-2">
-                <label for="mp-settings-id" class="text-sm text-[oklch(0.55_0.12_var(--hue))] dark:text-white/80 w-16 shrink-0">{settingsIdLabel}</label>
+                <label for="mp-settings-id" class="text-sm font-bold text-[oklch(0.55_0.12_var(--hue))] dark:text-white/80 w-16 shrink-0">{settingsIdLabel}</label>
                 <input id="mp-settings-id" type="text" bind:value={settingsId}
                        class="w-full flex-1 text-sm px-2 py-1.5 rounded-lg bg-[var(--card-bg)] border border-[var(--line-divider)] text-neutral-700 dark:text-neutral-300 placeholder-neutral-400 dark:placeholder-neutral-500 focus:outline-none focus:border-[var(--primary)] transition-colors" />
             </div>
             <div class="flex items-center gap-2">
-                <label for="mp-settings-server" class="text-sm text-[oklch(0.55_0.12_var(--hue))] dark:text-white/80 w-16 shrink-0">{settingsServerLabel}</label>
+                <label for="mp-settings-server" class="text-sm font-bold text-[oklch(0.55_0.12_var(--hue))] dark:text-white/80 w-16 shrink-0">{settingsServerLabel}</label>
                 <select id="mp-settings-server" bind:value={settingsServer}
                         class="mp-select flex-1 text-sm px-2 py-1.5 rounded-lg bg-[var(--card-bg)] border border-[var(--line-divider)] text-neutral-700 dark:text-neutral-300 focus:outline-none focus:border-[var(--primary)] transition-colors">
                     <option value="netease">{settingsNeteaseLabel}</option>

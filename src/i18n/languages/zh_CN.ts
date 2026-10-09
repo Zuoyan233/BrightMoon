@@ -75,7 +75,6 @@ export const zh_CN: Translation = {
 	[Key.diary]: "日记",
 
 	// 番剧页面
-	[Key.animeTitle]: "我的追番记录",
 	[Key.animeSubtitle]: "记录我的二次元之旅",
 	[Key.animeStatusWatching]: "在看",
 	[Key.animeStatusCompleted]: "看过",
@@ -90,10 +89,11 @@ export const zh_CN: Translation = {
 	[Key.animeEmptyBilibili]:
 		"Bilibili 数据为空，请运行 pnpm run update-bilibili 获取数据",
 	[Key.animeSetBangumiUserId]:
-		"请在 src/config/user.ts 文件中设置你的 Bangumi userID",
+		"请在 src/config/user/site.ts 文件中设置你的 Bangumi userID",
 	[Key.animeSetBilibiliVmId]:
-		"请在 src/config/user.ts 文件中设置你的 Bilibili vmID",
+		"请在 src/config/user/site.ts 文件中设置你的 Bilibili vmID",
 	[Key.animeEmptyLocal]: "请在 src/data/anime.ts 文件中添加番剧信息",
+	[Key.animeFilterEmpty]: "该分类下暂无番剧",
 
 	// 短文页面
 	[Key.diarySubtitle]: "随时随地，分享生活",
@@ -202,7 +202,6 @@ export const zh_CN: Translation = {
 	[Key.skillsDatabase]: "数据库",
 	[Key.skillsTools]: "开发工具",
 	[Key.skillsOther]: "其他技能",
-	[Key.skillLevel]: "熟练度",
 	[Key.skillLevelBeginner]: "初学者",
 	[Key.skillLevelIntermediate]: "中级",
 	[Key.skillLevelAdvanced]: "高级",
@@ -211,16 +210,8 @@ export const zh_CN: Translation = {
 	[Key.skillYears]: "年",
 	[Key.skillMonths]: "个月",
 	[Key.skillsTotal]: "总技能数",
-	[Key.skillsExpert]: "专家级",
-	[Key.skillsAdvanced]: "高级",
-	[Key.skillsIntermediate]: "中级",
-	[Key.skillsBeginner]: "初级",
 	[Key.skillsAdvancedTitle]: "专业技能",
-	[Key.skillsProjects]: "相关项目",
-	[Key.skillsDistribution]: "技能分布",
-	[Key.skillsByLevel]: "按等级分布",
-	[Key.skillsByCategory]: "按分类分布",
-	[Key.noData]: "暂无数据",
+	[Key.skillsFilterEmpty]: "该分类下暂无技能",
 
 	// 时间线页面
 	[Key.timeline]: "时间线",
@@ -230,18 +221,12 @@ export const zh_CN: Translation = {
 	[Key.timelineProject]: "项目经历",
 	[Key.timelineAchievement]: "成就荣誉",
 	[Key.timelinePresent]: "至今",
-	[Key.timelineLocation]: "地点",
-	[Key.timelineDescription]: "详细描述",
 	[Key.timelineMonths]: "个月",
 	[Key.timelineYears]: "年",
 	[Key.timelineTotal]: "总计",
-	[Key.timelineProjects]: "项目数",
-	[Key.timelineExperience]: "工作经验",
 	[Key.timelineCurrent]: "当前状态",
-	[Key.timelineHistory]: "历史记录",
 	[Key.timelineAchievements]: "成就荣誉",
-	[Key.timelineStartDate]: "开始日期",
-	[Key.timelineDuration]: "持续时间",
+	[Key.timelineFilterEmpty]: "该分类下暂无时间线记录",
 
 	// 反馈页面 - 联系站长方式模块
 	[Key.contactMe]: "联系站长",
@@ -440,7 +425,8 @@ export const zh_CN: Translation = {
 
 	// 天气组件
 	[Key.weather]: "天气",
-	[Key.weatherNoApiKey]: "请在 src/config/user.ts 中添加 WeatherAPI 密钥",
+	[Key.weatherNoApiKey]:
+		"请在 src/config/user/weather.ts 中添加 WeatherAPI 密钥",
 	[Key.weatherLocationDisabled]: "因拒绝隐私协议，天气定位服务已关闭",
 	[Key.weatherWaitingConsent]: "等待天气定位授权...",
 	[Key.weatherDefaultLocationHint]:
@@ -493,7 +479,8 @@ export const zh_CN: Translation = {
 	// Twikoo 评论系统
 	[Key.twikooInitializing]: "正在初始化 Twikoo 评论系统...",
 	[Key.twikooNotConfigured]: "Twikoo 评论系统暂未配置",
-	[Key.twikooConfigHint]: "请在 src/config/user.ts 中配置 Twikoo 评论系统",
+	[Key.twikooConfigHint]:
+		"请在 src/config/user/comment.ts 中配置 Twikoo 评论系统",
 	[Key.twikooPrivacyRejected]: "因拒绝隐私协议，Twikoo 评论系统已关闭",
 
 	// 版本更新检测

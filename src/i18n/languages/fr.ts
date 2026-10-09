@@ -75,7 +75,6 @@ export const fr: Translation = {
 	[Key.diary]: "Journal",
 
 	// Page Anime
-	[Key.animeTitle]: "Ma liste d'anime",
 	[Key.animeSubtitle]: "Enregistrer mon parcours anime",
 	[Key.animeStatusWatching]: "En cours",
 	[Key.animeStatusCompleted]: "Terminé",
@@ -96,6 +95,7 @@ export const fr: Translation = {
 		"Veuillez définir votre vmID Bilibili dans le fichier src/config/user.ts",
 	[Key.animeEmptyLocal]:
 		"Veuillez ajouter les informations d'anime dans le fichier src/data/anime.ts",
+	[Key.animeFilterEmpty]: "Aucun anime dans cette catégorie",
 
 	// Page Journal
 	[Key.diarySubtitle]: "Partager la vie, à tout moment, n'importe où",
@@ -281,7 +281,6 @@ export const fr: Translation = {
 	[Key.skillsDatabase]: "Base de données",
 	[Key.skillsTools]: "Outils de développement",
 	[Key.skillsOther]: "Autres compétences",
-	[Key.skillLevel]: "Niveau",
 	[Key.skillLevelBeginner]: "Débutant",
 	[Key.skillLevelIntermediate]: "Intermédiaire",
 	[Key.skillLevelAdvanced]: "Avancé",
@@ -290,16 +289,8 @@ export const fr: Translation = {
 	[Key.skillYears]: "ans",
 	[Key.skillMonths]: "mois",
 	[Key.skillsTotal]: "Compétences totales",
-	[Key.skillsExpert]: "Niveau expert",
-	[Key.skillsAdvanced]: "Avancé",
-	[Key.skillsIntermediate]: "Intermédiaire",
-	[Key.skillsBeginner]: "Débutant",
 	[Key.skillsAdvancedTitle]: "Compétences professionnelles",
-	[Key.skillsProjects]: "Projets associés",
-	[Key.skillsDistribution]: "Répartition des compétences",
-	[Key.skillsByLevel]: "Par niveau",
-	[Key.skillsByCategory]: "Par catégorie",
-	[Key.noData]: "Aucune donnée",
+	[Key.skillsFilterEmpty]: "Aucune compétence dans cette catégorie",
 
 	// Page Chronologie
 	[Key.timeline]: "Chronologie",
@@ -310,18 +301,13 @@ export const fr: Translation = {
 	[Key.timelineProject]: "Expérience projet",
 	[Key.timelineAchievement]: "Réalisations",
 	[Key.timelinePresent]: "Présent",
-	[Key.timelineLocation]: "Lieu",
-	[Key.timelineDescription]: "Description détaillée",
 	[Key.timelineMonths]: "mois",
 	[Key.timelineYears]: "ans",
 	[Key.timelineTotal]: "Total",
-	[Key.timelineProjects]: "Projets",
-	[Key.timelineExperience]: "Expérience professionnelle",
 	[Key.timelineCurrent]: "Situation actuelle",
-	[Key.timelineHistory]: "Historique",
 	[Key.timelineAchievements]: "Réalisations",
-	[Key.timelineStartDate]: "Date de début",
-	[Key.timelineDuration]: "Durée",
+	[Key.timelineFilterEmpty]:
+		"Aucun enregistrement de chronologie dans cette catégorie",
 
 	// Page Retour - Module Contacter le webmaster
 	[Key.contactMe]: "Contacter le webmaster",
@@ -472,7 +458,7 @@ export const fr: Translation = {
 	// Composant météo
 	[Key.weather]: "Météo",
 	[Key.weatherNoApiKey]:
-		"Veuillez ajouter la clé WeatherAPI dans src/config/user.ts",
+		"Veuillez ajouter la clé WeatherAPI dans src/config/user/weather.ts",
 	[Key.weatherLocationDisabled]:
 		"Le service de localisation météo a été désactivé en raison du refus de l'accord de confidentialité",
 	[Key.weatherWaitingConsent]:
@@ -531,7 +517,7 @@ export const fr: Translation = {
 	[Key.twikooNotConfigured]:
 		"Le système de commentaires Twikoo n'est pas encore configuré",
 	[Key.twikooConfigHint]:
-		"Veuillez configurer le système de commentaires Twikoo dans src/config/user.ts",
+		"Veuillez configurer le système de commentaires Twikoo dans src/config/user/comment.ts",
 	[Key.twikooPrivacyRejected]:
 		"Le système de commentaires Twikoo a été désactivé en raison du refus de l'accord de confidentialité",
 

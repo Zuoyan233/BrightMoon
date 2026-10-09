@@ -74,7 +74,6 @@ export const zh_TW: Translation = {
 	[Key.diary]: "日記",
 
 	// 番劇頁面
-	[Key.animeTitle]: "我的追番記錄",
 	[Key.animeSubtitle]: "記錄我的二次元之旅",
 	[Key.animeStatusWatching]: "在看",
 	[Key.animeStatusCompleted]: "看過",
@@ -89,10 +88,11 @@ export const zh_TW: Translation = {
 	[Key.animeEmptyBilibili]:
 		"Bilibili 數據為空，請執行 pnpm run update-bilibili 獲取數據",
 	[Key.animeSetBangumiUserId]:
-		"請在 src/config/user.ts 檔案中設定你的 Bangumi userID",
+		"請在 src/config/user/site.ts 檔案中設定你的 Bangumi userID",
 	[Key.animeSetBilibiliVmId]:
-		"請在 src/config/user.ts 檔案中設定你的 Bilibili vmID",
+		"請在 src/config/user/site.ts 檔案中設定你的 Bilibili vmID",
 	[Key.animeEmptyLocal]: "請在 src/data/anime.ts 檔案中新增番劇資訊",
+	[Key.animeFilterEmpty]: "該分類下暫無番劇",
 
 	// 短文頁面
 	[Key.diarySubtitle]: "隨時隨地，分享生活",
@@ -201,7 +201,6 @@ export const zh_TW: Translation = {
 	[Key.skillsDatabase]: "資料庫",
 	[Key.skillsTools]: "開發工具",
 	[Key.skillsOther]: "其他技能",
-	[Key.skillLevel]: "熟練度",
 	[Key.skillLevelBeginner]: "初學者",
 	[Key.skillLevelIntermediate]: "中級",
 	[Key.skillLevelAdvanced]: "高級",
@@ -210,16 +209,8 @@ export const zh_TW: Translation = {
 	[Key.skillYears]: "年",
 	[Key.skillMonths]: "個月",
 	[Key.skillsTotal]: "總技能數",
-	[Key.skillsExpert]: "專家級",
-	[Key.skillsAdvanced]: "高級",
-	[Key.skillsIntermediate]: "中級",
-	[Key.skillsBeginner]: "初級",
 	[Key.skillsAdvancedTitle]: "專業技能",
-	[Key.skillsProjects]: "相關專案",
-	[Key.skillsDistribution]: "技能分佈",
-	[Key.skillsByLevel]: "按等級分佈",
-	[Key.skillsByCategory]: "按分類分佈",
-	[Key.noData]: "暫無數據",
+	[Key.skillsFilterEmpty]: "該分類下暫無技能",
 
 	// 時間線頁面
 	[Key.timeline]: "時間線",
@@ -229,18 +220,12 @@ export const zh_TW: Translation = {
 	[Key.timelineProject]: "專案經歷",
 	[Key.timelineAchievement]: "成就榮譽",
 	[Key.timelinePresent]: "至今",
-	[Key.timelineLocation]: "地點",
-	[Key.timelineDescription]: "詳細描述",
 	[Key.timelineMonths]: "個月",
 	[Key.timelineYears]: "年",
 	[Key.timelineTotal]: "總計",
-	[Key.timelineProjects]: "專案數",
-	[Key.timelineExperience]: "工作經驗",
 	[Key.timelineCurrent]: "目前狀態",
-	[Key.timelineHistory]: "歷史記錄",
 	[Key.timelineAchievements]: "成就榮譽",
-	[Key.timelineStartDate]: "開始日期",
-	[Key.timelineDuration]: "持續時間",
+	[Key.timelineFilterEmpty]: "該分類下暫無時間線記錄",
 
 	// 回饋頁面 - 聯繫站長方式模組
 	[Key.contactMe]: "聯繫站長",
@@ -439,7 +424,8 @@ export const zh_TW: Translation = {
 
 	// 天氣組件
 	[Key.weather]: "天氣",
-	[Key.weatherNoApiKey]: "請在 src/config/user.ts 中添加 WeatherAPI 金鑰",
+	[Key.weatherNoApiKey]:
+		"請在 src/config/user/weather.ts 中添加 WeatherAPI 金鑰",
 	[Key.weatherLocationDisabled]: "因拒絕隱私協議，天氣定位服務已關閉",
 	[Key.weatherWaitingConsent]: "等待天氣定位授權...",
 	[Key.weatherDefaultLocationHint]:
@@ -492,7 +478,8 @@ export const zh_TW: Translation = {
 	// Twikoo 留言系統
 	[Key.twikooInitializing]: "正在初始化 Twikoo 留言系統...",
 	[Key.twikooNotConfigured]: "Twikoo 留言系統暫未配置",
-	[Key.twikooConfigHint]: "請在 src/config/user.ts 中配置 Twikoo 留言系統",
+	[Key.twikooConfigHint]:
+		"請在 src/config/user/comment.ts 中配置 Twikoo 留言系統",
 	[Key.twikooPrivacyRejected]: "因拒絕隱私协议，Twikoo 留言系統已關閉",
 
 	// 版本更新檢測

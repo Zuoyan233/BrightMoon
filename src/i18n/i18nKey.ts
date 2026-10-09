@@ -86,7 +86,6 @@ enum I18nKey {
 	diary = "diary",
 
 	// 番剧页面
-	animeTitle = "animeTitle",
 	animeSubtitle = "animeSubtitle",
 	animeStatusWatching = "animeStatusWatching",
 	animeStatusCompleted = "animeStatusCompleted",
@@ -102,6 +101,7 @@ enum I18nKey {
 	animeSetBangumiUserId = "animeSetBangumiUserId",
 	animeSetBilibiliVmId = "animeSetBilibiliVmId",
 	animeEmptyBilibili = "animeEmptyBilibili",
+	animeFilterEmpty = "animeFilterEmpty",
 
 	// 短文页面
 	diarySubtitle = "diarySubtitle",
@@ -208,7 +208,6 @@ enum I18nKey {
 	skillsDatabase = "skillsDatabase",
 	skillsTools = "skillsTools",
 	skillsOther = "skillsOther",
-	skillLevel = "skillLevel",
 	skillLevelBeginner = "skillLevelBeginner",
 	skillLevelIntermediate = "skillLevelIntermediate",
 	skillLevelAdvanced = "skillLevelAdvanced",
@@ -217,16 +216,8 @@ enum I18nKey {
 	skillYears = "skillYears",
 	skillMonths = "skillMonths",
 	skillsTotal = "skillsTotal",
-	skillsExpert = "skillsExpert",
-	skillsAdvanced = "skillsAdvanced",
-	skillsIntermediate = "skillsIntermediate",
-	skillsBeginner = "skillsBeginner",
 	skillsAdvancedTitle = "skillsAdvancedTitle",
-	skillsProjects = "skillsProjects",
-	skillsDistribution = "skillsDistribution",
-	skillsByLevel = "skillsByLevel",
-	skillsByCategory = "skillsByCategory",
-	noData = "noData",
+	skillsFilterEmpty = "skillsFilterEmpty",
 
 	// 时间线页面
 	timeline = "timeline",
@@ -236,18 +227,12 @@ enum I18nKey {
 	timelineProject = "timelineProject",
 	timelineAchievement = "timelineAchievement",
 	timelinePresent = "timelinePresent",
-	timelineLocation = "timelineLocation",
-	timelineDescription = "timelineDescription",
 	timelineMonths = "timelineMonths",
 	timelineYears = "timelineYears",
 	timelineTotal = "timelineTotal",
-	timelineProjects = "timelineProjects",
-	timelineExperience = "timelineExperience",
 	timelineCurrent = "timelineCurrent",
-	timelineHistory = "timelineHistory",
 	timelineAchievements = "timelineAchievements",
-	timelineStartDate = "timelineStartDate",
-	timelineDuration = "timelineDuration",
+	timelineFilterEmpty = "timelineFilterEmpty",
 
 	// 反馈页面 - 联系站长方式模块
 	contactMe = "contactMe",

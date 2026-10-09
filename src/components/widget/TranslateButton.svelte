@@ -21,13 +21,7 @@ const languages = [
 	{ code: "korean", name: "한국어", icon: "🇰🇷" },
 	{ code: "french", name: "Français", icon: "🇫🇷" },
 	{ code: "deutsch", name: "Deutsch", icon: "🇩🇪" },
-	{ code: "spanish", name: "Español", icon: "🇪🇸" },
 	{ code: "russian", name: "Русский", icon: "🇷🇺" },
-	{ code: "arabic", name: "العربية", icon: "🇸🇦" },
-	{ code: "vietnamese", name: "Việt Nam", icon: "🇻🇳" },
-	{ code: "thai", name: "ภาษาไทย", icon: "🇹🇭" },
-	{ code: "turkish", name: "Türkçe", icon: "🇹🇷" },
-	{ code: "indonesian", name: "Indonesia", icon: "🇮🇩" },
 ];
 
 // 根据配置文件的语言设置获取默认翻译语言

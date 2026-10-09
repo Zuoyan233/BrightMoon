@@ -1144,22 +1144,17 @@ let _upgradeConfigResolved = false;
 /**
  * 读取新架构下的配置源码（config/user/ 优先 + config/defaults/ 兜底）
  *
- * 用户的覆盖项优先于默认值。旧版本用户没有 user 文件时，
- * 自动回退读取 src/config.ts 中的字面量配置。
+ * 用户的覆盖项优先于默认值。
  *
- * @returns {{defaultsSrc: string, userSrc: string, legacySrc: string}}
+ * @returns {{defaultsSrc: string, userSrc: string}}
  */
 
 function readConfigSources() {
-	// 新架构路径：src/config/defaults/ + src/config/user/ 目录
-	// 旧架构路径（兼容）：src/config.ts 单文件
 	const defaultsDir = path.join(ROOT, "src/config/defaults");
 	const userDir = path.join(ROOT, "src/config/user");
-	const legacyPath = path.join(ROOT, "src/config.ts");
 
 	let defaultsSrc = "";
 	let userSrc = "";
-	let legacySrc = "";
 
 	if (fs.existsSync(defaultsDir) && fs.statSync(defaultsDir).isDirectory()) {
 		try {
@@ -1185,20 +1180,8 @@ function readConfigSources() {
 			debugLog("readConfigSources:user", e);
 		}
 	}
-	// src/config.ts 在新架构下只是合并入口，不再含字面量配置；
-	// 仅当它不含 "./defaults" 导入时，才视为旧版字面量配置文件
-	if (fs.existsSync(legacyPath)) {
-		try {
-			const src = fs.readFileSync(legacyPath, "utf-8");
-			if (!/from\s+['"]\.\/config\/defaults['"]/.test(src)) {
-				legacySrc = src;
-			}
-		} catch (e) {
-			debugLog("readConfigSources:legacy", e);
-		}
-	}
 
-	return { defaultsSrc, userSrc, legacySrc };
+	return { defaultsSrc, userSrc };
 }
 
 /**
@@ -1245,9 +1228,8 @@ function extractStringArrayFromSources(srcs, key) {
  */
 function getUpgradeConfig() {
 	if (_upgradeConfigResolved) return _cachedUpgradeConfig;
-	const { defaultsSrc, userSrc, legacySrc } = readConfigSources();
-	// 用户覆盖优先：先扫 user，再扫 defaults，最后扫 legacy
-	const srcsByPriority = [userSrc, defaultsSrc, legacySrc];
+	const { defaultsSrc, userSrc } = readConfigSources();
+	const srcsByPriority = [userSrc, defaultsSrc];
 
 	const protectedList = extractStringArrayFromSources(
 		srcsByPriority,
@@ -1278,12 +1260,10 @@ function getUpgradeConfig() {
  * @returns {string}
  */
 function getApiUrlFromConfig() {
-	const { defaultsSrc, userSrc, legacySrc } = readConfigSources();
+	const { defaultsSrc, userSrc } = readConfigSources();
 	return (
-		extractStringValueFromSources(
-			[userSrc, defaultsSrc, legacySrc],
-			"apiUrl",
-		) || FALLBACK_API_URL
+		extractStringValueFromSources([userSrc, defaultsSrc], "apiUrl") ||
+		FALLBACK_API_URL
 	);
 }
 
@@ -1296,9 +1276,9 @@ let _prefixPatternResolved = false;
  */
 function getVersionPrefixPattern() {
 	if (_prefixPatternResolved) return _cachedPrefixPattern;
-	const { defaultsSrc, userSrc, legacySrc } = readConfigSources();
+	const { defaultsSrc, userSrc } = readConfigSources();
 	_cachedPrefixPattern = extractStringValueFromSources(
-		[userSrc, defaultsSrc, legacySrc],
+		[userSrc, defaultsSrc],
 		"versionPrefixPattern",
 	);
 	_prefixPatternResolved = true;
@@ -1587,7 +1567,7 @@ function getLocalVersion() {
 	}
 }
 
-/** 移除版本号前缀（如 CE_V、v、V） */
+/** 移除版本号前缀（如 v、V） */
 function stripVersionPrefix(tag) {
 	const pattern = getVersionPrefixPattern();
 	return pattern ? tag.replace(new RegExp(pattern, "i"), "") : tag;
@@ -2035,7 +2015,7 @@ async function backupProject(version, cachedLocalFiles) {
 	const backupDir = path.join(ROOT, "backup");
 	ensureDir(backupDir);
 
-	const zipName = `BrightMoon_Backup_CE_V${ver}.zip`;
+	const zipName = `BrightMoon_backup_v${ver}.zip`;
 	const zipPath = path.join(backupDir, zipName);
 	if (fs.existsSync(zipPath)) fs.unlinkSync(zipPath);
 
@@ -2390,7 +2370,7 @@ async function checkOnlineVersion() {
 
 	const selectedRelease = releases[0];
 
-	// 去掉版本号前缀（如 CE_V、v、V），避免重复
+	// 去掉版本号前缀（如 v、V），避免重复
 	selectedRelease.tag_name = stripVersionPrefix(selectedRelease.tag_name);
 	const localParsed = parseVersion(localVer || "");
 	const latestParsed = parseVersion(selectedRelease.tag_name);
@@ -2607,17 +2587,13 @@ async function main() {
 	}
 	isInstallingDeps = false;
 
-	// 检测配置文件架构版本（新架构：src/config/ 目录，旧架构：src/config.ts 单文件）
-	const configTsPath = path.join(ROOT, "src/config.ts");
 	const configIndexPath = path.join(ROOT, "src/config/index.ts");
 
 	const hasNewArch = fs.existsSync(configIndexPath);
-	const hasOldArch = fs.existsSync(configTsPath);
 
 	if (isRestoreBackup) {
 		log(I18n("configRestoreTip"), "info");
-	} else if (hasNewArch || hasOldArch) {
-		// 新架构已就位：src/config/{index,defaults,user}.ts
+	} else if (hasNewArch) {
 		log(
 			I18n(
 				backupName || hasExistingBackup()

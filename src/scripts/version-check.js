@@ -130,7 +130,7 @@ class VersionChecker {
 				html +=
 					"<h" +
 					lvl +
-					' class="text-[1rem] font-bold mt-3 mb-1 text-black/90 dark:text-white/90">' +
+					' class="text-[1rem] font-bold mt-3 mb-1 text-[#111827] dark:text-[#FFFFFF]">' +
 					this.inlineFormat(headingMatch[2]) +
 					"</h" +
 					lvl +
@@ -138,16 +138,19 @@ class VersionChecker {
 				i++;
 				continue;
 			}
-			if (/^[-*]\s/.test(line)) {
+			const listMatch = line.match(/^(\s*)[-*]\s/);
+			if (listMatch) {
+				const baseIndent = listMatch[1].length;
 				const items = [];
-				while (i < lines.length && /^[-*]\s/.test(lines[i])) {
-					items.push(lines[i].replace(/^[-*]\s+/, ""));
+				while (i < lines.length) {
+					const m = lines[i].match(/^(\s*)[-*]\s/);
+					if (!m) break;
+					const indent = m[1].length;
+					if (indent < baseIndent) break;
+					items.push({ text: lines[i].replace(/^\s*[-*]\s+/, ""), indent });
 					i++;
 				}
-				html +=
-					'<ul class="list-disc pl-5 my-1 text-[#374151] dark:text-[#D1D5DB]">' +
-					items.map((it) => `<li>${this.inlineFormat(it)}</li>`).join("") +
-					"</ul>";
+				html += this.buildNestedList(items, "ul");
 				continue;
 			}
 			if (/^\d+\.\s/.test(line)) {
@@ -157,7 +160,7 @@ class VersionChecker {
 					i++;
 				}
 				html +=
-					'<ol class="list-decimal pl-5 my-1 text-[#374151] dark:text-[#D1D5DB]">' +
+					'<ol class="list-decimal pl-5 my-1 text-[#374151] dark:text-[#D1D5DB] marker:text-[var(--primary)] dark:marker:text-[var(--primary)]">' +
 					items.map((it) => `<li>${this.inlineFormat(it)}</li>`).join("") +
 					"</ol>";
 				continue;
@@ -181,7 +184,7 @@ class VersionChecker {
 			if (paraLines.length > 0)
 				html +=
 					'<p class="my-1">' +
-					this.inlineFormat(paraLines.join("<br>")) +
+					paraLines.map((line) => this.inlineFormat(line)).join("<br>") +
 					"</p>";
 		}
 		return html;
@@ -194,23 +197,46 @@ class VersionChecker {
 			.replace(/>/g, "&gt;")
 			.replace(
 				/`([^`]+)`/g,
-				'<code class="text-[0.85em] bg-black/5 dark:bg-white/5 px-1.5 py-0.5 rounded text-[var(--primary)] font-mono">$1</code>',
+				'<code class="text-[0.85em] bg-[var(--inline-code-bg)] text-[var(--inline-code-color)] px-1 py-0.5 rounded-md font-mono">$1</code>',
 			)
 			.replace(
 				/\*\*(.+?)\*\*/g,
-				'<strong class="text-[#111827] dark:text-white/100">$1</strong>',
+				'<strong class="text-[#111827] dark:text-[#FFFFFF]">$1</strong>',
 			)
 			.replace(
 				/__(.+?)__/g,
-				'<strong class="text-[#111827] dark:text-white/100">$1</strong>',
+				'<strong class="text-[#111827] dark:text-[#FFFFFF]">$1</strong>',
 			)
 			.replace(/(?<!\*)\*([^*]+?)\*(?!\*)/g, "<em>$1</em>")
 			.replace(/(?<!_)_([^_]+?)_(?!_)/g, "<em>$1</em>")
 			.replace(/~~(.+?)~~/g, '<del class="opacity-50">$1</del>')
 			.replace(
 				/\[([^\]]+)\]\(([^)]+)\)/g,
-				'<a href="$2" target="_blank" rel="noopener noreferrer" class="text-[var(--primary)] hover:underline font-medium">$1</a>',
+				'<a href="$2" target="_blank" rel="noopener noreferrer" class="text-[var(--primary)] font-medium underline decoration-[var(--link-underline)] decoration-1 decoration-dashed underline-offset-4 hover:bg-[var(--btn-plain-bg-hover)] hover:decoration-transparent">$1</a>',
 			);
+	}
+
+	buildNestedList(items, tag) {
+		let html = `<${tag} class="list-disc pl-5 my-1 text-[#374151] dark:text-[#D1D5DB] marker:text-[var(--primary)] dark:marker:text-[var(--primary)]">`;
+		let idx = 0;
+		while (idx < items.length) {
+			const item = items[idx];
+			const nextItems = [];
+			let j = idx + 1;
+			while (j < items.length && items[j].indent > item.indent) {
+				nextItems.push(items[j]);
+				j++;
+			}
+			if (nextItems.length > 0) {
+				html += `<li>${this.inlineFormat(item.text)}${this.buildNestedList(nextItems, tag)}</li>`;
+				idx = j;
+			} else {
+				html += `<li>${this.inlineFormat(item.text)}</li>`;
+				idx++;
+			}
+		}
+		html += `</${tag}>`;
+		return html;
 	}
 
 	getDownloadUrl(r) {

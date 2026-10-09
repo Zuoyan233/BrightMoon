@@ -13,7 +13,7 @@ BrightMoon は、モダンなミニマリズムと優雅さを兼ね備えた、
 [![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-blue)](https://www.typescriptlang.org/)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?logo=apache)](https://opensource.org/licenses/Apache-2.0)
 
-💻 私のウェブサイトへようこそ：[こちらをクリック](https://www.zuoyanblogs.xyz/)
+💻 私のウェブサイトへようこそ：[こちらをクリック](https://www.zuoyanblog.dpdns.org/)
 
 🌐 README 言語：[简体中文](./README_zh_CN.md) &nbsp;|&nbsp; [繁體中文](./README_zh_Hant.md) &nbsp;|&nbsp; [English](./README.md)
 
@@ -41,7 +41,7 @@ BrightMoon は、モダンなミニマリズムと優雅さを兼ね備えた、
 
 ## 📌 バージョン説明
 
-本プロジェクトは Mizuki V8.2 をベースにカスタマイズ拡張開発されており、バージョン番号に BrightMoon Custom Edition（CE）のサフィックスを付与し、BrightMoon による軽度カスタマイズバージョンであることを示しています（現在流行のウェブサイトフレームワークを猛勉強中です。時間があるときに続けて取り組みます）。
+Mizuki のメンテナンスが停止されたため、BrightMoon は現在独立したプロジェクトとして継続してメンテナンスされており、Custom Edition（CE）のサフィックスは使用されていません。
 
 ---
 
@@ -120,7 +120,7 @@ BrightMoon は、モダンなミニマリズムと優雅さを兼ね備えた、
 - **SEO 最適化** - サイトマップとメタタグを含む。
 - **パフォーマンス最適化** - 遅延読み込みとキャッシュメカニズム。
 - **コメントシステム** - 最新版 Twikoo コメントシステムを統合、多次元設定に対応。
-- **翻訳コンポーネント** - ローカル i18n 言語ライブラリ + translate.js を採用しミリ秒単位の翻訳を実現、14ヶ国のサイト言語テキストを内蔵。
+- **翻訳コンポーネント** - ローカル i18n 言語ライブラリ + translate.js を採用しミリ秒単位の翻訳を実現、8ヶ国のサイト言語テキストを内蔵。
 - **天気ウィジェット** - WeatherAPI サービスを採用。7日間天気予報、IPベースの自動位置特定、手動での都市検索に対応。
 - **Cookie 同意** - Cookie プライバシーポリシー確認バナー。同意/拒否に対応し、拒否時は不要なCookieを自動削除。
 - **サイト統計** - 現在の日付（複数地域フォーマット対応）、季節、時間帯をリアルタイム表示。

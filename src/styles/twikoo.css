@@ -233,22 +233,33 @@ html:root:root .twikoo .tk-comments-search > .tk-input {
 		color: #374151; /* neutral-700 */
 		border-color: var(--line-divider);
 
-		html.dark & {
-			color: #d1d5db; /* neutral-300 */
-		}
-
 		&::placeholder {
 			@apply text-[#9ca3af]; /* neutral-400 */
-		}
-
-		html.dark &::placeholder {
-			@apply text-[#6b7280]; /* neutral-500 */
 		}
 
 		&:focus {
 			border-color: var(--primary) !important;
 		}
 	}
+}
+
+/* 深色模式搜索输入框 */
+html.dark:root:root .twikoo .tk-comments-search > .el-input .el-input__inner,
+html.dark:root:root .twikoo .tk-comments-search > .tk-input .tk-input__inner {
+	color: #d1d5db; /* neutral-300 */
+}
+
+html.dark:root:root
+	.twikoo
+	.tk-comments-search
+	> .el-input
+	.el-input__inner::placeholder,
+html.dark:root:root
+	.twikoo
+	.tk-comments-search
+	> .tk-input
+	.tk-input__inner::placeholder {
+	color: #6b7280; /* neutral-500 */
 }
 
 /* 搜索按钮 */

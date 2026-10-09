@@ -46,21 +46,7 @@ export type SiteConfig = {
 		| 11
 		| 12;
 
-	lang: // 站点语言
-		| "en"
-		| "zh_CN"
-		| "zh_TW"
-		| "ja"
-		| "ko"
-		| "es"
-		| "th"
-		| "vi"
-		| "tr"
-		| "id"
-		| "ar"
-		| "de"
-		| "fr"
-		| "ru";
+	lang: "en" | "zh_CN" | "zh_TW" | "ja" | "ko" | "de" | "fr" | "ru"; // 站点语言
 
 	appearance: {
 		hue: number; // 主题色色相值

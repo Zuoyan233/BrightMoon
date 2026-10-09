@@ -16,7 +16,7 @@ In Chinese culture, the "Bright Moon" symbolizes clarity, fulfillment, and const
 
 ### 🔧 Component Configuration System Refactor
 
-- **Configuration Architecture:** Split into three layers: `src/config/defaults.ts` (upstream defaults, auto-updated on upgrade), `src/config/user.ts` (user configuration, protected on upgrade), and `src/config/index.ts` (merge entry). Edit only `src/config/user.ts`.
+- **Configuration Architecture:** Split into three layers: `src/config/defaults/` (upstream defaults directory, auto-updated on upgrade), `src/config/user/` (user configuration directory, protected on upgrade), and `src/config/index.ts` (merge entry). Each config module has its own file (e.g. `site.ts`, `navbar.ts`, `profile.ts`). Edit only files under `src/config/user/`.
 - **Responsive Layout Adaptation:** Components support responsive layouts that automatically adjust based on device type.
 
 ### 📐 Layout System Optimization
@@ -77,6 +77,7 @@ In Chinese culture, the "Bright Moon" symbolizes clarity, fulfillment, and const
 - **Projects Page** - Development project portfolio.
 - **Skills Page** - Technical skills and expertise.
 - **Timeline Page** - Growth journey and key milestones.
+- **Music Player** - Integrated music player with playlist support, playback controls, and visual effects; automatically embeds cover art when downloading music (supports MP3 and M4A formats).
 
 ### 🛠 Technical Features
 
@@ -86,10 +87,11 @@ In Chinese culture, the "Bright Moon" symbolizes clarity, fulfillment, and const
 - **SEO Optimization** - Includes sitemaps and meta tags.
 - **Performance Optimization** - Lazy loading and caching mechanisms.
 - **Comment System** - Integrated with the latest Twikoo comment system, supporting multi-dimensional configuration.
-- **Translation Component** - Local i18n library + translate.js for millisecond-speed translations, with built-in language support for fourteen countries.
+- **Translation Component** - Local i18n library + translate.js for millisecond-speed translations, with built-in language support for eight countries.
 - **Weather Widget** - Powered by WeatherAPI, supporting 7-day forecasts, IP-based auto-location, and manual city search.
 - **Cookie Consent** - Cookie privacy policy banner with accept/deny support; auto-clears non-essential cookies on denial.
 - **Site Statistics** - Real-time display of current date (with multi-region format support), season, and time period.
+- **Image Volume Compression** - Automatically compress images, and convert them to WebP or AVIF format, reducing load times and enhancing user experience.
 - **Framework Update Checker** - Automatically detects new BrightMoon releases via remote repository API, supports stable and pre-release detection, with prompt dialogs for updates.
 - **Framework Upgrade Tool** - Supports both online and local upgrades, with automatic backup creation and rollback prevention before updating, and automatic dependency installation and temporary file cleanup after upgrading; supports manual backup creation and project restoration from backups.
 

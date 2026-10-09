@@ -1,44 +1,24 @@
-// Project data configuration file
-// Used to manage data for the project display page
+// 项目数据配置文件
+// 用于管理项目展示页面的数据
 
 export interface Project {
-	id: string;
-	title: string;
-	description: string;
-	image: string;
-	category: "web" | "mobile" | "desktop" | "other";
-	techStack: string[];
-	status: "completed" | "in-progress" | "planned";
-	liveDemo?: string;
-	sourceCode?: string;
-	startDate: string;
-	endDate?: string;
-	featured?: boolean;
-	tags?: string[];
-	visitUrl?: string; // 添加前往项目链接字段
+	id: string; // 项目唯一标识
+	title: string; // 项目名称
+	description: string; // 项目描述
+	image: string; // 项目封面图路径
+	category: "web" | "mobile" | "desktop" | "other"; // 项目分类
+	techStack: string[]; // 技术栈列表
+	status: "completed" | "in-progress" | "planned"; // 项目状态：已完成 / 进行中 / 计划中
+	liveDemo?: string; // 在线演示地址
+	sourceCode?: string; // 源码仓库地址
+	startDate: string; // 项目开始日期
+	endDate?: string; // 项目结束日期
+	featured?: boolean; // 是否为精选项目
+	tags?: string[]; // 项目标签
+	visitUrl?: string; // 项目访问链接
 }
 
-export const projectsData: Project[] = [
-	{
-		id: "BrightMoon",
-		title: "BrightMoon",
-		description:
-			"Modern static blog theme with distinctive anime-style features. Powered by Astro framework.",
-		image: "",
-		category: "web",
-		techStack: ["Astro", "TypeScript", "Tailwind CSS", "MongoDB", "Svelte"],
-		status: "completed",
-		liveDemo: "https://www.zuoyanblogs.xyz/",
-		sourceCode: "https://github.com/Zuoyan233", // 更改为GitHub链接
-		visitUrl: "https://github.com/Zuoyan233/BrightMoon", // 添加前往项目链接
-		startDate: "2025-10-01",
-		endDate: "2025-12-06",
-		featured: true,
-		tags: ["Blog", "Theme", "Open Source"],
-	},
-];
-
-// Get project statistics
+// 获取项目统计数据
 export const getProjectStats = () => {
 	const total = projectsData.length;
 	const completed = projectsData.filter((p) => p.status === "completed").length;
@@ -57,7 +37,7 @@ export const getProjectStats = () => {
 	};
 };
 
-// Get projects by category
+// 根据分类获取项目
 export const getProjectsByCategory = (category?: string) => {
 	if (!category || category === "all") {
 		return projectsData;
@@ -65,12 +45,12 @@ export const getProjectsByCategory = (category?: string) => {
 	return projectsData.filter((p) => p.category === category);
 };
 
-// Get featured projects
+// 获取精选项目
 export const getFeaturedProjects = () => {
 	return projectsData.filter((p) => p.featured);
 };
 
-// Get all tech stacks
+// 获取所有技术栈
 export const getAllTechStack = () => {
 	const techSet = new Set<string>();
 	projectsData.forEach((project) => {
@@ -80,3 +60,24 @@ export const getAllTechStack = () => {
 	});
 	return Array.from(techSet).sort();
 };
+
+// 项目数据（此处填写内容）
+export const projectsData: Project[] = [
+	{
+		id: "BrightMoon", // 项目唯一标识
+		title: "BrightMoon", // 项目名称
+		description:
+			"Modern static blog theme with distinctive anime-style features. Powered by Astro framework.", // 项目描述
+		image: "", // 项目封面图路径
+		category: "web", // 项目分类
+		techStack: ["Astro", "TypeScript", "Tailwind CSS", "MongoDB", "Svelte"], // 技术栈列表
+		status: "completed", // 项目状态：已完成 / 进行中 / 计划中
+		liveDemo: "https://www.zuoyanblogs.xyz/", // 在线演示地址
+		sourceCode: "https://github.com/Zuoyan233", // 源码仓库地址
+		visitUrl: "https://github.com/Zuoyan233/BrightMoon", // 项目访问链接
+		startDate: "2025-10-01", // 项目开始日期
+		endDate: "2025-12-06", // 项目结束日期
+		featured: true, // 是否为精选项目
+		tags: ["Blog", "Theme", "Open Source"], // 项目标签
+	},
+];

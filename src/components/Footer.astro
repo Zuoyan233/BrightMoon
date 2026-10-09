@@ -70,11 +70,11 @@ for (const [lang, tr] of Object.entries(allTranslations)) {
     <div class="ignore">
 			Powered by
 			<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://astro.build">Astro</a> &
-			<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://github.com/Zuoyan233/BrightMoon">BrightMoon</a> CE V{currentVersion}
+			<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://github.com/Zuoyan233/BrightMoon">BrightMoon</a> v{currentVersion}
     </div>
 
     {versionCheckConfig.enable && (
-    <div class="ignore mt-3 version-check-widget">
+    <div class="mt-3 version-check-widget">
 			<button
 				class="version-check-btn gap-1 transition link text-[var(--primary)] font-medium inline-flex items-center"
 				title={versionCheckText}
@@ -97,7 +97,7 @@ for (const [lang, tr] of Object.entries(allTranslations)) {
 		>
 			<img class="mx-auto block h-auto" src="/assets/home/home.webp" width="200" height="69" alt="BrightMoon logo">
 			<div class="flex items-center justify-center">
-				<span class="ignore inline-flex items-center gap-1 text-base text-[var(--primary)] font-bold">BrightMoon CE V{currentVersion}</span>
+				<span class="ignore inline-flex items-center gap-1 text-base text-[var(--primary)] font-bold">BrightMoon v{currentVersion}</span>
 			</div>
 			<div class="flex flex-col gap-4">
 				<p class="m-0 text-sm text-center text-[var(--content-meta)]">{versionCheckFailedDesc}</p>
@@ -116,7 +116,7 @@ for (const [lang, tr] of Object.entries(allTranslations)) {
 			<div class="flex flex-col gap-4">
 				<img class="mx-auto block h-auto" src="/assets/home/home.webp" width="200" height="69" alt="BrightMoon logo">
 				<div class="flex items-center justify-center">
-					<span class="ignore inline-flex items-center gap-1 text-base text-[var(--primary)] font-bold">BrightMoon CE V{currentVersion}</span>
+					<span class="ignore inline-flex items-center gap-1 text-base text-[var(--primary)] font-bold">BrightMoon v{currentVersion}</span>
 				</div>
 				<p class="m-0 text-sm text-center text-[var(--content-meta)]">{versionCheckSuccessDesc}</p>
 			</div>
@@ -140,9 +140,9 @@ for (const [lang, tr] of Object.entries(allTranslations)) {
 					<span class="version-new-tag ignore inline-flex items-center px-1 rounded-md bg-[var(--primary)]/10 text-[var(--primary)] font-bold"></span>
 				</div>
 				<div class="version-pre-badge hidden text-center">
-					<span class="ignore inline-block text-sm px-2 py-1.5 rounded-xl bg-[var(--primary)] text-white/90 font-medium leading-none">{versionPreReleaseText}</span>
+					<span class="inline-block text-sm px-2 py-1.5 rounded-xl bg-[var(--primary)] text-white/90 font-medium leading-none">{versionPreReleaseText}</span>
 				</div>
-				<div class="version-new-dialog-body text-sm text-[var(--content-meta)] leading-relaxed max-h-48 overflow-y-auto rounded-xl bg-[var(--codeblock-bg)] border border-[var(--line-color)] py-3 px-4 break-words"></div>
+				<div class="version-new-dialog-body text-sm text-[#374151] dark:text-[#D1D5DB] leading-relaxed max-h-48 overflow-y-auto rounded-xl bg-[var(--codeblock-bg)] border border-[var(--line-color)] py-3 px-4 break-words"></div>
 			</div>
 			<div class="flex items-center justify-center gap-1.5 text-sm text-[var(--content-meta)] m-0">
 				<Icon name="material-symbols:error-outline" class="text-xl text-[var(--primary)]"></Icon>

@@ -1,37 +1,40 @@
 // 本地番剧数据配置
+// 用于管理本地存储的番剧数据
+
 export type AnimeItem = {
-	title: string;
-	status: "watching" | "completed" | "planned";
-	rating: number;
-	cover: string;
-	description: string;
-	episodes: string;
-	year: string;
-	genre: string[];
-	studio: string;
-	link: string;
-	progress: number;
-	totalEpisodes: number;
-	startDate: string;
-	endDate: string;
+	title: string; // 番剧标题
+	status: "watching" | "completed" | "planned"; // 观看状态：追番中 / 已看完 / 计划看
+	rating: number; // 个人评分（0-10）
+	cover: string; // 封面图片路径
+	description: string; // 番剧简介
+	episodes: string; // 集数信息
+	year: string; // 播出年份
+	genre: string[]; // 标签 / 类型
+	studio: string; // 制作公司
+	link: string; // 番剧页面链接
+	progress: number; // 当前观看进度
+	totalEpisodes: number; // 总集数
+	startDate: string; // 开始播出日期
+	endDate: string; // 完结日期
 };
 
+// 本地番剧数据（此处填写内容）
 const localAnimeList: AnimeItem[] = [
 	{
-		title: "Pokémon",
-		status: "completed",
-		rating: 10,
-		cover: "/assets/anime/Pokémon.webp",
-		description: '"I got a Pokémon!!"',
-		episodes: "271 episodes",
-		year: "1997",
-		genre: ["Hot-blooded ", "Battle", "Inspirational", "Children"],
-		studio: "OLM TEAM OTA",
-		link: "https://www.bilibili.com/bangumi/media/md5761",
-		progress: 271,
-		totalEpisodes: 271,
-		startDate: "1997-04",
-		endDate: "2001-09",
+		title: "Pokémon", // 番剧标题
+		status: "completed", // 观看状态：追番中 / 已看完 / 计划看
+		rating: 10, // 个人评分（0-10）
+		cover: "/assets/anime/Pokémon.webp", // 封面图片路径
+		description: '"I got a Pokémon!!"', // 番剧简介
+		episodes: "271 episodes", // 集数信息
+		year: "1997", // 播出年份
+		genre: ["Hot-blooded ", "Battle", "Inspirational", "Children"], // 标签 / 类型
+		studio: "OLM TEAM OTA", // 制作公司
+		link: "https://www.bilibili.com/bangumi/media/md5761", // 番剧页面链接
+		progress: 271, // 当前观看进度
+		totalEpisodes: 271, // 总集数
+		startDate: "1997-04", // 开始播出日期
+		endDate: "2001-09", // 完结日期
 	},
 	{
 		title: "Himouto! Umaru-chan",

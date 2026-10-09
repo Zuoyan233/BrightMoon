@@ -54,7 +54,7 @@ const brands = Object.keys(devices);
 
       <!-- 设备列表 -->
       <div id="devices-container" class="flex flex-col gap-6">
-        {devices[brands[0]].map((device, index) => (
+        {devices[brands[0]].slice(0, 8).map((device, index) => (
           <a
             href={device.link}
             target="_blank"
@@ -78,16 +78,16 @@ const brands = Object.keys(devices);
             <!-- 设备信息区域 -->
             <div class="p-4 sm:p-6 sm:pl-2 pt-4 relative z-10 flex flex-col justify-center flex-1 min-w-0">
               <div class="flex items-start justify-between mb-3">
-                <h3 class="ignore text-lg font-bold text-black/90 dark:text-white/90 group-hover:text-[var(--primary)] transition-colors duration-300">
+                <h2 class="ignore text-lg font-bold text-black/90 dark:text-white/90 group-hover:text-[var(--primary)] transition-colors duration-300">
                   {device.name}
-                </h3>
+                </h2>
                 <div class="p-1.5 rounded-full bg-[var(--primary)]/10 text-[var(--primary)] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <Icon name="material-symbols:open-in-new" class="text-lg" />
                 </div>
               </div>
 
               <div class="mb-4">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--btn-regular-bg)] text-black/70 dark:text-white/70 text-sm mb-3">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-[var(--btn-regular-bg)] text-[var(--btn-content)] dark:text-white/70 text-sm mb-3">
                   <Icon name="material-symbols:settings-suggest-outline" class="text-sm" />
                   <span class="font-medium">{device.specs}</span>
                 </div>
@@ -108,13 +108,205 @@ const brands = Object.keys(devices);
           </a>
         ))}
       </div>
+
     </div>
   </div>
 
-  <script is:inline define:vars={{ devices, viewDetailsText: i18n(I18nKey.devicesViewDetails) }}>
+  <!-- 分页控件 -->
+  <div id="pagination-container" class="mt-4 flex flex-row gap-3 justify-center flex-shrink-0">
+    <button id="prev-btn" aria-label="Previous Page" class="btn-card overflow-hidden rounded-lg text-[var(--primary)] w-11 h-11 disabled opacity-50 cursor-not-allowed" disabled>
+      <Icon name="material-symbols:chevron-left-rounded" class="text-[1.75rem]" />
+    </button>
+    <div id="page-numbers" class="bg-[var(--card-bg)] flex flex-row rounded-lg items-center text-neutral-700 dark:text-neutral-300 font-bold">
+      <div class="h-11 w-11 rounded-lg bg-[var(--primary)] flex items-center justify-center font-bold text-white dark:text-black/70">1</div>
+    </div>
+    <button id="next-btn" aria-label="Next Page" class="btn-card overflow-hidden rounded-lg text-[var(--primary)] w-11 h-11 disabled opacity-50 cursor-not-allowed" disabled>
+      <Icon name="material-symbols:chevron-right-rounded" class="text-[1.75rem]" />
+    </button>
+  </div>
+
+  <script is:inline define:vars={{ devices, viewDetailsText: i18n(I18nKey.devicesViewDetails), pageSize: 8 }}>
     const brandTabs = document.querySelectorAll('.filter-tag');
     const devicesContainer = document.getElementById('devices-container');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const pageNumbersContainer = document.getElementById('page-numbers');
 
+    let currentBrand = Object.keys(devices)[0];
+    let currentPage = 1;
+
+    // 翻页后定位内容区：全屏横幅模式下跳过 banner 定位到主内容（与 main-grid.js 全站约定一致）
+    function scrollToContentTop() {
+      const defaultWallpaperMode =
+        JSON.parse(
+          document.documentElement.dataset.mainGridConfig || '{}',
+        ).defaultWallpaperMode || 'banner';
+      const wallpaperMode =
+        localStorage.getItem('wallpaperMode') || defaultWallpaperMode;
+      if (window.innerWidth >= 1280 && wallpaperMode === 'fullscreen-banner') {
+        const mainPanel = document.querySelector(
+          '.absolute.w-full.z-30.pointer-events-none',
+        );
+        if (mainPanel) {
+          const targetY = Math.max(
+            0,
+            mainPanel.getBoundingClientRect().top + window.scrollY - 60,
+          );
+          window.scrollTo({ top: targetY, behavior: 'smooth' });
+          return;
+        }
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function getTotalPages(brand) {
+      const brandDevices = devices[brand] || [];
+      return Math.ceil(brandDevices.length / pageSize);
+    }
+
+    function renderDeviceCard(device, index) {
+      return `
+        <a
+          href="${device.link}"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="device-card group relative overflow-hidden rounded-xl border border-[var(--line-divider)] bg-[var(--card-bg)] transition-all duration-300 hover:border-[var(--primary)]/50 hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-white/5 hover:scale-[1.01] hover:-translate-y-0.5 flex flex-col sm:flex-row cursor-pointer"
+          style="animation-delay: ${index * 100}ms; animation: fadeInUp 0.6s cubic-bezier(0.25, 0.1, 0.25, 1) forwards; opacity: 0;"
+        >
+          <!-- 设备图片区域 -->
+          <div class="relative sm:w-56 sm:min-w-56 sm:flex-shrink-0 p-4 sm:p-6 sm:pb-6 pb-0">
+            <div class="flex justify-center items-center h-48 sm:h-full bg-gradient-to-br from-[var(--card-bg)] to-[var(--btn-regular-bg)] rounded-lg overflow-hidden relative">
+              <div class="absolute inset-0 bg-[var(--primary)]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <img
+                src="${device.image}"
+                alt="${device.name}"
+                class="w-auto h-full max-h-full object-contain group-hover:scale-110 transition-all duration-500 drop-shadow-md relative z-10"
+              />
+            </div>
+          </div>
+
+          <!-- 设备信息区域 -->
+          <div class="p-4 sm:p-6 sm:pl-2 pt-4 relative z-10 flex flex-col justify-center flex-1 min-w-0">
+            <div class="flex items-start justify-between mb-3">
+              <h2 class="ignore text-lg font-bold text-black/90 dark:text-white/90 group-hover:text-[var(--primary)] transition-colors duration-300">
+                ${device.name}
+              </h2>
+              <div class="p-1.5 rounded-full bg-[var(--primary)]/10 text-[var(--primary)] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-[var(--btn-regular-bg)] text-[var(--btn-content)] dark:text-white/70 text-sm mb-3">
+                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <span class="font-medium">${device.specs}</span>
+              </div>
+
+              <p class="text-sm text-black/60 dark:text-white/60 leading-relaxed line-clamp-2" title="${device.description}">
+                ${device.description}
+              </p>
+            </div>
+
+            <!-- 查看详情按钮 -->
+            <div class="flex items-center justify-between pt-3 border-t border-[var(--line-divider)] border-dashed transition-all duration-300">
+              <span class="text-sm font-medium text-[var(--primary)]">${viewDetailsText}</span>
+              <svg class="w-5 h-5 text-[var(--primary)]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </div>
+          </div>
+        </a>
+      `;
+    }
+
+    function renderDevices(brand, page) {
+      const brandDevices = devices[brand] || [];
+      const start = (page - 1) * pageSize;
+      const end = start + pageSize;
+      const pageDevices = brandDevices.slice(start, end);
+
+      devicesContainer.innerHTML = pageDevices.map((device, index) => renderDeviceCard(device, index)).join('');
+    }
+
+    function renderPagination(brand, page) {
+      const totalPages = getTotalPages(brand);
+
+      // 更新上一页按钮
+      if (page > 1) {
+        prevBtn.disabled = false;
+        prevBtn.classList.remove('disabled', 'opacity-50', 'cursor-not-allowed');
+      } else {
+        prevBtn.disabled = true;
+        prevBtn.classList.add('disabled', 'opacity-50', 'cursor-not-allowed');
+      }
+
+      // 更新下一页按钮
+      if (page < totalPages) {
+        nextBtn.disabled = false;
+        nextBtn.classList.remove('disabled', 'opacity-50', 'cursor-not-allowed');
+      } else {
+        nextBtn.disabled = true;
+        nextBtn.classList.add('disabled', 'opacity-50', 'cursor-not-allowed');
+      }
+
+      // 渲染页码
+      const HIDDEN = -1;
+      const ADJ_DIST = 2;
+      const VISIBLE = ADJ_DIST * 2 + 1;
+
+      let count = 1;
+      let l = page;
+      let r = page;
+      while (0 < l - 1 && r + 1 <= totalPages && count + 2 <= VISIBLE) {
+        count += 2;
+        l--;
+        r++;
+      }
+      while (0 < l - 1 && count < VISIBLE) {
+        count++;
+        l--;
+      }
+      while (r + 1 <= totalPages && count < VISIBLE) {
+        count++;
+        r++;
+      }
+
+      let pages = [];
+      if (l > 1) pages.push(1);
+      if (l === 3) pages.push(2);
+      if (l > 3) pages.push(HIDDEN);
+      for (let i = l; i <= r; i++) pages.push(i);
+      if (r < totalPages - 2) pages.push(HIDDEN);
+      if (r === totalPages - 2) pages.push(totalPages - 1);
+      if (r < totalPages) pages.push(totalPages);
+
+      pageNumbersContainer.innerHTML = pages.map(p => {
+        if (p === HIDDEN) {
+          return `<svg class="mx-1 w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>`;
+        }
+        if (p === page) {
+          return `<div class="h-11 w-11 rounded-lg bg-[var(--primary)] flex items-center justify-center font-bold text-white dark:text-black/70">${p}</div>`;
+        }
+        return `<button data-page="${p}" class="page-num-btn btn-card w-11 h-11 rounded-lg overflow-hidden active:scale-[0.85]">${p}</button>`;
+      }).join('');
+
+      // 绑定页码点击事件
+      document.querySelectorAll('.page-num-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          currentPage = parseInt(btn.dataset.page);
+          renderDevices(currentBrand, currentPage);
+          renderPagination(currentBrand, currentPage);
+          scrollToContentTop();
+        });
+      });
+    }
+
+    // 品牌标签点击事件
     brandTabs.forEach(tab => {
       tab.addEventListener('click', () => {
         const brand = tab.dataset.brand;
@@ -126,68 +318,36 @@ const brands = Object.keys(devices);
         // 激活当前点击的标签
         tab.classList.add('active');
 
-        const brandDevices = devices[brand] || [];
-        devicesContainer.innerHTML = brandDevices.map((device, index) => `
-          <a
-            href="${device.link}"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="device-card group relative overflow-hidden rounded-xl border border-[var(--line-divider)] bg-[var(--card-bg)] transition-all duration-300 hover:border-[var(--primary)]/50 hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-white/5 hover:scale-[1.01] hover:-translate-y-0.5 flex flex-col sm:flex-row cursor-pointer"
-            style="animation-delay: ${index * 100}ms; animation: fadeInUp 0.6s cubic-bezier(0.25, 0.1, 0.25, 1) forwards; opacity: 0;"
-          >
-            <!-- 设备图片区域 -->
-            <div class="relative sm:w-56 sm:min-w-56 sm:flex-shrink-0 p-4 sm:p-6 sm:pb-6 pb-0">
-              <div class="flex justify-center items-center h-48 sm:h-full bg-gradient-to-br from-[var(--card-bg)] to-[var(--btn-regular-bg)] rounded-lg overflow-hidden relative">
-                <div class="absolute inset-0 bg-[var(--primary)]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <img
-                  src="${device.image}"
-                  alt="${device.name}"
-                  class="w-auto h-full max-h-full object-contain group-hover:scale-110 transition-all duration-500 drop-shadow-md relative z-10"
-                />
-              </div>
-            </div>
-
-            <!-- 设备信息区域 -->
-            <div class="p-4 sm:p-6 sm:pl-2 pt-4 relative z-10 flex flex-col justify-center flex-1 min-w-0">
-              <div class="flex items-start justify-between mb-3">
-                <h3 class="ignore text-lg font-bold text-black/90 dark:text-white/90 group-hover:text-[var(--primary)] transition-colors duration-300">
-                  ${device.name}
-                </h3>
-                <div class="p-1.5 rounded-full bg-[var(--primary)]/10 text-[var(--primary)] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                  </svg>
-                </div>
-              </div>
-
-              <div class="mb-4">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--btn-regular-bg)] text-black/70 dark:text-white/70 text-sm mb-3">
-                  <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  <span class="font-medium">${device.specs}</span>
-                </div>
-
-                <p class="text-sm text-black/60 dark:text-white/60 leading-relaxed line-clamp-2" title=${device.description}>
-                  ${device.description}
-                </p>
-              </div>
-
-              <!-- 查看详情按钮 -->
-              <div class="flex items-center justify-between pt-3 border-t border-[var(--line-divider)] border-dashed transition-all duration-300">
-                <span class="text-sm font-medium text-[var(--primary)]">${viewDetailsText}</span>
-                <svg class="w-5 h-5 text-[var(--primary)]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </div>
-            </div>
-
-
-          </a>
-        `).join('');
+        currentBrand = brand;
+        currentPage = 1;
+        renderDevices(currentBrand, currentPage);
+        renderPagination(currentBrand, currentPage);
       });
     });
+
+    // 上一页按钮
+    prevBtn.addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage--;
+        renderDevices(currentBrand, currentPage);
+        renderPagination(currentBrand, currentPage);
+        scrollToContentTop();
+      }
+    });
+
+    // 下一页按钮
+    nextBtn.addEventListener('click', () => {
+      const totalPages = getTotalPages(currentBrand);
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderDevices(currentBrand, currentPage);
+        renderPagination(currentBrand, currentPage);
+        scrollToContentTop();
+      }
+    });
+
+    // 初始化分页
+    renderPagination(currentBrand, currentPage);
   </script>
 
   <style>

@@ -153,7 +153,7 @@ onMount(async () => {
                         <!-- tag list -->
                         <div
                                 class="hidden md:block md:w-[15%] text-left text-sm transition
-                     whitespace-nowrap overflow-ellipsis overflow-hidden text-30"
+                     whitespace-nowrap overflow-ellipsis overflow-hidden text-50"
                         >
                             {formatTag(post.data.tags)}
                         </div>
