@@ -43,6 +43,15 @@ export const en: Translation = {
 	[Key.friendsCopyLink]: "Copy Link",
 	[Key.friendsCopySuccess]: "Copied",
 	[Key.friendsTags]: "Tags",
+	[Key.friendsNoticeTitle]: "Notes",
+	[Key.friendsNoticeReciprocal]:
+		"Please add this site to your friends page first, and we will add yours after confirmation.",
+	[Key.friendsNoticeMaintenance]:
+		"Friend links that are inaccessible for a long time or contain illegal content will be removed.",
+	[Key.friendsNoticeContent]:
+		"Content must be positive and free of any illegal content such as pornography, reactionary, or violence.",
+	[Key.friendsNoticeHttps]:
+		"HTTPS support, original content, accessible and regularly updated.",
 	[Key.untitled]: "Untitled",
 	[Key.uncategorized]: "Uncategorized",
 	[Key.noTags]: "No Tags",
@@ -75,7 +84,6 @@ export const en: Translation = {
 	[Key.diary]: "Diary",
 
 	// Anime Page
-	[Key.animeTitle]: "My Anime List",
 	[Key.animeSubtitle]: "Record my anime journey",
 	[Key.animeStatusWatching]: "Watching",
 	[Key.animeStatusCompleted]: "Completed",
@@ -91,11 +99,12 @@ export const en: Translation = {
 	[Key.animeEmptyBilibili]:
 		"Bilibili data is empty. Please run `pnpm run update-bilibili` to get data",
 	[Key.animeSetBangumiUserId]:
-		"Please set your Bangumi userID in the src/config/user.ts file",
+		"Please set your Bangumi userID in the src/config/user/site.ts file",
 	[Key.animeSetBilibiliVmId]:
-		"Please set your Bilibili vmID in the src/config/user.ts file",
+		"Please set your Bilibili vmID in the src/config/user/site.ts file",
 	[Key.animeEmptyLocal]:
-		"Please add anime information in src/data/anime.ts file",
+		"Please add anime information in src/config/user/anime-data.ts file",
+	[Key.animeFilterEmpty]: "No anime found in this category",
 
 	// Diary Page
 	[Key.diarySubtitle]: "Share life, anytime, anywhere",
@@ -270,7 +279,6 @@ export const en: Translation = {
 	[Key.skillsDatabase]: "Database",
 	[Key.skillsTools]: "Development Tools",
 	[Key.skillsOther]: "Other Skills",
-	[Key.skillLevel]: "Proficiency",
 	[Key.skillLevelBeginner]: "Beginner",
 	[Key.skillLevelIntermediate]: "Intermediate",
 	[Key.skillLevelAdvanced]: "Advanced",
@@ -279,16 +287,8 @@ export const en: Translation = {
 	[Key.skillYears]: "years",
 	[Key.skillMonths]: "months",
 	[Key.skillsTotal]: "Total Skills",
-	[Key.skillsExpert]: "Expert Level",
-	[Key.skillsAdvanced]: "Advanced",
-	[Key.skillsIntermediate]: "Intermediate",
-	[Key.skillsBeginner]: "Beginner",
 	[Key.skillsAdvancedTitle]: "Professional Skills",
-	[Key.skillsProjects]: "Related Projects",
-	[Key.skillsDistribution]: "Skill Distribution",
-	[Key.skillsByLevel]: "By Level",
-	[Key.skillsByCategory]: "By Category",
-	[Key.noData]: "No data",
+	[Key.skillsFilterEmpty]: "No skills in this category",
 
 	// Timeline Page
 	[Key.timeline]: "Timeline",
@@ -298,18 +298,12 @@ export const en: Translation = {
 	[Key.timelineProject]: "Project Experience",
 	[Key.timelineAchievement]: "Achievements",
 	[Key.timelinePresent]: "Present",
-	[Key.timelineLocation]: "Location",
-	[Key.timelineDescription]: "Detailed Description",
 	[Key.timelineMonths]: "months",
 	[Key.timelineYears]: "years",
 	[Key.timelineTotal]: "Total",
-	[Key.timelineProjects]: "Projects",
-	[Key.timelineExperience]: "Work Experience",
 	[Key.timelineCurrent]: "Current Status",
-	[Key.timelineHistory]: "History",
 	[Key.timelineAchievements]: "Achievements",
-	[Key.timelineStartDate]: "Start Date",
-	[Key.timelineDuration]: "Duration",
+	[Key.timelineFilterEmpty]: "No timeline records in this category",
 
 	// Feedback Page - Contact the webmaster Module
 	[Key.contactMe]: "Contact the webmaster",
@@ -323,8 +317,6 @@ export const en: Translation = {
 		"If you find the website content helpful, please support my work through the following methods to help create better content. All sponsorships will be used for website maintenance, server costs, and content creation.",
 	[Key.sponsorsNotice2]:
 		"Thank you for supporting the BrightMoon blog project content development!",
-	[Key.wechatPay]: "WeChat",
-	[Key.aliPay]: "Alipay",
 	[Key.scanPayQRcode]: "Scan to Pay",
 	[Key.sponsorsPartner]: "Sponsors Partner",
 	[Key.otherSupportOptions]: "Other support methods",
@@ -456,7 +448,8 @@ export const en: Translation = {
 
 	// Weather Component
 	[Key.weather]: "Weather",
-	[Key.weatherNoApiKey]: "Please add WeatherAPI key in src/config/user.ts",
+	[Key.weatherNoApiKey]:
+		"Please add WeatherAPI key in src/config/user/weather.ts",
 	[Key.weatherLocationDisabled]:
 		"Weather location service has been disabled due to rejection of the privacy agreement",
 	[Key.weatherWaitingConsent]: "Waiting for weather location authorization...",
@@ -512,7 +505,7 @@ export const en: Translation = {
 	[Key.twikooInitializing]: "Initializing Twikoo comment system...",
 	[Key.twikooNotConfigured]: "Twikoo comment system is not yet configured",
 	[Key.twikooConfigHint]:
-		"Please configure the Twikoo comment system in src/config/user.ts",
+		"Please configure the Twikoo comment system in src/config/user/comment.ts",
 	[Key.twikooPrivacyRejected]:
 		"Twikoo comment system has been disabled due to rejection of the privacy agreement",
 

@@ -1,9 +1,13 @@
+/**
+ * Remark 插件 - 提取文章摘要、计算阅读时间和字数（支持 CJK）
+ */
+
 import getReadingTime from "reading-time";
 import { visit } from "unist-util-visit";
 
 export function remarkContent() {
 	return (tree, { data }) => {
-		// --- 安全性检查：确保 data.astro 存在 ---
+		// 安全性检查：确保 data.astro 存在
 		if (!data.astro) {
 			data.astro = {};
 		}
@@ -14,11 +18,11 @@ export function remarkContent() {
 		let fullText = ""; // 用于计算字数（包含全文）
 		let excerpt = ""; // 用于存放摘要
 
-		// 定义“手动摘要”的分隔符正则 (支持 或 ，忽略大小写)
+		// 手动摘要分隔符正则（支持 <!-- more -->，忽略大小写）
 		const moreTagRegex = /<!--\s*more\s*-->/i;
 		let moreTagIndex = -1;
 
-		// --- 遍历 AST 查找手动摘要分隔符 ---
+		// 遍历 AST 查找手动摘要分隔符
 		if (tree.children && Array.isArray(tree.children)) {
 			moreTagIndex = tree.children.findIndex(
 				(node) =>
@@ -26,7 +30,7 @@ export function remarkContent() {
 			);
 		}
 
-		// --- 计算摘要 (Excerpt) ---
+		// 计算摘要（Excerpt）
 		if (moreTagIndex !== -1) {
 			// 提取它之前的所有内容
 			const excerptNodes = tree.children.slice(0, moreTagIndex);
@@ -47,7 +51,7 @@ export function remarkContent() {
 			}
 		}
 
-		// --- 计算阅读时间 (Reading Time) ---
+		// 计算阅读时间（Reading Time）
 		visit(tree, (node) => {
 			// 跳过代码块，不计入字数
 			if (node.type === "code" || node.type === "inlineCode") return "skip";
@@ -74,7 +78,7 @@ export function remarkContent() {
 		// 估算时间：英文 200词/分，中文 400字/分
 		const minutes = nonCjkStats.words / 200 + cjkCount / 400;
 
-		// --- 注入数据到 Frontmatter ---
+		// 注入数据到 Frontmatter
 		data.astro.frontmatter.excerpt = excerpt;
 		data.astro.frontmatter.minutes = Math.max(1, Math.round(minutes));
 		data.astro.frontmatter.words = totalWords;

@@ -18,6 +18,7 @@ interface Props {
 const { entry, style } = Astro.props;
 const className = Astro.props.class;
 
+// 解构文章元数据
 const {
 	title,
 	published,
@@ -31,15 +32,20 @@ const {
 	password,
 } = entry.data;
 
+// 文章是否加密：需要同时设置 encrypted 标志和 password
 const isEncrypted = encrypted && password;
 
+// 生成文章 URL、判断是否有封面图
 const url = getPostUrl(entry);
 const hasCover = image !== undefined && image !== null && image !== "";
+// 封面宽度占比（桌面端）
 const coverWidth = "28%";
 
+// 渲染文章以获取 remark 插件提取的 frontmatter（字数、摘要等）
 const { remarkPluginFrontmatter } = await render(entry);
 ---
 
+<!-- 文章卡片：包含标题、元数据、摘要、标签，以及可选的封面图或进入按钮 -->
 <div
 	class:list={[
 		"card-base flex flex-col-reverse md:flex-col w-full rounded-[var(--radius-large)] overflow-hidden relative",
@@ -47,6 +53,7 @@ const { remarkPluginFrontmatter } = await render(entry);
 	]}
 	style={style}
 >
+	<!-- 文字内容区域：根据是否有封面图动态调整宽度 -->
 	<div
 		class:list={[
 			"pl-6 md:pl-9 pr-6 md:pr-2 pt-6 md:pt-7 pb-6 relative",
@@ -57,6 +64,7 @@ const { remarkPluginFrontmatter } = await render(entry);
 			},
 		]}
 	>
+		<!-- 文章标题链接：含置顶图标、加密图标、hover 箭头 -->
 		<a
 			href={url}
 			class="transition group w-full block font-bold mb-3 text-3xl text-90
@@ -64,32 +72,36 @@ const { remarkPluginFrontmatter } = await render(entry);
         active:text-[var(--title-active)] dark:active:text-[var(--title-active)]
         before:w-1 before:h-5 before:rounded-md before:bg-[var(--primary)]
         before:absolute
-        before:top-[2.1875rem] before:left-[1.125rem] before:hidden md:before:block"
+        before:top-[2.35rem] before:left-[1.125rem] before:hidden md:before:block"
 		>
+			<!-- 置顶图标 -->
 			{
 				pinned && (
 					<Icon
-						name="mdi:pin"
+						name="material-symbols:push-pin"
 						is:inline
-						class="inline text-[var(--primary)] text-2xl mr-2 -translate-y-0.5"
+						class="inline text-[var(--btn-content)] text-2xl mr-2 -translate-y-0.5"
 					/>
 				)
 			}
+			<!-- 加密图标 -->
 			{
 				isEncrypted && (
 					<Icon
 						name="material-symbols:lock-outline"
 						is:inline
-						class="inline text-[var(--primary)] text-2xl mr-2 -translate-y-0.5"
+						class="inline text-[var(--btn-content)] text-2xl mr-2 -translate-y-0.5"
 					/>
 				)
 			}
 			{title}
+			<!-- 移动端：始终显示的右箭头 -->
 			<Icon
 				is:inline
-				class="inline text-[2rem] text-[var(--primary)] md:hidden translate-y-0.5 absolute"
+				class="inline text-[2rem] text-[var(--btn-content)] md:hidden translate-y-0.5 absolute"
 				name="material-symbols:chevron-right-rounded"
 			/>
+			<!-- 桌面端：hover 时淡入的右箭头 -->
 			<Icon
 				is:inline
 				class="text-[var(--primary)] text-[2rem] transition hidden md:inline absolute translate-y-0.5 opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0"
@@ -97,6 +109,7 @@ const { remarkPluginFrontmatter } = await render(entry);
 			/>
 		</a>
 
+		<!-- 文章元数据：发布日期、分类、字数等 -->
 		<PostMetadata
 			published={published}
 			updated={updated}
@@ -110,6 +123,7 @@ const { remarkPluginFrontmatter } = await render(entry);
 			showWordCount={true}
 		/>
 
+		<!-- 文章摘要：优先使用 description，否则使用自动提取的 excerpt -->
 		<div
 			class:list={[
 				"transition text-75 mb-3.5 pr-4",
@@ -119,15 +133,16 @@ const { remarkPluginFrontmatter } = await render(entry);
 			{description || remarkPluginFrontmatter.excerpt}
 		</div>
 
+		<!-- 标签列表：根据 tagStyle 配置使用新样式或按钮样式 -->
 		<div class="flex flex-wrap gap-2 mt-2">
 			{
 				tags && tags.length > 0 ? (
-					tags.map((tag) => (
+					tags.map((tag: string) => (
 						<a
 							href={getTagUrl(tag)}
 							class:list={[
 								siteConfig.tagStyle?.useNewStyle
-									? "link-lg transition text-50 text-xs font-medium px-2 py-1 rounded-lg hover:text-[var(--primary)] dark:hover:text-[var(--primary)] active:text-[var(--primary)] dark:active:text-[var(--primary)] group/tag whitespace-nowrap"
+									? "link-lg transition text-60 text-xs font-medium px-2 py-1 rounded-lg hover:text-[var(--primary)] dark:hover:text-[var(--primary)] active:text-[var(--primary)] dark:active:text-[var(--primary)] group/tag whitespace-nowrap"
 									: "btn-regular h-6 text-xs px-2 rounded-lg",
 							]}
 							aria-label={`View all posts tagged with ${tag.trim()}`}
@@ -138,12 +153,13 @@ const { remarkPluginFrontmatter } = await render(entry);
 						</a>
 					))
 				) : (
-					<span class="text-xs text-50">{i18n(I18nKey.noTags)}</span>
+					<span class="text-xs text-60">{i18n(I18nKey.noTags)}</span>
 				)
 			}
 		</div>
 	</div>
 
+	<!-- 封面图区域：桌面端绝对定位在右侧，hover 时显示遮罩和箭头 -->
 	{
 		hasCover && (
 			<a
@@ -173,6 +189,7 @@ const { remarkPluginFrontmatter } = await render(entry);
 		)
 	}
 
+	<!-- 无封面图时：桌面端显示一个进入按钮替代封面 -->
 	{
 		!hasCover && (
 			<a
@@ -186,12 +203,13 @@ const { remarkPluginFrontmatter } = await render(entry);
 				<Icon
 					name="material-symbols:chevron-right-rounded"
 					is:inline
-					class="transition text-[var(--primary)] text-4xl mx-auto"
+					class="transition text-[var(--btn-content)] text-4xl mx-auto"
 				/>
 			</a>
 		)
 	}
 </div>
+<!-- 移动端卡片分隔线 -->
 <div
 	class="transition border-t-[1px] border-dashed mx-6 border-black/10 dark:border-white/[0.15] last:border-t-0 md:hidden"
 >

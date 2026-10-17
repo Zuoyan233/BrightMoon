@@ -35,21 +35,17 @@ const uid = Math.random().toString(36).slice(2, 10);
     >
         <div class="flex-1 min-w-0">
             <div
-                class="flex items-center gap-2 text-xl font-bold text-[var(--primary)] mb-2"
+                class="flex items-center gap-2 text-xl font-bold text-[var(--btn-content)] dark:text-[var(--primary)] mb-2"
             >
                 <Icon
                     name="material-symbols:cookie-outline"
-                    class="text-[var(--primary)] shrink-0 w-5 h-5"
+                    class="shrink-0 w-5 h-5"
                 />
                 <span>{title}</span>
             </div>
-            <div
-                class="text-sm leading-relaxed text-neutral-700 dark:text-white/80"
-            >
+            <div class="text-sm leading-relaxed text-90">
                 <p class="mb-1.5">{description}</p>
-                <p
-                    class="ignore text-xs text-neutral-500 dark:text-neutral-400 opacity-[0.85]"
-                >
+                <p class="ignore text-xs text-75 opacity-[0.85]">
                     {ipInfoLoading}
                 </p>
             </div>
@@ -58,12 +54,12 @@ const uid = Math.random().toString(36).slice(2, 10);
             class="flex flex-col gap-2 shrink-0 min-w-[120px] max-md:flex-row max-md:flex-wrap max-md:w-full"
         >
             <button
-                class="px-4 py-2 rounded-md text-base font-medium cursor-pointer border-none transition-all duration-200 whitespace-nowrap max-md:flex-1 max-md:min-w-[100px] bg-[oklch(0.7_0.12_var(--hue))] text-white hover:bg-[oklch(0.95_0.025_var(--hue))] dark:hover:bg-[oklch(0.33_0.035_var(--hue))] hover:text-[var(--primary)]"
+                class="px-4 py-2 rounded-md text-base font-medium cursor-pointer border-none transition-all duration-300 whitespace-nowrap max-md:flex-1 max-md:min-w-[100px] bg-[var(--btn-content)] dark:bg-[oklch(0.45_0.12_var(--hue))] text-white/90 hover:bg-[var(--btn-regular-bg)] dark:hover:bg-[var(--btn-regular-bg)] hover:text-[var(--primary)]"
             >
                 {acceptText}
             </button>
             <button
-                class="px-4 py-2 rounded-md text-base font-medium cursor-pointer transition-all duration-200 whitespace-nowrap max-md:flex-1 max-md:min-w-[100px] bg-black/[0.12] dark:bg-white/[0.15] text-neutral-700 dark:text-white hover:text-[var(--primary)] dark:hover:text-[var(--primary)] border-none hover:bg-[oklch(0.95_0.025_var(--hue))] dark:hover:bg-[oklch(0.33_0.035_var(--hue))]"
+                class="px-4 py-2 rounded-md text-base font-medium cursor-pointer border-none transition-all duration-300 whitespace-nowrap max-md:flex-1 max-md:min-w-[100px] bg-black/[0.12] dark:bg-white/[0.15] text-90 hover:bg-[var(--btn-regular-bg)] dark:hover:bg-[var(--btn-regular-bg)] hover:text-[var(--primary)]"
             >
                 {rejectText}
             </button>
@@ -100,6 +96,7 @@ const uid = Math.random().toString(36).slice(2, 10);
         var rejectBtn = buttons[1];
         var ipEl = bar.querySelector('p[class*="opacity"]');
 
+        // 显示协议弹窗
         function showBar() {
             if (overlay) {
                 overlay.style.opacity = "";
@@ -110,6 +107,7 @@ const uid = Math.random().toString(36).slice(2, 10);
             bar.style.pointerEvents = "";
         }
 
+        // 隐藏协议弹窗
         function hideBar() {
             if (overlay) {
                 overlay.style.opacity = "0";
@@ -124,6 +122,7 @@ const uid = Math.random().toString(36).slice(2, 10);
             }, 400);
         }
 
+        // 清除非必要 cookies
         function clearNonEssentialCookies() {
             var essential = [cKey];
             document.cookie.split(";").forEach(function (c) {
@@ -139,6 +138,7 @@ const uid = Math.random().toString(36).slice(2, 10);
             });
         }
 
+        // 清除天气缓存
         function clearWeatherCache() {
             try {
                 localStorage.removeItem("brightmoon_weather_cache");
@@ -146,6 +146,7 @@ const uid = Math.random().toString(36).slice(2, 10);
             } catch (e) {}
         }
 
+        // 同意协议
         acceptBtn.addEventListener("click", function () {
             localStorage.setItem(cKey, "accepted");
             window.__siteNoticeConsent = "accepted";
@@ -157,6 +158,7 @@ const uid = Math.random().toString(36).slice(2, 10);
             hideBar();
         });
 
+        // 拒绝协议
         rejectBtn.addEventListener("click", function () {
             localStorage.setItem(cKey, "rejected");
             window.__siteNoticeConsent = "rejected";
@@ -178,6 +180,8 @@ const uid = Math.random().toString(36).slice(2, 10);
                 return "";
             }
         }
+
+        // 解码 API URL
         function dcd(arr) {
             var r = "";
             for (var i = 0; i < arr.length; i++) r += atob_safe(arr[i]);

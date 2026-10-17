@@ -115,13 +115,13 @@ export const defaultSiteConfig: SiteConfig = {
 		mode: "local", // 番剧页面模式："bangumi" 使用Bangumi API，"local" 使用本地配置，"bilibili" 使用Bilibili API
 		// Bangumi 配置
 		bangumi: {
-			userId: "your-bangumi-id", // 在此处设置你的Bangumi用户ID，可以设置为 "sai" 测试
+			userId: "your-bangumi-id", // 在此处设置你的 Bangumi 用户 ID，可以设置为 "sai" 测试，输入 pnpm run update-bangumi 获取番剧数据
 			fetchOnDev: false, // 是否在开发环境下获取 Bangumi 数据（默认 false），获取前先执行 pnpm build 构建 json 文件
 		},
 		// Bilibili 配置
 		bilibili: {
-			// 第一次配置请把vmid和anime mode模式正确设置好，然后输入pnpm run update-bilibili获取番剧数据
-			vmId: "your-bilibili-id", // 在此处设置你的Bilibili用户ID (vmid)，例如 "352580971"
+			// 第一次配置请把 vmid 和 anime mode 模式正确设置好，输入 pnpm run update-bilibili 获取番剧数据
+			vmId: "your-bilibili-id", // 在此处设置你的 Bilibili 用户ID (vmid)，例如 "352580971"
 			fetchOnDev: false, // 是否在开发环境下获取 Bilibili 数据（默认 false）
 			SESSDATA: "", // Bilibili SESSDATA（可选，用于获取观看进度，从浏览器cookie中获取）
 			coverMirror: "", // 封面图片镜像源（可选，如果需要使用镜像源，例如 "https://images.weserv.nl/?url="）

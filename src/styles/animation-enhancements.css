@@ -1,14 +1,14 @@
 /*
- * Animation enhancement styles
+ * 动画增强样式
  */
 
-/* Page Transition State Classes */
+/* 页面过渡状态类 */
 html.is-leaving .transition-leaving {
 	transform: translateY(-1rem);
 	opacity: 0;
 }
 
-/* Leave Animation Class (used by AnimationManager) */
+/* 页面过渡动画类 - 离开 */
 .animate-leave.animate-leave {
 	transform: translateY(-1rem);
 	opacity: 0;
@@ -17,8 +17,7 @@ html.is-leaving .transition-leaving {
 		opacity 400ms cubic-bezier(0.4, 0, 0.6, 1);
 }
 
-/* Enhanced Component Animations */
-/* Enhanced fade-in with scale */
+/* 页面过渡动画类 - 淡入 */
 .enhanced-fade-in {
 	opacity: 0;
 	transform: translateY(1.5rem) scale(0.98);
@@ -27,12 +26,13 @@ html.is-leaving .transition-leaving {
 		transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* 页面过渡动画类 - 淡入激活 */
 .enhanced-fade-in.animate {
 	opacity: 1;
 	transform: translateY(0) scale(1);
 }
 
-/* Sidebar animation */
+/* 页面过渡动画类 - 侧边栏淡入 */
 .sidebar-animate {
 	opacity: 0;
 	transform: translateX(-2rem);
@@ -46,7 +46,7 @@ html.is-leaving .transition-leaving {
 	transform: translateX(0);
 }
 
-/* Card animation */
+/* 页面过渡动画类 - 卡片淡入 */
 .card-animate {
 	opacity: 0;
 	transform: translateY(2rem) scale(0.95);
@@ -60,7 +60,7 @@ html.is-leaving .transition-leaving {
 	transform: translateY(0) scale(1);
 }
 
-/* Post content animation */
+/* 页面过渡动画类 - 文章内容淡入 */
 .post-content-animate {
 	opacity: 0;
 	transform: translateY(1rem);
@@ -74,7 +74,7 @@ html.is-leaving .transition-leaving {
 	transform: translateY(0);
 }
 
-/* Navbar animation */
+/* 页面过渡动画类 - 导航栏淡入 */
 .navbar-animate {
 	opacity: 0;
 	transform: translateY(-1rem);
@@ -88,7 +88,7 @@ html.is-leaving .transition-leaving {
 	transform: translateY(0);
 }
 
-/* Footer animation */
+/* 页面过渡动画类 - 页脚淡入 */
 .footer-animate {
 	opacity: 0;
 	transform: translateY(1rem);
@@ -102,8 +102,7 @@ html.is-leaving .transition-leaving {
 	transform: translateY(0);
 }
 
-/* Interactive Element Animations */
-/* Button hover enhancement */
+/* 页面过渡动画类 - 按钮悬停增强动画 */
 .button-enhance {
 	transition:
 		transform 200ms cubic-bezier(0.4, 0, 0.2, 1),
@@ -120,7 +119,7 @@ html.is-leaving .transition-leaving {
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Link underline animation */
+/* 页面过渡动画类 - 链接下划线增强动画 */
 .link-enhance {
 	position: relative;
 	transition: color 200ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -141,7 +140,7 @@ html.is-leaving .transition-leaving {
 	width: 100%;
 }
 
-/* Image load animation */
+/* 页面过渡动画类 - 图片加载动画 */
 .image-animate {
 	opacity: 0;
 	transform: scale(1.05);
@@ -155,7 +154,7 @@ html.is-leaving .transition-leaving {
 	transform: scale(1);
 }
 
-/* Search box animation */
+/* 页面过渡动画类 - 搜索框淡入 */
 .search-animate {
 	transform: scale(0.95);
 	opacity: 0;
@@ -169,7 +168,7 @@ html.is-leaving .transition-leaving {
 	opacity: 1;
 }
 
-/* Tag cloud animation */
+/* 页面过渡动画类 - 标签云淡入 */
 .tag-animate {
 	opacity: 0;
 	transform: translateY(0.5rem) scale(0.9);
@@ -183,7 +182,7 @@ html.is-leaving .transition-leaving {
 	transform: translateY(0) scale(1);
 }
 
-/* Pagination animation */
+/* 页面过渡动画类 - 分页淡入 */
 .pagination-animate {
 	opacity: 0;
 	transform: translateY(1rem);
@@ -197,7 +196,7 @@ html.is-leaving .transition-leaving {
 	transform: translateY(0);
 }
 
-/* Accessibility */
+/* 页面过渡动画类 - 可访问性 */
 @media (prefers-reduced-motion: reduce) {
 	:root *,
 	:root *::before,
@@ -216,7 +215,7 @@ html.is-leaving .transition-leaving {
 	}
 }
 
-/* High Contrast Mode */
+/* 页面过渡动画类 - 高对比度模式 */
 @media (prefers-contrast: high) {
 	.enhanced-fade-in,
 	.card-animate,
@@ -225,7 +224,7 @@ html.is-leaving .transition-leaving {
 	}
 }
 
-/* Dark Mode Adjustments */
+/* 页面过渡动画类 - 深色模式调整 */
 @media (prefers-color-scheme: dark) {
 	.button-enhance:hover {
 		box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
@@ -236,7 +235,7 @@ html.is-leaving .transition-leaving {
 	}
 }
 
-/* GPU Acceleration Utility */
+/* 页面过渡动画类 - GPU 加速工具 */
 .animate-gpu {
 	backface-visibility: hidden;
 	-webkit-backface-visibility: hidden;

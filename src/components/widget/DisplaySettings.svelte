@@ -660,7 +660,7 @@ $: if (isMounted && (hue || hue === 0)) {
 <div id="display-setting" class="float-panel float-panel-closed absolute transition-all w-80 right-4 px-4 py-4">
 	<!-- 标题 -->
 	<div class="flex flex-row gap-2 mb-3 items-center justify-between">
-		<div class="flex gap-2 font-bold text-lg text-neutral-900 dark:text-neutral-100 transition relative ml-3
+		<div class="flex gap-2 font-bold text-lg text-90 transition relative ml-3
 			before:w-1 before:h-4 before:rounded-md before:bg-[var(--primary)]
 			before:absolute before:-left-3 before:top-[0.33rem]"
 		>
@@ -673,7 +673,7 @@ $: if (isMounted && (hue || hue === 0)) {
 		<div class="flex flex-row gap-2 mb-2 items-center justify-between">
 			<div class="flex items-center gap-2">
 				<Icon icon="material-symbols:colorize-outline" class="text-[var(--btn-content)] text-lg" />
-				<span class="text-base font-bold text-neutral-700 dark:text-neutral-300">
+				<span class="text-base font-bold text-75">
 					{i18n(I18nKey.themeColor)}
 				</span>
 			</div>
@@ -701,12 +701,12 @@ $: if (isMounted && (hue || hue === 0)) {
 	<div class="mb-3 flex items-center justify-between">
 		<div class="flex items-center gap-2">
 			<Icon icon="material-symbols:filter-vintage-outline" class="text-[var(--btn-content)] text-lg" />
-			<span class="text-base font-bold text-neutral-700 dark:text-neutral-300">
+			<span class="text-base font-bold text-75">
 				{i18n(I18nKey.sakuraEffect)}
 			</span>
 		</div>
 		<button
-			class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200
+			class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300
 				focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-1"
 			class:bg-[var(--primary)]={sakuraEnabled}
 			class:bg-neutral-300={!sakuraEnabled}
@@ -717,7 +717,7 @@ $: if (isMounted && (hue || hue === 0)) {
 			aria-checked={sakuraEnabled}
 		>
 			<span
-				class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200"
+				class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300"
 				class:translate-x-6={sakuraEnabled}
 				class:translate-x-1={!sakuraEnabled}
 			></span>
@@ -730,12 +730,12 @@ $: if (isMounted && (hue || hue === 0)) {
 	<div class="mb-3 flex items-center justify-between">
 		<div class="flex items-center gap-2">
 			<Icon icon="material-symbols:waves" class="text-[var(--btn-content)] text-lg" />
-			<span class="text-base font-bold text-neutral-700 dark:text-neutral-300">
+			<span class="text-base font-bold text-75">
 				{i18n(I18nKey.wavesEffect)}
 			</span>
 		</div>
 		<button
-			class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200
+			class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300
 				focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-1"
 			class:bg-[var(--primary)]={wavesEnabled}
 			class:bg-neutral-300={!wavesEnabled}
@@ -746,7 +746,7 @@ $: if (isMounted && (hue || hue === 0)) {
 			aria-checked={wavesEnabled}
 		>
 			<span
-				class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200"
+				class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300"
 				class:translate-x-6={wavesEnabled}
 				class:translate-x-1={!wavesEnabled}
 			></span>
@@ -758,12 +758,12 @@ $: if (isMounted && (hue || hue === 0)) {
 	<div class="mb-3 flex items-center justify-between pl-4">
 		<div class="flex items-center gap-2">
 			<Icon icon="material-symbols:speed-outline" class="text-[var(--btn-content)] text-lg" />
-			<span class="text-base font-bold text-neutral-700 dark:text-neutral-300">
+			<span class="text-base font-bold text-75">
 				{i18n(I18nKey.wavesPerformanceMode)}
 			</span>
 		</div>
 		<button
-			class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200
+			class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300
 				focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-1"
 			class:bg-[var(--primary)]={wavesPerformanceMode}
 			class:bg-neutral-300={!wavesPerformanceMode}
@@ -774,7 +774,7 @@ $: if (isMounted && (hue || hue === 0)) {
 			aria-checked={wavesPerformanceMode}
 		>
 			<span
-				class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200"
+				class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300"
 				class:translate-x-6={wavesPerformanceMode}
 				class:translate-x-1={!wavesPerformanceMode}
 			></span>
@@ -788,12 +788,12 @@ $: if (isMounted && (hue || hue === 0)) {
 	<div class="mb-3 flex items-center justify-between">
 		<div class="flex items-center gap-2">
 			<Icon icon="material-symbols:text-fields-outline" class="text-[var(--btn-content)] text-lg" />
-			<span class="text-base font-bold text-neutral-700 dark:text-neutral-300">
+			<span class="text-base font-bold text-75">
 				{i18n(I18nKey.homeText)}
 			</span>
 		</div>
 		<button
-			class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200
+			class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300
 				focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-1"
 			class:bg-[var(--primary)]={homeTextEnabled}
 			class:bg-neutral-300={!homeTextEnabled}
@@ -804,7 +804,7 @@ $: if (isMounted && (hue || hue === 0)) {
 			aria-checked={homeTextEnabled}
 		>
 			<span
-				class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200"
+				class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300"
 				class:translate-x-6={homeTextEnabled}
 				class:translate-x-1={!homeTextEnabled}
 			></span>
@@ -816,15 +816,15 @@ $: if (isMounted && (hue || hue === 0)) {
 		<!-- 壁纸模式选择 -->
 		 <div class="flex items-center gap-2 mb-3">
 				<Icon icon="material-symbols:wallpaper" class="text-[var(--btn-content)] text-lg" />
-				<span class="text-base font-bold text-neutral-700 dark:text-neutral-300">
+				<span class="text-base font-bold text-75">
 					{i18n(I18nKey.wallpaperMode)}
 				</span>
 		</div>
 		<div class="mb-3">
 			<div class="grid grid-cols-2 gap-2">
 			<button
-				class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
-					border-2 relative text-neutral-600 dark:text-neutral-300"
+				class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-300
+					border-2 relative text-60"
 				class:bg-[var(--primary)]={currentWallpaperMode === WALLPAPER_BANNER}
 				class:border-[var(--primary)]={currentWallpaperMode === WALLPAPER_BANNER}
 				class:!text-white={currentWallpaperMode === WALLPAPER_BANNER}
@@ -838,8 +838,8 @@ $: if (isMounted && (hue || hue === 0)) {
 				<span>{wallpaperModeLabel(WALLPAPER_BANNER)}</span>
 			</button>
 			<button
-				class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
-					border-2 relative text-neutral-600 dark:text-neutral-300"
+				class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-300
+					border-2 relative text-60"
 				class:bg-[var(--primary)]={currentWallpaperMode === WALLPAPER_FULLSCREEN}
 				class:border-[var(--primary)]={currentWallpaperMode === WALLPAPER_FULLSCREEN}
 				class:!text-white={currentWallpaperMode === WALLPAPER_FULLSCREEN}
@@ -853,8 +853,8 @@ $: if (isMounted && (hue || hue === 0)) {
 				<span>{wallpaperModeLabel(WALLPAPER_FULLSCREEN)}</span>
 			</button>
 			<button
-				class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
-					border-2 relative text-neutral-600 dark:text-neutral-300"
+				class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-300
+					border-2 relative text-60"
 				class:bg-[var(--primary)]={currentWallpaperMode === WALLPAPER_FULLSCREEN_BANNER}
 				class:border-[var(--primary)]={currentWallpaperMode === WALLPAPER_FULLSCREEN_BANNER}
 				class:!text-white={currentWallpaperMode === WALLPAPER_FULLSCREEN_BANNER}
@@ -868,8 +868,8 @@ $: if (isMounted && (hue || hue === 0)) {
 				<span>{wallpaperModeLabel(WALLPAPER_FULLSCREEN_BANNER)}</span>
 			</button>
 			<button
-				class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
-					border-2 relative text-neutral-600 dark:text-neutral-300"
+				class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-300
+					border-2 relative text-60"
 				class:bg-[var(--primary)]={currentWallpaperMode === WALLPAPER_NONE}
 				class:border-[var(--primary)]={currentWallpaperMode === WALLPAPER_NONE}
 				class:!text-white={currentWallpaperMode === WALLPAPER_NONE}
@@ -891,15 +891,15 @@ $: if (isMounted && (hue || hue === 0)) {
 		<div>
 			<div class="flex items-center gap-2 mb-3">
 				<Icon icon="material-symbols:vertical-align-center" class="text-[var(--btn-content)] text-lg" />
-				<span class="text-base font-bold text-neutral-700 dark:text-neutral-300">
+				<span class="text-base font-bold text-75">
 					{i18n(I18nKey.wallpaperPosition)}
 				</span>
 			</div>
 			<div class="mb-3">
 				<div class="grid grid-cols-3 gap-2">
 				<button
-					class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
-						border-2 relative text-neutral-600 dark:text-neutral-300"
+					class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-300
+						border-2 relative text-60"
 					class:bg-[var(--primary)]={currentBannerPosition === "top"}
 					class:border-[var(--primary)]={currentBannerPosition === "top"}
 					class:!text-white={currentBannerPosition === "top"}
@@ -913,8 +913,8 @@ $: if (isMounted && (hue || hue === 0)) {
 					<span>{wallpaperPositionLabel("top")}</span>
 				</button>
 				<button
-					class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
-						border-2 relative text-neutral-600 dark:text-neutral-300"
+					class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-300
+						border-2 relative text-60"
 					class:bg-[var(--primary)]={currentBannerPosition === "center"}
 					class:border-[var(--primary)]={currentBannerPosition === "center"}
 					class:!text-white={currentBannerPosition === "center"}
@@ -928,8 +928,8 @@ $: if (isMounted && (hue || hue === 0)) {
 					<span>{wallpaperPositionLabel("center")}</span>
 				</button>
 				<button
-					class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
-						border-2 relative text-neutral-600 dark:text-neutral-300"
+					class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-300
+						border-2 relative text-60"
 					class:bg-[var(--primary)]={currentBannerPosition === "bottom"}
 					class:border-[var(--primary)]={currentBannerPosition === "bottom"}
 					class:!text-white={currentBannerPosition === "bottom"}
@@ -952,15 +952,15 @@ $: if (isMounted && (hue || hue === 0)) {
 		<div>
 			<div class="flex items-center gap-2 mb-3">
 				<Icon icon="material-symbols:vertical-align-center" class="text-[var(--btn-content)] text-lg" />
-				<span class="text-base font-bold text-neutral-700 dark:text-neutral-300">
+				<span class="text-base font-bold text-75">
 					{i18n(I18nKey.wallpaperPosition)}
 				</span>
 			</div>
 			<div class="mb-3">
 				<div class="grid grid-cols-3 gap-2">
 				<button
-					class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
-						border-2 relative text-neutral-600 dark:text-neutral-300"
+					class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-300
+						border-2 relative text-60"
 					class:bg-[var(--primary)]={currentWallpaperPosition === "top"}
 					class:border-[var(--primary)]={currentWallpaperPosition === "top"}
 					class:!text-white={currentWallpaperPosition === "top"}
@@ -974,8 +974,8 @@ $: if (isMounted && (hue || hue === 0)) {
 					<span>{wallpaperPositionLabel("top")}</span>
 				</button>
 				<button
-					class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
-						border-2 relative text-neutral-600 dark:text-neutral-300"
+					class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-300
+						border-2 relative text-60"
 					class:bg-[var(--primary)]={currentWallpaperPosition === "center"}
 					class:border-[var(--primary)]={currentWallpaperPosition === "center"}
 					class:!text-white={currentWallpaperPosition === "center"}
@@ -989,8 +989,8 @@ $: if (isMounted && (hue || hue === 0)) {
 					<span>{wallpaperPositionLabel("center")}</span>
 				</button>
 				<button
-					class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
-						border-2 relative text-neutral-600 dark:text-neutral-300"
+					class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-300
+						border-2 relative text-60"
 					class:bg-[var(--primary)]={currentWallpaperPosition === "bottom"}
 					class:border-[var(--primary)]={currentWallpaperPosition === "bottom"}
 					class:!text-white={currentWallpaperPosition === "bottom"}
@@ -1012,7 +1012,7 @@ $: if (isMounted && (hue || hue === 0)) {
 		<!-- 壁纸透明度 -->
 		<div class="flex items-center gap-2 mb-2">
 			<Icon icon="material-symbols:opacity" class="text-[var(--btn-content)] text-lg" />
-			<span class="text-base font-bold text-neutral-700 dark:text-neutral-300">
+			<span class="text-base font-bold text-75">
 				{i18n(I18nKey.wallpaperOpacity)}
 			</span>
 			<div class="ml-auto flex gap-1">
@@ -1045,7 +1045,7 @@ $: if (isMounted && (hue || hue === 0)) {
 		<!-- 壁纸模糊程度 -->
 		<div class="flex items-center gap-2 mb-2">
 			<Icon icon="material-symbols:blur-on" class="text-[var(--btn-content)] text-lg" />
-			<span class="text-base font-bold text-neutral-700 dark:text-neutral-300">
+			<span class="text-base font-bold text-75">
 				{i18n(I18nKey.wallpaperBlur)}
 			</span>
 			<div class="ml-auto flex gap-1">
@@ -1078,7 +1078,7 @@ $: if (isMounted && (hue || hue === 0)) {
 		<!-- 卡片透明度 -->
 		<div class="flex items-center gap-2 mb-2">
 			<Icon icon="material-symbols:layers-outline" class="text-[var(--btn-content)] text-lg" />
-			<span class="text-base font-bold text-neutral-700 dark:text-neutral-300">
+			<span class="text-base font-bold text-75">
 				{i18n(I18nKey.cardOpacity)}
 			</span>
 			<div class="ml-auto flex gap-1">
@@ -1112,17 +1112,17 @@ $: if (isMounted && (hue || hue === 0)) {
 
 {#if currentWallpaperMode === WALLPAPER_BANNER || currentWallpaperMode === WALLPAPER_FULLSCREEN_BANNER}
 <!-- 导航栏透明模式选择（banner / fullscreen-banner 模式时显示） -->
-<div class="mb-4 transition-all duration-200">
+<div class="mb-4 transition-all duration-300">
 	<div class="flex items-center gap-2 mb-3">
 		<Icon icon="material-symbols:menu-rounded" class="text-[var(--btn-content)] text-lg" />
-		<span class="text-base font-bold text-neutral-700 dark:text-neutral-300">
+		<span class="text-base font-bold text-75">
 			{i18n(I18nKey.navbarTransparentMode)}
 		</span>
 	</div>
 	<div class="grid grid-cols-3 gap-2">
 		<button
-			class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
-				border-2 relative text-neutral-600 dark:text-neutral-300"
+			class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-300
+				border-2 relative text-60"
 			class:bg-[var(--primary)]={navbarTransparentMode === "semi"}
 			class:border-[var(--primary)]={navbarTransparentMode === "semi"}
 			class:!text-white={navbarTransparentMode === "semi"}
@@ -1136,8 +1136,8 @@ $: if (isMounted && (hue || hue === 0)) {
 			<span>{navbarTransparentModeLabel("semi")}</span>
 		</button>
 		<button
-			class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
-				border-2 relative text-neutral-600 dark:text-neutral-300"
+			class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-300
+				border-2 relative text-60"
 			class:bg-[var(--primary)]={navbarTransparentMode === "full"}
 			class:border-[var(--primary)]={navbarTransparentMode === "full"}
 			class:!text-white={navbarTransparentMode === "full"}
@@ -1151,8 +1151,8 @@ $: if (isMounted && (hue || hue === 0)) {
 			<span>{navbarTransparentModeLabel("full")}</span>
 		</button>
 		<button
-			class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
-				border-2 relative text-neutral-600 dark:text-neutral-300"
+			class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-300
+				border-2 relative text-60"
 			class:bg-[var(--primary)]={navbarTransparentMode === "semifull"}
 			class:border-[var(--primary)]={navbarTransparentMode === "semifull"}
 			class:!text-white={navbarTransparentMode === "semifull"}
@@ -1175,15 +1175,15 @@ $: if (isMounted && (hue || hue === 0)) {
 	<div class="flex items-center gap-2 mb-3">
 	<div class="flex items-center gap-2">
 		<Icon icon="material-symbols:grid-view-outline" class="text-[var(--btn-content)] text-lg" />
-		<span class="text-base font-bold text-neutral-700 dark:text-neutral-300">
+		<span class="text-base font-bold text-75">
 			{i18n(I18nKey.postListLayout)}
 		</span>
 	</div>
 </div>
 <div class="mb-3 grid grid-cols-2 gap-2">
 	<button
-		class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
-			border-2 relative text-neutral-600 dark:text-neutral-300"
+		class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-300
+			border-2 relative text-60"
 		class:bg-[var(--primary)]={postListLayout === "list"}
 		class:border-[var(--primary)]={postListLayout === "list"}
 		class:!text-white={postListLayout === "list"}
@@ -1197,8 +1197,8 @@ $: if (isMounted && (hue || hue === 0)) {
 		<span>{i18n(I18nKey.listMode)}</span>
 	</button>
 	<button
-		class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-200
-			border-2 relative text-neutral-600 dark:text-neutral-300"
+		class="flex flex-col items-center gap-1 py-2 px-1 rounded-lg text-xs transition-all duration-300
+			border-2 relative text-60"
 		class:bg-[var(--primary)]={postListLayout === "grid"}
 		class:border-[var(--primary)]={postListLayout === "grid"}
 		class:!text-white={postListLayout === "grid"}

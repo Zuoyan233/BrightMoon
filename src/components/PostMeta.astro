@@ -6,7 +6,7 @@ import { i18n } from "../i18n/translation";
 import { formatDateToYYYYMMDD } from "../utils/date-utils";
 import { getCategoryUrl, getTagUrl } from "../utils/url-utils";
 
-// 解析 umami
+// 解析 Umami
 const umamiEnabled = umamiConfig.enabled || false;
 const umamiWebsiteId =
 	umamiConfig.scripts.match(/data-website-id="([^"]+)"/)?.[1] || "";
@@ -46,13 +46,13 @@ const {
 } = Astro.props;
 ---
 
-<div class:list={["flex flex-wrap text-neutral-500 dark:text-neutral-400 items-center gap-4 gap-x-4 gap-y-2", className]}>
+<div class:list={["flex flex-wrap text-60 items-center gap-4 gap-x-4 gap-y-2", className]}>
     <!-- publish date -->
     <div class="flex items-center">
         <div class="meta-icon">
             <Icon name="material-symbols:calendar-today-outline-rounded" class="text-xl"></Icon>
         </div>
-        <span class="text-50 text-sm font-medium">{formatDateToYYYYMMDD(published)}</span>
+        <span class="text-60 text-sm font-medium">{formatDateToYYYYMMDD(published)}</span>
     </div>
 
     <!-- update date -->
@@ -61,7 +61,7 @@ const {
             <div class="meta-icon">
                 <Icon name="material-symbols:edit-calendar-outline-rounded" class="text-xl"></Icon>
             </div>
-            <span class="text-50 text-sm font-medium">{formatDateToYYYYMMDD(updated)}</span>
+            <span class="text-60 text-sm font-medium">{formatDateToYYYYMMDD(updated)}</span>
         </div>
     )}
 
@@ -72,7 +72,7 @@ const {
         </div>
         <div class="flex flex-row flex-nowrap items-center">
             <a href={getCategoryUrl(category || '')} aria-label={`View all posts in the ${category} category`}
-               class="link-lg transition text-50 text-sm font-medium
+               class="link-lg transition text-60 text-sm font-medium
                             hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap">
                 {category || i18n(I18nKey.uncategorized)}
             </a>
@@ -85,7 +85,7 @@ const {
             <div class="meta-icon">
                 <Icon name="material-symbols:article-outline-rounded" class="text-xl"></Icon>
             </div>
-            <span class="text-50 text-sm font-medium">
+            <span class="text-60 text-sm font-medium">
                 {words} {words > 1 ? i18n(I18nKey.wordsCount) : i18n(I18nKey.wordCount)}
             </span>
         </div>
@@ -102,13 +102,13 @@ const {
                     <>
                         <div class:list={[{"hidden": i == 0}, "mx-1.5 text-[var(--meta-divider)] text-sm"]}>/</div>
                         <a href={getTagUrl(tag)} aria-label={`View all posts with the ${tag.trim()} tag`}
-                           class="link-lg transition text-50 text-sm font-medium
+                           class="link-lg transition text-60 text-sm font-medium
                                         hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap">
                             {tag.trim()}
                         </a>
                     </>
                 ))}
-                {!(tags && tags.length > 0) && <div class="transition text-50 text-sm font-medium">{i18n(I18nKey.noTags)}</div>}
+                {!(tags && tags.length > 0) && <div class="transition text-60 text-sm font-medium">{i18n(I18nKey.noTags)}</div>}
             </div>
         </div>
     )}
@@ -119,7 +119,7 @@ const {
             <div class="meta-icon">
                 <Icon name="material-symbols:visibility-outline-rounded" class="text-xl"></Icon>
             </div>
-            <span class="text-50 text-sm font-medium" id="page-views-display">{i18n(I18nKey.pageViewsLoading)}</span>
+            <span class="text-60 text-sm font-medium" id="page-views-display">{i18n(I18nKey.pageViewsLoading)}</span>
         </div>
     )}
 </div>

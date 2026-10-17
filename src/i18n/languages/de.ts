@@ -42,6 +42,15 @@ export const de: Translation = {
 	[Key.friendsCopyLink]: "Link kopieren",
 	[Key.friendsCopySuccess]: "Kopiert",
 	[Key.friendsTags]: "Schlagwörter",
+	[Key.friendsNoticeTitle]: "Hinweise",
+	[Key.friendsNoticeReciprocal]:
+		"Bitte fügen Sie diese Website zuerst zu Ihrer Freundeseite hinzu, wir fügen Ihre nach Bestätigung hinzu.",
+	[Key.friendsNoticeMaintenance]:
+		"Friendlinks, die längere Zeit nicht erreichbar sind oder illegale Inhalte enthalten, werden entfernt.",
+	[Key.friendsNoticeContent]:
+		"Der Inhalt muss positiv sein und darf keine illegalen Inhalte wie Pornografie, Reaktionäres oder Gewalt enthalten.",
+	[Key.friendsNoticeHttps]:
+		"HTTPS-Unterstützung, eigener Inhalt, erreichbar und regelmäßig aktualisiert.",
 	[Key.untitled]: "Ohne Titel",
 	[Key.uncategorized]: "Nicht kategorisiert",
 	[Key.noTags]: "Keine Schlagwörter",
@@ -74,7 +83,6 @@ export const de: Translation = {
 	[Key.diary]: "Tagebuch",
 
 	// Anime-Seite
-	[Key.animeTitle]: "Meine Anime-Liste",
 	[Key.animeSubtitle]: "Dokumentiere meine Anime-Reise",
 	[Key.animeStatusWatching]: "Schaut",
 	[Key.animeStatusCompleted]: "Abgeschlossen",
@@ -94,7 +102,8 @@ export const de: Translation = {
 	[Key.animeSetBilibiliVmId]:
 		"Bitte setze deine Bilibili-vmID in der Datei src/config/user.ts",
 	[Key.animeEmptyLocal]:
-		"Bitte füge Anime-Informationen in der Datei src/data/anime.ts hinzu",
+		"Bitte füge Anime-Informationen in der Datei src/config/user/anime-data.ts hinzu",
+	[Key.animeFilterEmpty]: "Keine Anime in dieser Kategorie gefunden",
 
 	// Tagebuch-Seite
 	[Key.diarySubtitle]: "Teile das Leben, jederzeit und überall",
@@ -272,7 +281,6 @@ export const de: Translation = {
 	[Key.skillsDatabase]: "Datenbank",
 	[Key.skillsTools]: "Entwicklungswerkzeuge",
 	[Key.skillsOther]: "Weitere Fähigkeiten",
-	[Key.skillLevel]: "Kenntnisstufe",
 	[Key.skillLevelBeginner]: "Anfänger",
 	[Key.skillLevelIntermediate]: "Fortgeschritten",
 	[Key.skillLevelAdvanced]: "Erweitert",
@@ -281,16 +289,8 @@ export const de: Translation = {
 	[Key.skillYears]: "Jahre",
 	[Key.skillMonths]: "Monate",
 	[Key.skillsTotal]: "Fähigkeiten insgesamt",
-	[Key.skillsExpert]: "Expertenniveau",
-	[Key.skillsAdvanced]: "Erweitert",
-	[Key.skillsIntermediate]: "Fortgeschritten",
-	[Key.skillsBeginner]: "Anfänger",
 	[Key.skillsAdvancedTitle]: "Professionelle Fähigkeiten",
-	[Key.skillsProjects]: "Verwandte Projekte",
-	[Key.skillsDistribution]: "Fähigkeitsverteilung",
-	[Key.skillsByLevel]: "Nach Stufe",
-	[Key.skillsByCategory]: "Nach Kategorie",
-	[Key.noData]: "Keine Daten",
+	[Key.skillsFilterEmpty]: "Keine Fähigkeiten in dieser Kategorie",
 
 	// Zeitleiste-Seite
 	[Key.timeline]: "Zeitleiste",
@@ -300,18 +300,12 @@ export const de: Translation = {
 	[Key.timelineProject]: "Projekterfahrung",
 	[Key.timelineAchievement]: "Errungenschaften",
 	[Key.timelinePresent]: "Heute",
-	[Key.timelineLocation]: "Ort",
-	[Key.timelineDescription]: "Detaillierte Beschreibung",
 	[Key.timelineMonths]: "Monate",
 	[Key.timelineYears]: "Jahre",
 	[Key.timelineTotal]: "Insgesamt",
-	[Key.timelineProjects]: "Projekte",
-	[Key.timelineExperience]: "Berufserfahrung",
 	[Key.timelineCurrent]: "Aktueller Status",
-	[Key.timelineHistory]: "Verlauf",
 	[Key.timelineAchievements]: "Errungenschaften",
-	[Key.timelineStartDate]: "Startdatum",
-	[Key.timelineDuration]: "Dauer",
+	[Key.timelineFilterEmpty]: "Keine Timeline-Einträge in dieser Kategorie",
 
 	// Feedback-Seite - Modul „Kontakt zum Webmaster“
 	[Key.contactMe]: "Kontakt zum Webmaster",
@@ -325,8 +319,6 @@ export const de: Translation = {
 		"Wenn Sie die Inhalte der Website hilfreich finden, unterstützen Sie bitte meine Arbeit auf folgende Weise, um dabei zu helfen, bessere Inhalte zu erstellen. Alle Sponsoringbeiträge werden für die Website-Wartung, Serverkosten und die Erstellung von Inhalten verwendet.",
 	[Key.sponsorsNotice2]:
 		"Vielen Dank für Ihre Unterstützung der BrightMoon Blog-Projektinhaltsentwicklung!",
-	[Key.wechatPay]: "WeChat",
-	[Key.aliPay]: "Alipay",
 	[Key.scanPayQRcode]: "Zum Bezahlen scannen",
 	[Key.sponsorsPartner]: "Sponsoring-Partner",
 	[Key.otherSupportOptions]: "Weitere Unterstützungsmöglichkeiten",
@@ -522,7 +514,7 @@ export const de: Translation = {
 	[Key.twikooNotConfigured]:
 		"Twikoo-Kommentarsystem ist noch nicht konfiguriert",
 	[Key.twikooConfigHint]:
-		"Bitte konfigurieren Sie das Twikoo-Kommentarsystem in src/config/user.ts",
+		"Bitte konfigurieren Sie das Twikoo-Kommentarsystem in src/config/user/comment.ts",
 	[Key.twikooPrivacyRejected]:
 		"Das Twikoo-Kommentarsystem wurde deaktiviert, da die Datenschutzvereinbarung abgelehnt wurde",
 

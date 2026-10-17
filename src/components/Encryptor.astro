@@ -13,15 +13,19 @@ interface Props {
 
 const { password, passwordHint = "" } = Astro.props;
 
+// 渲染插槽内容为 HTML 字符串
 const htmlContent = await Astro.slots.render("default");
 
+// 在内容前添加验证前缀，解密后用于校验密码是否正确
 const contentToEncrypt = `BRIGHTMOON-VERIFY:${htmlContent}`;
+// 使用 AES 对称加密，密码作为密钥
 const encryptedContent = AES.encrypt(
 	contentToEncrypt,
 	String(password),
 ).toString();
 ---
 
+<!-- 加密包装器：将插槽内容 AES 加密后传给 PasswordProtection 组件，由客户端解密 -->
 <PasswordProtection
 	encryptedContent={encryptedContent}
 	passwordHint={passwordHint}

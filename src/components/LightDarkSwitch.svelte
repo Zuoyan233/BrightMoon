@@ -13,11 +13,11 @@ import { onDestroy, onMount } from "svelte";
 import type { LIGHT_DARK_MODE } from "@/types/config.ts";
 
 let { title = "" }: { title?: string } = $props();
-
 let isOpen = false;
 let themePanel: HTMLElement;
 let currentMode: LIGHT_DARK_MODE = $state(DEFAULT_THEME);
 
+// 组件挂载时初始化主题
 const themeOptions: {
 	mode: LIGHT_DARK_MODE;
 	icon: string;
@@ -40,6 +40,7 @@ const themeOptions: {
 	},
 ];
 
+// 获取当前主题的图标
 function getButtonIcon(): string {
 	return (
 		themeOptions.find((o) => o.mode === currentMode)?.icon ||
@@ -47,10 +48,12 @@ function getButtonIcon(): string {
 	);
 }
 
+// 获取当前主题的图标类名
 function getButtonIconClass(): string {
-	return "text-[1.25rem] transition-all duration-250 ease-in-out text-black/75 dark:text-white/75 group-hover:text-[var(--primary)]";
+	return "text-[1.25rem] transition-all duration-250 ease-in-out text-75 group-hover:text-[var(--primary)]";
 }
 
+// 切换主题面板显示状态
 function togglePanel() {
 	isOpen = !isOpen;
 	if (themePanel) {
@@ -62,6 +65,7 @@ function togglePanel() {
 	}
 }
 
+// 选择主题
 function selectTheme(mode: LIGHT_DARK_MODE) {
 	isOpen = false;
 	if (themePanel) {
@@ -75,6 +79,7 @@ function selectTheme(mode: LIGHT_DARK_MODE) {
 	setTheme(mode);
 }
 
+// 点击外部关闭主题面板
 function handleClickOutside(event: MouseEvent) {
 	const target = event.target as HTMLElement;
 	if (
@@ -101,6 +106,7 @@ function handleStorageChange(e: StorageEvent) {
 	}
 }
 
+// 组件挂载时初始化主题
 onMount(() => {
 	currentMode = getStoredTheme();
 	document.addEventListener("click", handleClickOutside);
@@ -144,7 +150,7 @@ onDestroy(() => {
 		<div class="ignore grid grid-cols-1 gap-1">
 			{#each themeOptions as option}
 				<button
-					class="group flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 text-left w-full
+					class="group flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-300 text-left w-full
 						{currentMode === option.mode
 							? 'bg-[var(--btn-plain-bg-hover)]'
 							: 'hover:bg-[var(--btn-plain-bg-hover)]'}"
@@ -152,10 +158,10 @@ onDestroy(() => {
 				>
 					<Icon
 						icon={option.icon}
-						class={'text-xl transition-all duration-200' + (currentMode === option.mode ? ' text-[var(--primary)]' : ' text-black/75 dark:text-white/75 group-hover:text-[var(--primary)]')}
+						class={'text-xl transition-all duration-300' + (currentMode === option.mode ? ' text-[var(--primary)]' : ' text-75 group-hover:text-[var(--primary)]')}
 					/>
 					<span
-						class={'text-base font-bold transition-all duration-200' + (currentMode === option.mode ? ' text-[var(--primary)] font-bold' : ' text-black/75 dark:text-white/75 group-hover:text-[var(--primary)]')}
+						class={'text-base font-bold transition-all duration-300' + (currentMode === option.mode ? ' text-[var(--primary)] font-bold' : ' text-75 group-hover:text-[var(--primary)]')}
 					>
 						{i18n(option.labelKey)}
 					</span>

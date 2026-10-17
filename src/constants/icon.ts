@@ -1,3 +1,7 @@
+/**
+ * 图标常量 - 默认 favicon 配置
+ */
+
 import type { Favicon } from "@/types/config.ts";
 
 export const defaultFavicons: Favicon[] = [

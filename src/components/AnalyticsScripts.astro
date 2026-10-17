@@ -11,13 +11,16 @@
 
 import type { ThirdPartyAnalyticsConfig } from "@/types/config";
 
+// 组件属性接口
 interface Props {
 	thirdPartyAnalytics?: ThirdPartyAnalyticsConfig;
 }
 
+// 组件属性
 const { thirdPartyAnalytics = { enable: false, gtmId: "", clarityId: "" } } =
 	Astro.props;
 
+// 分析脚本是否启用
 const analyticsEnabled = thirdPartyAnalytics.enable;
 const gtmEnable = analyticsEnabled && !!thirdPartyAnalytics.gtmId;
 const clarityEnable = analyticsEnabled && !!thirdPartyAnalytics.clarityId;
@@ -41,7 +44,7 @@ const clarityEnable = analyticsEnabled && !!thirdPartyAnalytics.clarityId;
 					if (window.analyticsLoaded) return;
 					window.analyticsLoaded = true;
 
-					// Google Tag Manager
+					// 加载 Google Tag Manager
 					if (gtmEnable && gtmId) {
 						(function (w, d, s, l, i) {
 							w[l] = w[l] || [];
@@ -59,7 +62,7 @@ const clarityEnable = analyticsEnabled && !!thirdPartyAnalytics.clarityId;
 						})(window, document, "script", "dataLayer", gtmId);
 					}
 
-					// Microsoft Clarity
+					// 加载 Microsoft Clarity
 					if (clarityEnable && clarityId) {
 						(function (c, l, a, r, i, t, y) {
 							c[a] =
@@ -86,6 +89,7 @@ const clarityEnable = analyticsEnabled && !!thirdPartyAnalytics.clarityId;
 				];
 				var loaded = false;
 
+				// 用户交互后加载分析脚本
 				function onInteraction() {
 					if (loaded) return;
 					loaded = true;
@@ -95,6 +99,7 @@ const clarityEnable = analyticsEnabled && !!thirdPartyAnalytics.clarityId;
 					loadAnalytics();
 				}
 
+				// 监听用户交互事件
 				events.forEach(function (event) {
 					window.addEventListener(event, onInteraction, {
 						once: true,
@@ -102,7 +107,7 @@ const clarityEnable = analyticsEnabled && !!thirdPartyAnalytics.clarityId;
 					});
 				});
 
-				// 备用：10 秒内无交互则自动加载
+				// 十秒内无交互则自动加载分析脚本
 				setTimeout(function () {
 					if (!loaded) loadAnalytics();
 				}, 10000);

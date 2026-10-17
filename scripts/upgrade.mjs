@@ -1,11 +1,5 @@
 /**
  * BrightMoon 博客框架升级工具
- *
- * 交互式升级流程，支持四语国际化，智能处理保证数据安全：
- *   1. 文件级：新文件插入、旧文件同步删除、受保护文件跳过
- *   2. 版本级：语义化版本比较、防回滚检测
- *   3. 备份级：升级前全项目备份
- *   4. 完整性：下载大小 + SHA256 哈希校验
  */
 
 import { execSync, spawn } from "node:child_process";
@@ -19,7 +13,6 @@ import { pipeline } from "node:stream/promises";
 import { fileURLToPath } from "node:url";
 
 /* 路径与版本常量 */
-
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 const { version: LOCAL_VERSION } = JSON.parse(
@@ -28,20 +21,20 @@ const { version: LOCAL_VERSION } = JSON.parse(
 
 /* 常量 */
 
-/** 远程仓库 API 备用地址 */
+/* 远程仓库 API 备用地址 */
 const FALLBACK_API_URL =
 	"https://api.github.com/repos/Zuoyan233/BrightMoon/releases?per_page=5";
 
-/** 本地升级标识 */
+/* 本地升级标识 */
 const SOURCE_LOCAL = "local";
 
-/** 交互菜单返回值 */
+/* 交互菜单返回值 */
 const BACK = "__back__";
 
-/** HTTP 最大重定向次数 */
+/* HTTP 最大重定向次数 */
 const MAX_REDIRECTS = 5;
 
-/** 日志颜色映射 */
+/* 日志颜色映射 */
 const LOG_COLORS = {
 	ok: "\x1b[32m",
 	error: "\x1b[31m",
@@ -52,27 +45,25 @@ const LOG_COLORS = {
 };
 
 /* 全局可变状态 */
-
 let lang = "zh";
 let currentLangIndex = 0;
 let stdinRawEnabled = false;
 let isInterrupted = false;
 let isInstallingDeps = false;
 
-/** 待清理的临时解压目录 */
+/* 待清理的临时解压目录 */
 let tmpDirToClean = null;
-/** 待清理的 update 目录 */
+/* 待清理的 update 目录 */
 let updateDirToClean = null;
-/** 待清理的失败备份文件（仅单个 zip，不包含整个 backup 目录） */
+/* 待清理的失败备份文件（仅单个 zip，不包含整个 backup 目录） */
 let backupFileToClean = null;
-/** 备份过程中的临时文件（_backup_list.txt、_backup.ps1），中断时需清理 */
+/* 备份过程中的临时文件（_backup_list.txt、_backup.ps1），中断时需清理 */
 let backupTempFiles = [];
 
-/** 正在运行的子进程，中断时立即杀掉 */
+/* 正在运行的子进程，中断时立即杀掉 */
 const runningProcesses = new Set();
 
 /* 国际化字典 */
-
 const I18N_DICT = {
 	zh: {
 		welcome: "欢迎使用 BrightMoon 博客框架升级工具",
@@ -493,7 +484,7 @@ function I18n(key, ...args) {
 
 /* 交互式菜单 */
 
-/** 启用 stdin 原始模式（在整个交互流程中只启用/禁用一次） */
+/* 启用 stdin 原始模式（在整个交互流程中只启用/禁用一次） */
 function enableStdinRaw() {
 	if (stdinRawEnabled) return;
 	readline.emitKeypressEvents(process.stdin);
@@ -501,7 +492,7 @@ function enableStdinRaw() {
 	stdinRawEnabled = true;
 }
 
-/** 恢复 stdin 原始模式 */
+/* 恢复 stdin 原始模式 */
 function disableStdinRaw() {
 	if (!stdinRawEnabled) return;
 	process.stdin.setRawMode(false);
@@ -812,12 +803,12 @@ function runAsync(cmd, args, options = {}) {
 
 /* 清理与退出 */
 
-/** DEBUG 模式下输出错误信息 */
+/* DEBUG 模式下输出错误信息 */
 function debugLog(context, e) {
 	if (process.env.DEBUG) console.error(`[${context}]`, e?.message ?? e);
 }
 
-/** 清理临时解压目录 */
+/* 清理临时解压目录 */
 function cleanupTempDir() {
 	if (!tmpDirToClean) return;
 	const dir = tmpDirToClean;
@@ -833,7 +824,7 @@ function cleanupTempDir() {
 	}
 }
 
-/** 清理 update 目录（保留 .txt 文件） */
+/* 清理 update 目录（保留 .txt 文件） */
 function cleanupUpdateDir() {
 	if (!updateDirToClean) return;
 	const dir = updateDirToClean;
@@ -855,7 +846,6 @@ function cleanupUpdateDir() {
 
 /**
  * 清理失败的备份文件（仅删除单个 zip 文件，不删除整个 backup 目录）
- * 修复：原实现误将整个 backup/ 目录赋给清理变量，中断时会删除所有历史备份
  */
 function cleanupBackupFile() {
 	if (backupFileToClean) {
@@ -898,7 +888,6 @@ function cleanupBackupFile() {
 
 /**
  * 执行全部资源清理（临时目录、update 目录、失败备份）
- * 供 exitNow 和 handleInterrupt 共用，消除重复逻辑
  */
 function performCleanup() {
 	cleanupTempDir();
@@ -916,7 +905,7 @@ function exitNow(code = 0) {
 	process.exit(code);
 }
 
-/** 中断处理：杀子进程、清理资源、退出 */
+/* 中断处理：杀子进程、清理资源、退出 */
 function handleInterrupt() {
 	if (isInterrupted) return;
 	isInterrupted = true;
@@ -925,9 +914,6 @@ function handleInterrupt() {
 	for (const child of runningProcesses) {
 		try {
 			if (process.platform === "win32" && child.pid) {
-				// Windows 上 child.kill() 只能终止直接子进程，
-				// 用 taskkill /T /F 杀掉整个进程树（cmd.exe → pnpm → node），
-				// 避免孙进程残留占用控制台，导致用户需要再按一次 Ctrl+C
 				execSync(`taskkill /pid ${child.pid} /T /F`, {
 					stdio: "ignore",
 				});
@@ -974,23 +960,23 @@ process.on("exit", () => {
 
 /* 通用工具函数 */
 
-/** 带颜色输出日志 */
+/* 带颜色输出日志 */
 function log(msg, type) {
 	const c = LOG_COLORS[type] || "";
 	console.log(`${c}${msg}\x1b[0m`);
 }
 
-/** 输出带空行的标题 */
+/* 输出带空行的标题 */
 function banner(title) {
 	console.log(`\n${title}\n`);
 }
 
-/** 确保目录存在 */
+/* 确保目录存在 */
 function ensureDir(dir) {
 	if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 }
 
-/** 检查系统命令是否可用（防命令注入） */
+/* 检查系统命令是否可用（防命令注入） */
 function hasCommand(cmd) {
 	if (!/^[a-zA-Z0-9_.-]+$/.test(cmd)) return false;
 	try {
@@ -1143,23 +1129,15 @@ let _upgradeConfigResolved = false;
 
 /**
  * 读取新架构下的配置源码（config/user/ 优先 + config/defaults/ 兜底）
- *
- * 用户的覆盖项优先于默认值。旧版本用户没有 user 文件时，
- * 自动回退读取 src/config.ts 中的字面量配置。
- *
- * @returns {{defaultsSrc: string, userSrc: string, legacySrc: string}}
+ * @returns {{defaultsSrc: string, userSrc: string}}
  */
 
 function readConfigSources() {
-	// 新架构路径：src/config/defaults/ + src/config/user/ 目录
-	// 旧架构路径（兼容）：src/config.ts 单文件
 	const defaultsDir = path.join(ROOT, "src/config/defaults");
 	const userDir = path.join(ROOT, "src/config/user");
-	const legacyPath = path.join(ROOT, "src/config.ts");
 
 	let defaultsSrc = "";
 	let userSrc = "";
-	let legacySrc = "";
 
 	if (fs.existsSync(defaultsDir) && fs.statSync(defaultsDir).isDirectory()) {
 		try {
@@ -1185,20 +1163,8 @@ function readConfigSources() {
 			debugLog("readConfigSources:user", e);
 		}
 	}
-	// src/config.ts 在新架构下只是合并入口，不再含字面量配置；
-	// 仅当它不含 "./defaults" 导入时，才视为旧版字面量配置文件
-	if (fs.existsSync(legacyPath)) {
-		try {
-			const src = fs.readFileSync(legacyPath, "utf-8");
-			if (!/from\s+['"]\.\/config\/defaults['"]/.test(src)) {
-				legacySrc = src;
-			}
-		} catch (e) {
-			debugLog("readConfigSources:legacy", e);
-		}
-	}
 
-	return { defaultsSrc, userSrc, legacySrc };
+	return { defaultsSrc, userSrc };
 }
 
 /**
@@ -1245,9 +1211,8 @@ function extractStringArrayFromSources(srcs, key) {
  */
 function getUpgradeConfig() {
 	if (_upgradeConfigResolved) return _cachedUpgradeConfig;
-	const { defaultsSrc, userSrc, legacySrc } = readConfigSources();
-	// 用户覆盖优先：先扫 user，再扫 defaults，最后扫 legacy
-	const srcsByPriority = [userSrc, defaultsSrc, legacySrc];
+	const { defaultsSrc, userSrc } = readConfigSources();
+	const srcsByPriority = [userSrc, defaultsSrc];
 
 	const protectedList = extractStringArrayFromSources(
 		srcsByPriority,
@@ -1278,12 +1243,10 @@ function getUpgradeConfig() {
  * @returns {string}
  */
 function getApiUrlFromConfig() {
-	const { defaultsSrc, userSrc, legacySrc } = readConfigSources();
+	const { defaultsSrc, userSrc } = readConfigSources();
 	return (
-		extractStringValueFromSources(
-			[userSrc, defaultsSrc, legacySrc],
-			"apiUrl",
-		) || FALLBACK_API_URL
+		extractStringValueFromSources([userSrc, defaultsSrc], "apiUrl") ||
+		FALLBACK_API_URL
 	);
 }
 
@@ -1296,16 +1259,16 @@ let _prefixPatternResolved = false;
  */
 function getVersionPrefixPattern() {
 	if (_prefixPatternResolved) return _cachedPrefixPattern;
-	const { defaultsSrc, userSrc, legacySrc } = readConfigSources();
+	const { defaultsSrc, userSrc } = readConfigSources();
 	_cachedPrefixPattern = extractStringValueFromSources(
-		[userSrc, defaultsSrc, legacySrc],
+		[userSrc, defaultsSrc],
 		"versionPrefixPattern",
 	);
 	_prefixPatternResolved = true;
 	return _cachedPrefixPattern;
 }
 
-/** 获取 HTTP 超时时间 */
+/* 获取 HTTP 超时时间 */
 function getHttpTimeout() {
 	const cfg = getUpgradeConfig();
 	return cfg ? cfg.httpTimeout : 30_000;
@@ -1333,14 +1296,14 @@ function compileGlob(pattern) {
 	return new RegExp(regex);
 }
 
-/** 检查文件路径是否匹配受保护列表 */
+/* 检查文件路径是否匹配受保护列表 */
 function isProtected(fp) {
 	const cfg = getUpgradeConfig();
 	const list = cfg ? cfg.protected : [];
 	return list.map(compileGlob).some((r) => r.test(fp));
 }
 
-/** 检查文件路径是否匹配忽略列表 */
+/* 检查文件路径是否匹配忽略列表 */
 function isIgnored(fp) {
 	const cfg = getUpgradeConfig();
 	const list = cfg ? cfg.ignore : [];
@@ -1387,7 +1350,7 @@ function scanAllFiles(dir, baseDir = dir, results = []) {
 	return results;
 }
 
-/** 递归删除空目录（直到 stopAt 或非空目录为止） */
+/* 递归删除空目录（直到 stopAt 或非空目录为止） */
 function removeEmptyDirs(dir, stopAt) {
 	if (dir === stopAt || !fs.existsSync(dir)) return;
 	const entries = fs.readdirSync(dir);
@@ -1399,7 +1362,7 @@ function removeEmptyDirs(dir, stopAt) {
 
 /* HTTP 请求 */
 
-/** 根据 URL 协议选择 http 或 https 模块 */
+/* 根据 URL 协议选择 http 或 https 模块 */
 function httpGet(url, options, callback) {
 	const mod = url.startsWith("https://") ? https : http;
 	return mod.get(url, options, callback);
@@ -1550,7 +1513,7 @@ async function verifyDownload(filePath, info) {
 			debugLog("verifyDownload:size", e);
 		}
 	}
-	// 哈希校验（GitHub Release asset 的 digest 格式为 "sha256:xxxx"）
+	// 哈希校验
 	if (info.digest) {
 		const match = info.digest.match(/^(sha(?:256|384|512)):(.+)$/);
 		if (match) {
@@ -1574,7 +1537,7 @@ async function verifyDownload(filePath, info) {
 
 /* 版本号处理 */
 
-/** 从 package.json 读取本地版本号 */
+/* 从 package.json 读取本地版本号 */
 function getLocalVersion() {
 	try {
 		const pkg = JSON.parse(
@@ -1587,7 +1550,7 @@ function getLocalVersion() {
 	}
 }
 
-/** 移除版本号前缀（如 CE_V、v、V） */
+/* 移除版本号前缀（如 v、V） */
 function stripVersionPrefix(tag) {
 	const pattern = getVersionPrefixPattern();
 	return pattern ? tag.replace(new RegExp(pattern, "i"), "") : tag;
@@ -1722,7 +1685,7 @@ async function extractArchive(archivePath, destDir) {
 	}
 }
 
-/** 在目录中查找 zip 压缩包 */
+/* 在目录中查找 zip 压缩包 */
 function findArchiveInDir(dir) {
 	const entries = fs.readdirSync(dir);
 	for (const name of entries) {
@@ -1931,8 +1894,6 @@ function buildBackupFileList(cachedLocalFiles) {
 
 /**
  * Windows 平台备份：使用 .NET ZipFile API + 精确文件列表
- * 通过临时 .ps1 脚本调用 System.IO.Compression，避免 Compress-Archive 性能问题
- * 且使用与 Unix 相同的 scanFiles + isIgnored 过滤，保证两平台排除语义一致
  * @param {string} zipPath - 目标 zip 路径
  * @param {Array} entries - 文件列表（含 relativePath 和 absolutePath）
  * @returns {Promise<void>}
@@ -2024,8 +1985,6 @@ async function backupOnUnix(zipPath, entries) {
 
 /**
  * 备份整个项目到 backup/ 目录
- * Windows 使用 .NET ZipFile API，Unix 使用 zip 命令
- * 两平台共用 scanFiles + isIgnored 精确过滤，排除语义完全一致
  * @param {string} version - 当前版本号
  * @param {Array} cachedLocalFiles - 缓存的本地文件列表
  * @returns {Promise<string|null>} 备份文件名，失败返回 null
@@ -2035,7 +1994,7 @@ async function backupProject(version, cachedLocalFiles) {
 	const backupDir = path.join(ROOT, "backup");
 	ensureDir(backupDir);
 
-	const zipName = `BrightMoon_Backup_CE_V${ver}.zip`;
+	const zipName = `BrightMoon_backup_v${ver}.zip`;
 	const zipPath = path.join(backupDir, zipName);
 	if (fs.existsSync(zipPath)) fs.unlinkSync(zipPath);
 
@@ -2044,7 +2003,6 @@ async function backupProject(version, cachedLocalFiles) {
 
 	try {
 		// 仅在失败时清理单个 zip 文件，不删除整个 backup 目录
-		// 修复：原实现误将 backupDir 赋给清理变量，中断时会删除所有历史备份
 		backupFileToClean = zipPath;
 
 		if (process.platform === "win32") {
@@ -2117,10 +2075,10 @@ function checkRollback(release, localVer) {
 	}
 }
 
-/* 应用更新 */
+/* 组件更新 */
 
 /**
- * 应用文件级更新：同步删除、新增、替换，跳过受保护文件
+ * 同步删除、新增、替换，跳过受保护文件
  * @param {object} release - Release 对象（含 extractDir）
  * @param {Array} cachedLocalFiles - 缓存的本地文件列表
  * @returns {{protected: string[], replaced: string[], fileDeleted: string[], fileAdded: string[]}}
@@ -2191,10 +2149,7 @@ function applyUpdate(release, cachedLocalFiles) {
 }
 
 /**
- * 应用恢复更新：全量恢复到备份状态，不遵守保护文件和屏蔽规则
- * 本地有、备份没有 → 删除本地文件（新版本残留）
- * 备份有、本地没有 → 添加到本地（被新版本删除的文件）
- * 两边都有 → 用备份版本替换本地版本
+ * 备份恢复：全量恢复到备份状态，不遵守保护文件和屏蔽规则
  * @param {object} release - Release 对象（含 extractDir）
  * @param {Array} cachedLocalFiles - 缓存的本地文件列表
  * @returns {{replaced: string[], fileDeleted: string[], fileAdded: string[]}}
@@ -2281,7 +2236,7 @@ function printReport(stats, tagName) {
 
 /* 主流程 - 子步骤 */
 
-/** 步骤：选择语言 */
+/* 步骤：选择语言 */
 async function selectLanguage() {
 	const LANG_MAP = ["zh", "zh-TW", "en", "ja"];
 	const langChoice = await selectMenu(
@@ -2301,7 +2256,7 @@ async function selectLanguage() {
 	lang = LANG_MAP[langChoice];
 }
 
-/** 步骤：选择升级方式（在线/本地） */
+/* 步骤：选择升级方式（在线/本地） */
 async function selectMethod() {
 	console.log(`\n${I18n("welcome")}`);
 	console.log(`${I18n("buildDate")}: ${LOCAL_VERSION}\n`);
@@ -2353,7 +2308,7 @@ async function selectMethod() {
 	return isOnline;
 }
 
-/** 步骤：检查在线版本（选择稳定版/预发布版，获取最新 Release） */
+/* 步骤：检查在线版本（选择稳定版/预发布版，获取最新 Release） */
 async function checkOnlineVersion() {
 	const verChoice = await selectMenu(
 		I18n("versionTitle"),
@@ -2390,7 +2345,7 @@ async function checkOnlineVersion() {
 
 	const selectedRelease = releases[0];
 
-	// 去掉版本号前缀（如 CE_V、v、V），避免重复
+	// 去掉版本号前缀（如 v、V），避免重复
 	selectedRelease.tag_name = stripVersionPrefix(selectedRelease.tag_name);
 	const localParsed = parseVersion(localVer || "");
 	const latestParsed = parseVersion(selectedRelease.tag_name);
@@ -2408,7 +2363,7 @@ async function checkOnlineVersion() {
 	return selectedRelease;
 }
 
-/** 步骤：确认升级 */
+/* 步骤：确认升级 */
 async function confirmUpgrade() {
 	const ok = await confirm(
 		I18n("confirmTitle"),
@@ -2607,17 +2562,13 @@ async function main() {
 	}
 	isInstallingDeps = false;
 
-	// 检测配置文件架构版本（新架构：src/config/ 目录，旧架构：src/config.ts 单文件）
-	const configTsPath = path.join(ROOT, "src/config.ts");
 	const configIndexPath = path.join(ROOT, "src/config/index.ts");
 
 	const hasNewArch = fs.existsSync(configIndexPath);
-	const hasOldArch = fs.existsSync(configTsPath);
 
 	if (isRestoreBackup) {
 		log(I18n("configRestoreTip"), "info");
-	} else if (hasNewArch || hasOldArch) {
-		// 新架构已就位：src/config/{index,defaults,user}.ts
+	} else if (hasNewArch) {
 		log(
 			I18n(
 				backupName || hasExistingBackup()

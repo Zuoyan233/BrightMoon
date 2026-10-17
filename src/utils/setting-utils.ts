@@ -1,3 +1,7 @@
+/**
+ * 设置工具函数 - 主题/色调/壁纸等用户偏好读写
+ */
+
 import {
 	DARK_MODE,
 	DEFAULT_THEME,
@@ -83,7 +87,7 @@ export function applyThemeToDocument(theme: LIGHT_DARK_MODE) {
 			}
 		}
 
-		// Set the theme for Expressive Code based on current mode
+		// 根据当前模式设置 Expressive Code 主题
 		// 只在必要时更新 data-theme 属性以减少重绘
 		if (needsCodeThemeUpdate) {
 			const expressiveTheme = targetIsDark ? "github-dark" : "github-light";
@@ -361,7 +365,7 @@ export function setPostListLayout(layout: POST_LIST_LAYOUT_MODE): void {
 	window.dispatchEvent(new CustomEvent("layoutChange", { detail: { layout } }));
 }
 
-// Navbar transparent mode
+// 导航栏透明模式
 export function getDefaultNavbarTransparentMode(): NAVBAR_TRANSPARENT_MODE {
 	const configCarrier = document.getElementById("config-carrier");
 	if (!configCarrier) {

@@ -25,7 +25,6 @@
 	"[jsonc]": {
 		"editor.defaultFormatter": "biomejs.biome"
 	},
-	"liveServer.settings.root": "/dist",
 	"frontMatter.dashboard.openOnStart": false,
 	"css.lint.unknownAtRules": "ignore",
 	"css.lint.unknownProperties": "ignore",

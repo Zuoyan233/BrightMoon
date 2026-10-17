@@ -1,46 +1,13 @@
 /**
- * DOM i18n helper.
- * Apply local dictionary replacements first, then let translate.js
- * handle the remaining text.
+ * DOM 国际化辅助 - 先应用本地字典替换，再交由 translate.js 处理剩余文本
  */
 
 import type I18nKey from "@i18n/i18nKey";
-import { ar } from "@i18n/languages/ar";
-import { de } from "@i18n/languages/de";
-import { en } from "@i18n/languages/en";
-import { es } from "@i18n/languages/es";
-import { fr } from "@i18n/languages/fr";
-import { id } from "@i18n/languages/id";
-import { ja } from "@i18n/languages/ja";
-import { ko } from "@i18n/languages/ko";
-import { ru } from "@i18n/languages/ru";
-import { th } from "@i18n/languages/th";
-import { tr } from "@i18n/languages/tr";
-import { vi } from "@i18n/languages/vi";
-import { zh_CN } from "@i18n/languages/zh_CN";
-import { zh_TW } from "@i18n/languages/zh_TW";
+import { allTranslations } from "@i18n/translation";
 import { siteConfig } from "@/config";
 import { translateToLangMap } from "@/utils/language-utils";
 
-// Reuse the loaded dictionaries instead of importing the same files repeatedly.
-export const allTranslations: Record<string, Record<string, string>> = {
-	en,
-	zh_CN,
-	zh_TW,
-	ja,
-	ko,
-	es,
-	fr,
-	de,
-	ru,
-	ar,
-	th,
-	vi,
-	tr,
-	id,
-};
-
-// Reverse lookup table: translated text -> i18n key.
+// 反向查找表：翻译文本 -> i18n 键
 const textToKeyMap = new Map<string, I18nKey>();
 
 function buildReverseMap(_lang: string): void {
@@ -134,10 +101,13 @@ export function applyI18nToDOM(
 
 		if (key && targetTranslation[key] !== undefined) {
 			const translated = targetTranslation[key];
-			if (translated && translated !== text) {
-				textNode.textContent = translated;
-				replacedCount++;
+			if (translated) {
+				if (translated !== text) {
+					textNode.textContent = translated;
+					replacedCount++;
+				}
 
+				// 文本已正确时同样打标记，防止 translate.js 对已翻译文本二次翻译
 				const parent = textNode.parentElement;
 				if (parent) {
 					parent.classList.add("ignore");
@@ -233,7 +203,7 @@ export function applyI18nToDOM(
 		try {
 			window.runtime();
 		} catch {
-			// Ignore runtime refresh errors for partially mounted DOM.
+			// 忽略部分挂载 DOM 的运行时刷新错误
 		}
 	}
 
@@ -247,7 +217,7 @@ export function applyI18nToDOM(
 }
 
 /**
- * Convert translate.js language codes to local i18n codes before applying DOM replacements.
+ * 将 translate.js 语言代码转换为本地 i18n 代码后再应用 DOM 替换
  */
 export function applyI18nForTranslate(
 	translateLangCode: string,

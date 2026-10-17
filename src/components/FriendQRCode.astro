@@ -43,7 +43,7 @@ const methodsToShow = qrCodes
             {methodsToShow.map((method) => (
               <button
                 data-tab-id={method.method}
-                class="tab-btn bg-transparent border-2 border-[var(--primary)] text-[var(--primary)] flex-1 max-w-[120px] border-none rounded-lg py-2 px-4 text-sm font-medium cursor-pointer transition-all duration-200 hover:bg-[var(--btn-plain-bg-hover)]"
+                class="tab-btn bg-transparent border-2 border-[var(--primary)] text-[var(--primary)] flex-1 max-w-[120px] border-none rounded-lg py-2 px-4 text-sm font-medium cursor-pointer transition-all duration-300 hover:bg-[var(--btn-plain-bg-hover)]"
               >
                 <span class="flex items-center justify-center gap-1.5">
                   <Icon name={method.icon} class="text-lg" />
@@ -80,12 +80,12 @@ const methodsToShow = qrCodes
                       name="material-symbols:person"
                       class="text-lg text-[var(--primary)] flex-shrink-0"
                     />
-                    <span class="text-sm text-black/80 dark:text-white/80 font-mono truncate select-all">
+                    <span class="text-sm text-90 font-mono truncate select-all">
                       {method.account}
                     </span>
                   </div>  
                   <button
-                    class="copy-account-btn flex-shrink-0 flex items-center justify-center gap-1 px-4 py-2 bg-[var(--primary)] text-white rounded-lg hover:opacity-80 transition-all duration-200 font-medium text-sm whitespace-nowrap"
+                    class="copy-account-btn flex-shrink-0 flex items-center justify-center gap-1 px-4 py-2 bg-[var(--primary)] text-white rounded-lg hover:opacity-80 transition-all duration-300 font-medium text-sm whitespace-nowrap"
                     data-account={method.account}
                     data-copied-text={i18n(I18nKey.copyAccountSuccess)}
                   >
@@ -116,13 +116,13 @@ const methodsToShow = qrCodes
       <button
         id="dialog-open-app-btn"
         data-link=""
-        class="hidden border-none rounded-[8px] py-2.5 px-7 text-base font-bold cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] active:scale-95 bg-[var(--btn-regular-bg)] text-[var(--btn-content)] hover:bg-[var(--btn-regular-bg-hover)] ignore"
+        class="hidden border-none rounded-[8px] py-2.5 px-7 text-base font-bold cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] active:scale-95 bg-[var(--btn-regular-bg)] text-[var(--btn-content)] hover:bg-[var(--btn-regular-bg-hover)] ignore"
       >
         {i18n(I18nKey.openAppAdd)}
       </button>
       <button
         id="dialog-close-btn"
-        class="border-none rounded-[8px] py-2.5 px-7 text-base font-bold cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] active:scale-95 bg-transparent border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--btn-plain-bg-hover)]"
+        class="border-none rounded-[8px] py-2.5 px-7 text-base font-bold cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] active:scale-95 bg-transparent border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--btn-plain-bg-hover)]"
       >
         {i18n(I18nKey.cancelText)}
       </button>

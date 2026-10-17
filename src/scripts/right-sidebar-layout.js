@@ -1,7 +1,7 @@
 // 右侧边栏布局管理器
 // 用于在网格模式下隐藏右侧边栏
 
-let _layoutAC = null; // AbortController for cleanup
+let _layoutAC = null; // 布局监听器 AbortController
 
 /**
  * 初始化页面布局

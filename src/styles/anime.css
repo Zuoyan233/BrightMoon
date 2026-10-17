@@ -1,7 +1,11 @@
+/* 动画卡片样式 */
+
+/* 动画卡片基础 */
 .anime-card-base {
 	container-type: inline-size;
 }
 
+/* 动画卡片容器 */
 .anime-grid-container {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
@@ -9,7 +13,7 @@
 	transition: gap 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* === Grid Mode === */
+/* 网格模式容器 */
 .anime-grid-container.anime-grid-mode {
 	grid-template-columns: repeat(2, 1fr);
 }
@@ -32,7 +36,7 @@
 	}
 }
 
-/* === List Mode === */
+/* 列表模式容器 */
 .anime-grid-container.anime-list-mode {
 	grid-template-columns: repeat(1, 1fr);
 }
@@ -42,12 +46,14 @@
 	}
 }
 
+/* 列表模式容器 - 动画卡片组 */
 .anime-grid-container.anime-list-mode .group {
 	display: flex;
 	flex-direction: row;
 	min-height: 12rem;
 }
 
+/* 列表模式容器 - 动画卡片封面容器 */
 .anime-grid-container.anime-list-mode .anime-cover-container {
 	width: 8.5rem;
 	height: auto;
@@ -60,6 +66,7 @@
 	}
 }
 
+/* 列表模式容器 - 动画卡片内容容器 */
 .anime-grid-container.anime-list-mode .p-3 {
 	flex-grow: 1;
 	display: flex;
@@ -68,24 +75,31 @@
 	padding: 0.75rem 1rem;
 }
 
+/* 列表模式容器 - 动画卡片标题 */
 .anime-grid-container.anime-list-mode h3 {
 	-webkit-line-clamp: unset;
 	line-clamp: unset;
 	white-space: normal;
 }
 
+/* 列表模式容器 - 动画卡片描述 */
 .anime-grid-container.anime-list-mode .group p.text-xs {
 	-webkit-line-clamp: 4;
 	line-clamp: 4;
 }
 
+/* 列表模式容器 - 动画卡片标签容器 */
 .anime-filter-container {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 0.5rem;
 }
 
+/* 列表模式容器 - 动画卡片标签 */
 .anime-filter-tag {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.375rem;
 	padding: 0.5rem 1rem;
 	border: 1px solid var(--line-divider);
 	border-radius: var(--radius-large);
@@ -97,21 +111,33 @@
 	transition: all 0.2s ease;
 	white-space: nowrap;
 }
+
+/* 列表模式容器 - 动画卡片标签计数 */
+.anime-filter-count {
+	font-size: 0.875rem;
+	font-weight: 500;
+}
+
+/* 列表模式容器 - 动画卡片标签悬停 */
 .anime-filter-tag:hover:not(.anime-active) {
 	background: var(--btn-hover-bg);
 	border-color: var(--primary);
 	transform: translateY(-1px);
 }
+
+/* 列表模式容器 - 动画卡片标签选中 */
 .anime-filter-tag.anime-active {
 	background: var(--primary);
 	color: white;
 	border-color: var(--primary);
 }
 
+/* 列表模式容器 - 动画卡片隐藏 */
 .anime-grid-container [data-anime-status].anime-hidden {
 	display: none;
 }
 
+/* 列表模式容器 - 动画卡片显示 */
 .anime-grid-container [data-anime-status] {
 	transition:
 		opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
@@ -121,22 +147,26 @@
 	contain-intrinsic-size: 1px 350px;
 }
 
+/* 列表模式容器 - 动画卡片淡出 */
 .anime-grid-container [data-anime-status].anime-fade-out {
 	opacity: 0;
 	transform: scale(0.9);
 	pointer-events: none;
 }
 
+/* 列表模式容器 - 动画卡片淡入 */
 .anime-grid-container [data-anime-status].anime-fade-in {
 	opacity: 0;
 	transform: scale(0.9);
 }
 
+/* 列表模式容器 - 动画卡片淡入激活 */
 .anime-grid-container [data-anime-status].anime-fade-in-active {
 	opacity: 1;
 	transform: scale(1);
 }
 
+/* 列表模式容器 - 动画卡片加载中 */
 .anime-loading-spinner {
 	border-right-color: var(--primary);
 	animation: spin 1s linear infinite;

@@ -2,12 +2,12 @@
 import { h } from "hastscript";
 
 /**
- * Creates a GitHub Card component.
+ * 创建 GitHub 卡片组件
  *
- * @param {Object} properties - The properties of the component.
- * @param {string} properties.repo - The GitHub repository in the format "owner/repo".
- * @param {import('mdast').RootContent[]} children - The children elements of the component.
- * @returns {import('mdast').Parent} The created GitHub Card component.
+ * @param {Object} properties - 组件属性
+ * @param {string} properties.repo - GitHub 仓库，格式为 "owner/repo"
+ * @param {import('mdast').RootContent[]} children - 子元素
+ * @returns {import('mdast').Parent} 创建的 GitHub 卡片组件
  */
 export function GithubCardComponent(properties, children) {
 	if (Array.isArray(children) && children.length !== 0)
@@ -23,7 +23,7 @@ export function GithubCardComponent(properties, children) {
 		);
 
 	const repo = properties.repo;
-	const cardUuid = `GC${Math.random().toString(36).slice(-6)}`; // Collisions are not important
+	const cardUuid = `GC${Math.random().toString(36).slice(-6)}`; // 碰撞不重要
 
 	const nAvatar = h(`div#${cardUuid}-avatar`, { class: "gc-avatar" });
 	const nLanguage = h(

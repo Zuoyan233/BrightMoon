@@ -1,10 +1,15 @@
+/* 代码块样式 */
+
 .expressive-code {
+	/* 代码块容器 */
 	@apply relative;
 
+	/* 代码块框架 */
 	.frame {
 		@apply !shadow-none;
 	}
 
+	/* 代码块标题 */
 	.title {
 		font-family:
 			"JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, Monaco,
@@ -22,10 +27,12 @@
 		justify-content: center;
 	}
 
+	/* 悬停状态 */
 	.copy-btn:hover {
 		background: var(--btn-regular-bg-hover);
 	}
 
+	/* 图标 */
 	.copy-btn-icon {
 		@apply absolute top-1/2 left-1/2 transition -translate-x-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none;
 		fill: var(--btn-content);
@@ -75,6 +82,7 @@
 	user-select: none;
 }
 
+/* 悬停状态 */
 .expressive-code.collapsible .frame:hover {
 	background-color: rgba(var(--primary-rgb, 59, 130, 246), 0.03);
 }

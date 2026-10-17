@@ -42,6 +42,15 @@ export const ko: Translation = {
 	[Key.friendsCopyLink]: "링크 복사",
 	[Key.friendsCopySuccess]: "복사됨",
 	[Key.friendsTags]: "태그",
+	[Key.friendsNoticeTitle]: "주의사항",
+	[Key.friendsNoticeReciprocal]:
+		"먼저 이 사이트를 친구 페이지에 추가해 주세요. 확인 후 귀하의 링크를 추가하겠습니다.",
+	[Key.friendsNoticeMaintenance]:
+		"오랫동안 접근할 수 없거나 불법 콘텐츠가 포함된 친구 링크는 제거됩니다.",
+	[Key.friendsNoticeContent]:
+		"긍정적인 콘텐츠여야 하며, 포륜/반동/폭력 등 불법 콘텐츠를 포함하지 않아야 합니다.",
+	[Key.friendsNoticeHttps]:
+		"HTTPS 지원 콘텐츠 중심, 정상적으로 접근 가능하고 지속적으로 업데이트되어야 합니다.",
 	[Key.untitled]: "제목 없음",
 	[Key.uncategorized]: "분류되지 않음",
 	[Key.noTags]: "태그 없음",
@@ -74,7 +83,6 @@ export const ko: Translation = {
 	[Key.diary]: "일기",
 
 	// 애니메이션 페이지
-	[Key.animeTitle]: "내 애니메이션 목록",
 	[Key.animeSubtitle]: "나의 애니메이션 여정을 기록합니다",
 	[Key.animeStatusWatching]: "시청 중",
 	[Key.animeStatusCompleted]: "완료",
@@ -89,11 +97,12 @@ export const ko: Translation = {
 	[Key.animeEmptyBilibili]:
 		"Bilibili 데이터가 비어 있습니다. `pnpm run update-bilibili`를 실행하여 데이터를 가져오세요",
 	[Key.animeSetBangumiUserId]:
-		"src/config/user.ts 파일에 Bangumi 사용자 ID를 설정해주세요",
+		"src/config/user/site.ts 파일에 Bangumi 사용자 ID를 설정해주세요",
 	[Key.animeSetBilibiliVmId]:
-		"src/config/user.ts 파일에 Bilibili vmID를 설정해주세요",
+		"src/config/user/site.ts 파일에 Bilibili vmID를 설정해주세요",
 	[Key.animeEmptyLocal]:
-		"src/data/anime.ts 파일에 애니메이션 정보를 추가해주세요",
+		"src/config/user/anime-data.ts 파일에 애니메이션 정보를 추가해주세요",
+	[Key.animeFilterEmpty]: "이 카테고리에 해당하는 애니메이션이 없습니다",
 
 	// 일기 페이지
 	[Key.diarySubtitle]: "언제 어디서나 삶을 공유하세요",
@@ -267,7 +276,6 @@ export const ko: Translation = {
 	[Key.skillsDatabase]: "데이터베이스",
 	[Key.skillsTools]: "개발 도구",
 	[Key.skillsOther]: "기타 기술",
-	[Key.skillLevel]: "숙련도",
 	[Key.skillLevelBeginner]: "입문자",
 	[Key.skillLevelIntermediate]: "중급",
 	[Key.skillLevelAdvanced]: "고급",
@@ -276,16 +284,8 @@ export const ko: Translation = {
 	[Key.skillYears]: "년",
 	[Key.skillMonths]: "개월",
 	[Key.skillsTotal]: "전체 기술",
-	[Key.skillsExpert]: "전문가 수준",
-	[Key.skillsAdvanced]: "고급",
-	[Key.skillsIntermediate]: "중급",
-	[Key.skillsBeginner]: "입문자",
 	[Key.skillsAdvancedTitle]: "전문 기술",
-	[Key.skillsProjects]: "관련 프로젝트",
-	[Key.skillsDistribution]: "기술 분포",
-	[Key.skillsByLevel]: "수준별",
-	[Key.skillsByCategory]: "분야별",
-	[Key.noData]: "데이터 없음",
+	[Key.skillsFilterEmpty]: "이 카테고리에 기술이 없습니다",
 
 	// 타임라인 페이지
 	[Key.timeline]: "타임라인",
@@ -295,18 +295,12 @@ export const ko: Translation = {
 	[Key.timelineProject]: "프로젝트 경험",
 	[Key.timelineAchievement]: "성과",
 	[Key.timelinePresent]: "현재",
-	[Key.timelineLocation]: "위치",
-	[Key.timelineDescription]: "상세 설명",
 	[Key.timelineMonths]: "개월",
 	[Key.timelineYears]: "년",
 	[Key.timelineTotal]: "합계",
-	[Key.timelineProjects]: "프로젝트",
-	[Key.timelineExperience]: "경력",
 	[Key.timelineCurrent]: "현재 상태",
-	[Key.timelineHistory]: "히스토리",
 	[Key.timelineAchievements]: "성과",
-	[Key.timelineStartDate]: "시작일",
-	[Key.timelineDuration]: "기간",
+	[Key.timelineFilterEmpty]: "이 카테고리에 타임라인 기록이 없습니다",
 
 	// 피드백 페이지 - 웹마스터 연락 모듈
 	[Key.contactMe]: "웹마스터에게 연락하기",
@@ -319,8 +313,6 @@ export const ko: Translation = {
 		"웹사이트 콘텐츠가 도움이 되셨다면, 아래 방법으로 제 작업을 후원해주세요. 더 나은 콘텐츠 제작에 도움이 됩니다. 모든 후원금은 웹사이트 유지보수, 서버 비용 및 콘텐츠 제작에 사용됩니다.",
 	[Key.sponsorsNotice2]:
 		"BrightMoon 블로그 프로젝트 콘텐츠 개발을 후원해주셔서 감사합니다!",
-	[Key.wechatPay]: "WeChat",
-	[Key.aliPay]: "Alipay",
 	[Key.scanPayQRcode]: "스캔하여 결제",
 	[Key.sponsorsPartner]: "후원 파트너",
 	[Key.otherSupportOptions]: "다른 후원 방법",
@@ -450,7 +442,8 @@ export const ko: Translation = {
 
 	// 날씨 컴포넌트
 	[Key.weather]: "날씨",
-	[Key.weatherNoApiKey]: "src/config/user.ts 에 WeatherAPI 키를 추가하세요",
+	[Key.weatherNoApiKey]:
+		"src/config/user/weather.ts 에 WeatherAPI 키를 추가하세요",
 	[Key.weatherLocationDisabled]:
 		"개인정보 계약을 거부하여 날씨 위치 서비스가 비활성화되었습니다",
 	[Key.weatherWaitingConsent]: "날씨 위치 권한을 기다리는 중...",
@@ -505,7 +498,7 @@ export const ko: Translation = {
 	[Key.twikooInitializing]: "Twikoo 댓글 시스템 초기화 중...",
 	[Key.twikooNotConfigured]: "Twikoo 댓글 시스템이 아직 구성되지 않았습니다",
 	[Key.twikooConfigHint]:
-		"src/config/user.ts 에서 Twikoo 댓글 시스템을 구성하세요",
+		"src/config/user/comment.ts 에서 Twikoo 댓글 시스템을 구성하세요",
 	[Key.twikooPrivacyRejected]:
 		"개인정보 계약을 거부하여 Twikoo 댓글 시스템이 비활성화되었습니다",
 

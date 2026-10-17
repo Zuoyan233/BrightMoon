@@ -1,3 +1,7 @@
+/**
+ * 组件管理器 - 管理侧边栏组件的动态加载、排序和渲染
+ */
+
 import { sidebarLayoutConfig } from "../config";
 import type {
 	SidebarLayoutConfig,

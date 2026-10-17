@@ -1,3 +1,7 @@
+/**
+ * Rehype 插件 - 为表格元素添加滚动包装容器
+ */
+
 import { visit } from "unist-util-visit";
 
 export function rehypeWrapTable() {

@@ -509,7 +509,7 @@ let currentI18n = $derived(
 		? getTranslation(
 				translationManager.isActive()
 					? translationManager.getConfigLanguage()
-					: siteConfig.lang || "en",
+					: siteConfig.lang,
 			)
 		: null,
 );
@@ -1330,7 +1330,7 @@ onDestroy(() => {
 
 {#if musicPlayerConfig.enable}
 <div class="pb-4 card-base {className}">
-    <div class="font-bold transition text-lg text-neutral-900 dark:text-neutral-100 relative ml-8 mt-4 mb-2 flex items-center justify-between pr-4
+    <div class="font-bold transition text-lg text-90 relative ml-8 mt-4 mb-2 flex items-center justify-between pr-4
         before:w-1 before:h-4 before:rounded-md before:bg-[var(--primary)]
         before:absolute before:left-[-16px] before:top-[5.5px]">
         <span>{i18n(Key.musicPlayer)}</span>
@@ -1347,9 +1347,9 @@ onDestroy(() => {
     <div class="px-4 mb-2" transition:slide={{ duration: 200, axis: 'y' }}>
         <div bind:this={settingsPanel} class="rounded-lg p-3 bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))] space-y-3">
 			<div class="flex items-center gap-2">
-					<label for="mp-settings-type" class="text-sm text-[oklch(0.55_0.12_var(--hue))] dark:text-white/80 w-16 shrink-0">{settingsTypeLabel}</label>
+					<label for="mp-settings-type" class="text-sm font-bold text-[var(--btn-content)] dark:text-white/80 w-16 shrink-0">{settingsTypeLabel}</label>
 					<select id="mp-settings-type" bind:value={settingsType}
-							class="mp-select flex-1 text-sm px-2 py-1.5 rounded-lg bg-[var(--card-bg)] border border-[var(--line-divider)] text-neutral-700 dark:text-neutral-300 focus:outline-none focus:border-[var(--primary)] transition-colors">
+							class="mp-select flex-1 text-sm px-2 py-1.5 rounded-lg bg-[var(--card-bg)] border border-[var(--line-divider)] text-75 focus:outline-none focus:border-[var(--primary)] transition-colors">
 						<option value="playlist">{settingsPlaylistLabel}</option>
 						<option value="song">{settingsSongLabel}</option>
 						<option value="album">{settingsAlbumLabel}</option>
@@ -1357,14 +1357,14 @@ onDestroy(() => {
 					</select>
 			</div>
             <div class="flex items-center gap-2">
-                <label for="mp-settings-id" class="text-sm text-[oklch(0.55_0.12_var(--hue))] dark:text-white/80 w-16 shrink-0">{settingsIdLabel}</label>
+                <label for="mp-settings-id" class="text-sm font-bold text-[var(--btn-content)] dark:text-white/80 w-16 shrink-0">{settingsIdLabel}</label>
                 <input id="mp-settings-id" type="text" bind:value={settingsId}
-                       class="w-full flex-1 text-sm px-2 py-1.5 rounded-lg bg-[var(--card-bg)] border border-[var(--line-divider)] text-neutral-700 dark:text-neutral-300 placeholder-neutral-400 dark:placeholder-neutral-500 focus:outline-none focus:border-[var(--primary)] transition-colors" />
+                       class="w-full flex-1 text-sm px-2 py-1.5 rounded-lg bg-[var(--card-bg)] border border-[var(--line-divider)] text-75 placeholder-neutral-400 dark:placeholder-neutral-500 focus:outline-none focus:border-[var(--primary)] transition-colors" />
             </div>
             <div class="flex items-center gap-2">
-                <label for="mp-settings-server" class="text-sm text-[oklch(0.55_0.12_var(--hue))] dark:text-white/80 w-16 shrink-0">{settingsServerLabel}</label>
+                <label for="mp-settings-server" class="text-sm font-bold text-[var(--btn-content)] dark:text-white/80 w-16 shrink-0">{settingsServerLabel}</label>
                 <select id="mp-settings-server" bind:value={settingsServer}
-                        class="mp-select flex-1 text-sm px-2 py-1.5 rounded-lg bg-[var(--card-bg)] border border-[var(--line-divider)] text-neutral-700 dark:text-neutral-300 focus:outline-none focus:border-[var(--primary)] transition-colors">
+                        class="mp-select flex-1 text-sm px-2 py-1.5 rounded-lg bg-[var(--card-bg)] border border-[var(--line-divider)] text-75 focus:outline-none focus:border-[var(--primary)] transition-colors">
                     <option value="netease">{settingsNeteaseLabel}</option>
                     <option value="tencent">{settingsTencentLabel}</option>
                     <option value="kugou">{settingsKugouLabel}</option>
@@ -1408,15 +1408,15 @@ onDestroy(() => {
             </div>
             <div class="flex-1 min-w-0">
                 <div class="ignore song-title text-lg font-bold text-90 truncate mb-1" title={sharedCurrentSong.title}>{sharedCurrentSong.title}</div>
-                <div class="ignore song-artist text-sm text-50 truncate" title={sharedCurrentSong.artist}>{sharedCurrentSong.artist}</div>
+                <div class="ignore song-artist text-sm text-60 dark:text-60 truncate" title={sharedCurrentSong.artist}>{sharedCurrentSong.artist}</div>
             </div>
         </div>
 
 		<div class="flex justify-between mb-2">
-                <div class="text-xs text-50 whitespace-nowrap">
+                <div class="text-xs text-60 dark:text-60 whitespace-nowrap">
                     {formatTime(sharedCurrentTime)}
                 </div>
-                <div class="text-xs text-50 whitespace-nowrap">
+                <div class="text-xs text-60 dark:text-60 whitespace-nowrap">
                     {formatTime(sharedDuration)}
                 </div>
         </div>
@@ -1440,7 +1440,7 @@ onDestroy(() => {
                  aria-valuemax="100"
                  aria-valuenow={sharedDuration > 0 ? Math.min(sharedCurrentTime / sharedDuration * 100, 100) : 0}>
                 <div class="h-full bg-[var(--primary)] rounded-full transition-all"
-                     class:duration-100={!isProgressDragging}
+                     class:duration-300={!isProgressDragging}
                      class:duration-0={isProgressDragging}
                      style="width: {sharedDuration > 0 ? Math.min((sharedCurrentTime / sharedDuration) * 100, 100) : 0}%"></div>
 
@@ -1449,12 +1449,12 @@ onDestroy(() => {
         {#if showLyrics}
             <div class="lyrics-section mb-4 overflow-hidden rounded-lg max-h-[200px] bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))]" transition:slide={{ duration: 300, axis: 'y' }}>
                 {#if sharedLyricsLoading}
-                    <div class="flex items-center justify-center py-8 text-50">
+                    <div class="flex items-center justify-center py-8 text-60">
                         <Icon icon="eos-icons:loading" class="text-lg animate-spin mr-2" />
                         <span class="text-sm">{currentI18n?.[Key.musicPlayerLoading] ?? ""}</span>
                     </div>
                 {:else if sharedNoLyricsFound}
-                    <div class="flex items-center justify-center py-8 text-50">
+                    <div class="flex items-center justify-center py-8 text-60">
                         <Icon icon="material-symbols:lyrics-off" class="text-lg mr-2" />
                         <span class="text-sm">{currentI18n?.[Key.musicPlayerNoLyrics] ?? ""}</span>
                     </div>
@@ -1560,24 +1560,24 @@ onDestroy(() => {
                  aria-valuenow={sharedVolume * 100}>
                 <div class="h-full bg-[var(--primary)] rounded-full"
                      class:transition-all={!isVolumeDragging}
-                     class:duration-200={!isVolumeDragging}
+                     class:duration-300={!isVolumeDragging}
                      class:opacity-50={sharedIsMuted}
                      style="width: {sharedVolume * 100}%"></div>
             </div>
-            <button class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center disabled:cursor-not-allowed disabled:text-neutral-300 disabled:dark:text-neutral-600 disabled:hover:bg-transparent disabled:hover:text-neutral-300 disabled:hover:dark:text-neutral-600"
+            <button class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center disabled:cursor-not-allowed disabled:text-30 disabled:hover:bg-transparent disabled:hover:text-30 disabled:hover:dark:text-60"
                     class:btn-active={showLyrics}
                     disabled={sharedIsLoading || sharedPlaylist.length === 0}
                     onclick={toggleLyrics}
                     title={lyricsTitle}>
                 <Icon icon="material-symbols:lyrics" class="text-lg" />
             </button>
-            <button class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center disabled:cursor-not-allowed disabled:text-neutral-300 disabled:dark:text-neutral-600 disabled:hover:bg-transparent disabled:hover:text-neutral-300 disabled:hover:dark:text-neutral-600"
+            <button class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center disabled:cursor-not-allowed disabled:text-30 disabled:hover:bg-transparent disabled:hover:text-30 disabled:hover:dark:text-60"
                     disabled={!sharedCurrentSong.url}
                     onclick={downloadCurrentSong}
                     title={downloadTitle}>
                 <Icon icon="material-symbols:cloud-download" class="text-lg" />
             </button>
-            <button class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center disabled:cursor-not-allowed disabled:text-neutral-300 disabled:dark:text-neutral-600 disabled:hover:bg-transparent disabled:hover:text-neutral-300 disabled:hover:dark:text-neutral-600"
+            <button class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center disabled:cursor-not-allowed disabled:text-30 disabled:hover:bg-transparent disabled:hover:text-30 disabled:hover:dark:text-60"
                     class:btn-active={showPlaylist}
                     disabled={sharedIsLoading || sharedPlaylist.length === 0}
                     onclick={togglePlaylist}
@@ -1628,7 +1628,7 @@ onDestroy(() => {
                     {/each}
                 </div>
                 <button
-                    class="absolute bottom-3 right-2 w-8 h-8 rounded-full bg-[var(--btn-plain-bg)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-white flex items-center justify-center transition-all duration-200 z-10"
+                    class="absolute bottom-3 right-2 w-8 h-8 rounded-full bg-[var(--btn-plain-bg)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-white flex items-center justify-center transition-all duration-300 z-10"
                     onclick={() => scrollToCurrentSong()}
                     title={locateTitle}>
                     <Icon icon="material-symbols:my-location" class="text-lg" />

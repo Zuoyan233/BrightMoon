@@ -49,7 +49,7 @@ if (commentConfig?.enable && commentConfig?.twikoo) {
       <!-- 页面标题 -->
       <div class="flex flex-col items-start justify-center mb-8">
         <h1
-          class="text-4xl font-bold text-black/90 dark:text-white/90 mb-2 relative
+          class="text-4xl font-bold text-90 mb-2 relative
                   before:w-1 before:h-8 before:rounded-md before:bg-[var(--primary)]
                   before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-4"
         >
@@ -73,7 +73,7 @@ if (commentConfig?.enable && commentConfig?.twikoo) {
       <!-- 页面标题 -->
       <div class="flex flex-col items-start justify-center mb-8">
         <h1
-          class="text-3xl font-bold text-black/90 dark:text-white/90 mb-2 relative
+          class="text-3xl font-bold text-90 mb-2 relative
                   before:w-1 before:h-8 before:rounded-md before:bg-[var(--primary)]
                   before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-4"
         >
@@ -84,20 +84,20 @@ if (commentConfig?.enable && commentConfig?.twikoo) {
       <!-- 联系站长电子邮箱方式 -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-5">
         <div
-          class="bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))] rounded-xl p-8 shadow-sm hover:shadow-lg dark:hover:shadow-lg dark:hover:shadow-white/30 transition-shadow duration-300"
+          class="bg-[var(--btn-regular-bg)] rounded-xl p-8 shadow-sm hover:shadow-lg dark:hover:shadow-lg dark:hover:shadow-white/30 transition-shadow duration-300"
         >
           <Icon
             name="material-symbols:mail-outline"
-            class="text-4xl m-0 mb-4 text-left text-[var(--primary)]"
+            class="text-4xl m-0 mb-4 text-left text-[var(--btn-content)]"
           />
-          <p class="text-md font-normal text-black/100 dark:text-white/80">
+          <p class="text-md font-normal text-75">
             {i18n(I18nKey.contactEmail)}
           </p>
           {
             contactEmailConfig.emails.map((emailItem, index) => (
               <div>
                 <a
-                  class="transition link text-[var(--primary)] hover:text-gray-600 dark:hover:text-white/80 font-medium"
+                  class="ignore transition link text-[var(--btn-content)] hover:text-[var(--primary)] dark:hover:text-75 font-medium"
                   target="_blank"
                   href={emailItem.link}
                 >
@@ -111,18 +111,18 @@ if (commentConfig?.enable && commentConfig?.twikoo) {
 
         <!-- 联系站长添加好友方式 -->
         <div
-          class="bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))] rounded-xl p-8 shadow-sm hover:shadow-lg dark:hover:shadow-lg dark:hover:shadow-white/30 transition-shadow duration-300"
+          class="bg-[var(--btn-regular-bg)] rounded-xl p-8 shadow-sm hover:shadow-lg dark:hover:shadow-lg dark:hover:shadow-white/30 transition-shadow duration-300"
         >
           <Icon
             name="material-symbols:group-add-outline"
-            class="text-4xl m-0 mb-4 text-left text-[var(--primary)]"
+            class="text-4xl m-0 mb-4 text-left text-[var(--btn-content)]"
           />
-          <p class="text-md font-normal text-black/100 dark:text-white/80">
+          <p class="text-md font-normal text-75">
             {i18n(I18nKey.contactSocialFriends)}
           </p>
           <a
             id="show-qrcode-btn"
-            class="btn-regular bg-[oklch(0.7_0.12_var(--hue))] text-white/90 hover:text-[var(--primary)] h-10 mx-auto text-sm px-3 rounded-lg mt-2 cursor-pointer"
+            class="btn-regular bg-[var(--primary)] hover:text-[var(--btn-content)] text-white h-10 mx-auto text-sm px-3 rounded-lg mt-2 cursor-pointer"
           >
             {i18n(I18nKey.addFriends)}
           </a>
@@ -158,7 +158,7 @@ if (commentConfig?.enable && commentConfig?.twikoo) {
             stroke-linecap="round"></circle>
         </svg>
       </div>
-      <p class="text-lg font-bold text-black/90 dark:text-white/90">
+      <p class="text-lg font-bold text-90">
         {i18n(I18nKey.twikooInitializing)}
       </p>
     </div>
@@ -175,12 +175,12 @@ if (commentConfig?.enable && commentConfig?.twikoo) {
     >
       <Icon
         name="material-symbols:chat-bubble-off-outline"
-        class="text-4xl mb-4 text-[var(--primary)]"
+        class="text-4xl mb-4 text-[var(--btn-content)]"
       />
-      <p class="text-lg font-bold text-black/90 dark:text-white/90">
+      <p class="text-lg font-bold text-90">
         {i18n(I18nKey.twikooNotConfigured)}
       </p>
-      <p class="text-sm text-neutral-500 dark:text-neutral-400 mt-1">
+      <p class="text-sm text-60 mt-1">
         {i18n(I18nKey.twikooConfigHint)}
       </p>
     </div>
@@ -190,9 +190,9 @@ if (commentConfig?.enable && commentConfig?.twikoo) {
     >
       <Icon
         name="material-symbols:block-outline"
-        class="text-4xl mb-4 text-[var(--primary)]"
+        class="text-4xl mb-4 text-[var(--btn-content)]"
       />
-      <p class="text-lg font-bold text-black/90 dark:text-white/90">
+      <p class="text-lg font-bold text-90">
         {i18n(I18nKey.twikooPrivacyRejected)}
       </p>
     </div>

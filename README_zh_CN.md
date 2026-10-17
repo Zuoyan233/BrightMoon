@@ -13,7 +13,7 @@ BrightMoon 是一款兼具现代简约与优雅气质的独特二次元美学静
 [![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-blue)](https://www.typescriptlang.org/)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?logo=apache)](https://opensource.org/licenses/Apache-2.0)
 
-💻 欢迎进入我的网站参观：[点击进入](https://www.zuoyanblogs.xyz/)
+💻 欢迎进入我的网站参观：[点击进入](https://www.zuoyanblog.dpdns.org/)
 
 🌐 README 语言：[繁體中文](./README_zh_Hant.md) &nbsp;|&nbsp; [English](./README.md) &nbsp;|&nbsp; [日本語](./README_jp.md)
 
@@ -41,7 +41,7 @@ BrightMoon 是一款兼具现代简约与优雅气质的独特二次元美学静
 
 ## 📌 版本说明
 
-本项目基于 Mizuki V8.2 进行定制化拓展开发，版本号以 BrightMoon Custom Edition（CE）为后缀，代表 BrightMoon 的轻度定制版本（目前正在恶补市面流行的网站框架，等有空了再继续推进）。
+因 Mizuki 项目已停止维护，BrightMoon 现已作为独立项目继续维护，不再使用 Custom Edition（CE）后缀。
 
 ---
 
@@ -120,7 +120,7 @@ BrightMoon 是一款兼具现代简约与优雅气质的独特二次元美学静
 - **SEO 优化** - 包含站点地图和元标签。
 - **性能优化** - 懒加载和缓存机制。
 - **评论系统** - 集成最新版 Twikoo 评论系统，支持多维度配置。
-- **翻译组件** - 采用本地 i18n 语言库 + translate.js 实现毫秒级翻译，内置十四个国家站点语言文本。
+- **翻译组件** - 采用本地 i18n 语言库 + translate.js 实现毫秒级翻译，内置八个国家站点语言文本。
 - **天气组件** - 采用 WeatherAPI 服务，支持七日天气预报、IP 自动定位当前地区，支持手动搜索切换查看其他地区天气。
 - **Cookie 隐私提示** - Cookie 隐私政策确认横幅，支持接受/拒绝，拒绝后自动清除非必要 Cookie。
 - **站点统计** - 实时显示当前日期（支持多地区格式）、季节和时段信息。
@@ -161,8 +161,8 @@ BrightMoon 是一款兼具现代简约与优雅气质的独特二次元美学静
 
 6. **特色页面配置：**
 
-- **追番页面：** 在 `src/pages/anime.astro` 中编辑动画列表。
-- **友链页面：** 在 `src/content/spec/friends.md` 中编辑朋友数据。
+- **追番页面：** 在 `src/config/user/anime-data.ts` 中编辑本地番剧数据配置（用户数据，升级时受保护）。默认数据位于 `src/config/defaults/anime-data.ts`。
+- **友链页面：** 在 `src/config/user/friends-data.ts` 中配置友链列表数据（用户数据，升级时受保护）。默认数据位于 `src/config/defaults/friends-data.ts`。
 - **相册页面：** 在 `public/images/albums` 中编辑相册信息。相册功能采用**自动扫描机制**，只需创建文件夹、放置图片和配置文件即可，无需手动编写代码！
 
   <details>
@@ -348,27 +348,27 @@ BrightMoon 是一款兼具现代简约与优雅气质的独特二次元美学静
 
   </details>
 
-- **我的设备页面：** 在 `src/data/devices.ts` 中编辑设备信息。
-- **日记页面：** 在 `src/data/diary.ts` 中编辑动态。
+- **我的设备页面：** 在 `src/config/user/devices-data.ts` 中编辑设备信息（用户数据，升级时受保护）。默认数据位于 `src/config/defaults/devices-data.ts`。
+- **日记页面：** 在 `src/config/user/diary-data.ts` 中编辑动态（用户数据，升级时受保护）。默认数据位于 `src/config/defaults/diary-data.ts`。
 - **关于页面：** 在 `src/content/spec/about.md` 中编辑内容。
 - **赞助页面：** 在 `src/content/spec/sponsors.md` 中编辑内容。
   - 在 `src/config/user/addpayment.ts` 中找到 `addpaymentConfig` 配置支付二维码，支付二维码存放路径在 `public/images/sponsors` 内。
 - **反馈页面：** 在 `src/content/spec/feedback.md` 中编辑内容。
   - 在 `src/config/user/contact-email.ts` 中找到 `contactEmailConfig` 配置站长电子邮箱联系方式。
   - 在 `src/config/user/contact-methods.ts` 中找到 `addfriendConfig` 配置添加好友二维码，好友二维码存放路径在 `public/images/contact` 内。
-- **项目展示页面：** 在 `src/data/projects.ts` 中编辑展示的内容。
-- **技能展示页面：** 在 `src/data/skills.ts` 中编辑展示的内容。
-- **时间线页面：** 在 `src/data/timeline.ts` 中编辑展示的内容。
+- **项目展示页面：** 在 `src/config/user/projects-data.ts` 中编辑展示的内容（用户数据，升级时受保护）。默认数据位于 `src/config/defaults/projects-data.ts`。
+- **技能展示页面：** 在 `src/config/user/skills-data.ts` 中编辑展示的内容（用户数据，升级时受保护）。默认数据位于 `src/config/defaults/skills-data.ts`。
+- **时间线页面：** 在 `src/config/user/timeline-data.ts` 中编辑展示的内容（用户数据，升级时受保护）。默认数据位于 `src/config/defaults/timeline-data.ts`。
 - **音乐播放器：** 在 `src/config/user/music-player.ts` 中找到 `userMusicPlayerConfig` 进行配置。
   - `enable`：设置为 `true` 启用音乐播放器。
   - `mode`：选择 `"meting"`（使用 MetingJS API）或 `"local"`（使用本地音乐列表）。
   - `meting_api`：MetingJS API 接口地址。
   - `id`：歌单或单曲 ID。
-  - `server`：音乐平台 — `"netease"` 网易云音乐、`"tencent"` QQ音乐、`"kugou"` 酷狗、`"baidu"` 百度。
+  - `server`：音乐平台 — `"netease"` 网易云音乐、`"tencent"` QQ音乐、`"kugou"` 酷狗。
   - `type`：内容类型 — `"playlist"` 歌单、`"song"` 单曲、`"album"` 专辑、`"artist"` 歌手。
   - `localPlaylist`：本地音乐列表（`mode` 为 `"local"` 时生效），为每首歌曲配置 `title`、`artist`、`cover`、`url`、`duration`。
 
-1. **文章内容管理：**
+7. **文章内容管理：**
 
 - **创建新文章：** `pnpm new-post <文件名>`。
 - **编辑文章：** 修改 `src/content/posts/` 中的文件。
@@ -376,7 +376,7 @@ BrightMoon 是一款兼具现代简约与优雅气质的独特二次元美学静
 - **添加图片：** 将图片放在 `src/assets/` 或 `public/` 中。
 - **Markdown 扩展语法:** 了解详细请阅读 Mizuki Docs 的 [Markdown 扩展语法](https://docs.mizuki.mysqil.com/press/Markdown/customize/)。
 
-Frontmatter 字段说明：
+**Frontmatter 字段说明：**
 
 - **title**: 文章标题（必需）
 - **published**: 发布日期（必需）
@@ -444,4 +444,4 @@ Frontmatter 字段说明：
 
 ---
 
-⭐ 如有问题或建议，请提交 [Issue](https://github.com/Zuoyan233/BrightMoon/issues) 或 [Pull Request](https://github.com/Zuoyan233/BrightMoon/pulls)。另外，您也可以通过 [我的网站反馈页面](https://www.zuoyanblogs.xyz/feedback/) 与我们联系。如果您觉得这个项目有帮助，请考虑给它一个星标！
+⭐ 如有问题或建议，请提交 [Issue](https://github.com/Zuoyan233/BrightMoon/issues) 或 [Pull Request](https://github.com/Zuoyan233/BrightMoon/pulls)。另外，您也可以通过进入 [反馈页面](https://www.zuoyanblog.dpdns.org/feedback/) 与我们联系。如果您觉得这个项目有帮助，请考虑给它一个星标！

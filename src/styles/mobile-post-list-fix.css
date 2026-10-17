@@ -1,7 +1,5 @@
 /**
  * 移动端文章列表初始化优化
- * Mobile Post List Initialization Fix
- * 解决移动端文章列表初始化时的闪烁和间距问题
  */
 
 /*
@@ -34,17 +32,19 @@ body.wallpaper-transparent #post-list-container > * .card-base {
 	-webkit-backdrop-filter: blur(8px);
 }
 
-/* 关键：页面加载时立即应用正确的移动端样式 */
+/* 移动端文章列表初始化优化 */
 @media (max-width: 744px) {
 	#post-list-container:not(.js-initialized) {
 		opacity: 0;
 		transition: opacity 0.1s ease-in-out;
 	}
 
+	/* 文章列表初始化完成后，移除透明效果 */
 	#post-list-container.js-initialized {
 		opacity: 1;
 	}
 
+	/* 文章列表容器样式 */
 	#post-list-container {
 		display: flex;
 		flex-direction: column;
@@ -55,6 +55,7 @@ body.wallpaper-transparent #post-list-container > * .card-base {
 		min-height: auto;
 	}
 
+	/* 文章列表网格模式样式 */
 	#post-list-container.grid-mode {
 		display: flex;
 		flex-direction: column;
@@ -63,16 +64,19 @@ body.wallpaper-transparent #post-list-container > * .card-base {
 		grid-auto-rows: auto;
 	}
 
+	/* 文章列表卡片样式 */
 	#post-list-container .post-card-item {
 		margin-bottom: 0;
 		margin-top: 0;
 		padding: 0.75rem 1rem;
 	}
 
+	/* 文章列表卡片间距 */
 	#post-list-container > div.border-t-\[1px\] {
 		display: none;
 	}
 
+	/* 文章列表卡片间距 */
 	#post-list-container {
 		margin-bottom: 2rem;
 	}

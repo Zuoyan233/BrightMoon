@@ -42,6 +42,15 @@ export const ja: Translation = {
 	[Key.friendsCopyLink]: "リンクをコピー",
 	[Key.friendsCopySuccess]: "コピーしました",
 	[Key.friendsTags]: "タグ",
+	[Key.friendsNoticeTitle]: "注意事項",
+	[Key.friendsNoticeReciprocal]:
+		"まず当サイトをお友達のページに追加してください。確認後、お友達のリンクを追加します。",
+	[Key.friendsNoticeMaintenance]:
+		"長期間アクセスできない、または違法なコンテンツを含む友達リンクは削除されます。",
+	[Key.friendsNoticeContent]:
+		"前向きな内容で、ポルノ/反動/暴力などの違法コンテンツを含まないこと。",
+	[Key.friendsNoticeHttps]:
+		"HTTPS対応、オリジナルコンテンツ主体、正常にアクセスでき、継続的に更新されていること。",
 	[Key.untitled]: "無題",
 	[Key.uncategorized]: "未分類",
 	[Key.noTags]: "タグなし",
@@ -74,7 +83,6 @@ export const ja: Translation = {
 	[Key.diary]: "日記",
 
 	// アニメページ
-	[Key.animeTitle]: "マイアニメリスト",
 	[Key.animeSubtitle]: "アニメの記録",
 	[Key.animeStatusWatching]: "視聴中",
 	[Key.animeStatusCompleted]: "完了",
@@ -90,11 +98,12 @@ export const ja: Translation = {
 	[Key.animeEmptyBilibili]:
 		"Bilibiliデータが空です。`pnpm run update-bilibili` を実行してデータを取得してください",
 	[Key.animeSetBangumiUserId]:
-		"src/config/user.ts ファイルにあなたのBangumiユーザーIDを設定してください",
+		"src/config/user/site.ts ファイルにあなたのBangumiユーザーIDを設定してください",
 	[Key.animeSetBilibiliVmId]:
-		"src/config/user.ts ファイルにあなたのBilibili vmIDを設定してください",
+		"src/config/user/site.ts ファイルにあなたのBilibili vmIDを設定してください",
 	[Key.animeEmptyLocal]:
-		"src/data/anime.ts ファイルにアニメ情報を追加してください",
+		"src/config/user/anime-data.ts ファイルにアニメ情報を追加してください",
+	[Key.animeFilterEmpty]: "このカテゴリーに該当するアニメはありません",
 
 	// 日記ページ
 	[Key.diarySubtitle]: "いつでもどこでも、生活を共有",
@@ -267,7 +276,6 @@ export const ja: Translation = {
 	[Key.skillsDatabase]: "データベース",
 	[Key.skillsTools]: "開発ツール",
 	[Key.skillsOther]: "その他のスキル",
-	[Key.skillLevel]: "習熟度",
 	[Key.skillLevelBeginner]: "初心者",
 	[Key.skillLevelIntermediate]: "中級",
 	[Key.skillLevelAdvanced]: "上級",
@@ -276,16 +284,8 @@ export const ja: Translation = {
 	[Key.skillYears]: "年",
 	[Key.skillMonths]: "月",
 	[Key.skillsTotal]: "総スキル数",
-	[Key.skillsExpert]: "エキスパートレベル",
-	[Key.skillsAdvanced]: "上級",
-	[Key.skillsIntermediate]: "中級",
-	[Key.skillsBeginner]: "初心者",
 	[Key.skillsAdvancedTitle]: "専門スキル",
-	[Key.skillsProjects]: "関連プロジェクト",
-	[Key.skillsDistribution]: "スキル分布",
-	[Key.skillsByLevel]: "レベル別",
-	[Key.skillsByCategory]: "カテゴリ別",
-	[Key.noData]: "データがありません",
+	[Key.skillsFilterEmpty]: "このカテゴリにはスキルがありません",
 
 	// タイムラインページ
 	[Key.timeline]: "タイムライン",
@@ -295,18 +295,12 @@ export const ja: Translation = {
 	[Key.timelineProject]: "プロジェクト経験",
 	[Key.timelineAchievement]: "実績",
 	[Key.timelinePresent]: "現在",
-	[Key.timelineLocation]: "場所",
-	[Key.timelineDescription]: "詳細",
 	[Key.timelineMonths]: "月",
 	[Key.timelineYears]: "年",
 	[Key.timelineTotal]: "合計",
-	[Key.timelineProjects]: "プロジェクト",
-	[Key.timelineExperience]: "職歴",
 	[Key.timelineCurrent]: "現在の状況",
-	[Key.timelineHistory]: "経歴",
 	[Key.timelineAchievements]: "実績",
-	[Key.timelineStartDate]: "開始日",
-	[Key.timelineDuration]: "期間",
+	[Key.timelineFilterEmpty]: "このカテゴリにはタイムライン記録がありません",
 
 	// フィードバックページ - サイト管理者連絡モジュール
 	[Key.contactMe]: "サイト管理者に連絡",
@@ -319,8 +313,6 @@ export const ja: Translation = {
 		"このウェブサイトの内容が役に立った場合は、以下の方法で活動を支援していただければ幸いです。より良いコンテンツ作成に役立てます。すべての支援は、ウェブサイトの維持、サーバー費用、コンテンツ制作に使用されます。",
 	[Key.sponsorsNotice2]:
 		"BrightMoon ブログプロジェクトのコンテンツ開発を支援していただき、ありがとうございます！",
-	[Key.wechatPay]: "WeChat",
-	[Key.aliPay]: "Alipay",
 	[Key.scanPayQRcode]: "スキャンして支払う",
 	[Key.sponsorsPartner]: "スポンサーパートナー",
 	[Key.otherSupportOptions]: "その他の支援方法",
@@ -453,7 +445,7 @@ export const ja: Translation = {
 	// 天気コンポーネント
 	[Key.weather]: "天気",
 	[Key.weatherNoApiKey]:
-		"src/config/user.ts に WeatherAPI キーを追加してください",
+		"src/config/user/weather.ts に WeatherAPI キーを追加してください",
 	[Key.weatherLocationDisabled]:
 		"プライバシー契約を拒否したため、天気位置情報サービスは無効になりました",
 	[Key.weatherWaitingConsent]: "天気位置情報の承認を待っています...",
@@ -508,7 +500,7 @@ export const ja: Translation = {
 	[Key.twikooInitializing]: "Twikoo コメントシステムを初期化中...",
 	[Key.twikooNotConfigured]: "Twikoo コメントシステムはまだ設定されていません",
 	[Key.twikooConfigHint]:
-		"src/config/user.ts で Twikoo コメントシステムを設定してください",
+		"src/config/user/comment.ts で Twikoo コメントシステムを設定してください",
 	[Key.twikooPrivacyRejected]:
 		"プライバシー契約を拒否したため、Twikooコメントシステムは無効になりました",
 

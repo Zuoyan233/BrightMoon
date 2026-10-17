@@ -8,14 +8,18 @@
 
 import type {
 	AddpaymentConfig,
+	AnimeDataConfig,
 	AnnouncementConfig,
 	CommentConfig,
 	ContactEmailConfig,
 	ContactMethods,
 	DailyQuoteConfig,
+	DevicesDataConfig,
+	DiaryDataConfig,
 	ExpressiveCodeConfig,
 	ExternalLinkConfirmConfig,
 	FooterConfig,
+	FriendsDataConfig,
 	ImageOptimizeConfig,
 	LicenseConfig,
 	MusicPlayerConfig,
@@ -23,10 +27,13 @@ import type {
 	PermalinkConfig,
 	PioConfig,
 	ProfileConfig,
+	ProjectsDataConfig,
 	SakuraConfig,
 	ShareConfig,
 	SidebarLayoutConfig,
 	SiteConfig,
+	SkillsDataConfig,
+	TimelineDataConfig,
 	UmamiConfig,
 	UpgradeConfig,
 	VersionCheckConfig,
@@ -34,14 +41,18 @@ import type {
 } from "../types/config";
 import {
 	defaultAddpaymentConfig,
+	defaultAnimeDataConfig,
 	defaultAnnouncementConfig,
 	defaultCommentConfig,
 	defaultContactEmailConfig,
 	defaultContactMethods,
 	defaultDailyQuoteConfig,
+	defaultDevicesDataConfig,
+	defaultDiaryDataConfig,
 	defaultExpressiveCodeConfig,
 	defaultExternalLinkConfirmConfig,
 	defaultFooterConfig,
+	defaultFriendsDataConfig,
 	defaultImageOptimizeConfig,
 	defaultLicenseConfig,
 	defaultMusicPlayerConfig,
@@ -49,10 +60,13 @@ import {
 	defaultPermalinkConfig,
 	defaultPioConfig,
 	defaultProfileConfig,
+	defaultProjectsDataConfig,
 	defaultSakuraConfig,
 	defaultShareConfig,
 	defaultSidebarLayoutConfig,
 	defaultSiteConfig,
+	defaultSkillsDataConfig,
+	defaultTimelineDataConfig,
 	defaultUmamiConfig,
 	defaultUpgradeConfig,
 	defaultVersionCheckConfig,
@@ -60,14 +74,18 @@ import {
 } from "./defaults";
 import {
 	userAddpaymentConfig,
+	userAnimeDataConfig,
 	userAnnouncementConfig,
 	userCommentConfig,
 	userContactEmailConfig,
 	userContactMethods,
 	userDailyQuoteConfig,
+	userDevicesDataConfig,
+	userDiaryDataConfig,
 	userExpressiveCodeConfig,
 	userExternalLinkConfirmConfig,
 	userFooterConfig,
+	userFriendsDataConfig,
 	userImageOptimizeConfig,
 	userLicenseConfig,
 	userMusicPlayerConfig,
@@ -75,10 +93,13 @@ import {
 	userPermalinkConfig,
 	userPioConfig,
 	userProfileConfig,
+	userProjectsDataConfig,
 	userSakuraConfig,
 	userShareConfig,
 	userSidebarLayoutConfig,
 	userSiteConfig,
+	userSkillsDataConfig,
+	userTimelineDataConfig,
 	userUmamiConfig,
 	userUpgradeConfig,
 	userVersionCheckConfig,
@@ -110,6 +131,13 @@ interface UserConfig {
 	pioConfig?: Partial<PioConfig>;
 	umamiConfig?: Partial<UmamiConfig>;
 	imageOptimizeConfig?: Partial<ImageOptimizeConfig>;
+	animeDataConfig?: Partial<AnimeDataConfig>;
+	devicesDataConfig?: Partial<DevicesDataConfig>;
+	diaryDataConfig?: Partial<DiaryDataConfig>;
+	friendsDataConfig?: Partial<FriendsDataConfig>;
+	projectsDataConfig?: Partial<ProjectsDataConfig>;
+	skillsDataConfig?: Partial<SkillsDataConfig>;
+	timelineDataConfig?: Partial<TimelineDataConfig>;
 }
 
 const userConfig: UserConfig = {
@@ -137,6 +165,13 @@ const userConfig: UserConfig = {
 	sakuraConfig: userSakuraConfig,
 	pioConfig: userPioConfig,
 	umamiConfig: userUmamiConfig,
+	animeDataConfig: userAnimeDataConfig,
+	devicesDataConfig: userDevicesDataConfig,
+	diaryDataConfig: userDiaryDataConfig,
+	friendsDataConfig: userFriendsDataConfig,
+	projectsDataConfig: userProjectsDataConfig,
+	skillsDataConfig: userSkillsDataConfig,
+	timelineDataConfig: userTimelineDataConfig,
 };
 
 /**
@@ -300,4 +335,39 @@ export const pioConfig: PioConfig = deepMerge(
 export const umamiConfig: UmamiConfig = deepMerge(
 	defaultUmamiConfig,
 	userConfig.umamiConfig,
+);
+
+export const animeDataConfig: AnimeDataConfig = deepMerge(
+	defaultAnimeDataConfig,
+	userConfig.animeDataConfig,
+);
+
+export const devicesDataConfig: DevicesDataConfig = deepMerge(
+	defaultDevicesDataConfig,
+	userConfig.devicesDataConfig,
+);
+
+export const diaryDataConfig: DiaryDataConfig = deepMerge(
+	defaultDiaryDataConfig,
+	userConfig.diaryDataConfig,
+);
+
+export const friendsDataConfig: FriendsDataConfig = deepMerge(
+	defaultFriendsDataConfig,
+	userConfig.friendsDataConfig,
+);
+
+export const projectsDataConfig: ProjectsDataConfig = deepMerge(
+	defaultProjectsDataConfig,
+	userConfig.projectsDataConfig,
+);
+
+export const skillsDataConfig: SkillsDataConfig = deepMerge(
+	defaultSkillsDataConfig,
+	userConfig.skillsDataConfig,
+);
+
+export const timelineDataConfig: TimelineDataConfig = deepMerge(
+	defaultTimelineDataConfig,
+	userConfig.timelineDataConfig,
 );

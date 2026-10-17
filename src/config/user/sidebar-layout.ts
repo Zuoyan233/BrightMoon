@@ -15,7 +15,7 @@ export const userSidebarLayoutConfig: Partial<SidebarLayoutConfig> = {
 			position: "top", // 位置："top" 顶部，"sticky" 粘性
 			sidebar: "left", // 所属侧边栏："left" 左侧，"right" 右侧
 			class: "onload-animation", // CSS 类名
-			animationDelay: 200, // 动画延迟（毫秒）
+			animationDelay: 50, // 动画延迟（毫秒）
 		},
 		{
 			type: "announcement", // 公告组件
@@ -24,7 +24,7 @@ export const userSidebarLayoutConfig: Partial<SidebarLayoutConfig> = {
 			position: "top",
 			sidebar: "left",
 			class: "onload-animation",
-			animationDelay: 200,
+			animationDelay: 50,
 		},
 		{
 			type: "categories", // 分类组件
@@ -33,7 +33,7 @@ export const userSidebarLayoutConfig: Partial<SidebarLayoutConfig> = {
 			position: "top",
 			sidebar: "left",
 			class: "onload-animation",
-			animationDelay: 200,
+			animationDelay: 100,
 			responsive: {
 				collapseThreshold: 5, // 超过此数量时折叠
 			},
@@ -45,28 +45,37 @@ export const userSidebarLayoutConfig: Partial<SidebarLayoutConfig> = {
 			position: "top",
 			sidebar: "left",
 			class: "onload-animation",
-			animationDelay: 200,
+			animationDelay: 150,
 			responsive: {
 				collapseThreshold: 20,
 			},
 		},
 		{
-			type: "site-stats", // 站点统计组件
-			enable: true,
+			type: "weather", // 天气组件
+			enable: userWeatherConfig.enable ?? true,
 			order: 5,
 			position: "top",
-			sidebar: "right",
+			sidebar: "left",
 			class: "onload-animation",
 			animationDelay: 200,
 		},
 		{
-			type: "calendar", // 日历组件
+			type: "site-stats", // 站点统计组件
 			enable: true,
 			order: 6,
+			position: "top",
+			sidebar: "right",
+			class: "onload-animation",
+			animationDelay: 50,
+		},
+		{
+			type: "calendar", // 日历组件
+			enable: true,
+			order: 7,
 			position: "sticky",
 			sidebar: "right",
 			class: "onload-animation",
-			animationDelay: 200,
+			animationDelay: 100,
 			responsive: {
 				hidden: ["mobile"], // 默认移动端隐藏
 			},
@@ -74,11 +83,11 @@ export const userSidebarLayoutConfig: Partial<SidebarLayoutConfig> = {
 		{
 			type: "music-player", // 音乐播放器组件
 			enable: userMusicPlayerConfig.enable ?? true,
-			order: 7,
+			order: 8,
 			position: "sticky",
 			sidebar: "right",
 			class: "onload-animation",
-			animationDelay: 200,
+			animationDelay: 150,
 			responsive: {
 				hidden: ["mobile"], // 默认移动端隐藏
 			},
@@ -86,29 +95,20 @@ export const userSidebarLayoutConfig: Partial<SidebarLayoutConfig> = {
 		{
 			type: "toc", // 目录组件
 			enable: userSiteConfig.toc?.enable ?? true,
-			order: 8,
-			position: "sticky",
-			sidebar: "left",
-			class: "onload-animation",
-			animationDelay: 200,
-		},
-		{
-			type: "daily-quote", // 每日一言组件
-			enable: true,
 			order: 9,
 			position: "sticky",
 			sidebar: "left",
 			class: "onload-animation",
-			animationDelay: 200,
+			animationDelay: 250,
 		},
 		{
-			type: "weather", // 天气组件
-			enable: userWeatherConfig.enable ?? true,
-			order: 4,
-			position: "top",
+			type: "daily-quote", // 每日一言组件
+			enable: true,
+			order: 10,
+			position: "sticky",
 			sidebar: "left",
 			class: "onload-animation",
-			animationDelay: 200,
+			animationDelay: 300,
 		},
 	],
 

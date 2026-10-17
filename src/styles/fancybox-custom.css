@@ -1,4 +1,5 @@
 /* Fancybox 自定义样式 */
+
 .fancybox__container {
 	--fancybox-bg: rgba(0, 0, 0, 0.9);
 	--fancybox-thumbs-width: 64px;
@@ -6,12 +7,14 @@
 	--fancybox-thumbs-border-radius: 4px;
 }
 
+/* 工具栏 */
 .fancybox__toolbar {
 	background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), transparent);
 	padding: 8px;
 	backdrop-filter: blur(4px);
 }
 
+/* 图片标题 */
 .fancybox__caption {
 	background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
 	color: white;
@@ -23,11 +26,13 @@
 	margin: 0 1rem 1rem 1rem;
 }
 
+/* 导航按钮 */
 .fancybox__nav {
 	--carousel-button-svg-width: 24px;
 	--carousel-button-svg-height: 24px;
 }
 
+/* 缩略图 */
 .fancybox__thumbs {
 	background: rgba(0, 0, 0, 0.7);
 	padding: 2px;
@@ -35,6 +40,7 @@
 	backdrop-filter: blur(4px);
 }
 
+/* 缩略图项 */
 .fancybox__thumb {
 	border-radius: 4px;
 	overflow: hidden;
@@ -42,15 +48,23 @@
 	transition: all 0.2s ease;
 }
 
+/* 加载中 */
 .fancybox__thumb.is-loading {
 	background: rgba(255, 255, 255, 0.1);
 }
 
+/* 悬停 */
+.fancybox__thumb:hover {
+	background: rgba(255, 255, 255, 0.1);
+}
+
+/* 激活 */
 .fancybox__thumb:hover {
 	border-color: rgba(255, 255, 255, 0.5);
 	transform: scale(1.05);
 }
 
+/* 按钮样式 */
 .fancybox__thumb.is-active {
 	border-color: #fff;
 }
@@ -66,16 +80,19 @@
 	border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* 悬停 */
 .fancybox__button:hover {
 	background: rgba(0, 0, 0, 0.7);
 	transform: scale(1.1);
 	border-color: rgba(255, 255, 255, 0.3);
 }
 
+/* 图标 */
 .fancybox__button svg {
 	filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
 }
 
+/* 信息栏 */
 .fancybox__infobar {
 	color: white;
 	font-size: 0.9rem;
@@ -104,6 +121,7 @@
 	}
 }
 
+/* 响应式设计 - 移动端 */
 @media (max-width: 480px) {
 	.fancybox__button {
 		width: 32px;

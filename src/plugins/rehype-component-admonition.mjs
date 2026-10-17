@@ -2,13 +2,13 @@
 import { h } from "hastscript";
 
 /**
- * Creates an admonition component.
+ * 创建提示框组件
  *
- * @param {Object} properties - The properties of the component.
- * @param {string} [properties.title] - An optional title.
- * @param {('tip'|'note'|'important'|'caution'|'warning')} type - The admonition type.
- * @param {import('mdast').RootContent[]} children - The children elements of the component.
- * @returns {import('mdast').Parent} The created admonition component.
+ * @param {Object} properties - 组件属性
+ * @param {string} [properties.title] - 可选标题
+ * @param {('tip'|'note'|'important'|'caution'|'warning')} type - 提示框类型
+ * @param {import('mdast').RootContent[]} children - 子元素
+ * @returns {import('mdast').Parent} 创建的提示框组件
  */
 export function AdmonitionComponent(properties, children, type) {
 	if (!Array.isArray(children) || children.length === 0)
@@ -20,10 +20,10 @@ export function AdmonitionComponent(properties, children, type) {
 
 	let label = null;
 	if (properties?.["has-directive-label"]) {
-		label = children[0]; // The first child is the label
+		label = children[0]; // 第一个子元素是标签
 		// biome-ignore lint/style/noParameterAssign: <check later>
 		children = children.slice(1);
-		label.tagName = "div"; // Change the tag <p> to <div>
+		label.tagName = "div"; // 将 <p> 标签改为 <div>
 	}
 
 	return h("blockquote", { class: `admonition bdm-${type}` }, [

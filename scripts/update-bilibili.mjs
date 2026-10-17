@@ -3,15 +3,18 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import axios from "axios";
 
+//	Bilibili API 基础 URL
 const API_BASE = "https://api.bilibili.com/x/space/bangumi/follow/list";
 const PAGE_SIZE = 30;
 const CONFIG_DIR = path.join(
 	path.dirname(fileURLToPath(import.meta.url)),
 	"../src/config",
 );
+
+// 输出文件路径
 const OUTPUT_FILE = path.join(
 	path.dirname(fileURLToPath(import.meta.url)),
-	"../src/data/bilibili-data.json",
+	"../src/config/user/bilibili-data.json",
 );
 
 // 状态映射: 1=想看, 2=在看, 3=已看
@@ -37,6 +40,7 @@ async function withRetry(apiCall, retries = 3) {
 	}
 }
 
+// 读取所有配置文件内容
 async function readAllConfigContents() {
 	const dirs = ["user", "defaults"];
 	const contents = [];
@@ -54,6 +58,7 @@ async function readAllConfigContents() {
 	return contents;
 }
 
+// 匹配配置文件中的正则表达式
 async function matchConfig(regex) {
 	for (const content of await readAllConfigContents()) {
 		const match = content.match(regex);
@@ -62,6 +67,7 @@ async function matchConfig(regex) {
 	return null;
 }
 
+// 从配置文件中获取用户 ID
 async function getUserIdFromConfig() {
 	const vmidRegex =
 		/anime:\s*\{[\s\S]*?bilibili:\s*\{[\s\S]*?vmId:\s*["']([^"']+)["']/;
@@ -74,6 +80,7 @@ async function getUserIdFromConfig() {
 	throw new Error("Could not find anime.bilibili.vmId in config files");
 }
 
+// 从配置文件中获取 SESSDATA
 async function getSessdataFromConfig() {
 	const regex =
 		/anime:\s*\{[\s\S]*?bilibili:\s*\{[\s\S]*?SESSDATA:\s*["']([^"']*)["']/;
@@ -82,6 +89,7 @@ async function getSessdataFromConfig() {
 	return match ? match[1] : "";
 }
 
+// 从配置文件中获取封面镜像
 async function getCoverMirrorFromConfig() {
 	const regex =
 		/anime:\s*\{[\s\S]*?bilibili:\s*\{[\s\S]*?coverMirror:\s*["']([^"']*)["']/;
@@ -90,6 +98,7 @@ async function getCoverMirrorFromConfig() {
 	return match ? match[1] : "";
 }
 
+// 从配置文件中获取是否使用 WebP 格式
 async function getUseWebpFromConfig() {
 	const regex =
 		/anime:\s*\{[\s\S]*?bilibili:\s*\{[\s\S]*?useWebp:\s*(true|false)/;
@@ -98,6 +107,7 @@ async function getUseWebpFromConfig() {
 	return match ? match[1] !== "false" : true;
 }
 
+// 从配置文件中获取动画模式
 async function getAnimeModeFromConfig() {
 	const modeRegex = /anime:\s*\{[^{}]*?mode:\s*["']([^"']*)["']/;
 
@@ -105,6 +115,7 @@ async function getAnimeModeFromConfig() {
 	return match ? match[1] || "local" : "local";
 }
 
+// 获取数据页数
 async function getDataPage(vmid, status, typeNum = 1) {
 	const response = await withRetry(() =>
 		axios.get(
@@ -124,6 +135,7 @@ async function getDataPage(vmid, status, typeNum = 1) {
 	};
 }
 
+// 获取数据
 async function getData(
 	vmid,
 	status,
@@ -261,6 +273,7 @@ async function getData(
 			link = `https://www.bilibili.com/bangumi/media/md${bangumi.media_id}/`;
 		}
 
+		// 返回处理后的数据
 		return {
 			title: bangumi?.title || "Unknown",
 			status: STATUS_MAP[status] || "planned",
@@ -280,6 +293,7 @@ async function getData(
 	});
 }
 
+// 处理数据
 async function processData(
 	vmid,
 	status,
@@ -314,9 +328,12 @@ async function processData(
 	return list;
 }
 
+// 主函数
 async function main() {
+	// 初始化
 	console.log("Initializing Bilibili data update script...\n");
 
+	// 从配置文件中获取动画模式
 	const animeMode = await getAnimeModeFromConfig();
 	if (animeMode !== "bilibili") {
 		console.log(
@@ -325,6 +342,7 @@ async function main() {
 		return;
 	}
 
+	// 从配置文件中获取用户 ID
 	const VMID = await getUserIdFromConfig();
 	if (!VMID) {
 		console.error(
@@ -349,6 +367,8 @@ async function main() {
 		coverMirror,
 		SESSDATA,
 	);
+
+	// 获取已看数据
 	const completed = await processData(
 		VMID,
 		3,
@@ -358,6 +378,7 @@ async function main() {
 		SESSDATA,
 	);
 
+	// 合并所有数据
 	const finalAnimeList = [...planned, ...watching, ...completed];
 
 	// 进度输出完成后换行，避免被后续输出覆盖
@@ -370,6 +391,7 @@ async function main() {
 		await fs.mkdir(dir, { recursive: true });
 	}
 
+	// 写入数据到文件
 	await fs.writeFile(OUTPUT_FILE, JSON.stringify(finalAnimeList, null, 2));
 	console.log(`Total collected: ${finalAnimeList.length} anime series:`);
 	console.log(`- Planned: ${planned.length}`);
@@ -379,6 +401,7 @@ async function main() {
 	console.log(`Update complete! Data saved to: ${OUTPUT_FILE}\n`);
 }
 
+// 处理异常
 main().catch((err) => {
 	console.error("\n✘ Script execution error:");
 	console.error(err);
