@@ -1,3 +1,7 @@
+/**
+ * Expressive Code 插件 - 自定义代码块复制按钮
+ */
+
 import { definePlugin } from "@expressive-code/core";
 import type { Element } from "hast";
 

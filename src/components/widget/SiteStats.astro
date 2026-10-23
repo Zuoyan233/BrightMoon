@@ -2,14 +2,12 @@
 import { Icon } from "astro-icon/components";
 import { siteConfig } from "../../config";
 import I18nKey from "../../i18n/i18nKey";
-import { i18n } from "../../i18n/translation";
+import { allTranslations, i18n } from "../../i18n/translation";
 import {
 	getCategoryList,
 	getSortedPosts,
 	getTagList,
 } from "../../utils/content-utils";
-import { allTranslations } from "../../utils/i18n-dom-updater";
-import { translateToLangMap } from "../../utils/language-utils";
 import WidgetLayout from "./WidgetLayout.astro";
 
 const periodKeys = [
@@ -54,7 +52,6 @@ const amPmTranslationsJSON = JSON.stringify(amPmTranslations);
 const dateFormatsJSON = JSON.stringify(dateFormats);
 const suffixTranslationsJSON = JSON.stringify(suffixTranslations);
 const seasonTranslationsJSON = JSON.stringify(seasonTranslations);
-const translateToI18nMapJSON = JSON.stringify(translateToLangMap);
 
 interface Props {
 	class?: string;
@@ -232,18 +229,19 @@ const stats = [
 	class={className}
 	style={style}
 >
-	<div class="ignore flex flex-col gap-1">
+	<div class="flex flex-col gap-1">
 		{
 			stats.map((stat) => {
-				if (stat.dynamic === false && stat.value === undefined) return null;
-				
+				if (stat.dynamic === false && stat.value === undefined)
+					return null;
+
 				return (
 					<div class="flex items-center justify-between px-2 py-2">
 						<div class="flex items-center gap-2.5 flex-1 min-w-0">
-							<div class="text-[var(--primary)] text-xl shrink-0">
-								<Icon name={stat.icon} />
+							<div class="w-7 h-7 rounded-md flex items-center justify-center bg-[var(--btn-regular-bg)] text-[var(--btn-content)] shrink-0">
+								<Icon name={stat.icon} class="text-base" />
 							</div>
-							<span class="text-neutral-700 dark:text-neutral-300 font-medium text-sm break-words leading-tight">
+							<span class="text-75 font-medium text-sm break-words leading-tight">
 								{stat.label}
 							</span>
 						</div>
@@ -251,59 +249,72 @@ const stats = [
 							{stat.showPeriod && !stat.use12Hour ? (
 								<div class="flex items-center gap-1">
 									<span
-										class="text-base font-bold text-neutral-900 dark:text-neutral-100"
+										class="text-base font-bold text-90"
 										data-stat-id={stat.id}
-										data-update-interval={stat.updateInterval}
+										data-update-interval={
+											stat.updateInterval
+										}
 									>
-										{ (stat as any).formatted ? formatNumber((stat as any).value) : (stat as any).value }
+										{(stat as any).formatted
+											? formatNumber((stat as any).value)
+											: (stat as any).value}
 									</span>
 									<span
-										class="text-sm text-neutral-500 dark:text-neutral-400"
+										class="text-sm text-60"
 										data-stat-id="time-period"
-									>
-									</span>
+									></span>
 								</div>
 							) : stat.showPeriod && stat.use12Hour ? (
 								<div class="flex items-center gap-1">
 									<span
-										class="text-base font-bold text-neutral-900 dark:text-neutral-100"
+										class="text-base font-bold text-90"
 										data-stat-id={stat.id}
-										data-update-interval={stat.updateInterval}
+										data-update-interval={
+											stat.updateInterval
+										}
 										data-use-12-hour="true"
 									>
-										{ (stat as any).formatted ? formatNumber((stat as any).value) : (stat as any).value }
+										{(stat as any).formatted
+											? formatNumber((stat as any).value)
+											: (stat as any).value}
 									</span>
 									<span
-										class="text-sm text-neutral-500 dark:text-neutral-400"
+										class="text-sm text-60"
 										data-stat-id="time-ampm"
-									>
-									</span>
+									></span>
 								</div>
 							) : stat.useSeason ? (
 								<span
-									class="text-sm text-neutral-500 dark:text-neutral-400 ml-1"
+									class="text-sm text-60 ml-1"
 									data-stat-id={stat.id}
 									data-season="true"
-								>
-								</span>
+								></span>
 							) : stat.useFormattedDate ? (
 								<span
-									class="inline-flex items-baseline gap-0.5 text-base font-bold text-neutral-900 dark:text-neutral-100"
+									class="inline-flex items-baseline gap-0.5 text-base font-bold text-90"
 									data-stat-id={stat.id}
 									data-formatted-date="true"
-								>
-								</span>
+								></span>
 							) : (
 								<>
 									<span
-										class="text-base font-bold text-neutral-900 dark:text-neutral-100"
-										data-stat-id={stat.dynamic ? stat.id : undefined}
-										data-update-interval={stat.updateInterval}
+										class="text-base font-bold text-90"
+										data-stat-id={
+											stat.dynamic ? stat.id : undefined
+										}
+										data-update-interval={
+											stat.updateInterval
+										}
 									>
-										{ (stat as any).formatted ? formatNumber((stat as any).value) : (stat as any).value }
+										{(stat as any).formatted
+											? formatNumber((stat as any).value)
+											: (stat as any).value}
 									</span>
 									{stat.suffix && (
-										<span class="text-sm text-neutral-500 dark:text-neutral-400 ml-1" data-stat-suffix={stat.id}>
+										<span
+											class="text-sm text-60 ml-1"
+											data-stat-suffix={stat.id}
+										>
 											{stat.suffix}
 										</span>
 									)}
@@ -317,43 +328,37 @@ const stats = [
 	</div>
 </WidgetLayout>
 
-
-
-<script is:inline define:vars={{ 
-	siteStartDate, 
-	lastPostDate,
-	periodTranslationsJSON,
-	amPmTranslationsJSON,
-	dateFormatsJSON,
-	suffixTranslationsJSON,
-	seasonTranslationsJSON,
-	translateToI18nMapJSON,
-	defaultLang: siteConfig.lang,
-}}>
+<script
+	is:inline
+	define:vars={{
+		siteStartDate,
+		lastPostDate,
+		periodTranslationsJSON,
+		amPmTranslationsJSON,
+		dateFormatsJSON,
+		suffixTranslationsJSON,
+		seasonTranslationsJSON,
+		configLang: siteConfig.lang,
+	}}
+>
 	// 解析服务端生成的翻译映射表
 	const periodTranslations = JSON.parse(periodTranslationsJSON);
 	const amPmTranslations = JSON.parse(amPmTranslationsJSON);
 	const dateFormats = JSON.parse(dateFormatsJSON);
 	const suffixTranslations = JSON.parse(suffixTranslationsJSON);
 	const seasonTranslations = JSON.parse(seasonTranslationsJSON);
-	const translateToLangMap = JSON.parse(translateToI18nMapJSON);
-	
-	// 获取当前翻译服务的 i18n 语言代码，无翻译服务时回退到页面默认语言
+
+	// 获取当前翻译服务的 i18n 语言代码，无翻译时回退到页面默认语言
 	function getCurrentI18nLang() {
-		const translateTo =
-			window.translationManager?.getTargetLanguage() || window.translate?.to;
-		if (translateTo) {
-			return translateToLangMap[translateTo] || defaultLang;
-		}
-		return defaultLang;
+		return window.__i18n ? window.__i18n.resolveLang() : configLang;
 	}
-	
+
 	// 获取当前语言的日期格式
 	function getCurrentDateFormat() {
 		const lang = getCurrentI18nLang();
 		return dateFormats[lang] || dateFormats.en || "{month}/{day}/{year}";
 	}
-	
+
 	// 获取时间段
 	function getTimePeriod(hours, periodVals) {
 		const vals = periodVals || Object.values(periodTranslations)[0];
@@ -371,23 +376,23 @@ const stats = [
 	}
 
 	function getUTCDate(dateStr) {
-		if (typeof dateStr === 'string') {
+		if (typeof dateStr === "string") {
 			return new Date(`${dateStr}T12:00:00Z`);
 		}
 		return new Date(dateStr);
 	}
 
 	function formatTime24(date) {
-		const hours = String(date.getHours()).padStart(2, '0');
-		const minutes = String(date.getMinutes()).padStart(2, '0');
-		const seconds = String(date.getSeconds()).padStart(2, '0');
+		const hours = String(date.getHours()).padStart(2, "0");
+		const minutes = String(date.getMinutes()).padStart(2, "0");
+		const seconds = String(date.getSeconds()).padStart(2, "0");
 		return `${hours}:${minutes}:${seconds}`;
 	}
 
 	function formatTime12(date) {
 		let hours = date.getHours();
-		const minutes = String(date.getMinutes()).padStart(2, '0');
-		const seconds = String(date.getSeconds()).padStart(2, '0');
+		const minutes = String(date.getMinutes()).padStart(2, "0");
+		const seconds = String(date.getSeconds()).padStart(2, "0");
 		hours = hours % 12;
 		hours = hours ? hours : 12; // 0点显示为12
 		return `${hours}:${minutes}:${seconds}`;
@@ -412,7 +417,7 @@ const stats = [
 		const month = today.getMonth() + 1; // 1-12
 		const lang = getCurrentI18nLang();
 		const vals = seasonTranslations[lang] || seasonTranslations.en;
-		const season = vals[getSeasonIndex(month)] || '';
+		const season = vals[getSeasonIndex(month)] || "";
 		if (element.textContent !== season) {
 			element.textContent = season;
 		}
@@ -423,27 +428,27 @@ const stats = [
 		const year = today.getFullYear();
 		const month = today.getMonth() + 1;
 		const day = today.getDate();
-		
+
 		// 根据当前翻译语言获取日期格式
 		const format = getCurrentDateFormat();
-		
+
 		// 使用正则表达式分割格式字符串
 		const parts = format.split(/(\{year\}|\{month\}|\{day\})/g);
-		
-		let html = '';
-		
-		parts.forEach(part => {
-			if (part === '{year}') {
-				html += `<span class="text-base leading-6 font-bold text-neutral-900 dark:text-neutral-100">${year}</span>`;
-			} else if (part === '{month}') {
-				html += `<span class="text-base leading-6 font-bold text-neutral-900 dark:text-neutral-100">${month}</span>`;
-			} else if (part === '{day}') {
-				html += `<span class="text-base leading-6 font-bold text-neutral-900 dark:text-neutral-100">${day}</span>`;
+
+		let html = "";
+
+		parts.forEach((part) => {
+			if (part === "{year}") {
+				html += `<span class="text-base leading-6 font-bold text-90">${year}</span>`;
+			} else if (part === "{month}") {
+				html += `<span class="text-base leading-6 font-bold text-90">${month}</span>`;
+			} else if (part === "{day}") {
+				html += `<span class="text-base leading-6 font-bold text-90">${day}</span>`;
 			} else if (part) {
-				html += `<span class="text-sm leading-5 text-neutral-500 font-normal mx-px dark:text-neutral-400">${part}</span>`;
+				html += `<span class="text-sm leading-5 text-60 font-normal mx-px">${part}</span>`;
 			}
 		});
-		
+
 		if (element.innerHTML !== html) {
 			element.innerHTML = html;
 		}
@@ -452,33 +457,39 @@ const stats = [
 	// 计算运行天数
 	function updateRunningDays(element, today) {
 		if (!siteStartDate) return;
-		
+
 		const startDate = getUTCDate(siteStartDate);
 		const diffTime = today.getTime() - startDate.getTime();
-		const diffDays = Math.max(1, Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1);
-		
+		const diffDays = Math.max(
+			1,
+			Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1,
+		);
+
 		if (element.textContent !== String(diffDays)) {
 			element.textContent = diffDays;
 		}
 	}
 
-    // 计算最后更新天数
+	// 计算最后更新天数
 	function updateLastUpdate(element, today) {
 		if (!lastPostDate) return;
-		
+
 		const lastPost = new Date(lastPostDate);
 		const diffTime = today.getTime() - lastPost.getTime();
-		const daysSinceLastUpdate = Math.max(0, Math.floor(diffTime / (1000 * 60 * 60 * 24)));
-		
+		const daysSinceLastUpdate = Math.max(
+			0,
+			Math.floor(diffTime / (1000 * 60 * 60 * 24)),
+		);
+
 		if (element.textContent !== String(daysSinceLastUpdate)) {
 			element.textContent = daysSinceLastUpdate;
 		}
 	}
 
-    // 计算当前日期
+	// 计算当前日期
 	function updateCurrentDate(element, today) {
-		const isFormatted = element.hasAttribute('data-formatted-date');
-		
+		const isFormatted = element.hasAttribute("data-formatted-date");
+
 		if (isFormatted) {
 			updateFormattedDate(element, today);
 		} else {
@@ -492,7 +503,9 @@ const stats = [
 
 	// 计算当前时间
 	function updateCurrentTime(element, today) {
-		const use12Hour = element.hasAttribute('data-use-12-hour') && element.getAttribute('data-use-12-hour') === 'true';
+		const use12Hour =
+			element.hasAttribute("data-use-12-hour") &&
+			element.getAttribute("data-use-12-hour") === "true";
 		const newTime = use12Hour ? formatTime12(today) : formatTime24(today);
 		if (element.textContent !== newTime) {
 			element.textContent = newTime;
@@ -500,7 +513,9 @@ const stats = [
 
 		// 更新AM/PM标识
 		if (use12Hour) {
-			const ampmElement = document.querySelector('[data-stat-id="time-ampm"]');
+			const ampmElement = document.querySelector(
+				'[data-stat-id="time-ampm"]',
+			);
 			if (ampmElement) {
 				const ampm = getTimeAmPm(today);
 				if (ampmElement.textContent !== ampm) {
@@ -512,13 +527,15 @@ const stats = [
 
 	// 计算当前时间段
 	function updateTimePeriod(today) {
-		const timePeriodElement = document.querySelector('[data-stat-id="time-period"]');
+		const timePeriodElement = document.querySelector(
+			'[data-stat-id="time-period"]',
+		);
 		if (timePeriodElement) {
 			const hours = today.getHours();
 			const lang = getCurrentI18nLang();
 			const vals = periodTranslations[lang] || periodTranslations.en;
 			const period = getTimePeriod(hours, vals);
-			
+
 			if (timePeriodElement.textContent !== period) {
 				timePeriodElement.textContent = period;
 			}
@@ -529,22 +546,35 @@ const stats = [
 	function updateDynamicStats() {
 		try {
 			const today = new Date();
-			
-			const runningDaysElement = document.querySelector('[data-stat-id="running-days"]');
-			const lastUpdateElement = document.querySelector('[data-stat-id="last-update"]');
-			const currentDateElement = document.querySelector('[data-stat-id="current-date"]');
-			const currentTimeElement = document.querySelector('[data-stat-id="current-time"]');
-			const currentSeasonElement = document.querySelector('[data-stat-id="current-season"]');
-			
-			if (runningDaysElement) updateRunningDays(runningDaysElement, today);
+
+			const runningDaysElement = document.querySelector(
+				'[data-stat-id="running-days"]',
+			);
+			const lastUpdateElement = document.querySelector(
+				'[data-stat-id="last-update"]',
+			);
+			const currentDateElement = document.querySelector(
+				'[data-stat-id="current-date"]',
+			);
+			const currentTimeElement = document.querySelector(
+				'[data-stat-id="current-time"]',
+			);
+			const currentSeasonElement = document.querySelector(
+				'[data-stat-id="current-season"]',
+			);
+
+			if (runningDaysElement)
+				updateRunningDays(runningDaysElement, today);
 			if (lastUpdateElement) updateLastUpdate(lastUpdateElement, today);
-			if (currentDateElement) updateCurrentDate(currentDateElement, today);
-			if (currentTimeElement) updateCurrentTime(currentTimeElement, today);
+			if (currentDateElement)
+				updateCurrentDate(currentDateElement, today);
+			if (currentTimeElement)
+				updateCurrentTime(currentTimeElement, today);
 			if (currentSeasonElement) updateSeason(currentSeasonElement, today);
-			
+
 			updateTimePeriod(today);
 		} catch (error) {
-			console.error('Error updating stats:', error);
+			console.error("Error updating stats:", error);
 		}
 	}
 
@@ -557,11 +587,11 @@ const stats = [
 		if (intervalId) clearInterval(intervalId);
 		if (dailyIntervalId) clearInterval(dailyIntervalId);
 		if (minuteIntervalId) clearInterval(minuteIntervalId);
-		
+
 		intervalId = setInterval(updateDynamicStats, 1000);
 		dailyIntervalId = setInterval(updateDynamicStats, 3600000);
 		minuteIntervalId = setInterval(updateDynamicStats, 60000);
-		
+
 		updateDynamicStats();
 	}
 
@@ -590,30 +620,36 @@ const stats = [
 		}
 	}
 
-	if (typeof document !== 'undefined') {
+	if (typeof document !== "undefined") {
 		startIntervals();
-		document.addEventListener('visibilitychange', handleVisibilityChange);
-		window.addEventListener('beforeunload', () => {
+		document.addEventListener("visibilitychange", handleVisibilityChange);
+		window.addEventListener("beforeunload", () => {
 			stopIntervals();
-			document.removeEventListener('visibilitychange', handleVisibilityChange);
+			document.removeEventListener(
+				"visibilitychange",
+				handleVisibilityChange,
+			);
 		});
 	}
 
 	// 后缀渲染器：语言切换时更新单位文本，防止落至 translate.js 翻译通道
 	function registerSuffixRenderer() {
 		if (!window.translationManager) return;
-		window.translationManager.onRefresh('site-stats-suffix', () => {
+		window.translationManager.onRefresh("site-stats-suffix", () => {
 			const lang = getCurrentI18nLang();
-			const langSuffixData = suffixTranslations[lang] || suffixTranslations['en'];
+			const langSuffixData =
+				suffixTranslations[lang] || suffixTranslations["en"];
 
-			document.querySelectorAll('[data-stat-suffix]').forEach(el => {
-				const statId = el.getAttribute('data-stat-suffix');
+			document.querySelectorAll("[data-stat-suffix]").forEach((el) => {
+				const statId = el.getAttribute("data-stat-suffix");
 				if (statId && langSuffixData[statId]) {
-					const text = langSuffixData[statId].replace('{days}', '').trim();
+					const text = langSuffixData[statId]
+						.replace("{days}", "")
+						.trim();
 					if (el.textContent !== text) {
 						el.textContent = text;
-						el.classList.add('ignore');
-						el.setAttribute('data-i18n-handled', 'true');
+						el.classList.add("ignore");
+						el.setAttribute("data-i18n-handled", "true");
 					}
 				}
 			});
@@ -621,25 +657,35 @@ const stats = [
 	}
 
 	registerSuffixRenderer();
-	document.addEventListener('translation-manager:ready', registerSuffixRenderer, { once: true });
+	document.addEventListener(
+		"translation-manager:ready",
+		registerSuffixRenderer,
+		{ once: true },
+	);
 
 	// 季节渲染器：语言切换时更新季节文本
 	function registerSeasonRenderer() {
 		if (!window.translationManager) return;
-		window.translationManager.onRefresh('site-stats-season', () => {
+		window.translationManager.onRefresh("site-stats-season", () => {
 			const lang = getCurrentI18nLang();
 			const vals = seasonTranslations[lang] || seasonTranslations.en;
 			const month = new Date().getMonth() + 1;
-			const season = vals[getSeasonIndex(month)] || '';
-			const el = document.querySelector('[data-stat-id="current-season"]');
+			const season = vals[getSeasonIndex(month)] || "";
+			const el = document.querySelector(
+				'[data-stat-id="current-season"]',
+			);
 			if (el && el.textContent !== season) {
 				el.textContent = season;
-				el.classList.add('ignore');
-				el.setAttribute('data-i18n-handled', 'true');
+				el.classList.add("ignore");
+				el.setAttribute("data-i18n-handled", "true");
 			}
 		});
 	}
 
 	registerSeasonRenderer();
-	document.addEventListener('translation-manager:ready', registerSeasonRenderer, { once: true });
+	document.addEventListener(
+		"translation-manager:ready",
+		registerSeasonRenderer,
+		{ once: true },
+	);
 </script>

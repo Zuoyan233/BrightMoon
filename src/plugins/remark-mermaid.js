@@ -1,3 +1,7 @@
+/**
+ * Remark 插件 - 将 mermaid 代码块转换为自定义节点类型
+ */
+
 import { visit } from "unist-util-visit";
 
 export function remarkMermaid() {

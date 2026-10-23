@@ -268,7 +268,7 @@ const renderGroups = [
 					<img
 						src={src}
 						alt={`${group.key} wallpaper ${index + 1}`}
-						class={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${positionClass}`}
+						class={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${positionClass}`}
 						data-carousel-item={index}
 						style={`transform: translateZ(0); backface-visibility: hidden; will-change: opacity; ${blurAmount > 0 ? `filter: blur(${blurAmount}px);` : ''}; opacity: ${index === 0 ? 1 : 0};`}
 						decoding="async"
@@ -310,7 +310,7 @@ const renderGroups = [
 							<img
 								src="${desktopSrc}"
 								alt="desktop wallpaper"
-								class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${positionClass}"
+								class="absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${positionClass}"
 								style="transform: translateZ(0); backface-visibility: hidden; will-change: opacity; ${blurAmount > 0 ? `filter: blur(${blurAmount}px);` : ''} opacity: 1;"
 								decoding="async"
 								loading="eager"
@@ -328,7 +328,7 @@ const renderGroups = [
 							<img
 								src="${mobileSrc}"
 								alt="mobile wallpaper"
-								class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${positionClass}"
+								class="absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${positionClass}"
 								style="transform: translateZ(0); backface-visibility: hidden; will-change: opacity; ${blurAmount > 0 ? `filter: blur(${blurAmount}px);` : ''} opacity: 1;"
 								decoding="async"
 								loading="eager"

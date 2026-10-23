@@ -1,3 +1,5 @@
+/* 主网格布局样式 */
+
 /* 底部导航条容器 - fixed 定位悬浮在视口底部 */
 .bottom-breadcrumb-bar {
 	position: fixed;
@@ -523,7 +525,6 @@ body.no-banner-mode .absolute.w-full.z-30 {
 	/* 桌面端图片容器优化 */
 	.carousel-item img,
 	#banner img {
-		object-position: center center !important; /* 确保图片居中显示 */
 		transition: transform 1s ease-out !important; /* 与移动端保持一致的过渡时间 */
 	}
 
@@ -563,7 +564,6 @@ body.no-banner-mode .absolute.w-full.z-30 {
 	/* 移动端图片容器优化 */
 	.carousel-item img,
 	#banner img {
-		object-position: center center !important; /* 确保图片居中显示 */
 		transition: transform 0.5s ease-out !important; /* 优化过渡时间，避免与轮播间隔冲突 */
 	}
 

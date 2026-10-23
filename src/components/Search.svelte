@@ -21,6 +21,7 @@ let fallbackTimer: NodeJS.Timeout;
 let pagefindReadyHandler: (() => void) | null = null;
 let pagefindErrorHandler: (() => void) | null = null;
 
+// 模拟搜索结果，用于开发环境下的测试
 const fakeResult: SearchResult[] = [
 	{
 		url: url("/"),
@@ -39,6 +40,7 @@ const fakeResult: SearchResult[] = [
 	},
 ];
 
+// 切换搜索面板显示状态
 const togglePanel = () => {
 	const panel = document.getElementById("search-panel");
 	const wasClosed = panel?.classList.contains("float-panel-closed");
@@ -65,6 +67,7 @@ const toggleDesktopSearch = () => {
 	}
 };
 
+// 折叠桌面搜索面板
 const collapseDesktopSearch = () => {
 	if (!keywordDesktop) {
 		isDesktopSearchExpanded = false;
@@ -80,6 +83,7 @@ const handleBlur = () => {
 	}, 200);
 };
 
+// 设置搜索面板显示状态
 const setPanelVisibility = (show: boolean, isDesktop: boolean): void => {
 	const panel = document.getElementById("search-panel");
 	if (!panel || !isDesktop) return;
@@ -101,12 +105,14 @@ const closeSearchPanel = (): void => {
 	result = [];
 };
 
+// 处理搜索结果点击事件
 const handleResultClick = (event: Event, url: string): void => {
 	event.preventDefault();
 	closeSearchPanel();
 	navigateToPage(url);
 };
 
+// 执行搜索
 const search = async (keyword: string, isDesktop: boolean): Promise<void> => {
 	if (!keyword) {
 		setPanelVisibility(false, isDesktop);
@@ -261,7 +267,7 @@ onDestroy(() => {
         }
     }}
 >
-    <Icon icon="material-symbols:search" class="absolute text-[1.25rem] pointer-events-none {isDesktopSearchExpanded ? 'left-3' : 'left-1/2 -translate-x-1/2'} transition top-1/2 -translate-y-1/2 {isDesktopSearchExpanded ? 'text-black/30 dark:text-white/30' : ''}"></Icon>
+    <Icon icon="material-symbols:search" class="absolute text-[1.25rem] pointer-events-none {isDesktopSearchExpanded ? 'left-3' : 'left-1/2 -translate-x-1/2'} transition top-1/2 -translate-y-1/2 {isDesktopSearchExpanded ? 'text-30' : ''}"></Icon>
     <input id="search-input-desktop" placeholder={i18n(I18nKey.search)} bind:value={keywordDesktop}
         onfocus={() => {
             clearTimeout(blurTimer);
@@ -270,7 +276,7 @@ onDestroy(() => {
         }}
         onblur={handleBlur}
         class="transition-all pl-10 text-sm bg-transparent outline-0
-            h-full {isDesktopSearchExpanded ? 'w-36' : 'w-0'} text-black/50 dark:text-white/50"
+            h-full {isDesktopSearchExpanded ? 'w-36' : 'w-0'} text-60"
     >
 </div>
 
@@ -281,40 +287,62 @@ onDestroy(() => {
 </button>
 
 <!-- search panel -->
-<div id="search-panel" class="float-panel float-panel-closed absolute md:w-[30rem] top-20 left-4 md:left-[unset] right-4 z-50 search-panel shadow-2xl rounded-2xl p-2">
+<div id="search-panel" class="float-panel float-panel-closed absolute md:w-[30rem] top-20 left-4 md:left-[unset] right-4 z-50 search-panel shadow-2xl rounded-2xl p-2 flex flex-col">
     <!-- search bar inside panel for phone/tablet -->
-    <div id="search-bar-inside" class="flex relative lg:hidden transition-all items-center h-11 rounded-xl
+    <div id="search-bar-inside" class="flex relative lg:hidden transition-all items-center h-11 rounded-xl shrink-0
       bg-black/[0.04] hover:bg-black/[0.06] focus-within:bg-black/[0.06]
       dark:bg-white/5 dark:hover:bg-white/10 dark:focus-within:bg-white/10
   ">
-        <Icon icon="material-symbols:search" class="absolute text-[1.25rem] pointer-events-none ml-3 transition my-auto text-black/30 dark:text-white/30"></Icon>
+        <Icon icon="material-symbols:search" class="absolute text-[1.25rem] pointer-events-none ml-3 transition my-auto text-30"></Icon>
         <input placeholder={i18n(I18nKey.search)} bind:value={keywordMobile}
                class="pl-10 absolute inset-0 text-sm bg-transparent outline-0
-               focus:w-60 text-black/50 dark:text-white/50"
+               focus:w-60 text-60"
         >
     </div>
     <!-- search results -->
-    {#each result as item}
-        <a href={item.url}
-           onclick={(e) => handleResultClick(e, item.url)}
-           class="transition first-of-type:mt-2 lg:first-of-type:mt-0 group block
-       rounded-xl text-lg px-3 py-2 hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)]">
-            <div class="transition text-90 inline-flex font-bold group-hover:text-[var(--primary)]">
-                {item.meta.title}<Icon icon="fa6-solid:chevron-right" class="transition text-[0.75rem] translate-x-1 my-auto text-[var(--primary)]"></Icon>
-            </div>
-            <div class="transition text-sm text-50">
-                {@html item.excerpt}
-            </div>
-        </a>
-    {/each}
+    <div class="search-results overflow-y-auto">
+        {#each result as item}
+            <a href={item.url}
+               onclick={(e) => handleResultClick(e, item.url)}
+               class="transition first-of-type:mt-2 lg:first-of-type:mt-0 group block
+           rounded-xl text-lg px-3 py-2 hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)]">
+                <div class="transition text-90 inline-flex font-bold group-hover:text-[var(--primary)]">
+                    {item.meta.title}<Icon icon="fa6-solid:chevron-right" class="transition text-[0.75rem] translate-x-1 my-auto text-[var(--primary)]"></Icon>
+                </div>
+                <div class="transition text-sm text-60">
+                    {@html item.excerpt}
+                </div>
+            </a>
+        {/each}
+    </div>
 </div>
 
 <style>
     input:focus {
         outline: 0;
     }
-    :global(.search-panel) {
-        max-height: calc(100vh - 100px);
+    :global(#search-panel.search-panel) {
+        max-height: 50vh;
+    }
+    :global(#search-panel.search-panel .search-results) {
+        max-height: calc(50vh - 3rem);
         overflow-y: auto;
+    }
+    :global(#search-panel.search-panel .search-results::-webkit-scrollbar) {
+        width: 6px;
+    }
+    :global(#search-panel.search-panel .search-results::-webkit-scrollbar-track) {
+        background: transparent;
+        margin: 0 2px;
+    }
+    :global(#search-panel.search-panel .search-results::-webkit-scrollbar-thumb) {
+        background: var(--scrollbar-bg);
+        border-radius: 4px;
+    }
+    :global(#search-panel.search-panel .search-results::-webkit-scrollbar-thumb:hover) {
+        background: var(--scrollbar-bg-hover);
+    }
+    :global(#search-panel.search-panel .search-results::-webkit-scrollbar-thumb:active) {
+        background: var(--scrollbar-bg-active);
     }
 </style>

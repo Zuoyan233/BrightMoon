@@ -1,3 +1,5 @@
+/* 主样式 */
+
 /* 导入动画样式 */
 @import "./transition.css";
 @import "./animation-enhancements.css";
@@ -374,10 +376,6 @@ html {
 		@apply transition-colors duration-150 underline decoration-2 decoration-dashed decoration-[var(--link-underline)] hover:decoration-[var(--link-hover)] active:decoration-[var(--link-active)] underline-offset-[0.25rem];
 	}
 
-	/* #toc-inner-wrapper {
-        mask-image: linear-gradient(to bottom, transparent 0%, black 2rem, black calc(100% - 2rem), transparent 100%);
-    } */
-
 	.hide-scrollbar {
 		scrollbar-width: none;
 		-ms-overflow-style: none;
@@ -392,8 +390,8 @@ html {
 	.text-75 {
 		@apply text-black/75 dark:text-white/75;
 	}
-	.text-50 {
-		@apply text-black/50 dark:text-white/50;
+	.text-60 {
+		@apply text-black/60 dark:text-white/60;
 	}
 	.text-30 {
 		@apply text-black/30 dark:text-white/30;
@@ -443,7 +441,7 @@ html {
 	}
 
 	.dropdown-menu {
-		@apply absolute top-full left-0 pt-2 opacity-0 invisible pointer-events-none transition-all duration-200 ease-out transform translate-y-[-8px] z-50;
+		@apply absolute top-full left-0 pt-2 opacity-0 invisible pointer-events-none transition-all duration-300 ease-out transform translate-y-[-8px] z-50;
 	}
 
 	.dropdown-container:hover .dropdown-menu,
@@ -516,6 +514,7 @@ html {
 	}
 }
 
+/* 图片 */
 .custom-md img,
 #post-cover img {
 	@apply cursor-zoom-in;

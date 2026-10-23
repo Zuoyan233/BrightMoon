@@ -44,13 +44,13 @@ let links: NavBarLink[] = navBarConfig.links.map(
                     ) : (
                         <>
                             <img src={url(siteConfig.navbarTitle.icon || "/assets/home/home.png")} alt={siteConfig.navbarTitle.text} class="h-[1.75rem] w-[1.75rem] mb-1 mr-2 object-contain" loading="lazy" />
-                            <span class="ignore dark:text-white text-black">{siteConfig.navbarTitle.text}</span>
+                            <span class="ignore dark:text-white text-90">{siteConfig.navbarTitle.text}</span>
                         </>
                     )
                 ) : (
                     <>
                         <Icon name="material-symbols:home-pin-outline" class="text-[1.75rem] mb-1 mr-2" />
-                        <span class="dark:text-white text-black">{siteConfig.title}</span>
+                        <span class="dark:text-white text-90">{siteConfig.title}</span>
                     </>
                 )}
             </div>
@@ -278,6 +278,7 @@ if (document.readyState === 'loading') {
 }
 </script>
 
+<!-- Pagefind 脚本加载 -->
 {import.meta.env.PROD && <script is:inline define:vars={{scriptUrl: url('/pagefind/pagefind.js')}}>
 async function loadPagefind() {
     if (window.pagefind && typeof window.pagefind.search === 'function') return;

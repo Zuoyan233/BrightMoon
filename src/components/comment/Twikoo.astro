@@ -5,6 +5,7 @@ interface Props {
 	path: string;
 }
 
+// 合并评论配置：展开 twikoo 配置项，指定挂载元素和当前页面路径
 const config = {
 	...commentConfig.twikoo,
 	el: "#tcomment",
@@ -12,46 +13,57 @@ const config = {
 };
 ---
 
+<!-- Twikoo 评论挂载容器 -->
 <div id="tcomment"></div>
+<!-- 内联加载 Twikoo 全量脚本（含 SDK + 渲染逻辑） -->
 <script is:inline src="/assets/js/twikoo.all.min.js"></script>
 <script is:inline define:vars={{ config }}>
+	// 获取当前页面路径，去除末尾斜杠以保证路径一致性
 	function getPath() {
 		var p = window.location.pathname;
 		return p.endsWith("/") && p.length > 1 ? p.slice(0, -1) : p;
 	}
 
+	// 获取当前语言：优先使用翻译管理器的语言，否则回退到配置值
 	function getLang() {
 		return window.translationManager?.getTwikooLanguage() || config.lang;
 	}
 
+	// 记录上次初始化时使用的语言，用于判断是否需要因语言切换而重新初始化
 	var lastLang = null;
 
+	// 初始化 Twikoo 评论组件
 	function initTwikoo() {
+		// 轮询等待 Twikoo SDK 加载完成
 		if (typeof twikoo === "undefined") {
 			setTimeout(initTwikoo, 500);
 			return;
 		}
 		var el = document.getElementById("tcomment");
 		if (!el) return;
+		// 清空容器，避免重复初始化产生残留 DOM
 		el.innerHTML = "";
 		lastLang = getLang();
 
+		// 合并配置：使用当前语言和路径覆盖默认值
 		var cfg = Object.assign({}, config, {
 			lang: lastLang,
 			path: getPath(),
 		});
 
-		console.log("[Twikoo] init:", cfg);
 		twikoo.init(cfg).catch(function (e) {
 			console.error("[Twikoo] failed:", e);
 		});
 	}
 
+	// Swup 页面切换时的回调：重置语言状态并延迟重新初始化
 	function onContentReplace() {
 		lastLang = null;
 		setTimeout(initTwikoo, 200);
 	}
 
+	// 注册 Swup 钩子：监听 content:replace 事件以在页面切换时重新初始化评论
+	// 若 Swup 尚未就绪则等待 swup:enable 事件后再注册
 	function setupSwup() {
 		if (window.swup?.hooks) {
 			window.swup.hooks.on("content:replace", onContentReplace);
@@ -64,8 +76,10 @@ const config = {
 		}
 	}
 
+	// 首次加载时初始化评论
 	document.addEventListener("DOMContentLoaded", initTwikoo);
 
+	// 自定义页面加载事件：当评论容器存在时重新初始化
 	document.addEventListener("brightmoon:page:loaded", function () {
 		if (document.getElementById("tcomment")) {
 			lastLang = null;
@@ -73,6 +87,7 @@ const config = {
 		}
 	});
 
+	// 语言切换事件：仅当语言实际变化且评论容器存在时才重新初始化
 	document.addEventListener("translate:applied", function () {
 		var newLang = getLang();
 		if (newLang !== lastLang && document.getElementById("tcomment")) {
@@ -81,5 +96,6 @@ const config = {
 		}
 	});
 
+	// 启动 Swup 集成
 	setupSwup();
 </script>

@@ -1,3 +1,7 @@
+/**
+ * Atom 订阅源生成 - 输出 Atom 1.0 格式的文章订阅源
+ */
+
 import { getImage } from "astro:assets";
 // import { getCollection } from "astro:content";
 import type { APIContext, ImageMetadata } from "astro";
@@ -11,9 +15,9 @@ import { getPostUrl } from "@/utils/url-utils";
 
 const markdownParser = new MarkdownIt();
 
-// get dynamic import of images as a map collection
+// 动态导入图片集合
 const imagesGlob = import.meta.glob<{ default: ImageMetadata }>(
-	"/src/content/**/*.{jpeg,jpg,png,gif,webp}", // include posts and assets
+	"/src/content/**/*.{jpeg,jpg,png,gif,webp}",
 );
 
 export async function GET(context: APIContext) {
@@ -21,7 +25,6 @@ export async function GET(context: APIContext) {
 		throw Error("site not set");
 	}
 
-	// Use the same ordering as site listing (pinned first, then by published desc)
 	// 过滤掉加密文章和草稿文章
 	const posts = (await getSortedPosts()).filter(
 		(post) => !post.data.encrypted && post.data.draft !== true,
@@ -42,18 +45,18 @@ export async function GET(context: APIContext) {
   <language>${siteConfig.lang}</language>`;
 
 	for (const post of posts) {
-		// convert markdown to html string, ensure post.body is a string
+		// 将 Markdown 渲染为 HTML
 		const body = markdownParser.render(String(post.body ?? ""));
-		// convert html string to DOM-like structure
+		// 解析 HTML 为 DOM 结构以便查找图片
 		const html = htmlParser.parse(body);
-		// hold all img tags in variable images
+		// 获取所有 img 标签
 		const images = html.querySelectorAll("img");
 
 		for (const img of images) {
 			const src = img.getAttribute("src");
 			if (!src) continue;
 
-			// Handle content-relative images and convert them to built _astro paths
+			// 处理内容相对路径图片，转换为构建后的 _astro 路径
 			if (
 				src.startsWith("./") ||
 				src.startsWith("../") ||
@@ -62,57 +65,59 @@ export async function GET(context: APIContext) {
 				let importPath: string | null = null;
 
 				if (src.startsWith("./")) {
-					// Path relative to the post file directory
+					// 相对于文章文件目录的路径
 					const prefixRemoved = src.slice(2);
-					// Check if this post is in a subdirectory (like bestimageapi/index.md)
-					const postPath = post.id; // This gives us the full path like "bestimageapi/index.md"
+					const postPath = post.id;
 					const postDir = postPath.includes("/") ? postPath.split("/")[0] : "";
 
 					if (postDir) {
-						// For posts in subdirectories
+						// 子目录中的文章
 						importPath = `/src/content/posts/${postDir}/${prefixRemoved}`;
 					} else {
-						// For posts directly in posts directory
+						// 直接在 posts 目录中的文章
 						importPath = `/src/content/posts/${prefixRemoved}`;
 					}
 				} else if (src.startsWith("../")) {
-					// Path like ../assets/images/xxx -> relative to /src/content/
+					// 如 ../assets/images/xxx -> 相对于 /src/content/
 					const cleaned = src.replace(/^\.\.\//, "");
 					importPath = `/src/content/${cleaned}`;
 				} else {
-					// Handle direct filename (no ./ prefix) - assume it's in the same directory as the post
-					const postPath = post.id; // This gives us the full path like "bestimageapi/index.md"
+					// 直接文件名（无 ./ 前缀）- 假定与文章在同一目录
+					const postPath = post.id; // 完整路径如 "bestimageapi/index.md"
 					const postDir = postPath.includes("/") ? postPath.split("/")[0] : "";
 
 					if (postDir) {
-						// For posts in subdirectories
+						// 子目录中的文章
 						importPath = `/src/content/posts/${postDir}/${src}`;
 					} else {
-						// For posts directly in posts directory
+						// 直接在 posts 目录中的文章
 						importPath = `/src/content/posts/${src}`;
 					}
 				}
 
+				// 通过 glob 映射加载并优化图片
 				const imageMod = await imagesGlob[importPath]?.()?.then(
 					(res) => res.default,
 				);
 				if (imageMod) {
+					// 成功加载：替换为优化后的绝对 URL
 					const optimizedImg = await getImage({ src: imageMod });
 					img.setAttribute("src", new URL(optimizedImg.src, context.site).href);
 				} else {
-					// Debug: log the failed import path
+					// 调试：记录失败的导入路径
 					console.log(
 						`Failed to load image: ${importPath} for post: ${post.id}`,
 					);
 				}
 			} else if (src.startsWith("/")) {
-				// images starting with `/` are in public dir
+				// 以 `/` 开头的图片位于 public 目录
 				img.setAttribute("src", new URL(src, context.site).href);
 			}
 		}
 
 		// 添加Atom条目
 		const postUrl = new URL(getPostUrl(post), context.site).href;
+		// 对修正图片路径后的 HTML 进行安全过滤
 		const content = sanitizeHtml(html.toString(), {
 			allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
 		});
@@ -140,7 +145,7 @@ export async function GET(context: APIContext) {
   </entry>`;
 	}
 
-	// 关闭Atom feed
+	// 关闭 Atom feed
 	atomFeed += `
 </feed>`;
 

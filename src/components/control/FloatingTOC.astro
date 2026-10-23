@@ -4,10 +4,12 @@ import { i18n } from "@i18n/translation";
 import { Icon } from "astro-icon/components";
 import { siteConfig } from "../../config";
 
+// TOC 配置：目录深度和是否使用日文徽章
 const tocDepth = siteConfig.toc.depth;
 const useJapaneseBadge = siteConfig.toc.useJapaneseBadge;
 ---
 
+<!-- 浮动目录按钮：固定在页面右下角，点击展开目录面板，含阅读进度环 -->
 <div
 	class="floating-toc-wrapper"
 	data-depth={tocDepth}

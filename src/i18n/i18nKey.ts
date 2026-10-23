@@ -1,3 +1,7 @@
+/**
+ * 国际化键枚举 - 定义所有可翻译的文本键
+ */
+
 enum I18nKey {
 	// 主导航
 	home = "home",
@@ -80,13 +84,17 @@ enum I18nKey {
 	friendsCopyLink = "friendsCopyLink",
 	friendsCopySuccess = "friendsCopySuccess",
 	friendsTags = "friendsTags",
+	friendsNoticeTitle = "friendsNoticeTitle",
+	friendsNoticeReciprocal = "friendsNoticeReciprocal",
+	friendsNoticeMaintenance = "friendsNoticeMaintenance",
+	friendsNoticeContent = "friendsNoticeContent",
+	friendsNoticeHttps = "friendsNoticeHttps",
 
 	// 导航分类
 	anime = "anime",
 	diary = "diary",
 
 	// 番剧页面
-	animeTitle = "animeTitle",
 	animeSubtitle = "animeSubtitle",
 	animeStatusWatching = "animeStatusWatching",
 	animeStatusCompleted = "animeStatusCompleted",
@@ -102,6 +110,7 @@ enum I18nKey {
 	animeSetBangumiUserId = "animeSetBangumiUserId",
 	animeSetBilibiliVmId = "animeSetBilibiliVmId",
 	animeEmptyBilibili = "animeEmptyBilibili",
+	animeFilterEmpty = "animeFilterEmpty",
 
 	// 短文页面
 	diarySubtitle = "diarySubtitle",
@@ -208,7 +217,6 @@ enum I18nKey {
 	skillsDatabase = "skillsDatabase",
 	skillsTools = "skillsTools",
 	skillsOther = "skillsOther",
-	skillLevel = "skillLevel",
 	skillLevelBeginner = "skillLevelBeginner",
 	skillLevelIntermediate = "skillLevelIntermediate",
 	skillLevelAdvanced = "skillLevelAdvanced",
@@ -217,16 +225,8 @@ enum I18nKey {
 	skillYears = "skillYears",
 	skillMonths = "skillMonths",
 	skillsTotal = "skillsTotal",
-	skillsExpert = "skillsExpert",
-	skillsAdvanced = "skillsAdvanced",
-	skillsIntermediate = "skillsIntermediate",
-	skillsBeginner = "skillsBeginner",
 	skillsAdvancedTitle = "skillsAdvancedTitle",
-	skillsProjects = "skillsProjects",
-	skillsDistribution = "skillsDistribution",
-	skillsByLevel = "skillsByLevel",
-	skillsByCategory = "skillsByCategory",
-	noData = "noData",
+	skillsFilterEmpty = "skillsFilterEmpty",
 
 	// 时间线页面
 	timeline = "timeline",
@@ -236,18 +236,12 @@ enum I18nKey {
 	timelineProject = "timelineProject",
 	timelineAchievement = "timelineAchievement",
 	timelinePresent = "timelinePresent",
-	timelineLocation = "timelineLocation",
-	timelineDescription = "timelineDescription",
 	timelineMonths = "timelineMonths",
 	timelineYears = "timelineYears",
 	timelineTotal = "timelineTotal",
-	timelineProjects = "timelineProjects",
-	timelineExperience = "timelineExperience",
 	timelineCurrent = "timelineCurrent",
-	timelineHistory = "timelineHistory",
 	timelineAchievements = "timelineAchievements",
-	timelineStartDate = "timelineStartDate",
-	timelineDuration = "timelineDuration",
+	timelineFilterEmpty = "timelineFilterEmpty",
 
 	// 反馈页面 - 联系站长方式模块
 	contactMe = "contactMe",
@@ -258,8 +252,6 @@ enum I18nKey {
 	// 赞助页面
 	sponsorsNotice1 = "sponsorsNotice1",
 	sponsorsNotice2 = "sponsorsNotice2",
-	wechatPay = "wechatPay",
-	aliPay = "aliPay",
 	scanPayQRcode = "scanPayQRcode",
 	sponsorsPartner = "sponsorsPartner",
 	otherSupportOptions = "otherSupportOptions",
@@ -413,16 +405,6 @@ enum I18nKey {
 	shareOnSocial = "shareOnSocial",
 	shareOnSocialDescription = "shareOnSocialDescription",
 
-	// 个人资料统计
-	profileStatsLoading = "profileStatsLoading",
-	profileStatsPageViews = "profileStatsPageViews",
-	profileStatsVisits = "profileStatsVisits",
-	profileStatsUnavailable = "profileStatsUnavailable",
-
-	// 页面访问量统计
-	pageViewsLoading = "pageViewsLoading",
-	pageViewsUnavailable = "pageViewsUnavailable",
-
 	// 文章列表布局
 	postListLayout = "postListLayout",
 	listMode = "listMode",
@@ -489,6 +471,14 @@ enum I18nKey {
 	cookieConsentIpTimeout = "cookieConsentIpTimeout",
 	cookieConsentAccept = "cookieConsentAccept",
 	cookieConsentReject = "cookieConsentReject",
+	cookieConsentLearnMore = "cookieConsentLearnMore",
+	cookieConsentPrivacyTitle = "cookieConsentPrivacyTitle",
+	cookieConsentPrivacyIntro = "cookieConsentPrivacyIntro",
+	cookieConsentPrivacyEssential = "cookieConsentPrivacyEssential",
+	cookieConsentPrivacyAnalytics = "cookieConsentPrivacyAnalytics",
+	cookieConsentPrivacyAdvertising = "cookieConsentPrivacyAdvertising",
+	cookieConsentPrivacyThirdParty = "cookieConsentPrivacyThirdParty",
+	cookieConsentPrivacyClose = "cookieConsentPrivacyClose",
 
 	// Twikoo 评论系统
 	twikooInitializing = "twikooInitializing",

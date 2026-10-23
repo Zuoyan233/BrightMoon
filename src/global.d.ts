@@ -1,3 +1,7 @@
+/**
+ * 全局类型声明 - Window/HTMLElement 扩展与搜索结果类型
+ */
+
 declare global {
 	interface HTMLElementTagNameMap {
 		"table-of-contents": HTMLElement & {
@@ -6,7 +10,7 @@ declare global {
 	}
 
 	interface Window {
-		// Define swup type directly since @swup/astro doesn't export AstroIntegration
+		// 直接定义 swup 类型，因为 @swup/astro 不导出 AstroIntegration
 		swup: {
 			hooks: {
 				on: (event: string, handler: (...args: unknown[]) => void) => void;

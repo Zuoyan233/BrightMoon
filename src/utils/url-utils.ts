@@ -1,3 +1,7 @@
+/**
+ * URL 工具函数 - 文章/分类/标签 URL 生成与路径比较
+ */
+
 import type { CollectionEntry } from "astro:content";
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
@@ -12,6 +16,7 @@ export function removeFileExtension(id: string): string {
 	return id.replace(/\.(md|mdx|markdown)$/i, "");
 }
 
+// 比较两个路径是否相等（忽略首尾斜杠和大小写）
 export function pathsEqual(path1: string, path2: string) {
 	const normalizedPath1 = path1.replace(/^\/|\/$/g, "").toLowerCase();
 	const normalizedPath2 = path2.replace(/^\/|\/$/g, "").toLowerCase();

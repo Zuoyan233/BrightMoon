@@ -1,23 +1,20 @@
 ---
 /**
- * AnalyticsScripts.astro
  * 第三方分析脚本组件
- *
- * 包含:
- * - Google Tag Manager (GTM，需配置 gtmId)
- * - Microsoft Clarity (需配置 clarityId)
- *
  */
 
 import type { ThirdPartyAnalyticsConfig } from "@/types/config";
 
+// 组件属性接口
 interface Props {
 	thirdPartyAnalytics?: ThirdPartyAnalyticsConfig;
 }
 
+// 组件属性
 const { thirdPartyAnalytics = { enable: false, gtmId: "", clarityId: "" } } =
 	Astro.props;
 
+// 分析脚本是否启用
 const analyticsEnabled = thirdPartyAnalytics.enable;
 const gtmEnable = analyticsEnabled && !!thirdPartyAnalytics.gtmId;
 const clarityEnable = analyticsEnabled && !!thirdPartyAnalytics.clarityId;
@@ -41,7 +38,7 @@ const clarityEnable = analyticsEnabled && !!thirdPartyAnalytics.clarityId;
 					if (window.analyticsLoaded) return;
 					window.analyticsLoaded = true;
 
-					// Google Tag Manager
+					// 加载 Google Tag Manager
 					if (gtmEnable && gtmId) {
 						(function (w, d, s, l, i) {
 							w[l] = w[l] || [];
@@ -59,7 +56,7 @@ const clarityEnable = analyticsEnabled && !!thirdPartyAnalytics.clarityId;
 						})(window, document, "script", "dataLayer", gtmId);
 					}
 
-					// Microsoft Clarity
+					// 加载 Microsoft Clarity
 					if (clarityEnable && clarityId) {
 						(function (c, l, a, r, i, t, y) {
 							c[a] =
@@ -76,36 +73,51 @@ const clarityEnable = analyticsEnabled && !!thirdPartyAnalytics.clarityId;
 					}
 				}
 
-				// 仅在用户交互后加载，减少初始页面负担
-				var events = [
-					"scroll",
-					"mousemove",
-					"keydown",
-					"touchstart",
-					"click",
-				];
-				var loaded = false;
-
-				function onInteraction() {
-					if (loaded) return;
-					loaded = true;
-					events.forEach(function (event) {
-						window.removeEventListener(event, onInteraction);
-					});
-					loadAnalytics();
+				function canLoadAnalytics() {
+					return window.__siteNoticeConsent === "accepted";
 				}
 
-				events.forEach(function (event) {
-					window.addEventListener(event, onInteraction, {
-						once: true,
-						passive: true,
-					});
+				function tryLoadAnalytics() {
+					if (canLoadAnalytics()) {
+						loadAnalytics();
+						return true;
+					}
+					return false;
+				}
+
+				// 用户交互触发加载（滚动、鼠标、按键、触摸、点击）
+				var events = ["scroll", "mousemove", "keydown", "touchstart", "click"];
+				function onUserInteraction() {
+					if (tryLoadAnalytics()) {
+						events.forEach(function (ev) {
+							window.removeEventListener(ev, onUserInteraction);
+						});
+					}
+				}
+				events.forEach(function (ev) {
+					window.addEventListener(ev, onUserInteraction, { passive: true });
 				});
 
-				// 备用：10 秒内无交互则自动加载
+				// 10 秒后无交互也自动加载
 				setTimeout(function () {
-					if (!loaded) loadAnalytics();
+					if (tryLoadAnalytics()) {
+						events.forEach(function (ev) {
+							window.removeEventListener(ev, onUserInteraction);
+						});
+					}
 				}, 10000);
+
+				// 监听同意隐私协议的事件
+				function onConsentChange(e) {
+					if (e.detail === "rejected") {
+						// 用户拒绝后，清理所有交互监听器
+						events.forEach(function (ev) {
+							window.removeEventListener(ev, onUserInteraction);
+						});
+					}
+					window.removeEventListener("siteNoticeConsentChange", onConsentChange);
+				}
+				window.addEventListener("siteNoticeConsentChange", onConsentChange);
 			})();
 		</script>
 	) : null

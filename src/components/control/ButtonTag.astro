@@ -1,13 +1,23 @@
 ---
 interface Props {
 	size?: string;
-	dot?: boolean;
+	dot?: boolean; // 是否在文字前显示圆点指示器
 	href?: string;
 	label?: string;
 }
 const { dot, href, label }: Props = Astro.props;
 ---
-<a href={href} aria-label={label} class="btn-regular h-8 text-sm px-3 rounded-lg">
-    {dot && <div class="h-1 w-1 bg-[var(--btn-content)] dark:bg-[var(--card-bg)] transition rounded-md mr-2"></div>}
-    <slot></slot>
+
+<!-- 标签按钮：用于侧边栏标签列表等场景，可选圆点前缀 -->
+<a
+	href={href}
+	aria-label={label}
+	class="btn-regular h-8 text-sm px-3 rounded-lg"
+>
+	{
+		dot && (
+			<div class="h-1 w-1 bg-[var(--btn-content)] dark:bg-[var(--card-bg)] transition rounded-md mr-2" />
+		)
+	}
+	<slot />
 </a>

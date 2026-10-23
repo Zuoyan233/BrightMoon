@@ -1,17 +1,21 @@
-/* 集中管理颜色与状态，修改一处即可全局生效 */
+/*
+ * 壁纸模式导航栏半透明样式
+ */
+
+/* 壁纸模式导航栏半透明样式 - 基础配置 */
 :root {
-	/* --- 基础 Token --- */
+	/* 基础 Token */
 	--shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
 	--shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.08);
 	--radius-std: 0.75rem;
 
-	/* --- 状态变量 (默认值) --- */
+	/* 状态变量 (默认值) */
 	--nav-bg: var(--card-bg);
 	--nav-blur: none;
 	--nav-shadow: var(--shadow-sm);
 	--nav-radius: var(--radius-std);
 
-	/* --- 面板变量 (默认跟随 Navbar，特定情况分离) --- */
+	/* 面板变量 (默认跟随 Navbar，特定情况分离) */
 	--panel-bg: var(--card-bg-transparent);
 	--panel-blur: blur(20px);
 }
@@ -22,7 +26,7 @@
 	--shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.18);
 }
 
-/* --- 滚动透明度控制 (Dynamic Transparent) --- */
+/* 滚动透明度控制 */
 
 /* Semi (毛玻璃) */
 #navbar[data-dynamic-transparent="semi"] {
@@ -42,7 +46,7 @@
 	--panel-blur: none;
 }
 
-/* --- 首页 Banner 沉浸式 (Wallpaper Transparent) --- */
+/* 首页 Banner 沉浸式 */
 
 /* 桌面端 Full 模式 */
 @media (min-width: 1280px) {
@@ -90,7 +94,7 @@ body.wallpaper-transparent #navbar[data-transparent-mode="semifull"].scrolled {
 	--nav-radius: var(--radius-std);
 }
 
-/* 导航栏样式核心 (Navbar Core) */
+/* 导航栏样式核心 */
 #navbar > div {
 	border: none;
 	outline: none;
@@ -106,7 +110,7 @@ body.wallpaper-transparent #navbar[data-transparent-mode="semifull"].scrolled {
 	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* 子组件样式 (Sub-Components) */
+/* 子组件样式 */
 :is(
 	.dropdown-content,
 	#nav-menu-panel,

@@ -1,6 +1,5 @@
 /**
  * 主网格布局脚本
- * 管理壁纸模式切换、TOC 响应式控制、导航栏透明模式、文章列表布局切换、Swup 页面过渡等
  */
 
 const configEl = document.documentElement;
@@ -338,10 +337,10 @@ window.injectHomepageSuggestion = () => {
 
 	// 使用 iconify-icon 渲染图标
 	var iconHtml = chosen.icon
-		? '<span class="flex items-center justify-center w-8 h-8 mr-2 rounded-lg bg-[var(--btn-plain-bg-hover)] group-hover:bg-[var(--primary)] transition-colors duration-200">' +
+		? '<span class="flex items-center justify-center w-8 h-8 mr-2 rounded-lg bg-[var(--btn-plain-bg-hover)] group-hover:bg-[var(--primary)] transition-colors duration-300">' +
 			'<iconify-icon icon="' +
 			chosen.icon +
-			'" class="text-xl leading-none shrink-0 text-[var(--btn-content)] transition-colors duration-200 group-hover:text-white" style="width:1.25rem;height:1.25rem"></iconify-icon>' +
+			'" class="text-xl leading-none shrink-0 text-[var(--btn-content)] transition-colors duration-300 group-hover:text-white" style="width:1.25rem;height:1.25rem"></iconify-icon>' +
 			"</span>"
 		: "";
 
@@ -361,7 +360,7 @@ window.injectHomepageSuggestion = () => {
 		href +
 		'" title="' +
 		chosen.label +
-		'" data-dynamic-suggestion class="group flex items-center gap-1 rounded-lg transition-all duration-200 ease-out whitespace-nowrap shrink-0 px-2 py-2 cursor-pointer border-none bg-transparent text-sm text-neutral-500 dark:text-neutral-400 no-underline hover:bg-[var(--btn-plain-bg-hover)] hover:text-[var(--primary)] dark:hover:text-[var(--primary)]">' +
+		'" data-dynamic-suggestion class="group flex items-center gap-1 rounded-lg transition-all duration-300 ease-out whitespace-nowrap shrink-0 px-2 py-2 cursor-pointer border-none bg-transparent text-sm text-90 no-underline hover:bg-[var(--btn-plain-bg-hover)] hover:text-[var(--primary)] dark:hover:text-[var(--primary)]">' +
 		iconHtml +
 		'<span class="leading-none inline-flex items-center gap-1">' +
 		suggestionHtml +
@@ -506,6 +505,7 @@ if (document.readyState === "loading") {
 	setTimeout(scrollToMainPanelIfNeeded, 100);
 }
 
+// 应用壁纸模式：根据 localStorage 中的配置应用对应的类名
 function applyWallpaperMode() {
 	var wallpaperMode =
 		localStorage.getItem("wallpaperMode") || defaultWallpaperMode;
@@ -658,6 +658,7 @@ function applyWallpaperMode() {
 			? configCarrier.dataset.homeTextAvailable === "true"
 			: true;
 	})();
+
 	const bannerTextOverlay = document.getElementById("banner-text-overlay");
 	if (bannerTextOverlay) {
 		if (
@@ -875,7 +876,7 @@ document.addEventListener("click", (e) => {
 		})
 		.catch((err) => {
 			console.error("Copy failed:", err);
-			btn.innerHTML = `<span class="inline-flex items-center justify-center gap-1.5"><Icon name="material-symbols:error" class="text-base" /><span>${failedText}</span></span>`;
+			btn.innerHTML = `<span class="inline-flex items-center justify-center gap-1.5"><iconify-icon icon="material-symbols:error" class="text-base"></iconify-icon><span>${failedText}</span></span>`;
 			btn.style.cssText =
 				"background-color: var(--error-color, #ef4444) !important; border-color: transparent; box-shadow: none;";
 

@@ -1,5 +1,6 @@
-// 图标加载工具类
-// 提供可靠的Iconify图标加载解决方案
+/**
+ * 图标加载工具类
+ */
 
 interface IconifyLoadOptions {
 	timeout?: number;

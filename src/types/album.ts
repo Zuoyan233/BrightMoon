@@ -1,3 +1,7 @@
+/**
+ * 相册类型定义 - 照片与相册分组的数据结构
+ */
+
 export interface Photo {
 	id?: string;
 	src: string;

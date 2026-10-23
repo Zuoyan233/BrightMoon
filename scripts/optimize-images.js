@@ -3,11 +3,14 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
 
+// 获取项目根目录
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(__dirname, "..");
 
+// 配置目录
 const CONFIG_DIR = path.join(__dirname, "../src/config");
 
+// 读取配置文件内容
 function readConfigContents() {
 	const dirs = ["user", "defaults"];
 	const contents = [];
@@ -26,6 +29,7 @@ function readConfigContents() {
 	return contents;
 }
 
+// 匹配配置文件中的正则表达式
 function matchConfig(regex) {
 	for (const content of readConfigContents()) {
 		const match = content.match(regex);
@@ -34,31 +38,45 @@ function matchConfig(regex) {
 	return null;
 }
 
+// 获取图像优化配置
 function getImageOptimizeConfig() {
+	// 匹配 imageQuality 配置项
 	const imageQualityMatch = matchConfig(/imageQuality:\s*(\d+)/);
 	if (!imageQualityMatch) throw new Error("imageQuality not found in config");
 	const imageQuality = Number.parseInt(imageQualityMatch[1], 10);
 
+	// 匹配 tasks 配置项
 	const tasks = [];
 
 	for (const content of readConfigContents()) {
+		// 匹配 tasks 配置项
 		const tasksBlockMatch = content.match(/tasks:\s*\[([\s\S]*?)\n\t*\],/);
 		if (!tasksBlockMatch) continue;
 
+		// 解析 tasks 配置项
 		const tasksStr = tasksBlockMatch[1];
 		const blockRegex = /\{[^{}]+\}/g;
 
+		// 解析 tasks 配置项中的每个任务
 		let blockMatch = blockRegex.exec(tasksStr);
 		while (blockMatch !== null) {
+
+			// 解析任务配置项
 			const block = blockMatch[0];
+
+			// 解析字符串配置项
 			const getString = (key) => {
 				const m = block.match(new RegExp(`\\b${key}:\\s*["'](.+?)["']`));
 				return m ? m[1] : undefined;
 			};
+
+			// 解析数字配置项
 			const getNumber = (key) => {
 				const m = block.match(new RegExp(`\\b${key}:\\s*(\\d+)`));
 				return m ? Number.parseInt(m[1], 10) : undefined;
 			};
+
+			// 解析数组配置项
 			const getStringArray = (key) => {
 				const m = block.match(new RegExp(`\\b${key}:\\s*\\[([\\s\\S]*?)\\]`));
 				if (!m) return undefined;
@@ -68,6 +86,7 @@ function getImageOptimizeConfig() {
 					.filter(Boolean);
 			};
 
+			// 解析任务配置
 			const name = getString("name");
 			const dir = getString("dir");
 			if (name && dir) {
@@ -91,6 +110,7 @@ function getImageOptimizeConfig() {
 	return { imageQuality, tasks };
 }
 
+// 获取图像优化配置
 const config = getImageOptimizeConfig();
 const IMAGE_QUALITY = config.imageQuality;
 
@@ -101,6 +121,7 @@ const forceMode = process.argv.includes("--source")
 		? "dist"
 		: "auto";
 
+// 判断是否为构建模式（处理构建产物）
 function isBuiltMode() {
 	if (forceMode === "source") return false;
 	if (forceMode === "dist") return true;
@@ -129,6 +150,7 @@ function normalizePath(filePath) {
 	return path.resolve(filePath).toLowerCase();
 }
 
+// 安全优化图像，处理异常情况
 async function safeOptimizeImage(
 	taskName,
 	filePath,
@@ -151,12 +173,14 @@ async function safeOptimizeImage(
 	}
 }
 
+// 优化图像
 async function optimizeImage(
 	filePath,
 	maxWidth,
 	maxHeight,
 	formats = ["webp"],
 ) {
+	// 读取图像文件
 	const input = fs.readFileSync(filePath);
 	const meta = await sharp(input).metadata();
 	const originalSize = input.length;
@@ -186,6 +210,7 @@ async function optimizeImage(
 		return;
 	}
 
+	// 解析当前图像格式
 	const currentFormat = ext.slice(1);
 	const validFormats = formats.filter((f) => f === "webp" || f === "avif");
 	const targetFormats = validFormats.length > 0 ? validFormats : ["webp"];
@@ -201,6 +226,7 @@ async function optimizeImage(
 		return;
 	}
 
+	// 优化图像尺寸
 	const newWidth = Math.round(meta.width * ratio);
 	const newHeight = Math.round(meta.height * ratio);
 	const pipeline = sharp(input).resize(newWidth, newHeight, {
@@ -208,6 +234,7 @@ async function optimizeImage(
 		withoutEnlargement: true,
 	});
 
+	// 优化图像格式
 	const baseName = filePath.slice(0, -ext.length);
 	const results = [];
 
@@ -253,6 +280,7 @@ async function optimizeImage(
 	}
 }
 
+// 主函数
 async function main() {
 	console.log("Optimizing images for build...\n");
 	console.log(
@@ -267,6 +295,7 @@ async function main() {
 		return;
 	}
 
+	// 遍历每个任务
 	for (const task of tasks) {
 		console.log(`\n${task.name}:`);
 		// 以模式判断结果决定处理对象
@@ -322,6 +351,7 @@ async function main() {
 			continue;
 		}
 
+		// 处理单个文件
 		if (task.singleFile) {
 			const filePath = path.join(task.dir, task.singleFile);
 			if (fs.existsSync(filePath)) {
@@ -341,6 +371,7 @@ async function main() {
 			continue;
 		}
 
+		// 处理源目录
 		if (task.sourceDir) {
 			if (!fs.existsSync(task.sourceDir)) {
 				console.log("  ℹ Source directory not found, skipping...");
@@ -405,6 +436,7 @@ async function main() {
 			continue;
 		}
 
+		// 处理文件模式
 		if (task.files) {
 			for (const fc of task.files) {
 				const filePath = path.join(task.dir, fc.pattern);
@@ -426,6 +458,7 @@ async function main() {
 			continue;
 		}
 
+		// 处理目录模式
 		const files = fs
 			.readdirSync(task.dir, { recursive: task.recursive })
 			.filter((f) => /\.(webp|avif|jpg|jpeg|png)$/i.test(f));
@@ -444,10 +477,12 @@ async function main() {
 		}
 	}
 
+	// 构建后：更新 HTML 引用
 	if (isBuiltMode() && renameMap.size > 0) {
 		updateHtmlReferences();
 	}
 
+	// 处理未处理项
 	if (issues.length > 0) {
 		console.log(
 			`\n⚠ Image optimization completed with ${issues.length} unprocessed item(s):`,
@@ -463,6 +498,7 @@ async function main() {
 	}
 }
 
+// 更新 HTML 引用
 function updateHtmlReferences() {
 	const distDir = path.join(projectRoot, "dist");
 	if (!fs.existsSync(distDir)) return;

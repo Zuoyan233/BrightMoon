@@ -19,7 +19,7 @@ pnpm-debug.log*
 
 # content repository (independent mode)
 /content/
-*.backup
+/backup/
 
 # Large zip files
 *.zip
@@ -43,7 +43,7 @@ src/data/myself.ts
 src/pages/myself.astro
 
 # Bangumi generated data
-src/data/bangumi-data.json
+src/config/user/bangumi-data.json
 
 # Bilibili generated data
-src/data/bilibili-data.json
+src/config/user/bilibili-data.json

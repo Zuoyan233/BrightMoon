@@ -6,15 +6,15 @@ export const userUpgradeConfig: Partial<UpgradeConfig> = {
 		"src/config/user/**", // 用户配置
 		"src/content/**", // 用户内容
 		"src/assets/images/**", // 用户图片
-		"src/data/friends.ts", // 友链数据
-		"src/data/diary.ts", // 日记数据
-		"src/data/projects.ts", // 项目数据
-		"src/data/skills.ts", // 技能数据
-		"src/data/timeline.ts", // 时间线数据
-		"src/data/anime.ts", // 番剧数据
-		"src/data/bilibili-data.json", // Bilibili 番剧数据
-		"src/data/bangumi-data.json", // Bangumi 番剧数据
-		"src/data/anime-data.json", // 动漫数据
+		"src/config/user/friends-data.ts", // 友链数据
+		"src/config/user/diary-data.ts", // 日记数据
+		"src/config/user/projects-data.ts", // 项目数据
+		"src/config/user/skills-data.ts", // 技能数据
+		"src/config/user/timeline-data.ts", // 时间线数据
+		"src/config/user/anime-data.ts", // 番剧数据
+		"src/config/user/bilibili-data.json", // Bilibili 番剧数据
+		"src/config/user/bangumi-data.json", // Bangumi 番剧数据
+		"src/config/user/anime-data.json", // 动漫数据
 		"public/assets/anime/**", // 番剧资源
 		"public/assets/css/**", // 自定义 CSS
 		"public/assets/desktop-banner/**", // 桌面横幅

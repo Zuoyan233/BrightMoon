@@ -13,7 +13,7 @@ BrightMoon は、モダンなミニマリズムと優雅さを兼ね備えた、
 [![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-blue)](https://www.typescriptlang.org/)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?logo=apache)](https://opensource.org/licenses/Apache-2.0)
 
-💻 私のウェブサイトへようこそ：[こちらをクリック](https://www.zuoyanblogs.xyz/)
+💻 私のウェブサイトへようこそ：[こちらをクリック](https://www.zuoyanblog.dpdns.org/)
 
 🌐 README 言語：[简体中文](./README_zh_CN.md) &nbsp;|&nbsp; [繁體中文](./README_zh_Hant.md) &nbsp;|&nbsp; [English](./README.md)
 
@@ -41,7 +41,7 @@ BrightMoon は、モダンなミニマリズムと優雅さを兼ね備えた、
 
 ## 📌 バージョン説明
 
-本プロジェクトは Mizuki V8.2 をベースにカスタマイズ拡張開発されており、バージョン番号に BrightMoon Custom Edition（CE）のサフィックスを付与し、BrightMoon による軽度カスタマイズバージョンであることを示しています（現在流行のウェブサイトフレームワークを猛勉強中です。時間があるときに続けて取り組みます）。
+Mizuki のメンテナンスが停止されたため、BrightMoon は現在独立したプロジェクトとして継続してメンテナンスされており、Custom Edition（CE）のサフィックスは使用されていません。
 
 ---
 
@@ -120,9 +120,9 @@ BrightMoon は、モダンなミニマリズムと優雅さを兼ね備えた、
 - **SEO 最適化** - サイトマップとメタタグを含む。
 - **パフォーマンス最適化** - 遅延読み込みとキャッシュメカニズム。
 - **コメントシステム** - 最新版 Twikoo コメントシステムを統合、多次元設定に対応。
-- **翻訳コンポーネント** - ローカル i18n 言語ライブラリ + translate.js を採用しミリ秒単位の翻訳を実現、14ヶ国のサイト言語テキストを内蔵。
+- **翻訳コンポーネント** - ローカル i18n 言語ライブラリ + translate.js を採用しミリ秒単位の翻訳を実現、8ヶ国のサイト言語テキストを内蔵。
 - **天気ウィジェット** - WeatherAPI サービスを採用。7日間天気予報、IPベースの自動位置特定、手動での都市検索に対応。
-- **Cookie 同意** - Cookie プライバシーポリシー確認バナー。同意/拒否に対応し、拒否時は不要なCookieを自動削除。
+- **Cookie 同意** - Cookie プライバシーポリシー確認バナー。同意/拒否に対応。拒否すると、解析統計、広告配信、天気自動位置特定、サードパーティコメントシステムなどの機能が無効になります。
 - **サイト統計** - 現在の日付（複数地域フォーマット対応）、季節、時間帯をリアルタイム表示。
 - **画像体積縮小** - ビルド時に画像を自動的に圧縮し、画像フォーマットを WebP または AVIF 形式に変換することで、読み込み時間を短縮し、ユーザー体験を向上させます。
 - **フレームワーク更新検出** - リモートリポジトリAPIを介して BrightMoon の新リリースを自動検出。安定版とプレリリース版の検出に対応し、新バージョン発見時にダイアログで通知。
@@ -161,8 +161,8 @@ BrightMoon は、モダンなミニマリズムと優雅さを兼ね備えた、
 
 6. **特徴的なページ設定：**
 
-- **アニメページ：** `src/pages/anime.astro` でアニメリストを編集。
-- **フレンドリンクページ：** `src/content/spec/friends.md` でフレンドデータを編集。
+- **アニメページ：** `src/config/user/anime-data.ts` でアニメデータを編集（ユーザーデータ、アップグレード時に保護）。デフォルトデータは `src/config/defaults/anime-data.ts` にあります。
+- **フレンドリンクページ：** `src/config/user/friends-data.ts` でフレンドデータを編集（ユーザーデータ、アップグレード時に保護）。デフォルトデータは `src/config/defaults/friends-data.ts` にあります。
 - **アルバムページ：** `public/images/albums` でアルバム情報を編集。アルバム機能は**自動スキャン機構**を採用しており、フォルダを作成して画像と設定ファイルを配置するだけで、コードを書く必要はありません！
 
   <details>
@@ -348,27 +348,27 @@ BrightMoon は、モダンなミニマリズムと優雅さを兼ね備えた、
 
   </details>
 
-- **デバイスページ：** `src/data/devices.ts` でデバイス情報を編集。
-- **ダイアリーページ：** `src/data/diary.ts` で投稿を編集。
+- **デバイスページ：** `src/config/user/devices-data.ts` でデバイス情報を編集（ユーザーデータ、アップグレード時に保護）。デフォルトデータは `src/config/defaults/devices-data.ts` にあります。
+- **ダイアリーページ：** `src/config/user/diary-data.ts` で投稿を編集（ユーザーデータ、アップグレード時に保護）。デフォルトデータは `src/config/defaults/diary-data.ts` にあります。
 - **アバウトページ：** `src/content/spec/about.md` でコンテンツを編集。
 - **スポンサーページ：** `src/content/spec/sponsors.md` でコンテンツを編集。
   - `src/config/user/addpayment.ts` 内の `addpaymentConfig` で決済QRコードを設定。QRコード画像の保存先は `public/images/sponsors`。
 - **フィードバックページ：** `src/content/spec/feedback.md` でコンテンツを編集。
   - `src/config/user/contact-email.ts` 内の `contactEmailConfig` でサイト管理者のメールアドレスを設定。
   - `src/config/user/contact-methods.ts` 内の `addfriendConfig` で友達追加QRコードを設定。QRコード画像の保存先は `public/images/contact`。
-- **プロジェクト紹介ページ：** `src/data/projects.ts` で表示コンテンツを編集。
-- **スキル紹介ページ：** `src/data/skills.ts` で表示コンテンツを編集。
-- **タイムラインページ：** `src/data/timeline.ts` で表示コンテンツを編集。
+- **プロジェクト紹介ページ：** `src/config/user/projects-data.ts` で表示コンテンツを編集（ユーザーデータ、アップグレード時に保護）。デフォルトデータは `src/config/defaults/projects-data.ts` にあります。
+- **スキル紹介ページ：** `src/config/user/skills-data.ts` で表示コンテンツを編集（ユーザーデータ、アップグレード時に保護）。デフォルトデータは `src/config/defaults/skills-data.ts` にあります。
+- **タイムラインページ：** `src/config/user/timeline-data.ts` で表示コンテンツを編集（ユーザーデータ、アップグレード時に保護）。デフォルトデータは `src/config/defaults/timeline-data.ts` にあります。
 - **音楽プレーヤー：** `src/config/user/music-player.ts` 内の `userMusicPlayerConfig` で設定。
   - `enable`：`true` に設定すると音楽プレーヤーを有効化。
   - `mode`：`"meting"`（MetingJS API を使用）または `"local"`（ローカル音楽リストを使用）を選択。
   - `meting_api`：MetingJS API のエンドポイントアドレス。
   - `id`：プレイリストまたは楽曲 ID。
-  - `server`：音楽プラットフォーム — `"netease"`（NetEase Cloud Music）、`"tencent"`（QQ Music）、`"kugou"`（Kugou）、`"baidu"`（Baidu）。
+  - `server`：音楽プラットフォーム — `"netease"`（NetEase Cloud Music）、`"tencent"`（QQ Music）、`"kugou"`（Kugou）。
   - `type`：コンテンツタイプ — `"playlist"`、`"song"`、`"album"`、`"artist"`。
   - `localPlaylist`：ローカル音楽リスト（`mode` が `"local"` の場合に有効）。各楽曲に `title`、`artist`、`cover`、`url`、`duration` を設定。
 
-1. **記事コンテンツ管理：**
+7. **記事コンテンツ管理：**
 
 - **新規記事作成：** `pnpm new-post <ファイル名>`。
 - **記事編集：** `src/content/posts/` 内のファイルを修正。
@@ -376,7 +376,7 @@ BrightMoon は、モダンなミニマリズムと優雅さを兼ね備えた、
 - **画像追加：** 画像を `src/assets/` または `public/` に配置。
 - **Markdown 拡張構文：** 詳細は Mizuki Docs の [Markdown 拡張構文](https://docs.mizuki.mysqil.com/press/Markdown/customize/) を参照。
 
-Frontmatter フィールド説明：
+**Frontmatter フィールド説明：**
 
 - **title**: 記事タイトル（必須）
 - **published**: 公開日（必須）
@@ -444,4 +444,4 @@ Frontmatter フィールド説明：
 
 ---
 
-⭐ ご質問やご提案がございましたら、[Issue](https://github.com/Zuoyan233/BrightMoon/issues) または [Pull Request](https://github.com/Zuoyan233/BrightMoon/pulls) を作成してください。また、[私のウェブサイトのフィードバックページ](https://www.zuoyanblogs.xyz/feedback/) からもご連絡いただけます。このプロジェクトがお役に立ちましたら、ぜひスターを付けてください！
+⭐ ご質問やご提案がございましたら、[Issue](https://github.com/Zuoyan233/BrightMoon/issues) または [Pull Request](https://github.com/Zuoyan233/BrightMoon/pulls) をご提出ください。また、[フィードバックページ](https://www.zuoyanblog.dpdns.org/feedback/) からもお問い合わせいただけます。このプロジェクトがお役に立ちましたら、ぜひスターをお願いします！

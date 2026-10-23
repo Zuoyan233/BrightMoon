@@ -13,7 +13,7 @@ BrightMoon 是一款兼具現代簡約與優雅氣質的獨特二次元美學靜
 [![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-blue)](https://www.typescriptlang.org/)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?logo=apache)](https://opensource.org/licenses/Apache-2.0)
 
-💻 歡迎進入我的網站參觀：[點擊進入](https://www.zuoyanblogs.xyz/)
+💻 歡迎進入我的網站參觀：[點擊進入](https://www.zuoyanblog.dpdns.org/)
 
 🌐 README 語言：[简体中文](./README_zh_CN.md) &nbsp;|&nbsp; [English](./README.md) &nbsp;|&nbsp; [日本語](./README_jp.md)
 
@@ -41,7 +41,7 @@ BrightMoon 是一款兼具現代簡約與優雅氣質的獨特二次元美學靜
 
 ## 📌 版本說明
 
-本專案基於 Mizuki V8.2 進行客製化拓展開發，版本號以 BrightMoon Custom Edition（CE）為後綴，代表 BrightMoon 的輕度客製版本（目前正在惡補市面上流行的網站框架，等有空了再繼續推進）。
+因 Mizuki 已停止維護，BrightMoon 現已作為獨立專案繼續維護，不再使用 Custom Edition（CE）後綴。
 
 ---
 
@@ -120,9 +120,9 @@ BrightMoon 是一款兼具現代簡約與優雅氣質的獨特二次元美學靜
 - **SEO 最佳化** - 包含站點地圖和中繼標籤。
 - **效能最佳化** - 延遲載入和快取機制。
 - **留言系統** - 整合最新版 Twikoo 留言系統，支援多維度配置。
-- **翻譯元件** - 採用本地 i18n 語言庫 + translate.js 實現毫秒級翻譯，內建十四個國家站點語言文本。
+- **翻譯元件** - 採用本地 i18n 語言庫 + translate.js 實現毫秒級翻譯，內建八個國家站點語言文本。
 - **天氣元件** - 採用 WeatherAPI 服務，支援七日天氣預報、IP 自動定位目前地區，支援手動搜尋切換查看其他地區天氣。
-- **Cookie 隱私提示** - Cookie 隱私政策確認橫幅，支援接受/拒絕，拒絕後自動清除非必要 Cookie。
+- **Cookie 隱私提示** - Cookie 隱私政策確認橫幅，支援接受/拒絕。拒絕後將禁用：分析統計、廣告投放、天氣自動定位、第三方評論系統等功能。
 - **站點統計** - 即時顯示目前日期（支援多地區格式）、季節和時段資訊。
 - **圖片體積壓縮** - 构建時自動壓縮圖片，並轉換為 WebP 或 AVIF 格式，減少載載時間，提升使用者體驗。
 - **框架版本更新** - 透過遠端倉庫 API 自動檢測 BrightMoon 新版本發佈，支援穩定版與預發佈版檢測，發現新版本時彈窗提示並引導下載更新。
@@ -161,8 +161,8 @@ BrightMoon 是一款兼具現代簡約與優雅氣質的獨特二次元美學靜
 
 6. **特色頁面配置：**
 
-- **追番頁面：** 在 `src/pages/anime.astro` 中編輯動畫列表。
-- **友鏈頁面：** 在 `src/content/spec/friends.md` 中編輯朋友資料。
+- **追番頁面：** 在 `src/config/user/anime-data.ts` 中編輯本地番劇資料配置（使用者資料，升級時受保護）。預設資料位於 `src/config/defaults/anime-data.ts`。
+- **友鏈頁面：** 在 `src/config/user/friends-data.ts` 中設定友鏈清單資料（使用者資料，升級時受保護）。預設資料位於 `src/config/defaults/friends-data.ts`。
 - **相簿頁面：** 在 `public/images/albums` 中編輯相簿資訊。相簿功能採用**自動掃描機制**，只需建立資料夾、放置圖片和設定檔即可，無需手動撰寫程式碼！
 
   <details>
@@ -348,27 +348,27 @@ BrightMoon 是一款兼具現代簡約與優雅氣質的獨特二次元美學靜
 
   </details>
 
-- **我的裝置頁面：** 在 `src/data/devices.ts` 中編輯裝置資訊。
-- **日記頁面：** 在 `src/data/diary.ts` 中編輯動態。
+- **我的裝置頁面：** 在 `src/config/user/devices-data.ts` 中編輯裝置資訊（使用者資料，升級時受保護）。預設資料位於 `src/config/defaults/devices-data.ts`。
+- **日記頁面：** 在 `src/config/user/diary-data.ts` 中編輯動態（使用者資料，升級時受保護）。預設資料位於 `src/config/defaults/diary-data.ts`。
 - **關於頁面：** 在 `src/content/spec/about.md` 中編輯內容。
 - **贊助頁面：** 在 `src/content/spec/sponsors.md` 中編輯內容。
   - 在 `src/config/user/addpayment.ts` 中找到 `addpaymentConfig` 配置支付 QR Code，支付 QR Code 存放路徑在 `public/images/sponsors` 內。
 - **回饋頁面：** 在 `src/content/spec/feedback.md` 中編輯內容。
   - 在 `src/config/user/contact-email.ts` 中找到 `contactEmailConfig` 配置站長電子郵件聯絡方式。
   - 在 `src/config/user/contact-methods.ts` 中找到 `addfriendConfig` 配置加入好友 QR Code，QR Code 存放路徑在 `public/images/contact` 內。
-- **專案展示頁面：** 在 `src/data/projects.ts` 中編輯展示的內容。
-- **技能展示頁面：** 在 `src/data/skills.ts` 中編輯展示的內容。
-- **時間線頁面：** 在 `src/data/timeline.ts` 中編輯展示的內容。
+- **專案展示頁面：** 在 `src/config/user/projects-data.ts` 中編輯展示的內容（使用者資料，升級時受保護）。預設資料位於 `src/config/defaults/projects-data.ts`。
+- **技能展示頁面：** 在 `src/config/user/skills-data.ts` 中編輯展示的內容（使用者資料，升級時受保護）。預設資料位於 `src/config/defaults/skills-data.ts`。
+- **時間線頁面：** 在 `src/config/user/timeline-data.ts` 中編輯展示的內容（使用者資料，升級時受保護）。預設資料位於 `src/config/defaults/timeline-data.ts`。
 - **音樂播放器：** 在 `src/config/user/music-player.ts` 中找到 `userMusicPlayerConfig` 進行配置。
   - `enable`：設置為 `true` 啟用音樂播放器。
   - `mode`：選擇 `"meting"`（使用 MetingJS API）或 `"local"`（使用本地音樂列表）。
   - `meting_api`：MetingJS API 接口地址。
   - `id`：歌單或單曲 ID。
-  - `server`：音樂平台 — `"netease"` 網易雲音樂、`"tencent"` QQ音樂、`"kugou"` 酷狗、`"baidu"` 百度。
+  - `server`：音樂平台 — `"netease"` 網易雲音樂、`"tencent"` QQ音樂、`"kugou"` 酷狗。
   - `type`：內容類型 — `"playlist"` 歌單、`"song"` 單曲、`"album"` 專輯、`"artist"` 歌手。
   - `localPlaylist`：本地音樂列表（`mode` 為 `"local"` 時生效），為每首歌曲配置 `title`、`artist`、`cover`、`url`、`duration`。
 
-1. **文章內容管理：**
+7. **文章內容管理：**
 
 - **建立新文章：** `pnpm new-post <檔名>`。
 - **編輯文章：** 修改 `src/content/posts/` 中的檔案。
@@ -376,7 +376,7 @@ BrightMoon 是一款兼具現代簡約與優雅氣質的獨特二次元美學靜
 - **新增圖片：** 將圖片放在 `src/assets/` 或 `public/` 中。
 - **Markdown 擴充語法：** 瞭解詳細請閱讀 Mizuki Docs 的 [Markdown 擴充語法](https://docs.mizuki.mysqil.com/press/Markdown/customize/)。
 
-Frontmatter 欄位說明：
+**Frontmatter 欄位說明：**
 
 - **title**: 文章標題（必需）
 - **published**: 發佈日期（必需）
@@ -444,4 +444,4 @@ Frontmatter 欄位說明：
 
 ---
 
-⭐ 如有問題或建議，請提交 [Issue](https://github.com/Zuoyan233/BrightMoon/issues) 或 [Pull Request](https://github.com/Zuoyan233/BrightMoon/pulls)。另外，您也可以透過 [我的網站回饋頁面](https://www.zuoyanblogs.xyz/feedback/) 與我們聯繫。如果您覺得這個專案有幫助，請考慮給它一個星標！
+⭐ 如有問題或建議，請提交 [Issue](https://github.com/Zuoyan233/BrightMoon/issues) 或 [Pull Request](https://github.com/Zuoyan233/BrightMoon/pulls)。另外，您也可以進入 [回饋頁面](https://www.zuoyanblog.dpdns.org/feedback/) 與我們聯繫。如果您覺得這個專案有幫助，請考慮給它一個星標！

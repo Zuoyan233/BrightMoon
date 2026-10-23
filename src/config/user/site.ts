@@ -303,7 +303,17 @@ export const userSiteConfig: Partial<SiteConfig> = {
 	showCoverInContent: true, // 在文章内容页显示文章封面
 	generateOgImages: false, // 启用生成OpenGraph图片功能,注意开启后要渲染很长时间，不建议本地调试的时候开启
 	favicon: [
-		// 留空以使用默认 favicon
+		// 默认 favicon，支持明暗主题适配
+		{
+			src: "/favicon/favicon.ico",
+			theme: "light", // 明亮主题图标
+			sizes: "64x64",
+		},
+		{
+			src: "/favicon/favicon.ico",
+			theme: "dark", // 暗黑主题图标
+			sizes: "64x64",
+		},
 	],
 
 	// 字体配置
@@ -322,5 +332,11 @@ export const userSiteConfig: Partial<SiteConfig> = {
 		enable: false, // 是否启用第三方统计，默认关闭，启用可能影响 Lighthouse 评分
 		gtmId: "", // Google Tag Manager 容器 ID，留空则不加载 GTM
 		clarityId: "", // Clarity 项目 ID，留空则不加载 Clarity
+	},
+
+	ads: {
+		enable: false, // 是否启用 Ads 脚本，默认关闭
+		googleAdsenseId: "", // Google AdSense 发布商 ID，例如 "ca-pub-xxxxxxxxxxxxxxxx"
+		onlyProduction: true, // 开发模式自动关闭 Ads 脚本 (非必要不要关闭，避免无效流量警告)
 	},
 };

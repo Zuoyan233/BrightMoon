@@ -74,7 +74,7 @@ const processedLinks: ProcessedNavBarLink[] = Astro.props.links.map(
                             data-mobile-dropdown-trigger
                             aria-expanded="false"
                         >
-                            <div class="flex items-center transition text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]">
+                            <div class="flex items-center transition text-75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]">
                                 {link.icon && (
                                     <Icon
                                         name={link.icon}
@@ -85,7 +85,7 @@ const processedLinks: ProcessedNavBarLink[] = Astro.props.links.map(
                             </div>
                             <Icon
                                 name="material-symbols:keyboard-arrow-down-rounded"
-                                class="transition text-[1.25rem] text-[var(--primary)] mobile-dropdown-arrow duration-200"
+                                class="transition text-[1.25rem] text-[var(--primary)] mobile-dropdown-arrow duration-300"
                             />
                         </button>
                         <div class="mobile-submenu" data-mobile-submenu>
@@ -100,7 +100,7 @@ const processedLinks: ProcessedNavBarLink[] = Astro.props.links.map(
                                    hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition"
                                     target={child.external ? "_blank" : null}
                                 >
-                                    <div class="flex items-center transition text-black/60 dark:text-white/60 font-medium group-hover:text-[var(--primary)] group-active:text-[var(--primary)]">
+                                    <div class="flex items-center transition text-75 font-medium group-hover:text-[var(--primary)] group-active:text-[var(--primary)]">
                                         {child.icon && (
                                             <Icon
                                                 name={child.icon}
@@ -111,8 +111,8 @@ const processedLinks: ProcessedNavBarLink[] = Astro.props.links.map(
                                     </div>
                                     {child.external && (
                                         <Icon
-                                            name="fa6-solid:arrow-up-right-from-square"
-                                            class="transition text-[0.75rem] text-black/25 dark:text-white/25 -translate-x-1"
+                                            name="material-symbols:open-in-new"
+                                            class="transition text-[0.75rem] text-30 -translate-x-1"
                                         />
                                     )}
                                 </a>
@@ -127,7 +127,7 @@ const processedLinks: ProcessedNavBarLink[] = Astro.props.links.map(
                 "
                         target={link.external ? "_blank" : null}
                     >
-                        <div class="flex items-center transition text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]">
+                        <div class="flex items-center transition text-75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]">
                             {link.icon && (
                                 <Icon
                                     name={link.icon}
@@ -144,8 +144,8 @@ const processedLinks: ProcessedNavBarLink[] = Astro.props.links.map(
                         )}
                         {link.external && (
                             <Icon
-                                name="fa6-solid:arrow-up-right-from-square"
-                                class="transition text-[0.75rem] text-black/25 dark:text-white/25 -translate-x-1"
+                                name="material-symbols:open-in-new"
+                                class="transition text-[0.75rem] text-30 -translate-x-1"
                             />
                         )}
                     </a>

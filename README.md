@@ -13,7 +13,7 @@ BrightMoon is a distinctive anime-aesthetic static blog template that blends mod
 [![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-blue)](https://www.typescriptlang.org/)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?logo=apache)](https://opensource.org/licenses/Apache-2.0)
 
-💻 Welcome to my website: [Click here](https://www.zuoyanblogs.xyz/)
+💻 Welcome to my website: [Click here](https://www.zuoyanblog.dpdns.org/)
 
 🌐 README Languages：[简体中文](./README_zh_CN.md) &nbsp;|&nbsp; [繁體中文](./README_zh_Hant.md) &nbsp;|&nbsp; [日本語](./README_jp.md)
 
@@ -41,7 +41,7 @@ BrightMoon is a distinctive anime-aesthetic static blog template that blends mod
 
 ## 📌 Version Notes
 
-This project is a customized extension based on Mizuki V8.2, with version numbers suffixed with BrightMoon Custom Edition (CE), representing a light custom version of BrightMoon (currently cramming popular web frameworks — will continue when I have more time).
+As Mizuki has ceased maintenance, BrightMoon now continues to be maintained as an independent project, no longer using the Custom Edition (CE) suffix.
 
 ---
 
@@ -120,9 +120,9 @@ This project is a customized extension based on Mizuki V8.2, with version number
 - **SEO Optimization** - Includes sitemaps and meta tags.
 - **Performance Optimization** - Lazy loading and caching mechanisms.
 - **Comment System** - Integrated with the latest Twikoo comment system, supporting multi-dimensional configuration.
-- **Translation Component** - Local i18n library + translate.js for millisecond-speed translations, with built-in language support for fourteen countries.
+- **Translation Component** - Local i18n library + translate.js for millisecond-speed translations, with built-in language support for eight countries.
 - **Weather Widget** - Powered by WeatherAPI, supporting 7-day forecasts, IP-based auto-location, and manual city search.
-- **Cookie Consent** - Cookie privacy policy banner with accept/deny support; auto-clears non-essential cookies on denial.
+- **Cookie Consent** - Cookie privacy policy banner with accept/deny support. Rejecting disables: analytics, advertising, weather auto-location, and third-party comment systems.
 - **Site Statistics** - Real-time display of current date (with multi-region format support), season, and time period.
 - **Image Volume Compression** - Automatically compress images, and convert them to WebP or AVIF format, reducing load times and enhancing user experience.
 - **Framework Update Checker** - Automatically detects new BrightMoon releases via remote repository API, supports stable and pre-release detection, with prompt dialogs for updates.
@@ -161,8 +161,8 @@ This project is a customized extension based on Mizuki V8.2, with version number
 
 6. **Special page configuration:**
 
-- **Anime Page:** Edit the anime list in `src/pages/anime.astro`.
-- **Friends Page:** Edit friend data in `src/content/spec/friends.md`.
+- **Anime Page:** Edit local anime data in `src/config/user/anime-data.ts` (user data, protected on upgrade). Default data is in `src/config/defaults/anime-data.ts`.
+- **Friends Page:** Edit friend list data in `src/config/user/friends-data.ts` (user data, protected on upgrade). Default data is in `src/config/defaults/friends-data.ts`.
 - **Album Page:** Edit album info in `public/images/albums`. The album feature uses an auto-scan mechanism - just create folders, add images and config files, no coding needed!
 
   <details>
@@ -348,27 +348,27 @@ This project is a customized extension based on Mizuki V8.2, with version number
 
   </details>
 
-- **Devices Page:** Edit device info in `src/data/devices.ts`.
-- **Diary Page:** Edit posts in `src/data/diary.ts`.
+- **Devices Page:** Edit device info in `src/config/user/devices-data.ts` (user data, protected on upgrade). Default data is in `src/config/defaults/devices-data.ts`.
+- **Diary Page:** Edit posts in `src/config/user/diary-data.ts` (user data, protected on upgrade). Default data is in `src/config/defaults/diary-data.ts`.
 - **About Page:** Edit content in `src/content/spec/about.md`.
 - **Sponsor Page:** Edit content in `src/content/spec/sponsors.md`.
   - Configure payment QR codes via `addpaymentConfig` in `src/config/user/addpayment.ts`. QR code images go in `public/images/sponsors`.
 - **Feedback Page:** Edit content in `src/content/spec/feedback.md`.
   - Configure the site owner's email via `contactEmailConfig` in `src/config/user/contact-email.ts`.
   - Configure friend QR codes via `addfriendConfig` in `src/config/user/contact-methods.ts`. QR code images go in `public/images/contact`.
-- **Projects Page:** Edit content in `src/data/projects.ts`.
-- **Skills Page:** Edit content in `src/data/skills.ts`.
-- **Timeline Page:** Edit content in `src/data/timeline.ts`.
+- **Projects Page:** Edit content in `src/config/user/projects-data.ts` (user data, protected on upgrade). Default data is in `src/config/defaults/projects-data.ts`.
+- **Skills Page:** Edit content in `src/config/user/skills-data.ts` (user data, protected on upgrade). Default data is in `src/config/defaults/skills-data.ts`.
+- **Timeline Page:** Edit content in `src/config/user/timeline-data.ts` (user data, protected on upgrade). Default data is in `src/config/defaults/timeline-data.ts`.
 - **Music Player:** Configure via `userMusicPlayerConfig` in `src/config/user/music-player.ts`.
   - `enable`: Set to `true` to enable the music player.
   - `mode`: Choose `"meting"` (use MetingJS API) or `"local"` (use local music list).
   - `meting_api`: MetingJS API endpoint address.
   - `id`: Playlist or song ID.
-  - `server`: Music platform — `"netease"` (NetEase Cloud Music), `"tencent"` (QQ Music), `"kugou"` (Kugou), `"baidu"` (Baidu).
+  - `server`: Music platform — `"netease"` (NetEase Cloud Music), `"tencent"` (QQ Music), `"kugou"` (Kugou).
   - `type`: Content type — `"playlist"`, `"song"`, `"album"`, or `"artist"`.
   - `localPlaylist`: Local music list (effective when `mode` is `"local"`), configure `title`, `artist`, `cover`, `url`, `duration` for each song.
 
-1. **Article management:**
+7. **Article management:**
 
 - **Create a new post:** `pnpm new-post <filename>`.
 - **Edit posts:** Modify files in `src/content/posts/`.
@@ -376,7 +376,7 @@ This project is a customized extension based on Mizuki V8.2, with version number
 - **Add images:** Place images in `src/assets/` or `public/`.
 - **Extended Markdown:** See [Mizuki Docs - Markdown Customization](https://docs.mizuki.mysqil.com/press/Markdown/customize/) for details.
 
-Frontmatter fields:
+**Frontmatter fields:**
 
 - **title**: Post title (required)
 - **published**: Publication date (required)
@@ -444,4 +444,4 @@ Frontmatter fields:
 
 ---
 
-⭐ If you have any questions or suggestions, please submit an [Issue](https://github.com/Zuoyan233/BrightMoon/issues) or [Pull Request](https://github.com/Zuoyan233/BrightMoon/pulls). You can also reach out via [my website's feedback page](https://www.zuoyanblogs.xyz/feedback/). If you find this project helpful, please consider giving it a star!
+⭐ If you have any questions or suggestions, please submit an [Issue](https://github.com/Zuoyan233/BrightMoon/issues) or [Pull Request](https://github.com/Zuoyan233/BrightMoon/pulls). You can also reach out via [feedback page](https://www.zuoyanblog.dpdns.org/feedback/). If you find this project helpful, please consider giving it a star!
