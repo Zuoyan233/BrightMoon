@@ -46,21 +46,7 @@ export type SiteConfig = {
 		| 11
 		| 12;
 
-	lang: // 站点语言
-		| "en"
-		| "zh_CN"
-		| "zh_TW"
-		| "ja"
-		| "ko"
-		| "es"
-		| "th"
-		| "vi"
-		| "tr"
-		| "id"
-		| "ar"
-		| "de"
-		| "fr"
-		| "ru";
+	lang: "en" | "zh_CN" | "zh_TW" | "ja" | "ko" | "de" | "fr" | "ru"; // 站点语言
 
 	appearance: {
 		hue: number; // 主题色色相值
@@ -94,7 +80,7 @@ export type SiteConfig = {
 	translate?: {
 		enable: boolean; // 是否启用翻译功能
 		service?: string; // 翻译服务类型
-		defaultLanguage?: string; // 默认语言
+		defaultLanguage?: string; // 根据站点语言自动设置默认翻译语言
 		showSelectTag?: boolean; // 是否显示语言选择下拉框
 		autoDiscriminate?: boolean; // 是否自动识别用户语言
 		ignoreClasses?: string[]; // 忽略翻译的CSS类名
@@ -239,6 +225,7 @@ export type SiteConfig = {
 	favicon: Favicon[]; // 网站图标配置列表
 	showLastModified: boolean; // 控制"上次编辑"卡片显示的开关
 	thirdPartyAnalytics?: ThirdPartyAnalyticsConfig; // 第三方统计配置
+	ads?: AdsConfig; // 广告配置
 };
 
 export type Favicon = {
@@ -410,6 +397,7 @@ export type MusicPlayerConfig = {
 	server: string; // 音乐源服务器
 	type: string; // 音乐类型
 	coverProxy?: string; // 第三方封面代理地址，用于解决下载时 CORS 跨域问题
+	defaultCover: string; // 默认封面图片地址，当歌曲无封面时使用
 	localPlaylist: MusicPlayerLocalSong[]; // 本地播放列表，mode 为 "local" 时生效
 	currentTime: number; // 当前播放时间
 	duration: number; // 音乐时长
@@ -577,11 +565,20 @@ export type ContactEmailConfig = {
 };
 
 /**
+ * 支付方式配置
+ */
+export type PaymentMethod = {
+	name: string; // 支付方式名称
+	icon: string; // 图标名称，支持 astro-icon，例如 "simple-icons:alipay"
+	qrCode: string; // 支付码图片路径
+	color: string; // 图标背景色，例如 "bg-blue-500"
+};
+
+/**
  * 添加赞助支付二维码配置
  */
 export type AddpaymentConfig = {
-	paymentQRCode_1: string; // 支付二维码图片路径1（如支付宝）
-	paymentQRCode_2: string; // 支付二维码图片路径2（如微信）
+	methods: PaymentMethod[]; // 支付方式列表
 };
 
 /**
@@ -637,13 +634,6 @@ export type UpgradeConfig = {
 	httpTimeout: number; // HTTP 请求超时时间（毫秒）
 };
 
-export type UmamiConfig = {
-	enabled: boolean; // 是否启用 Umami 统计
-	apiKey: string; // Umami API 密钥
-	baseUrl: string; // Umami API 基础地址
-	scripts: string; // 要插入的统计脚本
-};
-
 /**
  * 第三方统计配置（可能影响 Lighthouse 评分）
  */
@@ -651,4 +641,142 @@ export type ThirdPartyAnalyticsConfig = {
 	enable: boolean; // 是否启用第三方统计，默认关闭
 	gtmId?: string; // Google Tag Manager 容器 ID，留空则不加载 GTM
 	clarityId?: string; // Clarity 项目 ID，留空则不加载 Clarity
+};
+
+/**
+ * Ads 脚本配置
+ */
+export type AdsConfig = {
+	enable: boolean; // 是否启用 Ads 脚本
+	googleAdsenseId?: string; // Google AdSense 发布商 ID，例如 "ca-pub-xxxxxxxxxxxxxxxx"
+	onlyProduction?: boolean; // 开发模式自动关闭 Ads 脚本 (非必要不要关闭，避免无效流量警告)
+};
+
+export type AnimeItem = {
+	title: string; // 番剧标题
+	status: "watching" | "completed" | "planned"; // 观看状态
+	rating: number; // 个人评分（0-10）
+	cover: string; // 封面图片路径
+	description: string; // 番剧简介
+	episodes: string; // 集数信息
+	year: string; // 播出年份
+	genre: string[]; // 标签 / 类型
+	studio: string; // 制作公司
+	link: string; // 番剧页面链接
+	progress: number; // 当前观看进度
+	totalEpisodes: number; // 总集数
+	startDate: string; // 开始播出日期
+	endDate: string; // 完结日期
+};
+
+export type AnimeDataConfig = {
+	localList: AnimeItem[]; // 本地番剧列表
+};
+
+export type Device = {
+	name: string; // 设备名称
+	image: string; // 设备图片路径
+	specs: string; // 规格配置
+	description: string; // 设备描述
+	link: string; // 产品官网链接
+};
+
+export type DeviceCategory = {
+	[categoryName: string]: Device[];
+};
+
+export type DevicesDataConfig = DeviceCategory; // 设备展示页面数据配置
+
+export type DiaryItem = {
+	id: number; // 唯一标识
+	content: string; // 日记内容
+	date: string; // 发布日期（ISO 格式）
+	images?: string[]; // 配图路径列表
+	location?: string; // 地理位置
+	mood?: string; // 心情
+	tags?: string[]; // 标签列表
+};
+
+export type DiaryDataConfig = {
+	items: DiaryItem[]; // 日记列表
+};
+
+export type FriendItem = {
+	id: number; // 唯一标识
+	title: string; // 网站标题
+	imgurl: string; // 网站图标或头像链接
+	desc: string; // 网站描述
+	siteurl: string; // 网站地址
+	tags: string[]; // 分类标签
+};
+
+export type FriendsDataConfig = {
+	items: FriendItem[]; // 友链列表
+};
+
+export type Project = {
+	id: string; // 项目唯一标识
+	title: string; // 项目名称
+	description: string; // 项目描述
+	image: string; // 项目封面图路径
+	category: "web" | "mobile" | "desktop" | "other"; // 项目分类
+	techStack: string[]; // 技术栈列表
+	status: "completed" | "in-progress" | "planned"; // 项目状态
+	liveDemo?: string; // 在线演示地址
+	sourceCode?: string; // 源码仓库地址
+	startDate: string; // 项目开始日期
+	endDate?: string; // 项目结束日期
+	featured?: boolean; // 是否为精选项目
+	tags?: string[]; // 项目标签
+	visitUrl?: string; // 项目访问链接
+};
+
+export type ProjectsDataConfig = {
+	items: Project[]; // 项目列表
+};
+
+export type Skill = {
+	id: string; // 技能唯一标识
+	name: string; // 技能名称
+	description: string; // 技能描述
+	icon: string; // Iconify 图标名称
+	category: "frontend" | "backend" | "database" | "tools" | "other"; // 技能分类
+	level: "beginner" | "intermediate" | "advanced" | "expert"; // 掌握程度
+	experience: {
+		years: number; // 经验年数
+		months: number; // 经验月数
+	};
+	projects?: string[]; // 关联的项目 ID
+	certifications?: string[]; // 相关证书
+	color?: string; // 卡片主题色，格式为 #RRGGBB
+};
+
+export type SkillsDataConfig = {
+	items: Skill[]; // 技能列表
+};
+
+export type TimelineItem = {
+	id: string; // 时间线项目唯一标识
+	title: string; // 标题
+	description: string; // 描述
+	type: "education" | "work" | "project" | "achievement"; // 类型
+	startDate: string; // 开始日期
+	endDate?: string; // 结束日期
+	location?: string; // 地点
+	organization?: string; // 组织 / 公司 / 学校名称
+	position?: string; // 职位 / 学位
+	skills?: string[]; // 相关技能
+	achievements?: string[]; // 成就列表
+	links?: {
+		name: string; // 链接名称
+		url: string; // 链接地址
+		type: "website" | "certificate" | "project" | "other"; // 链接类型
+	}[];
+	icon?: string; // Iconify 图标名称
+	color?: string; // 卡片主题色，格式为 #RRGGBB
+	featured?: boolean; // 是否为精选项目
+};
+
+export type TimelineDataConfig = {
+	items: TimelineItem[]; // 时间线项目列表
 };

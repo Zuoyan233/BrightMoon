@@ -40,8 +40,19 @@ export const ko: Translation = {
 	[Key.friendsNoResults]: "일치하는 친구를 찾을 수 없습니다",
 	[Key.friendsVisit]: "방문하기",
 	[Key.friendsCopyLink]: "링크 복사",
-	[Key.friendsCopySuccess]: "복사됨",
 	[Key.friendsTags]: "태그",
+	[Key.friendsNoticeTitle]: "주의사항",
+	[Key.friendsNoticeReciprocal]:
+		"먼저 이 사이트를 친구 페이지에 추가해 주세요. 확인 후 귀하의 링크를 추가하겠습니다.",
+	[Key.friendsNoticeMaintenance]:
+		"오랫동안 접근할 수 없거나 불법 콘텐츠가 포함된 친구 링크는 제거됩니다.",
+	[Key.friendsNoticeContent]:
+		"긍정적인 콘텐츠여야 하며, 포륜/반동/폭력 등 불법 콘텐츠를 포함하지 않아야 합니다.",
+	[Key.friendsNoticeHttps]:
+		"HTTPS 지원 콘텐츠 중심, 정상적으로 접근 가능하고 지속적으로 업데이트되어야 합니다.",
+	[Key.friendsApplyTemplate]: "친구 링크 신청 템플릿",
+	[Key.friendsApplyHint]:
+		"아래에 댓글을 남겨 친구 링크를 신청하세요. 다음 형식을 사용하세요:",
 	[Key.untitled]: "제목 없음",
 	[Key.uncategorized]: "분류되지 않음",
 	[Key.noTags]: "태그 없음",
@@ -74,7 +85,6 @@ export const ko: Translation = {
 	[Key.diary]: "일기",
 
 	// 애니메이션 페이지
-	[Key.animeTitle]: "내 애니메이션 목록",
 	[Key.animeSubtitle]: "나의 애니메이션 여정을 기록합니다",
 	[Key.animeStatusWatching]: "시청 중",
 	[Key.animeStatusCompleted]: "완료",
@@ -89,11 +99,12 @@ export const ko: Translation = {
 	[Key.animeEmptyBilibili]:
 		"Bilibili 데이터가 비어 있습니다. `pnpm run update-bilibili`를 실행하여 데이터를 가져오세요",
 	[Key.animeSetBangumiUserId]:
-		"src/config/user.ts 파일에 Bangumi 사용자 ID를 설정해주세요",
+		"src/config/user/site.ts 파일에 Bangumi 사용자 ID를 설정해주세요",
 	[Key.animeSetBilibiliVmId]:
-		"src/config/user.ts 파일에 Bilibili vmID를 설정해주세요",
+		"src/config/user/site.ts 파일에 Bilibili vmID를 설정해주세요",
 	[Key.animeEmptyLocal]:
-		"src/data/anime.ts 파일에 애니메이션 정보를 추가해주세요",
+		"src/config/user/anime-data.ts 파일에 애니메이션 정보를 추가해주세요",
+	[Key.animeFilterEmpty]: "이 카테고리에 해당하는 애니메이션이 없습니다",
 
 	// 일기 페이지
 	[Key.diarySubtitle]: "언제 어디서나 삶을 공유하세요",
@@ -142,6 +153,7 @@ export const ko: Translation = {
 	[Key.musicPlayerSettingsServer]: "음악 서버",
 	[Key.musicPlayerSettingsType]: "유형",
 	[Key.musicPlayerSettingsApply]: "적용",
+	[Key.musicPlayerSettingsReset]: "초기화",
 	[Key.musicPlayerServerNetease]: "네이티 클라우드",
 	[Key.musicPlayerServerTencent]: "QQ뮤직",
 	[Key.musicPlayerServerKugou]: "쿠거우 뮤직",
@@ -203,7 +215,7 @@ export const ko: Translation = {
 	[Key.rssSubtitle]: "RSS로 구독하여 최신 글과 업데이트를 즉시 받아보세요",
 	[Key.rssLink]: "RSS 링크",
 	[Key.rssCopyToReader]: "RSS 리더기에 링크 복사",
-	[Key.rssCopyLink]: "복사",
+	[Key.rssCopyLink]: "링크 복사",
 	[Key.rssLatestPosts]: "최신 게시물",
 	[Key.rssWhatIsRSS]: "RSS란 무엇인가요?",
 	[Key.rssWhatIsRSSDescription]:
@@ -215,8 +227,6 @@ export const ko: Translation = {
 	[Key.rssBenefit4]: "광고 없는 깔끔한 독서 경험을 즐길 수 있습니다",
 	[Key.rssHowToUse]:
 		"Feedly, Inoreader 등의 RSS 리더기를 사용하여 이 사이트를 구독하는 것을 권장합니다.",
-	[Key.rssCopied]: "RSS 링크가 클립보드에 복사되었습니다",
-	[Key.rssCopyFailed]: "복사 실패, 링크를 수동으로 복사해주세요",
 
 	// Atom 페이지
 	[Key.atom]: "Atom 피드",
@@ -224,7 +234,7 @@ export const ko: Translation = {
 	[Key.atomSubtitle]: "Atom으로 구독하여 최신 글과 업데이트를 즉시 받아보세요",
 	[Key.atomLink]: "Atom 링크",
 	[Key.atomCopyToReader]: "Atom 리더기에 링크 복사",
-	[Key.atomCopyLink]: "복사",
+	[Key.atomCopyLink]: "링크 복사",
 	[Key.atomLatestPosts]: "최신 게시물",
 	[Key.atomWhatIsAtom]: "Atom이란 무엇인가요?",
 	[Key.atomWhatIsAtomDescription]:
@@ -236,8 +246,6 @@ export const ko: Translation = {
 	[Key.atomBenefit4]: "광고 없는 깔끔한 독서 경험을 즐길 수 있습니다",
 	[Key.atomHowToUse]:
 		"Feedly, Inoreader 등의 Atom 리더기를 사용하여 이 사이트를 구독하는 것을 권장합니다.",
-	[Key.atomCopied]: "Atom 링크가 클립보드에 복사되었습니다",
-	[Key.atomCopyFailed]: "복사 실패, 링크를 수동으로 복사해주세요",
 
 	// 배경화면 모드
 	[Key.wallpaperMode]: "배경화면 모드",
@@ -267,7 +275,6 @@ export const ko: Translation = {
 	[Key.skillsDatabase]: "데이터베이스",
 	[Key.skillsTools]: "개발 도구",
 	[Key.skillsOther]: "기타 기술",
-	[Key.skillLevel]: "숙련도",
 	[Key.skillLevelBeginner]: "입문자",
 	[Key.skillLevelIntermediate]: "중급",
 	[Key.skillLevelAdvanced]: "고급",
@@ -276,16 +283,8 @@ export const ko: Translation = {
 	[Key.skillYears]: "년",
 	[Key.skillMonths]: "개월",
 	[Key.skillsTotal]: "전체 기술",
-	[Key.skillsExpert]: "전문가 수준",
-	[Key.skillsAdvanced]: "고급",
-	[Key.skillsIntermediate]: "중급",
-	[Key.skillsBeginner]: "입문자",
 	[Key.skillsAdvancedTitle]: "전문 기술",
-	[Key.skillsProjects]: "관련 프로젝트",
-	[Key.skillsDistribution]: "기술 분포",
-	[Key.skillsByLevel]: "수준별",
-	[Key.skillsByCategory]: "분야별",
-	[Key.noData]: "데이터 없음",
+	[Key.skillsFilterEmpty]: "이 카테고리에 기술이 없습니다",
 
 	// 타임라인 페이지
 	[Key.timeline]: "타임라인",
@@ -295,32 +294,27 @@ export const ko: Translation = {
 	[Key.timelineProject]: "프로젝트 경험",
 	[Key.timelineAchievement]: "성과",
 	[Key.timelinePresent]: "현재",
-	[Key.timelineLocation]: "위치",
-	[Key.timelineDescription]: "상세 설명",
 	[Key.timelineMonths]: "개월",
 	[Key.timelineYears]: "년",
 	[Key.timelineTotal]: "합계",
-	[Key.timelineProjects]: "프로젝트",
-	[Key.timelineExperience]: "경력",
 	[Key.timelineCurrent]: "현재 상태",
-	[Key.timelineHistory]: "히스토리",
 	[Key.timelineAchievements]: "성과",
-	[Key.timelineStartDate]: "시작일",
-	[Key.timelineDuration]: "기간",
+	[Key.timelineFilterEmpty]: "이 카테고리에 타임라인 기록이 없습니다",
 
 	// 피드백 페이지 - 웹마스터 연락 모듈
 	[Key.contactMe]: "웹마스터에게 연락하기",
 	[Key.contactEmail]: "이메일로 웹마스터에게 연락하기",
+	[Key.viewEmail]: "이메일 보기",
+	[Key.emailIndex]: "이메일 {n}",
+	[Key.openEmailLink]: "메일 사이트를 열고 이메일 주소 복사.",
 	[Key.contactSocialFriends]: "소셜 미디어 친구 추가로 웹마스터에게 연락하기",
-	[Key.addFriends]: "친구 추가하기",
+	[Key.addFriends]: "친구 추가",
 
 	// 후원 페이지
 	[Key.sponsorsNotice1]:
 		"웹사이트 콘텐츠가 도움이 되셨다면, 아래 방법으로 제 작업을 후원해주세요. 더 나은 콘텐츠 제작에 도움이 됩니다. 모든 후원금은 웹사이트 유지보수, 서버 비용 및 콘텐츠 제작에 사용됩니다.",
 	[Key.sponsorsNotice2]:
 		"BrightMoon 블로그 프로젝트 콘텐츠 개발을 후원해주셔서 감사합니다!",
-	[Key.wechatPay]: "WeChat",
-	[Key.aliPay]: "Alipay",
 	[Key.scanPayQRcode]: "스캔하여 결제",
 	[Key.sponsorsPartner]: "후원 파트너",
 	[Key.otherSupportOptions]: "다른 후원 방법",
@@ -421,16 +415,6 @@ export const ko: Translation = {
 	[Key.shareOnSocialDescription]:
 		"이 글이 도움이 되셨다면 다른 사람들과 공유해주세요!",
 
-	// 프로필 통계
-	[Key.profileStatsLoading]: "통계 불러오는 중...",
-	[Key.profileStatsPageViews]: "페이지 조회수",
-	[Key.profileStatsVisits]: "방문수",
-	[Key.profileStatsUnavailable]: "통계를 사용할 수 없습니다",
-
-	// 페이지 조회수 통계
-	[Key.pageViewsLoading]: "통계 불러오는 중...",
-	[Key.pageViewsUnavailable]: "통계를 사용할 수 없습니다",
-
 	// 게시물 목록 레이아웃
 	[Key.postListLayout]: "게시물 목록 레이아웃",
 	[Key.listMode]: "목록",
@@ -439,18 +423,18 @@ export const ko: Translation = {
 	// 외부 링크 경고
 	[Key.leaveSite]: "사이트 떠나기",
 	[Key.goToExternalLink]: "다음 외부 링크로 이동하려고 합니다:",
-	[Key.warningText]: "계정 및 자산 보안에 유의하시기 바랍니다",
+	[Key.warningText]: "계정 및 자산 보안에 유의하시기 바랍니다.",
 	[Key.confirmText]: "계속 방문하기",
 	[Key.cancelText]: "취소",
 
 	// 소셜 미디어에서 친구 추가하기
 	[Key.copyAccount]: "계정 복사",
-	[Key.copyAccountSuccess]: "클립보드에 복사됨",
 	[Key.openAppAdd]: "앱에서 열기",
 
 	// 날씨 컴포넌트
 	[Key.weather]: "날씨",
-	[Key.weatherNoApiKey]: "src/config/user.ts 에 WeatherAPI 키를 추가하세요",
+	[Key.weatherNoApiKey]:
+		"src/config/user/weather.ts 에 WeatherAPI 키를 추가하세요",
 	[Key.weatherLocationDisabled]:
 		"개인정보 계약을 거부하여 날씨 위치 서비스가 비활성화되었습니다",
 	[Key.weatherWaitingConsent]: "날씨 위치 권한을 기다리는 중...",
@@ -500,12 +484,28 @@ export const ko: Translation = {
 	[Key.cookieConsentIpTimeout]: "위치 정보 확인 시간이 초과되었습니다",
 	[Key.cookieConsentAccept]: "수락",
 	[Key.cookieConsentReject]: "모두 거부",
+	[Key.cookieConsentLearnMore]: "개인정보 보호정책 보기",
+	[Key.cookieConsentPrivacyTitle]: "BrightMoon 개인정보 보호정책",
+	[Key.cookieConsentPrivacyIntro]:
+		"우리는 귀하의 개인정보를 소중히 여깁니다. 이 페이지에서는 Cookie 및 유사 기술을 사용하는 방법, 수집하는 데이터의 유형과 목적에 대해 자세히 설명합니다.",
+	[Key.cookieConsentPrivacyEssential]:
+		"필수 Cookie: 이 Cookie는 웹사이트가 정상적으로 작동하는 데 필요하며, 개인정보 보호 선택 사항 저장 및 세션 상태 유지 등이 포함됩니다. 비활성화할 수 없습니다.",
+	[Key.cookieConsentPrivacyAnalytics]:
+		"분석 Cookie: 페이지 조회수 및 트래픽 출처와 같은 웹사이트 방문 현황을 파악하고 사이트 경험을 개선하는 데 도움이 되도록 이 Cookie를 사용합니다.",
+	[Key.cookieConsentPrivacyAdvertising]:
+		"광고 Cookie: 이러한 Cookie는 보다 관련성 높은 광고 콘텐츠를 제공하고 광고 캠페인의 효과를 측정하는 데 사용됩니다.",
+
+	[Key.cookieConsentPrivacyThirdParty]:
+		"제3자 서비스: 날씨 위치, Twikoo 댓글 시스템 등 일부 제3자 서비스를 통합했습니다. 이러한 서비스는 귀하의 데이터를 수집하고 사용할 수 있습니다.",
+	[Key.cookieConsentPrivacyRejectNotice]:
+		"개인정보 보호 계약을 거부하면 일부 기능이 비활성화됩니다.",
+	[Key.cookieConsentPrivacyClose]: "닫기",
 
 	// Twikoo 댓글 시스템
 	[Key.twikooInitializing]: "Twikoo 댓글 시스템 초기화 중...",
 	[Key.twikooNotConfigured]: "Twikoo 댓글 시스템이 아직 구성되지 않았습니다",
 	[Key.twikooConfigHint]:
-		"src/config/user.ts 에서 Twikoo 댓글 시스템을 구성하세요",
+		"src/config/user/comment.ts 에서 Twikoo 댓글 시스템을 구성하세요",
 	[Key.twikooPrivacyRejected]:
 		"개인정보 계약을 거부하여 Twikoo 댓글 시스템이 비활성화되었습니다",
 
@@ -518,13 +518,13 @@ export const ko: Translation = {
 	[Key.versionPreRelease]: "베타",
 	[Key.versionCheckFailedTitle]: "업데이트 확인 실패",
 	[Key.versionCheckFailedDesc]:
-		"업데이트를 확인할 수 없습니다. 일반적으로 원격 저장소 API 속도 제한 또는 원격 저장소 API 주소가 설정되지 않아 발생합니다. 나중에 다시 시도해 주세요",
+		"업데이트를 확인할 수 없습니다. 일반적으로 원격 저장소 API 속도 제한 또는 원격 저장소 API 주소가 설정되지 않아 발생합니다. 나중에 다시 시도해 주세요.",
 	[Key.versionCheckSuccessTitle]: "확인 성공",
 	[Key.versionCheckSuccessDesc]:
-		"현재 새 버전이 발견되지 않았습니다. 최신 버전입니다",
+		"현재 새 버전이 발견되지 않았습니다. 최신 버전입니다.",
 	[Key.versionDownload]: "최신 버전 다운로드",
 	[Key.versionUpdateWarning]:
-		"BrightMoon 블로그 프레임워크 업그레이드 도구 사용을 권장합니다. 업그레이드 전 데이터를 백업하세요",
+		"BrightMoon 블로그 프레임워크 업그레이드 도구 사용을 권장합니다. 업그레이드 전 데이터를 백업하세요.",
 
 	// 브레드크럼 내비게이션
 	[Key.suggestion]: "방문하고 싶을 수도 있습니다",

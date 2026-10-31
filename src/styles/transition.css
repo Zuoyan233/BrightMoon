@@ -1,8 +1,8 @@
 /*
- * Page transition animations with Swup — Ultimate Performance Edition
+ * 页面过渡动画配置
  */
 
-/* CSS Custom Properties (centralized tuning) */
+/* 页面过渡动画配置 - 基础配置 */
 :root {
 	--tf-duration: 400ms;
 	--tf-enter: cubic-bezier(0.4, 0, 0.2, 1);
@@ -11,75 +11,78 @@
 	--tf-offset-x: 0.5rem;
 }
 
-/* Core Transition: Main Content Area */
+/* 主内容区域过渡动画 */
 .transition-main {
 	transition:
 		opacity var(--tf-duration) var(--tf-enter),
 		transform var(--tf-duration) var(--tf-enter);
 }
 
+/* 旧内容区域过渡动画 */
 .transition-leaving {
 	transition:
 		opacity var(--tf-duration) var(--tf-leave),
 		transform var(--tf-duration) var(--tf-leave);
 }
 
-/* GPU layer creation: only when Swup navigation is active. */
+/* 页面过渡动画配置 */
 
 html.is-changing .transition-main,
 html.is-changing .transition-leaving {
 	will-change: transform, opacity;
 }
 
-/* Swup State: is-changing (navigation started) */
+/* 页面过渡动画配置 - 导航开始 */
 html.is-changing .transition-main {
 	transition:
 		opacity var(--tf-duration) var(--tf-enter),
 		transform var(--tf-duration) var(--tf-enter);
 }
 
+/* 页面过渡动画配置 - 导航结束 */
 html.is-leaving .transition-main {
 	transition:
 		opacity var(--tf-duration) var(--tf-leave),
 		transform var(--tf-duration) var(--tf-leave);
 }
 
-/* Swup State: is-animating (animation in progress) */
-/* Enter: new content slides in from bottom-right */
+/* 页面过渡动画配置 - 动画进行中 */
 html.is-animating .transition-main {
 	opacity: 0;
 	transform: translateY(var(--tf-offset-y)) translateX(var(--tf-offset-x));
 }
 
-/* Leave: old content slides out to top-left */
+/* 页面过渡动画配置 - 旧内容滑出顶部左侧 */
 html.is-animating.is-leaving .transition-leaving {
 	transform: translateY(-1rem) translateX(-0.5rem);
 	opacity: 0;
 }
 
-/* Swup fade compatibility */
+/* 页面过渡动画配置 - Swup淡入兼容性 */
 .transition-swup-fade {
 	transition:
 		opacity var(--tf-duration) var(--tf-enter),
 		transform var(--tf-duration) var(--tf-enter);
 }
 
+/* 页面过渡动画配置 - Swup淡入兼容性 */
 html.is-changing .transition-swup-fade {
 	will-change: transform, opacity;
 }
 
+/* 页面过渡动画配置 - Swup淡入兼容性 */
 html.is-animating .transition-swup-fade {
 	opacity: 0;
 	transform: translateY(var(--tf-offset-y));
 }
 
-/* Swup State: is-entering */
+/* 页面过渡动画配置 - 导航开始 */
 html.is-entering .transition-main {
 	transform: translateY(var(--tf-offset-y));
 	opacity: 0;
 }
 
-/* Keyframes */
+/* 页面过渡动画配置 - 动画进行中 */
 @keyframes fade-in-up {
 	from {
 		opacity: 0;
@@ -111,7 +114,7 @@ html.is-entering .transition-main {
 	}
 }
 
-/* Onload Animations (staggered page-load) */
+/* 页面过渡动画配置 - 动画进行中 */
 .onload-animation {
 	opacity: 0;
 	animation: fade-in-up var(--tf-duration) var(--tf-enter) forwards;
@@ -122,7 +125,6 @@ html.is-entering .transition-main {
 	animation: fade-in var(--tf-duration) var(--tf-enter) forwards;
 }
 
-/* Staggered animation delays */
 .onload-animation:nth-child(1) {
 	animation-delay: 0ms;
 }
@@ -139,8 +141,6 @@ html.is-entering .transition-main {
 	animation-delay: 240ms;
 }
 
-/* Special Element Animations */
-/* Slide-in elements */
 .transition-slide-in {
 	opacity: 0;
 	transform: translateY(20px) translateX(8px);
@@ -155,7 +155,7 @@ html.is-entering .transition-main {
 	will-change: transform, opacity;
 }
 
-/* Card animations */
+/* 卡片动画 */
 .card-animation {
 	opacity: 0;
 	transform: translateY(30px) translateX(10px) scale(0.98);
@@ -170,7 +170,7 @@ html.is-entering .transition-main {
 	will-change: transform, opacity;
 }
 
-/* Nav animations */
+/* 导航动画 */
 .nav-animation {
 	opacity: 0;
 	transform: translateX(-20px);
@@ -179,19 +179,18 @@ html.is-entering .transition-main {
 		transform var(--tf-duration) var(--tf-enter);
 }
 
+/* 导航动画 - 加载完成 */
 .nav-animation.loaded {
 	opacity: 1;
 	transform: translateX(0);
 	will-change: transform, opacity;
 }
 
-/* GPU Layer Lifecycle Management */
 .animation-complete,
 .onload-animation.animation-complete {
 	will-change: auto;
 }
 
-/* Accessibility: prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
 	:root {
 		--tf-duration: 0.01ms;
@@ -215,7 +214,6 @@ html.is-entering .transition-main {
 		will-change: auto;
 	}
 
-	/* Neutralize all transform offsets */
 	html.is-animating .transition-main,
 	html.is-entering .transition-main,
 	html.is-animating.is-leaving .transition-leaving,
@@ -235,7 +233,6 @@ html.is-entering .transition-main {
 		transform: none;
 	}
 
-	/* Override keyframes to remove transforms */
 	@keyframes fade-in-up {
 		from {
 			opacity: 0;
@@ -248,7 +245,7 @@ html.is-entering .transition-main {
 	}
 }
 
-/* Mobile: same duration & displacement as desktop */
+/* 移动端：相同持续时间和位移 */
 @media (hover: none) and (pointer: coarse) {
 	.transition-main,
 	.transition-leaving,

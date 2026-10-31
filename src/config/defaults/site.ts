@@ -115,13 +115,13 @@ export const defaultSiteConfig: SiteConfig = {
 		mode: "local", // 番剧页面模式："bangumi" 使用Bangumi API，"local" 使用本地配置，"bilibili" 使用Bilibili API
 		// Bangumi 配置
 		bangumi: {
-			userId: "your-bangumi-id", // 在此处设置你的Bangumi用户ID，可以设置为 "sai" 测试
+			userId: "your-bangumi-id", // 在此处设置你的 Bangumi 用户 ID，可以设置为 "sai" 测试，输入 pnpm run update-bangumi 获取番剧数据
 			fetchOnDev: false, // 是否在开发环境下获取 Bangumi 数据（默认 false），获取前先执行 pnpm build 构建 json 文件
 		},
 		// Bilibili 配置
 		bilibili: {
-			// 第一次配置请把vmid和anime mode模式正确设置好，然后输入pnpm run update-bilibili获取番剧数据
-			vmId: "your-bilibili-id", // 在此处设置你的Bilibili用户ID (vmid)，例如 "352580971"
+			// 第一次配置请把 vmid 和 anime mode 模式正确设置好，输入 pnpm run update-bilibili 获取番剧数据
+			vmId: "your-bilibili-id", // 在此处设置你的 Bilibili 用户ID (vmid)，例如 "352580971"
 			fetchOnDev: false, // 是否在开发环境下获取 Bilibili 数据（默认 false）
 			SESSDATA: "", // Bilibili SESSDATA（可选，用于获取观看进度，从浏览器cookie中获取）
 			coverMirror: "", // 封面图片镜像源（可选，如果需要使用镜像源，例如 "https://images.weserv.nl/?url="）
@@ -303,12 +303,17 @@ export const defaultSiteConfig: SiteConfig = {
 	showCoverInContent: true, // 在文章内容页显示文章封面
 	generateOgImages: false, // 启用生成OpenGraph图片功能,注意开启后要渲染很长时间，不建议本地调试的时候开启
 	favicon: [
-		// 留空以使用默认 favicon
-		// {
-		//   src: '/favicon/icon.png',    // 图标文件路径
-		//   theme: 'light',              // 可选，指定主题 'light' | 'dark'
-		//   sizes: '32x32',              // 可选，图标大小
-		// }
+		// 默认 favicon，支持明暗主题适配
+		{
+			src: "/favicon/favicon.ico",
+			theme: "light", // 明亮主题图标
+			sizes: "64x64",
+		},
+		{
+			src: "/favicon/favicon.ico",
+			theme: "dark", // 暗黑主题图标
+			sizes: "64x64",
+		},
 	],
 
 	// 字体配置
@@ -327,5 +332,11 @@ export const defaultSiteConfig: SiteConfig = {
 		enable: false, // 是否启用第三方统计，默认关闭，启用可能影响 Lighthouse 评分
 		gtmId: "", // Google Tag Manager 容器 ID，留空则不加载 GTM
 		clarityId: "", // Clarity 项目 ID，留空则不加载 Clarity
+	},
+
+	ads: {
+		enable: false, // 是否启用 Ads 脚本，默认关闭
+		googleAdsenseId: "", // Google AdSense 发布商 ID，例如 "ca-pub-xxxxxxxxxxxxxxxx"
+		onlyProduction: true, // 开发模式自动关闭 Ads 脚本 (非必要不要关闭，避免无效流量警告)
 	},
 };

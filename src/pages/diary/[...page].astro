@@ -2,9 +2,8 @@
 import type { GetStaticPaths } from "astro";
 import { Icon } from "astro-icon/components";
 import Pagination from "../../components/control/Pagination.astro";
-import { siteConfig } from "../../config";
+import { diaryDataConfig, siteConfig } from "../../config";
 import { PAGE_SIZE } from "../../constants/constants";
-import { getDiaryList, getDiaryStats } from "../../data/diary";
 import I18nKey from "../../i18n/i18nKey";
 import { i18n } from "../../i18n/translation";
 import MainGridLayout from "../../layouts/MainGridLayout.astro";
@@ -16,11 +15,35 @@ if (!siteConfig.featurePages.diary) {
 
 // 分页配置：每页 PAGE_SIZE 条日记
 export const getStaticPaths = (({ paginate }) => {
-	const moments = getDiaryList();
-	return paginate(moments, { pageSize: PAGE_SIZE });
+	const sortedData = diaryDataConfig.items.sort(
+		(a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+	);
+	return paginate(sortedData, { pageSize: PAGE_SIZE });
 }) satisfies GetStaticPaths;
 
 const { page } = Astro.props;
+
+// 日记数据工具函数
+const getDiaryStats = () => {
+	const total = diaryDataConfig.items.length;
+	const hasImages = diaryDataConfig.items.filter(
+		(item) => item.images && item.images.length > 0,
+	).length;
+	const hasLocation = diaryDataConfig.items.filter(
+		(item) => item.location,
+	).length;
+	const hasMood = diaryDataConfig.items.filter((item) => item.mood).length;
+	return {
+		total,
+		hasImages,
+		hasLocation,
+		hasMood,
+		imagePercentage: Math.round((hasImages / total) * 100),
+		locationPercentage: Math.round((hasLocation / total) * 100),
+		moodPercentage: Math.round((hasMood / total) * 100),
+	};
+};
+
 const diaryStats = getDiaryStats();
 
 // 格式化时间为相对时间（几分钟前、几小时前、几天前）
@@ -64,24 +87,21 @@ const len = page.data.length;
                 <div class="flex items-center justify-between mb-8">
                     <div class="flex flex-col items-start justify-center">
                         <h1
-                            class="text-4xl font-bold text-black/90 dark:text-white/90 mb-2 relative
+                            class="text-4xl font-bold text-90 mb-2 relative
 								before:w-1 before:h-8 before:rounded-md before:bg-[var(--primary)]
 								before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-4"
                         >
                             {i18n(I18nKey.diary)}
                         </h1>
-                        <p class="text-black/60 dark:text-white/60">
+                        <p class="text-60">
                             {i18n(I18nKey.diarySubtitle)}
                         </p>
                     </div>
-                    <p
-                        class="text-black/60 dark:text-white/60 shrink-0 flex items-baseline gap-1"
-                    >
+                    <p class="text-60 shrink-0 flex items-baseline gap-1">
                         <span class="text-[var(--primary)] text-4xl"
                             >{diaryStats.total}</span
                         >
-                        <span
-                            class="ml-1 text-black/90 dark:text-white/90 font-bold"
+                        <span class="ml-1 text-90 font-bold"
                             >{i18n(I18nKey.diaryCount)}</span
                         >
                     </p>
@@ -92,11 +112,11 @@ const len = page.data.length;
                     <div class="timeline-list space-y-4">
                         {
                             page.data.map((moment, index) => (
-                                <div class="moment-item card-base-daily p-4 md:p-6 lg:p-8 hover:shadow-lg dark:hover:shadow-white/30 transition-all">
+                                <div class="group moment-item card-base-daily p-4 md:p-6 lg:p-8 hover:shadow-lg dark:hover:shadow-white/30 transition-all">
                                     <div class="moment-content">
-                                        <p class="moment-text text-sm md:text-base lg:text-lg text-90 leading-relaxed mb-3 md:mb-4">
+                                        <h2 class="moment-text text-sm md:text-base lg:text-lg text-90 leading-relaxed mb-3 md:mb-4 group-hover:text-[var(--primary)] transition-colors duration-300">
                                             {moment.content}
-                                        </p>
+                                        </h2>
 
                                         {moment.images &&
                                             moment.images.length > 0 && (

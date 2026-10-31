@@ -55,7 +55,7 @@ if (!album) {
       <div class="mb-6">
         <a
           href="/albums/"
-          class="inline-flex items-center gap-2 text-neutral-600 dark:text-neutral-400 hover:text-[var(--primary)] dark:hover:text-[var(--primary)] transition-colors"
+          class="inline-flex items-center gap-2 text-60 hover:text-[var(--primary)] dark:hover:text-[var(--primary)] transition-colors"
         >
           <svg
             class="w-4 h-4"
@@ -96,24 +96,14 @@ if (!album) {
 
       <!-- 相册标题信息 -->
       <header class="mb-8">
-        <h1
-          class="text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-3"
-        >
+        <h1 class="text-3xl font-bold text-90 mb-3">
           {album.title}
         </h1>
 
-        {
-          album.description && (
-            <p class="text-neutral-600 dark:text-neutral-400 mb-4">
-              {album.description}
-            </p>
-          )
-        }
+        {album.description && <p class="text-60 mb-4">{album.description}</p>}
 
         <!-- 相册元数据 -->
-        <div
-          class="flex flex-wrap items-center gap-4 text-sm text-neutral-500 dark:text-neutral-500"
-        >
+        <div class="flex flex-wrap items-center gap-4 text-sm text-60">
           <span
             >{album.photos.length}
             {

@@ -9,6 +9,7 @@ const __dirname = path.dirname(__filename);
 // 配置已拆分为 user/ 和 defaults/ 目录，按优先级依次读取
 const CONFIG_DIR = path.join(__dirname, "../src/config");
 
+// 读取配置文件内容
 function readConfigContents() {
 	const dirs = ["user", "defaults"];
 	const contents = [];
@@ -371,7 +372,10 @@ async function fetchBilibiliAnimeText() {
 		}
 
 		// 读取 bilibili-data.json 文件
-		const dataFilePath = path.join(__dirname, "../src/data/bilibili-data.json");
+		const dataFilePath = path.join(
+			__dirname,
+			"../src/config/user/bilibili-data.json",
+		);
 		if (!fs.existsSync(dataFilePath)) {
 			console.log(
 				"ℹ Bilibili data file not found, skipping Bilibili API text collection.\n",
@@ -680,9 +684,16 @@ async function collectText() {
 
 	const textSet = new Set();
 
-	// 1. 读取 src/data 目录
-	const dataDir = path.join(__dirname, "../src/data");
-	const dataFiles = readFilesRecursively(dataDir);
+	// 1. 读取 src/config/user 和 src/config/defaults 目录
+	const userConfigDir = path.join(__dirname, "../src/config/user");
+	const defaultsConfigDir = path.join(__dirname, "../src/config/defaults");
+	const userDataFiles = fs.existsSync(userConfigDir)
+		? readFilesRecursively(userConfigDir)
+		: [];
+	const defaultsDataFiles = fs.existsSync(defaultsConfigDir)
+		? readFilesRecursively(defaultsConfigDir)
+		: [];
+	const dataFiles = [...userDataFiles, ...defaultsDataFiles];
 
 	dataFiles.forEach((file) => {
 		if (file.endsWith(".ts") || file.endsWith(".js")) {

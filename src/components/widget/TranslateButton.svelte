@@ -21,13 +21,7 @@ const languages = [
 	{ code: "korean", name: "한국어", icon: "🇰🇷" },
 	{ code: "french", name: "Français", icon: "🇫🇷" },
 	{ code: "deutsch", name: "Deutsch", icon: "🇩🇪" },
-	{ code: "spanish", name: "Español", icon: "🇪🇸" },
 	{ code: "russian", name: "Русский", icon: "🇷🇺" },
-	{ code: "arabic", name: "العربية", icon: "🇸🇦" },
-	{ code: "vietnamese", name: "Việt Nam", icon: "🇻🇳" },
-	{ code: "thai", name: "ภาษาไทย", icon: "🇹🇭" },
-	{ code: "turkish", name: "Türkçe", icon: "🇹🇷" },
-	{ code: "indonesian", name: "Indonesia", icon: "🇮🇩" },
 ];
 
 // 根据配置文件的语言设置获取默认翻译语言
@@ -104,22 +98,22 @@ onDestroy(() => {
     <button 
         aria-label="Language Translation" 
         title={title}
-        class="group btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90" 
+        class="group btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90"
         id="translate-switch"
         onclick={togglePanel}
     >
-        <Icon icon="material-symbols:translate" class="text-[1.25rem] transition-all duration-250 ease-in-out text-black/75 dark:text-white/75 group-hover:text-[var(--primary)]"/>
+        <Icon icon="material-symbols:translate" class="text-[1.25rem] transition-all duration-250 ease-in-out text-75 group-hover:text-[var(--primary)]"/>
     </button>
 
     <!-- 翻译面板 -->
-    <div 
+    <div
         bind:this={translatePanel}
-        id="translate-panel" 
-        class="float-panel-closed absolute top-[4.38rem] right-0 z-50 w-64 bg-[var(--card-bg)] rounded-[var(--radius-large)] shadow-lg p-4"
+        id="translate-panel"
+        class="float-panel-closed absolute top-[4.38rem] right-0 z-50 w-64 rounded-[var(--radius-large)] shadow-lg p-4"
     >
     <!-- 标题 -->
 	<div class="flex flex-row gap-2 mb-3 items-center justify-between">
-		<div class="flex gap-2 font-bold text-lg text-neutral-900 dark:text-neutral-100 transition relative ml-3
+		<div class="flex gap-2 font-bold text-lg text-90 transition relative ml-3
 			before:w-1 before:h-4 before:rounded-md before:bg-[var(--primary)]
 			before:absolute before:-left-3 before:top-[0.33rem]"
 		>
@@ -132,8 +126,8 @@ onDestroy(() => {
                     class="group flex items-center gap-3 p-2 rounded-lg hover:bg-[var(--btn-plain-bg-hover)] transition-colors text-left w-full {currentLanguage === lang.code ? 'bg-[var(--btn-plain-bg-hover)] border-1 border-[var(--primary)]' : ''}"
                     onclick={() => changeLanguage(lang.code)}
                 >
-                    <span class="text-lg transition text-black/75 dark:text-white/75 group-hover:text-[var(--primary)]" style={currentLanguage === lang.code ? 'color: var(--primary)' : ''}>{lang.icon}</span>
-                    <span class="text-sm font-bold transition text-black/75 dark:text-white/75 group-hover:text-[var(--primary)] {currentLanguage === lang.code ? 'font-bold' : ''}" style={currentLanguage === lang.code ? 'color: var(--primary)' : ''}>{lang.name}</span>
+                    <span class="text-lg transition text-75 group-hover:text-[var(--primary)]" style={currentLanguage === lang.code ? 'color: var(--primary)' : ''}>{lang.icon}</span>
+                    <span class="text-sm font-bold transition text-75 group-hover:text-[var(--primary)] {currentLanguage === lang.code ? 'font-bold' : ''}" style={currentLanguage === lang.code ? 'color: var(--primary)' : ''}>{lang.name}</span>
                     {#if currentLanguage === lang.code}
                         <span class="ml-auto text-[var(--primary)]">✓</span>
                     {/if}
@@ -149,7 +143,7 @@ onDestroy(() => {
     transform-origin: top right;
 }
 
-.float-panel-closed {
+#translate-panel.float-panel-closed {
     opacity: 0;
     pointer-events: none;
     transform: scale(0.95) translateY(-10px);

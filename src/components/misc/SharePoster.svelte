@@ -8,6 +8,7 @@ import { applyI18nToDOM, clearI18nMarkers } from "../../utils/i18n-dom-updater";
 import { getConfigLanguageFromTranslate } from "../../utils/language-utils";
 import { translationManager } from "../../utils/translation-manager";
 
+// 组件属性接口
 export let title: string;
 export let author: string;
 export let description = "";
@@ -17,14 +18,14 @@ export let url: string;
 export let siteTitle: string;
 export let avatar: string | null = null;
 
-// Constants
+// 常量
 const SCALE = 2;
 const WIDTH = 425 * SCALE;
 const PADDING = 24 * SCALE;
 const CONTENT_WIDTH = WIDTH - PADDING * 2;
 const FONT_FAMILY = "'Roboto', sans-serif";
 
-// State
+// 状态变量
 let showModal = false;
 let posterImage: string | null = null;
 let themeColor = "#558e88";
@@ -33,9 +34,10 @@ let modalElement: HTMLElement;
 let shareRootEl: HTMLElement;
 let unregisterTranslationRenderer = () => {};
 
+// 复制反馈持续时间
 const COPY_FEEDBACK_DURATION = 2000;
 
-// Refresh component DOM with current translation
+// 刷新组件 DOM翻译内容
 function refreshI18nOnShare() {
 	if (!translationManager.isActive()) return;
 	const translateTo = translationManager.getTargetLanguage();
@@ -52,6 +54,7 @@ function refreshI18nOnShare() {
 	}
 }
 
+// 组件挂载时初始化分享海报
 onMount(() => {
 	const temp = document.createElement("div");
 	temp.style.color = "var(--primary)";
@@ -74,11 +77,12 @@ onMount(() => {
 	}
 });
 
+// 组件卸载时注销翻译刷新监听器
 onDestroy(() => {
 	unregisterTranslationRenderer();
 });
 
-// Refresh modal content after the portal node is mounted into body.
+// 刷新分享海报内容
 $: if (showModal) {
 	void tick().then(() => {
 		if (modalElement) {
@@ -87,6 +91,7 @@ $: if (showModal) {
 	});
 }
 
+// 加载图片
 async function loadImage(src: string): Promise<HTMLImageElement | null> {
 	return new Promise((resolve) => {
 		const img = new Image();
@@ -110,6 +115,7 @@ async function loadImage(src: string): Promise<HTMLImageElement | null> {
 	});
 }
 
+// 计算文本换行
 function getLines(
 	ctx: CanvasRenderingContext2D,
 	text: string,
@@ -131,6 +137,7 @@ function getLines(
 	return lines;
 }
 
+// 绘制圆角矩形
 function drawRoundedRect(
 	ctx: CanvasRenderingContext2D,
 	x: number,
@@ -152,8 +159,8 @@ function drawRoundedRect(
 	ctx.closePath();
 }
 
+// 解析日期字符串
 type DateObj = { day: string; month: string; year: string };
-
 function parseDate(dateStr: string): DateObj | null {
 	try {
 		const d = new Date(dateStr);
@@ -169,6 +176,7 @@ function parseDate(dateStr: string): DateObj | null {
 	}
 }
 
+// 生成分享海报
 async function generatePoster() {
 	showModal = true;
 
@@ -199,7 +207,7 @@ async function generatePoster() {
 		const ctx = canvas.getContext("2d");
 		if (!ctx) throw new Error("Canvas context not available");
 
-		// Calculate layout
+		// 计算布局高度
 		const coverHeight = (coverImage ? 200 : 120) * SCALE;
 		const titleFontSize = 24 * SCALE;
 		const descFontSize = 14 * SCALE;
@@ -232,11 +240,11 @@ async function generatePoster() {
 		canvas.width = WIDTH;
 		canvas.height = canvasHeight;
 
-		// Background
+		// 绘制背景
 		ctx.fillStyle = "#ffffff";
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-		// Decorative circles
+		// 绘制装饰性圆
 		ctx.save();
 		ctx.globalAlpha = 0.1;
 		ctx.fillStyle = themeColor;
@@ -248,7 +256,7 @@ async function generatePoster() {
 		ctx.fill();
 		ctx.restore();
 
-		// Cover image
+		// 绘制封面图片
 		if (coverImg) {
 			const imgRatio = coverImg.width / coverImg.height;
 			const targetRatio = WIDTH / coverHeight;
@@ -287,7 +295,7 @@ async function generatePoster() {
 			ctx.restore();
 		}
 
-		// Date badge
+		// 绘制日期标签
 		const dateObj = parseDate(pubDate);
 		if (dateObj) {
 			const dateBoxW = 60 * SCALE;
@@ -320,7 +328,7 @@ async function generatePoster() {
 			);
 		}
 
-		// Title
+		// 绘制标题
 		let drawY = coverHeight + PADDING;
 		ctx.textBaseline = "top";
 		ctx.textAlign = "left";
@@ -332,7 +340,7 @@ async function generatePoster() {
 		}
 		drawY += 16 * SCALE - (titleLineHeight - titleFontSize);
 
-		// Description
+		// 绘制描述
 		if (description) {
 			ctx.fillStyle = "#e5e7eb";
 			drawRoundedRect(
@@ -356,7 +364,7 @@ async function generatePoster() {
 			drawY += 8 * SCALE;
 		}
 
-		// Separator line
+		// 绘制分隔线
 		drawY += 24 * SCALE;
 		ctx.beginPath();
 		ctx.strokeStyle = "#f3f4f6";
@@ -366,11 +374,11 @@ async function generatePoster() {
 		ctx.stroke();
 		drawY += 16 * SCALE;
 
-		// Footer
+		// 绘制页脚
 		const footerY = drawY;
 		const qrX = WIDTH - PADDING - qrSize;
 
-		// QR code background
+		// 绘制二维码背景
 		ctx.fillStyle = "#ffffff";
 		ctx.shadowColor = "rgba(0, 0, 0, 0.05)";
 		ctx.shadowBlur = 4 * SCALE;
@@ -379,7 +387,7 @@ async function generatePoster() {
 		ctx.fill();
 		ctx.shadowColor = "transparent";
 
-		// QR code image
+		// 绘制二维码图片
 		if (qrImg) {
 			const qrInnerSize = 76 * SCALE;
 			const qrPadding = (qrSize - qrInnerSize) / 2;
@@ -392,7 +400,7 @@ async function generatePoster() {
 			);
 		}
 
-		// Avatar
+		// 绘制作者头像
 		if (avatarImg) {
 			ctx.save();
 			const avatarSize = 64 * SCALE;
@@ -423,7 +431,7 @@ async function generatePoster() {
 			ctx.stroke();
 		}
 
-		// Author text
+		// 绘制作者文本
 		const avatarOffset = avatar ? 64 * SCALE + 16 * SCALE : 0;
 		const textX = PADDING + avatarOffset;
 
@@ -435,7 +443,7 @@ async function generatePoster() {
 		ctx.font = `700 ${20 * SCALE}px ${FONT_FAMILY}`;
 		ctx.fillText(author, textX, footerY + 20 * SCALE);
 
-		// Site title
+		// 绘制站点标题文本
 		ctx.fillStyle = "#9ca3af";
 		ctx.font = `${12 * SCALE}px ${FONT_FAMILY}`;
 		ctx.fillText(i18n(I18nKey.scanToRead), textX, footerY + 44 * SCALE);
@@ -451,6 +459,7 @@ async function generatePoster() {
 	}
 }
 
+// 下载海报
 function downloadPoster() {
 	if (posterImage) {
 		const a = document.createElement("a");
@@ -460,6 +469,7 @@ function downloadPoster() {
 	}
 }
 
+// 关闭弹窗
 function closeModal() {
 	if (modalElement) {
 		modalElement.classList.remove("modal-show");
@@ -469,6 +479,7 @@ function closeModal() {
 	}
 }
 
+// 复制链接到剪贴板
 async function copyLink() {
 	try {
 		if (navigator.clipboard?.writeText) {
@@ -495,6 +506,7 @@ async function copyLink() {
 	}
 }
 
+// 弹窗容器
 function portal(node: HTMLElement) {
 	document.body.appendChild(node);
 	modalElement = node;
@@ -526,6 +538,8 @@ function portal(node: HTMLElement) {
 </div>
 
 {#if showModal}
+
+  <!-- 分享海报弹窗 -->
   <!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
   <div 
     use:portal 
@@ -536,6 +550,8 @@ function portal(node: HTMLElement) {
     role="dialog"
     tabindex="-1"
   >
+
+  <!-- 分享海报弹窗内容 -->
   <!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
     <div 
       class="bg-white dark:bg-gray-800 rounded-2xl max-w-sm w-full max-h-[90vh] overflow-y-auto flex flex-col shadow-2xl transition-all duration-300 ease-[cubic-bezier(0.2,0,0,1)] opacity-0 scale-95 translate-y-2.5 modal-show:opacity-100 modal-show:scale-100 modal-show:translate-y-0"
@@ -554,7 +570,7 @@ function portal(node: HTMLElement) {
       
       <div class="p-4 border-t border-black/5 dark:border-white/10 dark:bg-[oklch(0.23_0.015_var(--hue))] grid grid-cols-2 gap-3">
         <button 
-          class="py-3 bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))] text-gray-700 dark:text-gray-200 rounded-xl font-medium hover:bg-[oklch(0.98_0.015_var(--hue))] dark:hover:bg-[oklch(0.3_0.035_var(--hue))] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+          class="py-3 btn-regular text-[var(--btn-content)] dark:text-white/75 rounded-xl font-mediumactive:scale-[0.98] transition-all flex items-center justify-center gap-2"
           on:click={copyLink}
         >
           {#if copied}
@@ -566,8 +582,7 @@ function portal(node: HTMLElement) {
           {/if}
         </button>
         <button 
-          class="py-3 text-white rounded-xl font-medium active:scale-[0.98] transition-all flex items-center justify-center gap-2 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed hover:brightness-90"
-          style="background-color: {themeColor};"
+          class="py-3 btn-regular text-[var(--btn-content)] dark:text-white/75 rounded-xl font-mediumactive:scale-[0.98] transition-all flex items-center justify-center gap-2"
           on:click={downloadPoster}
           disabled={!posterImage}
         >

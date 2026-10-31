@@ -41,8 +41,18 @@ export const zh_CN: Translation = {
 	[Key.friendsNoResults]: "未找到匹配的友链",
 	[Key.friendsVisit]: "访问",
 	[Key.friendsCopyLink]: "复制链接",
-	[Key.friendsCopySuccess]: "已复制",
 	[Key.friendsTags]: "标签",
+	[Key.friendsNoticeTitle]: "注意事项",
+	[Key.friendsNoticeReciprocal]:
+		"请先将本站添加到您的友链页面，确认后会添加您的友链。",
+	[Key.friendsNoticeMaintenance]:
+		"友链网站长期无法访问或内容违规，将会被移除。",
+	[Key.friendsNoticeContent]:
+		"内容积极向上，不含有任何含色情/反动/暴力等违法违规内容。",
+	[Key.friendsNoticeHttps]:
+		"支持 HTTPS，以原创内容为主，能够正常访问且有持续更新。",
+	[Key.friendsApplyTemplate]: "友链申请模板",
+	[Key.friendsApplyHint]: "请在下方评论区留言申请友链，使用以下格式：",
 	[Key.untitled]: "无标题",
 	[Key.uncategorized]: "未分类",
 	[Key.noTags]: "无标签",
@@ -75,7 +85,6 @@ export const zh_CN: Translation = {
 	[Key.diary]: "日记",
 
 	// 番剧页面
-	[Key.animeTitle]: "我的追番记录",
 	[Key.animeSubtitle]: "记录我的二次元之旅",
 	[Key.animeStatusWatching]: "在看",
 	[Key.animeStatusCompleted]: "看过",
@@ -90,10 +99,12 @@ export const zh_CN: Translation = {
 	[Key.animeEmptyBilibili]:
 		"Bilibili 数据为空，请运行 pnpm run update-bilibili 获取数据",
 	[Key.animeSetBangumiUserId]:
-		"请在 src/config/user.ts 文件中设置你的 Bangumi userID",
+		"请在 src/config/user/site.ts 文件中设置你的 Bangumi userID",
 	[Key.animeSetBilibiliVmId]:
-		"请在 src/config/user.ts 文件中设置你的 Bilibili vmID",
-	[Key.animeEmptyLocal]: "请在 src/data/anime.ts 文件中添加番剧信息",
+		"请在 src/config/user/site.ts 文件中设置你的 Bilibili vmID",
+	[Key.animeEmptyLocal]:
+		"请在 src/config/user/anime-data.ts 文件中添加番剧信息",
+	[Key.animeFilterEmpty]: "该分类下暂无番剧",
 
 	// 短文页面
 	[Key.diarySubtitle]: "随时随地，分享生活",
@@ -140,6 +151,7 @@ export const zh_CN: Translation = {
 	[Key.musicPlayerSettingsServer]: "音乐平台",
 	[Key.musicPlayerSettingsType]: "类型",
 	[Key.musicPlayerSettingsApply]: "应用",
+	[Key.musicPlayerSettingsReset]: "重置",
 	[Key.musicPlayerServerNetease]: "网易云音乐",
 	[Key.musicPlayerServerTencent]: "QQ音乐",
 	[Key.musicPlayerServerKugou]: "酷狗音乐",
@@ -202,7 +214,6 @@ export const zh_CN: Translation = {
 	[Key.skillsDatabase]: "数据库",
 	[Key.skillsTools]: "开发工具",
 	[Key.skillsOther]: "其他技能",
-	[Key.skillLevel]: "熟练度",
 	[Key.skillLevelBeginner]: "初学者",
 	[Key.skillLevelIntermediate]: "中级",
 	[Key.skillLevelAdvanced]: "高级",
@@ -211,16 +222,8 @@ export const zh_CN: Translation = {
 	[Key.skillYears]: "年",
 	[Key.skillMonths]: "个月",
 	[Key.skillsTotal]: "总技能数",
-	[Key.skillsExpert]: "专家级",
-	[Key.skillsAdvanced]: "高级",
-	[Key.skillsIntermediate]: "中级",
-	[Key.skillsBeginner]: "初级",
 	[Key.skillsAdvancedTitle]: "专业技能",
-	[Key.skillsProjects]: "相关项目",
-	[Key.skillsDistribution]: "技能分布",
-	[Key.skillsByLevel]: "按等级分布",
-	[Key.skillsByCategory]: "按分类分布",
-	[Key.noData]: "暂无数据",
+	[Key.skillsFilterEmpty]: "该分类下暂无技能",
 
 	// 时间线页面
 	[Key.timeline]: "时间线",
@@ -230,31 +233,26 @@ export const zh_CN: Translation = {
 	[Key.timelineProject]: "项目经历",
 	[Key.timelineAchievement]: "成就荣誉",
 	[Key.timelinePresent]: "至今",
-	[Key.timelineLocation]: "地点",
-	[Key.timelineDescription]: "详细描述",
 	[Key.timelineMonths]: "个月",
 	[Key.timelineYears]: "年",
 	[Key.timelineTotal]: "总计",
-	[Key.timelineProjects]: "项目数",
-	[Key.timelineExperience]: "工作经验",
 	[Key.timelineCurrent]: "当前状态",
-	[Key.timelineHistory]: "历史记录",
 	[Key.timelineAchievements]: "成就荣誉",
-	[Key.timelineStartDate]: "开始日期",
-	[Key.timelineDuration]: "持续时间",
+	[Key.timelineFilterEmpty]: "该分类下暂无时间线记录",
 
 	// 反馈页面 - 联系站长方式模块
 	[Key.contactMe]: "联系站长",
 	[Key.contactEmail]: "通过发送电子邮箱方式联系站长",
+	[Key.viewEmail]: "查看邮箱",
+	[Key.emailIndex]: "邮箱地址 {n}",
+	[Key.openEmailLink]: "前往邮箱网站并复制邮箱地址。",
 	[Key.contactSocialFriends]: "通过添加社交软件好友方式联系站长",
-	[Key.addFriends]: "立即添加好友",
+	[Key.addFriends]: "添加好友",
 
 	// 赞助页面
 	[Key.sponsorsNotice1]:
 		"如果网站内容认为有帮助，欢迎通过以下方式支持我的创作，助力打造更优质内容，所有赞助将用于网站维护、服务器费用以及内容创作。",
 	[Key.sponsorsNotice2]: "感谢支持 BrightMoon 博客项目内容开发！",
-	[Key.wechatPay]: "微信",
-	[Key.aliPay]: "支付宝",
 	[Key.scanPayQRcode]: "扫码支付",
 	[Key.sponsorsPartner]: "已赞助的小伙伴",
 	[Key.otherSupportOptions]: "其它支持方式",
@@ -308,8 +306,6 @@ export const zh_CN: Translation = {
 	[Key.rssBenefit3]: "避免错过重要更新和文章",
 	[Key.rssBenefit4]: "享受无广告的纯净阅读体验",
 	[Key.rssHowToUse]: "推荐使用 Feedly、Inoreader 或其他 RSS 阅读器来订阅本站。",
-	[Key.rssCopied]: "RSS 链接已复制到剪贴板",
-	[Key.rssCopyFailed]: "复制失败，请手动复制链接",
 
 	// Atom 页面
 	[Key.atom]: "Atom 订阅",
@@ -328,8 +324,6 @@ export const zh_CN: Translation = {
 	[Key.atomBenefit4]: "享受无广告的纯净阅读体验",
 	[Key.atomHowToUse]:
 		"推荐使用 Feedly、Inoreader 或其他 Atom 阅读器来订阅本站。",
-	[Key.atomCopied]: "Atom 链接已复制到剪贴板",
-	[Key.atomCopyFailed]: "复制失败，请手动复制链接",
 
 	// 壁纸模式
 	[Key.wallpaperMode]: "壁纸模式",
@@ -411,36 +405,26 @@ export const zh_CN: Translation = {
 	[Key.shareOnSocial]: "分享",
 	[Key.shareOnSocialDescription]: "如果这篇文章对你有帮助，欢迎分享给更多人！",
 
-	// 个人资料
-	[Key.profileStatsLoading]: "统计加载中...",
-	[Key.profileStatsPageViews]: "浏览量",
-	[Key.profileStatsVisits]: "访问次数",
-	[Key.profileStatsUnavailable]: "统计不可用",
-
 	// 文章列表布局
 	[Key.postListLayout]: "文章列表布局",
 	[Key.listMode]: "列表",
 	[Key.gridMode]: "网格",
 
-	// 页面访问量统计
-	[Key.pageViewsLoading]: "统计加载中...",
-	[Key.pageViewsUnavailable]: "统计不可用",
-
 	// 外部链接提示框
 	[Key.leaveSite]: "离开本站",
 	[Key.goToExternalLink]: "您即将前往外部链接：",
-	[Key.warningText]: "请注意您的账号与财产安全",
+	[Key.warningText]: "请注意您的账号与财产安全。",
 	[Key.confirmText]: "继续访问",
 	[Key.cancelText]: "取消",
 
 	// 添加社交软件好友
 	[Key.copyAccount]: "复制账号",
-	[Key.copyAccountSuccess]: "已复制到剪贴板",
 	[Key.openAppAdd]: "打开App添加",
 
 	// 天气组件
 	[Key.weather]: "天气",
-	[Key.weatherNoApiKey]: "请在 src/config/user.ts 中添加 WeatherAPI 密钥",
+	[Key.weatherNoApiKey]:
+		"请在 src/config/user/weather.ts 中添加 WeatherAPI 密钥",
 	[Key.weatherLocationDisabled]: "因拒绝隐私协议，天气定位服务已关闭",
 	[Key.weatherWaitingConsent]: "等待天气定位授权...",
 	[Key.weatherDefaultLocationHint]:
@@ -489,11 +473,27 @@ export const zh_CN: Translation = {
 	[Key.cookieConsentIpTimeout]: "位置信息获取超时，请稍后再试",
 	[Key.cookieConsentAccept]: "我接受",
 	[Key.cookieConsentReject]: "全部拒绝",
+	[Key.cookieConsentLearnMore]: "查看隐私声明",
+	[Key.cookieConsentPrivacyTitle]: "BrightMoon 隐私声明",
+	[Key.cookieConsentPrivacyIntro]:
+		"我们重视您的隐私。本页面详细说明了我们如何使用 Cookie 和类似技术，以及我们收集的数据类型和用途。",
+	[Key.cookieConsentPrivacyEssential]:
+		"必要 Cookie：这些 Cookie 是网站正常运行所必需的，包括保存您的隐私选择、维持会话状态等。无法关闭。",
+	[Key.cookieConsentPrivacyAnalytics]:
+		"分析 Cookie：我们使用这些 Cookie 来了解网站的访问情况，例如页面浏览量、访问来源等，以帮助我们改进网站体验。",
+	[Key.cookieConsentPrivacyAdvertising]:
+		"广告 Cookie：这些 Cookie 用于提供与您更相关的广告内容，并衡量广告活动的效果。",
+
+	[Key.cookieConsentPrivacyThirdParty]:
+		"第三方服务：我们集成了一些第三方服务（如天气定位、Twikoo 评论系统等），这些服务可能会收集和使用您的数据。",
+	[Key.cookieConsentPrivacyRejectNotice]: "拒绝隐私协议将禁用部分功能。",
+	[Key.cookieConsentPrivacyClose]: "关闭",
 
 	// Twikoo 评论系统
 	[Key.twikooInitializing]: "正在初始化 Twikoo 评论系统...",
 	[Key.twikooNotConfigured]: "Twikoo 评论系统暂未配置",
-	[Key.twikooConfigHint]: "请在 src/config/user.ts 中配置 Twikoo 评论系统",
+	[Key.twikooConfigHint]:
+		"请在 src/config/user/comment.ts 中配置 Twikoo 评论系统",
 	[Key.twikooPrivacyRejected]: "因拒绝隐私协议，Twikoo 评论系统已关闭",
 
 	// 版本更新检测
@@ -505,12 +505,12 @@ export const zh_CN: Translation = {
 	[Key.versionPreRelease]: "测试版",
 	[Key.versionCheckFailedTitle]: "检查更新失败",
 	[Key.versionCheckFailedDesc]:
-		"无法检查更新，通常是由于远程仓库请求频率限制或者没有填入远程仓库 API 地址导致更新失败，请稍后再试",
+		"无法检查更新，通常是由于远程仓库请求频率限制或者没有填入远程仓库 API 地址导致更新失败，请稍后再试。",
 	[Key.versionCheckSuccessTitle]: "检查成功",
-	[Key.versionCheckSuccessDesc]: "目前没有发现新版本，您已是最新版本",
+	[Key.versionCheckSuccessDesc]: "目前没有发现新版本，您已是最新版本。",
 	[Key.versionDownload]: "下载最新版本",
 	[Key.versionUpdateWarning]:
-		"推荐使用 BrightMoon 博客框架升级工具，升级前请备份好数据",
+		"推荐使用 BrightMoon 博客框架升级工具，升级前请备份好数据。",
 
 	// 面包屑导航
 	[Key.suggestion]: "你可能想访问",

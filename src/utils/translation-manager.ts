@@ -1,3 +1,7 @@
+/**
+ * 翻译管理器 - 统一管理 translate.js 的加载、初始化与语言切换
+ */
+
 import { siteConfig } from "@/config";
 import { applyI18nToDOM, clearI18nMarkers } from "@/utils/i18n-dom-updater";
 import {
@@ -338,6 +342,17 @@ export const translationManager: TranslationManagerInstance = {
 		return () => {
 			if (renderers.get(key) === renderer) renderers.delete(key);
 		};
+	},
+
+	/** 对指定子树立即执行一次机器翻译（内部排队并等待空闲，供动态插入内容使用） */
+	translateRoot(root: HTMLElement): Promise<void> {
+		if (!isBrowser()) return Promise.resolve();
+		return enqueue(async () => {
+			await init().catch(() => {});
+			const t = window.translate;
+			if (!t || !root.isConnected) return;
+			await execTranslate([root]);
+		});
 	},
 
 	isActive(): boolean {

@@ -1,3 +1,7 @@
+/**
+ * robots.txt 生成 - 输出搜索引擎爬虫规则
+ */
+
 import type { APIRoute } from "astro";
 
 const robotsTxt = `

@@ -1,9 +1,7 @@
 ---
-import { getEntry, render } from "astro:content";
-import Markdown from "@components/misc/Markdown.astro";
-// import Icon from "../components/misc/Icon.astro";
-import { siteConfig } from "../config";
-import { getShuffledFriendsList } from "../data/friends";
+import Twikoo from "@components/comment/Twikoo.astro";
+import { Icon } from "astro-icon/components";
+import { commentConfig, friendsDataConfig, siteConfig } from "../config";
 import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
 import MainGridLayout from "../layouts/MainGridLayout.astro";
@@ -13,13 +11,23 @@ if (!siteConfig.featurePages.friends) {
 	return Astro.redirect("/404/");
 }
 
-const friendsPost = await getEntry("spec", "friends");
+const path = Astro.url.pathname;
 
-if (!friendsPost) {
-	throw new Error("friends page content not found");
+let commentService = "";
+if (commentConfig?.enable && commentConfig?.twikoo) {
+	commentService = "twikoo";
 }
 
-const { Content } = await render(friendsPost);
+// 友链数据工具函数
+const getShuffledFriendsList = () => {
+	const shuffled = [...friendsDataConfig.items];
+	for (let i = shuffled.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+	}
+	return shuffled;
+};
+
 const friendsList = getShuffledFriendsList();
 
 // 获取所有标签
@@ -39,12 +47,12 @@ const allTags = Array.from(new Set(friendsList.flatMap((item) => item.tags)));
 		<div class="card-base z-10 px-9 py-6 relative w-full">
       <!-- 页面标题 -->
       <div class="flex flex-col items-start justify-center mb-8">
-        <h1 class="text-4xl font-bold text-black/90 dark:text-white/90 mb-2 relative
+        <h1 class="text-4xl font-bold text-90 mb-2 relative
                   before:w-1 before:h-8 before:rounded-md before:bg-[var(--primary)]
                   before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-4">
           {i18n(I18nKey.friends)}
         </h1>
-        <p class="text-lg text-black/60 dark:text-white/60">
+        <p class="text-lg text-60">
           {i18n(I18nKey.friendsSubtitle)}
         </p>
 			</div>
@@ -58,17 +66,9 @@ const allTags = Array.from(new Set(friendsList.flatMap((item) => item.tags)));
 							type="text" 
 							id="friend-search"
 							placeholder={i18n(I18nKey.friendsSearchPlaceholder)}
-							class="w-full px-4 py-2 pl-10 rounded-lg bg-[var(--btn-regular-bg)] 
-									text-black/90 dark:text-white/90
-									border border-black/10 dark:border-white/10
-									focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50
-									transition-all duration-200"
+							class="w-full px-4 py-2 pl-10 rounded-lg bg-[var(--card-bg)] border border-[var(--line-divider)] text-75 placeholder-60 focus:outline-none focus:border-[var(--primary)] transition-colors"
 						/>
-						<svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-black/40 dark:text-white/40" 
-							 fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-								d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-						</svg>
+						<Icon name="material-symbols:search" class="!text-[var(--primary)] absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-40" />
 					</div>
 				</div>
 
@@ -121,16 +121,16 @@ const allTags = Array.from(new Set(friendsList.flatMap((item) => item.tags)));
 
 								<!-- 标题和链接 -->
 								<div class="flex-1 min-w-0">
-									<h3 class="ignore text-xl font-bold text-black/90 dark:text-white/90 mb-1 truncate
-												 group-hover:text-[var(--primary)] transition-colors duration-200">
+									<h2 class="ignore text-xl font-bold text-90 mb-1 truncate
+												 group-hover:text-[var(--primary)] transition-colors duration-300">
 										{item.title}
-									</h3>
+									</h2>
 									<a 
 										href={item.siteurl} 
 										target="_blank" 
 										rel="noopener noreferrer"
-										class="text-xs text-black/50 dark:text-white/50 hover:text-[var(--primary)] 
-												 truncate block transition-colors duration-200"
+										class="text-xs text-60 hover:text-[var(--primary)] 
+												 truncate block transition-colors duration-300"
 									>
 										{new URL(item.siteurl).hostname}
 									</a>
@@ -138,16 +138,14 @@ const allTags = Array.from(new Set(friendsList.flatMap((item) => item.tags)));
 							</div>
 
 							<!-- 描述 -->
-							<p class="text-sm text-black/60 dark:text-white/60 mb-4 line-clamp-2 min-h-[2.5rem]" title={item.desc}>
+							<p class="text-sm text-60 mb-4 line-clamp-2 min-h-[2.5rem]" title={item.desc}>
 								{item.desc}
 							</p>
 
 							<!-- 标签 -->
 							<div class="flex flex-wrap gap-2 mb-4">
 								{item.tags.map(tag => (
-									<span class="px-2 py-1 text-xs rounded-md 
-													bg-[var(--primary)]/10 text-[var(--primary)] 
-													font-medium">
+									<span class="px-3 py-1.5 text-xs bg-[var(--btn-regular-bg)] text-[var(--btn-content)] dark:bg-[var(--btn-regular-bg)] rounded-md">
 										{tag}
 									</span>
 								))}
@@ -159,10 +157,9 @@ const allTags = Array.from(new Set(friendsList.flatMap((item) => item.tags)));
 									href={item.siteurl}
 									target="_blank"
 									rel="noopener noreferrer"
-									class="flex-1 flex items-center justify-center gap-2 px-4 py-2 
-											 rounded-lg bg-[var(--primary)] text-white 
-											 hover:bg-[var(--primary)]/90 
-											 active:scale-95 transition-all duration-200
+									class="btn-regular flex-1 flex items-center justify-center gap-2 px-4 py-2 
+											 rounded-lg text-[var(--btn-content)] 
+											 active:scale-95 transition-all duration-300
 											 font-medium text-sm"
 								>
 									<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -172,14 +169,12 @@ const allTags = Array.from(new Set(friendsList.flatMap((item) => item.tags)));
 									{i18n(I18nKey.friendsVisit)}
 								</a>
 								<button 
-									class="copy-link-btn px-3 py-2 rounded-lg 
-											 bg-[var(--btn-regular-bg)] 
+									class="copy-link-btn btn-regular px-3 py-2 rounded-lg 
 											 hover:bg-[var(--btn-regular-bg-hover)] 
-											 active:scale-95 transition-all duration-200
-											 text-black/70 dark:text-white/70"
+											 active:scale-95 transition-all duration-300
+											"
 									data-url={item.siteurl}
-									data-copied-text={i18n(I18nKey.friendsCopySuccess)}
-									title={i18n(I18nKey.friendsCopyLink)}
+										title={i18n(I18nKey.friendsCopyLink)}
 								>
 									<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
@@ -198,25 +193,208 @@ const allTags = Array.from(new Set(friendsList.flatMap((item) => item.tags)));
 			</div>
 
 			<!-- 无结果提示 -->
-			<div id="no-results" class="hidden text-center py-12">
-				<svg class="w-16 h-16 mx-auto mb-4 text-black/20 dark:text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-						d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-				</svg>
-				<p class="text-black/50 dark:text-white/50 text-lg">{i18n(I18nKey.friendsNoResults)}</p>
-			</div>
+		<div id="no-results" class="hidden text-center py-12">
+			<Icon name="material-symbols:sentiment-dissatisfied" class="w-16 h-16 mx-auto mb-4 text-40" />
+			<p class="text-60 text-lg">{i18n(I18nKey.friendsNoResults)}</p>
+		</div>
 
-			<!-- 说明文档 -->
-			<Markdown class="mt-8 prose dark:prose-invert max-w-none">
-				<Content />
-			</Markdown>
-			
+		<!-- 友链申请模板 -->
+		<div class="mt-8 p-6 rounded-xl border border-black/10 dark:border-white/10 bg-[var(--btn-regular-bg)]/30">
+			<h2 class="text-xl font-bold text-90 mb-4 flex items-center">
+                <div class="w-8 h-8 bg-[var(--btn-regular-bg)] rounded-lg flex items-center justify-center mr-3">
+                    <Icon
+                        name="material-symbols:description-outline"
+                        class="text-[var(--btn-content)] text-xl"
+                    />
+                </div>
+                {i18n(I18nKey.friendsApplyTemplate)}
+            </h2>
+			<p class="text-sm text-75 mb-3">{i18n(I18nKey.friendsApplyHint)}</p>
+			<div class="relative">
+				<div id="friend-template-code" class="bg-[var(--card-bg)] rounded-xl p-4 font-mono text-sm text-75 space-y-1 border border-black/10 dark:border-white/10 ignore">
+					<div><span class="text-[var(--btn-content)]">title: </span>&quot;BrightMoon blog&quot;,</div>
+					<div><span class="text-[var(--btn-content)]">imgurl: </span>&quot;https://your-site.com/avatar.png (site icon / avatar URL)&quot;,</div>
+					<div><span class="text-[var(--btn-content)]">desc: </span>&quot;Modern, feature-rich static blog&quot;,</div>
+					<div><span class="text-[var(--btn-content)]">siteurl: </span>&quot;https://your-site.com (your site homepage URL)&quot;,</div>
+					<div><span class="text-[var(--btn-content)]">tags: </span>[&quot;blog&quot;],</div>
+				</div>
+				<button
+					id="copy-template-btn"
+					class="copy-link-btn btn-regular absolute bottom-3 right-3 px-2 py-2 rounded-lg
+							 bg-[var(--btn-regular-bg)]
+							 text-[var(--btn-content)]
+							 hover:bg-[var(--btn-regular-bg-hover)]
+							 active:scale-95 transition-all duration-300"
+					title={i18n(I18nKey.friendsCopyLink)}
+				>
+					<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+							d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+					</svg>
+				</button>
+			</div>
+		</div>
+
+		<!-- 注意事项 -->
+		<div class="mt-8 p-6 rounded-xl border border-black/10 dark:border-white/10 bg-[var(--btn-regular-bg)]/30">
+			<h2 class="text-xl font-bold text-90 mb-4 flex items-center">
+                <div class="w-8 h-8 bg-[var(--btn-regular-bg)] rounded-lg flex items-center justify-center mr-3">
+                    <Icon
+                        name="material-symbols:info-outline"
+                        class="text-[var(--btn-content)] text-xl"
+                    />
+                </div>
+                {i18n(I18nKey.friendsNoticeTitle)}
+            </h2>
+			<ul class="space-y-2 text-sm text-75">
+				<li class="flex items-start gap-3">
+					<span class="w-1.5 h-1.5 rounded-full bg-[var(--primary)] mt-[0.6em] flex-shrink-0"></span>
+					<span class="text-base text-75">{i18n(I18nKey.friendsNoticeReciprocal)}</span>
+				</li>
+				<li class="flex items-start gap-3">
+					<span class="w-1.5 h-1.5 rounded-full bg-[var(--primary)] mt-[0.6em] flex-shrink-0"></span>
+					<span class="text-base text-75">{i18n(I18nKey.friendsNoticeMaintenance)}</span>
+				</li>
+				<li class="flex items-start gap-3">
+					<span class="w-1.5 h-1.5 rounded-full bg-[var(--primary)] mt-[0.6em] flex-shrink-0"></span>
+					<span class="text-base text-75">{i18n(I18nKey.friendsNoticeContent)}</span>
+				</li>
+				<li class="flex items-start gap-3">
+					<span class="w-1.5 h-1.5 rounded-full bg-[var(--primary)] mt-[0.6em] flex-shrink-0"></span>
+					<span class="text-base text-75">{i18n(I18nKey.friendsNoticeHttps)}</span>
+				</li>
+			</ul>
+		</div>
 
 		</div>
 	</div>
 	
 	<!-- 引用全局脚本 -->
 	<script is:inline src="/js/friends-page-handler.js"></script>
+
+	<br />
+
+	<!-- Twikoo 评论系统 -->
+	<div class="card-base p-6 mb-4">
+		<div
+			id="twikoo-initializing"
+			class="flex flex-col items-center justify-center py-12 text-center"
+		>
+			<div class="twikoo-spinner mb-3">
+				<svg class="twikoo-spinner-svg" viewBox="0 0 48 48">
+					<circle
+						class="twikoo-spinner-track"
+						cx="24"
+						cy="24"
+						r="20"
+						fill="none"
+						stroke-width="4"></circle>
+					<circle
+						class="twikoo-spinner-arc"
+						cx="24"
+						cy="24"
+						r="20"
+						fill="none"
+						stroke-width="4"
+						stroke-linecap="round"></circle>
+				</svg>
+			</div>
+			<p class="text-lg font-bold text-90">
+				{i18n(I18nKey.twikooInitializing)}
+			</p>
+		</div>
+		{
+			commentService === "twikoo" && (
+				<div id="twikoo-comment-container" class="hidden">
+					<Twikoo path={path} />
+				</div>
+			)
+		}
+		<div
+			id="twikoo-not-configured"
+			class="hidden flex-col items-center justify-center py-12 text-center"
+		>
+			<div
+				class="w-16 h-16 rounded-xl flex items-center justify-center bg-[var(--btn-regular-bg)] text-[var(--btn-content)] mb-4"
+			>
+				<Icon
+					name="material-symbols:chat-bubble-off-outline"
+					class="text-4xl"
+				/>
+			</div>
+			<p class="text-lg font-bold text-90">
+				{i18n(I18nKey.twikooNotConfigured)}
+			</p>
+			<p class="text-sm text-60 mt-1">
+				{i18n(I18nKey.twikooConfigHint)}
+			</p>
+		</div>
+		<div
+			id="twikoo-privacy-rejected"
+			class="hidden flex-col items-center justify-center py-12 text-center"
+		>
+			<div
+				class="w-16 h-16 rounded-xl flex items-center justify-center bg-[var(--btn-regular-bg)] text-[var(--btn-content)] mb-4"
+			>
+				<Icon name="material-symbols:block-outline" class="text-4xl" />
+			</div>
+			<p class="text-lg font-bold text-90">
+				{i18n(I18nKey.twikooPrivacyRejected)}
+			</p>
+		</div>
+		<script is:inline>
+			(function () {
+				var consent = localStorage.getItem("siteNoticeConsent");
+				var initializing = document.getElementById("twikoo-initializing");
+				var twikooContainer = document.getElementById(
+					"twikoo-comment-container",
+				);
+				var notConfigured = document.getElementById("twikoo-not-configured");
+				var privacyRejected = document.getElementById(
+					"twikoo-privacy-rejected",
+				);
+
+				function updateTwikooState(c) {
+					if (c !== "accepted" && c !== "rejected") return;
+					if (initializing) initializing.classList.add("hidden");
+					if (c === "rejected") {
+						if (twikooContainer) twikooContainer.classList.add("hidden");
+						if (notConfigured) {
+							notConfigured.classList.add("hidden");
+							notConfigured.classList.remove("flex");
+						}
+						if (privacyRejected) {
+							privacyRejected.classList.remove("hidden");
+							privacyRejected.classList.add("flex");
+						}
+					} else {
+						if (privacyRejected) {
+							privacyRejected.classList.add("hidden");
+							privacyRejected.classList.remove("flex");
+						}
+						if (twikooContainer) {
+							twikooContainer.classList.remove("hidden");
+							if (notConfigured) {
+								notConfigured.classList.add("hidden");
+								notConfigured.classList.remove("flex");
+							}
+						} else {
+							if (notConfigured) {
+								notConfigured.classList.remove("hidden");
+								notConfigured.classList.add("flex");
+							}
+						}
+					}
+				}
+
+				updateTwikooState(consent);
+
+				window.addEventListener("siteNoticeConsentChange", function (e) {
+					updateTwikooState(e.detail);
+				});
+			})();
+		</script>
+	</div>
 </MainGridLayout>
 
 <style>
@@ -286,5 +464,49 @@ const allTags = Array.from(new Set(friendsList.flatMap((item) => item.tags)));
 		color: white !important;
 		border-color: var(--primary) !important;
 		transform: translateY(-1px);
+	}
+
+	/* Twikoo 加载动画 */
+	.twikoo-spinner {
+		width: 40px;
+		height: 40px;
+	}
+
+	.twikoo-spinner-svg {
+		width: 100%;
+		height: 100%;
+		animation: twikoo-spinner-rotate 2s linear infinite;
+	}
+
+	.twikoo-spinner-track {
+		stroke: rgba(156, 163, 175, 0.2);
+	}
+
+	.twikoo-spinner-arc {
+		stroke: var(--primary);
+		stroke-dasharray: 80, 200;
+		stroke-dashoffset: 0;
+		animation: twikoo-spinner-dash 1.5s ease-in-out infinite;
+	}
+
+	@keyframes twikoo-spinner-rotate {
+		100% {
+			transform: rotate(360deg);
+		}
+	}
+
+	@keyframes twikoo-spinner-dash {
+		0% {
+			stroke-dasharray: 1, 200;
+			stroke-dashoffset: 0;
+		}
+		50% {
+			stroke-dasharray: 80, 200;
+			stroke-dashoffset: -35;
+		}
+		100% {
+			stroke-dasharray: 80, 200;
+			stroke-dashoffset: -124;
+		}
 	}
 </style>

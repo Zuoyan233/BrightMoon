@@ -5,18 +5,17 @@ import DailyQuote from "./DailyQuote.astro";
 import SiteStats from "./SiteStats.astro";
 import Weather from "./Weather.astro";
 
-// 获取右侧栏组件配置
+// 获取右侧栏组件配置：仅保留 sidebar === "right" 且 enable 的组件
 const rightSidebarComponents = sidebarLayoutConfig.components.filter(
 	(component) => {
-		// 只显示右侧栏且启用的组件
 		return component.enable && component.sidebar === "right";
 	},
 );
 
-// 按顺序排序组件
+// 按 order 字段排序
 rightSidebarComponents.sort((a, b) => a.order - b.order);
 
-// 分离顶部固定和粘性定位的组件
+// 分离顶部固定区域和粘性定位区域的组件
 const topComponents = rightSidebarComponents.filter(
 	(component) => component.position === "top",
 );
@@ -25,6 +24,7 @@ const stickyComponents = rightSidebarComponents.filter(
 );
 ---
 
+<!-- 右侧边栏（独立配置版）：按 sidebarLayoutConfig 渲染右侧栏组件 -->
 <div class="right-sidebar" id="right-sidebar">
   <!-- 顶部固定区域 -->
   <div class="sidebar-top">

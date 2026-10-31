@@ -7,7 +7,7 @@ import { getSortedPostsList } from "@utils/content-utils";
 
 const sortedPostsList = await getSortedPostsList();
 
-// 1. 修复类型兼容性：将 category 的 null 转换为 undefined
+// 修复类型兼容性：将 category 的 null 转换为 undefined
 const posts = sortedPostsList.map((post) => ({
 	...post,
 	data: {
@@ -16,10 +16,10 @@ const posts = sortedPostsList.map((post) => ({
 	},
 }));
 
-// 2. 提取所有标签 (去重)
+// 提取所有标签 (去重)
 const tags = [...new Set(posts.flatMap((post) => post.data.tags))];
 
-// 3. 提取所有分类 (去重且过滤掉 undefined)
+// 提取所有分类 (去重且过滤掉 undefined)
 const categories = [
 	...new Set(
 		posts
@@ -35,7 +35,7 @@ const categories = [
         import('../scripts/right-sidebar-layout.js');
     </script>
 
-    <!-- 修复：补全缺失的 tags 和 categories 属性 -->
+    <!-- tags 和 categories 属性 -->
     <ArchivePanel
             sortedPosts={posts}
             tags={tags}

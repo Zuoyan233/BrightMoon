@@ -50,7 +50,7 @@ function getInitialCurrentSong(): Song {
 				id: Number(first.id) || 1,
 				title: first.title || i18n(Key.unknownSong),
 				artist: first.artist || i18n(Key.unknownArtist),
-				cover: first.cover || "/favicon/Vinyl record.ico",
+				cover: first.cover,
 				url: first.url || "",
 				lrc: first.lrc,
 				duration: first.duration || 0,
@@ -61,7 +61,7 @@ function getInitialCurrentSong(): Song {
 		id: 0,
 		title: i18n(Key.unknownSong),
 		artist: i18n(Key.unknownArtist),
-		cover: "/favicon/Vinyl record.ico",
+		cover: musicPlayerConfig.defaultCover,
 		url: "",
 		duration: 0,
 	};
@@ -433,6 +433,48 @@ async function sharedFetchMetingPlaylist() {
 	}
 }
 
+const MP_STORAGE_KEY = "brightmoon:mp:settings";
+
+function loadStoredSettings(): {
+	id?: string;
+	server?: string;
+	type?: string;
+} | null {
+	try {
+		const raw = localStorage.getItem(MP_STORAGE_KEY);
+		if (!raw) return null;
+		const parsed = JSON.parse(raw);
+		if (parsed && typeof parsed === "object") {
+			return {
+				id: typeof parsed.id === "string" ? parsed.id : undefined,
+				server: typeof parsed.server === "string" ? parsed.server : undefined,
+				type: typeof parsed.type === "string" ? parsed.type : undefined,
+			};
+		}
+	} catch {}
+	return null;
+}
+
+function saveStoredSettings(settings: {
+	id: string;
+	server: string;
+	type: string;
+}): void {
+	try {
+		localStorage.setItem(MP_STORAGE_KEY, JSON.stringify(settings));
+	} catch {}
+}
+
+// 初始化时从 localStorage 读取设置并覆盖到 musicPlayerConfig
+const storedSettings = loadStoredSettings();
+if (storedSettings) {
+	if (storedSettings.id !== undefined) musicPlayerConfig.id = storedSettings.id;
+	if (storedSettings.server !== undefined)
+		musicPlayerConfig.server = storedSettings.server;
+	if (storedSettings.type !== undefined)
+		musicPlayerConfig.type = storedSettings.type;
+}
+
 function sharedInitPlaylist() {
 	const mode = musicPlayerConfig.mode ?? "meting";
 	// 如果已经初始化且模式没有变化，则跳过
@@ -459,6 +501,7 @@ import Icon from "@iconify/svelte";
 import { onDestroy, onMount, tick } from "svelte";
 import { slide } from "svelte/transition";
 import { siteConfig } from "../../config";
+import { defaultMusicPlayerConfig } from "../../config/defaults/music-player";
 import { getTranslation } from "../../i18n/translation";
 import { translationManager } from "../../utils/translation-manager";
 
@@ -472,9 +515,24 @@ let showLyrics = $state(musicPlayerConfig.showLyrics ?? false);
 let showSettings = $state(false);
 
 let isLocalMode = $derived(musicPlayerConfig.mode === "local");
-let settingsId = $state(musicPlayerConfig.id ?? "766208154");
-let settingsServer = $state(musicPlayerConfig.server ?? "netease");
+
+// 面板初始默认值（以站点默认配置为基准，重置时写回并写入 localStorage）
+const settingsDefaults = {
+	type: defaultMusicPlayerConfig.type,
+	server: defaultMusicPlayerConfig.server,
+	id: defaultMusicPlayerConfig.id,
+};
+
+// 面板编辑值统一用本地 $state 快照驱动 UI，musicPlayerConfig 是普通对象，写入后不会触发 $derived
 let settingsType = $state(musicPlayerConfig.type ?? "playlist");
+let settingsServer = $state(musicPlayerConfig.server ?? "netease");
+let settingsId = $state(musicPlayerConfig.id ?? "766208154");
+
+let settingsIsDefault = $derived(
+	settingsType === settingsDefaults.type &&
+		settingsServer === settingsDefaults.server &&
+		settingsId === settingsDefaults.id,
+);
 let settingsPanel: HTMLElement | undefined = $state();
 let playerRoot: HTMLElement | undefined = $state();
 
@@ -509,7 +567,7 @@ let currentI18n = $derived(
 		? getTranslation(
 				translationManager.isActive()
 					? translationManager.getConfigLanguage()
-					: siteConfig.lang || "en",
+					: siteConfig.lang,
 			)
 		: null,
 );
@@ -554,11 +612,10 @@ let downloadTitle = $derived(currentI18n?.[Key.musicPlayerDownload] ?? "");
 let errorMessage = $derived(
 	sharedErrorKey && currentI18n ? (currentI18n[sharedErrorKey as keyof typeof currentI18n] ?? "") : "",
 );
-let settingsIdLabel = $derived(currentI18n?.[Key.musicPlayerSettingsId] ?? "");
-let settingsServerLabel = $derived(currentI18n?.[Key.musicPlayerSettingsServer] ?? "");
 let settingsTypeLabel = $derived(currentI18n?.[Key.musicPlayerSettingsType] ?? "");
-let settingsApplyLabel = $derived(currentI18n?.[Key.musicPlayerSettingsApply] ?? "");
-let settingsCancelLabel = $derived(currentI18n?.[Key.cancelText] ?? "");
+let settingsServerLabel = $derived(currentI18n?.[Key.musicPlayerSettingsServer] ?? "");
+let settingsIdLabel = $derived(currentI18n?.[Key.musicPlayerSettingsId] ?? "");
+let settingsResetLabel = $derived(currentI18n?.[Key.musicPlayerSettingsReset] ?? "");
 let settingsNeteaseLabel = $derived(currentI18n?.[Key.musicPlayerServerNetease] ?? "");
 let settingsTencentLabel = $derived(currentI18n?.[Key.musicPlayerServerTencent] ?? "");
 let settingsKugouLabel = $derived(currentI18n?.[Key.musicPlayerServerKugou] ?? "");
@@ -653,16 +710,15 @@ function toggleSettings() {
 	if (showSettings) {
 		showLyrics = false;
 		showPlaylist = false;
-		settingsId = musicPlayerConfig.id ?? "766208154";
-		settingsServer = musicPlayerConfig.server ?? "netease";
-		settingsType = musicPlayerConfig.type ?? "playlist";
 	}
 }
 
-function applySettings() {
-	musicPlayerConfig.id = settingsId;
-	musicPlayerConfig.server = settingsServer;
-	musicPlayerConfig.type = settingsType;
+function reloadPlaylist() {
+	saveStoredSettings({
+		id: musicPlayerConfig.id ?? "",
+		server: musicPlayerConfig.server,
+		type: musicPlayerConfig.type,
+	});
 	sharedInitialized = false;
 	sharedInitializedMode = null;
 	sharedPlaylist = [];
@@ -676,12 +732,41 @@ function applySettings() {
 		id: 0,
 		title: i18n(Key.unknownSong),
 		artist: i18n(Key.unknownArtist),
-		cover: "/favicon/Vinyl record.ico",
+		cover: musicPlayerConfig.defaultCover,
 		url: "",
 		duration: 0,
 	};
 	sharedInitPlaylist();
-	showSettings = false;
+}
+
+function updateSettingsType(value: string) {
+	settingsType = value;
+	musicPlayerConfig.type = value as typeof musicPlayerConfig.type;
+	reloadPlaylist();
+}
+
+function updateSettingsServer(value: string) {
+	settingsServer = value;
+	musicPlayerConfig.server = value;
+	reloadPlaylist();
+}
+
+function updateSettingsId(value: string) {
+	const trimmed = value.trim();
+	if (!trimmed) return;
+	settingsId = trimmed;
+	musicPlayerConfig.id = trimmed;
+	reloadPlaylist();
+}
+
+function resetSettings() {
+	settingsType = settingsDefaults.type;
+	settingsServer = settingsDefaults.server;
+	settingsId = settingsDefaults.id;
+	musicPlayerConfig.type = settingsDefaults.type;
+	musicPlayerConfig.server = settingsDefaults.server;
+	musicPlayerConfig.id = settingsDefaults.id;
+	reloadPlaylist();
 }
 
 function toggleShuffle() {
@@ -1293,12 +1378,12 @@ onMount(() => {
 
 function handleClickOutside(event: MouseEvent) {
 	if (!showSettings) return;
-	if (!settingsPanel) return;
 	const target = event.target as Node;
-	if (settingsPanel.contains(target)) return;
-	// 如果点击的是设置按钮，让按钮自己的 onclick 处理 toggle
-	const settingsBtn = playerRoot?.querySelector('[data-settings-btn]');
-	if (settingsBtn && (settingsBtn === target || settingsBtn.contains(target))) return;
+	// 标题栏上的设置 / 重置按钮由各自 onclick 处理，不视为点击外部
+	if (target instanceof Element) {
+		if (target.closest("[data-settings-btn], [data-settings-reset-btn]")) return;
+	}
+	if (settingsPanel?.contains(target)) return;
 	showSettings = false;
 }
 
@@ -1330,26 +1415,36 @@ onDestroy(() => {
 
 {#if musicPlayerConfig.enable}
 <div class="pb-4 card-base {className}">
-    <div class="font-bold transition text-lg text-neutral-900 dark:text-neutral-100 relative ml-8 mt-4 mb-2 flex items-center justify-between pr-4
+    <div class="font-bold transition text-lg text-90 relative ml-8 mt-4 mb-2 flex items-center justify-between pr-4
         before:w-1 before:h-4 before:rounded-md before:bg-[var(--primary)]
         before:absolute before:left-[-16px] before:top-[5.5px]">
         <span>{i18n(Key.musicPlayer)}</span>
         {#if !isLocalMode}
-        <button data-settings-btn class="btn-plain w-7 h-7 rounded-lg flex items-center justify-center"
-                class:btn-active={showSettings}
-                onclick={toggleSettings}
-                title={i18n(Key.musicPlayerSettings)}>
-            <Icon icon="material-symbols:settings-outline-rounded" class="text-xl" />
-        </button>
+        <div class="flex items-center gap-1">
+            {#if showSettings && !settingsIsDefault}
+            <button data-settings-reset-btn class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center duration-300"
+                    onclick={resetSettings}
+                    title={settingsResetLabel}>
+                <Icon icon="material-symbols:restart-alt-rounded" class="text-xl" />
+            </button>
+            {/if}
+            <button data-settings-btn class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center duration-300"
+                    class:btn-active={showSettings}
+                    onclick={toggleSettings}
+                    title={i18n(Key.musicPlayerSettings)}>
+                <Icon icon="material-symbols:settings-outline-rounded" class="text-xl" />
+            </button>
+        </div>
         {/if}
     </div>
     {#if showSettings && !isLocalMode}
     <div class="px-4 mb-2" transition:slide={{ duration: 200, axis: 'y' }}>
         <div bind:this={settingsPanel} class="rounded-lg p-3 bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))] space-y-3">
 			<div class="flex items-center gap-2">
-					<label for="mp-settings-type" class="text-sm text-[oklch(0.55_0.12_var(--hue))] dark:text-white/80 w-16 shrink-0">{settingsTypeLabel}</label>
-					<select id="mp-settings-type" bind:value={settingsType}
-							class="mp-select flex-1 text-sm px-2 py-1.5 rounded-lg bg-[var(--card-bg)] border border-[var(--line-divider)] text-neutral-700 dark:text-neutral-300 focus:outline-none focus:border-[var(--primary)] transition-colors">
+					<label for="mp-settings-type" class="text-sm text-[var(--primary)] dark:text-75 w-16 shrink-0">{settingsTypeLabel}</label>
+					<select id="mp-settings-type" value={settingsType}
+							onchange={(e) => updateSettingsType(e.currentTarget.value)}
+							class="mp-select flex-1 text-sm px-2 py-1.5 rounded-lg bg-[var(--card-bg)] border border-[var(--line-divider)] text-75 focus:outline-none focus:border-[var(--primary)] transition-colors">
 						<option value="playlist">{settingsPlaylistLabel}</option>
 						<option value="song">{settingsSongLabel}</option>
 						<option value="album">{settingsAlbumLabel}</option>
@@ -1357,28 +1452,24 @@ onDestroy(() => {
 					</select>
 			</div>
             <div class="flex items-center gap-2">
-                <label for="mp-settings-id" class="text-sm text-[oklch(0.55_0.12_var(--hue))] dark:text-white/80 w-16 shrink-0">{settingsIdLabel}</label>
+                <label for="mp-settings-id" class="text-sm text-[var(--btn-content)] dark:text-75 w-16 shrink-0">{settingsIdLabel}</label>
                 <input id="mp-settings-id" type="text" bind:value={settingsId}
-                       class="w-full flex-1 text-sm px-2 py-1.5 rounded-lg bg-[var(--card-bg)] border border-[var(--line-divider)] text-neutral-700 dark:text-neutral-300 placeholder-neutral-400 dark:placeholder-neutral-500 focus:outline-none focus:border-[var(--primary)] transition-colors" />
+                       onchange={() => updateSettingsId(settingsId)}
+                       onkeydown={(e) => {
+                           if (e.key === 'Enter') updateSettingsId(settingsId);
+                       }}
+                       onblur={() => updateSettingsId(settingsId)}
+                       class="w-full flex-1 text-sm px-2 py-1.5 rounded-lg bg-[var(--card-bg)] border border-[var(--line-divider)] text-75 placeholder-neutral-400 dark:placeholder-neutral-500 focus:outline-none focus:border-[var(--primary)] transition-colors" />
             </div>
             <div class="flex items-center gap-2">
-                <label for="mp-settings-server" class="text-sm text-[oklch(0.55_0.12_var(--hue))] dark:text-white/80 w-16 shrink-0">{settingsServerLabel}</label>
-                <select id="mp-settings-server" bind:value={settingsServer}
-                        class="mp-select flex-1 text-sm px-2 py-1.5 rounded-lg bg-[var(--card-bg)] border border-[var(--line-divider)] text-neutral-700 dark:text-neutral-300 focus:outline-none focus:border-[var(--primary)] transition-colors">
+                <label for="mp-settings-server" class="text-sm text-[var(--primary)] dark:text-75 w-16 shrink-0">{settingsServerLabel}</label>
+                <select id="mp-settings-server" value={settingsServer}
+                        onchange={(e) => updateSettingsServer(e.currentTarget.value)}
+                        class="mp-select flex-1 text-sm px-2 py-1.5 rounded-lg bg-[var(--card-bg)] border border-[var(--line-divider)] text-75 focus:outline-none focus:border-[var(--primary)] transition-colors">
                     <option value="netease">{settingsNeteaseLabel}</option>
                     <option value="tencent">{settingsTencentLabel}</option>
                     <option value="kugou">{settingsKugouLabel}</option>
-                </select>
-            </div>
-            <div class="flex justify-center gap-3">
-                <button class="px-6 py-2 rounded-lg text-sm font-base bg-[var(--primary)] text-white hover:opacity-90 active:scale-95 transition-all"
-                        onclick={applySettings}>
-                    {settingsApplyLabel}
-                </button>
-                <button class="px-6 py-2 rounded-lg text-sm font-base bg-[var(--btn-regular-bg)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-white active:scale-95 transition-all"
-                        onclick={() => showSettings = false}>
-                    {settingsCancelLabel}
-                </button>
+                </select>	
             </div>
         </div>
     </div>
@@ -1408,15 +1499,15 @@ onDestroy(() => {
             </div>
             <div class="flex-1 min-w-0">
                 <div class="ignore song-title text-lg font-bold text-90 truncate mb-1" title={sharedCurrentSong.title}>{sharedCurrentSong.title}</div>
-                <div class="ignore song-artist text-sm text-50 truncate" title={sharedCurrentSong.artist}>{sharedCurrentSong.artist}</div>
+                <div class="ignore song-artist text-sm text-60 dark:text-60 truncate" title={sharedCurrentSong.artist}>{sharedCurrentSong.artist}</div>
             </div>
         </div>
 
 		<div class="flex justify-between mb-2">
-                <div class="text-xs text-50 whitespace-nowrap">
+                <div class="text-xs text-75 whitespace-nowrap">
                     {formatTime(sharedCurrentTime)}
                 </div>
-                <div class="text-xs text-50 whitespace-nowrap">
+                <div class="text-xs text-75 whitespace-nowrap">
                     {formatTime(sharedDuration)}
                 </div>
         </div>
@@ -1440,21 +1531,21 @@ onDestroy(() => {
                  aria-valuemax="100"
                  aria-valuenow={sharedDuration > 0 ? Math.min(sharedCurrentTime / sharedDuration * 100, 100) : 0}>
                 <div class="h-full bg-[var(--primary)] rounded-full transition-all"
-                     class:duration-100={!isProgressDragging}
+                     class:duration-300={!isProgressDragging}
                      class:duration-0={isProgressDragging}
                      style="width: {sharedDuration > 0 ? Math.min((sharedCurrentTime / sharedDuration) * 100, 100) : 0}%"></div>
 
             </div>
         </div>
         {#if showLyrics}
-            <div class="lyrics-section mb-4 overflow-hidden rounded-lg max-h-[200px] bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))]" transition:slide={{ duration: 300, axis: 'y' }}>
+            <div class="lyrics-section mb-4 overflow-hidden rounded-lg max-h-[200px] bg-[var(--btn-regular-bg)]" transition:slide={{ duration: 300, axis: 'y' }}>
                 {#if sharedLyricsLoading}
-                    <div class="flex items-center justify-center py-8 text-50">
+                    <div class="flex items-center justify-center py-8 text-60">
                         <Icon icon="eos-icons:loading" class="text-lg animate-spin mr-2" />
                         <span class="text-sm">{currentI18n?.[Key.musicPlayerLoading] ?? ""}</span>
                     </div>
                 {:else if sharedNoLyricsFound}
-                    <div class="flex items-center justify-center py-8 text-50">
+                    <div class="flex items-center justify-center py-8 text-60">
                         <Icon icon="material-symbols:lyrics-off" class="text-lg mr-2" />
                         <span class="text-sm">{currentI18n?.[Key.musicPlayerNoLyrics] ?? ""}</span>
                     </div>
@@ -1560,24 +1651,24 @@ onDestroy(() => {
                  aria-valuenow={sharedVolume * 100}>
                 <div class="h-full bg-[var(--primary)] rounded-full"
                      class:transition-all={!isVolumeDragging}
-                     class:duration-200={!isVolumeDragging}
+                     class:duration-300={!isVolumeDragging}
                      class:opacity-50={sharedIsMuted}
                      style="width: {sharedVolume * 100}%"></div>
             </div>
-            <button class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center disabled:cursor-not-allowed disabled:text-neutral-300 disabled:dark:text-neutral-600 disabled:hover:bg-transparent disabled:hover:text-neutral-300 disabled:hover:dark:text-neutral-600"
+            <button class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center disabled:cursor-not-allowed disabled:text-40 disabled:hover:bg-transparent disabled:hover:text-40 disabled:hover:dark:text-60"
                     class:btn-active={showLyrics}
                     disabled={sharedIsLoading || sharedPlaylist.length === 0}
                     onclick={toggleLyrics}
                     title={lyricsTitle}>
                 <Icon icon="material-symbols:lyrics" class="text-lg" />
             </button>
-            <button class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center disabled:cursor-not-allowed disabled:text-neutral-300 disabled:dark:text-neutral-600 disabled:hover:bg-transparent disabled:hover:text-neutral-300 disabled:hover:dark:text-neutral-600"
+            <button class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center disabled:cursor-not-allowed disabled:text-40 disabled:hover:bg-transparent disabled:hover:text-40 disabled:hover:dark:text-60"
                     disabled={!sharedCurrentSong.url}
                     onclick={downloadCurrentSong}
                     title={downloadTitle}>
                 <Icon icon="material-symbols:cloud-download" class="text-lg" />
             </button>
-            <button class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center disabled:cursor-not-allowed disabled:text-neutral-300 disabled:dark:text-neutral-600 disabled:hover:bg-transparent disabled:hover:text-neutral-300 disabled:hover:dark:text-neutral-600"
+            <button class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center disabled:cursor-not-allowed disabled:text-40 disabled:hover:bg-transparent disabled:hover:text-40 disabled:hover:dark:text-60"
                     class:btn-active={showPlaylist}
                     disabled={sharedIsLoading || sharedPlaylist.length === 0}
                     onclick={togglePlaylist}
@@ -1604,11 +1695,11 @@ onDestroy(() => {
                              aria-label="play {song.title} - {song.artist}">
                             <div class="w-6 h-6 flex items-center justify-center flex-shrink-0">
                                 {#if index === sharedCurrentIndex && sharedIsPlaying}
-                                    <Icon icon="material-symbols:graphic-eq" class="text-[var(--primary)] animate-pulse" />
+                                    <Icon icon="material-symbols:graphic-eq" class="text-[var(--primary)] group-hover:text-[var(--primary)] duration-300 animate-pulse" />
                                 {:else if index === sharedCurrentIndex}
-                                    <Icon icon="material-symbols:pause" class="text-[var(--primary)]" />
+                                    <Icon icon="material-symbols:pause" class="text-[var(--primary)] group-hover:text-[var(--primary)] duration-300" />
                                 {:else}
-                                    <span class="text-sm text-[var(--content-meta)] transition-colors duration-300 group-hover:text-[var(--primary)]">{index + 1}</span>
+                                    <span class="text-sm text-90 transition-colors duration-300 group-hover:text-[var(--primary)]">{index + 1}</span>
                                 {/if}
                             </div>
                             <div class="w-10 h-10 rounded-lg overflow-hidden bg-[var(--btn-regular-bg)] flex-shrink-0 playlist-img-observe" data-index={index}>
@@ -1620,7 +1711,7 @@ onDestroy(() => {
                                 <div class="font-bold truncate text-sm ignore transition-colors duration-300 group-hover:text-[var(--primary)]" class:text-[var(--primary)]={index === sharedCurrentIndex} class:text-90={index !== sharedCurrentIndex} title={song.title}>
                                     {song.title}
                                 </div>
-                                <div class="text-xs text-[var(--content-meta)] truncate ignore transition-colors duration-300 group-hover:text-[var(--primary)]" class:text-[var(--primary)]={index === sharedCurrentIndex} title={song.artist}>
+                                <div class="text-xs truncate ignore transition-colors duration-300 group-hover:text-[var(--primary)]" class:text-[var(--primary)]={index === sharedCurrentIndex} class:text-60={index !== sharedCurrentIndex} title={song.artist}>
                                     {song.artist}
                                 </div>
                             </div>
@@ -1628,7 +1719,7 @@ onDestroy(() => {
                     {/each}
                 </div>
                 <button
-                    class="absolute bottom-3 right-2 w-8 h-8 rounded-full bg-[var(--btn-plain-bg)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-white flex items-center justify-center transition-all duration-200 z-10"
+                    class="absolute bottom-3 right-2 w-8 h-8 rounded-full bg-[var(--btn-plain-bg)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-white flex items-center justify-center transition-all duration-300 z-10"
                     onclick={() => scrollToCurrentSong()}
                     title={locateTitle}>
                     <Icon icon="material-symbols:my-location" class="text-lg" />

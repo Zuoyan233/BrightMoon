@@ -18,6 +18,7 @@ interface Props {
 const { items, className } = Astro.props;
 ---
 
+<!-- 面包屑导航 -->
 <div class:list={["mb-4", className]}>
   <div
     class="breadcrumb-container flex items-center gap-1 px-3 py-2 bg-[var(--card-bg)] rounded-[var(--radius-large)] overflow-x-auto"
@@ -26,7 +27,7 @@ const { items, className } = Astro.props;
       id="nav-back"
       disabled
       title={i18n(I18nKey.navBack)}
-      class="nav-btn flex items-center justify-center w-8 h-8 mr-2 px-3 rounded-lg border-none bg-transparent cursor-pointer text-neutral-500 dark:text-neutral-400 transition-all duration-200 hover:bg-[var(--btn-plain-bg-hover)] hover:text-[var(--primary)] dark:hover:text-[var(--primary)] disabled:cursor-not-allowed disabled:text-neutral-300 disabled:dark:text-neutral-600 disabled:hover:bg-transparent disabled:hover:text-neutral-300 disabled:hover:dark:text-neutral-600"
+      class="nav-btn flex items-center justify-center w-8 h-8 mr-2 px-3 rounded-lg border-none bg-transparent cursor-pointer text-90 transition-all duration-300 hover:bg-[var(--btn-plain-bg-hover)] hover:text-[var(--primary)] dark:hover:text-[var(--primary)] disabled:cursor-not-allowed disabled:text-25 disabled:dark:text-25 disabled:hover:bg-transparent disabled:hover:text-25 disabled:hover:dark:text-25"
       aria-label="Back"
     >
       <Icon
@@ -38,7 +39,7 @@ const { items, className } = Astro.props;
       id="nav-forward"
       disabled
       title={i18n(I18nKey.navForward)}
-      class="nav-btn flex items-center justify-center w-8 h-8 mr-2 px-3 rounded-lg border-none bg-transparent cursor-pointer text-neutral-500 dark:text-neutral-400 transition-all duration-200 hover:bg-[var(--btn-plain-bg-hover)] hover:text-[var(--primary)] dark:hover:text-[var(--primary)] disabled:cursor-not-allowed disabled:text-neutral-300 disabled:dark:text-neutral-600 disabled:hover:bg-transparent disabled:hover:text-neutral-300 disabled:hover:dark:text-neutral-600"
+      class="nav-btn flex items-center justify-center w-8 h-8 mr-2 px-3 rounded-lg border-none bg-transparent cursor-pointer text-90 transition-all duration-300 hover:bg-[var(--btn-plain-bg-hover)] hover:text-[var(--primary)] dark:hover:text-[var(--primary)] disabled:cursor-not-allowed disabled:text-25 disabled:dark:text-25 disabled:hover:bg-transparent disabled:hover:text-25 disabled:hover:dark:text-25"
       aria-label="Forward"
     >
       <Icon
@@ -47,23 +48,26 @@ const { items, className } = Astro.props;
       />
     </button>
 
+    <!-- 首页链接 -->
     <a
       href="/"
-      class="group flex items-center gap-1 rounded-lg transition-all duration-200 ease-out whitespace-nowrap shrink-0 px-2 py-2 cursor-pointer border-none bg-transparent text-sm text-neutral-500 dark:text-neutral-400 no-underline hover:bg-[var(--btn-plain-bg-hover)] hover:text-[var(--primary)] dark:hover:text-[var(--primary)]"
+      class="group flex items-center gap-1 rounded-lg transition-all duration-300 ease-out whitespace-nowrap shrink-0 px-2 py-2 cursor-pointer border-none bg-transparent text-sm text-90 no-underline hover:bg-[var(--btn-plain-bg-hover)] hover:text-[var(--primary)] dark:hover:text-[var(--primary)]"
       aria-label={i18n(I18nKey.home)}
     >
       <span
-        class="flex items-center justify-center w-8 h-8 mr-2 rounded-lg btn-regular group-hover:bg-[var(--primary)] transition-colors duration-200"
+        class="flex items-center justify-center w-8 h-8 mr-2 rounded-lg btn-regular group-hover:bg-[var(--primary)] transition-colors duration-300"
       >
         <Icon
           name="material-symbols:home"
-          class="text-xl leading-none shrink-0 text-[var(--btn-content)] transition-colors duration-200 group-hover:text-white"
+          class="text-xl leading-none shrink-0 text-[var(--btn-content)] transition-colors duration-300 group-hover:text-white"
         />
       </span>
       <span class="leading-none inline-flex items-center"
         >{i18n(I18nKey.home)}</span
       >
     </a>
+
+    <!-- 面包屑链接 -->
     {
       items.map((item) => (
         <>
@@ -77,13 +81,13 @@ const { items, className } = Astro.props;
             <a
               href={item.href}
               title={item.label}
-              class="group flex items-center gap-1 rounded-lg transition-all duration-200 ease-out whitespace-nowrap shrink-0 px-2 py-2 cursor-pointer border-none bg-transparent text-sm text-neutral-500 dark:text-neutral-400 no-underline hover:bg-[var(--btn-plain-bg-hover)] hover:text-[var(--primary)] dark:hover:text-[var(--primary)]"
+              class="group flex items-center gap-1 rounded-lg transition-all duration-300 ease-out whitespace-nowrap shrink-0 px-2 py-2 cursor-pointer border-none bg-transparent text-sm text-90 no-underline hover:bg-[var(--btn-plain-bg-hover)] hover:text-[var(--primary)] dark:hover:text-[var(--primary)]"
             >
               {item.icon ? (
-                <span class="flex items-center justify-center w-8 h-8 mr-2 rounded-lg btn-regular group-hover:bg-[var(--primary)] transition-colors duration-200">
+                <span class="flex items-center justify-center w-8 h-8 mr-2 rounded-lg btn-regular group-hover:bg-[var(--primary)] transition-colors duration-300">
                   <Icon
                     name={item.icon}
-                    class="text-xl leading-none shrink-0 text-[var(--btn-content)] transition-colors duration-200 group-hover:text-white"
+                    class="text-xl leading-none shrink-0 text-[var(--btn-content)] transition-colors duration-300 group-hover:text-white"
                   />
                 </span>
               ) : null}
@@ -105,10 +109,10 @@ const { items, className } = Astro.props;
               title={item.label}
             >
               {item.icon ? (
-                <span class="flex items-center justify-center w-8 h-8 mr-2 rounded-lg btn-regular group-hover:bg-[var(--primary)] transition-colors duration-200">
+                <span class="flex items-center justify-center w-8 h-8 mr-2 rounded-lg btn-regular group-hover:bg-[var(--primary)] transition-colors duration-300">
                   <Icon
                     name={item.icon}
-                    class="text-xl leading-none shrink-0 text-[var(--btn-content)] transition-colors duration-200 group-hover:text-white"
+                    class="text-xl leading-none shrink-0 text-[var(--btn-content)] transition-colors duration-300 group-hover:text-white"
                   />
                 </span>
               ) : null}
@@ -133,8 +137,7 @@ const { items, className } = Astro.props;
   }
   body.wallpaper-transparent .breadcrumb-container {
     background: var(--card-bg-transparent);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(var(--card-backdrop-blur));
   }
 </style>
 

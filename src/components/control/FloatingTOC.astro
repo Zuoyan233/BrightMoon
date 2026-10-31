@@ -4,10 +4,12 @@ import { i18n } from "@i18n/translation";
 import { Icon } from "astro-icon/components";
 import { siteConfig } from "../../config";
 
+// TOC 配置：目录深度和是否使用日文徽章
 const tocDepth = siteConfig.toc.depth;
 const useJapaneseBadge = siteConfig.toc.useJapaneseBadge;
 ---
 
+<!-- 浮动目录按钮：固定在页面右下角，点击展开目录面板，含阅读进度环 -->
 <div
 	class="floating-toc-wrapper"
 	data-depth={tocDepth}
@@ -73,7 +75,7 @@ const useJapaneseBadge = siteConfig.toc.useJapaneseBadge;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		color: var(--primary);
+		color: var(--btn-content);
 		position: relative;
 		background: var(--card-bg);
 	}
@@ -92,7 +94,7 @@ const useJapaneseBadge = siteConfig.toc.useJapaneseBadge;
 	}
 
 	.progress-ring-circle {
-		stroke: var(--primary);
+		stroke: var(--btn-content);
 		stroke-width: 5;
 		stroke-dasharray: 251.2;
 		stroke-dashoffset: 251.2;
@@ -201,75 +203,6 @@ const useJapaneseBadge = siteConfig.toc.useJapaneseBadge;
 			right: 0;
 			bottom: 4.5rem;
 		}
-	}
-
-	:global(.floating-toc-item) {
-		display: flex;
-		align-items: center;
-		padding: 0.5rem;
-		color: var(--text-secondary);
-		text-decoration: none;
-		font-size: 0.9rem;
-		line-height: 1.5;
-		border-radius: 0.5rem;
-		transition: all 0.2s;
-	}
-
-	:global(.floating-toc-item:hover) {
-		background-color: var(--btn-regular-bg);
-		color: var(--primary);
-	}
-
-	:global(.floating-toc-item.active) {
-		background-color: var(--btn-card-bg-active);
-		color: var(--primary);
-		font-weight: 500;
-	}
-
-	:global(.floating-toc-badge) {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: 1.25rem;
-		height: 1.25rem;
-		background: var(--btn-regular-bg);
-		color: var(--primary);
-		border-radius: 0.25rem;
-		font-size: 0.75rem;
-		font-weight: bold;
-		margin-right: 0.5rem;
-		flex-shrink: 0;
-	}
-
-	:global(.floating-toc-dot) {
-		width: 0.5rem;
-		height: 0.5rem;
-		background: var(--line-divider);
-		border-radius: 50%;
-		margin-right: 0.75rem;
-		margin-left: 0.375rem;
-		flex-shrink: 0;
-	}
-
-	:global(.floating-toc-dot-small) {
-		width: 0.35rem;
-		height: 0.35rem;
-		background: var(--line-divider);
-		border-radius: 50%;
-		margin-right: 0.75rem;
-		margin-left: 0.45rem;
-		flex-shrink: 0;
-	}
-
-	:global(.floating-toc-item.active .floating-toc-dot),
-	:global(.floating-toc-item.active .floating-toc-dot-small) {
-		background: var(--primary);
-	}
-
-	:global(.floating-toc-text) {
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
 	}
 </style>
 
@@ -667,7 +600,14 @@ const useJapaneseBadge = siteConfig.toc.useJapaneseBadge;
 				}
 
 				const text = (heading.textContent || "").replace(/#+\s*$/, "");
-				html += `<a href="#${heading.id}" class="floating-toc-item" style="padding-left: ${0.5 + indent}rem" data-level="${level - minLevel}">${badge}<span class="floating-toc-text">${text}</span></a>`;
+				const textDepthClass =
+					level === minLevel
+						? "text-90"
+						: level === minLevel + 1
+							? "text-75"
+							: "text-60";
+
+				html += `<a href="#${heading.id}" class="floating-toc-item" style="padding-left: ${0.5 + indent}rem" data-level="${level - minLevel}">${badge}<span class="floating-toc-text ${textDepthClass}">${text}</span></a>`;
 			});
 
 			if (this.content) {

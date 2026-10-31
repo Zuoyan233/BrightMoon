@@ -40,8 +40,19 @@ export const ru: Translation = {
 	[Key.friendsNoResults]: "Друзья не найдены",
 	[Key.friendsVisit]: "Посетить",
 	[Key.friendsCopyLink]: "Копировать ссылку",
-	[Key.friendsCopySuccess]: "Скопировано",
 	[Key.friendsTags]: "Теги",
+	[Key.friendsNoticeTitle]: "Примечания",
+	[Key.friendsNoticeReciprocal]:
+		"пожалуйста, сначала добавьте этот сайт на свою страницу друзей, мы добавим ваш после подтверждения.",
+	[Key.friendsNoticeMaintenance]:
+		"ссылки друзей, которые долгое время недоступны или содержат незаконный контент, будут удалены.",
+	[Key.friendsNoticeContent]:
+		"к контент должен быть позитивным и не содержать незаконного контента, такого как порнография, реакционные материалы или насилие.",
+	[Key.friendsNoticeHttps]:
+		"поддержка HTTPS, оригинальный контент, доступность и регулярные обновления.",
+	[Key.friendsApplyTemplate]: "Шаблон заявки на ссылку дружбы",
+	[Key.friendsApplyHint]:
+		"Пожалуйста, оставьте комментарий ниже, чтобы подать заявку на ссылку дружбы, используя следующий формат:",
 	[Key.untitled]: "Без названия",
 	[Key.uncategorized]: "Без категории",
 	[Key.noTags]: "Нет тегов",
@@ -74,7 +85,6 @@ export const ru: Translation = {
 	[Key.diary]: "Дневник",
 
 	// Страница аниме
-	[Key.animeTitle]: "Мой список аниме",
 	[Key.animeSubtitle]: "Записываю мой путь в мире аниме",
 	[Key.animeStatusWatching]: "Смотрю",
 	[Key.animeStatusCompleted]: "Просмотрено",
@@ -90,11 +100,12 @@ export const ru: Translation = {
 	[Key.animeEmptyBilibili]:
 		"Данные Bilibili отсутствуют. Запустите `pnpm run update-bilibili` для получения данных",
 	[Key.animeSetBangumiUserId]:
-		"Пожалуйста, укажите ваш идентификатор пользователя Bangumi в файле src/config/user.ts",
+		"Пожалуйста, укажите ваш идентификатор пользователя Bangumi в файле src/config/user/site.ts",
 	[Key.animeSetBilibiliVmId]:
-		"Пожалуйста, укажите ваш vmID Bilibili в файле src/config/user.ts",
+		"Пожалуйста, укажите ваш vmID Bilibili в файле src/config/user/site.ts",
 	[Key.animeEmptyLocal]:
-		"Пожалуйста, добавьте информацию об аниме в файл src/data/anime.ts",
+		"Пожалуйста, добавьте информацию об аниме в файл src/config/user/anime-data.ts",
+	[Key.animeFilterEmpty]: "В этой категории нет аниме",
 
 	// Страница дневника
 	[Key.diarySubtitle]: "Делитесь жизнью, где угодно и когда угодно",
@@ -143,6 +154,7 @@ export const ru: Translation = {
 	[Key.musicPlayerSettingsServer]: "Музыкальный сервер",
 	[Key.musicPlayerSettingsType]: "Тип",
 	[Key.musicPlayerSettingsApply]: "Применить",
+	[Key.musicPlayerSettingsReset]: "Сбросить",
 	[Key.musicPlayerServerNetease]: "NetEase Cloud",
 	[Key.musicPlayerServerTencent]: "QQ Music",
 	[Key.musicPlayerServerKugou]: "Kugou Music",
@@ -205,7 +217,7 @@ export const ru: Translation = {
 		"Подпишитесь на RSS, чтобы мгновенно получать новые статьи и обновления",
 	[Key.rssLink]: "Ссылка RSS",
 	[Key.rssCopyToReader]: "Скопируйте ссылку в ваш RSS-ридер",
-	[Key.rssCopyLink]: "Копировать",
+	[Key.rssCopyLink]: "Копировать ссылку",
 	[Key.rssLatestPosts]: "Последние записи",
 	[Key.rssWhatIsRSS]: "Что такое RSS?",
 	[Key.rssWhatIsRSSDescription]:
@@ -217,8 +229,6 @@ export const ru: Translation = {
 	[Key.rssBenefit4]: "Наслаждаться чтением без рекламы",
 	[Key.rssHowToUse]:
 		"Рекомендуется использовать Feedly, Inoreader или другие RSS-ридеры для подписки на этот сайт.",
-	[Key.rssCopied]: "Ссылка RSS скопирована в буфер обмена",
-	[Key.rssCopyFailed]: "Не удалось скопировать, скопируйте ссылку вручную",
 
 	// Atom страница
 	[Key.atom]: "Atom-лента",
@@ -227,7 +237,7 @@ export const ru: Translation = {
 		"Подпишитесь на Atom, чтобы мгновенно получать новые статьи и обновления",
 	[Key.atomLink]: "Ссылка Atom",
 	[Key.atomCopyToReader]: "Скопируйте ссылку в ваш Atom-ридер",
-	[Key.atomCopyLink]: "Копировать",
+	[Key.atomCopyLink]: "Копировать ссылку",
 	[Key.atomLatestPosts]: "Последние записи",
 	[Key.atomWhatIsAtom]: "Что такое Atom?",
 	[Key.atomWhatIsAtomDescription]:
@@ -239,8 +249,6 @@ export const ru: Translation = {
 	[Key.atomBenefit4]: "Наслаждаться чтением без рекламы",
 	[Key.atomHowToUse]:
 		"Рекомендуется использовать Feedly, Inoreader или другие Atom-ридеры для подписки на этот сайт.",
-	[Key.atomCopied]: "Ссылка Atom скопирована в буфер обмена",
-	[Key.atomCopyFailed]: "Не удалось скопировать, скопируйте ссылку вручную",
 
 	// Режим обоев
 	[Key.wallpaperMode]: "Режим обоев",
@@ -270,7 +278,6 @@ export const ru: Translation = {
 	[Key.skillsDatabase]: "Базы данных",
 	[Key.skillsTools]: "Инструменты разработки",
 	[Key.skillsOther]: "Другие навыки",
-	[Key.skillLevel]: "Уровень владения",
 	[Key.skillLevelBeginner]: "Начальный",
 	[Key.skillLevelIntermediate]: "Средний",
 	[Key.skillLevelAdvanced]: "Продвинутый",
@@ -279,16 +286,8 @@ export const ru: Translation = {
 	[Key.skillYears]: "лет",
 	[Key.skillMonths]: "мес.",
 	[Key.skillsTotal]: "Всего навыков",
-	[Key.skillsExpert]: "Уровень эксперта",
-	[Key.skillsAdvanced]: "Продвинутый",
-	[Key.skillsIntermediate]: "Средний",
-	[Key.skillsBeginner]: "Начальный",
 	[Key.skillsAdvancedTitle]: "Профессиональные навыки",
-	[Key.skillsProjects]: "Связанные проекты",
-	[Key.skillsDistribution]: "Распределение навыков",
-	[Key.skillsByLevel]: "По уровню",
-	[Key.skillsByCategory]: "По категориям",
-	[Key.noData]: "Нет данных",
+	[Key.skillsFilterEmpty]: "В этой категории нет навыков",
 
 	// Страница хронологии
 	[Key.timeline]: "Хронология",
@@ -298,22 +297,20 @@ export const ru: Translation = {
 	[Key.timelineProject]: "Опыт проектов",
 	[Key.timelineAchievement]: "Достижения",
 	[Key.timelinePresent]: "Настоящее время",
-	[Key.timelineLocation]: "Местоположение",
-	[Key.timelineDescription]: "Подробное описание",
 	[Key.timelineMonths]: "мес.",
 	[Key.timelineYears]: "лет",
 	[Key.timelineTotal]: "Всего",
-	[Key.timelineProjects]: "Проектов",
-	[Key.timelineExperience]: "Опыт работы",
 	[Key.timelineCurrent]: "Текущий статус",
-	[Key.timelineHistory]: "История",
 	[Key.timelineAchievements]: "Достижения",
-	[Key.timelineStartDate]: "Дата начала",
-	[Key.timelineDuration]: "Продолжительность",
+	[Key.timelineFilterEmpty]: "В этой категории нет записей временной шкалы",
 
 	// Страница обратной связи - Модуль связи с веб-мастером
 	[Key.contactMe]: "Связаться с веб-мастером",
 	[Key.contactEmail]: "Связаться с веб-мастером по электронной почте",
+	[Key.viewEmail]: "Показать e-mail",
+	[Key.emailIndex]: "E-mail {n}",
+	[Key.openEmailLink]:
+		"Открыть сайт почтового сервиса и скопировать адрес e-mail.",
 	[Key.contactSocialFriends]:
 		"Связаться с веб-мастером, добавив его в друзья в соцсетях",
 	[Key.addFriends]: "Добавить в друзья",
@@ -322,8 +319,6 @@ export const ru: Translation = {
 	[Key.sponsorsNotice1]:
 		"Если материалы сайта оказались для вас полезны, пожалуйста, поддержите мою работу, используя один из способов ниже. Это поможет создавать более качественный контент. Все пожертвования будут направлены на поддержку сайта, оплату сервера и создание контента.",
 	[Key.sponsorsNotice2]: "Спасибо за поддержку развития блога BrightMoon!",
-	[Key.wechatPay]: "WeChat",
-	[Key.aliPay]: "Alipay",
 	[Key.scanPayQRcode]: "Сканируйте для оплаты",
 	[Key.sponsorsPartner]: "Партнёры-спонсоры",
 	[Key.otherSupportOptions]: "Другие способы поддержки",
@@ -426,16 +421,6 @@ export const ru: Translation = {
 	[Key.shareOnSocialDescription]:
 		"Если эта статья помогла вам, пожалуйста, поделитесь ею с другими!",
 
-	// Статистика профиля
-	[Key.profileStatsLoading]: "Загрузка статистики...",
-	[Key.profileStatsPageViews]: "Просмотров страниц",
-	[Key.profileStatsVisits]: "Посещений",
-	[Key.profileStatsUnavailable]: "Статистика недоступна",
-
-	// Статистика просмотров страниц
-	[Key.pageViewsLoading]: "Загрузка статистики...",
-	[Key.pageViewsUnavailable]: "Статистика недоступна",
-
 	// Макет списка записей
 	[Key.postListLayout]: "Макет списка записей",
 	[Key.listMode]: "Список",
@@ -445,13 +430,12 @@ export const ru: Translation = {
 	[Key.leaveSite]: "Покинуть сайт",
 	[Key.goToExternalLink]: "Вы собираетесь перейти по внешней ссылке:",
 	[Key.warningText]:
-		"Пожалуйста, будьте осторожны с безопасностью вашего аккаунта и средств",
+		"Пожалуйста, будьте осторожны с безопасностью вашего аккаунта и средств.",
 	[Key.confirmText]: "Перейти",
 	[Key.cancelText]: "Отмена",
 
 	// Добавить друзей в социальных сетях
 	[Key.copyAccount]: "Копировать аккаунт",
-	[Key.copyAccountSuccess]: "Скопировано в буфер обмена",
 	[Key.openAppAdd]: "Открыть в приложении",
 
 	// Компонент погоды
@@ -502,18 +486,34 @@ export const ru: Translation = {
 	// Согласие на использование cookie
 	[Key.cookieConsentTitle]: "Мы ценим вашу конфиденциальность",
 	[Key.cookieConsentDescription]:
-		"BrightMoon использует файлы cookie для хранения и доступа к идентификаторам устройств и другим данным для предоставления, поддержки и улучшения наших услуг и рекламы. Вы можете выбрать «Принять», чтобы дать согласие, или нажать «Отклонить все», чтобы отказаться от несущественных файлов cookie.",
+		"BrightMoon использует файлы cookie для хранения и доступа к идентификаторам устройств и другим данным для предоставления, поддержки и улучшения наших услуг и рекламы. Вы можете выбрать «Принять», чтобы согласиться с этим использованием, или нажать «Отклонить все», чтобы отказаться от несущественных файлов cookie.",
 	[Key.cookieConsentIpInfo]: "Определение вашего местоположения...",
 	[Key.cookieConsentIpTimeout]:
 		"Определение местоположения истекло, попробуйте позже",
 	[Key.cookieConsentAccept]: "Принять",
 	[Key.cookieConsentReject]: "Отклонить все",
+	[Key.cookieConsentLearnMore]: "Просмотреть заявление о конфиденциальности",
+	[Key.cookieConsentPrivacyTitle]: "Заявление о конфиденциальности BrightMoon",
+	[Key.cookieConsentPrivacyIntro]:
+		"Мы ценим вашу конфиденциальность. На этой странице подробно описано, как мы используем файлы cookie и аналогичные технологии, а также какие данные мы собираем и для каких целей.",
+	[Key.cookieConsentPrivacyEssential]:
+		"Необходимые cookie: Эти cookie необходимы для правильной работы веб-сайта, включая сохранение ваших настроек конфиденциальности и поддержание состояния сеанса. Не могут быть отключены.",
+	[Key.cookieConsentPrivacyAnalytics]:
+		"Аналитические cookie: Мы используем эти cookie для понимания посещаемости сайта, таких как просмотры страниц и источники трафика, чтобы помочь нам улучшить работу сайта.",
+	[Key.cookieConsentPrivacyAdvertising]:
+		"Рекламные cookie: Эти cookie используются для предоставления более релевантной рекламы и измерения эффективности рекламных кампаний.",
+
+	[Key.cookieConsentPrivacyThirdParty]:
+		"Сторонние сервисы: Мы интегрируем некоторые сторонние сервисы (такие как определение местоположения погоды, система комментариев Twikoo и т.д.), которые могут собирать и использовать ваши данные.",
+	[Key.cookieConsentPrivacyRejectNotice]:
+		"Отказ от соглашения о конфиденциальности отключает некоторые функции.",
+	[Key.cookieConsentPrivacyClose]: "Закрыть",
 
 	// Система комментариев Twikoo
 	[Key.twikooInitializing]: "Инициализация системы комментариев Twikoo...",
 	[Key.twikooNotConfigured]: "Система комментариев Twikoo еще не настроена",
 	[Key.twikooConfigHint]:
-		"Пожалуйста, настройте систему комментариев Twikoo в src/config/user.ts",
+		"Пожалуйста, настройте систему комментариев Twikoo в src/config/user/comment.ts",
 	[Key.twikooPrivacyRejected]:
 		"Система комментариев Twikoo отключена из-за отказа от соглашения о конфиденциальности",
 
@@ -526,13 +526,13 @@ export const ru: Translation = {
 	[Key.versionPreRelease]: "Бета",
 	[Key.versionCheckFailedTitle]: "Ошибка проверки обновлений",
 	[Key.versionCheckFailedDesc]:
-		"Не удалось проверить обновления, обычно из-за ограничения частоты запросов API удалённого репозитория или отсутствия настроенного адреса API удалённого репозитория. Пожалуйста, повторите попытку позже",
+		"Не удалось проверить обновления, обычно из-за ограничения частоты запросов API удалённого репозитория или отсутствия настроенного адреса API удалённого репозитория. Пожалуйста, повторите попытку позже.",
 	[Key.versionCheckSuccessTitle]: "Проверка успешна",
 	[Key.versionCheckSuccessDesc]:
 		"Новых версий не найдено. У вас последняя версия.",
 	[Key.versionDownload]: "Скачать последнюю версию",
 	[Key.versionUpdateWarning]:
-		"Рекомендуется использовать инструмент обновления фреймворка блога BrightMoon. Пожалуйста, сделайте резервную копию данных перед обновлением",
+		"Рекомендуется использовать инструмент обновления фреймворка блога BrightMoon. Пожалуйста, сделайте резервную копию данных перед обновлением.",
 
 	// Навигация по хлебным крошкам
 	[Key.suggestion]: "Возможно, вам стоит посетить",

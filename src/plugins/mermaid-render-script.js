@@ -1,3 +1,7 @@
+/**
+ * Mermaid 客户端渲染脚本 - 初始化 Mermaid 库并渲染页面中的 Mermaid 图表
+ */
+
 (() => {
 	// 单例模式：检查是否已经初始化过
 	if (window.mermaidInitialized) {

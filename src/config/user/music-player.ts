@@ -2,13 +2,14 @@ import type { MusicPlayerConfig } from "../../types/config";
 
 export const userMusicPlayerConfig: Partial<MusicPlayerConfig> = {
 	enable: true, // 启用音乐播放器
-	mode: "local", // 播放器模式："meting" 使用 Meting API，"local" 使用本地音乐列表
+	mode: "meting", // 播放器模式："meting" 使用 Meting API，"local" 使用本地音乐列表
 	meting_api:
 		"https://meting.liveling.top/api?server=:server&type=:type&id=:id&auth=:auth&r=:r", // MetingJS API 地址
 	id: "766208154", // 歌单或单曲 ID
 	server: "netease", // 音乐平台："netease" 网易云音乐，"tencent" QQ音乐，"kugou" 酷狗
 	type: "playlist", // 类型："playlist" 歌单，"song" 单曲，"album" 专辑，"artist" 歌手
 	coverProxy: "https://images.weserv.nl/?url=", // 第三方封面代理地址，用于解决下载时 CORS 跨域问题
+	defaultCover: "/favicon/vinyl record.ico", // 默认封面图片地址，当歌曲无封面时使用
 	localPlaylist: [
 		// 本地音乐列表（mode 为 "local" 时生效）
 		{

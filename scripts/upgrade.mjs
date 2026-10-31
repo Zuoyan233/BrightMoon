@@ -1,15 +1,8 @@
 /**
  * BrightMoon 博客框架升级工具
- *
- * 交互式升级流程，支持四语国际化，智能处理保证数据安全：
- *   1. 文件级：新文件插入、旧文件同步删除、受保护文件跳过
- *   2. 版本级：语义化版本比较、防回滚检测
- *   3. 备份级：升级前全项目备份
- *   4. 完整性：下载大小 + SHA256 哈希校验
  */
 
 import { execSync, spawn } from "node:child_process";
-import crypto from "node:crypto";
 import fs, { createWriteStream } from "node:fs";
 import http from "node:http";
 import https from "node:https";
@@ -19,7 +12,6 @@ import { pipeline } from "node:stream/promises";
 import { fileURLToPath } from "node:url";
 
 /* 路径与版本常量 */
-
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 const { version: LOCAL_VERSION } = JSON.parse(
@@ -28,20 +20,16 @@ const { version: LOCAL_VERSION } = JSON.parse(
 
 /* 常量 */
 
-/** 远程仓库 API 备用地址 */
-const FALLBACK_API_URL =
-	"https://api.github.com/repos/Zuoyan233/BrightMoon/releases?per_page=5";
-
-/** 本地升级标识 */
+/* 本地升级标识 */
 const SOURCE_LOCAL = "local";
 
-/** 交互菜单返回值 */
+/* 交互菜单返回值 */
 const BACK = "__back__";
 
-/** HTTP 最大重定向次数 */
+/* HTTP 最大重定向次数 */
 const MAX_REDIRECTS = 5;
 
-/** 日志颜色映射 */
+/* 日志颜色映射 */
 const LOG_COLORS = {
 	ok: "\x1b[32m",
 	error: "\x1b[31m",
@@ -52,27 +40,25 @@ const LOG_COLORS = {
 };
 
 /* 全局可变状态 */
-
 let lang = "zh";
 let currentLangIndex = 0;
 let stdinRawEnabled = false;
 let isInterrupted = false;
 let isInstallingDeps = false;
 
-/** 待清理的临时解压目录 */
+/* 待清理的临时解压目录 */
 let tmpDirToClean = null;
-/** 待清理的 update 目录 */
+/* 待清理的 update 目录 */
 let updateDirToClean = null;
-/** 待清理的失败备份文件（仅单个 zip，不包含整个 backup 目录） */
+/* 待清理的失败备份文件（仅单个 zip，不包含整个 backup 目录） */
 let backupFileToClean = null;
-/** 备份过程中的临时文件（_backup_list.txt、_backup.ps1），中断时需清理 */
+/* 备份过程中的临时文件（_backup_list.txt、_backup.ps1），中断时需清理 */
 let backupTempFiles = [];
 
-/** 正在运行的子进程，中断时立即杀掉 */
+/* 正在运行的子进程，中断时立即杀掉 */
 const runningProcesses = new Set();
 
 /* 国际化字典 */
-
 const I18N_DICT = {
 	zh: {
 		welcome: "欢迎使用 BrightMoon 博客框架升级工具",
@@ -99,20 +85,22 @@ const I18N_DICT = {
 		backupExists: "检测到已有备份，是否覆盖备份？",
 		backupOverwriteYes: "是，覆盖备份",
 		backupOverwriteNo: "否，跳过备份",
-		noBackupFound: "backup 目录中未找到备份文件。",
+		noBackupFound:
+			"backup 目录中未找到符合规范的备份文件（BrightMoon_backup_vx.x.x.zip 或 BrightMoon_backup_vx.x.x-beta.x.zip）。",
 		selectBackup: "选择要恢复的备份：",
 		restoringBackup: "正在从备份恢复...",
 		restoreComplete: "备份恢复完成！",
 		pressAnyKey: "按任意键继续...",
 		tabSelectTip: "↑↓ 选择 | ←→ 切换页面 | Enter 确认 | ESC 返回 | Ctrl+C 取消",
 		tipLocal:
-			"请将下载的压缩包（.zip）放入项目根目录的「update」文件夹中，本工具将自动解压并完成升级。",
+			"请将下载的压缩包（BrightMoon_vx.x.x.zip 或 BrightMoon_vx.x.x-beta.x.zip）放入项目根目录的「update」文件夹中，本工具将自动解压并完成升级。",
 		checkingLocal: "正在检查本地 update 目录...",
 		localNotFound: "未找到 update 目录。\n预期路径：{0}",
 		localFound: "已找到本地 update 目录。",
-		noArchiveFound:
-			"update 目录中未找到压缩包（支持 .zip），请将压缩包放入该目录。",
+		noArchiveFound: "update 目录中未找到压缩包，请将压缩包放入该目录。",
 		archiveFound: "已找到压缩包：{0}",
+		archiveNameInvalid:
+			"压缩包名称不符合规范，预期格式：BrightMoon_vx.x.x.zip 或 BrightMoon_vx.x.x-beta.x.zip，实际：{0}",
 		extractingLocal: "正在解压本地压缩包...",
 		cleaningUpdate: "正在清理 update 目录...",
 		downloading: "正在从远程仓库下载最新 Release...",
@@ -153,7 +141,7 @@ const I18N_DICT = {
 		noNetwork: "网络连接失败，请检查网络后重试。",
 		networkTimeout: "网络请求超时，请检查网络连接后重试。",
 		noApiUrl:
-			"未配置远程仓库 API 地址（versionCheckConfig.apiUrl 或 FALLBACK_API_URL 地址为空），升级终止。",
+			"未配置远程仓库 API 地址（versionCheckConfig.apiUrl 为空），升级终止。",
 		confirmTitle: "确认执行升级？",
 		confirmYes: "是，开始升级",
 		confirmNo: "否，取消",
@@ -167,7 +155,6 @@ const I18N_DICT = {
 		unzipNotFound:
 			"未找到 unzip 命令，无法解压升级包。请先安装：\n  macOS: xcode-select --install\n  Linux: sudo apt install unzip。",
 		sizeMismatch: "下载文件大小校验失败：预期 {0} 字节，实际 {1} 字节。",
-		hashMismatch: "下载文件哈希校验失败（{0}）：预期 {1}，实际 {2}。",
 	},
 	en: {
 		welcome: "Welcome to BrightMoon Blog Framework Upgrade Tool",
@@ -195,7 +182,8 @@ const I18N_DICT = {
 		backupExists: "Existing backup found, overwrite the backup?",
 		backupOverwriteYes: "Yes, overwrite backup",
 		backupOverwriteNo: "No, skip backup",
-		noBackupFound: "No backup files found in backup directory.",
+		noBackupFound:
+			"No valid backup files found in backup directory (BrightMoon_backup_vx.x.x.zip or BrightMoon_backup_vx.x.x-beta.x.zip).",
 		selectBackup: "Select a backup to restore:",
 		restoringBackup: "Restoring from backup...",
 		restoreComplete: "Backup restored!",
@@ -203,13 +191,15 @@ const I18N_DICT = {
 		tabSelectTip:
 			"↑↓ Select | ←→ Switch page | Enter Confirm | ESC Back | Ctrl+C Cancel",
 		tipLocal:
-			"Please place the downloaded archive (.zip) into the 'update' folder in the project root. This tool will extract it automatically and complete the upgrade.",
+			"Please place the downloaded archive (BrightMoon_vx.x.x.zip or BrightMoon_vx.x.x-beta.x.zip) into the 'update' folder in the project root. This tool will extract it automatically and complete the upgrade.",
 		checkingLocal: "Checking local update directory...",
 		localNotFound: "Update directory not found.\nExpected path: {0}",
 		localFound: "Local update directory found.",
 		noArchiveFound:
-			"No archive found in update directory (supported: .zip). Please place the archive in that directory.",
+			"No archive found in update directory. Please place the archive in that directory.",
 		archiveFound: "Archive found: {0}",
+		archiveNameInvalid:
+			"Archive name is invalid. Expected format: BrightMoon_vx.x.x.zip or BrightMoon_vx.x.x-beta.x.zip, got: {0}",
 		extractingLocal: "Extracting local archive...",
 		cleaningUpdate: "Cleaning update directory...",
 		downloading: "Downloading latest Release from remote repository...",
@@ -255,7 +245,7 @@ const I18N_DICT = {
 		networkTimeout:
 			"Network request timed out. Please check your connection and retry.",
 		noApiUrl:
-			"Remote repository API URL not configured (versionCheckConfig.apiUrl or FALLBACK_API_URL is empty). Upgrade aborted.",
+			"Remote repository API URL not configured (versionCheckConfig.apiUrl is empty). Upgrade aborted.",
 		confirmTitle: "Confirm upgrade?",
 		confirmYes: "Yes, start upgrade",
 		confirmNo: "No, cancel",
@@ -270,7 +260,6 @@ const I18N_DICT = {
 		unzipNotFound:
 			"unzip command not found, cannot extract upgrade archive. Please install:\n  macOS: xcode-select --install\n  Linux: sudo apt install unzip.",
 		sizeMismatch: "Download size mismatch: expected {0} bytes, got {1} bytes.",
-		hashMismatch: "Download hash mismatch ({0}): expected {1}, got {2}.",
 	},
 	"zh-TW": {
 		welcome: "歡迎使用 BrightMoon 博客框架升級工具",
@@ -297,20 +286,22 @@ const I18N_DICT = {
 		backupExists: "偵測到已有備份，是否覆蓋備份？",
 		backupOverwriteYes: "是，覆蓋備份",
 		backupOverwriteNo: "否，跳過備份",
-		noBackupFound: "backup 目錄中未找到備份檔案。",
+		noBackupFound:
+			"backup 目錄中未找到符合規範的備份檔案（BrightMoon_backup_vx.x.x.zip 或 BrightMoon_backup_vx.x.x-beta.x.zip）。",
 		selectBackup: "選擇要復原的備份：",
 		restoringBackup: "正在從備份復原...",
 		restoreComplete: "備份復原完成！",
 		pressAnyKey: "按任意鍵繼續...",
 		tabSelectTip: "↑↓ 選擇 | ←→ 切換頁面 | Enter 確認 | ESC 返回 | Ctrl+C 取消",
 		tipLocal:
-			"請將下載的壓縮包（.zip）放入專案根目錄的「update」資料夾中，本工具將自動解壓並完成升級。",
+			"請將下載的壓縮包（BrightMoon_vx.x.x.zip 或 BrightMoon_vx.x.x-beta.x.zip）放入專案根目錄的「update」資料夾中，本工具將自動解壓並完成升級。",
 		checkingLocal: "正在檢查本機 update 目錄...",
 		localNotFound: "未找到 update 目錄。\n預期路徑：{0}",
 		localFound: "已找到本機 update 目錄。",
-		noArchiveFound:
-			"update 目錄中未找到壓縮包（支援 .zip），請將壓縮包放入該目錄。",
+		noArchiveFound: "update 目錄中未找到壓縮包，請將壓縮包放入該目錄。",
 		archiveFound: "已找到壓縮包：{0}",
+		archiveNameInvalid:
+			"壓縮包名稱不符合規範，預期格式：BrightMoon_vx.x.x.zip 或 BrightMoon_vx.x.x-beta.x.zip，實際：{0}",
 		extractingLocal: "正在解壓本機壓縮包...",
 		cleaningUpdate: "正在清理 update 目錄...",
 		downloading: "正在從遠端倉庫下載最新 Release...",
@@ -351,7 +342,7 @@ const I18N_DICT = {
 		noNetwork: "網路連線失敗，請檢查網路後重試。",
 		networkTimeout: "網路請求逾時，請檢查網路連線後重試。",
 		noApiUrl:
-			"未配置遠端倉庫 API 位址（versionCheckConfig.apiUrl 或 FALLBACK_API_URL 位址為空），升級終止。",
+			"未配置遠端倉庫 API 位址（versionCheckConfig.apiUrl 為空），升級終止。",
 		confirmTitle: "確認執行升級？",
 		confirmYes: "是，開始升級",
 		confirmNo: "否，取消",
@@ -365,7 +356,6 @@ const I18N_DICT = {
 		unzipNotFound:
 			"未找到 unzip 命令，無法解壓升級包。請先安裝：\n  macOS: xcode-select --install\n  Linux: sudo apt install unzip。",
 		sizeMismatch: "下載檔案大小校驗失敗：預期 {0} 位元組，實際 {1} 位元組。",
-		hashMismatch: "下載檔案雜湊校驗失敗（{0}）：預期 {1}，實際 {2}。",
 	},
 	ja: {
 		welcome: "BrightMoon ブログフレームワークアップグレードツールへようこそ",
@@ -395,7 +385,7 @@ const I18N_DICT = {
 		backupOverwriteYes: "はい、バックアップを上書き",
 		backupOverwriteNo: "いいえ、バックアップをスキップ",
 		noBackupFound:
-			"backup ディレクトリにバックアップファイルが見つかりません。",
+			"backup ディレクトリに有効なバックアップファイルが見つかりません（BrightMoon_backup_vx.x.x.zip または BrightMoon_backup_vx.x.x-beta.x.zip）。",
 		selectBackup: "復元するバックアップを選択：",
 		restoringBackup: "バックアップから復元中...",
 		restoreComplete: "バックアップ復元完了！",
@@ -403,13 +393,15 @@ const I18N_DICT = {
 		tabSelectTip:
 			"↑↓ 選択 | ←→ ページ切替 | Enter 確定 | ESC 戻る | Ctrl+C キャンセル",
 		tipLocal:
-			"ダウンロードしたアーカイブ（.zip）をプロジェクトルートの「update」フォルダに配置してください。本ツールが自動的に展開しアップグレードを完了します。",
+			"ダウンロードしたアーカイブ（BrightMoon_vx.x.x.zip または BrightMoon_vx.x.x-beta.x.zip）をプロジェクトルートの「update」フォルダに配置してください。本ツールが自動的に展開しアップグレードを完了します。",
 		checkingLocal: "ローカル update ディレクトリを確認中...",
 		localNotFound: "update ディレクトリが見つかりません。\n想定パス：{0}",
 		localFound: "ローカル update ディレクトリが見つかりました。",
 		noArchiveFound:
-			"update ディレクトリにアーカイブが見つかりません（対応形式：.zip）。アーカイブを配置してください。",
+			"update ディレクトリにアーカイブが見つかりません。アーカイブを配置してください。",
 		archiveFound: "アーカイブが見つかりました：{0}",
+		archiveNameInvalid:
+			"アーカイブ名が無効です。想定形式：BrightMoon_vx.x.x.zip または BrightMoon_vx.x.x-beta.x.zip、実際：{0}",
 		extractingLocal: "ローカルアーカイブを展開中...",
 		cleaningUpdate: "update ディレクトリをクリーンアップ中...",
 		downloading: "リモートリポジトリから最新のReleaseをダウンロード中...",
@@ -457,7 +449,7 @@ const I18N_DICT = {
 		networkTimeout:
 			"ネットワークリクエストがタイムアウトしました。接続を確認して再試行してください。",
 		noApiUrl:
-			"リモートリポジトリ API URL が設定されていません（versionCheckConfig.apiUrl または FALLBACK_API_URL が空です）。アップグレードを中止しました。",
+			"リモートリポジトリ API URL が設定されていません（versionCheckConfig.apiUrl が空です）。アップグレードを中止しました。",
 		confirmTitle: "アップグレードを実行しますか？",
 		confirmYes: "はい、アップグレードを開始",
 		confirmNo: "いいえ、キャンセル",
@@ -472,8 +464,6 @@ const I18N_DICT = {
 			"unzip コマンドが見つかりません。アップグレードアーカイブを展開できません。先にインストールしてください：\n  macOS: xcode-select --install\n  Linux: sudo apt install unzip。",
 		sizeMismatch:
 			"ダウンロードファイルサイズ検証失敗：予想 {0} バイト、実際 {1} バイト。",
-		hashMismatch:
-			"ダウンロードファイルハッシュ検証失敗（{0}）：予想 {1}、実際 {2}。",
 	},
 };
 
@@ -493,7 +483,7 @@ function I18n(key, ...args) {
 
 /* 交互式菜单 */
 
-/** 启用 stdin 原始模式（在整个交互流程中只启用/禁用一次） */
+/* 启用 stdin 原始模式（在整个交互流程中只启用/禁用一次） */
 function enableStdinRaw() {
 	if (stdinRawEnabled) return;
 	readline.emitKeypressEvents(process.stdin);
@@ -501,7 +491,7 @@ function enableStdinRaw() {
 	stdinRawEnabled = true;
 }
 
-/** 恢复 stdin 原始模式 */
+/* 恢复 stdin 原始模式 */
 function disableStdinRaw() {
 	if (!stdinRawEnabled) return;
 	process.stdin.setRawMode(false);
@@ -599,7 +589,7 @@ function selectMenu(
 			} else if (key.name === "return") {
 				cleanup();
 				const opt = options[selected];
-				console.log(`\n→ ${typeof opt === "string" ? opt : opt.text}\n`);
+				console.log(`\n→ ${typeof opt === "string" ? opt : opt.text}`);
 				resolve(selected);
 			} else if (key.name === "escape") {
 				cleanup();
@@ -719,8 +709,8 @@ function confirm(title, yesText, noText) {
 		console.log(`[Y] ${yesText}`);
 		console.log(`[N] ${noText}`);
 		process.stdout.write("> ");
-		console.log(`\n\n\x1b[90m${I18n("confirmHint")}\x1b[0m`);
-		process.stdout.write("\x1B[3A"); // 回到 "> " 行
+		console.log(`\n\x1b[90m${I18n("confirmHint")}\x1b[0m`);
+		process.stdout.write("\x1B[2A"); // 回到 "> " 行
 		process.stdout.write("\x1B[2C"); // 右移 2 格到 "> " 后面
 
 		function cleanup() {
@@ -732,14 +722,13 @@ function confirm(title, yesText, noText) {
 			if (a === "y") {
 				cleanup();
 				process.stdout.write("y");
-				process.stdout.write("\n\x1B[2K");
-				process.stdout.write("\n\x1B[2K");
+				process.stdout.write("\n");
+				process.stdout.write("\x1B[2K");
+				console.log(`\x1b[90m${I18n("confirmHint")}\x1b[0m`);
 				resolve(true);
 			} else if (a === "n") {
 				cleanup();
 				process.stdout.write("n");
-				process.stdout.write("\n");
-				process.stdout.write("\x1B[2K");
 				process.stdout.write("\n");
 				process.stdout.write("\x1B[2K");
 				console.log(`\x1b[90m${I18n("confirmHint")}\x1b[0m`);
@@ -812,12 +801,12 @@ function runAsync(cmd, args, options = {}) {
 
 /* 清理与退出 */
 
-/** DEBUG 模式下输出错误信息 */
+/* DEBUG 模式下输出错误信息 */
 function debugLog(context, e) {
 	if (process.env.DEBUG) console.error(`[${context}]`, e?.message ?? e);
 }
 
-/** 清理临时解压目录 */
+/* 清理临时解压目录 */
 function cleanupTempDir() {
 	if (!tmpDirToClean) return;
 	const dir = tmpDirToClean;
@@ -833,7 +822,7 @@ function cleanupTempDir() {
 	}
 }
 
-/** 清理 update 目录（保留 .txt 文件） */
+/* 清理 update 目录（保留 .txt 文件） */
 function cleanupUpdateDir() {
 	if (!updateDirToClean) return;
 	const dir = updateDirToClean;
@@ -855,7 +844,6 @@ function cleanupUpdateDir() {
 
 /**
  * 清理失败的备份文件（仅删除单个 zip 文件，不删除整个 backup 目录）
- * 修复：原实现误将整个 backup/ 目录赋给清理变量，中断时会删除所有历史备份
  */
 function cleanupBackupFile() {
 	if (backupFileToClean) {
@@ -898,7 +886,6 @@ function cleanupBackupFile() {
 
 /**
  * 执行全部资源清理（临时目录、update 目录、失败备份）
- * 供 exitNow 和 handleInterrupt 共用，消除重复逻辑
  */
 function performCleanup() {
 	cleanupTempDir();
@@ -916,7 +903,7 @@ function exitNow(code = 0) {
 	process.exit(code);
 }
 
-/** 中断处理：杀子进程、清理资源、退出 */
+/* 中断处理：杀子进程、清理资源、退出 */
 function handleInterrupt() {
 	if (isInterrupted) return;
 	isInterrupted = true;
@@ -925,9 +912,6 @@ function handleInterrupt() {
 	for (const child of runningProcesses) {
 		try {
 			if (process.platform === "win32" && child.pid) {
-				// Windows 上 child.kill() 只能终止直接子进程，
-				// 用 taskkill /T /F 杀掉整个进程树（cmd.exe → pnpm → node），
-				// 避免孙进程残留占用控制台，导致用户需要再按一次 Ctrl+C
 				execSync(`taskkill /pid ${child.pid} /T /F`, {
 					stdio: "ignore",
 				});
@@ -974,23 +958,23 @@ process.on("exit", () => {
 
 /* 通用工具函数 */
 
-/** 带颜色输出日志 */
+/* 带颜色输出日志 */
 function log(msg, type) {
 	const c = LOG_COLORS[type] || "";
 	console.log(`${c}${msg}\x1b[0m`);
 }
 
-/** 输出带空行的标题 */
+/* 输出带空行的标题 */
 function banner(title) {
 	console.log(`\n${title}\n`);
 }
 
-/** 确保目录存在 */
+/* 确保目录存在 */
 function ensureDir(dir) {
 	if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 }
 
-/** 检查系统命令是否可用（防命令注入） */
+/* 检查系统命令是否可用（防命令注入） */
 function hasCommand(cmd) {
 	if (!/^[a-zA-Z0-9_.-]+$/.test(cmd)) return false;
 	try {
@@ -1143,23 +1127,15 @@ let _upgradeConfigResolved = false;
 
 /**
  * 读取新架构下的配置源码（config/user/ 优先 + config/defaults/ 兜底）
- *
- * 用户的覆盖项优先于默认值。旧版本用户没有 user 文件时，
- * 自动回退读取 src/config.ts 中的字面量配置。
- *
- * @returns {{defaultsSrc: string, userSrc: string, legacySrc: string}}
+ * @returns {{defaultsSrc: string, userSrc: string}}
  */
 
 function readConfigSources() {
-	// 新架构路径：src/config/defaults/ + src/config/user/ 目录
-	// 旧架构路径（兼容）：src/config.ts 单文件
 	const defaultsDir = path.join(ROOT, "src/config/defaults");
 	const userDir = path.join(ROOT, "src/config/user");
-	const legacyPath = path.join(ROOT, "src/config.ts");
 
 	let defaultsSrc = "";
 	let userSrc = "";
-	let legacySrc = "";
 
 	if (fs.existsSync(defaultsDir) && fs.statSync(defaultsDir).isDirectory()) {
 		try {
@@ -1185,20 +1161,8 @@ function readConfigSources() {
 			debugLog("readConfigSources:user", e);
 		}
 	}
-	// src/config.ts 在新架构下只是合并入口，不再含字面量配置；
-	// 仅当它不含 "./defaults" 导入时，才视为旧版字面量配置文件
-	if (fs.existsSync(legacyPath)) {
-		try {
-			const src = fs.readFileSync(legacyPath, "utf-8");
-			if (!/from\s+['"]\.\/config\/defaults['"]/.test(src)) {
-				legacySrc = src;
-			}
-		} catch (e) {
-			debugLog("readConfigSources:legacy", e);
-		}
-	}
 
-	return { defaultsSrc, userSrc, legacySrc };
+	return { defaultsSrc, userSrc };
 }
 
 /**
@@ -1245,9 +1209,8 @@ function extractStringArrayFromSources(srcs, key) {
  */
 function getUpgradeConfig() {
 	if (_upgradeConfigResolved) return _cachedUpgradeConfig;
-	const { defaultsSrc, userSrc, legacySrc } = readConfigSources();
-	// 用户覆盖优先：先扫 user，再扫 defaults，最后扫 legacy
-	const srcsByPriority = [userSrc, defaultsSrc, legacySrc];
+	const { defaultsSrc, userSrc } = readConfigSources();
+	const srcsByPriority = [userSrc, defaultsSrc];
 
 	const protectedList = extractStringArrayFromSources(
 		srcsByPriority,
@@ -1278,13 +1241,8 @@ function getUpgradeConfig() {
  * @returns {string}
  */
 function getApiUrlFromConfig() {
-	const { defaultsSrc, userSrc, legacySrc } = readConfigSources();
-	return (
-		extractStringValueFromSources(
-			[userSrc, defaultsSrc, legacySrc],
-			"apiUrl",
-		) || FALLBACK_API_URL
-	);
+	const { defaultsSrc, userSrc } = readConfigSources();
+	return extractStringValueFromSources([userSrc, defaultsSrc], "apiUrl");
 }
 
 let _cachedPrefixPattern = null;
@@ -1296,16 +1254,16 @@ let _prefixPatternResolved = false;
  */
 function getVersionPrefixPattern() {
 	if (_prefixPatternResolved) return _cachedPrefixPattern;
-	const { defaultsSrc, userSrc, legacySrc } = readConfigSources();
+	const { defaultsSrc, userSrc } = readConfigSources();
 	_cachedPrefixPattern = extractStringValueFromSources(
-		[userSrc, defaultsSrc, legacySrc],
+		[userSrc, defaultsSrc],
 		"versionPrefixPattern",
 	);
 	_prefixPatternResolved = true;
 	return _cachedPrefixPattern;
 }
 
-/** 获取 HTTP 超时时间 */
+/* 获取 HTTP 超时时间 */
 function getHttpTimeout() {
 	const cfg = getUpgradeConfig();
 	return cfg ? cfg.httpTimeout : 30_000;
@@ -1333,14 +1291,14 @@ function compileGlob(pattern) {
 	return new RegExp(regex);
 }
 
-/** 检查文件路径是否匹配受保护列表 */
+/* 检查文件路径是否匹配受保护列表 */
 function isProtected(fp) {
 	const cfg = getUpgradeConfig();
 	const list = cfg ? cfg.protected : [];
 	return list.map(compileGlob).some((r) => r.test(fp));
 }
 
-/** 检查文件路径是否匹配忽略列表 */
+/* 检查文件路径是否匹配忽略列表 */
 function isIgnored(fp) {
 	const cfg = getUpgradeConfig();
 	const list = cfg ? cfg.ignore : [];
@@ -1387,7 +1345,7 @@ function scanAllFiles(dir, baseDir = dir, results = []) {
 	return results;
 }
 
-/** 递归删除空目录（直到 stopAt 或非空目录为止） */
+/* 递归删除空目录（直到 stopAt 或非空目录为止） */
 function removeEmptyDirs(dir, stopAt) {
 	if (dir === stopAt || !fs.existsSync(dir)) return;
 	const entries = fs.readdirSync(dir);
@@ -1399,7 +1357,7 @@ function removeEmptyDirs(dir, stopAt) {
 
 /* HTTP 请求 */
 
-/** 根据 URL 协议选择 http 或 https 模块 */
+/* 根据 URL 协议选择 http 或 https 模块 */
 function httpGet(url, options, callback) {
 	const mod = url.startsWith("https://") ? https : http;
 	return mod.get(url, options, callback);
@@ -1511,32 +1469,13 @@ function downloadFile(url, dest, redirects = MAX_REDIRECTS) {
 	});
 }
 
-/* 下载完整性校验 */
-
 /**
- * 流式计算文件哈希值
- * @param {string} filePath - 文件路径
- * @param {string} algo - 哈希算法（如 sha256）
- * @returns {Promise<string>} 十六进制哈希值
- */
-function hashFile(filePath, algo) {
-	return new Promise((resolve, reject) => {
-		const hash = crypto.createHash(algo);
-		const stream = fs.createReadStream(filePath);
-		stream.on("data", (chunk) => hash.update(chunk));
-		stream.on("end", () => resolve(hash.digest("hex")));
-		stream.on("error", reject);
-	});
-}
-
-/**
- * 校验下载文件的完整性（大小 + SHA256 哈希）
+ * 校验下载文件的完整性（文件大小）
  * @param {string} filePath - 已下载文件路径
- * @param {{size: number|null, digest: string|null}} info - 下载信息
- * @returns {Promise<{ok: boolean, reason?: string}>} 校验结果
+ * @param {{size: number|null}} info - 下载信息
+ * @returns {{ok: boolean, reason?: string}} 校验结果
  */
-async function verifyDownload(filePath, info) {
-	// 大小校验
+function verifyDownload(filePath, info) {
 	if (info.size != null) {
 		try {
 			const actualSize = fs.statSync(filePath).size;
@@ -1550,31 +1489,12 @@ async function verifyDownload(filePath, info) {
 			debugLog("verifyDownload:size", e);
 		}
 	}
-	// 哈希校验（GitHub Release asset 的 digest 格式为 "sha256:xxxx"）
-	if (info.digest) {
-		const match = info.digest.match(/^(sha(?:256|384|512)):(.+)$/);
-		if (match) {
-			const algo = match[1];
-			const expected = match[2];
-			try {
-				const actual = await hashFile(filePath, algo);
-				if (actual !== expected) {
-					return {
-						ok: false,
-						reason: I18n("hashMismatch", algo, expected, actual),
-					};
-				}
-			} catch (e) {
-				debugLog("verifyDownload:hash", e);
-			}
-		}
-	}
 	return { ok: true };
 }
 
 /* 版本号处理 */
 
-/** 从 package.json 读取本地版本号 */
+/* 从 package.json 读取本地版本号 */
 function getLocalVersion() {
 	try {
 		const pkg = JSON.parse(
@@ -1587,7 +1507,7 @@ function getLocalVersion() {
 	}
 }
 
-/** 移除版本号前缀（如 CE_V、v、V） */
+/* 移除版本号前缀（如 v、V） */
 function stripVersionPrefix(tag) {
 	const pattern = getVersionPrefixPattern();
 	return pattern ? tag.replace(new RegExp(pattern, "i"), "") : tag;
@@ -1722,7 +1642,19 @@ async function extractArchive(archivePath, destDir) {
 	}
 }
 
-/** 在目录中查找 zip 压缩包 */
+/* 校验升级压缩包名称是否符合 BrightMoon_vx.x.x.zip 或 BrightMoon_vx.x.x-beta.x.zip 格式 */
+function isValidArchiveName(name) {
+	return /^BrightMoon_v\d+\.\d+\.\d+/.test(name) && name.endsWith(".zip");
+}
+
+/* 校验备份压缩包名称是否符合 BrightMoon_backup_vx.x.x.zip 或 BrightMoon_backup_vx.x.x-beta.x.zip 格式 */
+function isValidBackupName(name) {
+	return (
+		/^BrightMoon_backup_v\d+\.\d+\.\d+/.test(name) && name.endsWith(".zip")
+	);
+}
+
+/* 在目录中查找 zip 压缩包 */
 function findArchiveInDir(dir) {
 	const entries = fs.readdirSync(dir);
 	for (const name of entries) {
@@ -1738,8 +1670,8 @@ function findArchiveInDir(dir) {
 /**
  * 从 Release 对象中获取下载信息
  * @param {object} release - GitHub Release 对象
- * @returns {{url: string|null, size: number|null, digest: string|null}}
- *   下载 URL、文件大小（字节）、哈希摘要（"sha256:xxxx" 格式）
+ * @returns {{url: string|null, size: number|null}}
+ *   下载 URL、文件大小（字节）
  */
 function getDownloadInfo(release) {
 	if (release.assets && release.assets.length > 0) {
@@ -1754,13 +1686,11 @@ function getDownloadInfo(release) {
 		return {
 			url: asset.browser_download_url,
 			size: asset.size ?? null,
-			digest: asset.digest ?? null,
 		};
 	}
 	return {
 		url: release.zipball_url || null,
 		size: null,
-		digest: null,
 	};
 }
 
@@ -1791,8 +1721,8 @@ async function getUpdateOnline(releaseObj) {
 		return null;
 	}
 
-	// 下载完整性校验：大小 + SHA256 哈希
-	const verifyResult = await verifyDownload(zipPath, downloadInfo);
+	// 下载完整性校验：文件大小
+	const verifyResult = verifyDownload(zipPath, downloadInfo);
 	if (!verifyResult.ok) {
 		log(verifyResult.reason, "error");
 		return null;
@@ -1861,7 +1791,7 @@ function listBackupFiles() {
 	if (!fs.existsSync(backupDir)) return [];
 	return fs
 		.readdirSync(backupDir)
-		.filter((f) => f.toLowerCase().endsWith(".zip"))
+		.filter((f) => isValidBackupName(f))
 		.sort()
 		.reverse();
 }
@@ -1931,8 +1861,6 @@ function buildBackupFileList(cachedLocalFiles) {
 
 /**
  * Windows 平台备份：使用 .NET ZipFile API + 精确文件列表
- * 通过临时 .ps1 脚本调用 System.IO.Compression，避免 Compress-Archive 性能问题
- * 且使用与 Unix 相同的 scanFiles + isIgnored 过滤，保证两平台排除语义一致
  * @param {string} zipPath - 目标 zip 路径
  * @param {Array} entries - 文件列表（含 relativePath 和 absolutePath）
  * @returns {Promise<void>}
@@ -2024,8 +1952,6 @@ async function backupOnUnix(zipPath, entries) {
 
 /**
  * 备份整个项目到 backup/ 目录
- * Windows 使用 .NET ZipFile API，Unix 使用 zip 命令
- * 两平台共用 scanFiles + isIgnored 精确过滤，排除语义完全一致
  * @param {string} version - 当前版本号
  * @param {Array} cachedLocalFiles - 缓存的本地文件列表
  * @returns {Promise<string|null>} 备份文件名，失败返回 null
@@ -2035,7 +1961,7 @@ async function backupProject(version, cachedLocalFiles) {
 	const backupDir = path.join(ROOT, "backup");
 	ensureDir(backupDir);
 
-	const zipName = `BrightMoon_Backup_CE_V${ver}.zip`;
+	const zipName = `BrightMoon_backup_v${ver}.zip`;
 	const zipPath = path.join(backupDir, zipName);
 	if (fs.existsSync(zipPath)) fs.unlinkSync(zipPath);
 
@@ -2044,7 +1970,6 @@ async function backupProject(version, cachedLocalFiles) {
 
 	try {
 		// 仅在失败时清理单个 zip 文件，不删除整个 backup 目录
-		// 修复：原实现误将 backupDir 赋给清理变量，中断时会删除所有历史备份
 		backupFileToClean = zipPath;
 
 		if (process.platform === "win32") {
@@ -2086,7 +2011,55 @@ function hasExistingBackup() {
 /* 回滚检测 */
 
 /**
+ * 从文件名提取版本号（如 BrightMoon_v1.2.3.zip → 1.2.3）
+ * @param {string} filename - 压缩包文件名
+ * @returns {string|null} 版本号
+ */
+function extractVersionFromFilename(filename) {
+	const match = filename.match(/BrightMoon_v(\d+\.\d+\.\d+)/);
+	return match ? match[1] : null;
+}
+
+/**
  * 检查是否为回滚操作（目标版本 ≤ 当前版本则终止）
+ * @param {string} updateVer - 目标版本号
+ * @param {string} localVer - 当前本地版本号
+ * @returns {boolean} true=允许升级, false=回滚被拦截
+ */
+function checkRollbackCore(updateVer, localVer) {
+	if (!updateVer) return true;
+	const localParsed = parseVersion(localVer || "");
+	const updateParsed = parseVersion(updateVer);
+	const cmp = compareVersion(updateParsed, localParsed);
+	if (localParsed && updateParsed && cmp !== null && cmp <= 0) {
+		const msg = I18n(
+			"rollbackBlocked",
+			`\x1b[33m${updateVer}\x1b[31m`,
+			`\x1b[32m${localVer}\x1b[31m`,
+		);
+		console.log(`\x1b[31m${msg}\x1b[0m\n`);
+		return false;
+	}
+	console.log(
+		`${I18n("version")}: ${updateVer} (${I18n("buildDate")}: ${localVer})\n`,
+	);
+	return true;
+}
+
+/**
+ * 从文件名预检回滚（不解压）
+ * @param {string} archiveName - 压缩包文件名
+ * @param {string} localVer - 当前本地版本号
+ * @returns {boolean} true=允许升级, false=回滚被拦截
+ */
+function checkRollbackByFilename(archiveName, localVer) {
+	const updateVer = extractVersionFromFilename(archiveName);
+	if (!updateVer) return true;
+	return checkRollbackCore(updateVer, localVer);
+}
+
+/**
+ * 从解压后的 package.json 检测回滚
  * @param {object} release - Release 对象（含 extractDir）
  * @param {string} localVer - 当前本地版本号
  */
@@ -2097,30 +2070,18 @@ function checkRollback(release, localVer) {
 		const updatePkg = JSON.parse(fs.readFileSync(updatePkgPath, "utf-8"));
 		const updateVer = updatePkg.version;
 		if (!updateVer) return;
-		const localParsed = parseVersion(localVer || "");
-		const updateParsed = parseVersion(updateVer);
-		const cmp = compareVersion(updateParsed, localParsed);
-		if (localParsed && updateParsed && cmp !== null && cmp <= 0) {
-			const msg = I18n(
-				"rollbackBlocked",
-				`\x1b[33m${updateVer}\x1b[31m`,
-				`\x1b[32m${localVer}\x1b[31m`,
-			);
-			console.log(`\n\x1b[31m${msg}\x1b[0m`);
+		if (!checkRollbackCore(updateVer, localVer)) {
 			exitNow(1);
 		}
-		console.log(
-			`${I18n("version")}: ${updateVer} (${I18n("buildDate")}: ${localVer})\n`,
-		);
 	} catch (e) {
 		debugLog("checkRollback", e);
 	}
 }
 
-/* 应用更新 */
+/* 组件更新 */
 
 /**
- * 应用文件级更新：同步删除、新增、替换，跳过受保护文件
+ * 同步删除、新增、替换，跳过受保护文件
  * @param {object} release - Release 对象（含 extractDir）
  * @param {Array} cachedLocalFiles - 缓存的本地文件列表
  * @returns {{protected: string[], replaced: string[], fileDeleted: string[], fileAdded: string[]}}
@@ -2191,10 +2152,7 @@ function applyUpdate(release, cachedLocalFiles) {
 }
 
 /**
- * 应用恢复更新：全量恢复到备份状态，不遵守保护文件和屏蔽规则
- * 本地有、备份没有 → 删除本地文件（新版本残留）
- * 备份有、本地没有 → 添加到本地（被新版本删除的文件）
- * 两边都有 → 用备份版本替换本地版本
+ * 备份恢复：全量恢复到备份状态，不遵守保护文件和屏蔽规则
  * @param {object} release - Release 对象（含 extractDir）
  * @param {Array} cachedLocalFiles - 缓存的本地文件列表
  * @returns {{replaced: string[], fileDeleted: string[], fileAdded: string[]}}
@@ -2281,7 +2239,7 @@ function printReport(stats, tagName) {
 
 /* 主流程 - 子步骤 */
 
-/** 步骤：选择语言 */
+/* 步骤：选择语言 */
 async function selectLanguage() {
 	const LANG_MAP = ["zh", "zh-TW", "en", "ja"];
 	const langChoice = await selectMenu(
@@ -2301,7 +2259,7 @@ async function selectLanguage() {
 	lang = LANG_MAP[langChoice];
 }
 
-/** 步骤：选择升级方式（在线/本地） */
+/* 步骤：选择升级方式（在线/本地） */
 async function selectMethod() {
 	console.log(`\n${I18n("welcome")}`);
 	console.log(`${I18n("buildDate")}: ${LOCAL_VERSION}\n`);
@@ -2337,23 +2295,40 @@ async function selectMethod() {
 		const updateDir = path.join(ROOT, "update");
 		if (!fs.existsSync(updateDir)) {
 			log(I18n("localNotFound", updateDir), "error");
-			exitNow(1);
+			await waitForKeypress();
+			console.clear();
+			return BACK;
 		}
 		log(I18n("localFound"), "ok");
 		console.log("");
 		const archive = findArchiveInDir(updateDir);
 		if (!archive) {
 			log(I18n("noArchiveFound"), "error");
-			exitNow(1);
+			await waitForKeypress();
+			console.clear();
+			return BACK;
 		}
-		log(I18n("archiveFound", path.basename(archive)), "ok");
+		const archiveName = path.basename(archive);
+		if (!isValidArchiveName(archiveName)) {
+			log(I18n("archiveNameInvalid", archiveName), "error");
+			await waitForKeypress();
+			console.clear();
+			return BACK;
+		}
+		const localVer = getLocalVersion();
+		if (!checkRollbackByFilename(archiveName, localVer)) {
+			await waitForKeypress();
+			console.clear();
+			return BACK;
+		}
+		log(I18n("archiveFound", archiveName), "ok");
 		console.log("");
 	}
 
 	return isOnline;
 }
 
-/** 步骤：检查在线版本（选择稳定版/预发布版，获取最新 Release） */
+/* 步骤：检查在线版本（选择稳定版/预发布版，获取最新 Release） */
 async function checkOnlineVersion() {
 	const verChoice = await selectMenu(
 		I18n("versionTitle"),
@@ -2390,7 +2365,7 @@ async function checkOnlineVersion() {
 
 	const selectedRelease = releases[0];
 
-	// 去掉版本号前缀（如 CE_V、v、V），避免重复
+	// 去掉版本号前缀（如 v、V），避免重复
 	selectedRelease.tag_name = stripVersionPrefix(selectedRelease.tag_name);
 	const localParsed = parseVersion(localVer || "");
 	const latestParsed = parseVersion(selectedRelease.tag_name);
@@ -2408,7 +2383,7 @@ async function checkOnlineVersion() {
 	return selectedRelease;
 }
 
-/** 步骤：确认升级 */
+/* 步骤：确认升级 */
 async function confirmUpgrade() {
 	const ok = await confirm(
 		I18n("confirmTitle"),
@@ -2430,7 +2405,7 @@ async function main() {
 	console.clear();
 	enableStdinRaw();
 
-	// 页面导航状态：method → (online ? versionType : null) → confirm
+	// 页面导航状态
 	let step = "method";
 	let isOnline = false;
 	let isRestoreBackup = false;
@@ -2442,8 +2417,6 @@ async function main() {
 			const result = await selectMethod();
 			if (result === BACK) {
 				console.clear();
-				await selectLanguage();
-				console.clear();
 				continue;
 			}
 			if (result === "manualBackup") {
@@ -2451,6 +2424,7 @@ async function main() {
 				const localVer = getLocalVersion();
 				const localFiles = scanFiles(ROOT);
 				let shouldBackup = true;
+				let hadConfirm = false;
 				if (hasExistingBackup()) {
 					shouldBackup = await confirm(
 						I18n("backupExists"),
@@ -2458,8 +2432,10 @@ async function main() {
 						I18n("backupOverwriteNo"),
 					);
 					if (shouldBackup === BACK) shouldBackup = false;
+					hadConfirm = true;
 				}
 				if (shouldBackup) {
+					if (hadConfirm) console.log();
 					log(I18n("backingUp"), "info");
 					const backupName = await backupProject(localVer, localFiles);
 					if (backupName) {
@@ -2607,17 +2583,13 @@ async function main() {
 	}
 	isInstallingDeps = false;
 
-	// 检测配置文件架构版本（新架构：src/config/ 目录，旧架构：src/config.ts 单文件）
-	const configTsPath = path.join(ROOT, "src/config.ts");
 	const configIndexPath = path.join(ROOT, "src/config/index.ts");
 
 	const hasNewArch = fs.existsSync(configIndexPath);
-	const hasOldArch = fs.existsSync(configTsPath);
 
 	if (isRestoreBackup) {
 		log(I18n("configRestoreTip"), "info");
-	} else if (hasNewArch || hasOldArch) {
-		// 新架构已就位：src/config/{index,defaults,user}.ts
+	} else if (hasNewArch) {
 		log(
 			I18n(
 				backupName || hasExistingBackup()

@@ -1,3 +1,6 @@
+/* 滚动条样式 */
+
+/* 滚动条基础样式 */
 .scrollbar-base.os-scrollbar {
 	@apply transition-all;
 	pointer-events: unset;
@@ -12,6 +15,7 @@
 		}
 	}
 
+	/* 垂直滚动条 */
 	&.os-scrollbar-vertical {
 		@apply px-1 py-1 w-4;
 		.os-scrollbar-track .os-scrollbar-handle {
@@ -23,6 +27,7 @@
 	}
 }
 
+/* 滚动条样式 - 自动模式 */
 .os-scrollbar {
 	&.scrollbar-auto {
 		--os-handle-bg: var(--scrollbar-bg);

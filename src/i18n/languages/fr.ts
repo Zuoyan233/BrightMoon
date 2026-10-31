@@ -41,8 +41,19 @@ export const fr: Translation = {
 	[Key.friendsNoResults]: "Aucun ami correspondant trouvé",
 	[Key.friendsVisit]: "Visiter",
 	[Key.friendsCopyLink]: "Copier le lien",
-	[Key.friendsCopySuccess]: "Copié",
 	[Key.friendsTags]: "Tags",
+	[Key.friendsNoticeTitle]: "Remarques",
+	[Key.friendsNoticeReciprocal]:
+		"Veuillez d'abord ajouter ce site à votre page d'amis, nous ajouterons le vôtre après confirmation.",
+	[Key.friendsNoticeMaintenance]:
+		"Les liens d'amis inaccessibles depuis longtemps ou contenant du contenu illégal seront supprimés.",
+	[Key.friendsNoticeContent]:
+		"Le contenu doit être positif et ne contenir aucun contenu illégal tel que de la pornographie, du contenu réactionnaire ou de la violence.",
+	[Key.friendsNoticeHttps]:
+		"Support HTTPS, contenu original, accessible et régulièrement mis à jour.",
+	[Key.friendsApplyTemplate]: "Modèle de demande de lien d'amitié",
+	[Key.friendsApplyHint]:
+		"Veuillez laisser un commentaire ci-dessous pour demander un lien d'amitié, en utilisant le format suivant :",
 	[Key.untitled]: "Sans titre",
 	[Key.uncategorized]: "Non catégorisé",
 	[Key.noTags]: "Aucun tag",
@@ -75,7 +86,6 @@ export const fr: Translation = {
 	[Key.diary]: "Journal",
 
 	// Page Anime
-	[Key.animeTitle]: "Ma liste d'anime",
 	[Key.animeSubtitle]: "Enregistrer mon parcours anime",
 	[Key.animeStatusWatching]: "En cours",
 	[Key.animeStatusCompleted]: "Terminé",
@@ -95,7 +105,8 @@ export const fr: Translation = {
 	[Key.animeSetBilibiliVmId]:
 		"Veuillez définir votre vmID Bilibili dans le fichier src/config/user.ts",
 	[Key.animeEmptyLocal]:
-		"Veuillez ajouter les informations d'anime dans le fichier src/data/anime.ts",
+		"Veuillez ajouter les informations d'anime dans le fichier src/config/user/anime-data.ts",
+	[Key.animeFilterEmpty]: "Aucun anime dans cette catégorie",
 
 	// Page Journal
 	[Key.diarySubtitle]: "Partager la vie, à tout moment, n'importe où",
@@ -146,6 +157,7 @@ export const fr: Translation = {
 	[Key.musicPlayerSettingsServer]: "Serveur musical",
 	[Key.musicPlayerSettingsType]: "Type",
 	[Key.musicPlayerSettingsApply]: "Appliquer",
+	[Key.musicPlayerSettingsReset]: "Réinitialiser",
 	[Key.musicPlayerServerNetease]: "NetEase Cloud",
 	[Key.musicPlayerServerTencent]: "QQ Music",
 	[Key.musicPlayerServerKugou]: "Kugou Music",
@@ -209,7 +221,7 @@ export const fr: Translation = {
 		"Abonnez-vous via RSS pour recevoir immédiatement les derniers articles et mises à jour",
 	[Key.rssLink]: "Lien RSS",
 	[Key.rssCopyToReader]: "Copier le lien dans votre lecteur RSS",
-	[Key.rssCopyLink]: "Copier",
+	[Key.rssCopyLink]: "Copier le lien",
 	[Key.rssLatestPosts]: "Derniers articles",
 	[Key.rssWhatIsRSS]: "Qu'est-ce que RSS ?",
 	[Key.rssWhatIsRSSDescription]:
@@ -223,9 +235,6 @@ export const fr: Translation = {
 		"Profiter d'une expérience de lecture sans publicité et épurée",
 	[Key.rssHowToUse]:
 		"Il est recommandé d'utiliser Feedly, Inoreader ou d'autres lecteurs RSS pour vous abonner à ce site.",
-	[Key.rssCopied]: "Lien RSS copié dans le presse-papiers",
-	[Key.rssCopyFailed]:
-		"Échec de la copie, veuillez copier le lien manuellement",
 
 	// Page Atom
 	[Key.atom]: "Flux Atom",
@@ -235,7 +244,7 @@ export const fr: Translation = {
 		"Abonnez-vous via Atom pour recevoir immédiatement les derniers articles et mises à jour",
 	[Key.atomLink]: "Lien Atom",
 	[Key.atomCopyToReader]: "Copier le lien dans votre lecteur Atom",
-	[Key.atomCopyLink]: "Copier",
+	[Key.atomCopyLink]: "Copier le lien",
 	[Key.atomLatestPosts]: "Derniers articles",
 	[Key.atomWhatIsAtom]: "Qu'est-ce que Atom ?",
 	[Key.atomWhatIsAtomDescription]:
@@ -249,9 +258,6 @@ export const fr: Translation = {
 		"Profiter d'une expérience de lecture sans publicité et épurée",
 	[Key.atomHowToUse]:
 		"Il est recommandé d'utiliser Feedly, Inoreader ou d'autres lecteurs Atom pour vous abonner à ce site.",
-	[Key.atomCopied]: "Lien Atom copié dans le presse-papiers",
-	[Key.atomCopyFailed]:
-		"Échec de la copie, veuillez copier le lien manuellement",
 
 	// Mode fond d'écran
 	[Key.wallpaperMode]: "Mode fond d'écran",
@@ -281,7 +287,6 @@ export const fr: Translation = {
 	[Key.skillsDatabase]: "Base de données",
 	[Key.skillsTools]: "Outils de développement",
 	[Key.skillsOther]: "Autres compétences",
-	[Key.skillLevel]: "Niveau",
 	[Key.skillLevelBeginner]: "Débutant",
 	[Key.skillLevelIntermediate]: "Intermédiaire",
 	[Key.skillLevelAdvanced]: "Avancé",
@@ -290,16 +295,8 @@ export const fr: Translation = {
 	[Key.skillYears]: "ans",
 	[Key.skillMonths]: "mois",
 	[Key.skillsTotal]: "Compétences totales",
-	[Key.skillsExpert]: "Niveau expert",
-	[Key.skillsAdvanced]: "Avancé",
-	[Key.skillsIntermediate]: "Intermédiaire",
-	[Key.skillsBeginner]: "Débutant",
 	[Key.skillsAdvancedTitle]: "Compétences professionnelles",
-	[Key.skillsProjects]: "Projets associés",
-	[Key.skillsDistribution]: "Répartition des compétences",
-	[Key.skillsByLevel]: "Par niveau",
-	[Key.skillsByCategory]: "Par catégorie",
-	[Key.noData]: "Aucune donnée",
+	[Key.skillsFilterEmpty]: "Aucune compétence dans cette catégorie",
 
 	// Page Chronologie
 	[Key.timeline]: "Chronologie",
@@ -310,33 +307,30 @@ export const fr: Translation = {
 	[Key.timelineProject]: "Expérience projet",
 	[Key.timelineAchievement]: "Réalisations",
 	[Key.timelinePresent]: "Présent",
-	[Key.timelineLocation]: "Lieu",
-	[Key.timelineDescription]: "Description détaillée",
 	[Key.timelineMonths]: "mois",
 	[Key.timelineYears]: "ans",
 	[Key.timelineTotal]: "Total",
-	[Key.timelineProjects]: "Projets",
-	[Key.timelineExperience]: "Expérience professionnelle",
 	[Key.timelineCurrent]: "Situation actuelle",
-	[Key.timelineHistory]: "Historique",
 	[Key.timelineAchievements]: "Réalisations",
-	[Key.timelineStartDate]: "Date de début",
-	[Key.timelineDuration]: "Durée",
+	[Key.timelineFilterEmpty]:
+		"Aucun enregistrement de chronologie dans cette catégorie",
 
 	// Page Retour - Module Contacter le webmaster
 	[Key.contactMe]: "Contacter le webmaster",
 	[Key.contactEmail]: "Contacter le webmaster par e-mail",
+	[Key.viewEmail]: "Voir l'e-mail",
+	[Key.emailIndex]: "E-mail {n}",
+	[Key.openEmailLink]:
+		"Ouvrir le site de messagerie et copier l'adresse e-mail.",
 	[Key.contactSocialFriends]:
 		"Contacter le webmaster en l'ajoutant comme ami sur les réseaux sociaux",
-	[Key.addFriends]: "Ajouter un ami maintenant",
+	[Key.addFriends]: "Ajouter un ami",
 
 	// Page Sponsoring
 	[Key.sponsorsNotice1]:
 		"Si vous trouvez le contenu du site utile, veuillez soutenir mon travail par les moyens suivants pour m'aider à créer un meilleur contenu. Tous les parrainages seront utilisés pour la maintenance du site, les coûts des serveurs et la création de contenu.",
 	[Key.sponsorsNotice2]:
 		"Merci de soutenir le développement du contenu du blog BrightMoon !",
-	[Key.wechatPay]: "WeChat",
-	[Key.aliPay]: "Alipay",
 	[Key.scanPayQRcode]: "Scanner pour payer",
 	[Key.sponsorsPartner]: "Partenaires sponsors",
 	[Key.otherSupportOptions]: "Autres moyens de soutien",
@@ -441,16 +435,6 @@ export const fr: Translation = {
 	[Key.shareOnSocialDescription]:
 		"Si cet article vous a aidé, veuillez le partager avec d'autres !",
 
-	// Statistiques du profil
-	[Key.profileStatsLoading]: "Chargement des statistiques...",
-	[Key.profileStatsPageViews]: "Vues de page",
-	[Key.profileStatsVisits]: "Visites",
-	[Key.profileStatsUnavailable]: "Statistiques indisponibles",
-
-	// Statistiques des vues de page
-	[Key.pageViewsLoading]: "Chargement des statistiques...",
-	[Key.pageViewsUnavailable]: "Statistiques indisponibles",
-
 	// Mise en page des articles
 	[Key.postListLayout]: "Mise en page des articles",
 	[Key.listMode]: "Liste",
@@ -460,19 +444,18 @@ export const fr: Translation = {
 	[Key.leaveSite]: "Quitter ce site",
 	[Key.goToExternalLink]: "Vous allez visiter un lien externe :",
 	[Key.warningText]:
-		"Soyez attentif à la sécurité de votre compte et de vos actifs",
+		"Soyez attentif à la sécurité de votre compte et de vos actifs.",
 	[Key.confirmText]: "Continuer la visite",
 	[Key.cancelText]: "Annuler",
 
 	// Ajouter des amis sur les réseaux sociaux
 	[Key.copyAccount]: "Copier le compte",
-	[Key.copyAccountSuccess]: "Copié dans le presse-papiers",
 	[Key.openAppAdd]: "Ouvrir dans l'application",
 
 	// Composant météo
 	[Key.weather]: "Météo",
 	[Key.weatherNoApiKey]:
-		"Veuillez ajouter la clé WeatherAPI dans src/config/user.ts",
+		"Veuillez ajouter la clé WeatherAPI dans src/config/user/weather.ts",
 	[Key.weatherLocationDisabled]:
 		"Le service de localisation météo a été désactivé en raison du refus de l'accord de confidentialité",
 	[Key.weatherWaitingConsent]:
@@ -524,6 +507,22 @@ export const fr: Translation = {
 		"Détection de localisation expirée, veuillez réessayer plus tard",
 	[Key.cookieConsentAccept]: "Accepter",
 	[Key.cookieConsentReject]: "Tout Refuser",
+	[Key.cookieConsentLearnMore]: "Voir la déclaration de confidentialité",
+	[Key.cookieConsentPrivacyTitle]: "Déclaration de Confidentialité BrightMoon",
+	[Key.cookieConsentPrivacyIntro]:
+		"Nous respectons votre vie privée. Cette page détaille comment nous utilisons les cookies et technologies similaires, ainsi que les types de données que nous collectons et leurs finalités.",
+	[Key.cookieConsentPrivacyEssential]:
+		"Cookies Essentiels : Ces cookies sont nécessaires au bon fonctionnement du site web, y compris la sauvegarde de vos choix de confidentialité et le maintien des états de session. Ne peuvent pas être désactivés.",
+	[Key.cookieConsentPrivacyAnalytics]:
+		"Cookies d'Analyse : Nous utilisons ces cookies pour comprendre la fréquentation du site, comme les pages vues et les sources de trafic, afin de nous aider à améliorer l'expérience du site.",
+	[Key.cookieConsentPrivacyAdvertising]:
+		"Cookies Publicitaires : Ces cookies sont utilisés pour vous fournir du contenu publicitaire plus pertinent et mesurer l'efficacité des campagnes publicitaires.",
+
+	[Key.cookieConsentPrivacyThirdParty]:
+		"Services Tiers : Nous intégrons certains services tiers (comme la localisation météo, le système de commentaires Twikoo, etc.), qui peuvent collecter et utiliser vos données.",
+	[Key.cookieConsentPrivacyRejectNotice]:
+		"Le refus de l'accord de confidentialité désactive certaines fonctionnalités.",
+	[Key.cookieConsentPrivacyClose]: "Fermer",
 
 	// Système de commentaires Twikoo
 	[Key.twikooInitializing]:
@@ -531,7 +530,7 @@ export const fr: Translation = {
 	[Key.twikooNotConfigured]:
 		"Le système de commentaires Twikoo n'est pas encore configuré",
 	[Key.twikooConfigHint]:
-		"Veuillez configurer le système de commentaires Twikoo dans src/config/user.ts",
+		"Veuillez configurer le système de commentaires Twikoo dans src/config/user/comment.ts",
 	[Key.twikooPrivacyRejected]:
 		"Le système de commentaires Twikoo a été désactivé en raison du refus de l'accord de confidentialité",
 
@@ -544,13 +543,13 @@ export const fr: Translation = {
 	[Key.versionPreRelease]: "Bêta",
 	[Key.versionCheckFailedTitle]: "Échec de la vérification",
 	[Key.versionCheckFailedDesc]:
-		"Impossible de vérifier les mises à jour, généralement en raison de la limitation de débit de l'API du dépôt distant ou de l'absence d'adresse API du dépôt distant. Veuillez réessayer plus tard",
+		"Impossible de vérifier les mises à jour, généralement en raison de la limitation de débit de l'API du dépôt distant ou de l'absence d'adresse API du dépôt distant. Veuillez réessayer plus tard.",
 	[Key.versionCheckSuccessTitle]: "Vérification réussie",
 	[Key.versionCheckSuccessDesc]:
-		"Aucune nouvelle version trouvée. Vous êtes à jour",
+		"Aucune nouvelle version trouvée. Vous êtes à jour.",
 	[Key.versionDownload]: "Télécharger la dernière version",
 	[Key.versionUpdateWarning]:
-		"Il est recommandé d'utiliser l'outil de mise à jour du framework de blog BrightMoon. Veuillez sauvegarder vos données avant la mise à jour",
+		"Il est recommandé d'utiliser l'outil de mise à jour du framework de blog BrightMoon. Veuillez sauvegarder vos données avant la mise à jour.",
 
 	// Fil d'Ariane
 	[Key.suggestion]: "Vous aimerez peut-être visiter",
