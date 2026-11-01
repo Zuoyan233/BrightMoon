@@ -1,15 +1,23 @@
 /**
  * 版本更新检测模块
- *
- * 1. 负责检查当前版本与远程最新版本，解析对比版本号，弹窗提示用户更新。
- * 2. 支持 semver 格式版本号（含预发布标识），内置简易 Markdown 渲染用于展示更新日志。
- * 3. 与 i18n 翻译系统集成，支持多语言 UI 文案。
  */
+
+// 代码块占位符：用于 simpleMarkdown 中临时替换代码块，避免行内格式干扰
 const SENTINEL = "\uE000";
 
+// 缓存上次检查结果，供页面切换后恢复 UI 状态
 let lastCheckResult = null;
 
 class VersionChecker {
+	/**
+	 * @param {object} options - 配置项
+	 * @param {string} options.currentVersion - 当前版本号
+	 * @param {string} options.versionCheckApiUrl - GitHub Releases API 地址
+	 * @param {string} options.versionPrefixPattern - 版本号前缀正则（如 "^[vV]" 匹配 v1.0.0）
+	 * @param {boolean} options.autoCheck - 是否自动检查更新
+	 * @param {object} options.versionTranslations - 多语言翻译映射表
+	 * @param {string} options.configLang - 默认语言
+	 */
 	constructor(options) {
 		this.config = {
 			currentVersion: options.currentVersion || "",
@@ -17,15 +25,21 @@ class VersionChecker {
 			versionPrefixPattern: options.versionPrefixPattern || "^[vV]",
 			autoCheck: options.autoCheck !== undefined ? options.autoCheck : false,
 			versionTranslations: options.versionTranslations || {},
-			translateToLangMap: options.translateToLangMap || {},
-			defaultLang: options.defaultLang || "en",
+			configLang: options.configLang || "en",
 		};
+		// 三个对话框的 DOM 引用（失败、已是最新、发现新版本）
 		this.bodyFailedDialog = null;
 		this.bodySuccessDialog = null;
 		this.bodyNewDialog = null;
 		this.init();
 	}
 
+	/**
+	 * 解析 semver 版本号为结构化对象
+	 * 支持预发布标识，如 "1.2.3-beta.1" → { parts: [1,2,3], pre: ["beta",1] }
+	 * @param {string} v - 版本号字符串
+	 * @returns {{ parts: number[], pre: (number|string)[]|null }|null}
+	 */
 	parseVersion(v) {
 		const cleaned = v.replace(
 			new RegExp(this.config.versionPrefixPattern, "i"),
@@ -50,6 +64,11 @@ class VersionChecker {
 		return { parts: parts, pre: preParts };
 	}
 
+	/**
+	 * 比较两个解析后的版本号
+	 * @returns {number} 1 表示 a>b，-1 表示 a<b，0 表示相等
+	 * 预发布版本优先级低于同数字版本（1.0.0 > 1.0.0-beta）
+	 */
 	compareVersion(a, b) {
 		if (!a || !b) return 0;
 		for (let i = 0; i < Math.max(a.parts.length, b.parts.length); i++) {
@@ -84,6 +103,12 @@ class VersionChecker {
 		return 0;
 	}
 
+	/**
+	 * 简易 Markdown → HTML 渲染器
+	 * 支持：代码块、标题、无序/有序列表（含嵌套）、段落、行内格式（加粗/斜体/删除线/行内代码/链接）
+	 * @param {string} md - Markdown 文本
+	 * @returns {string} HTML 字符串
+	 */
 	simpleMarkdown(md) {
 		if (!md) return "";
 		let html = "";
@@ -130,7 +155,7 @@ class VersionChecker {
 				html +=
 					"<h" +
 					lvl +
-					' class="text-[1rem] font-bold mt-3 mb-1 text-black/90 dark:text-white/90">' +
+					' class="text-[1rem] font-bold mt-3 mb-1 text-[#111827] dark:text-[#FFFFFF]">' +
 					this.inlineFormat(headingMatch[2]) +
 					"</h" +
 					lvl +
@@ -138,16 +163,19 @@ class VersionChecker {
 				i++;
 				continue;
 			}
-			if (/^[-*]\s/.test(line)) {
+			const listMatch = line.match(/^(\s*)[-*]\s/);
+			if (listMatch) {
+				const baseIndent = listMatch[1].length;
 				const items = [];
-				while (i < lines.length && /^[-*]\s/.test(lines[i])) {
-					items.push(lines[i].replace(/^[-*]\s+/, ""));
+				while (i < lines.length) {
+					const m = lines[i].match(/^(\s*)[-*]\s/);
+					if (!m) break;
+					const indent = m[1].length;
+					if (indent < baseIndent) break;
+					items.push({ text: lines[i].replace(/^\s*[-*]\s+/, ""), indent });
 					i++;
 				}
-				html +=
-					'<ul class="list-disc pl-5 my-1 text-[#374151] dark:text-[#D1D5DB]">' +
-					items.map((it) => `<li>${this.inlineFormat(it)}</li>`).join("") +
-					"</ul>";
+				html += this.buildNestedList(items, "ul");
 				continue;
 			}
 			if (/^\d+\.\s/.test(line)) {
@@ -157,7 +185,7 @@ class VersionChecker {
 					i++;
 				}
 				html +=
-					'<ol class="list-decimal pl-5 my-1 text-[#374151] dark:text-[#D1D5DB]">' +
+					'<ol class="list-decimal pl-5 my-1 text-[#374151] dark:text-[#D1D5DB] marker:text-[var(--primary)] dark:marker:text-[var(--primary)]">' +
 					items.map((it) => `<li>${this.inlineFormat(it)}</li>`).join("") +
 					"</ol>";
 				continue;
@@ -181,12 +209,13 @@ class VersionChecker {
 			if (paraLines.length > 0)
 				html +=
 					'<p class="my-1">' +
-					this.inlineFormat(paraLines.join("<br>")) +
+					paraLines.map((line) => this.inlineFormat(line)).join("<br>") +
 					"</p>";
 		}
 		return html;
 	}
 
+	/** 行内格式化：转义 HTML + 渲染行内代码、加粗、斜体、删除线、链接 */
 	inlineFormat(text) {
 		return text
 			.replace(/&/g, "&amp;")
@@ -194,25 +223,50 @@ class VersionChecker {
 			.replace(/>/g, "&gt;")
 			.replace(
 				/`([^`]+)`/g,
-				'<code class="text-[0.85em] bg-black/5 dark:bg-white/5 px-1.5 py-0.5 rounded text-[var(--primary)] font-mono">$1</code>',
+				'<code class="text-[0.85em] bg-[var(--inline-code-bg)] text-[var(--inline-code-color)] px-1 py-0.5 rounded-md font-mono">$1</code>',
 			)
 			.replace(
 				/\*\*(.+?)\*\*/g,
-				'<strong class="text-[#111827] dark:text-white/100">$1</strong>',
+				'<strong class="text-[#111827] dark:text-[#FFFFFF]">$1</strong>',
 			)
 			.replace(
 				/__(.+?)__/g,
-				'<strong class="text-[#111827] dark:text-white/100">$1</strong>',
+				'<strong class="text-[#111827] dark:text-[#FFFFFF]">$1</strong>',
 			)
 			.replace(/(?<!\*)\*([^*]+?)\*(?!\*)/g, "<em>$1</em>")
 			.replace(/(?<!_)_([^_]+?)_(?!_)/g, "<em>$1</em>")
 			.replace(/~~(.+?)~~/g, '<del class="opacity-50">$1</del>')
 			.replace(
 				/\[([^\]]+)\]\(([^)]+)\)/g,
-				'<a href="$2" target="_blank" rel="noopener noreferrer" class="text-[var(--primary)] hover:underline font-medium">$1</a>',
+				'<a href="$2" target="_blank" rel="noopener noreferrer" class="text-[var(--primary)] font-medium underline decoration-[var(--link-underline)] decoration-1 decoration-dashed underline-offset-4 hover:bg-[var(--btn-plain-bg-hover)] hover:decoration-transparent">$1</a>',
 			);
 	}
 
+	/** 递归构建嵌套列表 HTML（根据缩进层级） */
+	buildNestedList(items, tag) {
+		let html = `<${tag} class="list-disc pl-5 my-1 text-[#374151] dark:text-[#D1D5DB] marker:text-[var(--primary)] dark:marker:text-[var(--primary)]">`;
+		let idx = 0;
+		while (idx < items.length) {
+			const item = items[idx];
+			const nextItems = [];
+			let j = idx + 1;
+			while (j < items.length && items[j].indent > item.indent) {
+				nextItems.push(items[j]);
+				j++;
+			}
+			if (nextItems.length > 0) {
+				html += `<li>${this.inlineFormat(item.text)}${this.buildNestedList(nextItems, tag)}</li>`;
+				idx = j;
+			} else {
+				html += `<li>${this.inlineFormat(item.text)}</li>`;
+				idx++;
+			}
+		}
+		html += `</${tag}>`;
+		return html;
+	}
+
+	/** 从 Release 对象中提取下载链接：优先 .zip，否则取首个 asset，最后回退 zipball_url */
 	getDownloadUrl(r) {
 		if (r.assets && r.assets.length > 0) {
 			let zipAsset = null;
@@ -229,6 +283,12 @@ class VersionChecker {
 		return r.zipball_url;
 	}
 
+	/**
+	 * 处理 GitHub Releases 数据，判断是否有可用更新
+	 * 优先选择稳定版更新；若预发布版版本号更高则选预发布版
+	 * @param {object[]} releases - GitHub Releases 数组
+	 * @returns {{ status: string, updateTag?: string, isBeta?: boolean, updateBody?: string, updateHtmlUrl?: string, updateDownloadUrl?: string }}
+	 */
 	processReleaseData(releases) {
 		let stable = null;
 		let pre = null;
@@ -282,26 +342,22 @@ class VersionChecker {
 		return { status: "uptodate" };
 	}
 
+	/** 获取当前语言：优先使用 i18n 系统解析，否则回退到配置语言 */
 	getLang() {
-		const translateTo =
-			window.translationManager?.getTargetLanguage() || window.translate?.to;
-		if (translateTo) {
-			return (
-				this.config.translateToLangMap[translateTo] || this.config.defaultLang
-			);
-		}
-		return this.config.defaultLang;
+		return window.__i18n ? window.__i18n.resolveLang() : this.config.configLang;
 	}
 
+	/** 获取翻译文本：按当前语言查找，回退到配置语言 */
 	getTr(key) {
 		const lang = this.getLang();
 		return (
 			this.config.versionTranslations[lang]?.[key] ||
-			this.config.versionTranslations.en?.[key] ||
-			key
+			this.config.versionTranslations[this.config.configLang]?.[key] ||
+			""
 		);
 	}
 
+	/** 显示对话框：调用 showModal 并添加动画类 */
 	showDialog(dialog) {
 		if (!dialog) return;
 		dialog.showModal();
@@ -310,6 +366,7 @@ class VersionChecker {
 		});
 	}
 
+	/** 隐藏对话框：移除动画类，250ms 后关闭 */
 	hideDialog(dialog) {
 		if (!dialog) return;
 		dialog.classList.remove("dialog-show");
@@ -318,6 +375,10 @@ class VersionChecker {
 		}, 250);
 	}
 
+	/**
+	 * 初始化对话框 DOM：将页面中的对话框移到 body 下（避免 Swup 替换内容时丢失），
+	 * 多个同类对话框只保留第一个
+	 */
 	setupDialogs() {
 		const allFailedDialogs = document.querySelectorAll(
 			".version-check-failed-dialog",
@@ -359,6 +420,7 @@ class VersionChecker {
 		}
 	}
 
+	/** 为三个对话框绑定关闭事件：关闭按钮、点击 backdrop、关闭后重置状态 */
 	setupDialogEventListeners() {
 		if (this.bodyFailedDialog) {
 			const failedClose = this.bodyFailedDialog.querySelector(
@@ -415,6 +477,7 @@ class VersionChecker {
 		}
 	}
 
+	/** 重置所有版本检查小部件到初始状态（默认图标 + "检查更新"文案） */
 	resetAllWidgets() {
 		const widgets = document.querySelectorAll(".version-check-widget");
 		for (let w = 0; w < widgets.length; w++) {
@@ -446,6 +509,10 @@ class VersionChecker {
 		}
 	}
 
+	/**
+	 * 初始化所有版本检查小部件：绑定点击事件、恢复上次检查结果、自动检查
+	 * 每个小部件包含按钮、文案、状态图标和更新提示点
+	 */
 	setupWidgets() {
 		const self = this;
 		const widgets = document.querySelectorAll(".version-check-widget");
@@ -681,6 +748,7 @@ class VersionChecker {
 		}
 	}
 
+	/** 注册翻译刷新回调：语言切换时更新所有小部件文案 */
 	registerVersionCheckRenderer() {
 		const self = this;
 		function renderer() {
@@ -705,6 +773,7 @@ class VersionChecker {
 		window.translationManager.onRefresh("versionCheck", renderer);
 	}
 
+	/** 入口：DOM 就绪后初始化对话框、事件、小部件、翻译渲染和 Swup 集成 */
 	init() {
 		if (document.readyState === "loading") {
 			document.addEventListener("DOMContentLoaded", () => {
@@ -730,6 +799,7 @@ class VersionChecker {
 		);
 	}
 
+	/** 手动触发自动检查（延迟 500ms 模拟点击） */
 	tryAutoCheck() {
 		if (!this.config.autoCheck) return;
 		if (!this.config.versionCheckApiUrl) return;
@@ -741,6 +811,7 @@ class VersionChecker {
 		}
 	}
 
+	/** Swup / Astro 页面切换后重新初始化所有组件 */
 	reinitializeOnSwupContentReplace() {
 		if (typeof window !== "undefined" && window.swup && window.swup.hooks) {
 			window.swup.hooks.on("content:replace", () => {

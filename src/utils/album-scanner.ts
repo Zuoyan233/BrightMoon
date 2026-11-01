@@ -1,3 +1,7 @@
+/**
+ * 相册扫描工具 - 读取 public/images/albums 目录生成相册数据
+ */
+
 import * as fs from "node:fs";
 import * as path from "node:path";
 import type { AlbumGroup, Photo } from "../types/album";

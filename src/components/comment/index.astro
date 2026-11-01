@@ -13,15 +13,17 @@ interface Props {
 
 const { id, data } = Astro.props.post;
 
+// 根据文章 ID 生成评论路径（去除文件扩展名）
 const slug = removeFileExtension(id);
 const path = `/posts/${slug}`;
-// const url = `${Astro.site?.href}${path}`;
 
+// 判断当前启用的评论服务
 let commentService = "";
 if (commentConfig?.enable && commentConfig?.twikoo) {
 	commentService = "twikoo";
 }
 
+// 文章级评论开关：默认开启，可通过 frontmatter 中 comment: false 关闭
 const commentEnabled = data.comment ?? true;
 ---
 {commentEnabled && (
@@ -33,7 +35,7 @@ const commentEnabled = data.comment ?? true;
           <circle class="twikoo-spinner-arc" cx="24" cy="24" r="20" fill="none" stroke-width="4" stroke-linecap="round" />
         </svg>
       </div>
-      <p class="text-lg font-bold text-black/90 dark:text-white/90">
+      <p class="text-lg font-bold text-90">
         {i18n(I18nKey.twikooInitializing)}
       </p>
     </div>
@@ -43,17 +45,21 @@ const commentEnabled = data.comment ?? true;
       </div>
     )}
     <div id="twikoo-not-configured" class="flex flex-col items-center justify-center py-12 text-center">
-      <Icon name="material-symbols:chat-bubble-off-outline" class="text-4xl mb-4 text-[var(--primary)]"></Icon>
-      <p class="text-lg font-bold text-black/90 dark:text-white/90">
+      <div class="w-16 h-16 rounded-xl flex items-center justify-center bg-[var(--btn-regular-bg)] text-[var(--btn-content)] mb-4">
+        <Icon name="material-symbols:chat-bubble-off-outline" class="text-4xl"></Icon>
+      </div>
+      <p class="text-lg font-bold text-90">
         {i18n(I18nKey.twikooNotConfigured)}
       </p>
-      <p class="text-sm text-neutral-500 dark:text-neutral-400 mt-1">
+      <p class="text-sm text-60 mt-1">
         {i18n(I18nKey.twikooConfigHint)}
       </p>
     </div>
     <div id="twikoo-privacy-rejected" class="flex flex-col items-center justify-center py-12 text-center">
-      <Icon name="material-symbols:block-outline" class="text-4xl mb-4 text-[var(--primary)]"></Icon>
-      <p class="text-lg font-bold text-black/90 dark:text-white/90">
+      <div class="w-16 h-16 rounded-xl flex items-center justify-center bg-[var(--btn-regular-bg)] text-[var(--btn-content)] mb-4">
+        <Icon name="material-symbols:block-outline" class="text-4xl"></Icon>
+      </div>
+      <p class="text-lg font-bold text-90">
         {i18n(I18nKey.twikooPrivacyRejected)}
       </p>
     </div>
@@ -77,14 +83,14 @@ const commentEnabled = data.comment ?? true;
             if (notConfigured) notConfigured.classList.add('hidden');
             if (privacyRejected) privacyRejected.classList.remove('hidden');
           } else {
-            // accepted
+            // 用户同意隐私政策
             if (privacyRejected) privacyRejected.classList.add('hidden');
             if (twikooContainer) {
-              // twikoo is configured, show it
+              // 显示 twikoo 评论容器
               twikooContainer.classList.remove('hidden');
               if (notConfigured) notConfigured.classList.add('hidden');
             } else {
-              // twikoo not configured, show fallback
+              // 显示 twikoo 未配置提示
               if (notConfigured) notConfigured.classList.remove('hidden');
             }
           }

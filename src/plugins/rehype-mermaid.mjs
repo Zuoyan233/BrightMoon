@@ -1,3 +1,7 @@
+/**
+ * Rehype 插件 - 将 Mermaid 容器转换为可渲染的 Mermaid 图表结构
+ */
+
 import { h } from "hastscript";
 import { visit } from "unist-util-visit";
 import mermaidRenderScript from "./mermaid-render-script.js?raw";

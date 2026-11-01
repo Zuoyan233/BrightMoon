@@ -1,33 +1,37 @@
-/* 集中管理颜色与状态，修改一处即可全局生效 */
+/*
+ * 壁纸模式导航栏半透明样式
+ */
+
+/* 壁纸模式导航栏半透明样式 - 基础配置 */
 :root {
-	/* --- 基础 Token --- */
+	/* 基础 Token */
 	--shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
 	--shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.08);
 	--radius-std: 0.75rem;
 
-	/* --- 状态变量 (默认值) --- */
+	/* 状态变量 (默认值) */
 	--nav-bg: var(--card-bg);
 	--nav-blur: none;
 	--nav-shadow: var(--shadow-sm);
 	--nav-radius: var(--radius-std);
 
-	/* --- 面板变量 (默认跟随 Navbar，特定情况分离) --- */
+	/* 面板变量 (默认跟随 Navbar，特定情况分离) */
 	--panel-bg: var(--card-bg-transparent);
-	--panel-blur: blur(20px);
+	--panel-blur: blur(12px);
 }
 
-/* Dark Mode 适配 */
+/* 深色模式适配 */
 :root.dark {
 	--shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
 	--shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.18);
 }
 
-/* --- 滚动透明度控制 (Dynamic Transparent) --- */
+/* 滚动透明度控制 */
 
 /* Semi (毛玻璃) */
 #navbar[data-dynamic-transparent="semi"] {
 	--nav-bg: var(--card-bg-transparent);
-	--nav-blur: blur(8px);
+	--nav-blur: blur(12px);
 	--nav-shadow: var(--shadow-lg);
 }
 
@@ -42,7 +46,7 @@
 	--panel-blur: none;
 }
 
-/* --- 首页 Banner 沉浸式 (Wallpaper Transparent) --- */
+/* 首页 Banner 沉浸式 */
 
 /* 桌面端 Full 模式 */
 @media (min-width: 1280px) {
@@ -85,12 +89,12 @@ body.wallpaper-transparent
 /* 混合模式滚动后 -> 回归毛玻璃 */
 body.wallpaper-transparent #navbar[data-transparent-mode="semifull"].scrolled {
 	--nav-bg: var(--card-bg-transparent);
-	--nav-blur: blur(8px);
+	--nav-blur: blur(12px);
 	--nav-shadow: var(--shadow-lg);
 	--nav-radius: var(--radius-std);
 }
 
-/* 导航栏样式核心 (Navbar Core) */
+/* 导航栏样式核心 */
 #navbar > div {
 	border: none;
 	outline: none;
@@ -106,12 +110,15 @@ body.wallpaper-transparent #navbar[data-transparent-mode="semifull"].scrolled {
 	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* 子组件样式 (Sub-Components) */
+/* 子组件样式 */
 :is(
 	.dropdown-content,
 	#nav-menu-panel,
 	#display-setting,
 	#search-panel,
+	#translate-panel,
+	#theme-panel,
+	#music-player-panel,
 	.float-panel
 ) {
 	/* 使用面板专用变量 */
@@ -126,16 +133,47 @@ body.wallpaper-transparent #navbar[data-transparent-mode="semifull"].scrolled {
 		backdrop-filter 0.3s ease;
 }
 
+/* 无壁纸模式（data-dynamic-transparent="none"）下，面板不透明跟随主题色 */
+body:not(.wallpaper-transparent)
+	#navbar[data-dynamic-transparent="none"]
+	:is(
+		.dropdown-content,
+		#nav-menu-panel,
+		#display-setting,
+		#search-panel,
+		#translate-panel,
+		#theme-panel,
+		#music-player-panel,
+		.float-panel
+	) {
+	background: var(--card-bg);
+	backdrop-filter: none;
+}
+
 /* Banner 模式下的特殊增强 */
 @media (min-width: 1280px) {
 	body.wallpaper-transparent
-		:is(.dropdown-content, #display-setting, #search-panel) {
+		:is(
+			.dropdown-content,
+			#display-setting,
+			#search-panel,
+			#translate-panel,
+			#theme-panel,
+			#music-player-panel
+		) {
 		background: rgba(255, 255, 255, 0.85);
 	}
 	:root.dark
 		body.wallpaper-transparent
-		:is(.dropdown-content, #display-setting, #search-panel) {
-		background: rgba(24, 25, 38, 0.85);
+		:is(
+			.dropdown-content,
+			#display-setting,
+			#search-panel,
+			#translate-panel,
+			#theme-panel,
+			#music-player-panel
+		) {
+		background: rgba(0, 0, 0, 0.55);
 	}
 }
 
@@ -161,9 +199,46 @@ body.wallpaper-transparent #navbar[data-transparent-mode="semifull"].scrolled {
 		background: rgba(255, 255, 255, 0.15);
 	}
 
-	/* 非首页时，移动端各个弹出面板不透明 */
-	#navbar:not([data-is-home="true"])
-	:is(#nav-menu-panel, #search-panel, #display-setting) {
+	/* 无壁纸模式时，移动端各个弹出面板不透明跟随主题色 */
+	body:not(.wallpaper-transparent)
+		#navbar[data-dynamic-transparent="none"]
+		.dropdown-content,
+	body:not(.wallpaper-transparent)
+		#navbar[data-dynamic-transparent="none"]
+		#nav-menu-panel,
+	body:not(.wallpaper-transparent)
+		#navbar[data-dynamic-transparent="none"]
+		#display-setting,
+	body:not(.wallpaper-transparent)
+		#navbar[data-dynamic-transparent="none"]
+		#search-panel,
+	body:not(.wallpaper-transparent)
+		#navbar[data-dynamic-transparent="none"]
+		#music-player-panel,
+	body:not(.wallpaper-transparent)
+		#navbar[data-dynamic-transparent="none"]
+		#translate-panel,
+	body:not(.wallpaper-transparent)
+		#navbar[data-dynamic-transparent="none"]
+		#theme-panel,
+	body:not(.wallpaper-transparent)
+		#navbar[data-dynamic-transparent="none"]
+		.float-panel {
+		background: var(--card-bg) !important;
+		backdrop-filter: none !important;
+	}
+
+	/* 非首页时，移动端各个弹出面板不透明（仅限非全屏壁纸模式） */
+	body:not(.wallpaper-transparent)
+		#navbar:not([data-is-home="true"])
+		:is(
+			#nav-menu-panel,
+			#search-panel,
+			#display-setting,
+			#music-player-panel,
+			#translate-panel,
+			#theme-panel
+		) {
 		background: var(--card-bg);
 		backdrop-filter: none;
 	}

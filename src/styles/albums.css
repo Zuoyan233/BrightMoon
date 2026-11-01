@@ -5,6 +5,7 @@
 	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* 相册卡片悬停效果 */
 .album-card:hover {
 	transform: translateY(-4px);
 }
@@ -14,6 +15,7 @@
 	animation: fadeInUp 0.6s ease-out;
 }
 
+/* 照片卡片动画 */
 .photo-item {
 	transition: all 0.3s ease;
 }
@@ -31,6 +33,7 @@
 	border-radius: 0.5rem;
 }
 
+/* 照片图片动画 */
 .photo-image {
 	transition: transform 0.3s ease;
 	width: 100%;
@@ -38,6 +41,7 @@
 	object-fit: cover;
 }
 
+/* 照片悬停效果 */
 .photo-overlay {
 	position: absolute;
 	inset: 0;
@@ -46,6 +50,7 @@
 	transition: opacity 0.3s ease;
 }
 
+/* 照片悬停效果 */
 .photo-item:hover .photo-overlay {
 	opacity: 1;
 }
@@ -65,15 +70,18 @@
 	z-index: 9999;
 }
 
+/* 照片灯箱内容 */
 .lightbox-content {
 	max-width: 95vw;
 	max-height: 95vh;
 }
 
+/* 照片灯箱图片容器 */
 .lightbox-image-container {
 	min-height: 60vh;
 }
 
+/* 照片灯箱图片 */
 #lightbox-image {
 	max-width: 100%;
 	max-height: 80vh;
@@ -107,6 +115,7 @@
 	transition: all 0.2s ease;
 }
 
+/* 照片灯箱按钮悬停效果 */
 .lightbox button:hover {
 	background-color: rgba(0, 0, 0, 0.7);
 	transform: scale(1.05);
@@ -219,6 +228,7 @@
 	transition: left 0.5s;
 }
 
+/* 标签筛选悬停效果 */
 .album-filter-tag:hover::before {
 	left: 100%;
 }
@@ -230,6 +240,7 @@
 	height: 100%;
 }
 
+/* 相册卡片标题 */
 .album-card h3 {
 	flex-grow: 1;
 }

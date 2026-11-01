@@ -3,11 +3,13 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+// 配置目录
 const CONFIG_DIR = path.join(
 	path.dirname(fileURLToPath(import.meta.url)),
 	"../src/config",
 );
 
+// 读取所有配置文件内容
 async function readAllConfigContents() {
 	const dirs = ["user", "defaults"];
 	const contents = [];
@@ -25,6 +27,7 @@ async function readAllConfigContents() {
 	return contents;
 }
 
+// 从配置中获取动画模式
 async function getAnimeModeFromConfig() {
 	const modeRegex = /anime:\s*\{[^{}]*?mode:\s*["']([^"']*)["']/;
 	for (const content of await readAllConfigContents()) {
@@ -34,6 +37,7 @@ async function getAnimeModeFromConfig() {
 	return "local";
 }
 
+// 运行脚本
 function runScript(scriptPath) {
 	return new Promise((resolve, reject) => {
 		const script = spawn("node", [scriptPath], {
@@ -55,6 +59,7 @@ function runScript(scriptPath) {
 	});
 }
 
+// 主函数
 async function main() {
 	const mode = await getAnimeModeFromConfig();
 	const scriptsDir = path.dirname(fileURLToPath(import.meta.url));
@@ -70,6 +75,7 @@ async function main() {
 	}
 }
 
+// 处理异常
 main().catch((err) => {
 	console.error("\n✘ Script execution error:");
 	console.error(err);

@@ -1,3 +1,7 @@
+/**
+ * Rehype 插件 - 解析图片 alt 中的宽度语法（如 w-50%）并应用样式
+ */
+
 import { visit } from "unist-util-visit";
 
 export function rehypeImageWidth() {

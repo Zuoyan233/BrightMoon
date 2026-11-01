@@ -2,16 +2,20 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+//	Bangumi API 基础 URL
 const API_BASE = "https://api.bgm.tv";
 const CONFIG_DIR = path.join(
 	path.dirname(fileURLToPath(import.meta.url)),
 	"../src/config",
 );
+
+// 输出文件路径
 const OUTPUT_FILE = path.join(
 	path.dirname(fileURLToPath(import.meta.url)),
-	"../src/data/bangumi-data.json",
+	"../src/config/user/bangumi-data.json",
 );
 
+// 读取所有配置文件内容
 async function readAllConfigContents() {
 	const dirs = ["user", "defaults"];
 	const contents = [];
@@ -29,6 +33,7 @@ async function readAllConfigContents() {
 	return contents;
 }
 
+// 匹配配置文件中的正则表达式
 async function matchConfig(regex) {
 	for (const content of await readAllConfigContents()) {
 		const match = content.match(regex);
@@ -37,6 +42,7 @@ async function matchConfig(regex) {
 	return null;
 }
 
+// 从配置文件中获取用户 ID
 async function getUserIdFromConfig() {
 	const userIdRegex =
 		/anime:\s*\{[\s\S]*?bangumi:\s*\{[\s\S]*?userId:\s*["']([^"']+)["']/;
@@ -59,6 +65,7 @@ async function getAnimeModeFromConfig() {
 // 模拟延迟防止 API 限制
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+// 获取动画详情
 async function fetchSubjectDetail(subjectId) {
 	try {
 		const response = await fetch(`${API_BASE}/v0/subjects/${subjectId}`);
@@ -69,6 +76,7 @@ async function fetchSubjectDetail(subjectId) {
 	}
 }
 
+// 从动画详情中提取制作公司
 function getStudioFromInfobox(infobox) {
 	if (!Array.isArray(infobox)) return "Unknown";
 
@@ -89,6 +97,7 @@ function getStudioFromInfobox(infobox) {
 	return "Unknown";
 }
 
+// 获取用户收藏数据
 async function fetchCollection(userId, type) {
 	let allData = [];
 	let offset = 0;
@@ -134,6 +143,7 @@ async function fetchCollection(userId, type) {
 	return allData;
 }
 
+// 处理数据
 async function processData(items, status) {
 	const results = [];
 	let count = 0;
@@ -195,6 +205,7 @@ async function processData(items, status) {
 	return results;
 }
 
+// 主函数
 async function main() {
 	console.log("Initializing Bangumi data update script...\n");
 
@@ -239,6 +250,7 @@ async function main() {
 	console.log(`Update complete! Data saved to: ${OUTPUT_FILE}\n`);
 }
 
+// 处理异常
 main().catch((err) => {
 	console.error("✘ Script execution error:");
 	console.error(err);

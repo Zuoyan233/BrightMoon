@@ -1,3 +1,7 @@
+/**
+ * 代码块折叠脚本 - 自动折叠超长代码块，支持展开/收起切换
+ */
+
 class CodeBlockCollapser {
 	constructor() {
 		this.processedBlocks = new WeakSet();

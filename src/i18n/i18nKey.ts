@@ -1,3 +1,7 @@
+/**
+ * 国际化键枚举 - 定义所有可翻译的文本键
+ */
+
 enum I18nKey {
 	// 主导航
 	home = "home",
@@ -39,6 +43,8 @@ enum I18nKey {
 	untitled = "untitled",
 	uncategorized = "uncategorized",
 	noTags = "noTags",
+	showAllTags = "showAllTags",
+	hideAllTags = "hideAllTags",
 
 	// 文章统计
 	wordCount = "wordCount",
@@ -78,15 +84,20 @@ enum I18nKey {
 	friendsNoResults = "friendsNoResults",
 	friendsVisit = "friendsVisit",
 	friendsCopyLink = "friendsCopyLink",
-	friendsCopySuccess = "friendsCopySuccess",
 	friendsTags = "friendsTags",
+	friendsNoticeTitle = "friendsNoticeTitle",
+	friendsNoticeReciprocal = "friendsNoticeReciprocal",
+	friendsNoticeMaintenance = "friendsNoticeMaintenance",
+	friendsNoticeContent = "friendsNoticeContent",
+	friendsNoticeHttps = "friendsNoticeHttps",
+	friendsApplyTemplate = "friendsApplyTemplate",
+	friendsApplyHint = "friendsApplyHint",
 
 	// 导航分类
 	anime = "anime",
 	diary = "diary",
 
 	// 番剧页面
-	animeTitle = "animeTitle",
 	animeSubtitle = "animeSubtitle",
 	animeStatusWatching = "animeStatusWatching",
 	animeStatusCompleted = "animeStatusCompleted",
@@ -102,6 +113,7 @@ enum I18nKey {
 	animeSetBangumiUserId = "animeSetBangumiUserId",
 	animeSetBilibiliVmId = "animeSetBilibiliVmId",
 	animeEmptyBilibili = "animeEmptyBilibili",
+	animeFilterEmpty = "animeFilterEmpty",
 
 	// 短文页面
 	diarySubtitle = "diarySubtitle",
@@ -147,6 +159,7 @@ enum I18nKey {
 	musicPlayerSettingsServer = "musicPlayerSettingsServer",
 	musicPlayerSettingsType = "musicPlayerSettingsType",
 	musicPlayerSettingsApply = "musicPlayerSettingsApply",
+	musicPlayerSettingsReset = "musicPlayerSettingsReset",
 	musicPlayerServerNetease = "musicPlayerServerNetease",
 	musicPlayerServerTencent = "musicPlayerServerTencent",
 	musicPlayerServerKugou = "musicPlayerServerKugou",
@@ -208,7 +221,6 @@ enum I18nKey {
 	skillsDatabase = "skillsDatabase",
 	skillsTools = "skillsTools",
 	skillsOther = "skillsOther",
-	skillLevel = "skillLevel",
 	skillLevelBeginner = "skillLevelBeginner",
 	skillLevelIntermediate = "skillLevelIntermediate",
 	skillLevelAdvanced = "skillLevelAdvanced",
@@ -217,16 +229,8 @@ enum I18nKey {
 	skillYears = "skillYears",
 	skillMonths = "skillMonths",
 	skillsTotal = "skillsTotal",
-	skillsExpert = "skillsExpert",
-	skillsAdvanced = "skillsAdvanced",
-	skillsIntermediate = "skillsIntermediate",
-	skillsBeginner = "skillsBeginner",
 	skillsAdvancedTitle = "skillsAdvancedTitle",
-	skillsProjects = "skillsProjects",
-	skillsDistribution = "skillsDistribution",
-	skillsByLevel = "skillsByLevel",
-	skillsByCategory = "skillsByCategory",
-	noData = "noData",
+	skillsFilterEmpty = "skillsFilterEmpty",
 
 	// 时间线页面
 	timeline = "timeline",
@@ -236,30 +240,25 @@ enum I18nKey {
 	timelineProject = "timelineProject",
 	timelineAchievement = "timelineAchievement",
 	timelinePresent = "timelinePresent",
-	timelineLocation = "timelineLocation",
-	timelineDescription = "timelineDescription",
 	timelineMonths = "timelineMonths",
 	timelineYears = "timelineYears",
 	timelineTotal = "timelineTotal",
-	timelineProjects = "timelineProjects",
-	timelineExperience = "timelineExperience",
 	timelineCurrent = "timelineCurrent",
-	timelineHistory = "timelineHistory",
 	timelineAchievements = "timelineAchievements",
-	timelineStartDate = "timelineStartDate",
-	timelineDuration = "timelineDuration",
+	timelineFilterEmpty = "timelineFilterEmpty",
 
 	// 反馈页面 - 联系站长方式模块
 	contactMe = "contactMe",
 	contactEmail = "contactEmail",
+	viewEmail = "viewEmail",
+	emailIndex = "emailIndex",
+	openEmailLink = "openEmailLink",
 	contactSocialFriends = "contactSocialFriends",
 	addFriends = "addFriends",
 
 	// 赞助页面
 	sponsorsNotice1 = "sponsorsNotice1",
 	sponsorsNotice2 = "sponsorsNotice2",
-	wechatPay = "wechatPay",
-	aliPay = "aliPay",
 	scanPayQRcode = "scanPayQRcode",
 	sponsorsPartner = "sponsorsPartner",
 	otherSupportOptions = "otherSupportOptions",
@@ -312,9 +311,6 @@ enum I18nKey {
 	rssBenefit3 = "rssBenefit3",
 	rssBenefit4 = "rssBenefit4",
 	rssHowToUse = "rssHowToUse",
-	rssCopied = "rssCopied",
-	rssCopyFailed = "rssCopyFailed",
-
 	// Atom 订阅
 	atom = "atom",
 	atomDescription = "atomDescription",
@@ -330,8 +326,6 @@ enum I18nKey {
 	atomBenefit3 = "atomBenefit3",
 	atomBenefit4 = "atomBenefit4",
 	atomHowToUse = "atomHowToUse",
-	atomCopied = "atomCopied",
-	atomCopyFailed = "atomCopyFailed",
 
 	// 壁纸模式
 	wallpaperMode = "wallpaperMode",
@@ -413,16 +407,6 @@ enum I18nKey {
 	shareOnSocial = "shareOnSocial",
 	shareOnSocialDescription = "shareOnSocialDescription",
 
-	// 个人资料统计
-	profileStatsLoading = "profileStatsLoading",
-	profileStatsPageViews = "profileStatsPageViews",
-	profileStatsVisits = "profileStatsVisits",
-	profileStatsUnavailable = "profileStatsUnavailable",
-
-	// 页面访问量统计
-	pageViewsLoading = "pageViewsLoading",
-	pageViewsUnavailable = "pageViewsUnavailable",
-
 	// 文章列表布局
 	postListLayout = "postListLayout",
 	listMode = "listMode",
@@ -437,7 +421,6 @@ enum I18nKey {
 
 	// 添加社交软件好友
 	copyAccount = "copyAccount",
-	copyAccountSuccess = "copyAccountSuccess",
 	openAppAdd = "openAppAdd",
 
 	// 天气组件
@@ -489,6 +472,15 @@ enum I18nKey {
 	cookieConsentIpTimeout = "cookieConsentIpTimeout",
 	cookieConsentAccept = "cookieConsentAccept",
 	cookieConsentReject = "cookieConsentReject",
+	cookieConsentLearnMore = "cookieConsentLearnMore",
+	cookieConsentPrivacyTitle = "cookieConsentPrivacyTitle",
+	cookieConsentPrivacyIntro = "cookieConsentPrivacyIntro",
+	cookieConsentPrivacyEssential = "cookieConsentPrivacyEssential",
+	cookieConsentPrivacyAnalytics = "cookieConsentPrivacyAnalytics",
+	cookieConsentPrivacyAdvertising = "cookieConsentPrivacyAdvertising",
+	cookieConsentPrivacyThirdParty = "cookieConsentPrivacyThirdParty",
+	cookieConsentPrivacyRejectNotice = "cookieConsentPrivacyRejectNotice",
+	cookieConsentPrivacyClose = "cookieConsentPrivacyClose",
 
 	// Twikoo 评论系统
 	twikooInitializing = "twikooInitializing",

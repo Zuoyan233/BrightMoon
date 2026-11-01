@@ -1,36 +1,26 @@
 /**
  * 底部面包屑导航条脚本
- * 管理底部安卓风格面包屑导航条的交互逻辑和内容同步
  */
 
+// 防止重复初始化标志
 let breadcrumbInitialized = false;
 
+// 当前配置语言（语言切换时更新）
 let currentConfigLang = "";
 
-function resolveConfigLang(lang) {
-	if (!lang) return "en";
-	const maps = window.__breadcrumb_lang_maps;
-	if (!maps) return lang;
-	if (maps.translateToLangMap[lang]) return maps.translateToLangMap[lang];
-	if (maps.localeToLangMap[lang]) return maps.localeToLangMap[lang];
-	const normalized = lang.replace("-", "_");
-	if (maps.localeToLangMap[normalized]) return maps.localeToLangMap[normalized];
-	if (maps.translateToLangMap[normalized])
-		return maps.translateToLangMap[normalized];
-	return lang;
-}
-
+/** 获取 i18n 翻译文本：按当前语言查找，回退到配置语言 */
 function getI18nText(key) {
+	const translations = window.__i18n?.translations || {};
 	const configLang =
-		currentConfigLang ||
-		resolveConfigLang(document.documentElement.lang || "en");
-	const translations =
-		window.__breadcrumb_i18n?.[configLang] ||
-		window.__breadcrumb_i18n?.en ||
-		{};
-	return translations[key] || "";
+		currentConfigLang || (window.__i18n ? window.__i18n.resolveLang() : "en");
+	return (
+		translations[configLang]?.[key] ||
+		translations[window.__i18n?.configLang]?.[key] ||
+		""
+	);
 }
 
+/** 更新展开/折叠按钮的 title 提示文本（根据当前展开状态） */
 function updateBreadcrumbTitle() {
 	const pill = document.getElementById("breadcrumb-pill");
 	const bar = document.getElementById("bottom-breadcrumb-bar");
@@ -44,11 +34,18 @@ function updateBreadcrumbTitle() {
 	}
 }
 
+// 事件处理器引用（用于清理旧绑定，避免重复）
 let outsideClickHandler = null;
 let pillClickHandler = null;
 let linkClickHandler = null;
 let currentBar = null;
 
+/**
+ * 绑定底部面包屑交互事件：
+ * - pill 点击：展开/折叠
+ * - 外部点击：折叠
+ * - 链接点击：导航后折叠
+ */
 function bindBottomBreadcrumbEvents() {
 	const bar = document.getElementById("bottom-breadcrumb-bar");
 	if (!bar) return;
@@ -100,25 +97,25 @@ function bindBottomBreadcrumbEvents() {
 	bar.addEventListener("click", linkClickHandler);
 }
 
+/** 初始化底部面包屑：监听语言切换事件，更新文案 */
 function initBottomBreadcrumb() {
 	if (breadcrumbInitialized) return;
 	breadcrumbInitialized = true;
 
-	document.addEventListener("translate:applied", (e) => {
-		const lang = e.detail?.lang;
-		if (lang) {
-			currentConfigLang = resolveConfigLang(lang);
-		}
+	document.addEventListener("translate:applied", () => {
+		currentConfigLang = window.__i18n ? window.__i18n.resolveLang() : "en";
 		updateBreadcrumbTitle();
 	});
 
-	currentConfigLang = resolveConfigLang(document.documentElement.lang || "en");
+	currentConfigLang = window.__i18n ? window.__i18n.resolveLang() : "en";
 	updateBreadcrumbTitle();
 }
 
+// sessionStorage 键名：导航栈和待跳转索引
 const SITE_NAV_STACK = "siteNavStack";
 const SITE_NAV_PENDING = "siteNavPendingIdx";
 
+/** 使用 Swup 或原生导航跳转到指定 URL，并记录目标索引 */
 function navigateTo(url, targetIndex) {
 	sessionStorage.setItem(SITE_NAV_PENDING, String(targetIndex));
 	if (window.swup) {
@@ -130,6 +127,10 @@ function navigateTo(url, targetIndex) {
 	window.location.href = url;
 }
 
+/**
+ * 为克隆的面包屑中的前进/后退按钮绑定事件
+ * 维护 sessionStorage 中的导航栈，处理前进/后退/新页面等场景
+ */
 function bindNavButtons(container) {
 	const backBtn = container.querySelector("#nav-back");
 	const forwardBtn = container.querySelector("#nav-forward");
@@ -210,6 +211,10 @@ function bindNavButtons(container) {
 	};
 }
 
+/**
+ * 同步底部面包屑内容：从隐藏的 breadcrumb-source 克隆 HTML，
+ * 绑定导航按钮，并在首页注入随机推荐项
+ */
 function syncBottomBreadcrumb() {
 	const source = document.getElementById("breadcrumb-source");
 	const bar = document.getElementById("bottom-breadcrumb-bar");
@@ -260,7 +265,10 @@ function syncBottomBreadcrumb() {
 	}
 }
 
-// 注入首页推荐项到底部面包屑
+/**
+ * 注入首页推荐项到底部面包屑
+ * 从 homepage-suggestion-data 中随机选取一个候选项，生成分隔符 + 推荐链接
+ */
 function injectHomepageSuggestion(dataEl) {
 	const container = document.getElementById("breadcrumb-full-content");
 	if (!container) return;
@@ -285,17 +293,17 @@ function injectHomepageSuggestion(dataEl) {
 	suggestionLink.href = randomCandidate.href;
 	suggestionLink.title = randomCandidate.label;
 	suggestionLink.className =
-		"group flex items-center gap-1 rounded-lg transition-all duration-200 ease-out whitespace-nowrap shrink-0 px-2 py-2 cursor-pointer border-none bg-transparent text-sm text-neutral-500 dark:text-neutral-400 no-underline hover:bg-[var(--btn-plain-bg-hover)] hover:text-[var(--primary)] dark:hover:text-[var(--primary)]";
+		"group flex items-center gap-1 rounded-lg transition-all duration-300 ease-out whitespace-nowrap shrink-0 px-2 py-2 cursor-pointer border-none bg-transparent text-sm text-75 no-underline hover:bg-[var(--btn-plain-bg-hover)] hover:text-[var(--primary)] dark:hover:text-[var(--primary)]";
 
 	// 使用候选数据中指定的图标（如果有）
 	if (randomCandidate.icon) {
 		const iconSpan = document.createElement("span");
 		iconSpan.className =
-			"flex items-center justify-center w-8 h-8 mr-2 rounded-lg bg-[var(--btn-plain-bg-hover)] group-hover:bg-[var(--primary)] transition-colors duration-200";
+			"flex items-center justify-center w-8 h-8 mr-2 rounded-lg bg-[var(--btn-plain-bg-hover)] group-hover:bg-[var(--primary)] transition-colors duration-300";
 		iconSpan.innerHTML =
 			'<iconify-icon icon="' +
 			randomCandidate.icon +
-			'" class="text-xl leading-none shrink-0 text-[var(--btn-content)] transition-colors duration-200 group-hover:text-white" style="width:1.25rem;height:1.25rem"></iconify-icon>';
+			'" class="text-xl leading-none shrink-0 text-[var(--btn-content)] transition-colors duration-300 group-hover:text-white" style="width:1.25rem;height:1.25rem"></iconify-icon>';
 		suggestionLink.appendChild(iconSpan);
 	}
 
@@ -327,7 +335,7 @@ function injectHomepageSuggestion(dataEl) {
 	}
 }
 
-// 页面切换时同步面包屑
+/** 页面切换回调：同步面包屑内容、绑定事件、初始化、更新文案 */
 function onPageChange() {
 	syncBottomBreadcrumb();
 	bindBottomBreadcrumbEvents();

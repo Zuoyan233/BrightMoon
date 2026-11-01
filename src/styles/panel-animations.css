@@ -1,8 +1,8 @@
 /* 
  * 浮层面板动画增强样式
- * 为所有浮层面板提供统一、流畅的动画效果
  */
 
+/* 浮层面板基础 */
 .float-panel {
 	z-index: 50;
 	backface-visibility: hidden;
@@ -28,14 +28,17 @@
 	transform-origin: top right;
 }
 
+/* 显示设置面板 */
 #display-setting.float-panel-closed {
 	transform: scaleY(0) scaleX(0.6);
 }
 
+/* 搜索面板 */
 #search-panel {
 	transform-origin: top center;
 }
 
+/* 搜索面板关闭时的状态 */
 #search-panel.float-panel-closed {
 	opacity: 0;
 	transform: scale(0.95) translateY(-10px);
@@ -48,22 +51,27 @@
 	transition: all 0.1s ease-out;
 }
 
+/* 导航菜单面板 */
 #nav-menu-panel {
 	transform-origin: top right;
 }
 
+/* 导航菜单面板关闭时的状态 */
 #nav-menu-panel.float-panel-closed {
 	transform: scaleY(0) scaleX(0.65);
 }
 
+/* 壁纸模式面板 */
 #wallpaper-mode-panel {
 	transform-origin: top right;
 }
 
+/* 壁纸模式面板关闭时的状态 */
 #wallpaper-mode-panel.float-panel-closed {
 	transform: scaleY(0) scaleX(0.5);
 }
 
+/* 音乐播放器面板 */
 #music-player-panel {
 	transform-origin: top right;
 }

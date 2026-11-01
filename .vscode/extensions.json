@@ -6,8 +6,6 @@
 		"eliostruyf.vscode-front-matter",
 		"yzhang.markdown-all-in-one",
 		"sysoev.language-stylus",
-		"svelte.svelte-vscode",
-		"ritwickdey.LiveServer",
-		"vscode-icons-team.vscode-icons"
+		"svelte.svelte-vscode"
 	]
 }

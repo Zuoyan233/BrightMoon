@@ -1,3 +1,8 @@
+/*
+ * 评论样式
+ */
+
+/* 评论标题 */
 :root {
 	--tk-text: black;
 	--code-block-text: #333; /* 调整为深色但在浅色背景下仍然舒适的值 */
@@ -8,26 +13,29 @@ html.dark {
 	--code-block-text: #d1d5db; /* 在深色模式下使用更亮的颜色 */
 }
 
+/* 评论标题 */
 .tk-comments {
 	@apply text-[var(--tk-text)];
 }
 
+/* 提交按钮 */
 .tk-submit {
 	.tk-avatar {
 		@apply hidden;
 	}
 }
 
-/* Text Area */
+/* 文本域 */
 .twikoo .tk-row .tk-col {
 	flex-direction: column-reverse !important;
 }
 
+/* 文本域输入框 */
 .twikoo .tk-row .tk-col .tk-input textarea {
 	@apply rounded-[var(--radius-large)] py-4 px-6 !min-h-[150px] focus:border-[var(--primary)];
 }
 
-/* Meta */
+/* 元数据输入框 */
 .tk-meta-input {
 	@apply relative mt-3;
 	div {
@@ -56,7 +64,7 @@ html.dark {
 	}
 }
 
-/* Button */
+/* 操作按钮行 */
 .tk-row.actions {
 	@apply w-full !ml-0 !mt-0;
 	.__markdown {
@@ -69,7 +77,7 @@ html.dark {
 	}
 }
 
-/* Comment title */
+/* 评论标题 */
 .tk-comments-title {
 	svg,
 	svg path {
@@ -80,6 +88,7 @@ html.dark {
 	}
 }
 
+/* 评论 */
 .tk-comment {
 	@apply border-[1px] border-[rgba(144,147,153,0.31)] p-4 rounded-2xl hover:shadow-lg dark:hover:shadow-white/30 transition-all duration-300;
 	.tk-action-icon svg path {
@@ -91,26 +100,26 @@ html.dark {
 	}
 }
 
+/* 操作按钮 */
 .tk-action {
 	.tk-action-count {
 		@apply text-[var(--btn-content)];
 	}
 }
 
+/* 元数据标签 */
 .twikoo .tk-meta .tk-tag {
 	@apply border-none rounded-lg text-[var(--btn-content)];
 }
 
+/* 元数据标签 - 绿色 */
 .twikoo .tk-meta .tk-tag-green {
 	@apply bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)] dark:text-[var(--deep-text)];
 }
 
-/* Content & Preview */
+/* 评论内容 */
 .tk-content,
 .tk-preview-container {
-	/* by @microsic
-    Make the picture type emoticons display without wrapping
-  */
 	img {
 		@apply inline !align-bottom;
 	}
@@ -132,7 +141,7 @@ html.dark {
 	}
 }
 
-/* Replies */
+/* 回复评论 */
 .tk-replies {
 	.tk-comment {
 		@apply bg-[var(--page-bg)];
@@ -144,12 +153,13 @@ html.dark {
 	}
 }
 
+/* 代码块 */
 .twikoo .code-block {
 	pre {
 		@apply !rounded-xl;
 	}
 
-	/* Code block fall back */
+	/* 代码块 - 回退 */
 	pre:not([class]) {
 		@apply bg-[var(--codeblock-bg)] overflow-auto p-2 text-[var(--code-block-text)];
 	}
@@ -165,9 +175,6 @@ html.dark {
 	@apply hover:rounded-lg mt-1 hover:bg-[var(--btn-plain-bg-hover)];
 }
 
-/* by @SirTamago 
-Make the emoji component display correctly when there are too many emoji packs
-*/
 .card-base {
 	overflow: visible;
 }
@@ -204,7 +211,7 @@ html:root:root .tk-edit {
 }
 
 .twikoo .tk-sort-item {
-	@apply font-normal !text-[oklch(0.55_0.12_var(--hue))] dark:!text-[oklch(0.75_0.1_var(--hue))];
+	@apply font-normal !text-[var(--btn-content)] dark:!text-[oklch(0.75_0.1_var(--hue))];
 }
 
 .twikoo .tk-sort-item.__active {
@@ -233,16 +240,8 @@ html:root:root .twikoo .tk-comments-search > .tk-input {
 		color: #374151; /* neutral-700 */
 		border-color: var(--line-divider);
 
-		html.dark & {
-			color: #d1d5db; /* neutral-300 */
-		}
-
 		&::placeholder {
 			@apply text-[#9ca3af]; /* neutral-400 */
-		}
-
-		html.dark &::placeholder {
-			@apply text-[#6b7280]; /* neutral-500 */
 		}
 
 		&:focus {
@@ -251,11 +250,30 @@ html:root:root .twikoo .tk-comments-search > .tk-input {
 	}
 }
 
+/* 深色模式搜索输入框 */
+html.dark:root:root .twikoo .tk-comments-search > .el-input .el-input__inner,
+html.dark:root:root .twikoo .tk-comments-search > .tk-input .tk-input__inner {
+	color: #d1d5db; /* neutral-300 */
+}
+
+html.dark:root:root
+	.twikoo
+	.tk-comments-search
+	> .el-input
+	.el-input__inner::placeholder,
+html.dark:root:root
+	.twikoo
+	.tk-comments-search
+	> .tk-input
+	.tk-input__inner::placeholder {
+	color: #6b7280; /* neutral-500 */
+}
+
 /* 搜索按钮 */
 html:root:root .twikoo .tk-comments-search > .el-button--primary,
 html:root:root .twikoo .tk-comments-search > .tk-button--primary {
 	font-family: inherit;
-	@apply border-none rounded-lg px-3 py-0 h-8 whitespace-nowrap transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+	@apply border-none rounded-lg px-3 py-0 h-8 whitespace-nowrap transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed;
 	background-color: var(--btn-regular-bg-active) !important;
 	color: var(--btn-content) !important;
 	border: none !important;

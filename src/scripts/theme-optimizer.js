@@ -1,15 +1,5 @@
 /**
  * 主题切换综合性能优化器
- *
- * 整合功能：
- * 1. 代码块主题切换优化（Intersection Observer + 分批更新）
- * 2. 重型元素优化（临时禁用动画、隐藏屏幕外元素、GPU 加速）
- *
- * 核心优化策略：
- * - 只更新可见代码块，延迟屏幕外代码块
- * - 主题切换期间临时禁用重型元素动画和过渡
- * - 强制 GPU 合成层，减少重绘重排
- * - 使用 content-visibility 隐藏屏幕外元素
  */
 
 class ThemeOptimizer {
@@ -60,7 +50,7 @@ class ThemeOptimizer {
 		document.dispatchEvent(new CustomEvent("themeOptimizerReady"));
 	}
 
-	// ==================== Swup 钩子设置 ====================
+	// Swup 钩子设置 - 确保在页面切换时重新初始化代码块优化器
 
 	setupSwupHooks() {
 		// 设置 Swup 钩子的函数
@@ -329,7 +319,7 @@ class ThemeOptimizer {
 		block.dataset.themeUpdated = theme;
 	}
 
-	// ==================== 重型元素优化 ====================
+	// 重型元素优化 - 避免在主题切换时显示重型元素
 
 	interceptThemeSwitch() {
 		// 监听 class 变化来拦截主题切换

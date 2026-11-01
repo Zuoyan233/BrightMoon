@@ -27,7 +27,7 @@ const texts = Array.isArray(text) ? text : [text];
 	data-pause-time={pauseTime}
 >
 	<!-- 用于显示打字效果的容器 -->
-	<span class="typewriter-display ignore"></span>
+	<span class="typewriter-display"></span>
 	<!-- 隐藏的真实文本源，用于翻译插件读取和无 JS 降级展示 -->
 	<span class="typewriter-source" style="display:none" aria-hidden="true">
 		{texts.map((t, i) => <span data-index={i}>{t}</span>)}

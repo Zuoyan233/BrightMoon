@@ -13,9 +13,8 @@
 @media (min-width: 1280px) {
 	#banner-wrapper ~ * #navbar[data-transparent-mode="semi"] > div,
 	body:has(#banner-wrapper) #navbar[data-transparent-mode="semi"] > div {
-		backdrop-filter: blur(20px);
+		backdrop-filter: blur(12px);
 		background: rgba(255, 255, 255, 0.55);
-		border: 1px solid rgba(255, 255, 255, 0.55);
 		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 	}
 }
@@ -29,9 +28,8 @@
 	body:has(#banner-wrapper)
 		#navbar[data-transparent-mode="semi"][data-is-home="true"]
 		> div {
-		backdrop-filter: blur(20px);
+		backdrop-filter: blur(12px);
 		background: rgba(255, 255, 255, 0.55);
-		border: 1px solid rgba(255, 255, 255, 0.55);
 		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 	}
 }
@@ -43,9 +41,8 @@
 		body:has(#banner-wrapper)
 		#navbar[data-transparent-mode="semi"]
 		> div {
-		backdrop-filter: blur(20px);
+		backdrop-filter: blur(12px);
 		background: rgba(0, 0, 0, 0.55);
-		border: 1px solid rgba(0, 0, 0, 0.55);
 		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 	}
 }
@@ -61,9 +58,8 @@
 		body:has(#banner-wrapper)
 		#navbar[data-transparent-mode="semi"][data-is-home="true"]
 		> div {
-		backdrop-filter: blur(20px);
+		backdrop-filter: blur(12px);
 		background: rgba(0, 0, 0, 0.55);
-		border: 1px solid rgba(0, 0, 0, 0.55);
 		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 	}
 }
@@ -83,7 +79,6 @@
 		> div {
 		background: transparent;
 		box-shadow: none;
-		border: 1px solid transparent;
 		backdrop-filter: none;
 	}
 }
@@ -108,18 +103,16 @@
 		> div {
 		background: transparent;
 		box-shadow: none;
-		border: 1px solid transparent;
 		backdrop-filter: none;
 	}
 }
 
-/* --- 初始状态 (Initial) --- */
+/* 初始状态 */
 @media (min-width: 1280px) {
 	#banner-wrapper ~ * #navbar[data-transparent-mode="semifull"] > div,
 	body:has(#banner-wrapper) #navbar[data-transparent-mode="semifull"] > div {
 		background: transparent;
 		box-shadow: none;
-		border: 1px solid transparent;
 	}
 }
 
@@ -133,7 +126,6 @@
 		> div {
 		background: transparent;
 		box-shadow: none;
-		border: 1px solid transparent;
 	}
 }
 
@@ -143,9 +135,8 @@
 	body:has(#banner-wrapper)
 		#navbar[data-transparent-mode="semifull"].scrolled
 		> div {
-		backdrop-filter: blur(20px);
+		backdrop-filter: blur(12px);
 		background: rgba(255, 255, 255, 0.55);
-		border: 1px solid rgba(255, 255, 255, 0.55);
 		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 	}
 
@@ -159,7 +150,6 @@
 		#navbar[data-transparent-mode="semifull"].scrolled
 		> div {
 		background: rgba(0, 0, 0, 0.55);
-		border: 1px solid rgba(0, 0, 0, 0.55);
 		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 	}
 }
@@ -173,9 +163,8 @@
 	body:has(#banner-wrapper)
 		#navbar[data-transparent-mode="semifull"][data-is-home="true"].scrolled
 		> div {
-		backdrop-filter: blur(20px);
+		backdrop-filter: blur(12px);
 		background: rgba(255, 255, 255, 0.55);
-		border: 1px solid rgba(255, 255, 255, 0.55);
 		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 	}
 
@@ -189,7 +178,6 @@
 		#navbar[data-transparent-mode="semifull"][data-is-home="true"].scrolled
 		> div {
 		background: rgba(0, 0, 0, 0.55);
-		border: 1px solid rgba(0, 0, 0, 0.55);
 		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 	}
 }
@@ -237,7 +225,7 @@
 	body:has(#banner-wrapper) #search-panel,
 	body:has(#banner-wrapper) #translate-panel,
 	body:has(#banner-wrapper) #theme-panel {
-		backdrop-filter: blur(20px);
+		backdrop-filter: blur(12px);
 		background: rgba(255, 255, 255, 0.85);
 		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 	}
@@ -255,7 +243,8 @@
 	:root.dark body:has(#banner-wrapper) #search-panel,
 	:root.dark body:has(#banner-wrapper) #translate-panel,
 	:root.dark body:has(#banner-wrapper) #theme-panel {
-		background: rgba(24, 25, 38, 0.85);
+		backdrop-filter: blur(12px);
+		background: rgba(0, 0, 0, 0.55);
 		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
 	}
 }
@@ -273,7 +262,7 @@
 	body:has(#banner-wrapper) #navbar[data-is-home="true"] #display-setting,
 	body:has(#banner-wrapper) #navbar[data-is-home="true"] #translate-panel,
 	body:has(#banner-wrapper) #navbar[data-is-home="true"] #theme-panel {
-		backdrop-filter: blur(20px);
+		backdrop-filter: blur(12px);
 		background: rgba(255, 255, 255, 0.85);
 		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 	}
@@ -320,7 +309,8 @@
 		body:has(#banner-wrapper)
 		#navbar[data-is-home="true"]
 		#theme-panel {
-		background: rgba(24, 25, 38, 0.85);
+		backdrop-filter: blur(12px);
+		background: rgba(0, 0, 0, 0.55);
 		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
 	}
 }

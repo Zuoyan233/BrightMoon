@@ -1,6 +1,5 @@
 <script lang="ts">
 let { fadeDuration }: { fadeDuration: number } = $props();
-
 let progress = $state(0);
 let visible = $state(false);
 let animating = $state(false);

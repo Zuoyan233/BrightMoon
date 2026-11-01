@@ -28,7 +28,7 @@ const methodsToShow = qrCodes
   <div class="relative z-10 p-8 pb-7 flex flex-col gap-5">
     <!-- 标题 -->
     <div class="flex items-center justify-center gap-2.5 text-[var(--primary)]">
-      <Icon name="material-symbols:qr-code-scanner" class="text-3xl" />
+      <Icon name="material-symbols:group-add-outline" class="text-3xl" />
       <h3 class="m-0 text-xl font-bold text-[var(--btn-plain)]">
         {i18n(I18nKey.addFriends)}
       </h3>
@@ -43,7 +43,7 @@ const methodsToShow = qrCodes
             {methodsToShow.map((method) => (
               <button
                 data-tab-id={method.method}
-                class="tab-btn bg-transparent border-2 border-[var(--primary)] text-[var(--primary)] flex-1 max-w-[120px] border-none rounded-lg py-2 px-4 text-sm font-medium cursor-pointer transition-all duration-200 hover:bg-[var(--btn-plain-bg-hover)]"
+                class="tab-btn bg-transparent border-2 border-[var(--primary)] text-[var(--primary)] flex-1 max-w-[120px] border-none rounded-lg py-2 px-4 text-sm font-medium cursor-pointer transition-all duration-300 hover:bg-[var(--btn-plain-bg-hover)]"
               >
                 <span class="flex items-center justify-center gap-1.5">
                   <Icon name={method.icon} class="text-lg" />
@@ -74,37 +74,36 @@ const methodsToShow = qrCodes
               </div>
 
               {method.account && (
-                <div class="flex flex-col items-center gap-3">
-                  <div class="ignore flex justify-center gap-2 px-4 py-2 rounded-lg bg-[var(--btn-regular-bg)]">
+                <div class="flex items-center justify-center gap-2 w-full">
+                  <div class="ignore flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-[var(--btn-regular-bg)]">
                     <Icon
                       name="material-symbols:person"
-                      class="text-lg text-[var(--primary)] flex-shrink-0"
+                      class="text-base text-[var(--btn-content)] flex-shrink-0"
                     />
-                    <span class="text-sm text-black/80 dark:text-white/80 font-mono truncate select-all">
+                    <span class="text-sm text-75 font-mono truncate select-all">
                       {method.account}
                     </span>
-                  </div>  
+                  </div>
                   <button
-                    class="copy-account-btn flex-shrink-0 flex items-center justify-center gap-1 px-4 py-2 bg-[var(--primary)] text-white rounded-lg hover:opacity-80 transition-all duration-200 font-medium text-sm whitespace-nowrap"
+                    class="copy-account-btn btn-regular px-3 py-2.5 flex-shrink-0 flex items-center justify-center rounded-lg transition-all duration-300 text-[var(--btn-content)] hover:bg-[var(--btn-regular-bg-hover)] active:scale-95"
                     data-account={method.account}
-                    data-copied-text={i18n(I18nKey.copyAccountSuccess)}
+                    title={i18n(I18nKey.copyAccount)}
                   >
                     <Icon
-                      name="material-symbols:content-copy"
+                      name="material-symbols:content-copy-outline"
                       class="text-base"
                     />
-                    <span>{i18n(I18nKey.copyAccount)}</span>
                   </button>
                 </div>
+              )}
 
-                <p class="m-0 text-sm text-[var(--content-meta)] flex items-center gap-1.5">
+              <p class="m-0 text-sm text-[var(--content-meta)] flex items-center gap-1.5">
                 <Icon
                   name="material-symbols:camera"
                   class="text-xl text-[var(--primary)]"
                 />
                 {method.tip}
               </p>
-              )}
             </div>
           ))
         }
@@ -116,13 +115,13 @@ const methodsToShow = qrCodes
       <button
         id="dialog-open-app-btn"
         data-link=""
-        class="hidden border-none rounded-[8px] py-2.5 px-7 text-base font-bold cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] active:scale-95 bg-[var(--btn-regular-bg)] text-[var(--btn-content)] hover:bg-[var(--btn-regular-bg-hover)] ignore"
+        class="hidden border-none rounded-[8px] py-2.5 px-7 text-base font-bold cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] active:scale-95 bg-[var(--btn-regular-bg)] text-[var(--btn-content)] hover:bg-[var(--btn-regular-bg-hover)] ignore"
       >
         {i18n(I18nKey.openAppAdd)}
       </button>
       <button
         id="dialog-close-btn"
-        class="border-none rounded-[8px] py-2.5 px-7 text-base font-bold cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] active:scale-95 bg-transparent border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--btn-plain-bg-hover)]"
+        class="border-none rounded-[8px] py-2.5 px-7 text-base font-bold cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] active:scale-95 bg-transparent border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--btn-plain-bg-hover)]"
       >
         {i18n(I18nKey.cancelText)}
       </button>
@@ -303,10 +302,10 @@ const methodsToShow = qrCodes
           navigator.clipboard
             .writeText(account)
             .then(() => {
-              const copiedText = button.getAttribute("data-copied-text") || "";
               const originalHTML = button.innerHTML;
-              button.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> ${copiedText}`;
-              button.style.cssText = "background-color: var(--success-color, #10b981) !important; border-color: transparent; box-shadow: none;";
+              button.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+              button.style.cssText =
+                "background-color: var(--success-color, #10b981) !important; border-color: transparent; box-shadow: none;";
               setTimeout(() => {
                 button.innerHTML = originalHTML;
                 button.style.cssText = "";

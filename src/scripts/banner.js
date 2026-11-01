@@ -1,16 +1,18 @@
 /**
  * 单图 Banner 随机选取脚本
- * 从配置的图片数组中随机选择桌面端和移动端 Banner 图片并渲染
  */
 
 (() => {
+	// 查找 Banner 容器元素
 	const container = document.getElementById("banner-single-container");
 	if (!container) return;
 
+	// 解析数据属性中的图片数组
 	const desktopImages = JSON.parse(container.dataset.desktopImages || "[]");
 	const mobileImages = JSON.parse(container.dataset.mobileImages || "[]");
 	const position = container.dataset.position || "center";
 
+	// 随机获取图片：从数组中随机选择一个图片，避免重复
 	const getRandomImage = (images, storageKey) => {
 		if (Array.isArray(images)) {
 			if (images.length === 0) return null;
@@ -29,14 +31,16 @@
 		return images || null;
 	};
 
+	// 随机获取桌面端和移动端图片
 	const desktopSrc = getRandomImage(desktopImages, "banner_desktop_index");
 	const mobileSrc = getRandomImage(mobileImages, "banner_mobile_index");
 
+	// 渲染图片：根据配置位置和图片源创建图片元素
 	if (mobileSrc) {
 		const mobileImg = document.createElement("img");
 		mobileImg.alt = "Mobile banner image of the blog";
 		mobileImg.className =
-			"block md:hidden object-cover h-full w-full transition duration-700 opacity-100";
+			"block md:hidden object-cover h-full w-full transition duration-300 opacity-100";
 		mobileImg.src = mobileSrc;
 		mobileImg.loading = "eager";
 		mobileImg.fetchPriority = "high";
@@ -44,12 +48,13 @@
 		container.appendChild(mobileImg);
 	}
 
+	// 渲染桌面端图片：根据配置位置和图片源创建图片元素
 	if (desktopSrc) {
 		const desktopImg = document.createElement("img");
 		desktopImg.id = "banner";
 		desktopImg.alt = "Desktop banner image of the blog";
 		desktopImg.className =
-			"hidden md:block object-cover h-full w-full transition duration-700 opacity-100";
+			"hidden md:block object-cover h-full w-full transition duration-300 opacity-100";
 		desktopImg.src = desktopSrc;
 		desktopImg.loading = "eager";
 		desktopImg.fetchPriority = "high";

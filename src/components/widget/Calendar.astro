@@ -1,10 +1,8 @@
 ---
-import { i18n } from "@i18n/translation";
+import { allTranslations, i18n } from "@i18n/translation";
 import { Icon } from "astro-icon/components";
 import { siteConfig } from "../../config";
 import I18nKey from "../../i18n/i18nKey";
-import { allTranslations } from "../../utils/i18n-dom-updater";
-import { translateToLangMap } from "../../utils/language-utils";
 import WidgetLayout from "./WidgetLayout.astro";
 
 interface Props {
@@ -56,13 +54,12 @@ const weekDays = allWeekDays[siteConfig.lang] || allWeekDays.en;
 // 序列化供客户端动态切换
 const allMonthNamesJSON = JSON.stringify(allMonthNames);
 const allYearSuffixesJSON = JSON.stringify(allYearSuffixes);
-const translateToI18nMapJSON = JSON.stringify(translateToLangMap);
 ---
 
 <WidgetLayout id="calendar-widget" class={className} style={style}>
 	<div class="flex justify-between items-center mb-2 mt-2">
 		<div
-			class="font-bold transition text-lg text-neutral-900 dark:text-neutral-100 relative ml-4 flex items-center
+			class="font-bold transition text-lg text-90 relative ml-4 flex items-center
 					before:w-1 before:h-4 before:rounded-md before:bg-[var(--primary)]
 					before:absolute before:left-[-16px] before:top-[13.5px]"
 		>
@@ -72,15 +69,14 @@ const translateToI18nMapJSON = JSON.stringify(translateToLangMap);
 			>
 				<span
 					id="calendar-title"
-					class="text-lg font-bold text-neutral-900 dark:text-neutral-100 select-none"
-				></span>
+					class="text-lg font-bold text-90 select-none"></span>
 			</div>
 		</div>
 
 		<div class="flex items-center gap-1 shrink-0 ml-2">
 			<button
 				id="back-to-today-btn"
-				class="p-1.5 rounded-md hover:bg-[var(--btn-plain-bg-hover)] text-[var(--primary)] transition-all invisible"
+				class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center invisible duration-300"
 				aria-label="Back to today"
 				title={i18n(I18nKey.calendarBackToToday)}
 			>
@@ -91,7 +87,7 @@ const translateToI18nMapJSON = JSON.stringify(translateToLangMap);
 			</button>
 			<button
 				id="prev-month-btn"
-				class="p-1.5 rounded-md hover:bg-[var(--btn-plain-bg-hover)] text-neutral-600 dark:text-neutral-400 hover:text-[var(--primary)] dark:hover:text-[var(--primary)] transition-all duration-200"
+				class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center duration-300"
 				aria-label="Previous month"
 				title={i18n(I18nKey.calendarPrevMonth)}
 			>
@@ -99,7 +95,7 @@ const translateToI18nMapJSON = JSON.stringify(translateToLangMap);
 			</button>
 			<button
 				id="next-month-btn"
-				class="p-1.5 rounded-md hover:bg-[var(--btn-plain-bg-hover)] text-neutral-600 dark:text-neutral-400 hover:text-[var(--primary)] dark:hover:text-[var(--primary)] transition-all duration-200"
+				class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center duration-300"
 				aria-label="Next month"
 				title={i18n(I18nKey.calendarNextMonth)}
 			>
@@ -107,12 +103,12 @@ const translateToI18nMapJSON = JSON.stringify(translateToLangMap);
 			</button>
 		</div>
 	</div>
-	<div class="relative w-full overflow-hidden" style="min-height: 15.625rem;">
+	<div class="relative w-full overflow-hidden">
 		<div id="calendar-view" class="w-full opacity-100">
-			<div class="ignore grid grid-cols-7 gap-1 mb-2">
+			<div class="grid grid-cols-7 gap-1 mb-2">
 				{
 					weekDays.map((day) => (
-						<div class="text-center text-xs text-neutral-500 dark:text-neutral-400 font-medium py-1">
+						<div class="text-center text-xs text-90 font-medium py-1">
 							{day}
 						</div>
 					))
@@ -134,7 +130,7 @@ const translateToI18nMapJSON = JSON.stringify(translateToLangMap);
 		</div>
 		<div
 			id="selection-panel"
-			class="absolute inset-0 bg-[var(--card-bg)] z-10 flex flex-col pointer-events-none opacity-0 transition-opacity duration-200"
+			class="absolute inset-0 bg-[var(--card-bg)] z-10 flex flex-col pointer-events-none opacity-0 transition-opacity duration-300"
 		>
 			<div
 				id="selection-content"
@@ -150,23 +146,15 @@ const translateToI18nMapJSON = JSON.stringify(translateToLangMap);
 	define:vars={{
 		allMonthNamesJSON,
 		allYearSuffixesJSON,
-		translateToI18nMapJSON,
-		defaultLang: siteConfig.lang,
+		configLang: siteConfig.lang,
 	}}
 >
 	// 解析多语言映射表
 	const allMonthNames = JSON.parse(allMonthNamesJSON);
 	const allYearSuffixes = JSON.parse(allYearSuffixesJSON);
-	const translateToLangMap = JSON.parse(translateToI18nMapJSON);
 
 	function calGetLang() {
-		const translateTo =
-			window.translationManager?.getTargetLanguage() ||
-			window.translate?.to;
-		if (translateTo) {
-			return translateToLangMap[translateTo] || defaultLang;
-		}
-		return defaultLang;
+		return window.__i18n ? window.__i18n.resolveLang() : configLang;
 	}
 	function calGetMonthNames() {
 		const lang = calGetLang();
@@ -379,8 +367,15 @@ const translateToI18nMapJSON = JSON.stringify(translateToLangMap);
 			if (!cell) return;
 			const dateKey = cell.getAttribute("data-date");
 
-			if (selectedDateKey === dateKey) selectedDateKey = null;
-			else selectedDateKey = dateKey;
+			const isTodayDate =
+				dateKey ===
+				`${todayYear}-${String(todayMonth + 1).padStart(2, "0")}-${String(todayDate).padStart(2, "0")}`;
+
+			if (selectedDateKey === dateKey) {
+				selectedDateKey = null;
+			} else if (!isTodayDate) {
+				selectedDateKey = dateKey;
+			}
 
 			renderCalendar();
 			if (selectedDateKey && postDateMap[selectedDateKey]) {
@@ -467,24 +462,21 @@ const translateToI18nMapJSON = JSON.stringify(translateToLangMap);
 			const isSelected = selectedDateKey === dateKey;
 
 			let bgClass =
-				"hover:bg-[var(--btn-plain-bg-hover)] text-neutral-700 dark:text-neutral-300 border border-transparent";
+				"text-60 border border-transparent pointer-events-none";
 
-			if (isSelected) {
+			if (isSelected || isToday) {
 				bgClass =
-					"bg-[var(--primary)] text-white shadow-md border border-transparent";
-			} else if (isToday) {
-				bgClass =
-					"text-[var(--primary)] font-bold bg-[var(--primary)]/10 border border-[var(--primary)]";
+					"bg-[var(--btn-regular-bg)] text-[var(--btn-content)] dark:text-90 font-bold border border-transparent cursor-pointer";
 			} else if (hasPost) {
 				bgClass =
-					"font-bold text-neutral-900 dark:text-neutral-100 hover:bg-[var(--btn-plain-bg-hover)] border border-transparent";
+					"font-bold text-90 hover:bg-[var(--btn-plain-bg-hover)] border border-transparent cursor-pointer";
 			}
 
 			html += `
-                <div class="calendar-day aspect-square flex items-center justify-center rounded-md cursor-pointer relative transition-all duration-200 ${bgClass}"
+                <div class="calendar-day aspect-square flex items-center justify-center rounded-md relative transition-all duration-300 ${bgClass}"
                     data-date="${dateKey}">
                     ${day}
-                    ${hasPost && !isSelected ? `<span class="absolute bottom-0 w-1 h-1 rounded-full bg-[var(--primary)]"></span>` : ""}
+                    ${hasPost && !(isSelected || isToday) ? `<span class="absolute bottom-0 w-1 h-1 rounded-full bg-[var(--primary)]"></span>` : ""}
                     ${hasPost && count > 1 ? `<span class="absolute top-0 right-0 text-[10px] text-[var(--primary)] font-bold">${count}</span>` : ""}
                 </div>
             `;
@@ -529,13 +521,13 @@ const translateToI18nMapJSON = JSON.stringify(translateToLangMap);
 
 				if (isCurrentPost) {
 					containerClass +=
-						" bg-[var(--primary)]/10 text-[var(--primary)] border-[var(--primary)]/10";
+						" text-[var(--primary)] hover:bg-[var(--btn-plain-bg-hover)] border-[var(--primary)]/10 duration-300";
 					dateClass += " text-[var(--primary)]/80";
 				} else {
 					containerClass +=
-						" text-neutral-700 dark:text-neutral-300 hover:text-[var(--primary)] dark:hover:text-[var(--primary)] hover:bg-[var(--btn-plain-bg-hover)]";
+						" text-75 hover:text-[var(--primary)] dark:hover:text-[var(--primary)] hover:bg-[var(--btn-plain-bg-hover)]";
 					dateClass +=
-						" text-neutral-400 group-hover:text-[var(--primary)]/70";
+						" text-60 group-hover:text-[var(--primary)]/70";
 				}
 
 				return `
@@ -549,13 +541,9 @@ const translateToI18nMapJSON = JSON.stringify(translateToLangMap);
 
 		dom.postsList.innerHTML = listHtml;
 
-		// 对新插入的文章列表立即执行翻译。
-		if (
-			!_isInTranslateFlow &&
-			window.translationManager?.isActive() &&
-			window.translate
-		) {
-			window.translate.execute(dom.postsList);
+		// 对新插入的文章列表立即执行翻译（统一走 translationManager 队列）。
+		if (!_isInTranslateFlow && window.translationManager?.isActive()) {
+			void window.translationManager.translateRoot(dom.postsList);
 		}
 	}
 
@@ -579,7 +567,7 @@ const translateToI18nMapJSON = JSON.stringify(translateToLangMap);
 			if (isCurrentMonth)
 				cls +=
 					" border-[var(--primary)] text-[var(--primary)] bg-[var(--primary)]/5";
-			else cls += " text-neutral-700 dark:text-neutral-300";
+			else cls += " text-black/75 dark:text-white/75";
 
 			html += `
                 <div class="${cls}" data-month="${index}">
@@ -606,7 +594,7 @@ const translateToI18nMapJSON = JSON.stringify(translateToLangMap);
 			if (isCurrent)
 				cls +=
 					" border-[var(--primary)] text-[var(--primary)] bg-[var(--primary)]/5";
-			else cls += " text-neutral-700 dark:text-neutral-300";
+			else cls += " text-black/75 dark:text-white/75";
 
 			html += `
                 <div class="${cls}" data-year="${y}" id="year-${y}">

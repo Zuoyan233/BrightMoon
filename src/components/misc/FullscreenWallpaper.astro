@@ -200,12 +200,14 @@ const renderGroups = [
 	})();
 </script>
 	<script is:inline>
-	// 动态应用卡片透明度
+	// 动态应用卡片透明度和卡片背景模糊
 	(function() {
 		const container = document.currentScript.parentElement;
 		const rawCardOpacity = parseFloat(container.getAttribute('data-default-card-opacity'));
 		const defaultCardOpacity = isNaN(rawCardOpacity) ? 0.8 : rawCardOpacity;
 		const defaultWallpaperMode = container.getAttribute('data-default-wallpaper-mode') || 'banner';
+		const rawBlur = parseFloat(container.getAttribute('data-default-blur'));
+		const defaultBlur = isNaN(rawBlur) ? 8 : rawBlur;
 
 		function getEffectiveMode() {
 			return localStorage.getItem('wallpaperMode') || defaultWallpaperMode;
@@ -225,8 +227,13 @@ const renderGroups = [
 			}
 		}
 
-		function resetCardOpacity() {
+		function applyCardBlur(value) {
+			document.body.style.setProperty('--card-backdrop-blur', value + 'px');
+		}
+
+		function resetCardStyles() {
 			document.body.style.removeProperty('--card-bg-transparent');
+			document.body.style.removeProperty('--card-backdrop-blur');
 		}
 
 		function applyStoredCardOpacity() {
@@ -234,8 +241,14 @@ const renderGroups = [
 			applyCardOpacity(storedCardOpacity !== null ? parseFloat(storedCardOpacity) : defaultCardOpacity * 100);
 		}
 
+		function applyStoredCardBlur() {
+			var storedBlur = localStorage.getItem('wallpaperBlur');
+			applyCardBlur(storedBlur !== null ? parseFloat(storedBlur) : defaultBlur);
+		}
+
 		if (isFullscreenWallpaperMode()) {
 			applyStoredCardOpacity();
+			applyStoredCardBlur();
 		}
 
 		window.addEventListener('card-opacity-change', function(e) {
@@ -244,17 +257,25 @@ const renderGroups = [
 			}
 		});
 
+		window.addEventListener('wallpaper-blur-change', function(e) {
+			if (e.detail && typeof e.detail.blur === 'number' && isFullscreenWallpaperMode()) {
+				applyCardBlur(e.detail.blur);
+			}
+		});
+
 		window.addEventListener('wallpaper-mode-change', function(e) {
 			if (e.detail && e.detail.mode === 'fullscreen') {
 				applyStoredCardOpacity();
+				applyStoredCardBlur();
 			} else {
-				resetCardOpacity();
+				resetCardStyles();
 			}
 		});
 
 		var observer = new MutationObserver(function() {
 			if (isFullscreenWallpaperMode()) {
 				applyStoredCardOpacity();
+				applyStoredCardBlur();
 			}
 		});
 		observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
@@ -268,7 +289,7 @@ const renderGroups = [
 					<img
 						src={src}
 						alt={`${group.key} wallpaper ${index + 1}`}
-						class={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${positionClass}`}
+						class={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${positionClass}`}
 						data-carousel-item={index}
 						style={`transform: translateZ(0); backface-visibility: hidden; will-change: opacity; ${blurAmount > 0 ? `filter: blur(${blurAmount}px);` : ''}; opacity: ${index === 0 ? 1 : 0};`}
 						decoding="async"
@@ -310,7 +331,7 @@ const renderGroups = [
 							<img
 								src="${desktopSrc}"
 								alt="desktop wallpaper"
-								class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${positionClass}"
+								class="absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${positionClass}"
 								style="transform: translateZ(0); backface-visibility: hidden; will-change: opacity; ${blurAmount > 0 ? `filter: blur(${blurAmount}px);` : ''} opacity: 1;"
 								decoding="async"
 								loading="eager"
@@ -328,7 +349,7 @@ const renderGroups = [
 							<img
 								src="${mobileSrc}"
 								alt="mobile wallpaper"
-								class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${positionClass}"
+								class="absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${positionClass}"
 								style="transform: translateZ(0); backface-visibility: hidden; will-change: opacity; ${blurAmount > 0 ? `filter: blur(${blurAmount}px);` : ''} opacity: 1;"
 								decoding="async"
 								loading="eager"

@@ -1,5 +1,5 @@
 /**
- * Based on the discussion at https://github.com/expressive-code/expressive-code/issues/153#issuecomment-2282218684
+ * Expressive Code 插件 - 在代码块右上角显示语言标签
  */
 import { definePlugin } from "@expressive-code/core";
 

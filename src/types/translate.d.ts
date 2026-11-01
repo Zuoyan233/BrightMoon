@@ -1,4 +1,4 @@
-/* ===== translate.js 外部类型声明 ===== */
+/* translate.js 外部类型声明 */
 
 interface TranslateLifecycle {
 	execute: {
@@ -91,7 +91,7 @@ interface TranslateInstance {
 	node?: TranslateNode;
 }
 
-/* ===== Global Window 扩展 ===== */
+/* Global Window 扩展 */
 
 declare global {
 	interface TranslationRefreshOptions {
@@ -102,6 +102,22 @@ declare global {
 
 	type TranslationRenderer = () => void | Promise<void>;
 
+	/** i18n 由 MainGridLayout 注入，统一客户端语言解析与取词 */
+	interface GlobalI18nHelper {
+		/** 配置语言码 -> 翻译字典 */
+		translations: Record<string, Record<string, string>>;
+		maps: {
+			translateToLangMap: Record<string, string>;
+			localeToLangMap: Record<string, string>;
+		};
+		/** 站点配置语言 */
+		configLang: string;
+		/** 解析当前应使用的配置语言码 */
+		resolveLang: () => string;
+		/** 按当前语言取词，未知 key 回退站点语言字典，仍缺失返回空串 */
+		t: (key: string) => string;
+	}
+
 	interface TranslationManagerInstance {
 		/** 初始化翻译系统 */
 		init: () => Promise<void>;
@@ -109,6 +125,8 @@ declare global {
 		setLanguage: (language: string) => Promise<void>;
 		/** 防抖刷新翻译 */
 		refresh: (options?: TranslationRefreshOptions) => Promise<void>;
+		/** 对指定子树立即执行一次机器翻译（内部排队，供动态插入内容使用） */
+		translateRoot: (root: HTMLElement) => Promise<void>;
 		/** 注册翻译前需要执行的渲染器（翻译前刷新组件 DOM） */
 		onRefresh: (key: string, renderer: TranslationRenderer) => () => void;
 		/** 是否已激活翻译 */
@@ -124,6 +142,7 @@ declare global {
 	interface Window {
 		translate?: TranslateInstance;
 		translationManager?: TranslationManagerInstance;
+		__i18n?: GlobalI18nHelper;
 		runtime?: () => void;
 	}
 }

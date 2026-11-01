@@ -1,18 +1,26 @@
-/* utils */
+/*
+ * 全局主题色变量
+ */
+
+/* 生成指定透明度的白色（a 取值 0~1），用于暗色模式下的分隔线、遮罩等 */
 white(a)
   rgba(255, 255, 255, a)
 
+/* 生成指定透明度的黑色（a 取值 0~1），用于亮色模式下的分隔线、遮罩等 */
 black(a)
   rgba(0, 0, 0, a)
 
+/* 彩虹渐变（亮色模式）： oklch 亮度 0.80，色相 0°~360° 均匀分布，用于选中文本色彩条等 */
 rainbow-light = linear-gradient(to right, oklch(0.80 0.10 0), oklch(0.80 0.10 30), oklch(0.80 0.10 60), oklch(0.80 0.10 90), oklch(0.80 0.10 120), oklch(0.80 0.10 150), oklch(0.80 0.10 180), oklch(0.80 0.10 210), oklch(0.80 0.10 240), oklch(0.80 0.10 270), oklch(0.80 0.10 300), oklch(0.80 0.10 330), oklch(0.80 0.10 360))
+
+/* 彩虹渐变（暗色模式）：oklch 亮度降至 0.70，避免暗色背景下过亮刺眼 */
 rainbow-dark = linear-gradient(to right, oklch(0.70 0.10 0), oklch(0.70 0.10 30), oklch(0.70 0.10 60), oklch(0.70 0.10 90), oklch(0.70 0.10 120), oklch(0.70 0.10 150), oklch(0.70 0.10 180), oklch(0.70 0.10 210), oklch(0.70 0.10 240), oklch(0.70 0.10 270), oklch(0.70 0.10 300), oklch(0.70 0.10 330), oklch(0.70 0.10 360))
 
 :root
-  --radius-large 1rem
-  --content-delay 150ms
+  --radius-large 1rem /* 大型卡片 / 面板的圆角半径 */
+  --content-delay 150ms /* 页面内容入场动画的统一延迟时长 */
 
-/* An util to define variables that vary with light and dark mode */
+/* 变量定义 */
 define(vars)
   :root
     for key, value in vars
@@ -23,80 +31,125 @@ define(vars)
         {key}: value[1]
 
 define({
-  --primary: oklch(0.70 0.14 var(--hue)) oklch(0.75 0.14 var(--hue))
+
+  /* 主题强调色：按钮文字、链接、高亮等（亮 / 暗） */
+  --primary: oklch(0.53 0.14 var(--hue)) oklch(0.75 0.14 var(--hue))
+
+  /* 页面背景色 */
   --page-bg: oklch(0.95 0.01 var(--hue)) oklch(0.16 0.014 var(--hue))
+
+  /* 卡片背景色 */
   --card-bg: white oklch(0.23 0.015 var(--hue))
+
+  /* 半透明卡片背景色（毛玻璃效果），全屏壁纸模式下才会启用透明值 */
   --card-bg-transparent: rgba(255, 255, 255, 0.8) rgba(23, 23, 23, 0.8)
 
-  --btn-content: oklch(0.55 0.12 var(--hue)) oklch(0.75 0.1 var(--hue))
+  /* 常规按钮上的文字 / 图标颜色 */
+  --btn-content: oklch(0.45 0.12 var(--hue)) oklch(0.75 0.14 var(--hue))
 
+  /* 常规按钮背景色：默认 / 悬停 / 按下，三态逐渐加深 */
   --btn-regular-bg: oklch(0.95 0.025 var(--hue)) oklch(0.33 0.035 var(--hue))
   --btn-regular-bg-hover: oklch(0.9 0.05 var(--hue)) oklch(0.38 0.04 var(--hue))
   --btn-regular-bg-active: oklch(0.85 0.08 var(--hue)) oklch(0.43 0.045 var(--hue))
 
+  /* 纯文字按钮（plain）背景色：仅悬停 / 按下两态，默认态透明 */
   --btn-plain-bg-hover: oklch(0.95 0.025 var(--hue)) oklch(0.30 0.035 var(--hue))
   --btn-plain-bg-active: oklch(0.98 0.01 var(--hue)) oklch(0.27 0.025 var(--hue))
 
+  /* 卡片式按钮（btn-card）背景色：仅悬停 / 按下两态，默认态使用卡片背景 */
   --btn-card-bg-hover: oklch(0.98 0.005 var(--hue)) oklch(0.3 0.03 var(--hue))
   --btn-card-bg-active: oklch(0.9 0.03 var(--hue)) oklch(0.35 0.035 var(--hue))
 
+  /* 进入按钮（如横幅中的进入博客按钮）：复用常规按钮三态色 */
   --enter-btn-bg: var(--btn-regular-bg)
   --enter-btn-bg-hover: var(--btn-regular-bg-hover)
   --enter-btn-bg-active: var(--btn-regular-bg-active)
 
+  /* 深色正文文字（仅亮色模式，暗色模式共用，无需单独定义） */
   --deep-text: oklch(0.25 0.02 var(--hue))
 
+  /* 激活态标题颜色（如悬停的文章标题） */
   --title-active: oklch(0.6 0.1 var(--hue))
 
+  /* 分隔线颜色：卡片内分区线 / 边框线 / 元信息分隔 / 次要内容文字，透明度依次递增 */
   --line-divider: black(0.08) white(0.08)
 
   --line-color: black(0.1) white(0.1)
   --meta-divider: black(0.2) white(0.2)
   --content-meta: black(0.7) white(0.6)
 
+  /* 行内代码背景 / 文字颜色：复用常规按钮配色 */
   --inline-code-bg: var(--btn-regular-bg)
   --inline-code-color: var(--btn-content)
+
+  /* 文本选中背景色 */
   --selection-bg: oklch(0.90 0.05 var(--hue)) oklch(0.40 0.08 var(--hue))
+
+  /* 代码块内选中行背景色：复用文本选中色 */
   --codeblock-selection: var(--selection-bg)
+
+  /* 代码块背景 / 顶部栏（文件名工具条）背景色 */
   --codeblock-bg: oklch(0.97 0.005 var(--hue)) oklch(0.17 0.015 var(--hue))
   --codeblock-topbar-bg: oklch(0.94 0.01 var(--hue)) oklch(0.12 0.015 var(--hue))
 
-  --license-block-bg: black(0.03) var(--codeblock-bg)
+  /* 许可证（版权声明）块背景色：复用代码块背景 */
+  --license-block-bg: oklch(0.97 0.005 var(--hue)) var(--codeblock-bg)
 
+  /* 链接下划线 / 悬停 / 激活颜色 */
   --link-underline: oklch(0.93 0.04 var(--hue)) oklch(0.40 0.08 var(--hue))
   --link-hover: oklch(0.95 0.025 var(--hue)) oklch(0.40 0.08 var(--hue))
   --link-active: oklch(0.90 0.05 var(--hue)) oklch(0.35 0.07 var(--hue))
 
+  /* 浮动面板（如导航菜单、弹层）背景色 */
   --float-panel-bg: white oklch(0.19 0.015 var(--hue))
 
+  /* 亮色模式滚动条：默认 / 悬停 / 按下，透明度依次递增 */
   --scrollbar-bg-light: black(0.4)
   --scrollbar-bg-hover-light: black(0.5)
   --scrollbar-bg-active-light: black(0.6)
 
+  /* 暗色模式滚动条：默认 / 悬停 / 按下 */
   --scrollbar-bg-dark: white(0.4)
   --scrollbar-bg-hover-dark: white(0.5)
   --scrollbar-bg-active-dark: white(0.6)
 
+  /* 滚动条成对组合变量（亮 / 暗自动切换） */
   --scrollbar-bg: var(--scrollbar-bg-light) var(--scrollbar-bg-dark)
   --scrollbar-bg-hover: var(--scrollbar-bg-hover-light) var(--scrollbar-bg-hover-dark)
   --scrollbar-bg-active: var(--scrollbar-bg-active-light) var(--scrollbar-bg-active-dark)
 
+  /* 选区色彩条（文本选中效果）：亮 / 暗两套彩虹渐变 */
   --color-selection-bar: rainbow-light rainbow-dark
 
+  /* 亮暗模式图标显示控制：亮色模式下显示亮色图标，暗色模式显示暗色图标 */
   --display-light-icon: 1 0
   --display-dark-icon: 0 1
 
-  --admonitions-color-tip: oklch(0.7 0.14 180) oklch(0.75 0.14 180)
-  --admonitions-color-note: oklch(0.7 0.14 250) oklch(0.75 0.14 250)
-  --admonitions-color-important: oklch(0.7 0.14 310) oklch(0.75 0.14 310)
-  --admonitions-color-warning: oklch(0.7 0.14 60) oklch(0.75 0.14 60)
-  --admonitions-color-caution: oklch(0.6 0.2 25) oklch(0.65 0.2 25)
+  /* tip 提示：绿色系（亮 / 暗） */
+  --admonitions-color-tip: oklch(0.535 0.132 152) oklch(0.724 0.165 152)
 
+  /* note 笔记：蓝色系 */
+  --admonitions-color-note: oklch(0.548 0.167 255) oklch(0.658 0.191 255)
+
+  /* important 重要：紫色系 */
+  --admonitions-color-important: oklch(0.548 0.196 296) oklch(0.707 0.179 296)
+
+  /* warning 警告：黄色系 */
+  --admonitions-color-warning: oklch(0.523 0.125 78) oklch(0.727 0.144 78)
+
+  /* caution 注意：红色系 */
+  --admonitions-color-caution: oklch(0.548 0.204 24) oklch(0.658 0.201 24)
+
+  /* 目录徽章背景 / 浮动目录按钮悬停与按下背景 */
   --toc-badge-bg: oklch(0.9 0.045 var(--hue)) var(--btn-regular-bg)
-  --toc-btn-hover: oklch(0.92 0.015 var(--hue)) oklch(0.22 0.02 var(--hue))
-  --toc-btn-active: oklch(0.90 0.015 var(--hue)) oklch(0.25 0.02 var(--hue))
+  --toc-btn-hover: oklch(0.95 0.025 var(--hue)) oklch(0.33 0.035 var(--hue))
+  --toc-btn-active: oklch(0.95 0.025 var(--hue)) oklch(0.33 0.035 var(--hue))
+
+  /* 浮动目录面板宽度：视口与正文宽度差值的一半再留 1rem 间距 */
   --toc-width: calc((100vw - var(--page-width)) / 2 - 1rem)
-  --toc-item-active: oklch(0.70 0.13 var(--hue)) oklch(0.35 0.07 var(--hue))
+
+  /* 目录当前激活项颜色 */
+  --toc-item-active: oklch(0.45 0.12 var(--hue)) oklch(0.75 0.1 var(--hue))
 })
 
 /* 非全屏壁纸模式下，--card-bg-transparent 应该和 --card-bg 一致（不透明） */
@@ -106,6 +159,8 @@ body:not(.wallpaper-transparent)
 /* 全屏壁纸模式下，--card-bg-transparent 使用真正的半透明值 */
 body.wallpaper-transparent
   --card-bg-transparent: rgba(255, 255, 255, 0.8)
+  --card-backdrop-blur: 12px
 
 :root.dark body.wallpaper-transparent
   --card-bg-transparent: rgba(23, 23, 23, 0.8)
+  --card-backdrop-blur: 12px

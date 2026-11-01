@@ -28,6 +28,7 @@ interface Post {
 	};
 }
 
+// 归档面板分组
 interface Group {
 	year: number;
 	posts: Post[];
@@ -35,16 +36,19 @@ interface Group {
 
 let groups: Group[] = [];
 
+// 格式化日期
 function formatDate(date: Date) {
 	const month = (date.getMonth() + 1).toString().padStart(2, "0");
 	const day = date.getDate().toString().padStart(2, "0");
 	return `${month}-${day}`;
 }
 
+// 格式化标签
 function formatTag(tagList: string[]) {
 	return tagList.map((t) => `#${t}`).join(" ");
 }
 
+// 组件挂载时初始化归档面板
 onMount(async () => {
 	let filteredPosts: Post[] = sortedPosts;
 
@@ -83,6 +87,7 @@ onMount(async () => {
 		{} as Record<number, Post[]>,
 	);
 
+	// 转换为数组并按年份排序
 	const groupedPostsArray = Object.keys(grouped).map((yearStr) => ({
 		year: Number.parseInt(yearStr, 10),
 		posts: grouped[Number.parseInt(yearStr, 10)],
@@ -94,6 +99,7 @@ onMount(async () => {
 });
 </script>
 
+<!-- 归档面板 -->
 <div class="card-base px-8 py-6">
     {#each groups as group}
         <div>
@@ -107,7 +113,7 @@ onMount(async () => {
                   -outline-offset-[2px] z-50 outline-3"
                     ></div>
                 </div>
-                <div class="w-[70%] md:w-[80%] transition text-left text-50">
+                <div class="w-[70%] md:w-[80%] transition text-left text-60">
                     {group.posts.length} {i18n(group.posts.length === 1 ? I18nKey.postCount : I18nKey.postsCount)}
                 </div>
             </div>
@@ -116,16 +122,16 @@ onMount(async () => {
                 <a
                         href={post.url || `/posts/${post.id}/`}
                         aria-label={post.data.title}
-                        class="group btn-plain !block h-10 w-full rounded-lg hover:text-[initial]"
+                        class="group btn-plain !block py-2 w-full rounded-lg hover:text-[initial]"
                 >
-                    <div class="flex flex-row justify-start items-center h-full">
+                    <div class="flex flex-row justify-start items-start">
                         <!-- date -->
-                        <div class="w-[15%] md:w-[10%] transition text-sm text-right text-50">
+                        <div class="w-[15%] md:w-[10%] transition text-sm text-right text-60 pt-0.5">
                             {formatDate(post.data.published)}
                         </div>
 
                         <!-- dot and line -->
-                        <div class="w-[15%] md:w-[10%] relative dash-line h-full flex items-center">
+                        <div class="w-[15%] md:w-[10%] relative dash-line flex items-center min-h-[1.5rem]">
                             <div
                                     class="transition-all mx-auto w-1 h-1 rounded group-hover:h-5
                        bg-[oklch(0.5_0.05_var(--hue))] group-hover:bg-[var(--primary)]
@@ -136,26 +142,30 @@ onMount(async () => {
                             ></div>
                         </div>
 
-                        <!-- post title -->
-                        <div
-                                class="w-[70%] md:max-w-[65%] md:w-[65%] text-left font-bold
-                     group-hover:translate-x-1 transition-all group-hover:text-[var(--primary)]
-                     text-75 pr-8 whitespace-nowrap overflow-ellipsis overflow-hidden"
-                        >
-                            {#if post.data.encrypted && post.data.password}
-                                <svg class="inline-block w-4 h-4 align-middle text-[var(--primary)]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6zm9 14H6V10h12v10zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z" fill="currentColor"/>
-                                </svg>
-                            {/if}
-                            {post.data.title}
-                        </div>
+                        <!-- 文章标题和标签列表 -->
+                        <div class="w-[70%] md:w-[80%] text-left pr-8 relative">
+                            <!-- 文章标题 -->
+                            <div
+                                    class="font-bold group-hover:translate-x-1 transition-all
+                         group-hover:text-[var(--primary)] text-90
+                         whitespace-nowrap overflow-ellipsis overflow-hidden"
+                                    title={post.data.title}
+                            >
+                                {#if post.data.encrypted && post.data.password}
+                                    <svg class="inline-block w-4 h-4 align-middle text-[var(--primary)] -mt-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6zm9 14H6V10h12v10zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z" fill="currentColor"/>
+                                    </svg>
+                                {/if}
+                                {post.data.title}
+                            </div>
 
-                        <!-- tag list -->
-                        <div
-                                class="hidden md:block md:w-[15%] text-left text-sm transition
-                     whitespace-nowrap overflow-ellipsis overflow-hidden text-30"
-                        >
-                            {formatTag(post.data.tags)}
+                            <!-- 标签列表 -->
+                            <div
+                                    class="text-xs transition text-60 group-hover:translate-x-1
+                         whitespace-nowrap overflow-ellipsis overflow-hidden"
+                            >
+                                {formatTag(post.data.tags)}
+                            </div>
                         </div>
                     </div>
                 </a>

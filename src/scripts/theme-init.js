@@ -1,10 +1,9 @@
 /**
  * 主题初始化脚本
- * 在页面渲染前同步执行，防止主题闪烁。
- * 负责主题模式切换、色调加载、Banner 偏移计算、页面缩放调整
  */
+
 (() => {
-	// Load the theme from local storage
+	// 从本地存储加载主题
 	const theme = localStorage.getItem("theme") || "system";
 	let isDark = false;
 	switch (theme) {
@@ -26,7 +25,7 @@
 			break;
 	}
 
-	// Set the theme for Expressive Code based on current mode
+	// 设置 Expressive Code 主题
 	const expressiveTheme = isDark ? "github-dark" : "github-light";
 	const currentTheme = document.documentElement.getAttribute("data-theme");
 	// 只在主题不同时才更新，避免触发不必要的重绘
@@ -34,12 +33,12 @@
 		document.documentElement.setAttribute("data-theme", expressiveTheme);
 	}
 
-	// Load the hue from local storage
+	// 从本地存储加载色调
 	const configHue = document.documentElement.dataset.configHue;
 	const hue = localStorage.getItem("hue") || configHue;
 	document.documentElement.style.setProperty("--hue", hue);
 
-	// calculate the --banner-height-extend, which needs to be a multiple of 4 to avoid blurry text
+	// 计算 --banner-height-extend，需为 4 的倍数以避免文字模糊
 	const BANNER_HEIGHT_EXTEND = 30;
 	let offset = Math.floor(window.innerHeight * (BANNER_HEIGHT_EXTEND / 100));
 	offset = offset - (offset % 4);

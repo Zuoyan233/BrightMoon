@@ -49,7 +49,7 @@ if (commentConfig?.enable && commentConfig?.twikoo) {
       <!-- 页面标题 -->
       <div class="flex flex-col items-start justify-center mb-8">
         <h1
-          class="text-4xl font-bold text-black/90 dark:text-white/90 mb-2 relative
+          class="text-4xl font-bold text-90 mb-2 relative
                   before:w-1 before:h-8 before:rounded-md before:bg-[var(--primary)]
                   before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-4"
         >
@@ -73,7 +73,7 @@ if (commentConfig?.enable && commentConfig?.twikoo) {
       <!-- 页面标题 -->
       <div class="flex flex-col items-start justify-center mb-8">
         <h1
-          class="text-3xl font-bold text-black/90 dark:text-white/90 mb-2 relative
+          class="text-3xl font-bold text-90 mb-2 relative
                   before:w-1 before:h-8 before:rounded-md before:bg-[var(--primary)]
                   before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-4"
         >
@@ -81,51 +81,64 @@ if (commentConfig?.enable && commentConfig?.twikoo) {
         </h1>
       </div>
 
-      <!-- 联系站长电子邮箱方式 -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-5">
-        <div
-          class="bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))] rounded-xl p-8 shadow-sm hover:shadow-lg dark:hover:shadow-lg dark:hover:shadow-white/30 transition-shadow duration-300"
-        >
-          <Icon
-            name="material-symbols:mail-outline"
-            class="text-4xl m-0 mb-4 text-left text-[var(--primary)]"
-          />
-          <p class="text-md font-normal text-black/100 dark:text-white/80">
-            {i18n(I18nKey.contactEmail)}
-          </p>
-          {
-            contactEmailConfig.emails.map((emailItem, index) => (
-              <div>
-                <a
-                  class="transition link text-[var(--primary)] hover:text-gray-600 dark:hover:text-white/80 font-medium"
-                  target="_blank"
-                  href={emailItem.link}
-                >
-                  {emailItem.email}
-                </a>
-                {index < contactEmailConfig.emails.length - 1 && <br />}
+      <!-- 联系站长方式 -->
+      <div class="flex flex-col gap-4">
+        <!-- 联系站长电子邮箱方式 -->
+        <div class="py-2">
+          <div class="flex flex-row items-center justify-between gap-3">
+            <div class="flex items-center min-w-0">
+              <div
+                class="w-12 h-12 bg-[var(--btn-regular-bg)] rounded-xl flex items-center justify-center mr-4 shrink-0"
+              >
+                <Icon
+                  name="material-symbols:mail-outline"
+                  class="text-[var(--btn-content)] text-2xl"
+                />
               </div>
-            ))
-          }
+              <div class="min-w-0">
+                <h2 class="font-bold text-90 mb-1">
+                  {i18n(I18nKey.contactEmail)}
+                </h2>
+              </div>
+            </div>
+            <div class="flex flex-row items-center gap-3 shrink-0">
+              <button
+                id="show-email-btn"
+                class="btn-regular rounded-lg px-4 py-3 transition-all duration-300 text-sm whitespace-nowrap inline-flex items-center justify-center gap-2"
+              >
+                {i18n(I18nKey.viewEmail)}
+              </button>
+            </div>
+          </div>
         </div>
 
         <!-- 联系站长添加好友方式 -->
-        <div
-          class="bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[oklch(0.33_0.035_var(--hue))] rounded-xl p-8 shadow-sm hover:shadow-lg dark:hover:shadow-lg dark:hover:shadow-white/30 transition-shadow duration-300"
-        >
-          <Icon
-            name="material-symbols:group-add-outline"
-            class="text-4xl m-0 mb-4 text-left text-[var(--primary)]"
-          />
-          <p class="text-md font-normal text-black/100 dark:text-white/80">
-            {i18n(I18nKey.contactSocialFriends)}
-          </p>
-          <a
-            id="show-qrcode-btn"
-            class="btn-regular bg-[oklch(0.7_0.12_var(--hue))] text-white/90 hover:text-[var(--primary)] h-10 mx-auto text-sm px-3 rounded-lg mt-2 cursor-pointer"
-          >
-            {i18n(I18nKey.addFriends)}
-          </a>
+        <div class="py-2">
+          <div class="flex flex-row items-center justify-between gap-3">
+            <div class="flex items-center min-w-0">
+              <div
+                class="w-12 h-12 bg-[var(--btn-regular-bg)] rounded-xl flex items-center justify-center mr-4 shrink-0"
+              >
+                <Icon
+                  name="material-symbols:group-add-outline"
+                  class="text-[var(--btn-content)] text-2xl"
+                />
+              </div>
+              <div class="min-w-0">
+                <h2 class="font-bold text-90 mb-1">
+                  {i18n(I18nKey.contactSocialFriends)}
+                </h2>
+              </div>
+            </div>
+            <div class="flex flex-row items-center gap-3 shrink-0">
+              <button
+                id="show-qrcode-btn"
+                class="btn-regular rounded-lg px-4 py-3 transition-all duration-300 text-sm whitespace-nowrap inline-flex items-center justify-center gap-2"
+              >
+                {i18n(I18nKey.addFriends)}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -158,7 +171,7 @@ if (commentConfig?.enable && commentConfig?.twikoo) {
             stroke-linecap="round"></circle>
         </svg>
       </div>
-      <p class="text-lg font-bold text-black/90 dark:text-white/90">
+      <p class="text-lg font-bold text-90">
         {i18n(I18nKey.twikooInitializing)}
       </p>
     </div>
@@ -173,14 +186,18 @@ if (commentConfig?.enable && commentConfig?.twikoo) {
       id="twikoo-not-configured"
       class="hidden flex-col items-center justify-center py-12 text-center"
     >
-      <Icon
-        name="material-symbols:chat-bubble-off-outline"
-        class="text-4xl mb-4 text-[var(--primary)]"
-      />
-      <p class="text-lg font-bold text-black/90 dark:text-white/90">
+      <div
+        class="w-16 h-16 rounded-xl flex items-center justify-center bg-[var(--btn-regular-bg)] text-[var(--btn-content)] mb-4"
+      >
+        <Icon
+          name="material-symbols:chat-bubble-off-outline"
+          class="text-4xl"
+        />
+      </div>
+      <p class="text-lg font-bold text-90">
         {i18n(I18nKey.twikooNotConfigured)}
       </p>
-      <p class="text-sm text-neutral-500 dark:text-neutral-400 mt-1">
+      <p class="text-sm text-60 mt-1">
         {i18n(I18nKey.twikooConfigHint)}
       </p>
     </div>
@@ -188,11 +205,12 @@ if (commentConfig?.enable && commentConfig?.twikoo) {
       id="twikoo-privacy-rejected"
       class="hidden flex-col items-center justify-center py-12 text-center"
     >
-      <Icon
-        name="material-symbols:block-outline"
-        class="text-4xl mb-4 text-[var(--primary)]"
-      />
-      <p class="text-lg font-bold text-black/90 dark:text-white/90">
+      <div
+        class="w-16 h-16 rounded-xl flex items-center justify-center bg-[var(--btn-regular-bg)] text-[var(--btn-content)] mb-4"
+      >
+        <Icon name="material-symbols:block-outline" class="text-4xl" />
+      </div>
+      <p class="text-lg font-bold text-90">
         {i18n(I18nKey.twikooPrivacyRejected)}
       </p>
     </div>
@@ -253,6 +271,71 @@ if (commentConfig?.enable && commentConfig?.twikoo) {
   <!-- 添加好友二维码对话框 - 使用数组方式传递 -->
   <FriendQRCode qrCodes={availableQRCodes} />
 
+  <!-- 邮箱地址对话框 -->
+  <dialog
+    id="email-dialog"
+    class="dialog fixed inset-0 m-auto rounded-[var(--radius-large)] bg-[var(--float-panel-bg)] p-0 w-[90%] max-w-[480px] shadow-lg overflow-hidden transition-all duration-250 ease-[cubic-bezier(0.2,0,0,1)] opacity-0 scale-95 translate-y-2.5 dialog-show:opacity-100 dialog-show:scale-100 dialog-show:translate-y-0"
+  >
+    <div class="relative z-10 p-8 pb-7 flex flex-col gap-5">
+      <!-- 标题 -->
+      <div
+        class="flex items-center justify-center gap-2.5 text-[var(--primary)]"
+      >
+        <Icon name="material-symbols:mail-outline" class="text-3xl" />
+        <h3 class="m-0 text-xl font-bold text-[var(--btn-plain)]">
+          {i18n(I18nKey.viewEmail)}
+        </h3>
+      </div>
+
+      <!-- 邮箱列表 -->
+      <div class="flex flex-col gap-3">
+        {
+          contactEmailConfig.emails.map((emailItem, index) => (
+            <div class="flex flex-col gap-1.5">
+              <h4 class="m-0 text-sm font-bold text-[var(--content-meta)]">
+                {i18n(I18nKey.emailIndex).replace("{n}", String(index + 1))}
+              </h4>
+              <div class="ignore flex items-center justify-between gap-3 bg-[var(--codeblock-bg)] rounded-xl py-3 px-4">
+                <p class="text-[var(--inline-code-color)] break-all m-0 font-mono text-sm leading-[1.4] line-clamp-2">
+                  {emailItem.email}
+                </p>
+                <button
+                  type="button"
+                  class="copy-and-go-btn flex-shrink-0 bg-transparent border-none text-[var(--primary)] cursor-pointer p-1.5 rounded-lg flex items-center justify-center hover:bg-[var(--btn-plain-bg-hover)] transition-colors duration-300"
+                  data-email={emailItem.email}
+                  data-link={emailItem.link}
+                  title={i18n(I18nKey.openEmailLink)}
+                >
+                  <Icon name="material-symbols:login" class="text-2xl block" />
+                </button>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
+      <p
+        class="m-0 flex items-center justify-center gap-1.5 text-sm text-[var(--content-meta)]"
+      >
+        <Icon
+          name="material-symbols:info-outline"
+          class="text-xl text-[var(--primary)]"
+        />
+        {i18n(I18nKey.openEmailLink)}
+      </p>
+
+      <!-- 底部按钮区 -->
+      <div class="flex justify-center items-center gap-3 mt-2">
+        <button
+          id="email-dialog-close-btn"
+          class="border-none rounded-[8px] py-2.5 px-7 text-base font-bold cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] active:scale-95 bg-transparent border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--btn-plain-bg-hover)]"
+        >
+          {i18n(I18nKey.cancelText)}
+        </button>
+      </div>
+    </div>
+  </dialog>
+
   <!-- 添加好友按钮点击事件 -->
   <script>
     // 使用事件委托，确保按钮即使被重新创建也能正常工作
@@ -277,10 +360,106 @@ if (commentConfig?.enable && commentConfig?.twikoo) {
         showDialog();
       }
     });
+
+    // 复制邮箱地址
+    document.addEventListener("click", async (e) => {
+      const target = e.target as HTMLElement;
+      const btn = target.closest(
+        ".copy-and-go-btn",
+      ) as HTMLButtonElement | null;
+      if (!btn) return;
+      e.preventDefault();
+
+      const email = btn.dataset.email;
+      const href = btn.dataset.link;
+      if (!href) return;
+
+      if (email && navigator.clipboard?.writeText) {
+        try {
+          await navigator.clipboard.writeText(email);
+        } catch (err) {
+          console.error("copy error", err);
+        }
+      }
+
+      const askConfirm = (window as any).openExternalLinkConfirm as
+        | ((url: string, onConfirm?: (url: string) => void) => boolean)
+        | undefined;
+
+      const openLink = () => {
+        window.open(href, "_blank", "noopener,noreferrer");
+      };
+
+      if (typeof askConfirm === "function" && askConfirm(href, openLink)) {
+        return;
+      }
+
+      openLink();
+    });
+
+    // 邮箱弹窗
+    const getEmailDialog = () =>
+      document.getElementById("email-dialog") as HTMLDialogElement | null;
+
+    const closeEmailDialog = () => {
+      const dialog = getEmailDialog();
+      if (!dialog) return;
+      dialog.classList.remove("dialog-show");
+      setTimeout(() => {
+        if (dialog.open) dialog.close();
+      }, 250);
+    };
+
+    document.addEventListener("click", (e) => {
+      const target = e.target as HTMLElement;
+
+      if (target.id === "show-email-btn" || target.closest("#show-email-btn")) {
+        e.preventDefault();
+        const dialog = getEmailDialog();
+        if (!dialog) return;
+        dialog.showModal();
+        requestAnimationFrame(() => dialog.classList.add("dialog-show"));
+        return;
+      }
+
+      if (
+        target.id === "email-dialog-close-btn" ||
+        target.closest("#email-dialog-close-btn")
+      ) {
+        e.preventDefault();
+        closeEmailDialog();
+        return;
+      }
+
+      if (target instanceof HTMLDialogElement && target.id === "email-dialog") {
+        closeEmailDialog();
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape") return;
+      const dialog = getEmailDialog();
+      if (dialog?.open) closeEmailDialog();
+    });
   </script>
 </MainGridLayout>
 
 <style>
+  .dialog.dialog-show {
+    @apply opacity-100 scale-100 translate-y-0;
+  }
+
+  .dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  .dialog.dialog-show::backdrop {
+    opacity: 1;
+  }
+
   .twikoo-spinner {
     width: 40px;
     height: 40px;

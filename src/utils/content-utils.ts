@@ -1,10 +1,14 @@
+/**
+ * 内容工具函数 - 文章获取、排序、分类、标签统计
+ */
+
 import { type CollectionEntry, getCollection } from "astro:content";
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import { initPostIdMap } from "@utils/permalink-utils";
 import { getCategoryUrl, getPostUrl } from "@utils/url-utils";
 
-// // Retrieve posts and sort them by publication date
+// 获取文章并按发布日期排序
 async function getRawSortedPosts() {
 	const allBlogPosts = await getCollection("posts", ({ data }) => {
 		return import.meta.env.PROD ? data.draft !== true : true;
@@ -39,6 +43,7 @@ async function getRawSortedPosts() {
 export async function getSortedPosts() {
 	const sorted = await getRawSortedPosts();
 
+	// 为每篇文章设置上一篇/下一篇导航
 	for (let i = 1; i < sorted.length; i++) {
 		sorted[i].data.nextSlug = sorted[i - 1].id;
 		sorted[i].data.nextTitle = sorted[i - 1].data.title;
@@ -61,7 +66,7 @@ export async function getSortedPostsList(): Promise<PostForList[]> {
 	// 初始化文章 ID 映射（用于 permalink 功能）
 	initPostIdMap(sortedFullPosts);
 
-	// delete post.body，并预计算 URL
+	// 删除 post.body，并预计算 URL
 	const sortedPostsList = sortedFullPosts.map((post) => ({
 		id: post.id,
 		data: post.data,
@@ -80,6 +85,7 @@ export async function getTagList(): Promise<Tag[]> {
 		return import.meta.env.PROD ? data.draft !== true : true;
 	});
 
+	// 统计每个标签的文章数量
 	const countMap: { [key: string]: number } = {};
 	allBlogPosts.forEach((post: { data: { tags: string[] } }) => {
 		post.data.tags.forEach((tag: string) => {
@@ -88,7 +94,7 @@ export async function getTagList(): Promise<Tag[]> {
 		});
 	});
 
-	// sort tags
+	// 标签排序
 	const keys: string[] = Object.keys(countMap).sort((a, b) => {
 		return a.toLowerCase().localeCompare(b.toLowerCase());
 	});
@@ -106,9 +112,11 @@ export async function getCategoryList(): Promise<Category[]> {
 	const allBlogPosts = await getCollection<"posts">("posts", ({ data }) => {
 		return import.meta.env.PROD ? data.draft !== true : true;
 	});
+	// 统计每个分类的文章数量
 	const count: { [key: string]: number } = {};
 	allBlogPosts.forEach((post: { data: { category: string | null } }) => {
 		if (!post.data.category) {
+			// 无分类的文章归入"未分类"
 			const ucKey = i18n(I18nKey.uncategorized);
 			count[ucKey] = count[ucKey] ? count[ucKey] + 1 : 1;
 			return;
@@ -122,6 +130,7 @@ export async function getCategoryList(): Promise<Category[]> {
 		count[categoryName] = count[categoryName] ? count[categoryName] + 1 : 1;
 	});
 
+	// 按名称排序并生成分类列表
 	const lst = Object.keys(count).sort((a, b) => {
 		return a.toLowerCase().localeCompare(b.toLowerCase());
 	});

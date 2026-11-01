@@ -138,12 +138,8 @@
 							.writeText(url)
 							.then(() => {
 								const originalHTML = button.innerHTML;
-								const copiedText =
-									button.getAttribute("data-copied-text") || "Copied";
 								button.innerHTML =
-									'<div class="flex items-center gap-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span class="text-xs">' +
-									copiedText +
-									"</span></div>";
+									'<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
 								button.style.backgroundColor = "var(--success-color, #10b981)";
 								button.style.color = "#fff";
 								setTimeout(() => {
@@ -164,6 +160,43 @@
 					clickHandler,
 				]);
 			})(copyButtons[i]);
+		}
+
+		// 复制友链申请模板功能
+		var copyTemplateBtn = document.getElementById("copy-template-btn");
+		var templateCode = document.getElementById("friend-template-code");
+		if (copyTemplateBtn && templateCode) {
+			const templateClickHandler = () => {
+				var text = templateCode.innerText;
+				if (!text) return;
+
+				if (navigator.clipboard?.writeText) {
+					navigator.clipboard
+						.writeText(text)
+						.then(() => {
+							const originalHTML = copyTemplateBtn.innerHTML;
+							copyTemplateBtn.innerHTML =
+								'<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
+							copyTemplateBtn.style.backgroundColor =
+								"var(--success-color, #10b981)";
+							copyTemplateBtn.style.color = "#fff";
+							setTimeout(() => {
+								copyTemplateBtn.innerHTML = originalHTML;
+								copyTemplateBtn.style.backgroundColor = "";
+								copyTemplateBtn.style.color = "";
+							}, 2000);
+						})
+						.catch((err) => {
+							console.error("[Friends Global] Copy template failed:", err);
+						});
+				}
+			};
+			copyTemplateBtn.addEventListener("click", templateClickHandler);
+			window.friendsPageState.eventListeners.push([
+				copyTemplateBtn,
+				"click",
+				templateClickHandler,
+			]);
 		}
 
 		window.friendsPageState.initialized = true;

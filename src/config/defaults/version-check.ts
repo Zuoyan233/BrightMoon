@@ -5,5 +5,5 @@ export const defaultVersionCheckConfig: VersionCheckConfig = {
 	autoCheck: true, // 自动检查更新
 	apiUrl:
 		"https://api.github.com/repos/Zuoyan233/BrightMoon/releases?per_page=5", // GitHub Releases API 地址
-	versionPrefixPattern: "^(CE_V|v)", // 版本号前缀匹配正则
+	versionPrefixPattern: "^v", // 版本号前缀匹配正则
 };

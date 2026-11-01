@@ -1,3 +1,7 @@
+/**
+ * 樱花特效管理器 - Canvas 樱花飘落动画的初始化与控制
+ */
+
 import type { SakuraConfig } from "../types/config";
 
 // 樱花对象类

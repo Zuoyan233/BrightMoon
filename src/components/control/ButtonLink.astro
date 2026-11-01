@@ -1,11 +1,13 @@
 ---
 interface Props {
-	badge?: string;
+	badge?: string; // 右侧徽标（如分类文章数量）
 	url?: string;
 	label?: string;
 }
 const { badge, url, label } = Astro.props;
 ---
+
+<!-- 带徽标的链接按钮：用于侧边栏分类列表，右侧可显示数量徽标 -->
 <a href={url} aria-label={label}>
     <button
         class:list={`
@@ -18,25 +20,27 @@ const { badge, url, label } = Astro.props;
             transition-all
             pl-2
             hover:pl-3
-            
-            text-neutral-700
+            text-75
             hover:text-[var(--primary)]
-            dark:text-neutral-300
             dark:hover:text-[var(--primary)]
-        `
-        }
+        `}
     >
         <div class="flex items-center justify-between relative mr-2">
-            <div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  ">
-                <slot></slot>
+            <div
+                class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis"
+            >
+                <slot />
             </div>
-            { badge !== undefined && badge !== null && badge !== '' &&
-                <div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold
-                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
-                    bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[var(--primary)]
-                    flex items-center justify-center">
-                    { badge }
-                </div>
+            {
+                badge !== undefined && badge !== null && badge !== "" && (
+                    <div
+                        class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold
+                    bg-[var(--btn-regular-bg)] text-[var(--btn-content)] text-75
+                    flex items-center justify-center"
+                    >
+                        {badge}
+                    </div>
+                )
             }
         </div>
     </button>

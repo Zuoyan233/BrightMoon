@@ -34,10 +34,6 @@ export class AnimationManager {
 
 	/**
 	 * 注册全局 GPU 层自动清理
-	 *
-	 * 监听 animationend / transitionend 事件，在动画结束后
-	 * 自动添加 .animation-complete 类来释放 GPU 合成层。
-	 * 使用事件委托，只注册一次。
 	 */
 	private setupGPUCleanup(): void {
 		if (this.gpuCleanupRegistered) return;
@@ -125,9 +121,6 @@ export class AnimationManager {
 
 	/**
 	 * 触发页面离开动画
-	 *
-	 * 离开动画由 Swup CSS 状态机驱动（html.is-animating.is-leaving .transition-leaving），
-	 * 此处仅设置 JS 侧的状态标记，阻止动画队列在过渡期间执行。
 	 */
 	private triggerPageLeaveAnimation(): void {
 		this.isAnimating = true;
@@ -135,9 +128,6 @@ export class AnimationManager {
 
 	/**
 	 * 触发页面进入动画
-	 *
-	 * 动画时长从 CSS 变量 --tf-duration 读取，与 transition.css 保持同步。
-	 * 进入动画结束后清理状态并释放动画队列。
 	 */
 	private triggerPageEnterAnimation(): void {
 		document.documentElement.classList.remove("is-leaving");
@@ -172,12 +162,6 @@ export class AnimationManager {
 
 	/**
 	 * 初始化页面动画（Swup 内容替换后调用）
-	 *
-	 * 使用双帧 RAF 重触发 CSS animation，零阻塞主线程：
-	 * 1. Frame N:   移除 .animation-complete，设置 animation: none
-	 * 2. Frame N+1: 浏览器自然完成布局（不阻塞，不强制回流）
-	 * 3. Frame N+2: 恢复 animation，CSS keyframes 重新播放
-	 * 4. animationend 事件自动清理 GPU 层
 	 */
 	private initializePageAnimations(): void {
 		const animatedElements =
@@ -310,21 +294,6 @@ export class AnimationManager {
 
 		// transitionend 时由全局 setupGPUCleanup 自动清理 will-change
 	}
-
-	// batchAnimate is deprecated, use staggerAnimations instead
-	// batchAnimate(
-	// 	elements: NodeListOf<Element> | Element[],
-	// 	config: AnimationConfig & { stagger?: number } = {},
-	// ): void {
-	// 	const { stagger = 50, ...animationConfig } = config;
-	//
-	// 	elements.forEach((element, index) => {
-	// 		this.createAnimation(element as HTMLElement, {
-	// 			...animationConfig,
-	// 			delay: (animationConfig.delay || 0) + index * stagger,
-	// 		});
-	// 	});
-	// }
 
 	/**
 	 * 批量动画

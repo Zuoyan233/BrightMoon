@@ -6,8 +6,8 @@ interface Props {
 	src: string;
 	class?: string;
 	alt?: string;
-	position?: string;
-	basePath?: string;
+	position?: string; // 图片焦点位置（top/center/bottom）
+	basePath?: string; // 本地图片的相对路径前缀
 	loading?: "eager" | "lazy";
 	fetchpriority?: "high" | "low" | "auto";
 }
@@ -26,6 +26,7 @@ const {
 } = Astro.props;
 const className = Astro.props.class;
 
+// 判断图片来源：本地（src/content）、公共目录（/assets）、外部 URL、data URI
 const isLocal = !(
 	src.startsWith("/") ||
 	src.startsWith("http") ||
@@ -34,7 +35,7 @@ const isLocal = !(
 );
 const isPublic = src.startsWith("/");
 
-// TODO temporary workaround for images dynamic import
+// 动态导入本地图片（Astro 内容集合的 workaround）
 // https://github.com/withastro/astro/issues/3373
 let img: ImageMetadata | undefined;
 if (isLocal) {
@@ -57,9 +58,9 @@ if (isLocal) {
 const imageClass = "w-full h-full object-cover";
 const imageStyle = `object-position: ${position}`;
 
-// 检查是否是 Bilibili 图片
+// 检查是否是 Bilibili 图片（hdslb.com 域名）
 const isBilibiliImage = !isLocal && src.includes("hdslb.com");
-// 对于外部图片（特别是Bilibili），需要设置referrerpolicy避免403错误
+// Bilibili 图片需要 no-referrer 策略避免 403 错误
 const referrerPolicy = !isLocal && isBilibiliImage ? "no-referrer" : undefined;
 ---
 

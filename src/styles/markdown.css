@@ -1,8 +1,12 @@
+/* Markdown样式 */
+
 .custom-md {
+	/* --- 标题 --- */
 	h1 {
 		@apply text-3xl;
 	}
 
+	/* --- 标题锚点 --- */
 	:is(h1, h2, h3, h4, h5, h6) {
 		.anchor {
 			@apply transition -m-0.5 ms-[0.2ch] p-0.5 select-none opacity-0 no-underline;
@@ -17,7 +21,7 @@
 		}
 	}
 
-	/* --- 链接 --- */
+	/* 链接 */
 	a:not(.no-styling) {
 		@apply relative bg-none font-medium text-[var(--primary)] underline decoration-[var(--link-underline)] decoration-1 decoration-dashed underline-offset-4;
 		box-decoration-break: clone;
@@ -32,7 +36,7 @@
 		}
 	}
 
-	/* --- 代码块 --- */
+	/* 代码块 */
 	code {
 		@apply bg-[var(--inline-code-bg)] text-[var(--inline-code-color)] px-1 py-0.5 rounded-md overflow-hidden;
 
@@ -60,7 +64,7 @@
 		}
 	}
 
-	/* --- 列表 --- */
+	/* 列表 */
 	ul,
 	ol {
 		li::marker {
@@ -68,7 +72,7 @@
 		}
 	}
 
-	/* --- 引用块 --- */
+	/* 引用块 */
 	blockquote {
 		@apply not-italic border-transparent relative;
 		font-weight: inherit;
@@ -83,12 +87,12 @@
 		}
 	}
 
-	/* --- 表格样式 --- */
+	/* 表格样式 */
 	.table-wrapper {
 		@apply w-full overflow-x-auto m-0 rounded-[var(--radius-large)];
 		-webkit-overflow-scrolling: touch;
 
-		/* --- 滚动条样式 --- */
+		/* 滚动条样式 */
 		&::-webkit-scrollbar {
 			height: 6px;
 			width: 6px;
@@ -109,6 +113,7 @@
 		}
 	}
 
+	/* 表格 */
 	table {
 		@apply w-full border-separate m-0 bg-[var(--card-bg)];
 		border-spacing: 0;
@@ -119,6 +124,7 @@
 		overflow: hidden;
 	}
 
+	/* 表格单元格 */
 	th,
 	td {
 		@apply px-4 py-3 whitespace-nowrap text-left;
@@ -164,7 +170,7 @@
 		transition: none;
 	}
 
-	/* --- 数学公式样式 --- */
+	/* 数学公式样式 */
 	.katex-display {
 		@apply w-full overflow-x-auto overflow-y-hidden box-border my-4;
 		padding-bottom: 6px;
@@ -190,12 +196,14 @@
 		}
 	}
 
+	/* 数学公式 */
 	.katex-display > .katex {
 		display: block;
 		width: fit-content;
 		min-width: calc(100% - 2px);
 	}
 
+	/* 数学公式标签 */
 	.katex-display > .katex:has(.tag) > .katex-html {
 		display: block;
 		padding-right: 3rem;
@@ -208,6 +216,7 @@
 	@apply text-inherit;
 }
 
+/* 隐藏 spoiler */
 :root:not(.dark) .custom-md .spoiler {
 	--_spoiler-mask: color-mix(in oklch, var(--primary) 55%, white 45%);
 }

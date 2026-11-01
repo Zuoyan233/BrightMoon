@@ -10,10 +10,10 @@ interface Props {
 
 const { page } = Astro.props;
 
-// 检查是否启用双侧边栏
+// 检查是否启用双侧边栏布局
 const isBothSidebars = sidebarLayoutConfig.position === "both";
 
-// 根据配置设置初始布局模式
+// 根据配置设置初始布局模式（list 或 grid）
 const defaultLayout =
 	siteConfig.appearance.postListLayout.defaultMode || "list";
 const initialLayoutClass = defaultLayout === "grid" ? "grid-mode" : "list-mode";
@@ -21,7 +21,7 @@ const initialLayoutClass = defaultLayout === "grid" ? "grid-mode" : "list-mode";
 
 <div
 	id="post-list-container"
-	class={`transition-all duration-500 ease-in-out rounded-[var(--radius-large)] bg-[var(--card-bg)] md:bg-transparent mb-4 ${initialLayoutClass}`}
+	class={`transition-all duration-300 ease-in-out rounded-[var(--radius-large)] bg-[var(--card-bg)] md:bg-transparent mb-4 ${initialLayoutClass}`}
 	data-default-layout={defaultLayout}
 	data-both-sidebars={isBothSidebars}
 >
@@ -81,7 +81,14 @@ const initialLayoutClass = defaultLayout === "grid" ? "grid-mode" : "list-mode";
 
 		container.classList.add("layout-switching");
 
-		container.classList.remove("grid", "grid-cols-1", "xl:grid-cols-2", "gap-6", "flex", "flex-col");
+		container.classList.remove(
+			"grid",
+			"grid-cols-1",
+			"xl:grid-cols-2",
+			"gap-6",
+			"flex",
+			"flex-col",
+		);
 
 		// 切换布局模式类名
 		if (layout === "grid") {
@@ -146,7 +153,9 @@ const initialLayoutClass = defaultLayout === "grid" ? "grid-mode" : "list-mode";
 	window.addEventListener("resize", () => {
 		clearTimeout(resizeTimeout);
 		resizeTimeout = window.setTimeout(() => {
-			const rightSidebar = document.querySelector(".right-sidebar-container") as HTMLElement | null;
+			const rightSidebar = document.querySelector(
+				".right-sidebar-container",
+			) as HTMLElement | null;
 			if (window.innerWidth >= 1280) {
 				// 桌面端：根据布局模式决定是否隐藏右侧边栏
 				const savedLayout = localStorage.getItem("postListLayout");

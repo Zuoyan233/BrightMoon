@@ -12,40 +12,47 @@ interface Props {
 
 const { page, style, baseUrl } = Astro.props;
 
+// 省略号占位符，表示被折叠的页码区间
 const HIDDEN = -1;
 
 const className = Astro.props.class;
 
+// 当前页左右各显示的相邻页数，共 VISIBLE 个连续页码
 const ADJ_DIST = 2;
 const VISIBLE = ADJ_DIST * 2 + 1;
 
-// for test
+// 以当前页为中心，先向两侧均匀扩展，再向左/右单侧填充，直到达到 VISIBLE 个
 let count = 1;
 let l = page.currentPage;
 let r = page.currentPage;
+// 双侧均匀扩展
 while (0 < l - 1 && r + 1 <= page.lastPage && count + 2 <= VISIBLE) {
 	count += 2;
 	l--;
 	r++;
 }
+// 左侧单侧填充
 while (0 < l - 1 && count < VISIBLE) {
 	count++;
 	l--;
 }
+// 右侧单侧填充
 while (r + 1 <= page.lastPage && count < VISIBLE) {
 	count++;
 	r++;
 }
 
+// 构建页码数组：首尾页单独处理，中间用 HIDDEN 表示省略号
 let pages: number[] = [];
-if (l > 1) pages.push(1);
-if (l === 3) pages.push(2);
-if (l > 3) pages.push(HIDDEN);
-for (let i = l; i <= r; i++) pages.push(i);
-if (r < page.lastPage - 2) pages.push(HIDDEN);
-if (r === page.lastPage - 2) pages.push(page.lastPage - 1);
-if (r < page.lastPage) pages.push(page.lastPage);
+if (l > 1) pages.push(1); // 始终包含第 1 页
+if (l === 3) pages.push(2); // 间隔仅 1 页时直接显示，不省略
+if (l > 3) pages.push(HIDDEN); // 间隔超过 1 页时用省略号
+for (let i = l; i <= r; i++) pages.push(i); // 连续页码区间
+if (r < page.lastPage - 2) pages.push(HIDDEN); // 右侧省略号
+if (r === page.lastPage - 2) pages.push(page.lastPage - 1); // 右侧间隔仅 1 页
+if (r < page.lastPage) pages.push(page.lastPage); // 始终包含最后一页
 
+// 生成分页 URL：第 1 页使用 baseUrl 根路径，其余追加页码
 const effectiveBaseUrl = baseUrl || "/";
 
 const getPageUrl = (p: number) => {
@@ -53,6 +60,7 @@ const getPageUrl = (p: number) => {
 	return `${effectiveBaseUrl}${p}/`;
 };
 
+// 上一页/下一页 URL，边界页时为 null
 const prevUrl = page.currentPage > 1 ? getPageUrl(page.currentPage - 1) : null;
 const nextUrl =
 	page.currentPage < page.lastPage ? getPageUrl(page.currentPage + 1) : null;
@@ -87,7 +95,7 @@ const nextUrl =
         )
     }
     <div
-        class="bg-[var(--card-bg)] flex flex-row rounded-lg items-center text-neutral-700 dark:text-neutral-300 font-bold"
+        class="bg-[var(--card-bg)] flex flex-row rounded-lg items-center text-75 font-bold"
     >
         {
             pages.map((p) => {
@@ -99,7 +107,7 @@ const nextUrl =
                     return (
                         <div
                             class="h-11 w-11 rounded-lg bg-[var(--primary)] flex items-center justify-center
-                    font-bold text-white dark:text-black/70"
+                    font-bold text-white/90 dark:text-black/90"
                         >
                             {p}
                         </div>

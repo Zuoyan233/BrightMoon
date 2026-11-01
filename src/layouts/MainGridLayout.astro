@@ -8,9 +8,8 @@ import RightSideBar from "@components/layout/RightSideBar.astro";
 import Navbar from "@components/Navbar.astro";
 import SideBar from "@components/widget/SideBar.astro";
 import I18nKey from "@i18n/i18nKey";
-import { i18n } from "@i18n/translation";
+import { allTranslations, i18n } from "@i18n/translation";
 import { getSortedPostsList } from "@utils/content-utils";
-import { allTranslations } from "@utils/i18n-dom-updater";
 import { langToLocaleMap, translateToLangMap } from "@utils/language-utils";
 
 const localeToLangMap: Record<string, string> = {};
@@ -30,8 +29,6 @@ import {
 	BANNER_HEIGHT,
 	BANNER_HEIGHT_EXTEND,
 	BANNER_HEIGHT_FULLSCREEN,
-	// BANNER_HEIGHT_HOME,
-	// MAIN_PANEL_OVERLAPS_BANNER_HEIGHT,
 } from "../constants/constants";
 import { LinkPresets } from "../constants/link-presets";
 import { widgetManager } from "../utils/widget-manager";
@@ -107,8 +104,13 @@ const getBannerImages = async () => {
 	};
 };
 
+// 获取banner图片
+// 用于在页面渲染时动态调整banner高度
+// 并根据设备类型（桌面端、移动端）设置banner图片
 const bannerImages = await getBannerImages();
 
+// 页面布局
+// 包含标题、元数据、导航栏、侧边栏、文章卡片、分页、面包屑、返回顶部按钮、固定导航栏、全屏壁纸、侧边栏、页脚
 const {
 	title,
 	banner,
@@ -119,9 +121,12 @@ const {
 	headings = [],
 	breadcrumbItems,
 } = Astro.props;
+
+// 用于判断是否显示 banner 信息
 const hasBannerCredit = siteConfig.banner.credit.enable;
 const hasBannerLink = !!siteConfig.banner.credit.url;
 
+// 判断是否为首页
 const isHomePage = Astro.url.pathname === "/" || Astro.url.pathname === "";
 const pathnameClean = Astro.url.pathname.replace(/^\/+|\/+$/g, "");
 const isPaginatedHome = /^\d+$/.test(pathnameClean);
@@ -138,8 +143,11 @@ const urlIconPairs = Object.values(LinkPresets)
 	.map((p) => ({ url: p.url.replace(/\/+$/, ""), icon: p.icon }))
 	.sort((a, b) => b.url.length - a.url.length);
 
+// 主页图标
 const homeIcon = LinkPresets[LinkPreset.Home].icon;
 
+// 匹配 URL 到图标
+// 用于根据当前路径动态选择导航栏图标
 function matchIconByUrl(path: string): string | undefined {
 	if (!path) return undefined;
 	const normalized = path.split("?")[0].replace(/\/+$/, "");
@@ -178,6 +186,7 @@ function matchIconByUrl(path: string): string | undefined {
 	return undefined;
 }
 
+// 当前路径
 const currentPath = Astro.url.pathname;
 
 // 主页及分页首页时收集所有候选页面/文章，供客户端随机推荐（避免构建时固化）
@@ -218,6 +227,7 @@ const breadcrumbBase =
 	breadcrumbItems ||
 	(isHomePage || isPaginatedHome ? [] : [{ label: title || "" }]);
 
+// 解析面包屑项，根据路径匹配图标
 const resolvedBreadcrumbItems = breadcrumbBase
 	.filter((item) => item.label !== "")
 	.map((item) => ({
@@ -225,7 +235,9 @@ const resolvedBreadcrumbItems = breadcrumbBase
 		icon: item.icon || matchIconByUrl(item.href || currentPath),
 	}));
 
+// 获取默认壁纸模式
 const defaultWallpaperMode = siteConfig.appearance.wallpaperMode.defaultMode;
+
 // 首页始终显示 banner 主副标题；全屏横幅模式下非首页也显示，以便进入其他页面时保持文字
 const showHomeText =
 	siteConfig.banner.homeText?.enable &&
@@ -285,7 +297,6 @@ const mainPanelTop = (() => {
 	if (mode === "fullscreen-banner") return `${BANNER_HEIGHT_FULLSCREEN}vh`;
 	return "5.5rem";
 })();
-// const mobileNonHomeMainTop = !isHomePage ? "5.5rem" : mainPanelTop;
 
 // 当默认模式不是 banner / fullscreen-banner 时，主内容区域应该始终从顶栏下面开始
 const finalMainPanelTop = (() => {
@@ -418,9 +429,9 @@ import "../scripts/main-grid.js";
 <!-- 全局图标加载器 -->
 <IconifyLoader />
 
-<!-- Navbar -->
+<!-- 导航栏 -->
 <slot slot="head" name="head"></slot>
-<div id="top-row" class="z-50 pointer-events-none relative transition-all duration-700 max-w-[var(--page-width)] px-0 md:px-4 mx-auto" class:list={[""]}>
+<div id="top-row" class="z-50 pointer-events-none relative transition-all duration-300 max-w-[var(--page-width)] px-0 md:px-4 mx-auto" class:list={[""]}>
     <div id="navbar-wrapper" class="pointer-events-auto sticky top-0 transition-all">
         <Navbar></Navbar>
     </div>
@@ -450,12 +461,12 @@ import "../scripts/main-grid.js";
                     }
                     
                     return (
-                        <li class={`carousel-item absolute inset-0 transition-all duration-500 ${index === 0 ? 'opacity-100 scale-100' : 'opacity-0 scale-110'}`}>
+                        <li class={`carousel-item absolute inset-0 transition-all duration-300 ${index === 0 ? 'opacity-100 scale-100' : 'opacity-0 scale-110'}`}>
                             <!-- Mobile: use mobile-specific images -->
                             {hasMobileImage && (
                                 <ImageWrapper 
                                     alt={`Mobile banner image ${index + 1}`} 
-                                    class:list={["block md:hidden object-cover h-full w-full transition-transform duration-500 ease-out"]}
+                                    class:list={["block md:hidden object-cover h-full w-full transition-transform duration-300 ease-out"]}
                                     src={Array.isArray(bannerImages.mobile) ? bannerImages.mobile[index] : (typeof bannerImages.mobile === 'string' ? bannerImages.mobile : '')} 
                                     position={siteConfig.appearance.wallpaperMode.defaultBannerPosition}
                                     loading={index === 0 ? "eager" : "lazy"}
@@ -466,7 +477,7 @@ import "../scripts/main-grid.js";
                             {hasDesktopImage && (
                                 <ImageWrapper 
                                     alt={`Desktop banner image ${index + 1}`} 
-                                    class:list={["hidden md:block object-cover h-full w-full transition-transform duration-500 ease-out"]}
+                                    class:list={["hidden md:block object-cover h-full w-full transition-transform duration-300 ease-out"]}
                                     src={Array.isArray(bannerImages.desktop) ? bannerImages.desktop[index] : (typeof bannerImages.desktop === 'string' ? bannerImages.desktop : '')} 
                                     position={siteConfig.appearance.wallpaperMode.defaultBannerPosition}
                                     loading={index === 0 ? "eager" : "lazy"}
@@ -486,7 +497,7 @@ import "../scripts/main-grid.js";
         </div>
     )}
     
-    <!-- Home page text overlay -->
+    <!-- 首页文字叠加 -->
     <div id="banner-text-overlay" class={`banner-text-overlay absolute inset-0 z-20 flex items-center justify-center ${!showHomeText ? 'banner-text-hidden' : ''}`}>
             <div class="w-4/5 lg:w-3/4 text-center mb-0">
                 <div class="flex flex-col">
@@ -513,7 +524,7 @@ import "../scripts/main-grid.js";
             </div>
         </div>
     
-    <!-- Water waves effect -->
+    <!-- 水波纹效果 -->
     {siteConfig.appearance.waves?.enable && (
         <div class="waves absolute -bottom-[1px] h-[10vh] max-h-[9.375rem] min-h-[3.125rem] w-full md:h-[15vh] {siteConfig.appearance.waves?.performanceMode ? 'waves-performance-mode' : ''}" id="header-waves" style="transform: translateZ(0); will-change: fill;">
             <svg
@@ -569,14 +580,14 @@ import "../scripts/main-grid.js";
 
 </div>
 
-<!-- Main content -->
+<!-- 主内容区域 -->
 <div class={`absolute w-full z-30 pointer-events-none ${mobileNonHomeBannerClass ? 'mobile-main-no-banner' : ''} ${siteConfig.appearance.wallpaperMode.defaultMode === 'none' ? 'no-banner-layout' : ''} ${transparentClass}`} style={`top: ${finalMainPanelTop}`}>
-    <!-- The pointer-events-none here prevent blocking the click event of the TOC -->
+    <!-- 主内容区域 -->
     <div class="relative max-w-[var(--page-width)] mx-auto pointer-events-auto">
         <div id="main-grid" class={`transition duration-700 w-full left-0 right-0 grid ${gridCols} grid-rows-none md:grid-rows-[auto] mx-auto gap-4 px-2 md:px-4 ${!mobileShowSidebar ? 'mobile-no-sidebar' : ''} ${isBothSidebarMode ? 'mobile-both-sidebar' : ''}`}
              data-layout-mode={defaultPostListLayout}
         >
-            <!-- Banner image credit -->
+            <!-- 图片来源 -->
             {hasBannerCredit && <a href={siteConfig.banner.credit.url} id="banner-credit" target="_blank" rel="noopener"
                                    class:list={["group onload-animation transition-all absolute flex justify-center items-center rounded-full " +
                                    "px-3 right-4 -top-[3.25rem] bg-black/60 hover:bg-black/70 h-9", {"hover:pr-9 active:bg-black/80": hasBannerLink}]}
@@ -585,7 +596,7 @@ import "../scripts/main-grid.js";
                 <div class="text-white/75 text-xs">{siteConfig.banner.credit.text}</div>
                 <Icon class:list={["transition absolute text-[oklch(0.75_0.14_var(--hue))] right-4 text-[0.75rem] opacity-0",
                     {"group-hover:opacity-100": hasBannerLink}]}
-                      name="fa6-solid:arrow-up-right-from-square">
+                      name="material-symbols:open-in-new">
                 </Icon>
             </a>}
 
@@ -660,9 +671,41 @@ import "../scripts/main-grid.js";
     </div>
 </div>
 
-<script is:inline define:vars={{ allTranslations, translateToLangMap, localeToLangMap }}>
-    window.__breadcrumb_i18n = allTranslations;
-    window.__breadcrumb_lang_maps = { translateToLangMap, localeToLangMap };
+<script is:inline define:vars={{ allTranslations, translateToLangMap, localeToLangMap, configLang: siteConfig.lang }}>
+    // i18n 语言解析与取词的唯一客户端入口
+    window.__i18n = {
+        translations: allTranslations,
+        maps: { translateToLangMap, localeToLangMap },
+        configLang: configLang,
+        resolveLang() {
+            const translateTo =
+                window.translationManager?.getTargetLanguage() ||
+                window.translate?.to;
+            if (translateTo) {
+                return this.maps.translateToLangMap[translateTo] || this.configLang;
+            }
+            const docLang = document.documentElement.lang;
+            if (docLang) {
+                const normalized = docLang.replace("-", "_");
+                return (
+                    this.maps.translateToLangMap[docLang] ||
+                    this.maps.localeToLangMap[docLang] ||
+                    this.maps.localeToLangMap[normalized] ||
+                    this.maps.translateToLangMap[normalized] ||
+                    this.configLang
+                );
+            }
+            return this.configLang;
+        },
+        t(key) {
+            const lang = this.resolveLang();
+            return (
+                this.translations[lang]?.[key] ??
+                this.translations[this.configLang]?.[key] ??
+                ""
+            );
+        },
+    };
 </script>
 <script src="/src/scripts/bottom-breadcrumb.js"></script>
 

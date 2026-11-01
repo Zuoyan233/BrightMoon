@@ -1,6 +1,5 @@
 /**
  * 全局布局脚本
- * 包含面板管理、代码块折叠、滚动处理、轮播控制、版本检查等功能
  */
 
 import {
@@ -146,13 +145,13 @@ function initCustomScrollbar() {
 function showBanner() {
 	// 使用requestAnimationFrame优化DOM操作
 	requestAnimationFrame(() => {
-		// Handle single image banner (desktop)
+		// 处理单图 Banner（桌面端）
 		const banner = document.getElementById("banner");
 		if (banner) {
 			banner.classList.remove("opacity-0", "scale-105");
 		}
 
-		// Handle mobile single image banner - 使用与电脑端相同的逻辑
+		// 处理移动端单图 Banner - 使用与电脑端相同的逻辑
 		const mobileBanner = document.querySelector(
 			'.block.md\\:hidden[alt="Mobile banner image of the blog"]',
 		);
@@ -162,7 +161,7 @@ function showBanner() {
 			mobileBanner.classList.add("opacity-100");
 		}
 
-		// Handle carousel banner - 立即初始化，移除延迟
+		// 处理轮播 Banner - 立即初始化，移除延迟
 		const carousel = document.getElementById("banner-carousel");
 		if (carousel) {
 			// 立即初始化轮播，移除延迟以改善流畅性
@@ -744,7 +743,6 @@ let translateTimer = null;
 
 const setup = () => {
 	window.swup.hooks.on("link:click", () => {
-		// Remove the delay for the first time page load
 		document.documentElement.style.setProperty("--content-delay", "0ms");
 
 		// 简化navbar处理逻辑
@@ -818,7 +816,7 @@ const setup = () => {
 			}
 		}
 
-		// Control banner text visibility based on page and homeTextEnabled setting
+		// 根据页面和 homeTextEnabled 设置控制 Banner 文字可见性
 		const bannerTextOverlay = document.querySelector(".banner-text-overlay");
 		if (bannerTextOverlay) {
 			const wallpaperMode = localStorage.getItem("wallpaperMode") || "banner";
@@ -833,7 +831,7 @@ const setup = () => {
 			}
 		}
 
-		// Control navbar transparency based on page
+		// 根据页面控制导航栏透明度
 		const navbar = document.getElementById("navbar");
 		if (navbar) {
 			navbar.setAttribute("data-is-home", isHomePage.toString());
@@ -847,7 +845,7 @@ const setup = () => {
 			}
 		}
 
-		// Control mobile banner visibility based on page with improved staging animation
+		// 根据页面控制移动端 Banner 可见性，使用改进的分阶段动画
 		const bannerWrapper = document.getElementById("banner-wrapper");
 		const mainContentWrapper = document.querySelector(".absolute.w-full.z-30");
 
@@ -943,7 +941,7 @@ const setup = () => {
 				});
 				document.dispatchEvent(pageLoadedEvent);
 				console.log(
-					"Layout: 触发 brightmoon:page:loaded 事件，路径:",
+					"Layout: Triggers brightmoon:page:loaded event, path:",
 					window.location.pathname,
 				);
 			}

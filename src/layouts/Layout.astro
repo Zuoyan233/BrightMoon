@@ -11,7 +11,6 @@ import {
 	profileConfig,
 	siteConfig,
 } from "@/config";
-import { umamiConfig } from "../config";
 import themeInitRaw from "../scripts/theme-init.js?raw";
 
 const BANNER_HEIGHT = 35;
@@ -20,10 +19,9 @@ const BANNER_HEIGHT_HOME = BANNER_HEIGHT + BANNER_HEIGHT_EXTEND;
 const BANNER_HEIGHT_FULLSCREEN = 100;
 
 import { PAGE_WIDTH } from "../constants/constants";
-import { defaultFavicons } from "../constants/icon";
 import type { Favicon } from "../types/config";
 import { pathsEqual, url } from "../utils/url-utils";
-import "../styles/mobile-navbar.css";
+import "../styles/navbar.css";
 import "../styles/wallpaper-navbar-transparent.css";
 import "../styles/fancybox-custom.css";
 import "../styles/expressive-code.css";
@@ -42,15 +40,13 @@ interface Props {
 let { title, banner, description, lang, setOGTypeArticle, postSlug } =
 	Astro.props;
 
-// apply a class to the body element to decide the height of the banner, only used for initial page load
-// Swup can update the body for each page visit, but it's after the page transition, causing a delay for banner height change
-// so use Swup hooks instead to change the height immediately when a link is clicked
+// 判断是否为首页
+// 用于动态调整banner高度
 const isHomePage = pathsEqual(Astro.url.pathname, url("/"));
 const defaultWallpaperMode = siteConfig.appearance.wallpaperMode.defaultMode;
 const isFullscreenBannerDefault = defaultWallpaperMode === "fullscreen-banner";
 
-// defines global css variables
-// why doing this in Layout instead of GlobalStyles: https://github.com/withastro/astro/issues/6728#issuecomment-1502203757
+// 获取配置中的hue值
 const configHue = siteConfig.appearance.hue;
 
 // 获取导航栏透明模式配置
@@ -94,11 +90,13 @@ if (!banner || typeof banner !== "string" || banner.trim() === "") {
 	banner = getDefaultBanner();
 }
 
-// TODO don't use post cover as banner for now
+// 如果 banner 为空，使用默认 banner
 banner = getDefaultBanner();
 
+// 判断是否应该显示banner
 const enableBanner = !!siteConfig.banner.src;
 
+// 构建页面标题
 let pageTitle: string;
 if (title) {
 	pageTitle = `${title} - ${siteConfig.title}`;
@@ -108,32 +106,44 @@ if (title) {
 		: siteConfig.title;
 }
 
+// 构建 Open Graph 图片 URL
 let ogImageUrl: string | undefined;
 if (siteConfig.generateOgImages && postSlug) {
 	ogImageUrl = new URL(`/og/${postSlug}.png`, Astro.site).toString();
 }
 
-const favicons: Favicon[] =
-	siteConfig.favicon.length > 0 ? siteConfig.favicon : defaultFavicons;
+// 构建 favicon 配置
+const favicons: Favicon[] = siteConfig.favicon;
 
-// const siteLang = siteConfig.lang.replace('_', '-')
+// 构建语言配置
 if (!lang) {
 	lang = `${siteConfig.lang}`;
 }
+
+// 替换语言配置中的下划线为短横线
 const siteLang = lang.replace("_", "-");
 
+// 构建 banner 偏移量配置
 const bannerOffsetByPosition = {
 	top: `${BANNER_HEIGHT_EXTEND}vh`,
 	center: `${BANNER_HEIGHT_EXTEND / 2}vh`,
 	bottom: "0",
 };
+
+// 获取默认 banner 偏移量
 const bannerOffset =
 	bannerOffsetByPosition[
 		siteConfig.appearance.wallpaperMode.defaultBannerPosition || "center"
 	];
 
-const umamiEnabled = umamiConfig.enabled || false;
-const umamiScripts = umamiConfig.scripts || ""; // 获取Umami scripts配置
+// 判断是否应该启用 Ads 脚本
+// 当开发模式时自动关闭 Ads 脚本（当 onlyProduction 为 true 时）
+const adsConfig = siteConfig.ads;
+const isDev = import.meta.env.DEV;
+const adsEnabled =
+	adsConfig?.enable &&
+	!!adsConfig?.googleAdsenseId &&
+	!(adsConfig?.onlyProduction && isDev);
 
 // 构建字体配置的 CSS 变量
 let bodyFontFamily = "";
@@ -163,7 +173,7 @@ if (siteConfig.font?.fontFamily) {
 }
 ---
 
-<!doctype html>
+<!-- 页面布局 --><!doctype html>
 <html
 	lang={siteLang}
 	class="bg-[var(--page-bg)] text-[14px] md:text-[16px]"
@@ -206,6 +216,7 @@ if (siteConfig.font?.fontFamily) {
 			)
 		}
 
+		<!-- 页面标题 -->
 		<title>{pageTitle}</title>
 		<meta name="description" content={description || pageTitle} />
 		{
@@ -216,6 +227,8 @@ if (siteConfig.font?.fontFamily) {
 				/>
 			)
 		}
+
+		<!-- 页面作者 -->
 		<meta name="author" content={profileConfig.name} />
 		<meta property="og:site_name" content={siteConfig.title} />
 		<meta property="og:url" content={Astro.url} />
@@ -253,7 +266,7 @@ if (siteConfig.font?.fontFamily) {
 			))
 		}
 
-		<!-- Set the theme before the page is rendered to avoid a flash -->
+		<!-- 页面主题初始化脚本 - 用于在页面渲染前设置主题 -->
 		<script is:inline set:html={themeInitRaw} />
 		<style
 			define:vars={{
@@ -262,7 +275,7 @@ if (siteConfig.font?.fontFamily) {
 			}}
 		></style>
 
-		<!-- defines global css variables. This will be applied to <html> <body> and some other elements idk why -->
+		<!-- 自定义头内容 -->
 		<slot name="head" />
 
 		<!-- Pio 看板娘样式 - 仅在启用时加载 -->
@@ -284,8 +297,50 @@ if (siteConfig.font?.fontFamily) {
 			href={`${Astro.site}rss.xml`}
 		/>
 
-		<!-- Umami Analytics -->
-		{umamiEnabled && umamiScripts && <Fragment set:html={umamiScripts} />}
+		<!-- Ads 脚本 -->
+		{
+			adsEnabled && (
+				<script
+					is:inline
+					define:vars={{
+						googleAdsenseId: adsConfig.googleAdsenseId,
+					}}
+				>
+					(function () {
+						function loadAds() {
+							var script = document.createElement("script");
+							script.async = true;
+							script.src =
+								"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=" +
+								googleAdsenseId;
+							script.crossOrigin = "anonymous";
+							document.head.appendChild(script);
+						}
+
+						function tryLoad() {
+							var consent = window.__siteNoticeConsent;
+							if (consent === "accepted") {
+								loadAds();
+								return true;
+							}
+							return false;
+						}
+
+						// 如果已经同意（包括隐私协议关闭时自动同意），立即加载
+						if (tryLoad()) return;
+
+						// 监听同意事件
+						function onConsentChange(e) {
+							if (e.detail === "accepted") {
+								loadAds();
+							}
+							window.removeEventListener("siteNoticeConsentChange", onConsentChange);
+						}
+						window.addEventListener("siteNoticeConsentChange", onConsentChange);
+					})();
+				</script>
+			)
+		}
 	</head>
 	<body
 		class="min-h-screen"
@@ -334,7 +389,7 @@ if (siteConfig.font?.fontFamily) {
 		<!-- Cookie 隐私提示栏 -->
 		<CookieConsent enable={siteConfig.cookieConsent?.enable ?? true} />
 
-		<!-- increase the page height during page transition to prevent the scrolling animation from jumping -->
+		<!-- 页面高度扩展元素：用于在页面过渡时防止滚动动画跳跃 -->
 		<div id="page-height-extend" class="hidden h-[300vh]"></div>
 	</body>
 </html>
@@ -388,7 +443,7 @@ if (siteConfig.font?.fontFamily) {
 			transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 		}
 		.enable-banner #top-row {
-			@apply h-[calc(var(--banner-height-home)_-_4.5rem)] transition-all duration-700;
+			@apply h-[calc(var(--banner-height-home)_-_4.5rem)] transition-all duration-300;
 		}
 		.enable-banner[data-is-home="true"] #sidebar-sticky {
 			@apply top-[calc(1rem_-_var(--banner-height-extend))];
@@ -406,7 +461,7 @@ if (siteConfig.font?.fontFamily) {
 			@apply opacity-0 -translate-y-16;
 		}
 
-		/* Water waves animation */
+		/* 水波动画 */
 		.waves > .parallax use {
 			animation: wave 25s cubic-bezier(0.5, 0.5, 0.45, 0.5) infinite;
 		}
@@ -419,7 +474,7 @@ if (siteConfig.font?.fontFamily) {
 			}
 		}
 
-		/* Water waves performance mode - reduce animation complexity */
+		/* 水波动画性能模式 -减少动画复杂度 */
 		.waves-performance-mode svg .parallax use:nth-child(3),
 		.waves-performance-mode svg .parallax use:nth-child(4) {
 			display: none;

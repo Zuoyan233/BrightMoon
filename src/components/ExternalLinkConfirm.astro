@@ -29,7 +29,7 @@ import { Icon } from "astro-icon/components";
 			</p>
 
 			<div
-				class="flex items-center justify-between gap-3 bg-[var(--codeblock-bg)] border border-[var(--line-color)] rounded-xl py-3 px-4"
+				class="flex items-center justify-between gap-3 bg-[var(--codeblock-bg)] rounded-xl py-3 px-4"
 			>
 				<p
 					id="external-link-url"
@@ -38,11 +38,11 @@ import { Icon } from "astro-icon/components";
 				</p>
 				<button
 					id="external-link-copy"
-					class="flex-shrink-0 bg-transparent border-none text-[var(--primary)] cursor-pointer p-1.5 rounded-lg flex items-center justify-center hover:bg-[var(--btn-plain-bg-hover)] transition-colors duration-200"
+					class="flex-shrink-0 bg-transparent border-none text-[var(--primary)] cursor-pointer p-1.5 rounded-lg flex items-center justify-center hover:bg-[var(--btn-plain-bg-hover)] transition-colors duration-300"
 					title="copylink"
 				>
 					<Icon
-						name="material-symbols:copy-all"
+						name="material-symbols:content-copy-outline"
 						class="copy-icon text-2xl block"
 					/>
 					<Icon
@@ -56,7 +56,7 @@ import { Icon } from "astro-icon/components";
 				class="flex items-center justify-center gap-1.5 text-sm text-[var(--content-meta)] m-0"
 			>
 				<Icon
-					name="material-symbols:error-outline"
+					name="material-symbols:info-outline"
 					class="text-xl text-[var(--primary)]"
 				/>
 				{i18n(I18nKey.warningText)}
@@ -66,12 +66,12 @@ import { Icon } from "astro-icon/components";
 		<div class="flex justify-center gap-4 mt-2">
 			<button
 				id="external-link-confirm"
-				class="border-none rounded-[8px] py-2.5 px-7 text-base font-bold cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] active:scale-95 bg-[var(--btn-regular-bg)] text-[var(--btn-content)] hover:bg-[var(--btn-regular-bg-hover)]"
+				class="border-none rounded-[8px] py-2.5 px-7 text-base font-bold cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] active:scale-95 bg-[var(--btn-regular-bg)] text-[var(--btn-content)] hover:bg-[var(--btn-regular-bg-hover)]"
 				>{i18n(I18nKey.confirmText)}</button
 			>
 			<button
 				id="external-link-cancel"
-				class="border-none rounded-[8px] py-2.5 px-7 text-base font-bold cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] active:scale-95 bg-transparent border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--btn-plain-bg-hover)]"
+				class="border-none rounded-[8px] py-2.5 px-7 text-base font-bold cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] active:scale-95 bg-transparent border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--btn-plain-bg-hover)]"
 				>{i18n(I18nKey.cancelText)}</button
 			>
 		</div>
