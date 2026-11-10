@@ -144,8 +144,13 @@ const weatherApiLangMapJSON = JSON.stringify(langToWeatherApiMap);
 			class="flex flex-col items-center justify-center py-6"
 			style="display:none"
 		>
-			<div class="text-4xl mb-2 text-[var(--primary)]">
-				<Icon name="material-symbols:cloud-off-outline" />
+			<div
+				class="w-12 h-12 mb-3 rounded-xl flex items-center justify-center bg-[var(--btn-regular-bg)] text-[var(--primary)]"
+			>
+				<Icon
+					name="material-symbols:cloud-off-outline"
+					class="text-3xl"
+				/>
 			</div>
 			<span class="text-sm text-60 mb-3 ignore" data-weather-error-text>
 				{i18n(I18nKey.weatherLoadFailed)}
@@ -166,8 +171,10 @@ const weatherApiLangMapJSON = JSON.stringify(langToWeatherApiMap);
 			class="flex flex-col items-center justify-center py-6"
 			style="display:none"
 		>
-			<div class="text-4xl mb-2 text-[var(--primary)]">
-				<Icon name="material-symbols:error-outline" />
+			<div
+				class="w-12 h-12 mb-3 rounded-xl flex items-center justify-center bg-[var(--btn-regular-bg)] text-[var(--primary)]"
+			>
+				<Icon name="material-symbols:error-outline" class="text-3xl" />
 			</div>
 			<span
 				class="text-sm text-75 text-center ignore"
@@ -183,8 +190,13 @@ const weatherApiLangMapJSON = JSON.stringify(langToWeatherApiMap);
 			class="flex flex-col items-center justify-center py-6"
 			style="display:none"
 		>
-			<div class="text-4xl mb-2 text-[var(--primary)]">
-				<Icon name="material-symbols:location-off-outline" />
+			<div
+				class="w-12 h-12 mb-3 rounded-xl flex items-center justify-center bg-[var(--btn-regular-bg)] text-[var(--primary)]"
+			>
+				<Icon
+					name="material-symbols:location-off-outline"
+					class="text-3xl"
+				/>
 			</div>
 			<span
 				class="text-sm text-75 text-center ignore"
@@ -233,8 +245,13 @@ const weatherApiLangMapJSON = JSON.stringify(langToWeatherApiMap);
 			class="flex flex-col items-center justify-center py-6"
 			style="display:none"
 		>
-			<div class="text-4xl mb-2 text-[var(--primary)]">
-				<Icon name="material-symbols:edit-location-alt-outline" />
+			<div
+				class="w-12 h-12 mb-3 rounded-xl flex items-center justify-center bg-[var(--btn-regular-bg)] text-[var(--primary)]"
+			>
+				<Icon
+					name="material-symbols:edit-location-alt-outline"
+					class="text-3xl"
+				/>
 			</div>
 			<span
 				class="text-sm text-60 text-center mb-4 ignore"
@@ -401,9 +418,7 @@ const weatherApiLangMapJSON = JSON.stringify(langToWeatherApiMap);
 						class="text-base"
 					/>
 				</div>
-				<span
-					class="text-sm text-90 ignore"
-					data-weather-forecast-title
+				<span class="text-sm text-90 ignore" data-weather-forecast-title
 					>{i18n(I18nKey.weatherForecast)}</span
 				>
 			</div>

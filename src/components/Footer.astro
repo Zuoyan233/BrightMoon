@@ -59,7 +59,7 @@ for (const [lang, tr] of Object.entries(allTranslations)) {
     )}
 
     <div class="ignore mb-2">
-			&copy; <span id="copyright-year">{currentYear}</span> {profileConfig.name}. All Rights Reserved. /
+			&copy; <span id="copyright-year" class="copyright-year">{currentYear}</span> {profileConfig.name}. All Rights Reserved. /
 			<a class="transition link text-[var(--btn-content)] font-medium" href={url('rss/')}>RSS</a> /
 			<a class="transition link text-[var(--btn-content)] font-medium" href={url('atom/')}>Atom</a> /
 			<a class="transition link text-[var(--btn-content)] font-medium" target="_blank" href={url('sitemap-index.xml')}>Sitemap</a>
@@ -176,6 +176,25 @@ for (const [lang, tr] of Object.entries(allTranslations)) {
 <script>
   import VersionChecker from "../scripts/version-check.js";
   new VersionChecker((window as any).__VERSION_CHECK_CONFIG__);
+
+  const syncCopyrightYear = () => {
+    const year = String(new Date().getFullYear());
+    for (const el of document.querySelectorAll(".copyright-year")) {
+      if (el.textContent !== year) el.textContent = year;
+    }
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", syncCopyrightYear, { once: true });
+  } else {
+    syncCopyrightYear();
+  }
+
+  const swup = (window as any).swup;
+  if (swup?.hooks) {
+    swup.hooks.on("page:view", syncCopyrightYear);
+    swup.hooks.on("content:replace", syncCopyrightYear);
+  }
 </script>
 
 <style is:inline>
