@@ -9,7 +9,7 @@ BrightMoon is a distinctive anime-aesthetic static blog template that blends mod
 
 [![Node.js >= 22](https://img.shields.io/badge/node.js-%3E%3D22-brightgreen)](https://nodejs.org/)
 [![pnpm >= `12`](https://img.shields.io/badge/pnpm-%3E%3D12-blue)](https://pnpm.io/)
-[![Astro](https://img.shields.io/badge/Astro-7.3.5-orange)](https://astro.build/)
+[![Astro](https://img.shields.io/badge/Astro-7.4.8-orange)](https://astro.build/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-blue)](https://www.typescriptlang.org/)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?logo=apache)](https://opensource.org/licenses/Apache-2.0)
 
@@ -184,7 +184,6 @@ As Mizuki has ceased maintenance, BrightMoon now continues to be maintained as a
   BrightMoon album feature adopts an **auto-scan mechanism**. Simply create folders, place images and configuration files - no manual coding required (external link albums require manually defining each image's `src` and other information).
 
   Creating an album requires only 3 steps:
-
   1. Create a folder under `public/images/albums/` (this README's location) (folder name = album ID)
   2. Place `cover.jpg` (cover image) and other photos in the folder
   3. Create an `info.json` configuration file
@@ -228,16 +227,16 @@ As Mizuki has ceased maintenance, BrightMoon now continues to be maintained as a
 
   **Configuration fields:**
 
-  | Field | Required | Description | Default |
-  |-------|----------|-------------|---------|
-  | `title` | Yes | Album title | Use folder name |
-  | `description` | No | Album description | Empty |
-  | `date` | No | Album date (format: YYYY-MM-DD) | Current date |
-  | `location` | No | Shooting location | Empty |
-  | `tags` | No | Tag array | `[]` |
-  | `layout` | No | Layout: `grid` or `masonry` | `grid` |
-  | `columns` | No | Number of columns (2-4) | `3` |
-  | `hidden` | No | Hide album | `false` |
+  | Field         | Required | Description                     | Default         |
+  | ------------- | -------- | ------------------------------- | --------------- |
+  | `title`       | Yes      | Album title                     | Use folder name |
+  | `description` | No       | Album description               | Empty           |
+  | `date`        | No       | Album date (format: YYYY-MM-DD) | Current date    |
+  | `location`    | No       | Shooting location               | Empty           |
+  | `tags`        | No       | Tag array                       | `[]`            |
+  | `layout`      | No       | Layout: `grid` or `masonry`     | `grid`          |
+  | `columns`     | No       | Number of columns (2-4)         | `3`             |
+  | `hidden`      | No       | Hide album                      | `false`         |
 
   **External Link Image Mode**
 
@@ -271,30 +270,30 @@ As Mizuki has ceased maintenance, BrightMoon now continues to be maintained as a
 
   **Additional fields for external mode:**
 
-  | Field | Required | Description |
-  |-------|----------|-------------|
-  | `mode` | Yes | Set to `"external"` to enable external mode |
-  | `cover` | Yes | Cover image URL (only for external mode) |
-  | `photos` | Yes | Photo array, each containing `src`, `alt`, `title` etc. |
+  | Field    | Required | Description                                             |
+  | -------- | -------- | ------------------------------------------------------- |
+  | `mode`   | Yes      | Set to `"external"` to enable external mode             |
+  | `cover`  | Yes      | Cover image URL (only for external mode)                |
+  | `photos` | Yes      | Photo array, each containing `src`, `alt`, `title` etc. |
 
   **Photo object fields in photos array (only for external mode):**
 
-  | Field | Required | Description | Example |
-  |-------|----------|-------------|---------|
-  | `id` | No | Photo unique identifier | `"photo-1"` |
-  | `src` | Yes | Photo URL | `"https://example.com/photo.jpg"` |
-  | `thumbnail` | No | Thumbnail URL (uses original if not provided) | `"https://example.com/thumb.jpg"` |
-  | `alt` | No | Alt text for accessibility | `"Beautiful sunset"` |
-  | `title` | No | Photo title | `"Sunset by the sea"` |
-  | `description` | No | Detailed photo description | `"Sunset captured at the beach in summer 2024"` |
-  | `tags` | No | Photo tag array | `["sunset", "beach"]` |
-  | `date` | No | Shooting date (YYYY-MM-DD) | `"2024-08-01"` |
-  | `location` | No | Shooting location | `"Okinawa Beach"` |
-  | `width` | No | Photo width (pixels) | `1920` |
-  | `height` | No | Photo height (pixels) | `1280` |
-  | `camera` | No | Camera model | `"Canon EOS R5"` |
-  | `lens` | No | Lens model | `"RF 24-70mm F2.8"` |
-  | `settings` | No | Shooting settings (string) | `"f/2.8, 1/500s, ISO 100"` |
+  | Field         | Required | Description                                   | Example                                         |
+  | ------------- | -------- | --------------------------------------------- | ----------------------------------------------- |
+  | `id`          | No       | Photo unique identifier                       | `"photo-1"`                                     |
+  | `src`         | Yes      | Photo URL                                     | `"https://example.com/photo.jpg"`               |
+  | `thumbnail`   | No       | Thumbnail URL (uses original if not provided) | `"https://example.com/thumb.jpg"`               |
+  | `alt`         | No       | Alt text for accessibility                    | `"Beautiful sunset"`                            |
+  | `title`       | No       | Photo title                                   | `"Sunset by the sea"`                           |
+  | `description` | No       | Detailed photo description                    | `"Sunset captured at the beach in summer 2024"` |
+  | `tags`        | No       | Photo tag array                               | `["sunset", "beach"]`                           |
+  | `date`        | No       | Shooting date (YYYY-MM-DD)                    | `"2024-08-01"`                                  |
+  | `location`    | No       | Shooting location                             | `"Okinawa Beach"`                               |
+  | `width`       | No       | Photo width (pixels)                          | `1920`                                          |
+  | `height`      | No       | Photo height (pixels)                         | `1280`                                          |
+  | `camera`      | No       | Camera model                                  | `"Canon EOS R5"`                                |
+  | `lens`        | No       | Lens model                                    | `"RF 24-70mm F2.8"`                             |
+  | `settings`    | No       | Shooting settings (string)                    | `"f/2.8, 1/500s, ISO 100"`                      |
 
   > **Note:**
   > - Local image mode does **not** require the `photos` field - the system automatically scans all image files in the folder
@@ -316,15 +315,19 @@ As Mizuki has ceased maintenance, BrightMoon now continues to be maintained as a
   ## Layout Options
 
   **Grid Layout:**
+
   ```json
   { "layout": "grid", "columns": 3 }
   ```
+
   - Suitable for uniform-sized photos, supports 2-4 columns, photos are cropped to square
 
   **Masonry Layout:**
+
   ```json
   { "layout": "masonry", "columns": 3 }
   ```
+
   - Suitable for different-sized photos, maintains original aspect ratio, auto-arranged for natural visual effect
 
   ## Advanced Features
@@ -332,6 +335,7 @@ As Mizuki has ceased maintenance, BrightMoon now continues to be maintained as a
   **Filename Tags (Experimental)**
 
   The system supports parsing tags from filenames (format: `basename_tag1_tag2.ext`):
+
   ```
   photo_sunset_beach.jpg  →  Tags: sunset, beach
   ```
@@ -339,6 +343,7 @@ As Mizuki has ceased maintenance, BrightMoon now continues to be maintained as a
   **Hidden Albums**
 
   Set `"hidden": true` to hide albums, but they can still be accessed via direct URL:
+
   ```
   Visit: /albums/your-album-id/
   ```

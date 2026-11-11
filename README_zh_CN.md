@@ -9,7 +9,7 @@ BrightMoon 是一款兼具现代简约与优雅气质的独特二次元美学静
 
 [![Node.js >= 22](https://img.shields.io/badge/node.js-%3E%3D22-brightgreen)](https://nodejs.org/)
 [![pnpm >= `12`](https://img.shields.io/badge/pnpm-%3E%3D12-blue)](https://pnpm.io/)
-[![Astro](https://img.shields.io/badge/Astro-7.3.5-orange)](https://astro.build/)
+[![Astro](https://img.shields.io/badge/Astro-7.4.8-orange)](https://astro.build/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-blue)](https://www.typescriptlang.org/)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?logo=apache)](https://opensource.org/licenses/Apache-2.0)
 
@@ -184,7 +184,6 @@ BrightMoon 是一款兼具现代简约与优雅气质的独特二次元美学静
   BrightMoon 相册功能采用**自动扫描**机制，只需创建文件夹、放置图片和配置文件即可，无需手动编写代码（外链相册则需要手动定义每张图片的 `src` 等信息）。
 
   创建一个相册只需 3 步：
-
   1. 在 `public/images/albums/`（本说明文件所在目录）下创建一个文件夹（文件夹名即为相册 ID）
   2. 在文件夹中放置 `cover.jpg`（封面图）和其他照片
   3. 创建 `info.json` 配置文件
@@ -228,16 +227,16 @@ BrightMoon 是一款兼具现代简约与优雅气质的独特二次元美学静
 
   **配置项说明：**
 
-  | 字段 | 必需 | 说明 | 默认值 |
-  |------|------|------|--------|
-  | `title` | 是 | 相册标题 | 使用文件夹名 |
-  | `description` | 否 | 相册描述 | 空 |
-  | `date` | 否 | 相册日期（格式：YYYY-MM-DD） | 当前日期 |
-  | `location` | 否 | 拍摄地点 | 空 |
-  | `tags` | 否 | 标签数组 | `[]` |
-  | `layout` | 否 | 布局方式：`grid`（网格）或 `masonry`（瀑布流） | `grid` |
-  | `columns` | 否 | 列数（2-4） | `3` |
-  | `hidden` | 否 | 是否隐藏相册 | `false` |
+  | 字段          | 必需 | 说明                                           | 默认值       |
+  | ------------- | ---- | ---------------------------------------------- | ------------ |
+  | `title`       | 是   | 相册标题                                       | 使用文件夹名 |
+  | `description` | 否   | 相册描述                                       | 空           |
+  | `date`        | 否   | 相册日期（格式：YYYY-MM-DD）                   | 当前日期     |
+  | `location`    | 否   | 拍摄地点                                       | 空           |
+  | `tags`        | 否   | 标签数组                                       | `[]`         |
+  | `layout`      | 否   | 布局方式：`grid`（网格）或 `masonry`（瀑布流） | `grid`       |
+  | `columns`     | 否   | 列数（2-4）                                    | `3`          |
+  | `hidden`      | 否   | 是否隐藏相册                                   | `false`      |
 
   **外链图片模式**
 
@@ -271,30 +270,30 @@ BrightMoon 是一款兼具现代简约与优雅气质的独特二次元美学静
 
   **外链模式额外字段：**
 
-  | 字段 | 必需 | 说明 |
-  |------|------|------|
-  | `mode` | 是 | 设置为 `"external"` 启用外链模式 |
-  | `cover` | 是 | 封面图片 URL（仅外链模式需要） |
-  | `photos` | 是 | 照片数组，每张照片包含 `src`、`alt`、`title` 等字段，详见下表 |
+  | 字段     | 必需 | 说明                                                          |
+  | -------- | ---- | ------------------------------------------------------------- |
+  | `mode`   | 是   | 设置为 `"external"` 启用外链模式                              |
+  | `cover`  | 是   | 封面图片 URL（仅外链模式需要）                                |
+  | `photos` | 是   | 照片数组，每张照片包含 `src`、`alt`、`title` 等字段，详见下表 |
 
   **photos 数组中每张图片的字段说明（仅外链模式需要）：**
 
-  | 字段 | 必需 | 说明 | 示例 |
-  |------|------|------|------|
-  | `id` | 否 | 照片唯一标识符 | `"photo-1"` |
-  | `src` | 是 | 照片 URL 地址 | `"https://example.com/photo.jpg"` |
-  | `thumbnail` | 否 | 缩略图 URL（不提供则使用原图） | `"https://example.com/thumb.jpg"` |
-  | `alt` | 否 | 图片替代文本（用于无障碍访问） | `"美丽的日落"` |
-  | `title` | 否 | 照片标题 | `"海边日落"` |
-  | `description` | 否 | 照片详细描述 | `"2024年夏天在海边拍摄的日落"` |
-  | `tags` | 否 | 照片标签数组 | `["日落", "海边"]` |
-  | `date` | 否 | 拍摄日期（格式：YYYY-MM-DD） | `"2024-08-01"` |
-  | `location` | 否 | 拍摄地点 | `"冲绳海滩"` |
-  | `width` | 否 | 照片宽度（像素） | `1920` |
-  | `height` | 否 | 照片高度（像素） | `1280` |
-  | `camera` | 否 | 相机型号 | `"Canon EOS R5"` |
-  | `lens` | 否 | 镜头型号 | `"RF 24-70mm F2.8"` |
-  | `settings` | 否 | 拍摄参数（字符串） | `"f/2.8, 1/500s, ISO 100"` |
+  | 字段          | 必需 | 说明                           | 示例                              |
+  | ------------- | ---- | ------------------------------ | --------------------------------- |
+  | `id`          | 否   | 照片唯一标识符                 | `"photo-1"`                       |
+  | `src`         | 是   | 照片 URL 地址                  | `"https://example.com/photo.jpg"` |
+  | `thumbnail`   | 否   | 缩略图 URL（不提供则使用原图） | `"https://example.com/thumb.jpg"` |
+  | `alt`         | 否   | 图片替代文本（用于无障碍访问） | `"美丽的日落"`                    |
+  | `title`       | 否   | 照片标题                       | `"海边日落"`                      |
+  | `description` | 否   | 照片详细描述                   | `"2024年夏天在海边拍摄的日落"`    |
+  | `tags`        | 否   | 照片标签数组                   | `["日落", "海边"]`                |
+  | `date`        | 否   | 拍摄日期（格式：YYYY-MM-DD）   | `"2024-08-01"`                    |
+  | `location`    | 否   | 拍摄地点                       | `"冲绳海滩"`                      |
+  | `width`       | 否   | 照片宽度（像素）               | `1920`                            |
+  | `height`      | 否   | 照片高度（像素）               | `1280`                            |
+  | `camera`      | 否   | 相机型号                       | `"Canon EOS R5"`                  |
+  | `lens`        | 否   | 镜头型号                       | `"RF 24-70mm F2.8"`               |
+  | `settings`    | 否   | 拍摄参数（字符串）             | `"f/2.8, 1/500s, ISO 100"`        |
 
   > **注意：**
   > - 本地图片模式**不需要**配置 `photos` 字段，系统会自动扫描文件夹中的所有图片文件
@@ -316,15 +315,19 @@ BrightMoon 是一款兼具现代简约与优雅气质的独特二次元美学静
   ## 布局选项
 
   **网格布局 (Grid)：**
+
   ```json
   { "layout": "grid", "columns": 3 }
   ```
+
   - 适合尺寸统一的照片，支持 2-4 列，照片会被裁剪为正方形
 
   **瀑布流布局 (Masonry)：**
+
   ```json
   { "layout": "masonry", "columns": 3 }
   ```
+
   - 适合不同尺寸的照片，保持照片原始比例，自动排列，视觉效果更自然
 
   ## 高级功能
@@ -332,6 +335,7 @@ BrightMoon 是一款兼具现代简约与优雅气质的独特二次元美学静
   **文件名标签（实验性）**
 
   系统支持从文件名解析标签（格式：`基本名_标签1_标签2.ext`）：
+
   ```
   photo_sunset_beach.jpg  →  标签：sunset, beach
   ```
@@ -339,6 +343,7 @@ BrightMoon 是一款兼具现代简约与优雅气质的独特二次元美学静
   **隐藏相册**
 
   设置 `"hidden": true` 可以隐藏相册，但仍可通过 URL 直接访问：
+
   ```
   访问：/albums/your-album-id/
   ```
