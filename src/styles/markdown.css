@@ -38,7 +38,7 @@
 
 	/* 代码块 */
 	code {
-		@apply bg-[var(--inline-code-bg)] text-[var(--inline-code-color)] px-1 py-0.5 rounded-md overflow-hidden;
+		@apply bg-[var(--inline-code-bg)] text-[var(--inline-code-color)] px-1 py-0.5 rounded-lg overflow-hidden;
 
 		font-family:
 			"JetBrains Mono Variable", "JetBrains Mono", ui-monospace, SFMono-Regular,

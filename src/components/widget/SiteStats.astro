@@ -34,7 +34,8 @@ const seasonTranslations: Record<string, string[]> = {};
 for (const [lang, tr] of Object.entries(allTranslations)) {
 	periodTranslations[lang] = periodKeys.map((k) => tr[k] || "");
 	amPmTranslations[lang] = amPmKeys.map((k) => tr[k] || "");
-	dateFormats[lang] = tr[I18nKey.siteStatsDateFormat] || "{month}/{day}/{year}";
+	dateFormats[lang] =
+		tr[I18nKey.siteStatsDateFormat] || "{month}/{day}/{year}";
 	seasonTranslations[lang] = seasonKeys.map((k) => tr[k] || "");
 }
 
@@ -139,7 +140,8 @@ if (lastPostDate) {
 	baseDaysSinceLastUpdate = Math.max(
 		0,
 		Math.floor(
-			(nowBase.getTime() - lastPostBase.getTime()) / (1000 * 60 * 60 * 24),
+			(nowBase.getTime() - lastPostBase.getTime()) /
+				(1000 * 60 * 60 * 24),
 		),
 	);
 }
@@ -230,101 +232,92 @@ const stats = [
 	style={style}
 >
 	<div class="flex flex-col gap-1">
-		{
-			stats.map((stat) => {
-				if (stat.dynamic === false && stat.value === undefined)
-					return null;
+		{stats.map((stat) => {
+			if (stat.dynamic === false && stat.value === undefined) return null;
 
-				return (
-					<div class="flex items-center justify-between px-2 py-2">
-						<div class="flex items-center gap-2.5 flex-1 min-w-0">
-							<div class="w-7 h-7 rounded-md flex items-center justify-center bg-[var(--btn-regular-bg)] text-[var(--btn-content)] shrink-0">
-								<Icon name={stat.icon} class="text-base" />
-							</div>
-							<span class="text-75 font-medium text-sm break-words leading-tight">
-								{stat.label}
-							</span>
+			return (
+				<div class="flex items-center justify-between px-2 py-2">
+					<div class="flex items-center gap-2.5 flex-1 min-w-0">
+						<div class="w-7 h-7 rounded-lg flex items-center justify-center bg-[var(--btn-regular-bg)] text-[var(--btn-content)] shrink-0">
+							<Icon name={stat.icon} class="text-base" />
 						</div>
-						<div class="flex items-center ml-3 shrink-0">
-							{stat.showPeriod && !stat.use12Hour ? (
-								<div class="flex items-center gap-1">
-									<span
-										class="text-base font-bold text-90"
-										data-stat-id={stat.id}
-										data-update-interval={
-											stat.updateInterval
-										}
-									>
-										{(stat as any).formatted
-											? formatNumber((stat as any).value)
-											: (stat as any).value}
-									</span>
-									<span
-										class="text-sm text-60"
-										data-stat-id="time-period"
-									></span>
-								</div>
-							) : stat.showPeriod && stat.use12Hour ? (
-								<div class="flex items-center gap-1">
-									<span
-										class="text-base font-bold text-90"
-										data-stat-id={stat.id}
-										data-update-interval={
-											stat.updateInterval
-										}
-										data-use-12-hour="true"
-									>
-										{(stat as any).formatted
-											? formatNumber((stat as any).value)
-											: (stat as any).value}
-									</span>
-									<span
-										class="text-sm text-60"
-										data-stat-id="time-ampm"
-									></span>
-								</div>
-							) : stat.useSeason ? (
-								<span
-									class="text-sm text-60 ml-1"
-									data-stat-id={stat.id}
-									data-season="true"
-								></span>
-							) : stat.useFormattedDate ? (
-								<span
-									class="inline-flex items-baseline gap-0.5 text-base font-bold text-90"
-									data-stat-id={stat.id}
-									data-formatted-date="true"
-								></span>
-							) : (
-								<>
-									<span
-										class="text-base font-bold text-90"
-										data-stat-id={
-											stat.dynamic ? stat.id : undefined
-										}
-										data-update-interval={
-											stat.updateInterval
-										}
-									>
-										{(stat as any).formatted
-											? formatNumber((stat as any).value)
-											: (stat as any).value}
-									</span>
-									{stat.suffix && (
-										<span
-											class="text-sm text-60 ml-1"
-											data-stat-suffix={stat.id}
-										>
-											{stat.suffix}
-										</span>
-									)}
-								</>
-							)}
-						</div>
+						<span class="text-75 font-medium text-sm break-words leading-tight">
+							{stat.label}
+						</span>
 					</div>
-				);
-			})
-		}
+					<div class="flex items-center ml-3 shrink-0">
+						{stat.showPeriod && !stat.use12Hour ? (
+							<div class="flex items-center gap-1">
+								<span
+									class="text-base font-bold text-90"
+									data-stat-id={stat.id}
+									data-update-interval={stat.updateInterval}
+								>
+									{(stat as any).formatted
+										? formatNumber((stat as any).value)
+										: (stat as any).value}
+								</span>
+								<span
+									class="text-sm text-60"
+									data-stat-id="time-period"
+								></span>
+							</div>
+						) : stat.showPeriod && stat.use12Hour ? (
+							<div class="flex items-center gap-1">
+								<span
+									class="text-base font-bold text-90"
+									data-stat-id={stat.id}
+									data-update-interval={stat.updateInterval}
+									data-use-12-hour="true"
+								>
+									{(stat as any).formatted
+										? formatNumber((stat as any).value)
+										: (stat as any).value}
+								</span>
+								<span
+									class="text-sm text-60"
+									data-stat-id="time-ampm"
+								></span>
+							</div>
+						) : stat.useSeason ? (
+							<span
+								class="text-sm text-60 ml-1"
+								data-stat-id={stat.id}
+								data-season="true"
+							></span>
+						) : stat.useFormattedDate ? (
+							<span
+								class="inline-flex items-baseline gap-0.5 text-base font-bold text-90"
+								data-stat-id={stat.id}
+								data-formatted-date="true"
+							></span>
+						) : (
+							<>
+								<span
+									class="text-base font-bold text-90"
+									data-stat-id={
+										stat.dynamic ? stat.id : undefined
+									}
+									data-update-interval={stat.updateInterval}
+								>
+									{(stat as any).formatted
+										? formatNumber((stat as any).value)
+										: (stat as any).value}
+								</span>
+								{stat.suffix && (
+									<span
+										class="text-sm text-60 ml-1"
+										data-stat-suffix={stat.id}
+									>
+										{stat.suffix}
+									</span>
+								)}
+							</>
+						)}
+					</div>
+				</div>
+			);
+		})}
 	</div>
 </WidgetLayout>
 

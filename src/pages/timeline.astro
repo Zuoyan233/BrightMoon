@@ -10,46 +10,46 @@ import { getLocaleFromConfig } from "../utils/language-utils";
 
 // 检查时间线页面是否启用
 if (!siteConfig.featurePages.timeline) {
-	return Astro.redirect("/404/");
+  return Astro.redirect("/404/");
 }
 
 // 时间线数据工具函数
 const getTimelineStats = () => {
-	const total = timelineDataConfig.items.length;
-	const byType = {
-		education: timelineDataConfig.items.filter(
-			(item) => item.type === "education",
-		).length,
-		work: timelineDataConfig.items.filter((item) => item.type === "work")
-			.length,
-		project: timelineDataConfig.items.filter((item) => item.type === "project")
-			.length,
-		achievement: timelineDataConfig.items.filter(
-			(item) => item.type === "achievement",
-		).length,
-	};
-	return { total, byType };
+  const total = timelineDataConfig.items.length;
+  const byType = {
+    education: timelineDataConfig.items.filter(
+      (item) => item.type === "education",
+    ).length,
+    work: timelineDataConfig.items.filter((item) => item.type === "work")
+      .length,
+    project: timelineDataConfig.items.filter((item) => item.type === "project")
+      .length,
+    achievement: timelineDataConfig.items.filter(
+      (item) => item.type === "achievement",
+    ).length,
+  };
+  return { total, byType };
 };
 
 const getTimelineByType = (type?: string) => {
-	if (!type || type === "all") {
-		return timelineDataConfig.items.sort(
-			(a, b) =>
-				new Date(b.startDate).getTime() - new Date(a.startDate).getTime(),
-		);
-	}
-	return timelineDataConfig.items
-		.filter((item) => item.type === type)
-		.sort(
-			(a, b) =>
-				new Date(b.startDate).getTime() - new Date(a.startDate).getTime(),
-		);
+  if (!type || type === "all") {
+    return timelineDataConfig.items.sort(
+      (a, b) =>
+        new Date(b.startDate).getTime() - new Date(a.startDate).getTime(),
+    );
+  }
+  return timelineDataConfig.items
+    .filter((item) => item.type === type)
+    .sort(
+      (a, b) =>
+        new Date(b.startDate).getTime() - new Date(a.startDate).getTime(),
+    );
 };
 
 // 收集所有时间线图标用于预加载
 const allIcons = timelineDataConfig.items
-	.map((item) => item.icon || getTypeIcon(item.type))
-	.filter(Boolean);
+  .map((item) => item.icon || getTypeIcon(item.type))
+  .filter(Boolean);
 
 // 获取时间线统计信息
 const stats = getTimelineStats();
@@ -59,66 +59,66 @@ const allTimelineItems = getTimelineByType();
 
 // 类型图标映射
 const getTypeIcon = (type: string) => {
-	switch (type) {
-		case "education":
-			return "material-symbols:school";
-		case "work":
-			return "material-symbols:work";
-		case "project":
-			return "material-symbols:code";
-		case "achievement":
-			return "material-symbols:emoji-events";
-		default:
-			return "material-symbols:event";
-	}
+  switch (type) {
+    case "education":
+      return "material-symbols:school";
+    case "work":
+      return "material-symbols:work";
+    case "project":
+      return "material-symbols:code";
+    case "achievement":
+      return "material-symbols:emoji-events";
+    default:
+      return "material-symbols:event";
+  }
 };
 
 // 类型颜色映射
 const getTypeColor = (type: string) => {
-	switch (type) {
-		case "education":
-			return "#3B82F6";
-		case "work":
-			return "#10B981";
-		case "project":
-			return "#8B5CF6";
-		case "achievement":
-			return "#F59E0B";
-		default:
-			return "#6B7280";
-	}
+  switch (type) {
+    case "education":
+      return "#3B82F6";
+    case "work":
+      return "#10B981";
+    case "project":
+      return "#8B5CF6";
+    case "achievement":
+      return "#F59E0B";
+    default:
+      return "#6B7280";
+  }
 };
 
 // 格式化日期
 const formatDate = (dateString: string) => {
-	const date = new Date(dateString);
-	const locale = getLocaleFromConfig(siteConfig.lang || "en");
-	return date.toLocaleDateString(locale, { year: "numeric", month: "long" });
+  const date = new Date(dateString);
+  const locale = getLocaleFromConfig(siteConfig.lang || "en");
+  return date.toLocaleDateString(locale, { year: "numeric", month: "long" });
 };
 
 // 计算持续时间
 const getDuration = (startDate: string, endDate?: string) => {
-	const start = new Date(startDate);
-	const end = endDate ? new Date(endDate) : new Date();
-	const diffTime = Math.abs(end.getTime() - start.getTime());
-	const diffMonths = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 30));
+  const start = new Date(startDate);
+  const end = endDate ? new Date(endDate) : new Date();
+  const diffTime = Math.abs(end.getTime() - start.getTime());
+  const diffMonths = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 30));
 
-	if (diffMonths < 12) {
-		return `${diffMonths} ${i18n(I18nKey.timelineMonths)}`;
-	}
-	const years = Math.floor(diffMonths / 12);
-	const months = diffMonths % 12;
-	if (months === 0) {
-		return `${years} ${i18n(I18nKey.timelineYears)}`;
-	}
-	return `${years} ${i18n(I18nKey.timelineYears)} ${months} ${i18n(I18nKey.timelineMonths)}`;
+  if (diffMonths < 12) {
+    return `${diffMonths} ${i18n(I18nKey.timelineMonths)}`;
+  }
+  const years = Math.floor(diffMonths / 12);
+  const months = diffMonths % 12;
+  if (months === 0) {
+    return `${years} ${i18n(I18nKey.timelineYears)}`;
+  }
+  return `${years} ${i18n(I18nKey.timelineYears)} ${months} ${i18n(I18nKey.timelineMonths)}`;
 };
 
 // 获取日期范围显示
 const getDateRange = (startDate: string, endDate?: string) => {
-	const start = formatDate(startDate);
-	const end = endDate ? formatDate(endDate) : i18n(I18nKey.timelinePresent);
-	return `${start} - ${end}`;
+  const start = formatDate(startDate);
+  const end = endDate ? formatDate(endDate) : i18n(I18nKey.timelinePresent);
+  return `${start} - ${end}`;
 };
 
 const title = i18n(I18nKey.timeline);
@@ -126,76 +126,80 @@ const subtitle = i18n(I18nKey.timelineSubtitle);
 
 // 筛选标签数据
 const filterTabs = [
-	{
-		type: "all",
-		label: i18n(I18nKey.timelineTotal),
-		count: stats.total,
-		icon: "material-symbols:apps",
-	},
-	{
-		type: "education",
-		label: i18n(I18nKey.timelineEducation),
-		count: stats.byType.education,
-		icon: "material-symbols:school",
-	},
-	{
-		type: "work",
-		label: i18n(I18nKey.timelineWork),
-		count: stats.byType.work,
-		icon: "material-symbols:work",
-	},
-	{
-		type: "project",
-		label: i18n(I18nKey.timelineProject),
-		count: stats.byType.project,
-		icon: "material-symbols:code",
-	},
-	{
-		type: "achievement",
-		label: i18n(I18nKey.timelineAchievement),
-		count: stats.byType.achievement,
-		icon: "material-symbols:emoji-events",
-	},
+  {
+    type: "all",
+    label: i18n(I18nKey.timelineTotal),
+    count: stats.total,
+    icon: "material-symbols:apps",
+  },
+  {
+    type: "education",
+    label: i18n(I18nKey.timelineEducation),
+    count: stats.byType.education,
+    icon: "material-symbols:school",
+  },
+  {
+    type: "work",
+    label: i18n(I18nKey.timelineWork),
+    count: stats.byType.work,
+    icon: "material-symbols:work",
+  },
+  {
+    type: "project",
+    label: i18n(I18nKey.timelineProject),
+    count: stats.byType.project,
+    icon: "material-symbols:code",
+  },
+  {
+    type: "achievement",
+    label: i18n(I18nKey.timelineAchievement),
+    count: stats.byType.achievement,
+    icon: "material-symbols:emoji-events",
+  },
 ];
 ---
 
 <MainGridLayout title={title} description={subtitle}>
   <IconifyLoader preloadIcons={allIcons} />
-  
+
   <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
     <div class="card-base z-10 px-9 py-6 relative w-full">
       <!-- 页面标题 -->
       <div class="flex flex-col items-start justify-center mb-8">
         <h1
           class="text-4xl font-bold text-90 mb-2 relative
-                  before:w-1 before:h-8 before:rounded-md before:bg-[var(--primary)]
+                  before:w-1 before:h-8 before:rounded-lg before:bg-[var(--primary)]
                   before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-4"
         >
           {i18n(I18nKey.timeline)}
         </h1>
-        <p class="text-lg text-60">
-          {i18n(I18nKey.timelineSubtitle)}
-        </p>
+        <p class="text-lg text-60">{i18n(I18nKey.timelineSubtitle)}</p>
       </div>
 
       <!-- 筛选标签 -->
-      <div class="filter-container flex flex-wrap gap-2 mb-8" id="timeline-filter-tabs">
-        {
-          filterTabs.map((tab) => (
-            <button
-              class={`filter-tag ${tab.type === "all" ? "active" : ""}`}
-              data-filter={tab.type}
-            >
-              {tab.icon && (
-                <span class="inline-flex items-center justify-center">
-                  <Icon icon={tab.icon} class="w-4 h-4" size="sm" loading="eager" />
-                </span>
-              )}
-              <span>{tab.label}</span>
-              <span class="filter-count">{tab.count}</span>
-            </button>
-          ))
-        }
+      <div
+        class="filter-container flex flex-wrap gap-2 mb-8"
+        id="timeline-filter-tabs"
+      >
+        {filterTabs.map((tab) => (
+          <button
+            class={`filter-tag ${tab.type === "all" ? "active" : ""}`}
+            data-filter={tab.type}
+          >
+            {tab.icon && (
+              <span class="inline-flex items-center justify-center">
+                <Icon
+                  icon={tab.icon}
+                  class="w-4 h-4"
+                  size="sm"
+                  loading="eager"
+                />
+              </span>
+            )}
+            <span>{tab.label}</span>
+            <span class="filter-count">{tab.count}</span>
+          </button>
+        ))}
       </div>
 
       <!-- 时间线内容 -->
@@ -204,151 +208,167 @@ const filterTabs = [
         <div class="absolute left-[19px] md:left-[23px] top-0 bottom-0 w-[2px] bg-black/10 dark:bg-white/10"></div>
 
         <div class="space-y-8">
-          {
-            allTimelineItems.map((item, index) => (
-              <div
-                class="timeline-item group relative flex items-start gap-4 md:gap-6"
-                data-type={item.type}
-                data-key={index}
-              >
-                <!-- 时间节点 -->
-                <div class="relative z-10 shrink-0">
-                  <div
-                    class="timeline-icon w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center shadow-sm transition-all duration-300 group-hover:scale-110"
-                    style={`background-color: ${item.color || getTypeColor(item.type)}; --icon-color: ${item.color || getTypeColor(item.type)}80;`}
-                  >
-                    <Icon
-                      icon={item.icon || getTypeIcon(item.type)}
-                      class="text-white text-sm md:text-base"
-                      color="white"
-                      fallback={item.title.charAt(0)}
-                      loading="eager"
-                    />
-                  </div>
+          {allTimelineItems.map((item, index) => (
+            <div
+              class="timeline-item group relative flex items-start gap-4 md:gap-6"
+              data-type={item.type}
+              data-key={index}
+            >
+              <!-- 时间节点 -->
+              <div class="relative z-10 shrink-0">
+                <div
+                  class="timeline-icon w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center shadow-sm transition-all duration-300 group-hover:scale-110"
+                  style={`background-color: ${item.color || getTypeColor(item.type)}; --icon-color: ${item.color || getTypeColor(item.type)}80;`}
+                >
+                  <Icon
+                    icon={item.icon || getTypeIcon(item.type)}
+                    class="text-white text-sm md:text-base"
+                    color="white"
+                    fallback={item.title.charAt(0)}
+                    loading="eager"
+                  />
                 </div>
+              </div>
 
-                <!-- 内容卡片 -->
-                <div class="flex-1 min-w-0">
-                  <div class="rounded-xl border border-black/10 dark:border-white/10 p-4 md:p-5 hover:shadow-lg dark:hover:shadow-white/10 transition-all duration-300 bg-transparent">
-                    <!-- 标题行 -->
-                    <div class="flex flex-wrap items-start justify-between gap-2 mb-2">
-                      <div class="flex items-center gap-2 flex-wrap">
-                        <h2 class="text-lg md:text-xl font-bold text-90 group-hover:text-[var(--primary)] dark:group-hover:text-[var(--primary)] transition-colors duration-300 cursor-default">
-                          {item.title}
-                        </h2>
+              <!-- 内容卡片 -->
+              <div class="flex-1 min-w-0">
+                <div class="rounded-xl border border-black/10 dark:border-white/10 p-4 md:p-5 hover:shadow-lg dark:hover:shadow-white/10 transition-all duration-300 bg-transparent">
+                  <!-- 标题行 -->
+                  <div class="flex flex-wrap items-start justify-between gap-2 mb-2">
+                    <div class="flex items-center gap-2 flex-wrap">
+                      <h2 class="text-lg md:text-xl font-bold text-90 group-hover:text-[var(--primary)] dark:group-hover:text-[var(--primary)] transition-colors duration-300 cursor-default">
+                        {item.title}
+                      </h2>
 
-                        {!item.endDate && (
-                          <span class="px-3 py-1.5 text-xs bg-green-500/20 text-green-700 dark:bg-green-900/30 dark:text-green-400 rounded-md">
-                            {i18n(I18nKey.timelineCurrent)}
-                          </span>
-                        )}
-                      </div>
-                      <span class="px-3 py-1.5 text-xs rounded-md shrink-0"
-                        style={`background-color: ${(item.color || getTypeColor(item.type))}15; color: ${item.color || getTypeColor(item.type)}`}>
-                        {i18n(
-                          item.type === "education"
-                            ? I18nKey.timelineEducation
-                            : item.type === "work"
-                              ? I18nKey.timelineWork
-                              : item.type === "project"
-                                ? I18nKey.timelineProject
-                                : I18nKey.timelineAchievement,
-                        )}
-                      </span>
-                    </div>
-
-                    <!-- 机构/职位 -->
-                    {item.organization && (
-                      <div class="text-sm text-60 mb-2">
-                        {item.organization}
-                        {item.position && ` • ${item.position}`}
-                      </div>
-                    )}
-
-                    <!-- 描述 -->
-                    <p class="text-sm text-75 mb-3 leading-relaxed">
-                      {item.description}
-                    </p>
-
-                    <!-- 技能标签 -->
-                    {item.skills && item.skills.length > 0 && (
-                      <div class="ignore flex flex-wrap gap-2 mb-3">
-                        {item.skills.map((skill) => (
-                          <span class="px-3 py-1.5 text-xs rounded-md"
-                            style={`background-color: ${(item.color || getTypeColor(item.type))}12; color: ${item.color || getTypeColor(item.type)}`}>
-                            {skill}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-
-                    <!-- 成就列表 -->
-                    {item.achievements && item.achievements.length > 0 && (
-                      <div class="mb-3">
-                        <h4 class="text-xs font-bold text-90 mb-2 uppercase tracking-wider">
-                          {i18n(I18nKey.timelineAchievements)}
-                        </h4>
-                        <ul class="space-y-1">
-                          {item.achievements.map((achievement) => (
-                            <li class="text-sm text-75 flex items-start gap-2">
-                              <span class="text-green-500 mt-1 shrink-0">✓</span>
-                              <span>{achievement}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-
-                    <!-- 链接 -->
-                    {item.links && item.links.length > 0 && (
-                      <div class="flex flex-wrap gap-3 mb-3">
-                        {item.links.map((link) => (
-                          <a
-                            href={link.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="text-sm font-medium flex items-center gap-1 transition-colors hover:underline"
-                            style={`color: ${item.color || getTypeColor(item.type)}`}
-                          >
-                            {link.type === "certificate" && "🏆"}
-                            {link.type === "project" && "🔗"}
-                            {link.type === "website" && "🌐"}
-                            {link.type === "other" && "📄"}
-                            {link.name}
-                          </a>
-                        ))}
-                      </div>
-                    )}
-
-                    <!-- 底部信息 -->
-                    <div class="flex flex-wrap items-center gap-3 text-xs text-60 pt-2 border-t border-black/5 dark:border-white/5">
-                      <div class="flex items-center gap-1">
-                        <Icon icon="material-symbols:calendar-month" class="text-sm" style={`color: ${item.color || getTypeColor(item.type)}`} />
-                        <span>{getDateRange(item.startDate, item.endDate)}</span>
-                      </div>
-                      <div class="flex items-center gap-1">
-                        <Icon icon="material-symbols:schedule" class="text-sm" style={`color: ${item.color || getTypeColor(item.type)}`} />
-                        <span>{getDuration(item.startDate, item.endDate)}</span>
-                      </div>
-                      {item.location && (
-                        <div class="flex items-center gap-1">
-                          <Icon icon="material-symbols:location-on" class="text-sm" style={`color: ${item.color || getTypeColor(item.type)}`} />
-                          <span>{item.location}</span>
-                        </div>
+                      {!item.endDate && (
+                        <span class="px-3 py-1.5 text-xs bg-green-500/20 text-green-700 dark:bg-green-900/30 dark:text-green-400 rounded-lg">
+                          {i18n(I18nKey.timelineCurrent)}
+                        </span>
                       )}
                     </div>
+                    <span
+                      class="px-3 py-1.5 text-xs rounded-lg shrink-0"
+                      style={`background-color: ${item.color || getTypeColor(item.type)}15; color: ${item.color || getTypeColor(item.type)}`}
+                    >
+                      {i18n(
+                        item.type === "education"
+                          ? I18nKey.timelineEducation
+                          : item.type === "work"
+                            ? I18nKey.timelineWork
+                            : item.type === "project"
+                              ? I18nKey.timelineProject
+                              : I18nKey.timelineAchievement,
+                      )}
+                    </span>
+                  </div>
+
+                  <!-- 机构/职位 -->
+                  {item.organization && (
+                    <div class="text-sm text-60 mb-2">
+                      {item.organization}
+                      {item.position && ` • ${item.position}`}
+                    </div>
+                  )}
+
+                  <!-- 描述 -->
+                  <p class="text-sm text-75 mb-3 leading-relaxed">
+                    {item.description}
+                  </p>
+
+                  <!-- 技能标签 -->
+                  {item.skills && item.skills.length > 0 && (
+                    <div class="ignore flex flex-wrap gap-2 mb-3">
+                      {item.skills.map((skill) => (
+                        <span
+                          class="btn-regular px-3 py-1.5 text-xs rounded-lg"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  <!-- 成就列表 -->
+                  {item.achievements && item.achievements.length > 0 && (
+                    <div class="mb-3">
+                      <h4 class="text-xs font-bold text-90 mb-2 uppercase tracking-wider">
+                        {i18n(I18nKey.timelineAchievements)}
+                      </h4>
+                      <ul class="space-y-1">
+                        {item.achievements.map((achievement) => (
+                          <li class="text-sm text-75 flex items-start gap-2">
+                            <span class="text-green-500 mt-1 shrink-0">✓</span>
+                            <span>{achievement}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  <!-- 链接 -->
+                  {item.links && item.links.length > 0 && (
+                    <div class="flex flex-wrap gap-3 mb-3">
+                      {item.links.map((link) => (
+                        <a
+                          href={link.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="text-sm font-medium flex items-center gap-1 transition-colors hover:underline"
+                          style={`color: ${item.color || getTypeColor(item.type)}`}
+                        >
+                          {link.type === "certificate" && "🏆"}
+                          {link.type === "project" && "🔗"}
+                          {link.type === "website" && "🌐"}
+                          {link.type === "other" && "📄"}
+                          {link.name}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+
+                  <!-- 底部信息 -->
+                  <div class="flex flex-wrap items-center gap-3 text-xs text-60 pt-2 border-t border-black/5 dark:border-white/5">
+                    <div class="flex items-center gap-1">
+                      <Icon
+                        icon="material-symbols:calendar-month"
+                        class="text-sm"
+                        style={`color: ${item.color || getTypeColor(item.type)}`}
+                      />
+                      <span>{getDateRange(item.startDate, item.endDate)}</span>
+                    </div>
+                    <div class="flex items-center gap-1">
+                      <Icon
+                        icon="material-symbols:schedule"
+                        class="text-sm"
+                        style={`color: ${item.color || getTypeColor(item.type)}`}
+                      />
+                      <span>{getDuration(item.startDate, item.endDate)}</span>
+                    </div>
+                    {item.location && (
+                      <div class="flex items-center gap-1">
+                        <Icon
+                          icon="material-symbols:location-on"
+                          class="text-sm"
+                          style={`color: ${item.color || getTypeColor(item.type)}`}
+                        />
+                        <span>{item.location}</span>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
-            ))
-          }
+            </div>
+          ))}
         </div>
       </div>
 
       <!-- 空状态提示 -->
       <div id="timeline-empty" class="hidden text-center py-12">
         <div class="w-16 h-16 rounded-xl flex items-center justify-center bg-[var(--btn-regular-bg)] text-[var(--btn-content)] mb-4 mx-auto">
-          <InlineIcon name="material-symbols:search-off-outline" class="text-4xl" />
+          <InlineIcon
+            name="material-symbols:search-off-outline"
+            class="text-4xl"
+          />
         </div>
         <h2 class="text-xl font-bold text-90">
           {i18n(I18nKey.timelineFilterEmpty)}
@@ -368,16 +388,36 @@ const filterTabs = [
     opacity: 0;
   }
 
-  .timeline-item:nth-child(1) { animation-delay: 0.05s; }
-  .timeline-item:nth-child(2) { animation-delay: 0.1s; }
-  .timeline-item:nth-child(3) { animation-delay: 0.15s; }
-  .timeline-item:nth-child(4) { animation-delay: 0.2s; }
-  .timeline-item:nth-child(5) { animation-delay: 0.25s; }
-  .timeline-item:nth-child(6) { animation-delay: 0.3s; }
-  .timeline-item:nth-child(7) { animation-delay: 0.35s; }
-  .timeline-item:nth-child(8) { animation-delay: 0.4s; }
-  .timeline-item:nth-child(9) { animation-delay: 0.45s; }
-  .timeline-item:nth-child(10) { animation-delay: 0.5s; }
+  .timeline-item:nth-child(1) {
+    animation-delay: 0.05s;
+  }
+  .timeline-item:nth-child(2) {
+    animation-delay: 0.1s;
+  }
+  .timeline-item:nth-child(3) {
+    animation-delay: 0.15s;
+  }
+  .timeline-item:nth-child(4) {
+    animation-delay: 0.2s;
+  }
+  .timeline-item:nth-child(5) {
+    animation-delay: 0.25s;
+  }
+  .timeline-item:nth-child(6) {
+    animation-delay: 0.3s;
+  }
+  .timeline-item:nth-child(7) {
+    animation-delay: 0.35s;
+  }
+  .timeline-item:nth-child(8) {
+    animation-delay: 0.4s;
+  }
+  .timeline-item:nth-child(9) {
+    animation-delay: 0.45s;
+  }
+  .timeline-item:nth-child(10) {
+    animation-delay: 0.5s;
+  }
 
   @keyframes fadeInUp {
     from {
@@ -443,6 +483,6 @@ const filterTabs = [
 
   /* 图标悬停阴影 */
   .timeline-item:hover .timeline-icon {
-    box-shadow: 0 6px 10px var(--icon-color, rgba(0,0,0,0.2));
+    box-shadow: 0 6px 10px var(--icon-color, rgba(0, 0, 0, 0.2));
   }
 </style>

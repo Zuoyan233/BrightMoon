@@ -133,7 +133,7 @@ html.dark {
 	}
 
 	:not(pre) > code {
-		@apply bg-[var(--inline-code-bg)] rounded-md text-[--inline-code-color] px-1 py-0.5 font-bold;
+		@apply bg-[var(--inline-code-bg)] rounded-lg text-[--inline-code-color] px-1 py-0.5 font-bold;
 	}
 
 	li {

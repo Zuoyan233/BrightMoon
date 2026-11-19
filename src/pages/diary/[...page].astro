@@ -10,64 +10,65 @@ import MainGridLayout from "../../layouts/MainGridLayout.astro";
 
 // 检查日记页面是否启用
 if (!siteConfig.featurePages.diary) {
-	return Astro.redirect("/404/");
+    return Astro.redirect("/404/");
 }
 
 // 分页配置：每页 PAGE_SIZE 条日记
 export const getStaticPaths = (({ paginate }) => {
-	const sortedData = diaryDataConfig.items.sort(
-		(a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-	);
-	return paginate(sortedData, { pageSize: PAGE_SIZE });
+    const sortedData = diaryDataConfig.items.sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+    );
+    return paginate(sortedData, { pageSize: PAGE_SIZE });
 }) satisfies GetStaticPaths;
 
 const { page } = Astro.props;
 
 // 日记数据工具函数
 const getDiaryStats = () => {
-	const total = diaryDataConfig.items.length;
-	const hasImages = diaryDataConfig.items.filter(
-		(item) => item.images && item.images.length > 0,
-	).length;
-	const hasLocation = diaryDataConfig.items.filter(
-		(item) => item.location,
-	).length;
-	const hasMood = diaryDataConfig.items.filter((item) => item.mood).length;
-	return {
-		total,
-		hasImages,
-		hasLocation,
-		hasMood,
-		imagePercentage: Math.round((hasImages / total) * 100),
-		locationPercentage: Math.round((hasLocation / total) * 100),
-		moodPercentage: Math.round((hasMood / total) * 100),
-	};
+    const total = diaryDataConfig.items.length;
+    const hasImages = diaryDataConfig.items.filter(
+        (item) => item.images && item.images.length > 0,
+    ).length;
+    const hasLocation = diaryDataConfig.items.filter(
+        (item) => item.location,
+    ).length;
+    const hasMood = diaryDataConfig.items.filter((item) => item.mood).length;
+    return {
+        total,
+        hasImages,
+        hasLocation,
+        hasMood,
+        imagePercentage: Math.round((hasImages / total) * 100),
+        locationPercentage: Math.round((hasLocation / total) * 100),
+        moodPercentage: Math.round((hasMood / total) * 100),
+    };
 };
 
 const diaryStats = getDiaryStats();
 
 // 格式化时间为相对时间（几分钟前、几小时前、几天前）
 function formatTime(dateString: string): string {
-	var TG = 8;
-	if (siteConfig.timeZone >= -12 && siteConfig.timeZone <= 12)
-		TG = siteConfig.timeZone;
-	const timeGap = TG;
+    var TG = 8;
+    if (siteConfig.timeZone >= -12 && siteConfig.timeZone <= 12)
+        TG = siteConfig.timeZone;
+    const timeGap = TG;
 
-	const now = new Date();
-	const date = new Date(dateString);
-	const diffInMinutes = Math.floor(
-		(now.getTime() + timeGap * 60 * 60 * 1000 - date.getTime()) / (1000 * 60),
-	);
+    const now = new Date();
+    const date = new Date(dateString);
+    const diffInMinutes = Math.floor(
+        (now.getTime() + timeGap * 60 * 60 * 1000 - date.getTime()) /
+            (1000 * 60),
+    );
 
-	if (diffInMinutes < 60) {
-		return `${diffInMinutes} ${i18n(I18nKey.diaryMinutesAgo)}`;
-	}
-	if (diffInMinutes < 1440) {
-		const hours = Math.floor(diffInMinutes / 60);
-		return `${hours} ${i18n(I18nKey.diaryHoursAgo)}`;
-	}
-	const days = Math.floor(diffInMinutes / 1440);
-	return `${days} ${i18n(I18nKey.diaryDaysAgo)}`;
+    if (diffInMinutes < 60) {
+        return `${diffInMinutes} ${i18n(I18nKey.diaryMinutesAgo)}`;
+    }
+    if (diffInMinutes < 1440) {
+        const hours = Math.floor(diffInMinutes / 60);
+        return `${hours} ${i18n(I18nKey.diaryHoursAgo)}`;
+    }
+    const days = Math.floor(diffInMinutes / 1440);
+    return `${days} ${i18n(I18nKey.diaryDaysAgo)}`;
 }
 
 const len = page.data.length;
@@ -78,9 +79,7 @@ const len = page.data.length;
     <script>
         import("../../scripts/right-sidebar-layout.js");
     </script>
-    <div
-        class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32"
-    >
+    <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
         <div class="card-base z-10 px-9 py-6 relative w-full">
             <div class="relative w-full diary-content-container">
                 <!-- 页面头部 -->
@@ -88,82 +87,74 @@ const len = page.data.length;
                     <div class="flex flex-col items-start justify-center">
                         <h1
                             class="text-4xl font-bold text-90 mb-2 relative
-								before:w-1 before:h-8 before:rounded-md before:bg-[var(--primary)]
+								before:w-1 before:h-8 before:rounded-lg before:bg-[var(--primary)]
 								before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-4"
                         >
                             {i18n(I18nKey.diary)}
                         </h1>
-                        <p class="text-60">
-                            {i18n(I18nKey.diarySubtitle)}
-                        </p>
+                        <p class="text-60">{i18n(I18nKey.diarySubtitle)}</p>
                     </div>
                     <p class="text-60 shrink-0 flex items-baseline gap-1">
-                        <span class="text-[var(--primary)] text-4xl"
-                            >{diaryStats.total}</span
-                        >
-                        <span class="ml-1 text-90 font-bold"
-                            >{i18n(I18nKey.diaryCount)}</span
-                        >
+                        <span class="text-[var(--primary)] text-4xl">
+                            {diaryStats.total}
+                        </span>
+                        <span class="ml-1 text-90 font-bold">
+                            {i18n(I18nKey.diaryCount)}
+                        </span>
                     </p>
                 </div>
 
                 <!-- 短文列表 -->
                 <div class="moments-timeline">
                     <div class="timeline-list space-y-4">
-                        {
-                            page.data.map((moment, index) => (
-                                <div class="group moment-item card-base-daily p-4 md:p-6 lg:p-8 hover:shadow-lg dark:hover:shadow-white/30 transition-all">
-                                    <div class="moment-content">
-                                        <h2 class="moment-text text-sm md:text-base lg:text-lg text-90 leading-relaxed mb-3 md:mb-4 group-hover:text-[var(--primary)] transition-colors duration-300">
-                                            {moment.content}
-                                        </h2>
+                        {page.data.map((moment, index) => (
+                            <div class="group moment-item card-base-daily p-4 md:p-6 lg:p-8 hover:shadow-lg dark:hover:shadow-white/30 transition-all">
+                                <div class="moment-content">
+                                    <h2 class="moment-text text-sm md:text-base lg:text-lg text-90 leading-relaxed mb-3 md:mb-4 group-hover:text-[var(--primary)] transition-colors duration-300">
+                                        {moment.content}
+                                    </h2>
 
-                                        {moment.images &&
-                                            moment.images.length > 0 && (
-                                                <div class="diary-images grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3 lg:gap-4 mb-3 md:mb-4">
-                                                    {moment.images.map(
-                                                        (image, _index) => (
-                                                            <div class="image-item relative rounded-md overflow-hidden aspect-square cursor-pointer hover:scale-105 transition-transform">
-                                                                <a
-                                                                    href="javascript:void(0)"
-                                                                    data-src={
-                                                                        image
-                                                                    }
-                                                                    data-fancybox={`gallery-${index}`}
-                                                                    class="block w-full h-full"
-                                                                >
-                                                                    <img
-                                                                        src={
-                                                                            image
-                                                                        }
-                                                                        alt="diary moment image"
-                                                                        class="w-full h-full object-cover"
-                                                                        loading="lazy"
-                                                                    />
-                                                                </a>
-                                                            </div>
-                                                        ),
-                                                    )}
-                                                </div>
-                                            )}
-                                    </div>
+                                    {moment.images &&
+                                        moment.images.length > 0 && (
+                                            <div class="diary-images grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3 lg:gap-4 mb-3 md:mb-4">
+                                                {moment.images.map(
+                                                    (image, _index) => (
+                                                        <div class="image-item relative rounded-lg overflow-hidden aspect-square cursor-pointer hover:scale-105 transition-transform">
+                                                            <a
+                                                                href="javascript:void(0)"
+                                                                data-src={image}
+                                                                data-fancybox={`gallery-${index}`}
+                                                                class="block w-full h-full"
+                                                            >
+                                                                <img
+                                                                    src={image}
+                                                                    alt="diary moment image"
+                                                                    class="w-full h-full object-cover"
+                                                                    loading="lazy"
+                                                                />
+                                                            </a>
+                                                        </div>
+                                                    ),
+                                                )}
+                                            </div>
+                                        )}
+                                </div>
 
-                                    <hr class="moment-divider border-t border-[var(--line-divider)] my-3 md:my-4" />
+                                <hr class="moment-divider border-t border-[var(--line-divider)] my-3 md:my-4" />
 
-                                    <div class="moment-footer flex justify-between items-center">
-                                        <div class="moment-time flex items-center gap-1.5 text-75 text-xs md:text-sm lg:text-base">
-                                            <Icon
-                                                name="material-symbols:schedule"
-                                                class="time-icon text-xl text-[var(--primary)]"
-                                            />
-                                            <time datetime={moment.date}>
-                                                {formatTime(moment.date)}
-                                            </time>
-                                        </div>
+                                <div class="moment-footer flex justify-between items-center">
+                                    <div class="moment-time flex items-center gap-1.5 text-75 text-xs md:text-sm lg:text-base">
+                                        <Icon
+                                            name="material-symbols:schedule"
+                                            class="time-icon text-xl text-[var(--primary)]"
+                                        />
+                                        <time datetime={moment.date}>
+                                            {formatTime(moment.date)}
+                                        </time>
                                     </div>
                                 </div>
-                            ))
-                        }
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>

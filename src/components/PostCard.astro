@@ -73,30 +73,26 @@ const TAG_VISIBLE_LIMIT = 5;
 			class="transition group w-full block font-bold mb-3 text-3xl text-90
         hover:text-[var(--primary)] dark:hover:text-[var(--primary)]
         active:text-[var(--title-active)] dark:active:text-[var(--title-active)]
-        before:w-1 before:h-5 before:rounded-md before:bg-[var(--primary)]
+        before:w-1 before:h-5 before:rounded-lg before:bg-[var(--primary)]
         before:absolute
         before:top-[2.35rem] before:left-[1.125rem] before:hidden md:before:block"
 		>
 			<!-- 置顶图标 -->
-			{
-				pinned && (
-					<Icon
-						name="material-symbols:push-pin"
-						is:inline
-						class="inline text-[var(--primary)] text-2xl mr-2 -translate-y-0.5"
-					/>
-				)
-			}
+			{pinned && (
+				<Icon
+					name="material-symbols:push-pin"
+					is:inline
+					class="inline text-[var(--primary)] text-2xl mr-2 -translate-y-0.5"
+				/>
+			)}
 			<!-- 加密图标 -->
-			{
-				isEncrypted && (
-					<Icon
-						name="material-symbols:lock-outline"
-						is:inline
-						class="inline text-[var(--primary)] text-2xl mr-2 -translate-y-0.5"
-					/>
-				)
-			}
+			{isEncrypted && (
+				<Icon
+					name="material-symbols:lock-outline"
+					is:inline
+					class="inline text-[var(--primary)] text-2xl mr-2 -translate-y-0.5"
+				/>
+			)}
 			{title}
 			<!-- 移动端：始终显示的右箭头 -->
 			<Icon
@@ -141,107 +137,95 @@ const TAG_VISIBLE_LIMIT = 5;
 			class="post-tags flex flex-wrap items-center gap-2 mt-2"
 			data-tag-collapsed="true"
 		>
-			{
-				tags && tags.length > 0 ? (
-					tags.map((tag: string, index: number) => (
-						<a
-							href={getTagUrl(tag)}
-							class:list={[
-								"tag-item",
-								{ hidden: index >= TAG_VISIBLE_LIMIT },
-								siteConfig.tagStyle?.useNewStyle
-									? "link-lg transition text-60 text-xs font-medium px-2 py-1 rounded-lg hover:text-[var(--primary)] dark:hover:text-[var(--primary)] active:text-[var(--primary)] dark:active:text-[var(--primary)] group/tag whitespace-nowrap"
-									: "btn-regular h-6 text-xs px-2 rounded-lg",
-							]}
-							aria-label={`View all posts tagged with ${tag.trim()}`}
-						>
-							<span class="transition-transform group-hover/tag:translate-x-0.5">
-								# {tag.trim()}
-							</span>
-						</a>
-					))
-				) : (
-					<span class="text-xs text-60">{i18n(I18nKey.noTags)}</span>
-				)
-			}
-			{
-				tags && tags.length > TAG_VISIBLE_LIMIT ? (
-					<button
-						type="button"
-						class="tag-toggle btn-regular text-[var(--btn-content)] h-6 text-xs px-2 rounded-md"
-						aria-label={i18n(I18nKey.showAllTags)}
-						title={i18n(I18nKey.showAllTags)}
-						aria-expanded="false"
-						data-visible-limit={TAG_VISIBLE_LIMIT}
-						data-label-show={i18n(I18nKey.showAllTags)}
-						data-label-hide={i18n(I18nKey.hideAllTags)}
+			{tags && tags.length > 0 ? (
+				tags.map((tag: string, index: number) => (
+					<a
+						href={getTagUrl(tag)}
+						class:list={[
+							"tag-item",
+							{ hidden: index >= TAG_VISIBLE_LIMIT },
+							siteConfig.tagStyle?.useNewStyle
+								? "link-lg transition text-60 text-xs font-medium px-2 py-1 rounded-lg hover:text-[var(--primary)] dark:hover:text-[var(--primary)] active:text-[var(--primary)] dark:active:text-[var(--primary)] group/tag whitespace-nowrap"
+								: "btn-regular h-6 text-xs px-2 rounded-lg",
+						]}
+						aria-label={`View all posts tagged with ${tag.trim()}`}
 					>
-						<Icon
-							is:inline
-							name="material-symbols:expand-more"
-							class="tag-toggle-icon text-base transition-transform"
-						/>
-					</button>
-				) : null
-			}
+						<span class="transition-transform group-hover/tag:translate-x-0.5">
+							# {tag.trim()}
+						</span>
+					</a>
+				))
+			) : (
+				<span class="text-xs text-60">{i18n(I18nKey.noTags)}</span>
+			)}
+			{tags && tags.length > TAG_VISIBLE_LIMIT ? (
+				<button
+					type="button"
+					class="tag-toggle btn-regular text-[var(--btn-content)] h-6 text-xs px-2 rounded-lg"
+					aria-label={i18n(I18nKey.showAllTags)}
+					title={i18n(I18nKey.showAllTags)}
+					aria-expanded="false"
+					data-visible-limit={TAG_VISIBLE_LIMIT}
+					data-label-show={i18n(I18nKey.showAllTags)}
+					data-label-hide={i18n(I18nKey.hideAllTags)}
+				>
+					<Icon
+						is:inline
+						name="material-symbols:expand-more"
+						class="tag-toggle-icon text-base transition-transform"
+					/>
+				</button>
+			) : null}
 		</div>
 	</div>
 
 	<!-- 封面图区域：桌面端绝对定位在右侧，hover 时显示遮罩和箭头 -->
-	{
-		hasCover && (
-			<a
-				href={url}
-				aria-label={title}
-				class:list={[
-					"group",
-					"max-h-[20vh] md:max-h-none mx-4 mt-4 -mb-2 md:mb-0 md:mx-0 md:mt-0",
-					"md:w-[var(--coverWidth)] relative md:absolute md:top-3 md:bottom-3 md:right-3 rounded-xl overflow-hidden active:scale-95",
-				]}
-			>
-				<div class="absolute pointer-events-none z-10 w-full h-full group-hover:bg-black/30 group-active:bg-black/50 transition" />
-				<div class="absolute pointer-events-none z-20 w-full h-full flex items-center justify-center ">
-					<Icon
-						name="material-symbols:chevron-right-rounded"
-						is:inline
-						class="transition opacity-0 group-hover:opacity-100 scale-50 group-hover:scale-100 text-white text-5xl"
-					/>
-				</div>
-				<ImageWrapper
-					src={image}
-					basePath={getFileDirFromPath(entry.filePath || "")}
-					alt="Cover Image of the Post"
-					class="w-full h-full"
-				/>
-			</a>
-		)
-	}
-
-	<!-- 无封面图时：桌面端显示一个进入按钮替代封面 -->
-	{
-		!hasCover && (
-			<a
-				href={url}
-				aria-label={title}
-				class="!hidden md:!flex btn-regular w-[3.25rem]
-         absolute right-3 top-3 bottom-3 rounded-xl bg-[var(--enter-btn-bg)]
-         hover:bg-[var(--enter-btn-bg-hover)] active:bg-[var(--enter-btn-bg-active)] active:scale-95
-        "
-			>
+	{hasCover && (
+		<a
+			href={url}
+			aria-label={title}
+			class:list={[
+				"group",
+				"max-h-[20vh] md:max-h-none mx-4 mt-4 -mb-2 md:mb-0 md:mx-0 md:mt-0",
+				"md:w-[var(--coverWidth)] relative md:absolute md:top-3 md:bottom-3 md:right-3 rounded-xl overflow-hidden active:scale-95",
+			]}
+		>
+			<div class="absolute pointer-events-none z-10 w-full h-full group-hover:bg-black/30 group-active:bg-black/50 transition" />
+			<div class="absolute pointer-events-none z-20 w-full h-full flex items-center justify-center">
 				<Icon
 					name="material-symbols:chevron-right-rounded"
 					is:inline
-					class="transition text-[var(--btn-content)] text-4xl mx-auto"
+					class="transition opacity-0 group-hover:opacity-100 scale-50 group-hover:scale-100 text-white text-5xl"
 				/>
-			</a>
-		)
-	}
+			</div>
+			<ImageWrapper
+				src={image}
+				basePath={getFileDirFromPath(entry.filePath || "")}
+				alt="Cover Image of the Post"
+				class="w-full h-full"
+			/>
+		</a>
+	)}
+
+	<!-- 无封面图时：桌面端显示一个进入按钮替代封面 -->
+	{!hasCover && (
+		<a
+			href={url}
+			aria-label={title}
+			class="!hidden md:!flex btn-regular w-[3.25rem]
+         absolute right-3 top-3 bottom-3 rounded-xl bg-[var(--enter-btn-bg)]
+         hover:bg-[var(--enter-btn-bg-hover)] active:bg-[var(--enter-btn-bg-active)] active:scale-95"
+		>
+			<Icon
+				name="material-symbols:chevron-right-rounded"
+				is:inline
+				class="transition text-[var(--btn-content)] text-4xl mx-auto"
+			/>
+		</a>
+	)}
 </div>
 <!-- 移动端卡片分隔线 -->
-<div
-	class="transition border-t-[1px] border-dashed mx-6 border-black/10 dark:border-white/[0.15] last:border-t-0 md:hidden"
->
-</div>
+<div class="transition border-t-[1px] border-dashed mx-6 border-black/10 dark:border-white/[0.15] last:border-t-0 md:hidden"></div>
 
 <style define:vars={{ coverWidth }}></style>
 

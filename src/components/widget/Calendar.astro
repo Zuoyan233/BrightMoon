@@ -60,7 +60,7 @@ const allYearSuffixesJSON = JSON.stringify(allYearSuffixes);
 	<div class="flex justify-between items-center mb-2 mt-2">
 		<div
 			class="font-bold transition text-lg text-90 relative ml-4 flex items-center
-					before:w-1 before:h-4 before:rounded-md before:bg-[var(--primary)]
+					before:w-1 before:h-4 before:rounded-lg before:bg-[var(--primary)]
 					before:absolute before:left-[-16px] before:top-[13.5px]"
 		>
 			<div
@@ -69,7 +69,8 @@ const allYearSuffixesJSON = JSON.stringify(allYearSuffixes);
 			>
 				<span
 					id="calendar-title"
-					class="text-lg font-bold text-90 select-none"></span>
+					class="text-lg font-bold text-90 select-none"
+				></span>
 			</div>
 		</div>
 
@@ -106,26 +107,22 @@ const allYearSuffixesJSON = JSON.stringify(allYearSuffixes);
 	<div class="relative w-full overflow-hidden">
 		<div id="calendar-view" class="w-full opacity-100">
 			<div class="grid grid-cols-7 gap-1 mb-2">
-				{
-					weekDays.map((day) => (
-						<div class="text-center text-xs text-90 font-medium py-1">
-							{day}
-						</div>
-					))
-				}
+				{weekDays.map((day) => (
+					<div class="text-center text-xs text-90 font-medium py-1">
+						{day}
+					</div>
+				))}
 			</div>
 			<div id="calendar-grid" class="grid grid-cols-7 gap-1"></div>
 			<div id="calendar-posts" class="mt-4">
 				<div
 					class="h-[1px] w-full bg-neutral-200 dark:bg-neutral-700 mb-2 hidden"
 					id="calendar-posts-divider"
-				>
-				</div>
+				></div>
 				<div
 					class="flex flex-col gap-1 max-h-[9.375rem] overflow-y-auto custom-scrollbar"
 					id="calendar-posts-list"
-				>
-				</div>
+				></div>
 			</div>
 		</div>
 		<div
@@ -135,8 +132,7 @@ const allYearSuffixesJSON = JSON.stringify(allYearSuffixes);
 			<div
 				id="selection-content"
 				class="w-full h-full overflow-y-auto custom-scrollbar p-2 grid gap-2 content-start"
-			>
-			</div>
+			></div>
 		</div>
 	</div>
 </WidgetLayout>
@@ -473,7 +469,7 @@ const allYearSuffixesJSON = JSON.stringify(allYearSuffixes);
 			}
 
 			html += `
-                <div class="calendar-day aspect-square flex items-center justify-center rounded-md relative transition-all duration-300 ${bgClass}"
+                <div class="calendar-day aspect-square flex items-center justify-center rounded-lg relative transition-all duration-300 ${bgClass}"
                     data-date="${dateKey}">
                     ${day}
                     ${hasPost && !(isSelected || isToday) ? `<span class="absolute bottom-0 w-1 h-1 rounded-full bg-[var(--primary)]"></span>` : ""}

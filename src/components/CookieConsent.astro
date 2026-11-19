@@ -4,7 +4,7 @@ import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
 
 interface Props {
-	enable: boolean;
+    enable: boolean;
 }
 
 const { enable } = Astro.props;
@@ -33,20 +33,15 @@ const dialogUid = Math.random().toString(36).slice(2, 10);
     data-overlay={uid}
     class="fixed inset-0 z-[9998] bg-black/25 dark:bg-black/45"
     style="opacity:0;pointer-events:none;transition:opacity 0.4s cubic-bezier(0.4,0,0.2,1)"
->
-</div>
+></div>
 <div
     data-bid={uid}
     class="fixed bottom-0 left-0 right-0 z-[9999] bg-[var(--card-bg-transparent)] shadow-[0_-4px_24px_rgba(0,0,0,0.08)] dark:shadow-[0_-4px_24px_rgba(0,0,0,0.3)]"
     style="transform:translateY(100%);opacity:0;pointer-events:none;transition:transform 0.4s cubic-bezier(0.4,0,0.2,1),opacity 0.4s cubic-bezier(0.4,0,0.2,1)"
 >
-    <div
-        class="max-w-[75rem] mx-auto px-6 py-4 flex items-center gap-6 max-md:flex-col max-md:gap-4 max-md:p-4"
-    >
+    <div class="max-w-[75rem] mx-auto px-6 py-4 flex items-center gap-6 max-md:flex-col max-md:gap-4 max-md:p-4">
         <div class="flex-1 min-w-0">
-            <div
-                class="flex items-center gap-2 text-xl font-bold text-[var(--primary)] mb-2"
-            >
+            <div class="flex items-center gap-2 text-xl font-bold text-[var(--primary)] mb-2">
                 <Icon
                     name="material-symbols:cookie-outline"
                     class="shrink-0 w-5 h-5"
@@ -68,18 +63,16 @@ const dialogUid = Math.random().toString(36).slice(2, 10);
                 </p>
             </div>
         </div>
-        <div
-            class="flex flex-col gap-2 shrink-0 min-w-[120px] max-md:flex-row max-md:flex-wrap max-md:w-full"
-        >
+        <div class="flex flex-col gap-2 shrink-0 min-w-[120px] max-md:flex-row max-md:flex-wrap max-md:w-full">
             <button
                 data-consent-btn="accept"
-                class="btn-regular px-4 py-2 rounded-md cursor-pointer border-none whitespace-nowrap max-md:flex-1 max-md:min-w-[100px]"
+                class="btn-regular px-4 py-2 rounded-lg cursor-pointer border-none whitespace-nowrap max-md:flex-1 max-md:min-w-[100px]"
             >
                 {acceptText}
             </button>
             <button
                 data-consent-btn="reject"
-                class="btn-regular px-4 py-2 rounded-md cursor-pointer border-none whitespace-nowrap max-md:flex-1 max-md:min-w-[100px]"
+                class="btn-regular px-4 py-2 rounded-lg cursor-pointer border-none whitespace-nowrap max-md:flex-1 max-md:min-w-[100px]"
             >
                 {rejectText}
             </button>
@@ -92,16 +85,11 @@ const dialogUid = Math.random().toString(36).slice(2, 10);
     data-privacy-dialog={dialogUid}
     class="dialog fixed inset-0 m-auto rounded-[var(--radius-large)] bg-[var(--float-panel-bg)] p-0 w-[90%] max-w-[560px] shadow-lg overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.2,0,0,1)] opacity-0 scale-95 translate-y-2.5"
 >
-    <div
-        class="absolute inset-0 bg-[image:var(--dialog-bg-img)] bg-auto bg-right-bottom bg-no-repeat opacity-18 z-0 pointer-events-none"
-    >
-    </div>
+    <div class="absolute inset-0 bg-[image:var(--dialog-bg-img)] bg-auto bg-right-bottom bg-no-repeat opacity-18 z-0 pointer-events-none"></div>
 
     <div class="relative z-10 p-8 pb-7 flex flex-col gap-5 max-h-[80vh]">
         <!-- 标题 -->
-        <div
-            class="flex items-center justify-center gap-2.5 text-[var(--primary)]"
-        >
+        <div class="flex items-center justify-center gap-2.5 text-[var(--primary)]">
             <Icon name="material-symbols:policy-outline" class="text-3xl" />
             <h3 class="m-0 text-xl font-bold text-[var(--btn-plain)]">
                 {privacyTitle}
@@ -109,15 +97,11 @@ const dialogUid = Math.random().toString(36).slice(2, 10);
         </div>
 
         <!-- 内容 -->
-        <div
-            class="flex flex-col gap-4 overflow-y-auto pr-1 text-sm text-[var(--content-meta)] leading-relaxed"
-        >
+        <div class="flex flex-col gap-4 overflow-y-auto pr-1 text-sm text-[var(--content-meta)] leading-relaxed">
             <p class="m-0">{privacyIntro}</p>
 
             <div class="flex flex-col gap-3">
-                <div
-                    class="flex gap-3 p-3 rounded-lg bg-[var(--btn-plain-bg)] border border-[var(--line-color)]"
-                >
+                <div class="flex gap-3 p-3 rounded-lg bg-[var(--btn-plain-bg)] border border-[var(--line-color)]">
                     <Icon
                         name="material-symbols:shield-outline"
                         class="shrink-0 text-xl text-[var(--primary)] mt-0.5"
@@ -125,9 +109,7 @@ const dialogUid = Math.random().toString(36).slice(2, 10);
                     <p class="m-0">{privacyEssential}</p>
                 </div>
 
-                <div
-                    class="flex gap-3 p-3 rounded-lg bg-[var(--btn-plain-bg)] border border-[var(--line-color)]"
-                >
+                <div class="flex gap-3 p-3 rounded-lg bg-[var(--btn-plain-bg)] border border-[var(--line-color)]">
                     <Icon
                         name="material-symbols:analytics-outline"
                         class="shrink-0 text-xl text-[var(--primary)] mt-0.5"
@@ -135,9 +117,7 @@ const dialogUid = Math.random().toString(36).slice(2, 10);
                     <p class="m-0">{privacyAnalytics}</p>
                 </div>
 
-                <div
-                    class="flex gap-3 p-3 rounded-lg bg-[var(--btn-plain-bg)] border border-[var(--line-color)]"
-                >
+                <div class="flex gap-3 p-3 rounded-lg bg-[var(--btn-plain-bg)] border border-[var(--line-color)]">
                     <Icon
                         name="material-symbols:campaign-outline"
                         class="shrink-0 text-xl text-[var(--primary)] mt-0.5"
@@ -145,9 +125,7 @@ const dialogUid = Math.random().toString(36).slice(2, 10);
                     <p class="m-0">{privacyAdvertising}</p>
                 </div>
 
-                <div
-                    class="flex gap-3 p-3 rounded-lg bg-[var(--btn-plain-bg)] border border-[var(--line-color)]"
-                >
+                <div class="flex gap-3 p-3 rounded-lg bg-[var(--btn-plain-bg)] border border-[var(--line-color)]">
                     <Icon
                         name="material-symbols:extension-outline"
                         class="shrink-0 text-xl text-[var(--primary)] mt-0.5"
@@ -156,9 +134,7 @@ const dialogUid = Math.random().toString(36).slice(2, 10);
                 </div>
             </div>
 
-            <div
-                class="flex items-center justify-center gap-1.5 text-sm text-[var(--content-meta)] m-0"
-            >
+            <div class="flex items-center justify-center gap-1.5 text-sm text-[var(--content-meta)] m-0">
                 <Icon
                     name="material-symbols:info-outline"
                     class="text-xl text-[var(--primary)]"

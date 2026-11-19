@@ -1416,7 +1416,7 @@ onDestroy(() => {
 {#if musicPlayerConfig.enable}
 <div class="pb-4 card-base {className}">
     <div class="font-bold transition text-lg text-90 relative ml-8 mt-4 mb-2 flex items-center justify-between pr-4
-        before:w-1 before:h-4 before:rounded-md before:bg-[var(--primary)]
+        before:w-1 before:h-4 before:rounded-lg before:bg-[var(--primary)]
         before:absolute before:left-[-16px] before:top-[5.5px]">
         <span>{i18n(Key.musicPlayer)}</span>
         {#if !isLocalMode}
@@ -1552,7 +1552,7 @@ onDestroy(() => {
                 {:else if sharedLyrics.length > 0}
                     <div class="lyrics-scroll overflow-y-auto hide-scrollbar py-3 px-2 max-h-[200px]">
                         {#each sharedLyrics as line, index}
-                            <div class="lyric-line px-3 py-1.5 rounded-md transition-all duration-300 text-sm text-center leading-normal whitespace-normal break-words hover:text-[var(--primary)]"
+                            <div class="lyric-line px-3 py-1.5 rounded-lg transition-all duration-300 text-sm text-center leading-normal whitespace-normal break-words hover:text-[var(--primary)]"
                                  class:text-[var(--primary)]={index === sharedCurrentLyricIndex}
                                  class:text-90={index !== sharedCurrentLyricIndex}
                                  class:font-bold={index === sharedCurrentLyricIndex}

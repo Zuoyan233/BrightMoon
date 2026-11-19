@@ -129,7 +129,7 @@ class VersionChecker {
 				.replace(/</g, "&lt;")
 				.replace(/>/g, "&gt;");
 			codeBlocks.push(
-				'<pre class="overflow-x-auto text-[0.85rem] leading-snug bg-black/5 dark:bg-white/5 rounded-md p-2 my-1 text-[var(--btn-plain)]"><code' +
+				'<pre class="overflow-x-auto text-[0.85rem] leading-snug bg-black/5 dark:bg-white/5 rounded-lg p-2 my-1 text-[var(--btn-plain)]"><code' +
 					(lang ? ` class="language-${lang}"` : "") +
 					">" +
 					escaped +
@@ -223,7 +223,7 @@ class VersionChecker {
 			.replace(/>/g, "&gt;")
 			.replace(
 				/`([^`]+)`/g,
-				'<code class="text-[0.85em] bg-[var(--inline-code-bg)] text-[var(--inline-code-color)] px-1 py-0.5 rounded-md font-mono">$1</code>',
+				'<code class="text-[0.85em] bg-[var(--inline-code-bg)] text-[var(--inline-code-color)] px-1 py-0.5 rounded-lg font-mono">$1</code>',
 			)
 			.replace(
 				/\*\*(.+?)\*\*/g,
