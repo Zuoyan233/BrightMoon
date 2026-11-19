@@ -1,5 +1,5 @@
-name: Bug Report
-description: Create a report to help us improve
+name: Bug Report / 缺陷报告
+description: 报告缺陷，帮助我们改进 / Create a report to help us improve
 title: "[Bug]: "
 labels: ["bug"]
 assignees:
@@ -9,37 +9,68 @@ body:
   - type: markdown
     attributes:
       value: |
+        感谢你抽出时间填写缺陷报告！
+
+        ### 注意事项
+
+        - 先搜索已有 Issue，避免重复提交。
+        - 确认问题与框架本身有关，而不是个人配置或个人内容导致；`src/content/`、`src/config/user/` 属于个人数据。
+        - 注明问题出现在 `pnpm dev` 开发环境，还是 `pnpm build` / 线上部署环境，两者行为可能不同。
+        - 涉及部署时，请注明平台（Vercel / Netlify / Cloudflare Pages / Cloudflare Workers）以及是否设置了 `CF_WORKERS`。
+        - 构建失败请附上完整错误输出，不要只截取一行。
+        - UI 问题请附截图，并说明设备、屏幕宽度、深浅色主题与壁纸模式。
+        - 多语言问题请注明站点 `siteConfig.lang`、浏览器语言以及是否开启 translate.js 机器翻译。
+        - 标题前缀 `[Bug]: ` 已自动生成，请勿重复添加。
+        - **禁止粘贴 `.env` 内容、`INDEXNOW_KEY`、Bilibili `SESSDATA`、文章加密密码等敏感信息。**
+
+        ---
+
         Thanks for taking the time to fill out this bug report!
+
+        ### Notes
+
+        - Search existing issues first to avoid duplicates.
+        - Make sure the issue is caused by the framework, not your personal config or content (`src/content/`, `src/config/user/` are user data).
+        - State whether the issue happens in `pnpm dev` or in a production build / deployed site — behavior can differ.
+        - For deployment issues, include the platform (Vercel / Netlify / Cloudflare Pages / Cloudflare Workers) and whether `CF_WORKERS` is set.
+        - For build failures, attach the full error output, not a single line.
+        - For UI issues, attach screenshots and include device, viewport width, theme mode, and wallpaper mode.
+        - For i18n issues, include `siteConfig.lang`, browser language, and whether translate.js machine translation is enabled.
+        - The `[Bug]: ` prefix is added automatically — do not add it again.
+        - **Never paste `.env` contents, `INDEXNOW_KEY`, Bilibili `SESSDATA`, or post-encryption passwords.**
   - type: textarea
     id: bug-description
     attributes:
-      label: Describe the bug
-      description: A clear and concise description of what the bug is.
+      label: 缺陷描述 / Describe the bug
+      description: 清晰、简洁地描述缺陷现象。/ A clear and concise description of what the bug is.
+      placeholder: |
+        出现了什么问题？是否影响所有页面？/ What happens? Does it affect all pages?
     validations:
       required: true
   - type: textarea
     id: to-reproduce
     attributes:
-      label: To Reproduce
-      description: Steps to reproduce the behavior.
+      label: 复现步骤 / To Reproduce
+      description: 请写出可脱离个人内容独立复现的步骤。/ Steps to reproduce the behavior; they should not depend on your personal content.
       placeholder: |
-        1. Go to '...'
-        2. Click on '....'
-        3. Scroll down to '....'
-        4. See error
+        1. 打开 ‘...’ / Go to '...'
+        2. 点击 ‘....’ / Click on '....'
+        3. 滚动到 ‘....’ / Scroll down to '....'
+        4. 出现错误 / See error
     validations:
       required: true
   - type: textarea
     id: expected-behavior
     attributes:
-      label: Expected behavior
-      description: A clear and concise description of what you expected to happen.
+      label: 期望行为 / Expected behavior
+      description: 你原本预期发生什么？/ A clear and concise description of what you expected to happen.
     validations:
       required: true
   - type: dropdown
     id: os
     attributes:
-      label: OS
+      label: 操作系统 / OS
+      description: 可多选，仅限以下选项。/ Multiple choices allowed; only the options below are supported.
       multiple: true
       options:
         - Windows
@@ -50,10 +81,29 @@ body:
   - type: input
     id: browser
     attributes:
-      label: Browser
+      label: 浏览器 / Browser
+      description: 请写具体浏览器与版本，例如 Chrome 131、Safari 18。/ Include the specific browser and version, e.g. Chrome 131, Safari 18.
       placeholder: e.g. chrome, safari
   - type: textarea
     id: additional-context
     attributes:
-      label: Additional context
-      description: Add any other context about the problem here.
+      label: 补充信息 / Additional context
+      description: 添加日志、截图、相关 Issue 链接等。/ Add any other context about the problem here.
+      placeholder: |
+        建议一并提供 / Please also include:
+        - BrightMoon version (package.json → version)
+        - Node.js / pnpm version
+        - 部署方式 / Deployment method
+        - 完整报错日志 / Full error log
+  - type: markdown
+    attributes:
+      value: |
+        **备注**
+
+        本项目由 [@Zuoyan233](https://github.com/Zuoyan233) 维护。若长时间无人响应，可在 Issue 中 @ 仓库所有者，或通过[反馈页面](https://www.zuoyanblog.dpdns.org/feedback/)联系。
+
+        ---
+
+        **Note**
+
+        This project is maintained by [@Zuoyan233](https://github.com/Zuoyan233). If there is no response, ping the owner in this issue or use the [feedback page](https://www.zuoyanblog.dpdns.org/feedback/).

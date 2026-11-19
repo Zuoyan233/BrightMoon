@@ -1,11 +1,40 @@
-name: Custom Issue
-description: Describe your issue here.
+name: Custom Issue / 其他问题
+description: 描述无法归入缺陷报告或功能建议的事项 / Describe your issue here
 title: "[Other]: "
 body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢你的反馈！
+
+        ### 注意事项
+
+        - 本模板没有标签与指派，排查优先级最低，请尽量写清背景、环境、已尝试的排查步骤和期望得到的帮助。
+        - 适用于：文档纠错、构建 / 依赖疑问、协议与授权咨询，以及无法归入 Bug 或 Feature 的问题。
+        - 请尽量附上项目版本（`package.json` → `version`）、Node.js 与 pnpm 版本、浏览器及部署方式。
+        - 请勿粘贴大段个人站点内容或隐私数据，也不要包含 `.env`、`INDEXNOW_KEY`、Bilibili `SESSDATA`、文章加密密码等敏感信息。
+        - 标题前缀 `[Other]: ` 已自动生成，请勿重复添加。
+
+        ---
+
+        Thanks for your feedback!
+
+        ### Notes
+
+        - This template has no label or assignee and the lowest priority — include background, environment, what you have tried, and the help you need.
+        - Suitable for docs corrections, build/dependency questions, licensing questions, and anything that does not fit the Bug or Feature templates.
+        - Include the project version (`package.json` → `version`), Node.js and pnpm versions, browser, and deployment method when possible.
+        - Do not paste large amounts of personal site content or private data, and never include `.env`, `INDEXNOW_KEY`, Bilibili `SESSDATA`, or post-encryption passwords.
+        - The `[Other]: ` prefix is added automatically — do not add it again.
   - type: textarea
     id: issue-description
     attributes:
-      label: Issue Description
-      description: Please describe your issue.
+      label: 问题描述 / Issue Description
+      description: 请描述你的问题，并附上必要的背景与环境信息。/ Please describe your issue along with the necessary background and environment information.
+      placeholder: |
+        问题背景 / Background:
+        环境信息 / Environment:
+        已尝试的排查 / What I have tried:
+        期望的帮助 / What I need:
     validations:
       required: true

@@ -1,5 +1,5 @@
-name: Feature Request
-description: Suggest an idea for this project
+name: Feature Request / 功能建议
+description: 为本项目提出功能或改进建议 / Suggest an idea for this project
 title: "[Feature]: "
 labels: ["enhancement"]
 assignees:
@@ -8,34 +8,63 @@ body:
   - type: markdown
     attributes:
       value: |
+        感谢你抽出时间填写功能建议！
+
+        ### 注意事项
+
+        - 先确认该能力是否已经存在，以下配置项常被误认为“缺少的功能”：
+          `siteConfig.featurePages`（10 个功能页面开关）、`siteConfig.wallpaper`（`banner` / `fullscreen` / `fullscreen-banner` / `none`）、`siteConfig.postListLayout`（列表 / 网格）、`siteConfig.anime.mode`（`local` / `bangumi` / `bilibili`）、`siteConfig.translate`（translate.js 机器翻译）。
+        - 纯个人配置改动（站点名称、头像、壁纸、个人数据等）不属于功能建议，请直接修改 `src/config/user/`。
+        - 若需要引入新依赖，请说明替代方案与对构建体积的影响。
+        - 请勿粘贴 `.env`、`INDEXNOW_KEY`、Bilibili `SESSDATA`、文章加密密码等敏感信息。
+        - 标题前缀 `[Feature]: ` 已自动生成，请勿重复添加。
+        - 功能是否实现由维护者决定，不保证一定实现。
+
+        ---
+
         Thanks for taking the time to fill out this feature request!
+
+        ### Notes
+
+        - Check whether the capability already exists — common toggles: `siteConfig.featurePages`, `siteConfig.wallpaper` (`banner` / `fullscreen` / `fullscreen-banner` / `none`), `siteConfig.postListLayout` (list / grid), `siteConfig.anime.mode` (`local` / `bangumi` / `bilibili`), and `siteConfig.translate`.
+        - Purely personal configuration changes (site name, avatar, wallpaper, personal data, etc.) are not feature requests — edit `src/config/user/` instead.
+        - If a new dependency is required, explain alternatives and bundle-size impact.
+        - Do not paste `.env`, `INDEXNOW_KEY`, Bilibili `SESSDATA`, or post-encryption passwords.
+        - The `[Feature]: ` prefix is added automatically — do not add it again.
+        - Whether and when this feature is implemented is at the maintainers' discretion and is not guaranteed.
   - type: textarea
     id: related-problem
     attributes:
-      label: Is your feature request related to a problem?
-      description: A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+      label: 是否与某个痛点相关？ / Is your feature request related to a problem?
+      description: 清晰、简洁地描述问题，例如“我每次都要手动……”。/ A clear and concise description of what the problem is.
     validations:
       required: true
   - type: textarea
     id: solution
     attributes:
-      label: Describe the solution you'd like
-      description: A clear and concise description of what you want to happen.
+      label: 期望的解决方案 / Describe the solution you'd like
+      description: 清晰、简洁地描述你希望发生什么。/ A clear and concise description of what you want to happen.
     validations:
       required: true
   - type: textarea
     id: alternatives
     attributes:
-      label: Describe alternatives you've considered
-      description: A clear and concise description of any alternative solutions or features you've considered.
+      label: 考虑过的替代方案 / Describe alternatives you've considered
+      description: 是否有其他可行方案或临时解决办法？/ A clear and concise description of any alternative solutions or features you've considered.
   - type: textarea
     id: additional-context
     attributes:
-      label: Additional context
-      description: Add any other context or screenshots about the feature request here.
+      label: 补充信息 / Additional context
+      description: 添加参考链接、草图、截图或其他背景信息。/ Add any other context or screenshots about the feature request here.
   - type: markdown
     attributes:
       value: |
+        **免责声明**
+
+        功能是否实现由仓库所有者及维护者决定，不保证一定实现。
+
+        ---
+
         **Disclaimer**
 
-        Please note that this feature request is at the discretion of the repository owner, @saicaca, and its implementation is not guaranteed.
+        Whether and when this feature is implemented is at the repository owner's and maintainers' discretion and is not guaranteed.
