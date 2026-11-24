@@ -1540,8 +1540,13 @@ onDestroy(() => {
         {#if showLyrics}
             <div class="lyrics-section mb-4 overflow-hidden rounded-lg max-h-[200px] bg-[var(--btn-regular-bg)]" transition:slide={{ duration: 300, axis: 'y' }}>
                 {#if sharedLyricsLoading}
-                    <div class="flex items-center justify-center py-8 text-60">
-                        <Icon icon="eos-icons:loading" class="text-lg animate-spin mr-2" />
+                    <div class="flex items-center justify-center gap-2 py-8 text-60">
+                        <div class="lyrics-spinner">
+                            <svg class="lyrics-spinner-svg" viewBox="0 0 48 48">
+                                <circle class="lyrics-spinner-track" cx="24" cy="24" r="20" fill="none" stroke-width="4"></circle>
+                                <circle class="lyrics-spinner-arc" cx="24" cy="24" r="20" fill="none" stroke-width="4" stroke-linecap="round"></circle>
+                            </svg>
+                        </div>
                         <span class="text-sm">{currentI18n?.[Key.musicPlayerLoading] ?? ""}</span>
                     </div>
                 {:else if sharedNoLyricsFound}
@@ -1596,7 +1601,12 @@ onDestroy(() => {
                     title={playTitle}
                     onclick={togglePlay}>
                 {#if sharedIsLoading}
-                    <Icon icon="eos-icons:loading" class="text-xl" />
+                    <div class="lyrics-spinner">
+                        <svg class="lyrics-spinner-svg" viewBox="0 0 48 48">
+                            <circle class="lyrics-spinner-track" cx="24" cy="24" r="20" fill="none" stroke-width="4"></circle>
+                            <circle class="lyrics-spinner-arc" cx="24" cy="24" r="20" fill="none" stroke-width="4" stroke-linecap="round"></circle>
+                        </svg>
+                    </div>
                 {:else if sharedIsPlaying}
                     <Icon icon="material-symbols:pause" class="text-xl" />
                 {:else}
@@ -1812,6 +1822,50 @@ onDestroy(() => {
 
 .lyrics-scroll::-webkit-scrollbar-track {
     background: transparent;
+}
+
+.lyrics-spinner {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.lyrics-spinner-svg {
+    width: 100%;
+    height: 100%;
+    animation: lyrics-spinner-rotate 2s linear infinite;
+}
+
+.lyrics-spinner-track {
+    stroke: rgba(156, 163, 175, 0.2);
+}
+
+.lyrics-spinner-arc {
+    stroke: var(--primary);
+    stroke-dasharray: 80, 200;
+    stroke-dashoffset: 0;
+    animation: lyrics-spinner-dash 1.5s ease-in-out infinite;
+}
+
+@keyframes lyrics-spinner-rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes lyrics-spinner-dash {
+    0% {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+    }
+    50% {
+        stroke-dasharray: 80, 200;
+        stroke-dashoffset: -35;
+    }
+    100% {
+        stroke-dasharray: 80, 200;
+        stroke-dashoffset: -124;
+    }
 }
 
 .mp-select {
