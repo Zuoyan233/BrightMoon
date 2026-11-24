@@ -89,7 +89,7 @@ In Chinese culture, the "Bright Moon" symbolizes clarity, fulfillment, and const
 - **Comment System** - Integrated with the latest Twikoo comment system, supporting multi-dimensional configuration.
 - **Translation Component** - Local i18n library + translate.js for millisecond-speed translations, with built-in language support for eight countries.
 - **Weather Widget** - Powered by WeatherAPI, supporting 7-day forecasts, IP-based auto-location, and manual city search.
-- **Cookie Consent** - Cookie privacy policy banner with accept/deny support; auto-clears non-essential cookies on denial.
+- **Cookie Consent** - Cookie privacy policy banner with accept/deny support. Rejecting disables: analytics, advertising, weather auto-location, and third-party comment systems.
 - **Site Statistics** - Real-time display of current date (with multi-region format support), season, and time period.
 - **Image Volume Compression** - Automatically compress images, and convert them to WebP or AVIF format, reducing load times and enhancing user experience.
 - **Framework Update Checker** - Automatically detects new BrightMoon releases via remote repository API, supports stable and pre-release detection, with prompt dialogs for updates.
