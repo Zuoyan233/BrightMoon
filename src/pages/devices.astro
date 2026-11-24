@@ -8,7 +8,7 @@ export const prerender = true;
 
 // 检查设备页面是否启用
 if (!siteConfig.featurePages.devices) {
-  return Astro.redirect("/404/");
+	return Astro.redirect("/404/");
 }
 
 // 设备数据

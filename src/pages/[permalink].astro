@@ -17,14 +17,14 @@ import { i18n } from "@i18n/translation";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 import { getSortedPosts } from "@utils/content-utils";
 import {
-    generatePermalinkSlug,
-    hasCustomPermalink,
-    initPostIdMap,
+	generatePermalinkSlug,
+	hasCustomPermalink,
+	initPostIdMap,
 } from "@utils/permalink-utils";
 import {
-    getCategoryUrl,
-    getFileDirFromPath,
-    getPostUrlBySlug,
+	getCategoryUrl,
+	getFileDirFromPath,
+	getPostUrlBySlug,
 } from "@utils/url-utils";
 import { Icon } from "astro-icon/components";
 import { AES } from "crypto-es";
@@ -38,40 +38,38 @@ import { profileConfig, siteConfig } from "../config";
 import { formatDateToYYYYMMDD } from "../utils/date-utils";
 
 export async function getStaticPaths() {
-    const blogEntries = await getSortedPosts();
+	const blogEntries = await getSortedPosts();
 
-    // 初始化文章 ID 映射
-    initPostIdMap(blogEntries);
+	// 初始化文章 ID 映射
+	initPostIdMap(blogEntries);
 
-    const paths: {
-        params: { permalink: string };
-        props: { entry: CollectionEntry<"posts"> };
-    }[] = [];
+	const paths: {
+		params: { permalink: string };
+		props: { entry: CollectionEntry<"posts"> };
+	}[] = [];
 
-    for (const entry of blogEntries) {
-        let permalink: string | null = null;
+	for (const entry of blogEntries) {
+		let permalink: string | null = null;
 
-        // 优先使用自定义 permalink
-        if (hasCustomPermalink(entry) && entry.data.permalink) {
-            permalink = entry.data.permalink
-                .replace(/^\/+/, "")
-                .replace(/\/+$/, "");
-        }
-        // 其次使用全局 permalink（如果启用）
-        else if (permalinkConfig.enable) {
-            permalink = generatePermalinkSlug(entry);
-        }
+		// 优先使用自定义 permalink
+		if (hasCustomPermalink(entry) && entry.data.permalink) {
+			permalink = entry.data.permalink.replace(/^\/+/, "").replace(/\/+$/, "");
+		}
+		// 其次使用全局 permalink（如果启用）
+		else if (permalinkConfig.enable) {
+			permalink = generatePermalinkSlug(entry);
+		}
 
-        // 只处理有 permalink 的文章
-        if (permalink) {
-            paths.push({
-                params: { permalink },
-                props: { entry },
-            });
-        }
-    }
+		// 只处理有 permalink 的文章
+		if (permalink) {
+			paths.push({
+				params: { permalink },
+				props: { entry },
+			});
+		}
+	}
 
-    return paths;
+	return paths;
 }
 
 const { entry } = Astro.props;
@@ -84,33 +82,33 @@ let encryptedContent = "";
 let isEncrypted = entry.data.encrypted && entry.data.password;
 
 if (isEncrypted) {
-    const contentToEncrypt = `BRIGHTMOON-VERIFY:${entry.body}`;
-    encryptedContent = AES.encrypt(
-        contentToEncrypt,
-        String(entry.data.password),
-    ).toString();
+	const contentToEncrypt = `BRIGHTMOON-VERIFY:${entry.body}`;
+	encryptedContent = AES.encrypt(
+		contentToEncrypt,
+		String(entry.data.password),
+	).toString();
 }
 
 dayjs.extend(utc);
 const lastModified = dayjs(entry.data.updated || entry.data.published)
-    .utc()
-    .format("YYYY-MM-DDTHH:mm:ss");
+	.utc()
+	.format("YYYY-MM-DDTHH:mm:ss");
 
 const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: entry.data.title,
-    description: entry.data.description || entry.data.title,
-    keywords: entry.data.tags,
-    author: {
-        "@type": "Person",
-        name: profileConfig.name,
-        url: Astro.site,
-    },
-    datePublished: formatDateToYYYYMMDD(entry.data.published),
-    inLanguage: entry.data.lang
-        ? entry.data.lang.replace("_", "-")
-        : siteConfig.lang.replace("_", "-"),
+	"@context": "https://schema.org",
+	"@type": "BlogPosting",
+	headline: entry.data.title,
+	description: entry.data.description || entry.data.title,
+	keywords: entry.data.tags,
+	author: {
+		"@type": "Person",
+		name: profileConfig.name,
+		url: Astro.site,
+	},
+	datePublished: formatDateToYYYYMMDD(entry.data.published),
+	inLanguage: entry.data.lang
+		? entry.data.lang.replace("_", "-")
+		: siteConfig.lang.replace("_", "-"),
 };
 ---
 

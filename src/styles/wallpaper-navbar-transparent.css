@@ -71,7 +71,7 @@
 
 /* Semi-Full 混合模式 (未滚动时透明) */
 body.wallpaper-transparent
-#navbar[data-transparent-mode="semifull"]:not(.scrolled) {
+	#navbar[data-transparent-mode="semifull"]:not(.scrolled) {
 	--nav-bg: transparent;
 	--nav-blur: none;
 	--nav-shadow: none;
@@ -79,7 +79,9 @@ body.wallpaper-transparent
 }
 /* 移动端首页特殊处理 */
 body.wallpaper-transparent
-#navbar[data-transparent-mode="semifull"][data-is-home="true"]:not(.scrolled) {
+	#navbar[data-transparent-mode="semifull"][data-is-home="true"]:not(
+		.scrolled
+	) {
 	--nav-bg: transparent;
 	--nav-blur: none;
 	--nav-shadow: none;

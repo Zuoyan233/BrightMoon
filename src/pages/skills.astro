@@ -11,48 +11,48 @@ import MainGridLayout from "../layouts/MainGridLayout.astro";
 
 // 检查技能页面是否启用
 if (!siteConfig.featurePages.skills) {
-  return Astro.redirect("/404/");
+	return Astro.redirect("/404/");
 }
 
 // const { lang } = Astro.props;
 
 // 技能数据工具函数
 const getSkillStats = () => {
-  const total = skillsDataConfig.items.length;
-  const byLevel = {
-    beginner: skillsDataConfig.items.filter((s) => s.level === "beginner")
-      .length,
-    intermediate: skillsDataConfig.items.filter(
-      (s) => s.level === "intermediate",
-    ).length,
-    advanced: skillsDataConfig.items.filter((s) => s.level === "advanced")
-      .length,
-    expert: skillsDataConfig.items.filter((s) => s.level === "expert").length,
-  };
-  const byCategory = {
-    frontend: skillsDataConfig.items.filter((s) => s.category === "frontend")
-      .length,
-    backend: skillsDataConfig.items.filter((s) => s.category === "backend")
-      .length,
-    database: skillsDataConfig.items.filter((s) => s.category === "database")
-      .length,
-    tools: skillsDataConfig.items.filter((s) => s.category === "tools").length,
-    other: skillsDataConfig.items.filter((s) => s.category === "other").length,
-  };
-  return { total, byLevel, byCategory };
+	const total = skillsDataConfig.items.length;
+	const byLevel = {
+		beginner: skillsDataConfig.items.filter((s) => s.level === "beginner")
+			.length,
+		intermediate: skillsDataConfig.items.filter(
+			(s) => s.level === "intermediate",
+		).length,
+		advanced: skillsDataConfig.items.filter((s) => s.level === "advanced")
+			.length,
+		expert: skillsDataConfig.items.filter((s) => s.level === "expert").length,
+	};
+	const byCategory = {
+		frontend: skillsDataConfig.items.filter((s) => s.category === "frontend")
+			.length,
+		backend: skillsDataConfig.items.filter((s) => s.category === "backend")
+			.length,
+		database: skillsDataConfig.items.filter((s) => s.category === "database")
+			.length,
+		tools: skillsDataConfig.items.filter((s) => s.category === "tools").length,
+		other: skillsDataConfig.items.filter((s) => s.category === "other").length,
+	};
+	return { total, byLevel, byCategory };
 };
 
 const getSkillsByCategory = (category?: string) => {
-  if (!category || category === "all") {
-    return skillsDataConfig.items;
-  }
-  return skillsDataConfig.items.filter((s) => s.category === category);
+	if (!category || category === "all") {
+		return skillsDataConfig.items;
+	}
+	return skillsDataConfig.items.filter((s) => s.category === category);
 };
 
 const getAdvancedSkills = () => {
-  return skillsDataConfig.items.filter(
-    (s) => s.level === "advanced" || s.level === "expert",
-  );
+	return skillsDataConfig.items.filter(
+		(s) => s.level === "advanced" || s.level === "expert",
+	);
 };
 
 // 获取技能统计信息
@@ -64,81 +64,81 @@ const categories = ["frontend", "backend", "database", "tools", "other"];
 
 // 按分类获取技能
 const skillsByCategory = categories.reduce(
-  (acc, category) => {
-    acc[category] = getSkillsByCategory(category);
-    return acc;
-  },
-  {} as Record<string, typeof skillsDataConfig.items>,
+	(acc, category) => {
+		acc[category] = getSkillsByCategory(category);
+		return acc;
+	},
+	{} as Record<string, typeof skillsDataConfig.items>,
 );
 
 // 技能等级颜色映射
 const getLevelColor = (level: string) => {
-  switch (level) {
-    case "expert":
-      return "bg-red-600/20 text-red-700 dark:bg-red-900/30 dark:text-red-400";
-    case "advanced":
-      return "bg-orange-600/20 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400";
-    case "intermediate":
-      return "bg-yellow-600/20 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400";
-    case "beginner":
-      return "bg-green-600/20 text-green-700 dark:bg-green-900/30 dark:text-green-400";
-    default:
-      return "bg-gray-600/20 text-gray-700 dark:bg-gray-900/30 dark:text-gray-400";
-  }
+	switch (level) {
+		case "expert":
+			return "bg-red-600/20 text-red-700 dark:bg-red-900/30 dark:text-red-400";
+		case "advanced":
+			return "bg-orange-600/20 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400";
+		case "intermediate":
+			return "bg-yellow-600/20 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400";
+		case "beginner":
+			return "bg-green-600/20 text-green-700 dark:bg-green-900/30 dark:text-green-400";
+		default:
+			return "bg-gray-600/20 text-gray-700 dark:bg-gray-900/30 dark:text-gray-400";
+	}
 };
 
 // 技能等级进度条宽度
 const getLevelWidth = (level: string) => {
-  switch (level) {
-    case "expert":
-      return "100%";
-    case "advanced":
-      return "80%";
-    case "intermediate":
-      return "60%";
-    case "beginner":
-      return "40%";
-    default:
-      return "20%";
-  }
+	switch (level) {
+		case "expert":
+			return "100%";
+		case "advanced":
+			return "80%";
+		case "intermediate":
+			return "60%";
+		case "beginner":
+			return "40%";
+		default:
+			return "20%";
+	}
 };
 
 // 获取分类的显示文本
 const getCategoryText = (category: string) => {
-  switch (category) {
-    case "frontend":
-      return i18n(I18nKey.skillsFrontend);
-    case "backend":
-      return i18n(I18nKey.skillsBackend);
-    case "database":
-      return i18n(I18nKey.skillsDatabase);
-    case "tools":
-      return i18n(I18nKey.skillsTools);
-    case "other":
-      return i18n(I18nKey.skillsOther);
-    case UNCATEGORIZED:
-      return i18n(I18nKey.uncategorized);
-    default:
-      return category;
-  }
+	switch (category) {
+		case "frontend":
+			return i18n(I18nKey.skillsFrontend);
+		case "backend":
+			return i18n(I18nKey.skillsBackend);
+		case "database":
+			return i18n(I18nKey.skillsDatabase);
+		case "tools":
+			return i18n(I18nKey.skillsTools);
+		case "other":
+			return i18n(I18nKey.skillsOther);
+		case UNCATEGORIZED:
+			return i18n(I18nKey.uncategorized);
+		default:
+			return category;
+	}
 };
 
 // 分类图标映射
 const getCategoryIcon = (category: string) => {
-  switch (category) {
-    case "frontend":
-      return "material-symbols:computer";
-    case "backend":
-      return "material-symbols:dns";
-    case "database":
-      return "material-symbols:database";
-    case "tools":
-      return "material-symbols:construction";
-    case "other":
-      return "material-symbols:more-horiz";
-    default:
-      return "material-symbols:category";
-  }
+	switch (category) {
+		case "frontend":
+			return "material-symbols:computer";
+		case "backend":
+			return "material-symbols:dns";
+		case "database":
+			return "material-symbols:database";
+		case "tools":
+			return "material-symbols:construction";
+		case "other":
+			return "material-symbols:more-horiz";
+		default:
+			return "material-symbols:category";
+	}
 };
 
 const title = i18n(I18nKey.skills);
@@ -146,34 +146,34 @@ const subtitle = i18n(I18nKey.skillsSubtitle);
 
 // 筛选标签数据
 const filterTabs = [
-  {
-    type: "all",
-    label: i18n(I18nKey.skillsTotal),
-    count: stats.total,
-    icon: "material-symbols:apps",
-  },
-  ...(advancedSkills.length > 0
-    ? [
-        {
-          type: "advanced",
-          label: i18n(I18nKey.skillsAdvancedTitle),
-          count: advancedSkills.length,
-          icon: "material-symbols:stars",
-        },
-      ]
-    : []),
-  ...categories.map((cat) => ({
-    type: cat,
-    label: getCategoryText(cat),
-    count: stats.byCategory[cat as keyof typeof stats.byCategory] || 0,
-    icon: getCategoryIcon(cat),
-  })),
+	{
+		type: "all",
+		label: i18n(I18nKey.skillsTotal),
+		count: stats.total,
+		icon: "material-symbols:apps",
+	},
+	...(advancedSkills.length > 0
+		? [
+				{
+					type: "advanced",
+					label: i18n(I18nKey.skillsAdvancedTitle),
+					count: advancedSkills.length,
+					icon: "material-symbols:stars",
+				},
+			]
+		: []),
+	...categories.map((cat) => ({
+		type: cat,
+		label: getCategoryText(cat),
+		count: stats.byCategory[cat as keyof typeof stats.byCategory] || 0,
+		icon: getCategoryIcon(cat),
+	})),
 ];
 
 // 收集所有技能图标用于预加载
 const allIcons = skillsDataConfig.items
-  .map((skill) => skill.icon)
-  .filter(Boolean);
+	.map((skill) => skill.icon)
+	.filter(Boolean);
 ---
 
 <MainGridLayout title={title} description={subtitle}>

@@ -10,46 +10,46 @@ import { getLocaleFromConfig } from "../utils/language-utils";
 
 // 检查时间线页面是否启用
 if (!siteConfig.featurePages.timeline) {
-  return Astro.redirect("/404/");
+	return Astro.redirect("/404/");
 }
 
 // 时间线数据工具函数
 const getTimelineStats = () => {
-  const total = timelineDataConfig.items.length;
-  const byType = {
-    education: timelineDataConfig.items.filter(
-      (item) => item.type === "education",
-    ).length,
-    work: timelineDataConfig.items.filter((item) => item.type === "work")
-      .length,
-    project: timelineDataConfig.items.filter((item) => item.type === "project")
-      .length,
-    achievement: timelineDataConfig.items.filter(
-      (item) => item.type === "achievement",
-    ).length,
-  };
-  return { total, byType };
+	const total = timelineDataConfig.items.length;
+	const byType = {
+		education: timelineDataConfig.items.filter(
+			(item) => item.type === "education",
+		).length,
+		work: timelineDataConfig.items.filter((item) => item.type === "work")
+			.length,
+		project: timelineDataConfig.items.filter((item) => item.type === "project")
+			.length,
+		achievement: timelineDataConfig.items.filter(
+			(item) => item.type === "achievement",
+		).length,
+	};
+	return { total, byType };
 };
 
 const getTimelineByType = (type?: string) => {
-  if (!type || type === "all") {
-    return timelineDataConfig.items.sort(
-      (a, b) =>
-        new Date(b.startDate).getTime() - new Date(a.startDate).getTime(),
-    );
-  }
-  return timelineDataConfig.items
-    .filter((item) => item.type === type)
-    .sort(
-      (a, b) =>
-        new Date(b.startDate).getTime() - new Date(a.startDate).getTime(),
-    );
+	if (!type || type === "all") {
+		return timelineDataConfig.items.sort(
+			(a, b) =>
+				new Date(b.startDate).getTime() - new Date(a.startDate).getTime(),
+		);
+	}
+	return timelineDataConfig.items
+		.filter((item) => item.type === type)
+		.sort(
+			(a, b) =>
+				new Date(b.startDate).getTime() - new Date(a.startDate).getTime(),
+		);
 };
 
 // 收集所有时间线图标用于预加载
 const allIcons = timelineDataConfig.items
-  .map((item) => item.icon || getTypeIcon(item.type))
-  .filter(Boolean);
+	.map((item) => item.icon || getTypeIcon(item.type))
+	.filter(Boolean);
 
 // 获取时间线统计信息
 const stats = getTimelineStats();
@@ -59,66 +59,66 @@ const allTimelineItems = getTimelineByType();
 
 // 类型图标映射
 const getTypeIcon = (type: string) => {
-  switch (type) {
-    case "education":
-      return "material-symbols:school";
-    case "work":
-      return "material-symbols:work";
-    case "project":
-      return "material-symbols:code";
-    case "achievement":
-      return "material-symbols:emoji-events";
-    default:
-      return "material-symbols:event";
-  }
+	switch (type) {
+		case "education":
+			return "material-symbols:school";
+		case "work":
+			return "material-symbols:work";
+		case "project":
+			return "material-symbols:code";
+		case "achievement":
+			return "material-symbols:emoji-events";
+		default:
+			return "material-symbols:event";
+	}
 };
 
 // 类型颜色映射
 const getTypeColor = (type: string) => {
-  switch (type) {
-    case "education":
-      return "#3B82F6";
-    case "work":
-      return "#10B981";
-    case "project":
-      return "#8B5CF6";
-    case "achievement":
-      return "#F59E0B";
-    default:
-      return "#6B7280";
-  }
+	switch (type) {
+		case "education":
+			return "#3B82F6";
+		case "work":
+			return "#10B981";
+		case "project":
+			return "#8B5CF6";
+		case "achievement":
+			return "#F59E0B";
+		default:
+			return "#6B7280";
+	}
 };
 
 // 格式化日期
 const formatDate = (dateString: string) => {
-  const date = new Date(dateString);
-  const locale = getLocaleFromConfig(siteConfig.lang || "en");
-  return date.toLocaleDateString(locale, { year: "numeric", month: "long" });
+	const date = new Date(dateString);
+	const locale = getLocaleFromConfig(siteConfig.lang || "en");
+	return date.toLocaleDateString(locale, { year: "numeric", month: "long" });
 };
 
 // 计算持续时间
 const getDuration = (startDate: string, endDate?: string) => {
-  const start = new Date(startDate);
-  const end = endDate ? new Date(endDate) : new Date();
-  const diffTime = Math.abs(end.getTime() - start.getTime());
-  const diffMonths = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 30));
+	const start = new Date(startDate);
+	const end = endDate ? new Date(endDate) : new Date();
+	const diffTime = Math.abs(end.getTime() - start.getTime());
+	const diffMonths = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 30));
 
-  if (diffMonths < 12) {
-    return `${diffMonths} ${i18n(I18nKey.timelineMonths)}`;
-  }
-  const years = Math.floor(diffMonths / 12);
-  const months = diffMonths % 12;
-  if (months === 0) {
-    return `${years} ${i18n(I18nKey.timelineYears)}`;
-  }
-  return `${years} ${i18n(I18nKey.timelineYears)} ${months} ${i18n(I18nKey.timelineMonths)}`;
+	if (diffMonths < 12) {
+		return `${diffMonths} ${i18n(I18nKey.timelineMonths)}`;
+	}
+	const years = Math.floor(diffMonths / 12);
+	const months = diffMonths % 12;
+	if (months === 0) {
+		return `${years} ${i18n(I18nKey.timelineYears)}`;
+	}
+	return `${years} ${i18n(I18nKey.timelineYears)} ${months} ${i18n(I18nKey.timelineMonths)}`;
 };
 
 // 获取日期范围显示
 const getDateRange = (startDate: string, endDate?: string) => {
-  const start = formatDate(startDate);
-  const end = endDate ? formatDate(endDate) : i18n(I18nKey.timelinePresent);
-  return `${start} - ${end}`;
+	const start = formatDate(startDate);
+	const end = endDate ? formatDate(endDate) : i18n(I18nKey.timelinePresent);
+	return `${start} - ${end}`;
 };
 
 const title = i18n(I18nKey.timeline);
@@ -126,36 +126,36 @@ const subtitle = i18n(I18nKey.timelineSubtitle);
 
 // 筛选标签数据
 const filterTabs = [
-  {
-    type: "all",
-    label: i18n(I18nKey.timelineTotal),
-    count: stats.total,
-    icon: "material-symbols:apps",
-  },
-  {
-    type: "education",
-    label: i18n(I18nKey.timelineEducation),
-    count: stats.byType.education,
-    icon: "material-symbols:school",
-  },
-  {
-    type: "work",
-    label: i18n(I18nKey.timelineWork),
-    count: stats.byType.work,
-    icon: "material-symbols:work",
-  },
-  {
-    type: "project",
-    label: i18n(I18nKey.timelineProject),
-    count: stats.byType.project,
-    icon: "material-symbols:code",
-  },
-  {
-    type: "achievement",
-    label: i18n(I18nKey.timelineAchievement),
-    count: stats.byType.achievement,
-    icon: "material-symbols:emoji-events",
-  },
+	{
+		type: "all",
+		label: i18n(I18nKey.timelineTotal),
+		count: stats.total,
+		icon: "material-symbols:apps",
+	},
+	{
+		type: "education",
+		label: i18n(I18nKey.timelineEducation),
+		count: stats.byType.education,
+		icon: "material-symbols:school",
+	},
+	{
+		type: "work",
+		label: i18n(I18nKey.timelineWork),
+		count: stats.byType.work,
+		icon: "material-symbols:work",
+	},
+	{
+		type: "project",
+		label: i18n(I18nKey.timelineProject),
+		count: stats.byType.project,
+		icon: "material-symbols:code",
+	},
+	{
+		type: "achievement",
+		label: i18n(I18nKey.timelineAchievement),
+		count: stats.byType.achievement,
+		icon: "material-symbols:emoji-events",
+	},
 ];
 ---
 

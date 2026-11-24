@@ -12,17 +12,17 @@ import MainGridLayout from "../layouts/MainGridLayout.astro";
 
 // 使用数组方式获取添加好友的二维码（从配置中过滤出有值的）
 const availableQRCodes = contactMethods
-  .filter((method) => method.qrCode)
-  .map((method) => method.qrCode);
+	.filter((method) => method.qrCode)
+	.map((method) => method.qrCode);
 
 const feedbackPost = await getEntry("spec", "feedback");
 
 if (!feedbackPost) {
-  throw new Error("Feedback page content not found");
+	throw new Error("Feedback page content not found");
 }
 
 if (!siteConfig.featurePages.feedback) {
-  return Astro.redirect("/404/");
+	return Astro.redirect("/404/");
 }
 
 const { Content } = await render(feedbackPost);
@@ -32,7 +32,7 @@ const path = Astro.url.pathname;
 
 let commentService = "";
 if (commentConfig?.enable && commentConfig?.twikoo) {
-  commentService = "twikoo";
+	commentService = "twikoo";
 }
 ---
 

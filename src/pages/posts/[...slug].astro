@@ -12,10 +12,10 @@ import MainGridLayout from "@layouts/MainGridLayout.astro";
 import { getSortedPosts } from "@utils/content-utils";
 import { hasCustomPermalink, initPostIdMap } from "@utils/permalink-utils";
 import {
-    getCategoryUrl,
-    getFileDirFromPath,
-    getPostUrlBySlug,
-    removeFileExtension,
+	getCategoryUrl,
+	getFileDirFromPath,
+	getPostUrlBySlug,
+	removeFileExtension,
 } from "@utils/url-utils";
 import { Icon } from "astro-icon/components";
 import dayjs from "dayjs";
@@ -28,66 +28,64 @@ import { profileConfig, siteConfig } from "../../config";
 import { formatDateToYYYYMMDD } from "../../utils/date-utils";
 
 export async function getStaticPaths() {
-    const blogEntries = await getSortedPosts();
+	const blogEntries = await getSortedPosts();
 
-    // 初始化文章 ID 映射（用于 %post_id% 占位符）
-    initPostIdMap(blogEntries);
+	// 初始化文章 ID 映射（用于 %post_id% 占位符）
+	initPostIdMap(blogEntries);
 
-    const paths: {
-        params: { slug: string };
-        props: { entry: CollectionEntry<"posts"> };
-    }[] = [];
+	const paths: {
+		params: { slug: string };
+		props: { entry: CollectionEntry<"posts"> };
+	}[] = [];
 
-    for (const entry of blogEntries) {
-        // 将 id 转换为 slug（移除扩展名）以匹配路由参数
-        const defaultSlug = removeFileExtension(entry.id);
+	for (const entry of blogEntries) {
+		// 将 id 转换为 slug（移除扩展名）以匹配路由参数
+		const defaultSlug = removeFileExtension(entry.id);
 
-        // 如果文章有自定义 permalink，不在 /posts/ 下创建路径
-        // 而是通过根目录的 [permalink].astro 处理
-        if (hasCustomPermalink(entry)) {
-            // 仍然需要在 /posts/ 下创建默认路径以便兼容旧链接
-            paths.push({
-                params: { slug: defaultSlug },
-                props: { entry },
-            });
-            continue;
-        }
+		// 如果文章有自定义 permalink，不在 /posts/ 下创建路径
+		// 而是通过根目录的 [permalink].astro 处理
+		if (hasCustomPermalink(entry)) {
+			// 仍然需要在 /posts/ 下创建默认路径以便兼容旧链接
+			paths.push({
+				params: { slug: defaultSlug },
+				props: { entry },
+			});
+			continue;
+		}
 
-        // 如果全局 permalink 功能启用，不在 /posts/ 下创建路径
-        // 而是通过根目录的 [permalink].astro 处理
-        if (permalinkConfig.enable) {
-            // 仍然保留默认 slug 路径以便兼容旧链接
-            paths.push({
-                params: { slug: defaultSlug },
-                props: { entry },
-            });
-        } else {
-            // 全局 permalink 功能未启用
-            // 为每篇文章创建默认的 slug 路径
-            paths.push({
-                params: { slug: defaultSlug },
-                props: { entry },
-            });
+		// 如果全局 permalink 功能启用，不在 /posts/ 下创建路径
+		// 而是通过根目录的 [permalink].astro 处理
+		if (permalinkConfig.enable) {
+			// 仍然保留默认 slug 路径以便兼容旧链接
+			paths.push({
+				params: { slug: defaultSlug },
+				props: { entry },
+			});
+		} else {
+			// 全局 permalink 功能未启用
+			// 为每篇文章创建默认的 slug 路径
+			paths.push({
+				params: { slug: defaultSlug },
+				props: { entry },
+			});
 
-            // 如果文章有 alias，也创建对应的路径
-            if (entry.data.alias) {
-                // 移除开头的斜杠和结尾的斜杠
-                // 同时移除可能的 "posts/" 前缀，避免重复
-                let alias = entry.data.alias
-                    .replace(/^\/+/, "")
-                    .replace(/\/+$/, "");
-                if (alias.startsWith("posts/")) {
-                    alias = alias.replace(/^posts\//, "");
-                }
-                paths.push({
-                    params: { slug: alias },
-                    props: { entry },
-                });
-            }
-        }
-    }
+			// 如果文章有 alias，也创建对应的路径
+			if (entry.data.alias) {
+				// 移除开头的斜杠和结尾的斜杠
+				// 同时移除可能的 "posts/" 前缀，避免重复
+				let alias = entry.data.alias.replace(/^\/+/, "").replace(/\/+$/, "");
+				if (alias.startsWith("posts/")) {
+					alias = alias.replace(/^posts\//, "");
+				}
+				paths.push({
+					params: { slug: alias },
+					props: { entry },
+				});
+			}
+		}
+	}
 
-    return paths;
+	return paths;
 }
 
 const { entry } = Astro.props;
@@ -97,50 +95,50 @@ const { remarkPluginFrontmatter } = await render(entry);
 // Process cover image for SharePoster
 let posterCoverUrl = entry.data.image;
 if (entry.data.image) {
-    const isLocal = !(
-        entry.data.image.startsWith("/") ||
-        entry.data.image.startsWith("http") ||
-        entry.data.image.startsWith("https") ||
-        entry.data.image.startsWith("data:")
-    );
-    if (isLocal) {
-        const basePath = getFileDirFromPath(entry.filePath || "");
-        const files = import.meta.glob<ImageMetadata>("../../**", {
-            import: "default",
-        });
-        let normalizedPath = path
-            .normalize(path.join("../../", basePath, entry.data.image))
-            .replace(/\\/g, "/");
-        const file = files[normalizedPath];
-        if (file) {
-            const img = await file();
-            posterCoverUrl = img.src;
-        }
-    }
+	const isLocal = !(
+		entry.data.image.startsWith("/") ||
+		entry.data.image.startsWith("http") ||
+		entry.data.image.startsWith("https") ||
+		entry.data.image.startsWith("data:")
+	);
+	if (isLocal) {
+		const basePath = getFileDirFromPath(entry.filePath || "");
+		const files = import.meta.glob<ImageMetadata>("../../**", {
+			import: "default",
+		});
+		let normalizedPath = path
+			.normalize(path.join("../../", basePath, entry.data.image))
+			.replace(/\\/g, "/");
+		const file = files[normalizedPath];
+		if (file) {
+			const img = await file();
+			posterCoverUrl = img.src;
+		}
+	}
 }
 
 // Process avatar image for SharePoster
 let posterAvatarUrl = profileConfig.avatar;
 if (profileConfig.avatar) {
-    const isLocal = !(
-        profileConfig.avatar.startsWith("/") ||
-        profileConfig.avatar.startsWith("http") ||
-        profileConfig.avatar.startsWith("https") ||
-        profileConfig.avatar.startsWith("data:")
-    );
-    if (isLocal) {
-        const files = import.meta.glob<ImageMetadata>("../../**", {
-            import: "default",
-        });
-        let normalizedPath = path
-            .normalize(path.join("../../", profileConfig.avatar))
-            .replace(/\\/g, "/");
-        const file = files[normalizedPath];
-        if (file) {
-            const img = await file();
-            posterAvatarUrl = img.src;
-        }
-    }
+	const isLocal = !(
+		profileConfig.avatar.startsWith("/") ||
+		profileConfig.avatar.startsWith("http") ||
+		profileConfig.avatar.startsWith("https") ||
+		profileConfig.avatar.startsWith("data:")
+	);
+	if (isLocal) {
+		const files = import.meta.glob<ImageMetadata>("../../**", {
+			import: "default",
+		});
+		let normalizedPath = path
+			.normalize(path.join("../../", profileConfig.avatar))
+			.replace(/\\/g, "/");
+		const file = files[normalizedPath];
+		if (file) {
+			const img = await file();
+			posterAvatarUrl = img.src;
+		}
+	}
 }
 
 // 判断是否为加密文章
@@ -148,25 +146,25 @@ let isEncrypted = entry.data.encrypted && entry.data.password;
 
 dayjs.extend(utc);
 const lastModified = dayjs(entry.data.updated || entry.data.published)
-    .utc()
-    .format("YYYY-MM-DDTHH:mm:ss");
+	.utc()
+	.format("YYYY-MM-DDTHH:mm:ss");
 
 const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: entry.data.title,
-    description: entry.data.description || entry.data.title,
-    keywords: entry.data.tags,
-    author: {
-        "@type": "Person",
-        name: profileConfig.name,
-        url: Astro.site,
-    },
-    datePublished: formatDateToYYYYMMDD(entry.data.published),
-    inLanguage: entry.data.lang
-        ? entry.data.lang.replace("_", "-")
-        : siteConfig.lang.replace("_", "-"),
-    // TODO include cover image here
+	"@context": "https://schema.org",
+	"@type": "BlogPosting",
+	headline: entry.data.title,
+	description: entry.data.description || entry.data.title,
+	keywords: entry.data.tags,
+	author: {
+		"@type": "Person",
+		name: profileConfig.name,
+		url: Astro.site,
+	},
+	datePublished: formatDateToYYYYMMDD(entry.data.published),
+	inLanguage: entry.data.lang
+		? entry.data.lang.replace("_", "-")
+		: siteConfig.lang.replace("_", "-"),
+	// TODO include cover image here
 };
 ---
 

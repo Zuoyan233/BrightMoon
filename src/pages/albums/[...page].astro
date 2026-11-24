@@ -10,16 +10,16 @@ import "../../styles/albums.css";
 
 // 检查是否启用相册页面
 if (!siteConfig.featurePages.albums) {
-  return Astro.redirect("/404/");
+	return Astro.redirect("/404/");
 }
 
 // 生成相册页面的静态路径
 export const getStaticPaths = (async ({ paginate }) => {
-  const albumsData = await scanVisibleAlbums();
-  albumsData.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-  );
-  return paginate(albumsData, { pageSize: 9 });
+	const albumsData = await scanVisibleAlbums();
+	albumsData.sort(
+		(a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+	);
+	return paginate(albumsData, { pageSize: 9 });
 }) satisfies GetStaticPaths;
 
 // 相册页面的动态内容

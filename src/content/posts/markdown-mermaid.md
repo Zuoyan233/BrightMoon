@@ -1,4 +1,5 @@
 ---
+
 title: Markdown Mermaid
 published: 2023-10-01
 pinned: false
@@ -7,6 +8,7 @@ tags: [Markdown, Blogging, Mermaid]
 category: Examples
 draft: false
 ---
+
 # Complete Guide to Markdown with Mermaid Diagrams
 
 This article demonstrates how to create various complex diagrams using Mermaid in Markdown documents, including flowcharts, sequence diagrams, Gantt charts, class diagrams, and state diagrams.
@@ -14,9 +16,6 @@ This article demonstrates how to create various complex diagrams using Mermaid i
 ## Flowchart Example
 
 Flowcharts are excellent for representing processes or algorithm steps.
-
-
-
 
 ```mermaid
 graph TD

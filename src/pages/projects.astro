@@ -7,49 +7,49 @@ import MainGridLayout from "../layouts/MainGridLayout.astro";
 
 // 检查项目页面是否启用
 if (!siteConfig.featurePages.projects) {
-  return Astro.redirect("/404/");
+	return Astro.redirect("/404/");
 }
 
 // 项目数据工具函数
 const getProjectStats = () => {
-  const total = projectsDataConfig.items.length;
-  const completed = projectsDataConfig.items.filter(
-    (p) => p.status === "completed",
-  ).length;
-  const inProgress = projectsDataConfig.items.filter(
-    (p) => p.status === "in-progress",
-  ).length;
-  const planned = projectsDataConfig.items.filter(
-    (p) => p.status === "planned",
-  ).length;
-  return {
-    total,
-    byStatus: { completed, inProgress, planned },
-  };
+	const total = projectsDataConfig.items.length;
+	const completed = projectsDataConfig.items.filter(
+		(p) => p.status === "completed",
+	).length;
+	const inProgress = projectsDataConfig.items.filter(
+		(p) => p.status === "in-progress",
+	).length;
+	const planned = projectsDataConfig.items.filter(
+		(p) => p.status === "planned",
+	).length;
+	return {
+		total,
+		byStatus: { completed, inProgress, planned },
+	};
 };
 
 // 按分类获取项目
 const getProjectsByCategory = (category?: string) => {
-  if (!category || category === "all") {
-    return projectsDataConfig.items;
-  }
-  return projectsDataConfig.items.filter((p) => p.category === category);
+	if (!category || category === "all") {
+		return projectsDataConfig.items;
+	}
+	return projectsDataConfig.items.filter((p) => p.category === category);
 };
 
 // 获取所有项目
 const getFeaturedProjects = () => {
-  return projectsDataConfig.items.filter((p) => p.featured);
+	return projectsDataConfig.items.filter((p) => p.featured);
 };
 
 // 获取所有技术栈
 const getAllTechStack = () => {
-  const techSet = new Set<string>();
-  projectsDataConfig.items.forEach((project) => {
-    project.techStack.forEach((tech) => {
-      techSet.add(tech);
-    });
-  });
-  return Array.from(techSet).sort();
+	const techSet = new Set<string>();
+	projectsDataConfig.items.forEach((project) => {
+		project.techStack.forEach((tech) => {
+			techSet.add(tech);
+		});
+	});
+	return Array.from(techSet).sort();
 };
 
 // 获取项目统计信息
@@ -59,16 +59,16 @@ const allTechStack = getAllTechStack();
 
 // 获取所有分类
 const categories = [
-  ...new Set(projectsDataConfig.items.map((project) => project.category)),
+	...new Set(projectsDataConfig.items.map((project) => project.category)),
 ];
 
 // 按分类获取项目
 const projectsByCategory = categories.reduce(
-  (acc, category) => {
-    acc[category] = getProjectsByCategory(category);
-    return acc;
-  },
-  {} as Record<string, typeof projectsDataConfig.items>,
+	(acc, category) => {
+		acc[category] = getProjectsByCategory(category);
+		return acc;
+	},
+	{} as Record<string, typeof projectsDataConfig.items>,
 );
 
 const title = i18n(I18nKey.projects);
@@ -76,20 +76,20 @@ const subtitle = i18n(I18nKey.projectsSubtitle);
 
 // 获取分类文本的国际化翻译
 const getCategoryText = (category: string) => {
-  switch (category) {
-    case "web":
-      return i18n(I18nKey.projectsWeb);
-    case "mobile":
-      return i18n(I18nKey.projectsMobile);
-    case "desktop":
-      return i18n(I18nKey.projectsDesktop);
-    case "other":
-      return i18n(I18nKey.projectsOther);
-    case UNCATEGORIZED:
-      return i18n(I18nKey.uncategorized);
-    default:
-      return category;
-  }
+	switch (category) {
+		case "web":
+			return i18n(I18nKey.projectsWeb);
+		case "mobile":
+			return i18n(I18nKey.projectsMobile);
+		case "desktop":
+			return i18n(I18nKey.projectsDesktop);
+		case "other":
+			return i18n(I18nKey.projectsOther);
+		case UNCATEGORIZED:
+			return i18n(I18nKey.uncategorized);
+		default:
+			return category;
+	}
 };
 ---
 

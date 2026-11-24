@@ -75,13 +75,10 @@ export const getStaticPaths = (() => {
 	} else if (_ANIME_MODE === "bilibili") {
 		// 从 Bilibili 数据文件加载
 		const isDev = import.meta.env.DEV;
-		const shouldFetchOnDev =
-			siteConfig.anime?.bilibili?.fetchOnDev ?? false;
+		const shouldFetchOnDev = siteConfig.anime?.bilibili?.fetchOnDev ?? false;
 		const skipLoad = isDev && !shouldFetchOnDev;
 		if (skipLoad) {
-			console.log(
-				"[Dev] Skipping Bilibili data load (fetchOnDev is off).",
-			);
+			console.log("[Dev] Skipping Bilibili data load (fetchOnDev is off).");
 			animeList = [];
 		} else {
 			try {
@@ -106,9 +103,7 @@ export const getStaticPaths = (() => {
 						genre: Array.isArray(item.genre) ? item.genre : [],
 					}));
 				} else {
-					console.warn(
-						`Bilibili data file not found at ${dataPath}.`,
-					);
+					console.warn(`Bilibili data file not found at ${dataPath}.`);
 					animeList = [];
 				}
 			} catch (error) {
@@ -122,9 +117,7 @@ export const getStaticPaths = (() => {
 		const shouldFetchOnDev = siteConfig.anime?.bangumi?.fetchOnDev ?? false;
 		const skipLoad = isDev && !shouldFetchOnDev;
 		if (skipLoad) {
-			console.log(
-				"[Dev] Skipping Bangumi data load (fetchOnDev is off).",
-			);
+			console.log("[Dev] Skipping Bangumi data load (fetchOnDev is off).");
 			animeList = [];
 		} else {
 			try {
@@ -192,25 +185,29 @@ function getStatusInfo(status: string) {
 		case "watching":
 			return {
 				text: i18n(I18nKey.animeStatusWatching),
-				class: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300",
+				class:
+					"bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300",
 				icon: "▶",
 			};
 		case "completed":
 			return {
 				text: i18n(I18nKey.animeStatusCompleted),
-				class: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
+				class:
+					"bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
 				icon: "✓",
 			};
 		case "planned":
 			return {
 				text: i18n(I18nKey.animeStatusPlanned),
-				class: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300",
+				class:
+					"bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300",
 				icon: "❤",
 			};
 		case "onhold":
 			return {
 				text: i18n(I18nKey.animeStatusOnHold),
-				class: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300",
+				class:
+					"bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300",
 				icon: "⏸",
 			};
 		case "dropped":

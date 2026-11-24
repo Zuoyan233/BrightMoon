@@ -34,8 +34,7 @@ const seasonTranslations: Record<string, string[]> = {};
 for (const [lang, tr] of Object.entries(allTranslations)) {
 	periodTranslations[lang] = periodKeys.map((k) => tr[k] || "");
 	amPmTranslations[lang] = amPmKeys.map((k) => tr[k] || "");
-	dateFormats[lang] =
-		tr[I18nKey.siteStatsDateFormat] || "{month}/{day}/{year}";
+	dateFormats[lang] = tr[I18nKey.siteStatsDateFormat] || "{month}/{day}/{year}";
 	seasonTranslations[lang] = seasonKeys.map((k) => tr[k] || "");
 }
 
@@ -140,8 +139,7 @@ if (lastPostDate) {
 	baseDaysSinceLastUpdate = Math.max(
 		0,
 		Math.floor(
-			(nowBase.getTime() - lastPostBase.getTime()) /
-				(1000 * 60 * 60 * 24),
+			(nowBase.getTime() - lastPostBase.getTime()) / (1000 * 60 * 60 * 24),
 		),
 	);
 }

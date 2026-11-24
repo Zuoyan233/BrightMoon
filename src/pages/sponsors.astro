@@ -13,11 +13,11 @@ const { methods } = addpaymentConfig;
 const sponsorsPost = await getEntry("spec", "sponsors");
 
 if (!sponsorsPost) {
-    throw new Error("Sponsors page content not found");
+	throw new Error("Sponsors page content not found");
 }
 
 if (!siteConfig.featurePages.sponsors) {
-    return Astro.redirect("/404/");
+	return Astro.redirect("/404/");
 }
 
 const { Content } = await render(sponsorsPost);
