@@ -562,7 +562,12 @@ function portal(node: HTMLElement) {
           <img src={posterImage} alt="Poster" class="max-w-full h-auto shadow-lg rounded-lg" />
         {:else}
            <div class="flex flex-col items-center gap-3">
-             <div class="w-8 h-8 border-2 border-gray-200 rounded-full animate-spin" style="border-top-color: {themeColor}"></div>
+             <div class="poster-spinner">
+               <svg class="poster-spinner-svg" viewBox="0 0 48 48">
+                 <circle class="poster-spinner-track" cx="24" cy="24" r="20" fill="none" stroke-width="4"></circle>
+                 <circle class="poster-spinner-arc" cx="24" cy="24" r="20" fill="none" stroke-width="4" stroke-linecap="round"></circle>
+               </svg>
+             </div>
              <span class="text-sm text-gray-500">{i18n(I18nKey.generatingPoster)}</span>
            </div>
         {/if}
@@ -603,5 +608,48 @@ function portal(node: HTMLElement) {
   .modal-show > div {
     opacity: 1 !important;
     transform: scale(1) translateY(0) !important;
+  }
+
+  .poster-spinner {
+    width: 32px;
+    height: 32px;
+  }
+
+  .poster-spinner-svg {
+    width: 100%;
+    height: 100%;
+    animation: poster-spinner-rotate 2s linear infinite;
+  }
+
+  .poster-spinner-track {
+    stroke: rgba(156, 163, 175, 0.2);
+  }
+
+  .poster-spinner-arc {
+    stroke: var(--primary);
+    stroke-dasharray: 80, 200;
+    stroke-dashoffset: 0;
+    animation: poster-spinner-dash 1.5s ease-in-out infinite;
+  }
+
+  @keyframes poster-spinner-rotate {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes poster-spinner-dash {
+    0% {
+      stroke-dasharray: 1, 200;
+      stroke-dashoffset: 0;
+    }
+    50% {
+      stroke-dasharray: 80, 200;
+      stroke-dashoffset: -35;
+    }
+    100% {
+      stroke-dasharray: 80, 200;
+      stroke-dashoffset: -124;
+    }
   }
 </style>
