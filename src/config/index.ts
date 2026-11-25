@@ -16,6 +16,7 @@ import type {
 	DailyQuoteConfig,
 	DevicesDataConfig,
 	DiaryDataConfig,
+	DistCompressConfig,
 	ExpressiveCodeConfig,
 	ExternalLinkConfirmConfig,
 	FooterConfig,
@@ -48,6 +49,7 @@ import {
 	defaultDailyQuoteConfig,
 	defaultDevicesDataConfig,
 	defaultDiaryDataConfig,
+	defaultDistCompressConfig,
 	defaultExpressiveCodeConfig,
 	defaultExternalLinkConfirmConfig,
 	defaultFooterConfig,
@@ -80,6 +82,7 @@ import {
 	userDailyQuoteConfig,
 	userDevicesDataConfig,
 	userDiaryDataConfig,
+	userDistCompressConfig,
 	userExpressiveCodeConfig,
 	userExternalLinkConfirmConfig,
 	userFooterConfig,
@@ -127,6 +130,7 @@ interface UserConfig {
 	sakuraConfig?: Partial<SakuraConfig>;
 	pioConfig?: Partial<PioConfig>;
 	imageOptimizeConfig?: Partial<ImageOptimizeConfig>;
+	distCompressConfig?: Partial<DistCompressConfig>;
 	animeDataConfig?: Partial<AnimeDataConfig>;
 	devicesDataConfig?: Partial<DevicesDataConfig>;
 	diaryDataConfig?: Partial<DiaryDataConfig>;
@@ -154,6 +158,7 @@ const userConfig: UserConfig = {
 	musicPlayerConfig: userMusicPlayerConfig,
 	footerConfig: userFooterConfig,
 	imageOptimizeConfig: userImageOptimizeConfig,
+	distCompressConfig: userDistCompressConfig,
 	versionCheckConfig: userVersionCheckConfig,
 	upgradeConfig: userUpgradeConfig,
 	weatherConfig: userWeatherConfig,
@@ -295,6 +300,11 @@ export const footerConfig: FooterConfig = deepMerge(
 export const imageOptimizeConfig: ImageOptimizeConfig = deepMerge(
 	defaultImageOptimizeConfig,
 	userConfig.imageOptimizeConfig,
+);
+
+export const distCompressConfig: DistCompressConfig = deepMerge(
+	defaultDistCompressConfig,
+	userConfig.distCompressConfig,
 );
 
 export const versionCheckConfig: VersionCheckConfig = deepMerge(

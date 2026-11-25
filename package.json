@@ -10,7 +10,8 @@
 		"update-bangumi": "node scripts/update-bangumi.mjs",
 		"update-bilibili": "node scripts/update-bilibili.mjs",
 		"optimize-images": "node scripts/optimize-images.js --source",
-		"build": "node scripts/update-anime.mjs && astro build && pagefind --site dist && node scripts/optimize-images.js --dist && node scripts/compress-fonts.js",
+		"build": "node scripts/update-anime.mjs && astro build && pagefind --site dist && node scripts/optimize-images.js --dist && node scripts/compress-fonts.js && node scripts/compress-dist.mjs",
+		"compress-dist": "node scripts/compress-dist.mjs",
 		"brightmoon-upgrade": "node scripts/upgrade.mjs",
 		"submit": "node scripts/indexnow-submit.js",
 		"preview": "astro preview",
@@ -90,10 +91,10 @@
 		"@types/mdast": "^4.0.4",
 		"@types/qrcode": "^1.5.6",
 		"@types/sanitize-html": "^2.16.2",
-		"fontmin": "^1.1.1",
+		"subset-font": "^2.9.0",
 		"globals": "^17.14.0",
 		"postcss-import": "^17.0.1",
 		"postcss-nesting": "^14.0.3"
 	},
-	"packageManager": "pnpm@12.18.0"
+	"packageManager": "pnpm@12.23.0"
 }

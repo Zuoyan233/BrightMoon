@@ -117,11 +117,10 @@ export type SiteConfig = {
 
 	// 添加字体配置
 	font: {
-		fontFamily: string; // 字体族名称
-		fontWeight: string | number; // 字体粗细
-		localFonts: string[]; // 本地字体列表
-		fontFile?: string; // 自定义字体文件路径
-		enableCompress: boolean; // 是否启用字体压缩
+		fontFamily: string; // 字体名称（用于 CSS font-family）
+		fontWeight?: string | number; // 字体粗细
+		localFonts: string[]; // 源字体文件（public/assets/font/ 下，支持 TTF / OTF / WOFF / WOFF2），构建时按站点实际使用的字符子集化；Web 字体路径自动推导
+		enableCompress: boolean; // 是否启用字体子集优化（减少字体文件大小，只保留实际使用的字符）
 	};
 
 	// 番剧页面配置（整合 bangumi、bilibili 配置）
@@ -619,6 +618,16 @@ export type ImageOptimizeTaskConfig = {
 export type ImageOptimizeConfig = {
 	imageQuality: number; // 图片压缩质量 (1-100)
 	tasks: ImageOptimizeTaskConfig[]; // 图片优化任务列表
+};
+
+export type DistCompressConfig = {
+	enable: boolean; // 是否启用构建后预压缩（生成 .br/.gz 文件）
+	output: "both" | "brotli" | "gzip"; // 压缩输出格式：both=同时生成 .br 与 .gz，brotli=仅 .br，gzip=仅 .gz
+	brotliQuality: number; // Brotli 压缩等级 (0-11)，等级越高体积越小但构建越慢
+	gzipLevel: number; // Gzip 压缩等级 (0-9)
+	minSize: number; // 小于该值的文件跳过压缩（bytes）
+	maxSize: number; // 大于该值的文件跳过压缩（bytes）
+	excludeExtensions: string[]; // 排除的扩展名列表（已是压缩格式的文件无需再压）
 };
 
 export type VersionCheckConfig = {

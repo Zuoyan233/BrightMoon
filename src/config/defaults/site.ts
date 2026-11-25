@@ -320,10 +320,7 @@ export const defaultSiteConfig: SiteConfig = {
 	font: {
 		fontFamily: "MiSans-Normal", // 字体名称（用于 CSS font-family）
 		fontWeight: "500", // 字体粗细
-		localFonts: ["MiSans-Normal.woff2"], // 源字体文件（支持 TTF / OTF / WOFF / WOFF2）：WOFF/WOFF2 跳过，TTF/OTF 按站点实际使用的字符子集化并输出为 WOFF2
-		// Web 字体文件路径（WOFF2 格式，在浏览器中实际使用）
-		// 注意：子集化仅在构建时作用于 dist 输出目录；Dev 环境直接使用 public/assets/font/ 下的源文件，请确保该目录下存在对应文件
-		fontFile: "/assets/font/MiSans-Normal.woff2",
+		localFonts: ["MiSans-Normal.woff2"], // 源字体文件（public/assets/font/ 下，支持 TTF / OTF / WOFF / WOFF2），构建时按站点实际使用的字符子集化；Web 字体路径自动推导
 		enableCompress: true, // 是否启用字体子集优化（减少字体文件大小，只保留实际使用的字符）
 	},
 	showLastModified: true, // 控制"上次编辑"卡片显示的开关

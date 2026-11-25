@@ -148,6 +148,8 @@ const adsEnabled =
 // 构建字体配置的 CSS 变量
 let bodyFontFamily = "";
 let fontFaceStyle = "";
+let fontFileUrl = "";
+let fontMime = "font/woff2";
 if (siteConfig.font?.fontFamily) {
 	const font = siteConfig.font.fontFamily;
 	// 如果字体名包含空格，需要用引号包围
@@ -156,14 +158,26 @@ if (siteConfig.font?.fontFamily) {
 	bodyFontFamily +=
 		", system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif";
 
+	// Web 字体路径：从 localFonts 推导
+	// 子集化开启时 TTF/OTF 构建后转为同名 .woff2；关闭时保持原格式原文件
+	const localFont = siteConfig.font.localFonts?.[0];
+	const compressOn = siteConfig.font.enableCompress !== false;
+	fontFileUrl = localFont
+		? compressOn && !/\.(woff2?)$/i.test(localFont)
+			? `/assets/font/${localFont.replace(/\.(ttf|otf)$/i, "")}.woff2`
+			: `/assets/font/${localFont}`
+		: "";
+
 	// 动态生成 @font-face 样式
-	if (siteConfig.font.fontFile) {
+	if (fontFileUrl) {
 		const fontWeight = siteConfig.font.fontWeight || "500";
+		const fontFormat = /\.(woff2?)$/i.exec(fontFileUrl)?.[1].toLowerCase() ?? "woff2";
+		fontMime = fontFormat === "woff" ? "font/woff" : "font/woff2";
 		fontFaceStyle = `
 <style>
 @font-face {
   font-family: "${font}";
-  src: url("${siteConfig.font.fontFile}") format("woff2");
+  src: url("${fontFileUrl}") format("${fontFormat}");
   font-style: normal;
   font-weight: ${fontWeight};
   font-display: swap;
@@ -205,12 +219,12 @@ if (siteConfig.font?.fontFamily) {
 
 		<!-- 字体预加载：提前发起请求，避免 FOIT 和 LCP 延迟 -->
 		{
-			siteConfig.font?.fontFile && (
+			fontFileUrl && (
 				<link
 					rel="preload"
-					href={siteConfig.font.fontFile}
+					href={fontFileUrl}
 					as="font"
-					type="font/woff2"
+					type={fontMime}
 					crossorigin="anonymous"
 				/>
 			)

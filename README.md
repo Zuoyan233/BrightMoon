@@ -136,6 +136,7 @@ As Mizuki has ceased maintenance, BrightMoon now continues to be maintained as a
 - **Cookie Consent** - Cookie privacy policy banner with accept/deny support. Rejecting disables: analytics, advertising, weather auto-location, and third-party comment systems.
 - **Site Statistics** - Real-time display of current date (with multi-region format support), season, and time period.
 - **Image Volume Compression** - Automatically compress images, and convert them to WebP or AVIF format, reducing load times and enhancing user experience.
+- **Dist Pre-compression** - Generates Brotli (`.br`) and Gzip (`.gz`) files for text assets at build time, working with Nginx `gzip_static` / `brotli_static` to serve pre-compressed files with zero CPU overhead on self-hosted deployments (harmless on platforms with built-in compression). Configurable via `distCompressConfig` in `src/config/user/`.
 - **Framework Update Checker** - Automatically detects new BrightMoon releases via remote repository API, supports stable and pre-release detection, with prompt dialogs for updates.
 - **Framework Upgrade Tool** - Supports both online and local upgrades, with automatic backup creation and rollback prevention before updating, and automatic dependency installation and temporary file cleanup after upgrading; supports manual backup creation and project restoration from backups.
 
@@ -445,6 +446,7 @@ As Mizuki has ceased maintenance, BrightMoon now continues to be maintained as a
 | `pnpm format`              | Format code using Biome                        |
 | `pnpm lint`                | Check and fix code issues                      |
 | `pnpm optimize-images`     | Run image volume compression tool              |
+| `pnpm compress-dist`       | Run dist pre-compression tool (.br/.gz files)  |
 | `pnpm new-post <filename>` | Create a new blog post                         |
 | `pnpm astro ...`           | Run Astro CLI commands                         |
 

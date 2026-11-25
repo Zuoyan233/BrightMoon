@@ -15,6 +15,7 @@ export { defaultContactMethods } from "./contact-methods";
 export { defaultDailyQuoteConfig } from "./daily-quote";
 export { defaultDevicesDataConfig } from "./devices-data";
 export { defaultDiaryDataConfig } from "./diary-data";
+export { defaultDistCompressConfig } from "./dist-compress";
 export { defaultExpressiveCodeConfig } from "./expressive-code";
 export { defaultExternalLinkConfirmConfig } from "./external-link-confirm";
 export { defaultFooterConfig } from "./footer";

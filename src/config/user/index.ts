@@ -15,6 +15,7 @@ export { userContactMethods } from "./contact-methods";
 export { userDailyQuoteConfig } from "./daily-quote";
 export { userDevicesDataConfig } from "./devices-data";
 export { userDiaryDataConfig } from "./diary-data";
+export { userDistCompressConfig } from "./dist-compress";
 export { userExpressiveCodeConfig } from "./expressive-code";
 export { userExternalLinkConfirmConfig } from "./external-link-confirm";
 export { userFooterConfig } from "./footer";

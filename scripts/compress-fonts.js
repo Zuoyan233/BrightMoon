@@ -1,13 +1,19 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import Fontmin from "fontmin";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // 配置已拆分为 user/ 和 defaults/ 目录，按优先级依次读取
 const CONFIG_DIR = path.join(__dirname, "../src/config");
+
+// 移除行注释与块注释，避免被注释掉的配置被误匹配
+function stripComments(code) {
+	return code
+		.replace(/\/\*[\s\S]*?\*\//g, "")
+		.replace(/(^|[^:"'`\\])\/\/.*$/gm, "$1");
+}
 
 // 读取配置文件内容
 function readConfigContents() {
@@ -20,7 +26,9 @@ function readConfigContents() {
 				.readdirSync(dirPath)
 				.filter((f) => f.endsWith(".ts") && f !== "index.ts");
 			for (const file of files) {
-				contents.push(fs.readFileSync(path.join(dirPath, file), "utf-8"));
+				contents.push(
+					stripComments(fs.readFileSync(path.join(dirPath, file), "utf-8")),
+				);
 			}
 		}
 	}
@@ -680,7 +688,7 @@ async function fetchBangumiAnimeText() {
 
 // 收集所有使用的文字（用于 CJK 字体）
 async function collectText() {
-	const { lang } = await getConfig();
+	await getConfig();
 
 	const textSet = new Set();
 
@@ -806,10 +814,16 @@ async function collectText() {
 		}
 	}
 
-	// 3. 读取对应语言的 i18n 文件
-	const i18nFile = path.join(__dirname, `../src/i18n/languages/${lang}.ts`);
-	if (fs.existsSync(i18nFile)) {
-		const content = fs.readFileSync(i18nFile, "utf-8");
+	// 3. 读取 i18n 语言文件（扫描全部语言，确保客户端切换语言后 UI 文本仍有字形）
+	const i18nDir = path.join(__dirname, "../src/i18n/languages");
+	const i18nFiles = fs.existsSync(i18nDir)
+		? fs
+				.readdirSync(i18nDir)
+				.filter((f) => f.endsWith(".ts") && f !== "index.ts")
+		: [];
+
+	for (const i18nFileName of i18nFiles) {
+		const content = fs.readFileSync(path.join(i18nDir, i18nFileName), "utf-8");
 
 		// 改进的字符串匹配
 		const patterns = [
@@ -887,19 +901,63 @@ async function collectText() {
 		});
 	}
 
-	// 添加常用标点符号和数字
-	const commonChars = "0123456789，。！？；：\"\"''（）【】《》、·—…「」『』";
+	// ASCII 可打印字符
+	for (let code = 0x20; code <= 0x7e; code++) {
+		textSet.add(String.fromCharCode(code));
+	}
+
+	// 常用全角中文标点
+	const commonChars = "，。！？；：“”‘’（）《》、·—…「」『』【】";
 	for (const char of commonChars) {
 		textSet.add(char);
 	}
 
-	// 添加英文字母（如果字体支持）
-	const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-	for (const char of alphabet) {
+	// Latin-1（é à ü ç © ° ± 等西欧字符）
+	for (let code = 0xa0; code <= 0xff; code++) {
+		textSet.add(String.fromCharCode(code));
+	}
+
+	// 常用标点符号（破折号、引号、省略号、箭头等）
+	const symbols = "–—‘’“”…‹›«»©®™°℃℉•§¶†‡←↑→↓↔⇐⇒№";
+	for (const char of symbols) {
 		textSet.add(char);
 	}
 
-	// 5. 从 Meting API 获取歌单数据中的文字
+	// 西里尔字母与希腊字母
+	for (let code = 0x400; code <= 0x44f; code++) {
+		textSet.add(String.fromCharCode(code));
+	}
+	for (let code = 0x391; code <= 0x3c9; code++) {
+		textSet.add(String.fromCharCode(code));
+	}
+
+	// 5. 扫描 src/ 下全部源码文件（components/pages/layouts/utils/constants 等）
+	const srcDir = path.join(__dirname, "../src");
+	if (fs.existsSync(srcDir)) {
+		const srcFiles = readFilesRecursively(srcDir);
+		for (const file of srcFiles) {
+			if (
+				!/\.(astro|svelte|ts|js|mjs|jsx|tsx|md|mdx)$/.test(path.extname(file))
+			) {
+				continue;
+			}
+			const content = fs.readFileSync(file, "utf-8");
+			for (const char of content) {
+				const cp = char.codePointAt(0);
+				if (
+					(cp >= 0x4e00 && cp <= 0x9fff) || // CJK 统一表意文字
+					(cp >= 0x3400 && cp <= 0x4dbf) || // 扩展 A
+					(cp >= 0x3040 && cp <= 0x30ff) || // 假名
+					(cp >= 0x3000 && cp <= 0x303f) || // 中文标点
+					(cp >= 0xff00 && cp <= 0xffef) // 全角/半角形式（含 ･ 、！等）
+				) {
+					textSet.add(char);
+				}
+			}
+		}
+	}
+
+	// 6. 从 Meting API 获取歌单数据中的文字
 	const metingTextSet = await fetchMetingPlaylistText();
 
 	// 将 Meting API 的文字添加到主文字集合中
@@ -913,7 +971,7 @@ async function collectText() {
 		);
 	}
 
-	// 6. 从 Bangumi API 获取番剧数据中的文字
+	// 7. 从 Bangumi API 获取番剧数据中的文字
 	const bangumiTextSet = await fetchBangumiAnimeText();
 
 	// 将 Bangumi API 的文字添加到主文字集合中
@@ -927,10 +985,8 @@ async function collectText() {
 		);
 	}
 
-	// 7. 从 Bilibili 数据文件获取番剧数据中的文字
+	// 8. 从 Bilibili 数据文件获取番剧数据中的文字
 	const bilibiliTextSet = await fetchBilibiliAnimeText();
-
-	// 将 Bilibili 数据的文字添加到主文字集合中
 	for (const char of bilibiliTextSet) {
 		textSet.add(char);
 	}
@@ -939,15 +995,6 @@ async function collectText() {
 		console.log(
 			`✓ Added ${bilibiliTextSet.size} unique characters from Bilibili anime data.\n`,
 		);
-	}
-
-	// 漏网之鱼（如散落在各处未纳入统计的UI文本等）
-	const otherWords = ["示例", "歌曲", "艺术家"];
-
-	for (const term of otherWords) {
-		for (const char of term) {
-			textSet.add(char);
-		}
 	}
 
 	const allText = Array.from(textSet).sort().join("");
@@ -1019,40 +1066,52 @@ async function compressFonts() {
 
 				// 根据文件类型决定处理方式
 				if (ext === ".woff2" || ext === ".woff") {
-					console.log(
-						`✓ ${fontFile}: skipped (already ${ext.slice(1).toUpperCase()})`,
+					// WOFF/WOFF2 使用 subset-font 直接子集化，支持 CFF/TTF 格式
+					console.log(`Compressing ${fontFile} (subset → ${ext.slice(1)})...`);
+					const subsetFont = (await import("subset-font")).default;
+
+					const subsetBuffer = await subsetFont(
+						fs.readFileSync(fontSrc),
+						text,
+						{ targetFormat: ext.slice(1) },
 					);
+
+					fs.writeFileSync(path.join(distFontDir, fontFile), subsetBuffer);
+
+					// 检查压缩结果
+					const compressedFile = path.join(distFontDir, fontFile);
+
+					if (fs.existsSync(compressedFile)) {
+						const compressedSize = fs.statSync(compressedFile).size;
+						totalCompressedSize += compressedSize;
+						const reduction = (
+							(1 - compressedSize / originalSize) *
+							100
+						).toFixed(2);
+
+						console.log(
+							`✓ ${fontFile} (${(compressedSize / 1024).toFixed(2)} KB, reduced ${reduction}%)`,
+						);
+						processedCount++;
+					}
 					continue;
 				}
 
 				if (ext === ".ttf" || ext === ".otf") {
-					// TTF/OTF 需要压缩为 woff2
-					console.log(`Compressing ${fontFile}...`);
+					// TTF/OTF 同样使用 subset-font 子集化并输出为 woff2，兼容 TrueType/CFF 两种轮廓
+					console.log(`Compressing ${fontFile} (subset → woff2)...`);
+					const subsetFont = (await import("subset-font")).default;
 
-					const fontmin = new Fontmin()
-						.src(fontSrc)
-						.use(
-							Fontmin.glyph({
-								text: text,
-								hinting: false,
-							}),
-						)
-						.use(
-							Fontmin.ttf2woff2({
-								deflate: true,
-							}),
-						)
-						.dest(distFontDir);
+					const subsetBuffer = await subsetFont(
+						fs.readFileSync(fontSrc),
+						text,
+						{ targetFormat: "woff2" },
+					);
 
-					await new Promise((resolve, reject) => {
-						fontmin.run((err, files) => {
-							if (err) {
-								reject(err);
-							} else {
-								resolve(files);
-							}
-						});
-					});
+					fs.writeFileSync(
+						path.join(distFontDir, `${baseName}.woff2`),
+						subsetBuffer,
+					);
 
 					// 检查压缩结果
 					const compressedFile = path.join(distFontDir, `${baseName}.woff2`);
@@ -1066,7 +1125,7 @@ async function compressFonts() {
 						).toFixed(2);
 
 						console.log(
-							`✓ ${fontFile} → ${baseName}.woff2 (${(compressedSize / 1024).toFixed(2)} KB, reduced ${reduction}%)\n`,
+							`✓ ${fontFile} → ${baseName}.woff2 (${(compressedSize / 1024).toFixed(2)} KB, reduced ${reduction}%)`,
 						);
 						processedCount++;
 					}
