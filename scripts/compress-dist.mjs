@@ -70,7 +70,7 @@ const SKIP_EXTENSIONS = new Set(config.excludeExtensions);
 
 if (!config.enable) {
 	console.log(
-		"Dist compression disabled by config (distCompressConfig.enable), skipping.",
+		"⚠ Dist compression disabled by config (distCompressConfig.enable), skipping.",
 	);
 	process.exit(0);
 }

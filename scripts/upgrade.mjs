@@ -589,7 +589,7 @@ function selectMenu(
 			} else if (key.name === "return") {
 				cleanup();
 				const opt = options[selected];
-				console.log(`\n→ ${typeof opt === "string" ? opt : opt.text}`);
+				console.log(`\n→ ${typeof opt === "string" ? opt : opt.text}\n`);
 				resolve(selected);
 			} else if (key.name === "escape") {
 				cleanup();
@@ -923,9 +923,9 @@ function handleInterrupt() {
 		}
 	}
 
-	console.log(`\n\n\x1b[31m${I18n("interrupted")}\x1b[0m\n`);
+	console.log(`\n\x1b[31m${I18n("interrupted")}\x1b[0m`);
 	if (isInstallingDeps) {
-		console.log(`\x1b[33m${I18n("manualInstall")}\x1b[0m`);
+		console.log(`\n\x1b[33m${I18n("manualInstall")}\x1b[0m`);
 		const modulesPath = path.join(ROOT, "node_modules");
 		if (fs.existsSync(modulesPath)) {
 			console.log(`\n${I18n("cleaningModules")}`);
@@ -2252,7 +2252,7 @@ async function selectLanguage() {
 		currentLangIndex,
 	);
 	if (langChoice === BACK) {
-		console.log(`\n\n\x1b[31m${I18n("interrupted")}\x1b[0m\n`);
+		console.log(`\n\x1b[31m${I18n("interrupted")}\x1b[0m`);
 		exitNow(0);
 	}
 	currentLangIndex = langChoice;

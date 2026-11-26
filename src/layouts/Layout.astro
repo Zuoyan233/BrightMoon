@@ -150,6 +150,7 @@ let bodyFontFamily = "";
 let fontFaceStyle = "";
 let fontFileUrl = "";
 let fontMime = "font/woff2";
+let chunkCssUrl = "";
 if (siteConfig.font?.fontFamily) {
 	const font = siteConfig.font.fontFamily;
 	// 如果字体名包含空格，需要用引号包围
@@ -158,20 +159,20 @@ if (siteConfig.font?.fontFamily) {
 	bodyFontFamily +=
 		", system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif";
 
-	// Web 字体路径：从 localFonts 推导
-	// 子集化开启时 TTF/OTF 构建后转为同名 .woff2；关闭时保持原格式原文件
+    // 字体路径：从 localFonts 推导，根据 enableCompress 决定是否使用分包 CSS 入口或原文件
 	const localFont = siteConfig.font.localFonts?.[0];
 	const compressOn = siteConfig.font.enableCompress !== false;
-	fontFileUrl = localFont
-		? compressOn && !/\.(woff2?)$/i.test(localFont)
-			? `/assets/font/${localFont.replace(/\.(ttf|otf)$/i, "")}.woff2`
-			: `/assets/font/${localFont}`
-		: "";
+	chunkCssUrl =
+		compressOn && localFont && !isDev
+			? `/assets/font/${localFont.replace(/\.(ttf|otf|woff2?)$/i, "")}/result.css`
+			: "";
+	fontFileUrl = chunkCssUrl || !localFont ? "" : `/assets/font/${localFont}`;
 
 	// 动态生成 @font-face 样式
 	if (fontFileUrl) {
 		const fontWeight = siteConfig.font.fontWeight || "500";
-		const fontFormat = /\.(woff2?)$/i.exec(fontFileUrl)?.[1].toLowerCase() ?? "woff2";
+		const fontFormat =
+			/\.(woff2?)$/i.exec(fontFileUrl)?.[1].toLowerCase() ?? "woff2";
 		fontMime = fontFormat === "woff" ? "font/woff" : "font/woff2";
 		fontFaceStyle = `
 <style>
@@ -214,8 +215,13 @@ if (siteConfig.font?.fontFamily) {
 	<head>
 		<meta charset="UTF-8" />
 
-		<!-- 动态字体引入 -->
+		<!-- 动态字体引入：生产构建使用分包 CSS，dev 使用单 @font-face -->
 		<Fragment set:html={fontFaceStyle} />
+		{
+			chunkCssUrl && (
+				<link rel="stylesheet" href={chunkCssUrl} />
+			)
+		}
 
 		<!-- 字体预加载：提前发起请求，避免 FOIT 和 LCP 延迟 -->
 		{

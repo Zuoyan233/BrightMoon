@@ -320,8 +320,8 @@ export const userSiteConfig: Partial<SiteConfig> = {
 	font: {
 		fontFamily: "MiSans-Normal", // 字体名称（用于 CSS font-family）
 		fontWeight: "500", // 字体粗细
-		localFonts: ["MiSans-Normal.woff2"], // 源字体文件（public/assets/font/ 下，支持 TTF / OTF / WOFF / WOFF2），构建时按站点实际使用的字符子集化；Web 字体路径自动推导
-		enableCompress: true, // 是否启用字体子集优化（减少字体文件大小，只保留实际使用的字符）
+		localFonts: ["MiSans-Normal.woff2"], // 源字体文件（public/assets/font/ 下，支持 TTF / OTF / WOFF / WOFF2），构建后 Web 字体路径自动推导
+		enableCompress: true, // 是否启用字体分块
 	},
 	showLastModified: true, // 控制"上次编辑"卡片显示的开关
 

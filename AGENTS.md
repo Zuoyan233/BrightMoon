@@ -38,7 +38,7 @@ Core features:
 | `pnpm update-bangumi` | Sync data from Bangumi API |
 | `pnpm update-bilibili` | Sync data from Bilibili API |
 | `pnpm optimize-images` | Optimize source images (`--source`); build step uses `--dist` |
-| `pnpm compress-fonts` | Font subsetting & compression |
+| `pnpm compress-fonts` | Font chunking (unicode-range split via cn-font-split) |
 | `pnpm test-font-compression` | Test font compression in isolation |
 | `pnpm submit` | Submit URLs to search engines via IndexNow |
 | `pnpm brightmoon-upgrade` | Interactive framework upgrade |
@@ -245,7 +245,7 @@ Copy `.env.example` to `.env`:
 2. `astro build` — Astro static site build (album scan happens here, URLs from `siteConfig.siteURL`)
 3. `pagefind --site dist` — Generate search index
 4. `node scripts/optimize-images.js --dist` — Optimize output images
-5. `node scripts/compress-fonts.js` — Font subsetting & compression
+5. `node scripts/compress-fonts.js` — Font chunking (unicode-range split via cn-font-split, outputs per-font chunk directory with `result.css` entry)
 6. `node scripts/compress-dist.mjs` — Pre-compress dist text assets (brotli level 11 / gzip level 9, configurable via `distCompressConfig`)
 
 ## Commit Conventions

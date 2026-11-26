@@ -8,6 +8,9 @@ const __dirname = path.dirname(__filename);
 // 配置已拆分为 user/ 和 defaults/ 目录，按优先级依次读取
 const CONFIG_DIR = path.join(__dirname, "../src/config");
 
+// 是否启用 cn-font-split 的调试日志
+const FONT_SPLIT_DEBUG = false;
+
 // 移除行注释与块注释，避免被注释掉的配置被误匹配
 function stripComments(code) {
 	return code
@@ -44,17 +47,12 @@ function matchConfig(regex) {
 	return null;
 }
 
-// 读取配置文件获取语言设置和字体配置
+// 读取配置文件获取字体配置
 async function getConfig() {
-	// 提取语言设置
-	const langMatch = matchConfig(/const SITE_LANG = ["'](.+?)["']/);
-	const lang = langMatch ? langMatch[1] : "zh_CN";
-
-	// 提取字体配置
 	const fontConfigMatch = matchConfig(/font:\s*\{([\s\S]*?)\n\s*\},/);
 	if (!fontConfigMatch) {
-		console.log("⚠ Font config not found, using default settings");
-		return { lang, fonts: [] };
+		console.log("⚠ Font config not found, skipped.");
+		return { fonts: [] };
 	}
 
 	const fontConfigStr = fontConfigMatch[1];
@@ -63,6 +61,12 @@ async function getConfig() {
 	// 提取 enableCompress
 	const compressMatch = fontConfigStr.match(/enableCompress:\s*(true|false)/);
 	const enableCompress = compressMatch ? compressMatch[1] === "true" : false;
+
+	// 提取 fontFamily 与 fontWeight（用于生成的 @font-face）
+	const fontFamilyMatch = fontConfigStr.match(/fontFamily:\s*["'](.+?)["']/);
+	const fontWeightMatch = fontConfigStr.match(/fontWeight:\s*["'](.+?)["']/);
+	const fontFamily = fontFamilyMatch ? fontFamilyMatch[1] : "";
+	const fontWeight = fontWeightMatch ? fontWeightMatch[1] : "500";
 
 	// 提取 localFonts 数组
 	const localFontsMatch = fontConfigStr.match(/localFonts:\s*\[(.*?)\]/s);
@@ -84,933 +88,18 @@ async function getConfig() {
 		});
 	}
 
-	return { lang, fonts };
+	return { fonts, fontFamily, fontWeight };
 }
 
-// 递归读取目录下所有文件
-function readFilesRecursively(dir, fileList = []) {
-	const files = fs.readdirSync(dir);
-
-	files.forEach((file) => {
-		const filePath = path.join(dir, file);
-		const stat = fs.statSync(filePath);
-
-		if (stat.isDirectory()) {
-			readFilesRecursively(filePath, fileList);
-		} else {
-			fileList.push(filePath);
-		}
-	});
-
-	return fileList;
-}
-
-// 提取文本内容
-function extractText(content, ext) {
-	let text = content;
-	let frontmatterText = "";
-
-	// 提取并处理 frontmatter 中的文本
-	if (ext === ".md" || ext === ".mdx") {
-		const frontmatterMatch = content.match(/^---[\s\S]*?---/m);
-		if (frontmatterMatch) {
-			const frontmatter = frontmatterMatch[0];
-
-			// 提取 frontmatter 中的字符串值（包括有引号和无引号的）
-			// 匹配 key: value 格式（无引号）
-			const unquotedMatches = frontmatter.match(/^\s*\w+:\s*([^'"\n]+)$/gm);
-			if (unquotedMatches) {
-				unquotedMatches.forEach((match) => {
-					const value = match.replace(/^\s*\w+:\s*/, "").trim();
-					// 排除布尔值、日期、数字等非文本内容
-					if (!value.match(/^(true|false|\d{4}-\d{2}-\d{2}|\d+)$/)) {
-						frontmatterText += `${value} `;
-					}
-				});
-			}
-
-			// 提取带引号的字符串值
-			const quotedMatches = frontmatter.match(/:\s*['"]([^'"]+)['"]/g);
-			if (quotedMatches) {
-				quotedMatches.forEach((match) => {
-					const value = match.replace(/:\s*['"]([^'"]+)['"]/, "$1");
-					frontmatterText += `${value} `;
-				});
-			}
-
-			// 提取列表项中的文本（如 tags 列表）
-			const listMatches = frontmatter.match(/^\s*-\s*([^\n]+)$/gm);
-			if (listMatches) {
-				listMatches.forEach((match) => {
-					const value = match.replace(/^\s*-\s*/, "").trim();
-					frontmatterText += `${value} `;
-				});
-			}
-		}
-
-		// 移除 frontmatter 后继续处理正文
-		text = text.replace(/^---[\s\S]*?---\s*/m, "");
-
-		// 移除代码块中的内容（通常不需要特殊字体）
-		text = text.replace(/```[\s\S]*?```/g, "");
-		text = text.replace(/`[^`]+`/g, "");
-	}
-
-	// 移除 HTML 标签
-	text = text.replace(/<[^>]*>/g, " ");
-
-	// 移除 Markdown 语法
-	text = text.replace(/[#*_~`[\]()]/g, " ");
-
-	// 移除 URL
-	text = text.replace(/https?:\/\/[^\s]+/g, "");
-
-	// 移除多余的空白字符
-	text = text.replace(/\s+/g, " ").trim();
-
-	// 合并 frontmatter 文本和正文
-	const finalText = `${frontmatterText} ${text}`.trim();
-
-	return finalText;
-}
-
-// 获取 Meting API 歌单数据中的文字
-async function fetchMetingPlaylistText() {
-	try {
-		// 读取音乐播放器配置（配置已拆分，按优先级查找）
-		const musicConfigMatch = matchConfig(
-			/(?:user)?MusicPlayerConfig:\s*(?:Partial<MusicPlayerConfig>\s*=\s*)?\{([\s\S]*?)\n\s*\},?/,
-		);
-		const configStr = musicConfigMatch ? musicConfigMatch[1] : "";
-
-		// 检查音乐播放器是否启用
-		const enableMatch = configStr.match(/enable:\s*(true|false)/);
-		if (!enableMatch || enableMatch[1] === "false") {
-			console.log(
-				"ℹ Music player disabled, skipping Meting API text collection.\n",
-			);
-			return new Set();
-		}
-
-		// 从 defaults/ 目录读取默认值
-		const defaultsContent = (() => {
-			const dirPath = path.join(CONFIG_DIR, "defaults");
-			if (!fs.existsSync(dirPath) || !fs.statSync(dirPath).isDirectory())
-				return "";
-			const files = fs
-				.readdirSync(dirPath)
-				.filter((f) => f.endsWith(".ts") && f !== "index.ts");
-			return files
-				.map((f) => fs.readFileSync(path.join(dirPath, f), "utf-8"))
-				.join("\n");
-		})();
-		const defaultsMatch = defaultsContent.match(
-			/defaultMusicPlayerConfig[^{]*\{([\s\S]*?)\n\s*\},?/,
-		);
-		const defaultsStr = defaultsMatch ? defaultsMatch[1] : "";
-
-		// 从 user/ 目录读取用户覆盖
-		const userContent = (() => {
-			const dirPath = path.join(CONFIG_DIR, "user");
-			if (!fs.existsSync(dirPath) || !fs.statSync(dirPath).isDirectory())
-				return "";
-			const files = fs
-				.readdirSync(dirPath)
-				.filter((f) => f.endsWith(".ts") && f !== "index.ts");
-			return files
-				.map((f) => fs.readFileSync(path.join(dirPath, f), "utf-8"))
-				.join("\n");
-		})();
-		const userMatch = userContent.match(
-			/userMusicPlayerConfig[^{]*\{([\s\S]*?)\n\s*\},?/,
-		);
-		const userStr = userMatch ? userMatch[1] : "";
-
-		// 合并：defaults 为底，user 覆盖
-		function extractField(str, regex) {
-			const m = str.match(regex);
-			return m ? m[1] : null;
-		}
-
-		let mode = extractField(defaultsStr, /mode:\s*["']([^"']+)["']/);
-		let meting_api = extractField(
-			defaultsStr,
-			/meting_api:\s*["`]([^"`]+)["`]/,
-		);
-		let meting_id = extractField(defaultsStr, /id:\s*["']([^"']+)["']/);
-		let meting_server = extractField(defaultsStr, /server:\s*["']([^"']+)["']/);
-		let meting_type = extractField(defaultsStr, /type:\s*["']([^"']+)["']/);
-
-		// 用户覆盖
-		const userMode = extractField(userStr, /mode:\s*["']([^"']+)["']/);
-		if (userMode) mode = userMode;
-		const userApi = extractField(userStr, /meting_api:\s*["`]([^"`]+)["`]/);
-		if (userApi) meting_api = userApi;
-		const userId = extractField(userStr, /id:\s*["']([^"']+)["']/);
-		if (userId) meting_id = userId;
-		const userServer = extractField(userStr, /server:\s*["']([^"']+)["']/);
-		if (userServer) meting_server = userServer;
-		const userType = extractField(userStr, /type:\s*["']([^"']+)["']/);
-		if (userType) meting_type = userType;
-
-		if (mode !== "meting") {
-			console.log(
-				'ℹ Music player mode is not "meting", skipping API text collection.\n',
-			);
-			return new Set();
-		}
-
-		// 构建 API URL
-		const apiUrl = meting_api
-			.replace(":server", meting_server)
-			.replace(":type", meting_type)
-			.replace(":id", meting_id)
-			.replace(":auth", "")
-			.replace(":r", Date.now().toString());
-
-		console.log("ℹ Fetching music playlist from Meting API...");
-		console.log(`  URL: ${apiUrl}\n`);
-
-		// 设置请求超时
-		const controller = new AbortController();
-		const timeoutId = setTimeout(() => controller.abort(), 10000); // 10秒超时
-
-		const textSet = new Set();
-
-		try {
-			const response = await fetch(apiUrl, {
-				signal: controller.signal,
-				headers: {
-					"User-Agent":
-						"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-				},
-			});
-			clearTimeout(timeoutId);
-
-			if (!response.ok) {
-				throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-			}
-
-			const playlist = await response.json();
-
-			if (!Array.isArray(playlist)) {
-				throw new Error("API response is not an array");
-			}
-
-			console.log(
-				`✓ Successfully fetched ${playlist.length} songs from Meting API.\n`,
-			);
-
-			// 提取歌曲信息中的文字
-			let songCount = 0;
-			playlist.forEach((song) => {
-				const title = song.name ?? song.title ?? "";
-				const artist = song.artist ?? song.author ?? "";
-
-				// 只处理有效的歌曲信息
-				if (title.trim() || artist.trim()) {
-					songCount++;
-
-					// 添加歌名中的字符
-					for (const char of title) {
-						textSet.add(char);
-					}
-
-					// 添加歌手名中的字符
-					for (const char of artist) {
-						textSet.add(char);
-					}
-				}
-			});
-			if (songCount === 0) {
-				console.log("⚠ No valid song data found in API response.\n");
-			}
-		} catch (fetchError) {
-			clearTimeout(timeoutId);
-
-			if (fetchError.name === "AbortError") {
-				console.log(
-					"⚠ Meting API request timeout (10s), skipping music text collection.\n",
-				);
-			} else {
-				console.log(
-					`⚠ Failed to fetch Meting API data: ${fetchError.message}, skipping music text collection.\n`,
-				);
-			}
-		}
-
-		return textSet;
-	} catch (error) {
-		console.log(
-			`⚠ Error processing Meting API config: ${error.message}, skipping music text collection.\n`,
-		);
-		return new Set();
-	}
-}
-
-// 获取 Bilibili 番剧数据中的文字
-async function fetchBilibiliAnimeText() {
-	try {
-		// 检查番剧页面是否启用（配置已拆分，按优先级查找）
-		const featurePagesMatch = matchConfig(
-			/featurePages:\s*\{([\s\S]*?)\n\s*\},/,
-		);
-		if (featurePagesMatch) {
-			const featureConfig = featurePagesMatch[1];
-			const animeMatch = featureConfig.match(/anime:\s*(true|false)/);
-			if (!animeMatch || animeMatch[1] === "false") {
-				console.log(
-					"ℹ Anime page disabled, skipping Bilibili API text collection.\n",
-				);
-				return new Set();
-			}
-		}
-
-		// 提取番剧配置（配置已拆分，按优先级查找）
-		const animeModeMatch = matchConfig(
-			/anime:\s*\{[\s\S]*?mode:\s*["']([^"']+)["']/,
-		);
-		const mode = animeModeMatch ? animeModeMatch[1] : "bangumi";
-
-		if (mode !== "bilibili") {
-			console.log(
-				`ℹ Anime mode is not "bilibili" or no vmId configured, skipping Bilibili API text collection.\n`,
-			);
-			return new Set();
-		}
-
-		// 读取 bilibili-data.json 文件
-		const dataFilePath = path.join(
-			__dirname,
-			"../src/config/user/bilibili-data.json",
-		);
-		if (!fs.existsSync(dataFilePath)) {
-			console.log(
-				"ℹ Bilibili data file not found, skipping Bilibili API text collection.\n",
-			);
-			return new Set();
-		}
-
-		console.log("ℹ Reading anime data from Bilibili data file...");
-
-		const textSet = new Set();
-		const fileContent = fs.readFileSync(dataFilePath, "utf-8");
-		const animeList = JSON.parse(fileContent);
-
-		if (!Array.isArray(animeList)) {
-			console.log(
-				"⚠ Bilibili data is not an array, skipping text collection.\n",
-			);
-			return new Set();
-		}
-
-		let processedCount = 0;
-
-		// 处理每个动画条目
-		for (const item of animeList) {
-			// 提取标题
-			const title = item.title || "";
-			for (const char of title) {
-				textSet.add(char);
-			}
-
-			// 提取描述/评价
-			const description = item.description || item.evaluate || "";
-			for (const char of description) {
-				textSet.add(char);
-			}
-
-			// 提取工作室/地区
-			const studio = item.studio || "";
-			for (const char of studio) {
-				textSet.add(char);
-			}
-
-			// 提取年份
-			const year = item.year || "";
-			for (const char of year) {
-				textSet.add(char);
-			}
-
-			// 提取类型/标签/风格
-			if (item.genre && Array.isArray(item.genre)) {
-				item.genre.forEach((genre) => {
-					if (typeof genre === "string") {
-						for (const char of genre) {
-							textSet.add(char);
-						}
-					}
-				});
-			}
-
-			// 提取副标题（如果有）
-			const subtitle = item.subtitle || "";
-			if (subtitle) {
-				for (const char of subtitle) {
-					textSet.add(char);
-				}
-			}
-
-			processedCount++;
-		}
-
-		if (processedCount > 0) {
-			console.log(
-				`✓ Successfully processed ${processedCount} anime items from Bilibili data.\n`,
-			);
-		} else {
-			console.log("⚠ No anime data found in Bilibili data file.\n");
-		}
-
-		return textSet;
-	} catch (error) {
-		console.log(
-			`⚠ Error processing Bilibili data: ${error.message}, skipping Bilibili API text collection.\n`,
-		);
-		return new Set();
-	}
-}
-
-// 获取 Bangumi API 番剧数据中的文字
-async function fetchBangumiAnimeText() {
-	try {
-		// 检查番剧页面是否启用（配置已拆分，按优先级查找）
-		const featurePagesMatch = matchConfig(
-			/featurePages:\s*\{([\s\S]*?)\n\s*\},/,
-		);
-		if (featurePagesMatch) {
-			const featureConfig = featurePagesMatch[1];
-			const animeMatch = featureConfig.match(/anime:\s*(true|false)/);
-			if (!animeMatch || animeMatch[1] === "false") {
-				console.log(
-					"ℹ Anime page disabled, skipping Bangumi API text collection.",
-				);
-				return new Set();
-			}
-		}
-
-		// 提取番剧配置（配置已拆分，按优先级查找）
-		const bangumiUserIdMatch = matchConfig(
-			/anime:\s*\{[\s\S]*?bangumi:\s*\{[\s\S]*?userId:\s*["']([^"']+)["']/,
-		);
-		const animeModeMatch = matchConfig(
-			/anime:\s*\{[\s\S]*?mode:\s*["']([^"']+)["']/,
-		);
-
-		const userId = bangumiUserIdMatch ? bangumiUserIdMatch[1] : null;
-		const mode = animeModeMatch ? animeModeMatch[1] : "bangumi";
-
-		if (mode !== "bangumi" || !userId) {
-			console.log(
-				`ℹ Anime mode is not "bangumi" or no userId configured, skipping Bangumi API text collection.\n`,
-			);
-			return new Set();
-		}
-
-		console.log("ℹ Fetching anime data from Bangumi API...");
-		console.log(`  User ID: ${userId}`);
-
-		const textSet = new Set();
-		const BANGUMI_API_BASE = "https://api.bgm.tv";
-
-		// Bangumi 收藏类型：1=想看，2=看过，3=在看，4=搁置，5=抛弃
-		const collectionTypes = [1, 2, 3, 4, 5];
-
-		// 获取单个收藏列表
-		async function fetchCollection(userId, subjectType, type) {
-			try {
-				let allData = [];
-				let offset = 0;
-				const limit = 50;
-				let hasMore = true;
-
-				while (hasMore) {
-					const controller = new AbortController();
-					const timeoutId = setTimeout(() => controller.abort(), 10000);
-
-					const response = await fetch(
-						`${BANGUMI_API_BASE}/v0/users/${userId}/collections?subject_type=${subjectType}&type=${type}&limit=${limit}&offset=${offset}`,
-						{
-							signal: controller.signal,
-							headers: {
-								"User-Agent":
-									"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-							},
-						},
-					);
-					clearTimeout(timeoutId);
-
-					if (!response.ok) {
-						throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-					}
-
-					const data = await response.json();
-
-					if (data.data && data.data.length > 0) {
-						allData = [...allData, ...data.data];
-					}
-
-					if (!data.data || data.data.length < limit) {
-						hasMore = false;
-					} else {
-						offset += limit;
-					}
-
-					// 防止请求过于频繁
-					await new Promise((resolve) => setTimeout(resolve, 200));
-				}
-
-				return allData;
-			} catch (error) {
-				console.log(
-					`⚠ Failed to fetch collection type ${type}: ${error.message}.\n`,
-				);
-				return [];
-			}
-		}
-
-		// 获取相关人员信息（制作公司等）
-		async function fetchSubjectPersons(subjectId) {
-			try {
-				const controller = new AbortController();
-				const timeoutId = setTimeout(() => controller.abort(), 5000);
-
-				const response = await fetch(
-					`${BANGUMI_API_BASE}/v0/subjects/${subjectId}/persons`,
-					{
-						signal: controller.signal,
-						headers: {
-							"User-Agent":
-								"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-						},
-					},
-				);
-				clearTimeout(timeoutId);
-
-				if (!response.ok) {
-					return [];
-				}
-
-				const data = await response.json();
-				return Array.isArray(data) ? data : [];
-			} catch (_error) {
-				return [];
-			}
-		}
-
-		let totalItems = 0;
-
-		// 遍历所有收藏类型
-		for (const type of collectionTypes) {
-			const collections = await fetchCollection(userId, 2, type); // 2=动画
-
-			if (collections.length === 0) {
-				continue;
-			}
-
-			console.log(
-				`✓ Fetched ${collections.length} items from collection type ${type}.\n`,
-			);
-			totalItems += collections.length;
-
-			// 处理每个动画条目
-			for (const item of collections) {
-				const subject = item.subject || {};
-
-				// 提取标题
-				const titleCn = subject.name_cn || "";
-				const title = subject.name || "";
-
-				for (const char of titleCn) {
-					textSet.add(char);
-				}
-				for (const char of title) {
-					textSet.add(char);
-				}
-
-				// 提取简介
-				const summary = subject.short_summary || "";
-				for (const char of summary) {
-					textSet.add(char);
-				}
-
-				// 提取标签
-				if (subject.tags && Array.isArray(subject.tags)) {
-					subject.tags.forEach((tag) => {
-						if (tag.name) {
-							for (const char of tag.name) {
-								textSet.add(char);
-							}
-						}
-					});
-				}
-
-				// 获取制作公司信息（限制并发请求）
-				if (item.subject_id && Math.random() < 0.3) {
-					// 只获取30%的详细信息，避免请求过多
-					const persons = await fetchSubjectPersons(item.subject_id);
-
-					persons.forEach((person) => {
-						if (person.name) {
-							for (const char of person.name) {
-								textSet.add(char);
-							}
-						}
-						if (person.relation) {
-							for (const char of person.relation) {
-								textSet.add(char);
-							}
-						}
-					});
-
-					// 请求间隔
-					await new Promise((resolve) => setTimeout(resolve, 100));
-				}
-			}
-		}
-
-		if (totalItems > 0) {
-			console.log(
-				`✓ Successfully processed ${totalItems} anime items from Bangumi API.\n`,
-			);
-		} else {
-			console.log("⚠ No anime data found from Bangumi API.\n");
-		}
-
-		return textSet;
-	} catch (error) {
-		console.log(
-			`⚠ Error processing Bangumi API config: ${error.message}, skipping anime text collection.\n`,
-		);
-		return new Set();
-	}
-}
-
-// 收集所有使用的文字（用于 CJK 字体）
-async function collectText() {
-	await getConfig();
-
-	const textSet = new Set();
-
-	// 1. 读取 src/config/user 和 src/config/defaults 目录
-	const userConfigDir = path.join(__dirname, "../src/config/user");
-	const defaultsConfigDir = path.join(__dirname, "../src/config/defaults");
-	const userDataFiles = fs.existsSync(userConfigDir)
-		? readFilesRecursively(userConfigDir)
-		: [];
-	const defaultsDataFiles = fs.existsSync(defaultsConfigDir)
-		? readFilesRecursively(defaultsConfigDir)
-		: [];
-	const dataFiles = [...userDataFiles, ...defaultsDataFiles];
-
-	dataFiles.forEach((file) => {
-		if (file.endsWith(".ts") || file.endsWith(".js")) {
-			const content = fs.readFileSync(file, "utf-8");
-
-			// 改进的字符串匹配
-			const patterns = [
-				// 双引号字符串
-				/"([^"\\]|\\.|\\n|\\t)*"/g,
-				// 单引号字符串
-				/'([^'\\]|\\.|\\n|\\t)*'/g,
-				// 模板字符串
-				/`([^`\\]|\\.|\\n|\\t)*`/g,
-			];
-
-			patterns.forEach((pattern) => {
-				const matches = content.match(pattern);
-				if (matches) {
-					matches.forEach((match) => {
-						let text = match;
-
-						// 清理引号
-						if (
-							(text.startsWith('"') && text.endsWith('"')) ||
-							(text.startsWith("'") && text.endsWith("'")) ||
-							(text.startsWith("`") && text.endsWith("`"))
-						) {
-							text = text.slice(1, -1);
-						}
-
-						// 处理转义字符
-						text = text
-							.replace(/\\n/g, "\n")
-							.replace(/\\t/g, "\t")
-							.replace(/\\"/g, '"')
-							.replace(/\\'/g, "'");
-
-						for (const char of text) {
-							textSet.add(char);
-						}
-					});
-				}
-			});
-
-			// 简单正则作为补充
-			const stringMatches = content.match(/["'`]([^"'`]+)["'`]/g);
-			if (stringMatches) {
-				stringMatches.forEach((match) => {
-					const text = match.slice(1, -1);
-					for (const char of text) {
-						textSet.add(char);
-					}
-				});
-			}
-		}
-	});
-
-	// 2. 读取配置文件（配置拆分后分布在 user/ 和 defaults/ 目录，全部纳入扫描）
-	for (const content of readConfigContents()) {
-		// 改进的字符串匹配
-		const patterns = [
-			// 双引号字符串
-			/"([^"\\]|\\.|\\n|\\t)*"/g,
-			// 单引号字符串
-			/'([^'\\]|\\.|\\n|\\t)*'/g,
-			// 模板字符串
-			/`([^`\\]|\\.|\\n|\\t)*`/g,
-		];
-
-		patterns.forEach((pattern) => {
-			const matches = content.match(pattern);
-			if (matches) {
-				matches.forEach((match) => {
-					// 清理引号和注释标记
-					let text = match;
-
-					// 移除字符串的引号
-					if (
-						(text.startsWith('"') && text.endsWith('"')) ||
-						(text.startsWith("'") && text.endsWith("'")) ||
-						(text.startsWith("`") && text.endsWith("`"))
-					) {
-						text = text.slice(1, -1);
-					}
-
-					// 处理转义字符
-					text = text
-						.replace(/\\n/g, "\n")
-						.replace(/\\t/g, "\t")
-						.replace(/\\"/g, '"')
-						.replace(/\\'/g, "'");
-
-					// 提取所有字符（包括中文）
-					for (const char of text) {
-						textSet.add(char);
-					}
-				});
-			}
-		});
-
-		// 作为补充，还用原来的简单正则再扫一遍，确保不遗漏
-		const simpleMatches = content.match(/["'`]([^"'`]+)["'`]/g);
-		if (simpleMatches) {
-			simpleMatches.forEach((match) => {
-				const text = match.slice(1, -1);
-				for (const char of text) {
-					textSet.add(char);
-				}
-			});
-		}
-	}
-
-	// 3. 读取 i18n 语言文件（扫描全部语言，确保客户端切换语言后 UI 文本仍有字形）
-	const i18nDir = path.join(__dirname, "../src/i18n/languages");
-	const i18nFiles = fs.existsSync(i18nDir)
-		? fs
-				.readdirSync(i18nDir)
-				.filter((f) => f.endsWith(".ts") && f !== "index.ts")
-		: [];
-
-	for (const i18nFileName of i18nFiles) {
-		const content = fs.readFileSync(path.join(i18nDir, i18nFileName), "utf-8");
-
-		// 改进的字符串匹配
-		const patterns = [
-			/"([^"\\]|\\.|\\n|\\t)*"/g,
-			/'([^'\\]|\\.|\\n|\\t)*'/g,
-			/`([^`\\]|\\.|\\n|\\t)*`/g,
-		];
-
-		patterns.forEach((pattern) => {
-			const matches = content.match(pattern);
-			if (matches) {
-				matches.forEach((match) => {
-					let text = match;
-
-					if (
-						(text.startsWith('"') && text.endsWith('"')) ||
-						(text.startsWith("'") && text.endsWith("'")) ||
-						(text.startsWith("`") && text.endsWith("`"))
-					) {
-						text = text.slice(1, -1);
-					}
-
-					// 处理转义字符
-					text = text
-						.replace(/\\n/g, "\n")
-						.replace(/\\t/g, "\t")
-						.replace(/\\"/g, '"')
-						.replace(/\\'/g, "'");
-
-					for (const char of text) {
-						textSet.add(char);
-					}
-				});
-			}
-		});
-
-		// 简单正则作为补充
-		const stringMatches = content.match(/["'`]([^"'`]+)["'`]/g);
-		if (stringMatches) {
-			stringMatches.forEach((match) => {
-				const text = match.slice(1, -1);
-				for (const char of text) {
-					textSet.add(char);
-				}
-			});
-		}
-	}
-
-	// 4. 读取 content 目录
-	const contentDir = path.join(__dirname, "../src/content");
-
-	// 检查目录是否存在
-	if (!fs.existsSync(contentDir)) {
-		console.log(`⚠ Content directory does not exist: ${contentDir}`);
-		console.log("ℹ Skipping content text collection...\n");
-	} else {
-		const contentFiles = readFilesRecursively(contentDir);
-
-		contentFiles.forEach((file) => {
-			const ext = path.extname(file);
-			if ([".md", ".mdx", ".ts", ".js"].includes(ext)) {
-				const content = fs.readFileSync(file, "utf-8");
-				const text = extractText(content, ext);
-				for (const char of text) {
-					// 只保留中文、日文、韩文等 CJK 字符和常用标点
-					if (
-						char.match(
-							/[\u4e00-\u9fff\u3040-\u309f\u30a0-\u30ff\uac00-\ud7af\u3000-\u303f\uff00-\uffef]/,
-						)
-					) {
-						textSet.add(char);
-					}
-				}
-			}
-		});
-	}
-
-	// ASCII 可打印字符
-	for (let code = 0x20; code <= 0x7e; code++) {
-		textSet.add(String.fromCharCode(code));
-	}
-
-	// 常用全角中文标点
-	const commonChars = "，。！？；：“”‘’（）《》、·—…「」『』【】";
-	for (const char of commonChars) {
-		textSet.add(char);
-	}
-
-	// Latin-1（é à ü ç © ° ± 等西欧字符）
-	for (let code = 0xa0; code <= 0xff; code++) {
-		textSet.add(String.fromCharCode(code));
-	}
-
-	// 常用标点符号（破折号、引号、省略号、箭头等）
-	const symbols = "–—‘’“”…‹›«»©®™°℃℉•§¶†‡←↑→↓↔⇐⇒№";
-	for (const char of symbols) {
-		textSet.add(char);
-	}
-
-	// 西里尔字母与希腊字母
-	for (let code = 0x400; code <= 0x44f; code++) {
-		textSet.add(String.fromCharCode(code));
-	}
-	for (let code = 0x391; code <= 0x3c9; code++) {
-		textSet.add(String.fromCharCode(code));
-	}
-
-	// 5. 扫描 src/ 下全部源码文件（components/pages/layouts/utils/constants 等）
-	const srcDir = path.join(__dirname, "../src");
-	if (fs.existsSync(srcDir)) {
-		const srcFiles = readFilesRecursively(srcDir);
-		for (const file of srcFiles) {
-			if (
-				!/\.(astro|svelte|ts|js|mjs|jsx|tsx|md|mdx)$/.test(path.extname(file))
-			) {
-				continue;
-			}
-			const content = fs.readFileSync(file, "utf-8");
-			for (const char of content) {
-				const cp = char.codePointAt(0);
-				if (
-					(cp >= 0x4e00 && cp <= 0x9fff) || // CJK 统一表意文字
-					(cp >= 0x3400 && cp <= 0x4dbf) || // 扩展 A
-					(cp >= 0x3040 && cp <= 0x30ff) || // 假名
-					(cp >= 0x3000 && cp <= 0x303f) || // 中文标点
-					(cp >= 0xff00 && cp <= 0xffef) // 全角/半角形式（含 ･ 、！等）
-				) {
-					textSet.add(char);
-				}
-			}
-		}
-	}
-
-	// 6. 从 Meting API 获取歌单数据中的文字
-	const metingTextSet = await fetchMetingPlaylistText();
-
-	// 将 Meting API 的文字添加到主文字集合中
-	for (const char of metingTextSet) {
-		textSet.add(char);
-	}
-
-	if (metingTextSet.size > 0) {
-		console.log(
-			`✓ Added ${metingTextSet.size} unique characters from music playlist.\n`,
-		);
-	}
-
-	// 7. 从 Bangumi API 获取番剧数据中的文字
-	const bangumiTextSet = await fetchBangumiAnimeText();
-
-	// 将 Bangumi API 的文字添加到主文字集合中
-	for (const char of bangumiTextSet) {
-		textSet.add(char);
-	}
-
-	if (bangumiTextSet.size > 0) {
-		console.log(
-			`✓ Added ${bangumiTextSet.size} unique characters from Bangumi anime data.\n`,
-		);
-	}
-
-	// 8. 从 Bilibili 数据文件获取番剧数据中的文字
-	const bilibiliTextSet = await fetchBilibiliAnimeText();
-	for (const char of bilibiliTextSet) {
-		textSet.add(char);
-	}
-
-	if (bilibiliTextSet.size > 0) {
-		console.log(
-			`✓ Added ${bilibiliTextSet.size} unique characters from Bilibili anime data.\n`,
-		);
-	}
-
-	const allText = Array.from(textSet).sort().join("");
-
-	return allText;
-}
-
-// 压缩字体并输出到 dist 目录
+// 使用 cn-font-split 将字体按 unicode-range 分块输出到 dist 目录
 async function compressFonts() {
 	try {
 		// 读取配置
-		const { fonts } = await getConfig();
+		const { fonts, fontFamily, fontWeight } = await getConfig();
 
 		if (fonts.length === 0) {
 			console.log(
-				"⚠ No fonts to compress (enableCompress=false or localFonts is empty).\n",
+				"⚠ No fonts to split (enableCompress=false or localFonts is empty).\n",
 			);
 			return;
 		}
@@ -1024,30 +113,25 @@ async function compressFonts() {
 			return;
 		}
 
-		// 创建 dist/assets/font 目录
-		const distFontDir = path.join(distDir, "assets/font");
-		if (!fs.existsSync(distFontDir)) {
-			fs.mkdirSync(distFontDir, { recursive: true });
-		}
+		const { fontSplit } = await (async () => {
+			// cn-font-split 在 import 时会无条件打印运行时选择信息，临时屏蔽
+			const originalLog = console.log;
+			console.log = () => {};
+			try {
+				return await import("cn-font-split");
+			} finally {
+				console.log = originalLog;
+			}
+		})();
 
-		// 根据字体类型收集不同的字符集
-		const allText = await collectText(); // 统一字体使用完整字符集（包含 ASCII 和 CJK）
-
-		console.log("Starting font compression...");
-		console.log(`ℹ Found ${fonts.length} font configs to compress.`);
+		console.log("Starting font chunking...");
 
 		let totalOriginalSize = 0;
-		let totalCompressedSize = 0;
+		let totalChunkedSize = 0;
 		let processedCount = 0;
-
-		// 用于收集所有错误
 		const errors = [];
 
-		// 遍历所有需要压缩的字体
 		for (const fontConfig of fonts) {
-			// 使用完整字符集
-			const text = allText;
-
 			for (const fontFile of fontConfig.files) {
 				const fontSrc = path.join(__dirname, "../public/assets/font", fontFile);
 				const ext = path.extname(fontFile).toLowerCase();
@@ -1064,82 +148,100 @@ async function compressFonts() {
 				const originalSize = fs.statSync(fontSrc).size;
 				totalOriginalSize += originalSize;
 
-				// 根据文件类型决定处理方式
-				if (ext === ".woff2" || ext === ".woff") {
-					// WOFF/WOFF2 使用 subset-font 直接子集化，支持 CFF/TTF 格式
-					console.log(`Compressing ${fontFile} (subset → ${ext.slice(1)})...`);
-					const subsetFont = (await import("subset-font")).default;
+				// 每个字体的分块输出到独立目录，入口 CSS 固定为 result.css
+				const outDir = path.join(distDir, "assets/font", baseName);
+				if (fs.existsSync(outDir)) {
+					fs.rmSync(outDir, { recursive: true, force: true });
+				}
+				fs.mkdirSync(outDir, { recursive: true });
 
-					const subsetBuffer = await subsetFont(
-						fs.readFileSync(fontSrc),
-						text,
-						{ targetFormat: ext.slice(1) },
-					);
+				console.log(
+					`Splitting ${fontFile} (chunks → assets/font/${baseName}/)...`,
+				);
 
-					fs.writeFileSync(path.join(distFontDir, fontFile), subsetBuffer);
-
-					// 检查压缩结果
-					const compressedFile = path.join(distFontDir, fontFile);
-
-					if (fs.existsSync(compressedFile)) {
-						const compressedSize = fs.statSync(compressedFile).size;
-						totalCompressedSize += compressedSize;
-						const reduction = (
-							(1 - compressedSize / originalSize) *
-							100
-						).toFixed(2);
-
-						console.log(
-							`✓ ${fontFile} (${(compressedSize / 1024).toFixed(2)} KB, reduced ${reduction}%)`,
-						);
-						processedCount++;
+				try {
+					// 屏蔽 cn-font-split 内部 console 的日志
+					const originalConsole = {
+						log: console.log,
+						time: console.time,
+						timeEnd: console.timeEnd,
+						info: console.info,
+					};
+					if (!FONT_SPLIT_DEBUG) {
+						const noop = () => {};
+						console.log = noop;
+						console.time = noop;
+						console.timeEnd = noop;
+						console.info = noop;
 					}
+					try {
+						await fontSplit({
+							input: fs.readFileSync(fontSrc),
+							outDir,
+							targetType: "woff2",
+							testHtml: false,
+							reporter: false,
+							// 默认关闭逐文件与进度日志，仅保留脚本自身的汇总输出；调试时随之开启
+							silent: !FONT_SPLIT_DEBUG,
+							css: {
+								// 与 siteConfig.font.fontFamily 对齐，避免使用字体内部命名
+								fontFamily:
+									fontFamily || baseName.replace(/-[A-Za-z0-9]+$/, ""),
+								fontWeight,
+								fontDisplay: "swap",
+							},
+						});
+					} finally {
+						console.log = originalConsole.log;
+						console.time = originalConsole.time;
+						console.timeEnd = originalConsole.timeEnd;
+						console.info = originalConsole.info;
+					}
+				} catch (splitError) {
+					errors.push(
+						`✗ Font splitting failed for ${fontFile}: ${splitError.message}\n`,
+					);
+					console.log(
+						`\n✗ Font splitting failed for ${fontFile}: ${splitError.message}\n`,
+					);
 					continue;
 				}
 
-				if (ext === ".ttf" || ext === ".otf") {
-					// TTF/OTF 同样使用 subset-font 子集化并输出为 woff2，兼容 TrueType/CFF 两种轮廓
-					console.log(`Compressing ${fontFile} (subset → woff2)...`);
-					const subsetFont = (await import("subset-font")).default;
+				// 统计分块产物
+				const chunkFiles = fs
+					.readdirSync(outDir)
+					.filter((f) => f.endsWith(".woff2") || f.endsWith(".css"));
+				const cssFile = chunkFiles.find((f) => f.endsWith(".css"));
 
-					const subsetBuffer = await subsetFont(
-						fs.readFileSync(fontSrc),
-						text,
-						{ targetFormat: "woff2" },
+				if (!cssFile) {
+					errors.push(
+						`✗ Font splitting produced no CSS entry for ${fontFile}.\n`,
 					);
-
-					fs.writeFileSync(
-						path.join(distFontDir, `${baseName}.woff2`),
-						subsetBuffer,
-					);
-
-					// 检查压缩结果
-					const compressedFile = path.join(distFontDir, `${baseName}.woff2`);
-
-					if (fs.existsSync(compressedFile)) {
-						const compressedSize = fs.statSync(compressedFile).size;
-						totalCompressedSize += compressedSize;
-						const reduction = (
-							(1 - compressedSize / originalSize) *
-							100
-						).toFixed(2);
-
-						console.log(
-							`✓ ${fontFile} → ${baseName}.woff2 (${(compressedSize / 1024).toFixed(2)} KB, reduced ${reduction}%)`,
-						);
-						processedCount++;
-					}
+					continue;
 				}
 
-				if (ext !== ".ttf" && ext !== ".otf") {
-					console.log(`⚠ Unsupported font format, skipping: ${fontFile}...\n`);
+				const chunkedSize = chunkFiles.reduce(
+					(sum, f) => sum + fs.statSync(path.join(outDir, f)).size,
+					0,
+				);
+				totalChunkedSize += chunkedSize;
+				processedCount++;
+
+				// 分块成功后删除 dist 中由 public 拷贝来的全量源文件（页面仅引用 result.css，保留会白占部署体积）
+				const distSourceCopy = path.join(distDir, "assets/font", fontFile);
+				if (fs.existsSync(distSourceCopy)) {
+					fs.rmSync(distSourceCopy);
 				}
+
+				console.log(
+					`✓ ${fontFile} → ${baseName}/${cssFile} (${chunkFiles.length - 1} chunks, ${(chunkedSize / 1024).toFixed(2)} KB from ${(originalSize / 1024).toFixed(2)} KB)`,
+				);
 			}
 		}
 
 		// 输出总结
 		if (errors.length > 0) {
-			console.log("\n✗ Font compression encountered errors!");
+			console.log("\n✗ Font chunking encountered errors!");
 			console.log(`${errors.length} errors, please fix and retry.\n`);
 
 			// 列出实际存在的字体文件
@@ -1167,21 +269,19 @@ async function compressFonts() {
 		}
 
 		if (processedCount > 0) {
-			const totalReduction = (
-				(1 - totalCompressedSize / totalOriginalSize) *
-				100
-			).toFixed(2);
 			console.log(
-				`\n✓ Font optimization complete!, Files processed: ${processedCount}, Overall reduction: ${totalReduction}%\n`,
+				`\n✓ Font chunking complete! Files processed: ${processedCount}, Total size: ${(totalChunkedSize / 1024).toFixed(2)} KB (source ${(totalOriginalSize / 1024).toFixed(2)} KB)\n`,
 			);
 		} else {
 			console.log("⚠ No font files processed.\n");
 		}
 	} catch (error) {
-		console.error("\n✗ Font compression failed:", error);
+		console.error("\n✗ Font chunking failed:", error);
 		process.exit(1);
 	}
+	// FFI 清理在 Windows 上偶发 access violation 崩溃，成功后显式退出避免污染构建链
+	process.exit(0);
 }
 
-// 运行压缩
+// 运行分块
 compressFonts();

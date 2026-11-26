@@ -119,8 +119,8 @@ export type SiteConfig = {
 	font: {
 		fontFamily: string; // 字体名称（用于 CSS font-family）
 		fontWeight?: string | number; // 字体粗细
-		localFonts: string[]; // 源字体文件（public/assets/font/ 下，支持 TTF / OTF / WOFF / WOFF2），构建时按站点实际使用的字符子集化；Web 字体路径自动推导
-		enableCompress: boolean; // 是否启用字体子集优化（减少字体文件大小，只保留实际使用的字符）
+		localFonts: string[]; // 源字体文件（public/assets/font/ 下，支持 TTF / OTF / WOFF / WOFF2），构建后 Web 字体路径自动推导
+		enableCompress: boolean; // 是否启用字体分块
 	};
 
 	// 番剧页面配置（整合 bangumi、bilibili 配置）

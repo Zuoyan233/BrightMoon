@@ -92,7 +92,8 @@ In Chinese culture, the "Bright Moon" symbolizes clarity, fulfillment, and const
 - **Cookie Consent** - Cookie privacy policy banner with accept/deny support. Rejecting disables: analytics, advertising, weather auto-location, and third-party comment systems.
 - **Site Statistics** - Real-time display of current date (with multi-region format support), season, and time period.
 - **Image Volume Compression** - Automatically compress images, and convert them to WebP or AVIF format, reducing load times and enhancing user experience.
-- **Dist Pre-compression** - Generates Brotli (`.br`) and Gzip (`.gz`) files for text assets at build time, working with Nginx `gzip_static` / `brotli_static` to serve pre-compressed files with zero CPU overhead on self-hosted deployments (harmless on platforms with built-in compression). Configurable via `distCompressConfig` in `src/config/user/`.
+- **Font Chunking** - Splits local fonts into unicode-range chunks via cn-font-split at build time; browsers download only the chunks actually rendered on the current page, with full charset coverage and no missing-glyph fallback.
+- **Dist Pre-compression** - Generates Brotli (`.br`) and Gzip (`.gz`) files for text assets at build time, achieving zero-CPU-overhead compressed delivery on self-hosted deployments.
 - **Framework Update Checker** - Automatically detects new BrightMoon releases via remote repository API, supports stable and pre-release detection, with prompt dialogs for updates.
 - **Framework Upgrade Tool** - Supports both online and local upgrades, with automatic backup creation and rollback prevention before updating, and automatic dependency installation and temporary file cleanup after upgrading; supports manual backup creation and project restoration from backups.
 

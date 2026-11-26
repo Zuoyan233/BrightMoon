@@ -167,7 +167,7 @@
 		var templateCode = document.getElementById("friend-template-code");
 		if (copyTemplateBtn && templateCode) {
 			const templateClickHandler = () => {
-				var text = templateCode.innerText;
+				var text = templateCode.textContent;
 				if (!text) return;
 
 				if (navigator.clipboard?.writeText) {

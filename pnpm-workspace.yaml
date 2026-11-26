@@ -1,5 +1,8 @@
 allowBuilds:
+  cn-font-split: true
   esbuild: true
+  koffi: true
+  protobufjs: true
   sharp: true
   ttf2woff2: true
   workerd: true
@@ -7,7 +10,10 @@ minimumReleaseAgeExclude:
   - astro@7.4.8
 onlyBuiltDependencies:
   - '@parcel/watcher'
+  - cn-font-split
   - esbuild
+  - koffi
+  - protobufjs
   - sharp
   - swup
   - ttf2woff2
