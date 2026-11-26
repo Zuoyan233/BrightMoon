@@ -447,6 +447,7 @@ As Mizuki has ceased maintenance, BrightMoon now continues to be maintained as a
 | `pnpm lint`                | Check and fix code issues                      |
 | `pnpm optimize-images`     | Run image volume compression tool              |
 | `pnpm compress-dist`       | Run dist pre-compression tool (.br/.gz files)  |
+| `pnpm lighthouse`          | Run Lighthouse audits (mobile + desktop reports, requires `CHROME_PATH` in `.env`) |
 | `pnpm new-post <filename>` | Create a new blog post                         |
 | `pnpm astro ...`           | Run Astro CLI commands                         |
 

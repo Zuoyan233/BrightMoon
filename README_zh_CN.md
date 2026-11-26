@@ -447,6 +447,7 @@ BrightMoon 是一款兼具现代简约与优雅气质的独特二次元美学静
 | `pnpm lint`               | 检查并修复代码问题                     |
 | `pnpm optimize-images`    | 运行图片体积压缩工具                   |
 | `pnpm compress-dist`      | 运行构建产物预压缩工具（.br/.gz）      |
+| `pnpm lighthouse`         | 运行 Lighthouse 检测（移动端＋桌面端报告，需在 .env 配置 CHROME_PATH） |
 | `pnpm new-post <文件名>`  | 创建新博客文章                         |
 | `pnpm astro ...`          | 运行 Astro CLI 命令                    |
 

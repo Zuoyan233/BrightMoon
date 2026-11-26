@@ -442,6 +442,7 @@ Mizuki のメンテナンスが停止されたため、BrightMoon は現在独�
 | `pnpm lint`                  | コード問題のチェックと修正                                |
 | `pnpm optimize-images`       | 画像体積圧縮ツールを実行                                  |
 | `pnpm compress-dist`         | ビルド成果物の事前圧縮ツールを実行 (.br/.gz)              |
+| `pnpm lighthouse`            | Lighthouse 監査を実行 (モバイル＋デスクトップ、.env に CHROME_PATH が必要) |
 | `pnpm new-post <ファイル名>` | 新規ブログ記事作成                                        |
 | `pnpm astro ...`             | Astro CLI コマンド実行                                    |
 

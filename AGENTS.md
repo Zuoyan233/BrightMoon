@@ -25,12 +25,14 @@ Core features:
 | Command | Purpose |
 |---------|---------|
 | `pnpm dev` | Start dev server |
-| `pnpm build` | Full build (update-anime → astro build → pagefind → optimize-images → compress-fonts) |
+| `pnpm build` | Full build (update-anime → astro build → pagefind → optimize-images → compress-fonts → compress-dist) |
+| `pnpm compress-dist` | Pre-compress dist text assets (brotli/gzip), normally run as part of `pnpm build` |
 | `pnpm check` | Astro type checking |
 | `pnpm type-check` | `tsc --noEmit --isolatedDeclarations` |
 | `pnpm lint` | Biome check + auto-fix (`./src`) |
 | `pnpm format` | Biome format only (`./src`) |
 | `pnpm preview` | Preview build output |
+| `pnpm lighthouse` | Lighthouse audits (auto-starts preview server, runs mobile + desktop tests, generates `lighthouse-report-mobile.html` / `lighthouse-report-desktop.html`, requires prior `pnpm build` and `CHROME_PATH`) |
 | `pnpm new-post -- <filename>` | Create a new post (auto-generates frontmatter) |
 | `pnpm update-anime` | Update anime data |
 | `pnpm update-bangumi` | Sync data from Bangumi API |
@@ -94,7 +96,7 @@ src/
 ├── content.config.ts # Content collection Zod schema definitions
 └── env.d.ts         # Environment variable type declarations
 
-scripts/              # Build/tool scripts (update-anime.mjs, update-bangumi.mjs, update-bilibili.mjs, optimize-images.js, compress-fonts.js, new-post.js, upgrade.mjs, indexnow-submit.js, load-env.js)
+scripts/              # Build/tool scripts (update-anime.mjs, update-bangumi.mjs, update-bilibili.mjs, optimize-images.js, compress-fonts.js, new-post.js, upgrade.mjs, indexnow-submit.js, load-env.js, run-lighthouse.mjs, compress-dist.mjs)
 public/               # Static assets (assets/, favicon/, images/, js/, pio/ Live2D models)
 ```
 
@@ -218,6 +220,7 @@ Copy `.env.example` to `.env`:
 | `INDEXNOW_HOST` | Site domain for IndexNow |
 | `CF_WORKERS` | Set to any value to enable Cloudflare Workers adapter (read directly by `astro.config.mjs`, not in `.env.example`) |
 | `ENABLE_CONTENT_SYNC` | Set to `false` to skip external API sync scripts (used by CI) |
+| `CHROME_PATH` | Path to a Chromium-based browser (Chrome or Edge) executable, used by `pnpm lighthouse` (see `.env.example` for per-OS examples) |
 
 **`.env` is in `.gitignore` — never commit it.**
 
@@ -243,6 +246,7 @@ Copy `.env.example` to `.env`:
 3. `pagefind --site dist` — Generate search index
 4. `node scripts/optimize-images.js --dist` — Optimize output images
 5. `node scripts/compress-fonts.js` — Font subsetting & compression
+6. `node scripts/compress-dist.mjs` — Pre-compress dist text assets (brotli level 11 / gzip level 9, configurable via `distCompressConfig`)
 
 ## Commit Conventions
 
