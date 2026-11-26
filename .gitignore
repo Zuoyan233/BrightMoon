@@ -1,6 +1,9 @@
 # build output
 dist/
 
+# lighthouse reports
+lighthouse-report-*.html
+
 # generated types
 .astro/
 
