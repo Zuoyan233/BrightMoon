@@ -7,15 +7,17 @@ export const defaultNavBarConfig: NavBarConfig = {
 		LinkPreset.Archive,
 		// 自定义链接组
 		{
-			name: "Links",
-			url: "/links/",
-			icon: "material-symbols:link",
+			name: "Links", // 自定义链接组名称
+			url: "/links/", // 自定义链接组链接
+			icon: "material-symbols:link", // 图标名称，格式为 "material-symbols:图标名称"
+
+			// 自定义链接组子链接
 			children: [
 				{
-					name: "Bilibili",
-					url: "https://space.bilibili.com/352580971",
-					external: true,
-					icon: "fa6-brands:bilibili",
+					name: "Bilibili", // 名称
+					url: "https://space.bilibili.com/352580971", // 链接
+					external: true, // 是否在新标签页打开
+					icon: "fa6-brands:bilibili", // 图标名称，格式为 "fa6-brands:图标名称"
 				},
 				{
 					name: "GitHub",

@@ -11,9 +11,9 @@ export const defaultProfileConfig: ProfileConfig = {
 	links: [
 		// 社交链接
 		{
-			name: "Bilibili",
-			icon: "fa6-brands:bilibili",
-			url: "https://space.bilibili.com/352580971",
+			name: "Bilibili", // 社交链接名称
+			icon: "fa6-brands:bilibili", // 图标名称，格式为 "fa6-brands:图标名称"
+			url: "https://space.bilibili.com/352580971", // 链接
 		},
 		{
 			name: "GitHub",

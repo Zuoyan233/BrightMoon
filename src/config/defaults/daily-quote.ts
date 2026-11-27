@@ -4,8 +4,8 @@ export const defaultDailyQuoteConfig: DailyQuoteConfig = {
 	mode: "per-day", // "per-day" 每天固定一条，"per-refresh" 每次刷新随机一条
 	quotes: [
 		{
-			text: "The only way to do great work is to love what you do.",
-			author: "Steve Jobs",
+			text: "The only way to do great work is to love what you do.", // 引言文本
+			author: "Steve Jobs", // 引言作者
 		},
 		{
 			text: "In the middle of difficulty lies opportunity.",

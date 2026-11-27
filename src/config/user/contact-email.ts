@@ -4,7 +4,7 @@ export const userContactEmailConfig: Partial<ContactEmailConfig> = {
 	emails: [
 		// 电子邮箱配置，请修改为你的真实邮箱
 		{
-			email: "Demo email 1, please change your email in src/config/user.ts",
+			email: "Demo email 1, please change your email in src/config/user.ts", // 电子邮箱
 			link: "https://example.mail.com/", // 邮箱服务链接
 		},
 		{

@@ -3,12 +3,12 @@ import type { ContactMethods } from "../../types/config";
 export const defaultContactMethods: ContactMethods = [
 	// 联系方式配置，支持微信、QQ、Telegram 等
 	{
-		method: "wechat",
-		label: "WeChat",
-		icon: "simple-icons:wechat",
-		qrCode: "/images/contact/wechat friend.webp", // 二维码图片路径
-		account: "your_wechat_id", // 微信号
-		link: "",
+		method: "wechat", // 联系方式方法
+		label: "WeChat", // 显示名称
+		icon: "simple-icons:wechat", // 图标名称，格式为 "simple-icons:图标名称"
+		qrCode: "/images/contact/wechat friend.webp", // 图片路径
+		account: "your_wechat_id", // 社交好友账号
+		link: "", // 外部链接
 		tip: "Scan the QR code to add a WeChat friend.", // 提示文本
 	},
 	{

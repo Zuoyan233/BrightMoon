@@ -6,12 +6,12 @@ export const userImageOptimizeConfig: Partial<ImageOptimizeConfig> = {
 		// 图片优化任务列表
 		{
 			name: "Desktop Banner", // 桌面端横幅图片
-			sourceDir: "public/assets/desktop-banner",
-			dir: "dist/assets/desktop-banner",
-			maxWidth: 1920,
-			maxHeight: 1080,
-			formats: ["webp"],
-			recursive: true,
+			sourceDir: "public/assets/desktop-banner", // 源目录
+			dir: "dist/assets/desktop-banner", // 构建时目标目录
+			maxWidth: 1920, // 最大宽度
+			maxHeight: 1080, // 最大高度
+			formats: ["webp"], // 输出格式
+			recursive: true, // 是否递归处理子目录
 		},
 		{
 			name: "Mobile Banner", // 移动端横幅图片

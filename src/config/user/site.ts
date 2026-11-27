@@ -307,12 +307,12 @@ export const userSiteConfig: Partial<SiteConfig> = {
 		{
 			src: "/favicon/favicon.ico",
 			theme: "light", // 明亮主题图标
-			sizes: "64x64",
+			sizes: "32x32", // 图标尺寸
 		},
 		{
 			src: "/favicon/favicon.ico",
 			theme: "dark", // 暗黑主题图标
-			sizes: "64x64",
+			sizes: "32x32", // 图标尺寸
 		},
 	],
 
